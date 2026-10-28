@@ -3003,7 +3003,9 @@ export function CommunityView({
         ? [tv("wishlistOverline"), tv("wishlistTitle")]
         : screen === "profile"
           ? [tError("profileUi.collector"), tError("profileUi.myProfile")]
-          : headings[screen];
+          : screen === "friends"
+            ? [tError("socialFriends.overline"), tError("socialFriends.title")]
+            : headings[screen];
   const notificationItems = (feed.notifications ?? []).map(notificationItem);
   return (
     <>

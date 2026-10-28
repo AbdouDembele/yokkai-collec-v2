@@ -1,10 +1,11 @@
 "use client";
+import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
+import { StyledPlayerName } from "@/components/styled-player-name";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { useFormatter, useTranslations } from "next-intl";
-import { Avatar } from "@/components/ui";
 import { PrivateMessages } from "@/components/private-messages";
 import { useSocialUnread } from "@/hooks/use-social-unread";
 import {
@@ -165,7 +166,16 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
                 ←
               </button>
             )}
-            <h2>{friend ? friend.pseudo : t("title")}</h2>
+            <h2>
+              {friend ? (
+                <StyledPlayerName
+                  name={friend.pseudo}
+                  cosmetics={friend.profileStyle}
+                />
+              ) : (
+                t("title")
+              )}
+            </h2>
             <button type="button" onClick={close} aria-label={t("close")}>
               ×
             </button>
@@ -218,13 +228,19 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
                         name: item.friend.pseudo
                       })}
                     >
-                      <Avatar
+                      <StyledPlayerAvatar
+                        cosmetics={item.friend.profileStyle}
                         name={item.friend.pseudo}
                         image={item.friend.avatarUrl ?? undefined}
                         size={38}
                       />
                       <span className="yk-messenger-contact">
-                        <strong>{item.friend.pseudo}</strong>
+                        <strong>
+                          <StyledPlayerName
+                            name={item.friend.pseudo}
+                            cosmetics={item.friend.profileStyle}
+                          />
+                        </strong>
                         <span>{preview(item)}</span>
                       </span>
                       <span className="yk-messenger-meta">

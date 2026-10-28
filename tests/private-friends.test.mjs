@@ -120,6 +120,10 @@ const ui = {
 const link = ({ href, children, ...props }) =>
   h("a", { href, "aria-label": props["aria-label"] }, children);
 const friendsModule = load("components/friends.tsx", {
+  "@/components/styled-player-avatar": { StyledPlayerAvatar: ui.Avatar },
+  "@/components/styled-player-name": {
+    StyledPlayerName: ({ name }) => h("span", null, name)
+  },
   "@/hooks/use-social-unread": { useSocialUnread: () => undefined },
   "@/lib/data/social-unread": { invalidateSocialUnread: () => {} },
   "@/components/unread-badge": load("components/unread-badge.tsx", {}),

@@ -149,6 +149,8 @@ export default async function RootLayout({
       "referralReminder",
       "socialTrades",
       "messenger",
+      "socialFriends",
+      "conversationTrade",
       "privateMessages",
       "siteFooter",
       "error",
