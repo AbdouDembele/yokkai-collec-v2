@@ -107,7 +107,7 @@ test("banner has a single offer link, an accessible close action and no checkout
   assert.match(html, /aria-label="Discover Yokkai Pro"/);
   assert.match(html, /Make it yours/);
   assert.match(html, /Your images\. Your GIFs/);
-  assert.match(html, /Faster packs/);
+  assert.match(html, /A bigger pack reserve/);
   assert.equal((html.match(/href="\/premium"/g) || []).length, 1);
   assert.match(html, /aria-label="Hide Pro promotion until tomorrow"/);
   assert.doesNotMatch(

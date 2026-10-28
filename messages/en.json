@@ -1009,7 +1009,6 @@
     "yourImagesYourGifsACollectionWithYourSignature": "Your images. Your GIFs. A collection with your signature.",
     "proHighlights": "Pro highlights",
     "customCardArtwork": "Custom card artwork",
-    "fasterPacks": "Faster packs",
     "moreRoomToCollect": "More room to collect",
     "explorePro": "Explore Pro ",
     "hideProPromotionUntilTomorrow": "Hide Pro promotion until tomorrow",
@@ -1019,8 +1018,9 @@
     "earn5BonusPacksWhenYourFriendVerifiesTheirEmail": "Earn 5 bonus packs when your friend verifies their email.",
     "getInviteLink": "Get invite link",
     "getPro": "Get Pro",
-    "refillYourPacksFasterWithYokkaiPro": "Refill your packs faster with Yokkai Pro.",
-    "exploreProLabel": "Explore Pro"
+    "exploreProLabel": "Explore Pro",
+    "largerPackReserve": "A bigger pack reserve",
+    "saveMorePacksWithYokkaiPro": "Save up to 10 Regular Packs with Yokkai Pro instead of 5."
   },
   "discordPromo": {
     "yokkaiDiscordCommunity": "Yokkai Discord community",
@@ -1031,7 +1031,6 @@
   },
   "referralReminder": {
     "donTStopNow": "Don’t stop now.",
-    "get5PacksPerFriendOr2FasterPacksWith": "Get +5 packs per friend, or 2× faster packs with Pro.",
     "seeOptions": "See options ",
     "referralReward": "Referral reward",
     "wantMoreBoosters": "Want more boosters?",
@@ -1055,14 +1054,13 @@
     "yourInviteLink": "Your invite link",
     "share": "Share",
     "couldnTCopyTheLinkPleaseTryAgain": "Couldn't copy the link. Please try again.",
-    "fasterPacks": "faster packs",
-    "text1RegularPackEvery": "1 Regular Pack every ",
-    "minInsteadOf": "min instead of ",
     "decisionPacksPerDayInsteadOf": "Decision Packs per day instead of ",
     "explorePro": "Explore Pro",
-    "regularPackInterval": "1 {packName} every {minutes} min instead of {basicMinutes}",
     "decisionPacksPerDay": "{count} {packName} per day instead of {basicCount}",
-    "shareInvitation": "Join me on Yokkai Collec' and open card packs."
+    "shareInvitation": "Join me on Yokkai Collec' and open card packs.",
+    "bonusPacksOrLargerReserve": "Get +5 packs per friend, or double your pack reserve with Pro.",
+    "reserveSize": "the pack reserve",
+    "regularPackReserve": "Save {count} Regular Packs instead of {basicCount}. One pack every {minutes} min for everyone."
   },
   "authCardCarousel": {
     "discoverCards": "Discover collectible {rarity} cards",
@@ -1853,5 +1851,14 @@
     "manageWithStripe": "Manage your plan, payment method and invoices securely with Stripe. See our <privacy>Privacy Policy</privacy>.",
     "deletionIncomplete": "We couldn't finish deleting your account. Don't submit another request. Contact the team to check its status.{hasContact, select, yes { Contact: {contact}.} other {}}",
     "referralRankLabel": "Top {value}"
+  },
+  "regularPackRules": {
+    "proIntro": "Save twice as many Regular Packs. Choose from two daily Decision Packs. Grow your collection, then make every favorite your own.",
+    "reserveSize": "the reserve",
+    "sharedInterval": "1 pack every {minutes} minutes for everyone.",
+    "hourly": "Up to <strong>{count} packs per hour</strong> for everyone when opened regularly.",
+    "interval": "Every {minutes} min",
+    "reserveLabel": "Regular Pack reserve",
+    "reserveCount": "{count, plural, one {# pack} other {# packs}}"
   }
 }

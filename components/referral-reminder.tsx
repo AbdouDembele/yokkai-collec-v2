@@ -166,7 +166,7 @@ export function ReferralReminder({
           <div>
             <h2 id="home-referral">{t("donTStopNow")}</h2>
             <p>
-              <em>{t("get5PacksPerFriendOr2FasterPacksWith")}</em>
+              <em>{t("bonusPacksOrLargerReserve")}</em>
             </p>
           </div>
           <Button
@@ -324,20 +324,20 @@ export function ReferralReminder({
                 <h3>Yokkai Pro</h3>
                 <p className="yk-referral-option-reward">
                   <strong>
-                    {rules.basic.regularPackMinutes /
-                      rules.pro.regularPackMinutes}
+                    {rules.pro.regularPackReserve /
+                      rules.basic.regularPackReserve}
                     ×
                   </strong>{" "}
-                  {t("fasterPacks")}
+                  {t("reserveSize")}
                 </p>
               </div>
             </div>
             <ul className="yk-referral-option-detail">
               <li>
-                {t("regularPackInterval", {
-                  packName: "Regular Pack",
-                  minutes: rules.pro.regularPackMinutes,
-                  basicMinutes: rules.basic.regularPackMinutes
+                {t("regularPackReserve", {
+                  count: rules.pro.regularPackReserve,
+                  basicCount: rules.basic.regularPackReserve,
+                  minutes: rules.pro.regularPackMinutes
                 })}
               </li>
               <li>

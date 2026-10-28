@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { intl } from "./helpers/i18n.mjs";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
@@ -30,6 +31,7 @@ function loader() {
         exports: loaded.exports,
         require(id) {
           if (id === "server-only") return {};
+          if (id === "next-intl") return intl;
           if (id === "@supabase/supabase-js")
             return {
               createClient() {
@@ -72,7 +74,10 @@ test("Pro benefits and sales rules describe a shared Paris daily quota instead o
     assert.equal(rules[plan].decisionPacksPerDay, daily);
     assert.equal(actual.decisionPackResetHour, reset.hour);
     assert.equal(actual.decisionPackResetTimeZone, reset.timeZone);
-    assert.equal(actual.regularPackMinutes, active ? 5 : 10);
+    assert.equal(actual.regularPackMinutes, 5);
+    assert.equal(rules[plan].regularPackMinutes, 5);
+    assert.equal(actual.regularPackReserve, active ? 10 : 5);
+    assert.equal(rules[plan].regularPackReserve, active ? 10 : 5);
     assert.equal(actual.maxActiveAuctions, active ? 6 : 3);
     assert.equal(actual.maxShowcaseCards, active ? 10 : 5);
     assert.equal("decisionPackHours" in actual, false);

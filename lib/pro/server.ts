@@ -66,7 +66,8 @@ export async function hasPaidPro(userId: string, client = proClient()) {
 export function benefits(active: boolean) {
   return {
     active,
-    regularPackMinutes: active ? 5 : 10,
+    regularPackMinutes: 5,
+    regularPackReserve: active ? 10 : 5,
     decisionPacksPerDay: active ? 2 : 1,
     decisionPackResetHour: DECISION_PACK_RESET.hour,
     decisionPackResetTimeZone: DECISION_PACK_RESET.timeZone,

@@ -93,6 +93,6 @@ test("manual Pro grants are server-only, targeted, auditable and fully revocable
       [owner]
     )
   ).rows[0];
-  assert.equal(downgraded.regular, 600);
+  assert.equal(downgraded.regular, 300);
   assert.equal(downgraded.decision, 86400);
 });

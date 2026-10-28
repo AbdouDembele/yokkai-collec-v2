@@ -7,13 +7,15 @@ export const DECISION_PACK_RESET = {
 
 export const PROPOSED_PLAN_RULES = {
   basic: {
-    regularPackMinutes: 10,
+    regularPackMinutes: 5,
+    regularPackReserve: 5,
     decisionPacksPerDay: 1,
     concurrentAuctions: 3,
     showcaseSlots: 5
   },
   pro: {
     regularPackMinutes: 5,
+    regularPackReserve: 10,
     decisionPacksPerDay: 2,
     concurrentAuctions: 6,
     showcaseSlots: 10
@@ -29,8 +31,9 @@ export const PROPOSED_PRO_FEATURES = [
   },
   {
     id: "regular-packs",
-    title: "Faster Regular Packs",
-    detail: "One pack every 5 minutes instead of 10."
+    title: "A bigger Regular Pack reserve",
+    detail:
+      "Save up to 10 packs instead of 5, with one pack every 5 minutes for everyone."
   },
   {
     id: "decision-packs",
