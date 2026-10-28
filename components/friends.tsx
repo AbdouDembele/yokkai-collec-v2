@@ -309,28 +309,6 @@ function Person({
         <div
           className={`yk-friend-action-buttons${onTrade ? " has-trade" : ""}`}
         >
-          {onTrade && (
-            <Button
-              variant="secondary"
-              onClick={onTrade}
-              aria-label={tradeText("tradeWith", { name: person.pseudo })}
-            >
-              <svg
-                viewBox="0 0 24 24"
-                width="16"
-                height="16"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                aria-hidden="true"
-              >
-                <path d="M4 7h16m-4-4 4 4-4 4M20 17H4m4-4-4 4 4 4" />
-              </svg>
-              {tradeText("action")}
-            </Button>
-          )}
           {onMessage && (
             <Button
               variant="secondary"
@@ -355,6 +333,28 @@ function Person({
                 accessibleLabel={f("unread", { count: unreadCount })}
                 label="unread messages"
               />
+            </Button>
+          )}
+          {onTrade && (
+            <Button
+              variant="secondary"
+              onClick={onTrade}
+              aria-label={tradeText("tradeWith", { name: person.pseudo })}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 7h16m-4-4 4 4-4 4M20 17H4m4-4-4 4 4 4" />
+              </svg>
+              {tradeText("action")}
             </Button>
           )}
           {actions}
