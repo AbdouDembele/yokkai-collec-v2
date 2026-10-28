@@ -1,0 +1,409 @@
+.ev-badge-gallery {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 40px 16px 24px;
+  color: #edf1f7;
+}
+.ev-studio-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+.ev-studio-eyebrow,
+.ev-option-number,
+.ev-selection-label {
+  color: #c9b78a;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+.ev-studio-header h1 {
+  margin: 12px 0;
+  font-size: clamp(30px, 5vw, 56px);
+  font-weight: 750;
+  line-height: 1.06;
+  letter-spacing: -0.045em;
+}
+.ev-studio-intro {
+  max-width: 510px;
+  color: #a5b1c5;
+  font-size: 14px;
+  line-height: 1.7;
+}
+.ev-motion-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 13px;
+  color: #cbd4e2;
+  cursor: pointer;
+}
+.ev-motion-toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: #e4d2a5;
+}
+.ev-studio-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 20px;
+}
+.ev-option {
+  min-width: 0;
+  padding: 18px 14px 14px;
+  border: 1px solid #263041;
+  border-radius: 18px;
+  background: linear-gradient(155deg, #131b29, #0c111b 65%);
+}
+.ev-option[data-selected="true"] {
+  border-color: #d3be8b;
+  box-shadow: 0 0 0 1px #d3be8b;
+}
+.ev-option-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.ev-option h2 {
+  margin: 4px 0 0;
+  font-size: 25px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+}
+.ev-option-description {
+  min-height: 38px;
+  margin: 12px 0 24px;
+  color: #a9b5c7;
+  font-size: 12px;
+  line-height: 1.6;
+}
+.ev-option-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 12px;
+  max-width: 444px;
+  margin: 0 auto;
+}
+.ev-option-cards figure {
+  min-width: 0;
+  margin: 0;
+}
+.ev-option-cards figcaption {
+  margin-top: 12px;
+  text-align: center;
+  color: #a5b1c5;
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+}
+.ev-choose-button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 20px;
+  padding: 10px 14px;
+  border: 1px solid #334055;
+  border-radius: 10px;
+  background: #1a2434;
+  color: #e6edf7;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.ev-choose-button[aria-pressed="true"] {
+  border-color: #d3be8b;
+  background: #e0cfa5;
+  color: #211d15;
+}
+.ev-choose-button:focus-visible,
+.ev-motion-toggle input:focus-visible {
+  outline: 2px solid #f4e1b5;
+  outline-offset: 4px;
+}
+.ev-studio-selection {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 28px;
+  padding: 20px 0;
+  border-top: 1px solid #263041;
+  font-size: 13px;
+}
+.ev-studio-selection > span:last-child {
+  color: #a5b1c5;
+  font-size: 12px;
+}
+
+/* All proposal styles are scoped to the studio. The collection keeps its badge. */
+.ev-badge-gallery .ev-badge-detail {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 76px;
+  height: 60px;
+  flex: 0 0 auto;
+}
+.ev-badge-gallery .ev-badge-detail .yk-evolved-badge {
+  display: inline-block;
+  font-size: 26px;
+}
+.ev-badge-gallery .ev-option .yk-evolved-badge {
+  text-align: center;
+  white-space: nowrap;
+  text-transform: none;
+  padding-inline: 7px;
+  background:
+    var(--ev-preview-fill) padding-box,
+    linear-gradient(
+        135deg,
+        #fff,
+        var(--ev-preview-rim) 32%,
+        #fff 52%,
+        var(--ev-preview-rim) 76%,
+        #f4f8ff
+      )
+      border-box;
+  color: transparent;
+  font-family: "Arial Black", var(--font-sora), Arial, sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  letter-spacing: -0.07em;
+  -webkit-text-stroke: 0;
+  paint-order: stroke fill;
+  text-shadow: none;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 var(--ev-preview-rim),
+    0 2px 4px rgba(0, 0, 0, 0.3),
+    0 0 10px var(--ev-preview-glow);
+}
+.ev-badge-gallery .ev-option .yk-evolved-badge::after {
+  inset: 0;
+  height: auto;
+  border-radius: inherit;
+  background: #fff;
+  mask-image: url("/assets/ev-badge-lightning.svg");
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  filter: drop-shadow(0 0 1px #fff)
+    drop-shadow(0 0 4px var(--ev-preview-electric));
+  opacity: 0;
+}
+.ev-badge-gallery .ev-option .yk-evolved-badge::before {
+  content: "";
+  inset: 0;
+  z-index: 1;
+  opacity: 1;
+  background: url("/assets/ev-electric-white.svg") center / 92% auto no-repeat;
+  animation: none;
+}
+.ev-badge-gallery[data-animated="true"] .ev-option .yk-evolved-badge {
+  animation: ev-badge-charge 4.8s linear infinite;
+  animation-delay: var(--ev-charge-delay, 0s);
+}
+.ev-badge-gallery[data-animated="true"] .ev-option .yk-evolved-badge::after {
+  animation: ev-badge-discharge 4.8s linear infinite;
+  animation-delay: var(--ev-charge-delay, 0s);
+}
+@keyframes ev-badge-discharge {
+  0%,
+  14%,
+  100% {
+    opacity: 0.18;
+  }
+  18% {
+    opacity: 1;
+  }
+  23% {
+    opacity: 0.3;
+  }
+  27% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.6;
+  }
+  60% {
+    opacity: 0.18;
+  }
+}
+@keyframes ev-badge-charge {
+  0%,
+  14%,
+  35%,
+  100% {
+    box-shadow:
+      inset 0 1px 0 #fff,
+      inset 0 -1px 0 var(--ev-preview-rim),
+      0 2px 4px #0005,
+      0 0 8px var(--ev-preview-electric),
+      0 0 13px var(--ev-preview-glow);
+  }
+  18%,
+  27% {
+    box-shadow:
+      inset 0 0 0 1px #fff,
+      inset 0 0 6px var(--ev-preview-electric),
+      0 2px 4px #0005,
+      0 0 0 1px var(--ev-preview-electric),
+      0 0 10px var(--ev-preview-electric),
+      0 0 22px var(--ev-preview-glow);
+  }
+  23% {
+    box-shadow:
+      inset 0 1px 0 #fff,
+      inset 0 -1px 0 var(--ev-preview-rim),
+      0 2px 4px #0005,
+      0 0 7px var(--ev-preview-glow);
+  }
+}
+
+/* The preview cards carry the same charged edge as their EV insignia. */
+.ev-badge-gallery .ev-option-cards .yk-evolved-lightning {
+  stroke-width: 0.72;
+  stroke: #fff;
+  filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px #fff)
+    drop-shadow(0 0 8px rgba(225, 240, 255, 0.85));
+}
+.ev-badge-gallery[data-animated="true"]
+  .ev-option-cards
+  .yk-evolved-lightning
+  path {
+  animation-name: ev-studio-lightning;
+}
+.ev-badge-gallery .ev-option-cards .yk-evolved-scan {
+  background: linear-gradient(
+    115deg,
+    transparent 45%,
+    rgba(var(--evolution-light-rgb), 0.4) 50%,
+    transparent 55%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    #000 0% 12%,
+    transparent 24% 76%,
+    #000 88% 100%
+  );
+}
+.ev-badge-gallery[data-animated="true"] .ev-option-cards .yk-evolved {
+  animation: ev-studio-card-charge 4.8s ease-in-out infinite;
+  animation-delay: var(--ev-charge-delay, 0s);
+}
+@keyframes ev-studio-lightning {
+  0%,
+  10%,
+  50%,
+  100% {
+    opacity: 0;
+  }
+  14%,
+  31% {
+    opacity: 1;
+  }
+  24% {
+    opacity: 0.35;
+  }
+  44% {
+    opacity: 0.55;
+  }
+}
+@keyframes ev-studio-card-charge {
+  0%,
+  12%,
+  55%,
+  100% {
+    box-shadow:
+      0 0 0 1px var(--evolution-edge),
+      0 0 18px rgba(var(--evolution-rgb), 0.5),
+      0 10px 28px rgba(var(--evolution-dark-rgb), 0.4);
+  }
+  18%,
+  31% {
+    box-shadow:
+      0 0 0 1px var(--evolution-edge),
+      0 0 26px rgba(var(--evolution-rgb), 0.9),
+      0 0 44px rgba(var(--evolution-rgb), 0.4),
+      0 10px 32px rgba(var(--evolution-dark-rgb), 0.6);
+  }
+}
+.ev-badge-gallery [data-style="pearl"] {
+  --ev-preview-fill: linear-gradient(145deg, #fff, #f0f2f4 50%, #dce1e6);
+  --ev-preview-ink: #252c35;
+  --ev-preview-rim: #b7c0ca;
+  --ev-preview-glow: rgba(226, 240, 255, 0.45);
+  --ev-preview-electric: #fff;
+}
+.ev-badge-gallery [data-style="silver"] {
+  --ev-preview-fill: linear-gradient(
+    145deg,
+    #f9fafc,
+    #d5dbe2 45%,
+    #e9edf2 55%,
+    #aeb8c5
+  );
+  --ev-preview-ink: #252c35;
+  --ev-preview-rim: #97a3b3;
+  --ev-preview-glow: rgba(226, 240, 255, 0.45);
+  --ev-preview-electric: #fff;
+  --ev-charge-delay: -0.6s;
+}
+.ev-badge-gallery [data-style="slate"] {
+  --ev-preview-fill: linear-gradient(145deg, #eef0f3, #b1bac5 50%, #d5dbe2);
+  --ev-preview-ink: #252c35;
+  --ev-preview-rim: #8b98a9;
+  --ev-preview-glow: rgba(226, 240, 255, 0.45);
+  --ev-preview-electric: #fff;
+  --ev-charge-delay: -1.2s;
+}
+.ev-badge-gallery [data-style="champagne"] {
+  --ev-preview-fill: linear-gradient(145deg, #faf8f1, #dbd1bb 50%, #efeadf);
+  --ev-preview-ink: #39342a;
+  --ev-preview-rim: #b8ab90;
+  --ev-preview-glow: rgba(226, 240, 255, 0.45);
+  --ev-preview-electric: #fff;
+  --ev-charge-delay: -1.8s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ev-badge-gallery[data-animated="true"] .ev-option .yk-evolved-badge,
+  .ev-badge-gallery[data-animated="true"] .ev-option .yk-evolved-badge::before,
+  .ev-badge-gallery[data-animated="true"] .ev-option .yk-evolved-badge::after {
+    animation: none;
+  }
+  .ev-badge-gallery .ev-option .yk-evolved-badge::after {
+    opacity: 0;
+  }
+  .ev-badge-gallery[data-animated="true"] .ev-option-cards .yk-evolved,
+  .ev-badge-gallery[data-animated="true"]
+    .ev-option-cards
+    .yk-evolved-lightning
+    path {
+    animation: none;
+  }
+}
+
+@media (min-width: 680px) {
+  .ev-badge-gallery {
+    padding: 48px 24px 24px;
+  }
+  .ev-studio-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .ev-option {
+    padding: 20px 18px 18px;
+  }
+}
+@media (min-width: 1180px) {
+  .ev-studio-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

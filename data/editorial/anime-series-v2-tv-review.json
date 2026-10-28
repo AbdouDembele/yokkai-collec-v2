@@ -1,0 +1,4102 @@
+{
+  "schema_version": 2,
+  "scope": "Additional individual review of 256 still-separated direct TV relationships after the B review",
+  "pairs": [
+    {
+      "source_media_id": 163571,
+      "target_media_id": 169295,
+      "relation": "SEQUEL",
+      "source_title": "BanG Dream! It's MyGO!!!!!",
+      "target_title": "Ave Mujica - The Die is Cast -",
+      "review_index": 1,
+      "status": "C",
+      "reason": "163571 (BanG Dream! It's MyGO!!!!!) / 169295 (Ave Mujica - The Die is Cast -): MyGO and Ave Mujica follow different named bands and independently identifiable series.",
+      "evidence_urls": [
+        "https://anilist.co/anime/163571",
+        "https://anilist.co/anime/169295"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 11021,
+      "target_media_id": 21201,
+      "relation": "PREQUEL",
+      "source_title": "Muv-Luv Alternative: Total Eclipse",
+      "target_title": "Schwarzes Marken",
+      "review_index": 2,
+      "status": "C",
+      "reason": "11021 (Muv-Luv Alternative: Total Eclipse) / 21201 (Schwarzes Marken): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/11021",
+        "https://anilist.co/anime/21201"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1710,
+      "target_media_id": 2108,
+      "relation": "SEQUEL",
+      "source_title": "MegaMan NT Warrior",
+      "target_title": "MegaMan: NT Warrior AXESS",
+      "review_index": 3,
+      "status": "A",
+      "reason": "1710 (MegaMan NT Warrior) / 2108 (MegaMan: NT Warrior AXESS): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1710",
+        "https://anilist.co/anime/2108"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 764,
+      "target_media_id": 1746,
+      "relation": "SEQUEL",
+      "source_title": "Zoids New Century/Zero",
+      "target_title": "Zoids Fuzors",
+      "review_index": 4,
+      "status": "C",
+      "reason": "764 (Zoids New Century/Zero) / 1746 (Zoids Fuzors): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/764",
+        "https://anilist.co/anime/1746"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 8676,
+      "target_media_id": 11235,
+      "relation": "SEQUEL",
+      "source_title": "Amagami SS",
+      "target_title": "Amagami SS+ plus",
+      "review_index": 5,
+      "status": "A",
+      "reason": "8676 (Amagami SS) / 11235 (Amagami SS+ plus): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/8676",
+        "https://anilist.co/anime/11235"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 3092,
+      "target_media_id": 4814,
+      "relation": "SEQUEL",
+      "source_title": "Junjo Romantica",
+      "target_title": "Junjo Romantica 2",
+      "review_index": 6,
+      "status": "A",
+      "reason": "3092 (Junjo Romantica) / 4814 (Junjo Romantica 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/3092",
+        "https://anilist.co/anime/4814"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 11617,
+      "target_media_id": 15451,
+      "relation": "SEQUEL",
+      "source_title": "High School DxD",
+      "target_title": "High School DxD NEW",
+      "review_index": 7,
+      "status": "A",
+      "reason": "11617 (High School DxD) / 15451 (High School DxD NEW): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/11617",
+        "https://anilist.co/anime/15451"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 65,
+      "target_media_id": 64,
+      "relation": "PREQUEL",
+      "source_title": "Rozen Maiden: Dreaming",
+      "target_title": "Rozen Maiden",
+      "review_index": 8,
+      "status": "A",
+      "reason": "65 (Rozen Maiden: Dreaming) / 64 (Rozen Maiden): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/65",
+        "https://anilist.co/anime/64"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 65,
+      "target_media_id": 18041,
+      "relation": "SEQUEL",
+      "source_title": "Rozen Maiden: Dreaming",
+      "target_title": "Rozen Maiden: Zurückspulen",
+      "review_index": 9,
+      "status": "C",
+      "reason": "65 (Rozen Maiden: Dreaming) / 18041 (Rozen Maiden: Zurückspulen): Zuruckspulen follows the adult Jun/unwound manga branch, unlike the earlier Rozen Maiden television story.",
+      "evidence_urls": [
+        "https://anilist.co/anime/65",
+        "https://anilist.co/anime/18041"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 856,
+      "target_media_id": 21218,
+      "relation": "SEQUEL",
+      "source_title": "Utawarerumono",
+      "target_title": "Utawarerumono The False Faces",
+      "review_index": 10,
+      "status": "C",
+      "reason": "856 (Utawarerumono) / 21218 (Utawarerumono The False Faces): The False Faces introduces Haku and a new lead cast; its Mask of Truth continuation stays with that named story.",
+      "evidence_urls": [
+        "https://anilist.co/anime/856",
+        "https://anilist.co/anime/21218"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 384,
+      "target_media_id": 395,
+      "relation": "SEQUEL",
+      "source_title": "Gantz",
+      "target_title": "Gantz: Second Stage",
+      "review_index": 11,
+      "status": "A",
+      "reason": "384 (Gantz) / 395 (Gantz: Second Stage): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/384",
+        "https://anilist.co/anime/395"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 6702,
+      "target_media_id": 20626,
+      "relation": "SEQUEL",
+      "source_title": "Fairy Tail",
+      "target_title": "Fairy Tail Series 2",
+      "review_index": 12,
+      "status": "A",
+      "reason": "6702 (Fairy Tail) / 20626 (Fairy Tail Series 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/6702",
+        "https://anilist.co/anime/20626"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 603,
+      "target_media_id": 1929,
+      "relation": "SEQUEL",
+      "source_title": "Precure",
+      "target_title": "PreCure Max Heart",
+      "review_index": 13,
+      "status": "A",
+      "reason": "603 (Precure) / 1929 (PreCure Max Heart): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/603",
+        "https://anilist.co/anime/1929"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 97767,
+      "target_media_id": 20745,
+      "relation": "PREQUEL",
+      "source_title": "High School DxD HERO",
+      "target_title": "High School DxD BorN",
+      "review_index": 14,
+      "status": "A",
+      "reason": "97767 (High School DxD HERO) / 20745 (High School DxD BorN): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/97767",
+        "https://anilist.co/anime/20745"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2916,
+      "target_media_id": 5395,
+      "relation": "SEQUEL",
+      "source_title": "Energetic Bomb Ganbaruger",
+      "target_title": "Hot-Blooded Strongest Go-Saurer",
+      "review_index": 15,
+      "status": "C",
+      "reason": "2916 (Energetic Bomb Ganbaruger) / 5395 (Hot-Blooded Strongest Go-Saurer): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2916",
+        "https://anilist.co/anime/5395"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2916,
+      "target_media_id": 1897,
+      "relation": "PREQUEL",
+      "source_title": "Energetic Bomb Ganbaruger",
+      "target_title": "Matchless Raijin-Oh",
+      "review_index": 16,
+      "status": "C",
+      "reason": "2916 (Energetic Bomb Ganbaruger) / 1897 (Matchless Raijin-Oh): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2916",
+        "https://anilist.co/anime/1897"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 19603,
+      "target_media_id": 11741,
+      "relation": "PREQUEL",
+      "source_title": "Fate/stay night: Unlimited Blade Works",
+      "target_title": "Fate/Zero Season 2",
+      "review_index": 17,
+      "status": "C",
+      "reason": "19603 (Fate/stay night: Unlimited Blade Works) / 11741 (Fate/Zero Season 2): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/19603",
+        "https://anilist.co/anime/11741"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 249,
+      "target_media_id": 6811,
+      "relation": "SEQUEL",
+      "source_title": "InuYasha",
+      "target_title": "InuYasha: The Final Act",
+      "review_index": 18,
+      "status": "A",
+      "reason": "249 (InuYasha) / 6811 (InuYasha: The Final Act): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/249",
+        "https://anilist.co/anime/6811"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1491,
+      "target_media_id": 1377,
+      "relation": "PREQUEL",
+      "source_title": "Galaxy Express 999",
+      "target_title": "Space Symphonic Poem Maetel ~Galaxy Express 999 Side Story~",
+      "review_index": 19,
+      "status": "C",
+      "reason": "1491 (Galaxy Express 999) / 1377 (Space Symphonic Poem Maetel ~Galaxy Express 999 Side Story~): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1491",
+        "https://anilist.co/anime/1377"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 14397,
+      "target_media_id": 10800,
+      "relation": "PREQUEL",
+      "source_title": "Chihayafuru 2",
+      "target_title": "Chihayafuru",
+      "review_index": 20,
+      "status": "A",
+      "reason": "14397 (Chihayafuru 2) / 10800 (Chihayafuru): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/14397",
+        "https://anilist.co/anime/10800"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 14397,
+      "target_media_id": 101215,
+      "relation": "SEQUEL",
+      "source_title": "Chihayafuru 2",
+      "target_title": "Chihayafuru 3",
+      "review_index": 21,
+      "status": "A",
+      "reason": "14397 (Chihayafuru 2) / 101215 (Chihayafuru 3): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/14397",
+        "https://anilist.co/anime/101215"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 143866,
+      "target_media_id": 112443,
+      "relation": "PREQUEL",
+      "source_title": "Bottom-Tier Character Tomozaki 2nd Stage",
+      "target_title": "Bottom-Tier Character Tomozaki",
+      "review_index": 22,
+      "status": "A",
+      "reason": "143866 (Bottom-Tier Character Tomozaki 2nd Stage) / 112443 (Bottom-Tier Character Tomozaki): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/143866",
+        "https://anilist.co/anime/112443"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1864,
+      "target_media_id": 1578,
+      "relation": "PREQUEL",
+      "source_title": "Loving Angel Angelique: Radiant Tomorrow",
+      "target_title": "Loving Angel Angelique: When Hearts Awaken",
+      "review_index": 23,
+      "status": "A",
+      "reason": "1864 (Loving Angel Angelique: Radiant Tomorrow) / 1578 (Loving Angel Angelique: When Hearts Awaken): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1864",
+        "https://anilist.co/anime/1578"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 87496,
+      "target_media_id": 99624,
+      "relation": "SEQUEL",
+      "source_title": "Kemono Friends",
+      "target_title": "Kemono Friends 2",
+      "review_index": 24,
+      "status": "A",
+      "reason": "87496 (Kemono Friends) / 99624 (Kemono Friends 2): Officially numbered Kemono Friends second season in Japari Park; the new human viewpoint does not itself create an independent named spin-off.",
+      "evidence_urls": [
+        "https://anilist.co/anime/87496",
+        "https://anilist.co/anime/99624"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 71,
+      "target_media_id": 73,
+      "relation": "SEQUEL",
+      "source_title": "Full Metal Panic!",
+      "target_title": "Full Metal Panic! The Second Raid",
+      "review_index": 25,
+      "status": "A",
+      "reason": "71 (Full Metal Panic!) / 73 (Full Metal Panic! The Second Raid): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/71",
+        "https://anilist.co/anime/73"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21250,
+      "target_media_id": 98546,
+      "relation": "SEQUEL",
+      "source_title": "ClassicaLoid",
+      "target_title": "ClassicaLoid 2",
+      "review_index": 26,
+      "status": "A",
+      "reason": "21250 (ClassicaLoid) / 98546 (ClassicaLoid 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21250",
+        "https://anilist.co/anime/98546"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 157,
+      "target_media_id": 21855,
+      "relation": "SEQUEL",
+      "source_title": "Negima!",
+      "target_title": "UQ Holder!",
+      "review_index": 27,
+      "status": "C",
+      "reason": "157 (Negima!) / 21855 (UQ Holder!): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/157",
+        "https://anilist.co/anime/21855"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21038,
+      "target_media_id": 21241,
+      "relation": "SEQUEL",
+      "source_title": "Ushio and Tora (TV)",
+      "target_title": "Ushio and Tora 2 (TV)",
+      "review_index": 28,
+      "status": "A",
+      "reason": "21038 (Ushio and Tora (TV)) / 21241 (Ushio and Tora 2 (TV)): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21038",
+        "https://anilist.co/anime/21241"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 197824,
+      "target_media_id": 146850,
+      "relation": "PREQUEL",
+      "source_title": "Farming Life in Another World 2",
+      "target_title": "Farming Life in Another World",
+      "review_index": 29,
+      "status": "A",
+      "reason": "197824 (Farming Life in Another World 2) / 146850 (Farming Life in Another World): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/197824",
+        "https://anilist.co/anime/146850"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 482,
+      "target_media_id": 481,
+      "relation": "PREQUEL",
+      "source_title": "Yu-Gi-Oh! GX",
+      "target_title": "Yu-Gi-Oh!",
+      "review_index": 30,
+      "status": "C",
+      "reason": "482 (Yu-Gi-Oh! GX) / 481 (Yu-Gi-Oh!): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/482",
+        "https://anilist.co/anime/481"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 482,
+      "target_media_id": 3972,
+      "relation": "SEQUEL",
+      "source_title": "Yu-Gi-Oh! GX",
+      "target_title": "Yu-Gi-Oh! 5D's",
+      "review_index": 31,
+      "status": "C",
+      "reason": "482 (Yu-Gi-Oh! GX) / 3972 (Yu-Gi-Oh! 5D's): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/482",
+        "https://anilist.co/anime/3972"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21626,
+      "target_media_id": 20722,
+      "relation": "SEQUEL",
+      "source_title": "Handa-kun",
+      "target_title": "Barakamon",
+      "review_index": 32,
+      "status": "C",
+      "reason": "21626 (Handa-kun) / 20722 (Barakamon): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21626",
+        "https://anilist.co/anime/20722"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1575,
+      "target_media_id": 2904,
+      "relation": "SEQUEL",
+      "source_title": "Code Geass: Lelouch of the Rebellion",
+      "target_title": "Code Geass: Lelouch of the Rebellion R2",
+      "review_index": 33,
+      "status": "A",
+      "reason": "1575 (Code Geass: Lelouch of the Rebellion) / 2904 (Code Geass: Lelouch of the Rebellion R2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1575",
+        "https://anilist.co/anime/2904"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21825,
+      "target_media_id": 16592,
+      "relation": "SEQUEL",
+      "source_title": "Danganronpa 3: The End of Hope’s Peak High School - Despair Arc",
+      "target_title": "Danganronpa: The Animation",
+      "review_index": 34,
+      "status": "C",
+      "reason": "21825 (Danganronpa 3: The End of Hope’s Peak High School - Despair Arc) / 16592 (Danganronpa: The Animation): Danganronpa 3 Despair is an independently led prequel to the game sequel cast, not season 2 of the first-game adaptation.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21825",
+        "https://anilist.co/anime/16592"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 134,
+      "target_media_id": 3231,
+      "relation": "SEQUEL",
+      "source_title": "Gunslinger Girl",
+      "target_title": "Gunslinger Girl -Il Teatrino-",
+      "review_index": 35,
+      "status": "A",
+      "reason": "134 (Gunslinger Girl) / 3231 (Gunslinger Girl -Il Teatrino-): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/134",
+        "https://anilist.co/anime/3231"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 18001,
+      "target_media_id": 9367,
+      "relation": "PREQUEL",
+      "source_title": "Freezing Vibration",
+      "target_title": "Freezing",
+      "review_index": 36,
+      "status": "A",
+      "reason": "18001 (Freezing Vibration) / 9367 (Freezing): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/18001",
+        "https://anilist.co/anime/9367"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 10330,
+      "target_media_id": 7334,
+      "relation": "PREQUEL",
+      "source_title": "Bakugan: Mechtanium Surge",
+      "target_title": "Bakugan: Gundalian Invaders",
+      "review_index": 37,
+      "status": "A",
+      "reason": "10330 (Bakugan: Mechtanium Surge) / 7334 (Bakugan: Gundalian Invaders): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/10330",
+        "https://anilist.co/anime/7334"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 6444,
+      "target_media_id": 8311,
+      "relation": "SEQUEL",
+      "source_title": "Letter Bee",
+      "target_title": "Letter Bee Reverse",
+      "review_index": 38,
+      "status": "A",
+      "reason": "6444 (Letter Bee) / 8311 (Letter Bee Reverse): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/6444",
+        "https://anilist.co/anime/8311"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 287,
+      "target_media_id": 551,
+      "relation": "SEQUEL",
+      "source_title": "Baki the Grappler",
+      "target_title": "Grappler Baki Maximum Tournament",
+      "review_index": 39,
+      "status": "A",
+      "reason": "287 (Baki the Grappler) / 551 (Grappler Baki Maximum Tournament): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/287",
+        "https://anilist.co/anime/551"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 125367,
+      "target_media_id": 112641,
+      "relation": "PREQUEL",
+      "source_title": "Kaguya-sama: Love is War -Ultra Romantic-",
+      "target_title": "Kaguya-sama: Love is War?",
+      "review_index": 40,
+      "status": "A",
+      "reason": "125367 (Kaguya-sama: Love is War -Ultra Romantic-) / 112641 (Kaguya-sama: Love is War?): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/125367",
+        "https://anilist.co/anime/112641"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 125367,
+      "target_media_id": 151384,
+      "relation": "SEQUEL",
+      "source_title": "Kaguya-sama: Love is War -Ultra Romantic-",
+      "target_title": "Kaguya-sama: Love is War -The First Kiss That Never Ends-",
+      "review_index": 41,
+      "status": "A",
+      "reason": "125367 (Kaguya-sama: Love is War -Ultra Romantic-) / 151384 (Kaguya-sama: Love is War -The First Kiss That Never Ends-): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/125367",
+        "https://anilist.co/anime/151384"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 3713,
+      "target_media_id": 1594,
+      "relation": "PREQUEL",
+      "source_title": "Hell Girl: Three Vessels",
+      "target_title": "Hell Girl: Two Mirrors",
+      "review_index": 42,
+      "status": "A",
+      "reason": "3713 (Hell Girl: Three Vessels) / 1594 (Hell Girl: Two Mirrors): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/3713",
+        "https://anilist.co/anime/1594"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 3713,
+      "target_media_id": 98379,
+      "relation": "SEQUEL",
+      "source_title": "Hell Girl: Three Vessels",
+      "target_title": "Hell Girl: Fourth Twilight",
+      "review_index": 43,
+      "status": "A",
+      "reason": "3713 (Hell Girl: Three Vessels) / 98379 (Hell Girl: Fourth Twilight): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/3713",
+        "https://anilist.co/anime/98379"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 967,
+      "target_media_id": 1541,
+      "relation": "PREQUEL",
+      "source_title": "Fist of the North Star",
+      "target_title": "Fist of the Blue Sky",
+      "review_index": 44,
+      "status": "C",
+      "reason": "967 (Fist of the North Star) / 1541 (Fist of the Blue Sky): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/967",
+        "https://anilist.co/anime/1541"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 967,
+      "target_media_id": 1356,
+      "relation": "SEQUEL",
+      "source_title": "Fist of the North Star",
+      "target_title": "Fist of the North Star 2",
+      "review_index": 45,
+      "status": "A",
+      "reason": "967 (Fist of the North Star) / 1356 (Fist of the North Star 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/967",
+        "https://anilist.co/anime/1356"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 77,
+      "target_media_id": 76,
+      "relation": "PREQUEL",
+      "source_title": "Magical Girl Lyrical Nanoha A's",
+      "target_title": "Magical Girl Lyrical Nanoha",
+      "review_index": 46,
+      "status": "A",
+      "reason": "77 (Magical Girl Lyrical Nanoha A's) / 76 (Magical Girl Lyrical Nanoha): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/77",
+        "https://anilist.co/anime/76"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 77,
+      "target_media_id": 1915,
+      "relation": "SEQUEL",
+      "source_title": "Magical Girl Lyrical Nanoha A's",
+      "target_title": "Magical Girl Lyrical Nanoha StrikerS",
+      "review_index": 47,
+      "status": "C",
+      "reason": "77 (Magical Girl Lyrical Nanoha A's) / 1915 (Magical Girl Lyrical Nanoha StrikerS): StrikerS moves to the adult Nanoha unit and a separately named major television stage; A's remains the direct childhood sequel.",
+      "evidence_urls": [
+        "https://anilist.co/anime/77",
+        "https://anilist.co/anime/1915"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 5671,
+      "target_media_id": 16123,
+      "relation": "SEQUEL",
+      "source_title": "Saki",
+      "target_title": "Saki: The Nationals",
+      "review_index": 48,
+      "status": "A",
+      "reason": "5671 (Saki) / 16123 (Saki: The Nationals): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/5671",
+        "https://anilist.co/anime/16123"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 97625,
+      "target_media_id": 108266,
+      "relation": "SEQUEL",
+      "source_title": "Tsugumomo",
+      "target_title": "Tsugumomo2",
+      "review_index": 49,
+      "status": "A",
+      "reason": "97625 (Tsugumomo) / 108266 (Tsugumomo2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/97625",
+        "https://anilist.co/anime/108266"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 97730,
+      "target_media_id": 11235,
+      "relation": "PREQUEL",
+      "source_title": "Seiren",
+      "target_title": "Amagami SS+ plus",
+      "review_index": 50,
+      "status": "C",
+      "reason": "97730 (Seiren) / 11235 (Amagami SS+ plus): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/97730",
+        "https://anilist.co/anime/11235"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20,
+      "target_media_id": 1735,
+      "relation": "SEQUEL",
+      "source_title": "Naruto",
+      "target_title": "Naruto: Shippuden",
+      "review_index": 51,
+      "status": "C",
+      "reason": "20 (Naruto) / 1735 (Naruto: Shippuden): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20",
+        "https://anilist.co/anime/1735"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 97938,
+      "target_media_id": 1735,
+      "relation": "PREQUEL",
+      "source_title": "Boruto: Naruto Next Generations",
+      "target_title": "Naruto: Shippuden",
+      "review_index": 52,
+      "status": "C",
+      "reason": "97938 (Boruto: Naruto Next Generations) / 1735 (Naruto: Shippuden): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/97938",
+        "https://anilist.co/anime/1735"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 833,
+      "target_media_id": 1149,
+      "relation": "SEQUEL",
+      "source_title": "Gravion",
+      "target_title": "Gravion Zwei",
+      "review_index": 53,
+      "status": "A",
+      "reason": "833 (Gravion) / 1149 (Gravion Zwei): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/833",
+        "https://anilist.co/anime/1149"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21857,
+      "target_media_id": 146953,
+      "relation": "SEQUEL",
+      "source_title": "Masamune-kun's Revenge",
+      "target_title": "Masamune-kun's Revenge R",
+      "review_index": 54,
+      "status": "A",
+      "reason": "21857 (Masamune-kun's Revenge) / 146953 (Masamune-kun's Revenge R): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21857",
+        "https://anilist.co/anime/146953"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 107651,
+      "target_media_id": 111145,
+      "relation": "SEQUEL",
+      "source_title": "A3! Season Spring & Summer",
+      "target_title": "A3! Season Autumn & Winter",
+      "review_index": 55,
+      "status": "A",
+      "reason": "107651 (A3! Season Spring & Summer) / 111145 (A3! Season Autumn & Winter): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/107651",
+        "https://anilist.co/anime/111145"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 10049,
+      "target_media_id": 7592,
+      "relation": "PREQUEL",
+      "source_title": "Nura: Rise of the Yokai Clan - Demon Capital",
+      "target_title": "Nura: Rise of the Yokai Clan",
+      "review_index": 56,
+      "status": "A",
+      "reason": "10049 (Nura: Rise of the Yokai Clan - Demon Capital) / 7592 (Nura: Rise of the Yokai Clan): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/10049",
+        "https://anilist.co/anime/7592"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 237,
+      "target_media_id": 12471,
+      "relation": "SEQUEL",
+      "source_title": "Eureka Seven",
+      "target_title": "Eureka Seven AO",
+      "review_index": 57,
+      "status": "C",
+      "reason": "237 (Eureka Seven) / 12471 (Eureka Seven AO): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/237",
+        "https://anilist.co/anime/12471"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 481,
+      "target_media_id": 3972,
+      "relation": "SEQUEL",
+      "source_title": "Yu-Gi-Oh!",
+      "target_title": "Yu-Gi-Oh! 5D's",
+      "review_index": 58,
+      "status": "C",
+      "reason": "481 (Yu-Gi-Oh!) / 3972 (Yu-Gi-Oh! 5D's): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/481",
+        "https://anilist.co/anime/3972"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21294,
+      "target_media_id": 20553,
+      "relation": "PREQUEL",
+      "source_title": "KanColle Season 2: Let's Meet at Sea",
+      "target_title": "KanColle",
+      "review_index": 59,
+      "status": "C",
+      "reason": "21294 (KanColle Season 2: Let's Meet at Sea) / 20553 (KanColle): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21294",
+        "https://anilist.co/anime/20553"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2159,
+      "target_media_id": 7720,
+      "relation": "SEQUEL",
+      "source_title": "Big Windup!",
+      "target_title": "Big Windup! 2",
+      "review_index": 60,
+      "status": "A",
+      "reason": "2159 (Big Windup!) / 7720 (Big Windup! 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2159",
+        "https://anilist.co/anime/7720"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 467,
+      "target_media_id": 801,
+      "relation": "SEQUEL",
+      "source_title": "Ghost in the Shell: Stand Alone Complex",
+      "target_title": "Ghost in the Shell: Stand Alone Complex 2nd GIG",
+      "review_index": 61,
+      "status": "A",
+      "reason": "467 (Ghost in the Shell: Stand Alone Complex) / 801 (Ghost in the Shell: Stand Alone Complex 2nd GIG): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/467",
+        "https://anilist.co/anime/801"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 11785,
+      "target_media_id": 15699,
+      "relation": "SEQUEL",
+      "source_title": "Nyaruko: Crawling with Love!",
+      "target_title": "Nyaruko-san: Another Crawling Chaos W",
+      "review_index": 62,
+      "status": "A",
+      "reason": "11785 (Nyaruko: Crawling with Love!) / 15699 (Nyaruko-san: Another Crawling Chaos W): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/11785",
+        "https://anilist.co/anime/15699"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 119675,
+      "target_media_id": 147850,
+      "relation": "SEQUEL",
+      "source_title": "SHAMAN KING (2021)",
+      "target_title": "SHAMAN KING FLOWERS",
+      "review_index": 63,
+      "status": "C",
+      "reason": "119675 (SHAMAN KING (2021)) / 147850 (SHAMAN KING FLOWERS): Flowers follows Hana Asakura, the next protagonist generation, separately from the 2021 Yoh adaptation.",
+      "evidence_urls": [
+        "https://anilist.co/anime/119675",
+        "https://anilist.co/anime/147850"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 185,
+      "target_media_id": 186,
+      "relation": "SEQUEL",
+      "source_title": "Initial D 1st Stage",
+      "target_title": "Initial D 2nd Stage",
+      "review_index": 64,
+      "status": "A",
+      "reason": "185 (Initial D 1st Stage) / 186 (Initial D 2nd Stage): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/185",
+        "https://anilist.co/anime/186"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1675,
+      "target_media_id": 927,
+      "relation": "SEQUEL",
+      "source_title": "Transformers: Armada",
+      "target_title": "Transformers: Energon",
+      "review_index": 65,
+      "status": "C",
+      "reason": "1675 (Transformers: Armada) / 927 (Transformers: Energon): Energon introduces Kicker and a new independently named Transformers story; Armada retains its own series identity.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1675",
+        "https://anilist.co/anime/927"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 7768,
+      "target_media_id": 11341,
+      "relation": "SEQUEL",
+      "source_title": "Detective Opera Milky Holmes",
+      "target_title": "Detective Opera Milky Holmes 2",
+      "review_index": 66,
+      "status": "A",
+      "reason": "7768 (Detective Opera Milky Holmes) / 11341 (Detective Opera Milky Holmes 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/7768",
+        "https://anilist.co/anime/11341"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20906,
+      "target_media_id": 1426,
+      "relation": "PREQUEL",
+      "source_title": "Lupin the 3rd Part IV",
+      "target_title": "Lupin the Third Part 3",
+      "review_index": 67,
+      "status": "A",
+      "reason": "20906 (Lupin the 3rd Part IV) / 1426 (Lupin the Third Part 3): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20906",
+        "https://anilist.co/anime/1426"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 94,
+      "target_media_id": 93,
+      "relation": "PREQUEL",
+      "source_title": "Mobile Suit Gundam Seed Destiny",
+      "target_title": "Mobile Suit Gundam Seed",
+      "review_index": 68,
+      "status": "C",
+      "reason": "94 (Mobile Suit Gundam Seed Destiny) / 93 (Mobile Suit Gundam Seed): Destiny centres on Shinn in its own named television series; chronological links do not merge it into SEED.",
+      "evidence_urls": [
+        "https://anilist.co/anime/94",
+        "https://anilist.co/anime/93"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 98491,
+      "target_media_id": 147571,
+      "relation": "SEQUEL",
+      "source_title": "In Another World With My Smartphone",
+      "target_title": "In Another World With My Smartphone 2",
+      "review_index": 69,
+      "status": "A",
+      "reason": "98491 (In Another World With My Smartphone) / 147571 (In Another World With My Smartphone 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/98491",
+        "https://anilist.co/anime/147571"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 12413,
+      "target_media_id": 13331,
+      "relation": "SEQUEL",
+      "source_title": "Jormungand",
+      "target_title": "Jormungand: Perfect Order",
+      "review_index": 70,
+      "status": "A",
+      "reason": "12413 (Jormungand) / 13331 (Jormungand: Perfect Order): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/12413",
+        "https://anilist.co/anime/13331"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 113652,
+      "target_media_id": 163140,
+      "relation": "SEQUEL",
+      "source_title": "HYPNOSISMIC -Division Rap Battle- Rhyme Anima",
+      "target_title": "HYPNOSISMIC -Division Rap Battle- Rhyme Anima PLUS",
+      "review_index": 71,
+      "status": "A",
+      "reason": "113652 (HYPNOSISMIC -Division Rap Battle- Rhyme Anima) / 163140 (HYPNOSISMIC -Division Rap Battle- Rhyme Anima PLUS): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/113652",
+        "https://anilist.co/anime/163140"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 48,
+      "target_media_id": 873,
+      "relation": "SEQUEL",
+      "source_title": ".hack//SIGN",
+      "target_title": ".hack//Roots",
+      "review_index": 72,
+      "status": "C",
+      "reason": "48 (.hack//SIGN) / 873 (.hack//Roots): Roots follows Haseo, SIGN follows Tsukasa; independently led .hack television series remain separate.",
+      "evidence_urls": [
+        "https://anilist.co/anime/48",
+        "https://anilist.co/anime/873"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 97889,
+      "target_media_id": 99714,
+      "relation": "SEQUEL",
+      "source_title": "Gintama Season 4",
+      "target_title": "Gintama.: Slip Arc",
+      "review_index": 73,
+      "status": "A",
+      "reason": "97889 (Gintama Season 4) / 99714 (Gintama.: Slip Arc): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/97889",
+        "https://anilist.co/anime/99714"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21293,
+      "target_media_id": 20877,
+      "relation": "PREQUEL",
+      "source_title": "Cute High Earth Defense Club LOVE! LOVE!",
+      "target_title": "Cute High Earth Defense Club LOVE!",
+      "review_index": 74,
+      "status": "A",
+      "reason": "21293 (Cute High Earth Defense Club LOVE! LOVE!) / 20877 (Cute High Earth Defense Club LOVE!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21293",
+        "https://anilist.co/anime/20877"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21699,
+      "target_media_id": 21202,
+      "relation": "PREQUEL",
+      "source_title": "KONOSUBA -God's blessing on this wonderful world! 2",
+      "target_title": "KONOSUBA -God's blessing on this wonderful world!",
+      "review_index": 75,
+      "status": "A",
+      "reason": "21699 (KONOSUBA -God's blessing on this wonderful world! 2) / 21202 (KONOSUBA -God's blessing on this wonderful world!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21699",
+        "https://anilist.co/anime/21202"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 17265,
+      "target_media_id": 20671,
+      "relation": "SEQUEL",
+      "source_title": "Log Horizon",
+      "target_title": "Log Horizon 2",
+      "review_index": 76,
+      "status": "A",
+      "reason": "17265 (Log Horizon) / 20671 (Log Horizon 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/17265",
+        "https://anilist.co/anime/20671"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 10336,
+      "target_media_id": 97,
+      "relation": "PREQUEL",
+      "source_title": "LASTEXILE -Fam, the Silver Wing",
+      "target_title": "Last Exile",
+      "review_index": 77,
+      "status": "C",
+      "reason": "10336 (LASTEXILE -Fam, the Silver Wing) / 97 (Last Exile): Fam follows Fam/Fan Fan instead of Claus in Last Exile; preserve the new named lead series.",
+      "evidence_urls": [
+        "https://anilist.co/anime/10336",
+        "https://anilist.co/anime/97"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 18115,
+      "target_media_id": 14513,
+      "relation": "PREQUEL",
+      "source_title": "Magi: The Kingdom of Magic",
+      "target_title": "Magi: The Labyrinth of Magic",
+      "review_index": 78,
+      "status": "A",
+      "reason": "18115 (Magi: The Kingdom of Magic) / 14513 (Magi: The Labyrinth of Magic): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/18115",
+        "https://anilist.co/anime/14513"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 447,
+      "target_media_id": 446,
+      "relation": "SEQUEL",
+      "source_title": "Knight Hunters",
+      "target_title": "Knight Hunters Eternity",
+      "review_index": 79,
+      "status": "A",
+      "reason": "447 (Knight Hunters) / 446 (Knight Hunters Eternity): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/447",
+        "https://anilist.co/anime/446"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21268,
+      "target_media_id": 21749,
+      "relation": "SEQUEL",
+      "source_title": "Mobile Suit GUNDAM Iron Blooded Orphans",
+      "target_title": "Mobile Suit GUNDAM Iron Blooded Orphans 2",
+      "review_index": 80,
+      "status": "A",
+      "reason": "21268 (Mobile Suit GUNDAM Iron Blooded Orphans) / 21749 (Mobile Suit GUNDAM Iron Blooded Orphans 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21268",
+        "https://anilist.co/anime/21749"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21394,
+      "target_media_id": 14513,
+      "relation": "SEQUEL",
+      "source_title": "Magi: Adventure of Sinbad",
+      "target_title": "Magi: The Labyrinth of Magic",
+      "review_index": 81,
+      "status": "C",
+      "reason": "21394 (Magi: Adventure of Sinbad) / 14513 (Magi: The Labyrinth of Magic): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21394",
+        "https://anilist.co/anime/14513"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 886,
+      "target_media_id": 591,
+      "relation": "PREQUEL",
+      "source_title": "Ah My Buddha Katsu",
+      "target_title": "Ah My Buddha!!",
+      "review_index": 82,
+      "status": "A",
+      "reason": "886 (Ah My Buddha Katsu) / 591 (Ah My Buddha!!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/886",
+        "https://anilist.co/anime/591"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20987,
+      "target_media_id": 98572,
+      "relation": "SEQUEL",
+      "source_title": "Himouto! Umaru-chan",
+      "target_title": "Himouto! Umaru-chan R",
+      "review_index": 83,
+      "status": "A",
+      "reason": "20987 (Himouto! Umaru-chan) / 98572 (Himouto! Umaru-chan R): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20987",
+        "https://anilist.co/anime/98572"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 135102,
+      "target_media_id": 115740,
+      "relation": "PREQUEL",
+      "source_title": "By the Grace of the Gods 2",
+      "target_title": "By the Grace of the Gods",
+      "review_index": 84,
+      "status": "A",
+      "reason": "135102 (By the Grace of the Gods 2) / 115740 (By the Grace of the Gods): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/135102",
+        "https://anilist.co/anime/115740"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 9919,
+      "target_media_id": 21861,
+      "relation": "SEQUEL",
+      "source_title": "Blue Exorcist",
+      "target_title": "Blue Exorcist: Kyoto Saga",
+      "review_index": 85,
+      "status": "A",
+      "reason": "9919 (Blue Exorcist) / 21861 (Blue Exorcist: Kyoto Saga): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/9919",
+        "https://anilist.co/anime/21861"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 5342,
+      "target_media_id": 6676,
+      "relation": "SEQUEL",
+      "source_title": "Asura Cryin'",
+      "target_title": "Asura Cryin' 2",
+      "review_index": 86,
+      "status": "A",
+      "reason": "5342 (Asura Cryin') / 6676 (Asura Cryin' 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/5342",
+        "https://anilist.co/anime/6676"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 13145,
+      "target_media_id": 9539,
+      "relation": "PREQUEL",
+      "source_title": "Cardfight!! Vanguard Asia Circuit",
+      "target_title": "Cardfight Vanguard",
+      "review_index": 87,
+      "status": "A",
+      "reason": "13145 (Cardfight!! Vanguard Asia Circuit) / 9539 (Cardfight Vanguard): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/13145",
+        "https://anilist.co/anime/9539"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 13145,
+      "target_media_id": 15611,
+      "relation": "SEQUEL",
+      "source_title": "Cardfight!! Vanguard Asia Circuit",
+      "target_title": "Cardfight!! Vanguard Link Joker",
+      "review_index": 88,
+      "status": "A",
+      "reason": "13145 (Cardfight!! Vanguard Asia Circuit) / 15611 (Cardfight!! Vanguard Link Joker): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/13145",
+        "https://anilist.co/anime/15611"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 228,
+      "target_media_id": 1594,
+      "relation": "SEQUEL",
+      "source_title": "Hell Girl",
+      "target_title": "Hell Girl: Two Mirrors",
+      "review_index": 89,
+      "status": "A",
+      "reason": "228 (Hell Girl) / 1594 (Hell Girl: Two Mirrors): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/228",
+        "https://anilist.co/anime/1594"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 15119,
+      "target_media_id": 102822,
+      "relation": "SEQUEL",
+      "source_title": "Senran Kagura: Ninja Flash!",
+      "target_title": "SENRAN KAGURA SHINOVI MASTER",
+      "review_index": 90,
+      "status": "A",
+      "reason": "15119 (Senran Kagura: Ninja Flash!) / 102822 (SENRAN KAGURA SHINOVI MASTER): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/15119",
+        "https://anilist.co/anime/102822"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 12149,
+      "target_media_id": 14941,
+      "relation": "SEQUEL",
+      "source_title": "AKB0048",
+      "target_title": "AKB0048: next stage",
+      "review_index": 91,
+      "status": "A",
+      "reason": "12149 (AKB0048) / 14941 (AKB0048: next stage): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/12149",
+        "https://anilist.co/anime/14941"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 105333,
+      "target_media_id": 113936,
+      "relation": "SEQUEL",
+      "source_title": "Dr. STONE",
+      "target_title": "Dr. STONE: STONE WARS",
+      "review_index": 92,
+      "status": "A",
+      "reason": "105333 (Dr. STONE) / 113936 (Dr. STONE: STONE WARS): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/105333",
+        "https://anilist.co/anime/113936"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 113359,
+      "target_media_id": 100298,
+      "relation": "PREQUEL",
+      "source_title": "MEGALOBOX 2: NOMAD",
+      "target_title": "Megalobox",
+      "review_index": 93,
+      "status": "A",
+      "reason": "113359 (MEGALOBOX 2: NOMAD) / 100298 (Megalobox): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/113359",
+        "https://anilist.co/anime/100298"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1746,
+      "target_media_id": 712,
+      "relation": "SEQUEL",
+      "source_title": "Zoids Fuzors",
+      "target_title": "Zoids Genesis",
+      "review_index": 94,
+      "status": "C",
+      "reason": "1746 (Zoids Fuzors) / 712 (Zoids Genesis): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1746",
+        "https://anilist.co/anime/712"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 6213,
+      "target_media_id": 16049,
+      "relation": "SEQUEL",
+      "source_title": "A Certain Scientific Railgun",
+      "target_title": "A Certain Scientific Railgun S",
+      "review_index": 95,
+      "status": "A",
+      "reason": "6213 (A Certain Scientific Railgun) / 16049 (A Certain Scientific Railgun S): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/6213",
+        "https://anilist.co/anime/16049"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20626,
+      "target_media_id": 99749,
+      "relation": "SEQUEL",
+      "source_title": "Fairy Tail Series 2",
+      "target_title": "Fairy Tail Final Season",
+      "review_index": 96,
+      "status": "A",
+      "reason": "20626 (Fairy Tail Series 2) / 99749 (Fairy Tail Final Season): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20626",
+        "https://anilist.co/anime/99749"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21218,
+      "target_media_id": 112640,
+      "relation": "SEQUEL",
+      "source_title": "Utawarerumono The False Faces",
+      "target_title": "Utawarerumono Mask of Truth",
+      "review_index": 97,
+      "status": "A",
+      "reason": "21218 (Utawarerumono The False Faces) / 112640 (Utawarerumono Mask of Truth): Mask of Truth continues Haku and the False Faces story; unite these exact two adaptation stages, without the earlier Hakuoro series.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21218",
+        "https://anilist.co/anime/112640"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 153452,
+      "target_media_id": 113717,
+      "relation": "PREQUEL",
+      "source_title": "Ranking of Kings: The Treasure Chest of Courage",
+      "target_title": "Ranking of Kings",
+      "review_index": 98,
+      "status": "A",
+      "reason": "153452 (Ranking of Kings: The Treasure Chest of Courage) / 113717 (Ranking of Kings): Treasure Chest contains further Bojji/Kage episodes of the original Ranking of Kings narrative rather than a new lead spin-off.",
+      "evidence_urls": [
+        "https://anilist.co/anime/153452",
+        "https://anilist.co/anime/113717"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21518,
+      "target_media_id": 20923,
+      "relation": "PREQUEL",
+      "source_title": "Food Wars! The Second Plate",
+      "target_title": "Food Wars!",
+      "review_index": 99,
+      "status": "A",
+      "reason": "21518 (Food Wars! The Second Plate) / 20923 (Food Wars!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21518",
+        "https://anilist.co/anime/20923"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21518,
+      "target_media_id": 99255,
+      "relation": "SEQUEL",
+      "source_title": "Food Wars! The Second Plate",
+      "target_title": "Food Wars! The Third Plate",
+      "review_index": 100,
+      "status": "A",
+      "reason": "21518 (Food Wars! The Second Plate) / 99255 (Food Wars! The Third Plate): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21518",
+        "https://anilist.co/anime/99255"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 534,
+      "target_media_id": 535,
+      "relation": "SEQUEL",
+      "source_title": "The Slayers",
+      "target_title": "The Slayers Next",
+      "review_index": 101,
+      "status": "A",
+      "reason": "534 (The Slayers) / 535 (The Slayers Next): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/534",
+        "https://anilist.co/anime/535"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21855,
+      "target_media_id": 1546,
+      "relation": "PREQUEL",
+      "source_title": "UQ Holder!",
+      "target_title": "Negima!? Magister Negi Magi",
+      "review_index": 102,
+      "status": "C",
+      "reason": "21855 (UQ Holder!) / 1546 (Negima!? Magister Negi Magi): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21855",
+        "https://anilist.co/anime/1546"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20614,
+      "target_media_id": 18507,
+      "relation": "PREQUEL",
+      "source_title": "Free! -Eternal Summer-",
+      "target_title": "Free! -Iwatobi Swim Club-",
+      "review_index": 103,
+      "status": "A",
+      "reason": "20614 (Free! -Eternal Summer-) / 18507 (Free! -Iwatobi Swim Club-): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20614",
+        "https://anilist.co/anime/18507"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21451,
+      "target_media_id": 73,
+      "relation": "PREQUEL",
+      "source_title": "Full Metal Panic! Invisible Victory",
+      "target_title": "Full Metal Panic! The Second Raid",
+      "review_index": 104,
+      "status": "A",
+      "reason": "21451 (Full Metal Panic! Invisible Victory) / 73 (Full Metal Panic! The Second Raid): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21451",
+        "https://anilist.co/anime/73"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 3457,
+      "target_media_id": 4752,
+      "relation": "SEQUEL",
+      "source_title": "Vampire Knight",
+      "target_title": "Vampire Knight: Guilty",
+      "review_index": 105,
+      "status": "A",
+      "reason": "3457 (Vampire Knight) / 4752 (Vampire Knight: Guilty): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/3457",
+        "https://anilist.co/anime/4752"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2156,
+      "target_media_id": 5337,
+      "relation": "SEQUEL",
+      "source_title": "Bakugan Battle Brawlers",
+      "target_title": "Bakugan: New Vestroia",
+      "review_index": 106,
+      "status": "A",
+      "reason": "2156 (Bakugan Battle Brawlers) / 5337 (Bakugan: New Vestroia): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2156",
+        "https://anilist.co/anime/5337"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 86,
+      "target_media_id": 85,
+      "relation": "PREQUEL",
+      "source_title": "Mobile Suit Gundam ZZ",
+      "target_title": "Mobile Suit Zeta Gundam",
+      "review_index": 107,
+      "status": "C",
+      "reason": "86 (Mobile Suit Gundam ZZ) / 85 (Mobile Suit Zeta Gundam): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/86",
+        "https://anilist.co/anime/85"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1915,
+      "target_media_id": 20820,
+      "relation": "SEQUEL",
+      "source_title": "Magical Girl Lyrical Nanoha StrikerS",
+      "target_title": "Magical Girl Lyrical Nanoha ViVid",
+      "review_index": 108,
+      "status": "C",
+      "reason": "1915 (Magical Girl Lyrical Nanoha StrikerS) / 20820 (Magical Girl Lyrical Nanoha ViVid): ViVid follows Vivio and a new tournament lead story rather than the Nanoha adult unit television stage.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1915",
+        "https://anilist.co/anime/20820"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 163024,
+      "target_media_id": 100745,
+      "relation": "PREQUEL",
+      "source_title": "Captain Tsubasa: Junior Youth Arc",
+      "target_title": "Captain Tsubasa (2018)",
+      "review_index": 109,
+      "status": "A",
+      "reason": "163024 (Captain Tsubasa: Junior Youth Arc) / 100745 (Captain Tsubasa (2018)): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/163024",
+        "https://anilist.co/anime/100745"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21175,
+      "target_media_id": 170083,
+      "relation": "PREQUEL",
+      "source_title": "Dragon Ball Super",
+      "target_title": "Dragon Ball DAIMA",
+      "review_index": 110,
+      "status": "C",
+      "reason": "21175 (Dragon Ball Super) / 170083 (Dragon Ball DAIMA): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21175",
+        "https://anilist.co/anime/170083"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 14653,
+      "target_media_id": 16982,
+      "relation": "SEQUEL",
+      "source_title": "Hayate the Combat Butler: Can't Take My Eyes Off You",
+      "target_title": "Hayate the Combat Butler: Cuties",
+      "review_index": 111,
+      "status": "A",
+      "reason": "14653 (Hayate the Combat Butler: Can't Take My Eyes Off You) / 16982 (Hayate the Combat Butler: Cuties): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/14653",
+        "https://anilist.co/anime/16982"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 11761,
+      "target_media_id": 14527,
+      "relation": "SEQUEL",
+      "source_title": "Medaka Box",
+      "target_title": "Medaka Box Abnormal",
+      "review_index": 112,
+      "status": "A",
+      "reason": "11761 (Medaka Box) / 14527 (Medaka Box Abnormal): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/11761",
+        "https://anilist.co/anime/14527"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 18,
+      "target_media_id": 15059,
+      "relation": "SEQUEL",
+      "source_title": "Initial D 4th Stage",
+      "target_title": "Initial D Fifth Stage",
+      "review_index": 113,
+      "status": "A",
+      "reason": "18 (Initial D 4th Stage) / 15059 (Initial D Fifth Stage): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/18",
+        "https://anilist.co/anime/15059"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 4581,
+      "target_media_id": 5034,
+      "relation": "SEQUEL",
+      "source_title": "Corpse Princess: Aka",
+      "target_title": "Corpse Princess: Kuro",
+      "review_index": 114,
+      "status": "A",
+      "reason": "4581 (Corpse Princess: Aka) / 5034 (Corpse Princess: Kuro): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/4581",
+        "https://anilist.co/anime/5034"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 257,
+      "target_media_id": 1956,
+      "relation": "SEQUEL",
+      "source_title": "Battle Vixens: Ikki Tousen",
+      "target_title": "Ikki Tousen: Dragon Destiny",
+      "review_index": 115,
+      "status": "A",
+      "reason": "257 (Battle Vixens: Ikki Tousen) / 1956 (Ikki Tousen: Dragon Destiny): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/257",
+        "https://anilist.co/anime/1956"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21506,
+      "target_media_id": 162722,
+      "relation": "SEQUEL",
+      "source_title": "Witchy Precure!",
+      "target_title": "Witchy Precure!! ~MIRAI DAYS~",
+      "review_index": 116,
+      "status": "A",
+      "reason": "21506 (Witchy Precure!) / 162722 (Witchy Precure!! ~MIRAI DAYS~): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21506",
+        "https://anilist.co/anime/162722"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20615,
+      "target_media_id": 20714,
+      "relation": "SEQUEL",
+      "source_title": "selector infected WIXOSS",
+      "target_title": "selector spread WIXOSS",
+      "review_index": 117,
+      "status": "A",
+      "reason": "20615 (selector infected WIXOSS) / 20714 (selector spread WIXOSS): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20615",
+        "https://anilist.co/anime/20714"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 177175,
+      "target_media_id": 158895,
+      "relation": "PREQUEL",
+      "source_title": "Arknights: RISE FROM EMBER",
+      "target_title": "Arknights: PERISH IN FROST",
+      "review_index": 118,
+      "status": "A",
+      "reason": "177175 (Arknights: RISE FROM EMBER) / 158895 (Arknights: PERISH IN FROST): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/177175",
+        "https://anilist.co/anime/158895"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 114043,
+      "target_media_id": 109963,
+      "relation": "PREQUEL",
+      "source_title": "Food Wars! The Fifth Plate",
+      "target_title": "Food Wars! The Fourth Plate",
+      "review_index": 119,
+      "status": "A",
+      "reason": "114043 (Food Wars! The Fifth Plate) / 109963 (Food Wars! The Fourth Plate): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/114043",
+        "https://anilist.co/anime/109963"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 6956,
+      "target_media_id": 10521,
+      "relation": "SEQUEL",
+      "source_title": "Wagnaria!!",
+      "target_title": "Wagnaria!!2",
+      "review_index": 120,
+      "status": "A",
+      "reason": "6956 (Wagnaria!!) / 10521 (Wagnaria!!2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/6956",
+        "https://anilist.co/anime/10521"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 4789,
+      "target_media_id": 2924,
+      "relation": "PREQUEL",
+      "source_title": "ef ~ A Tale of Melodies",
+      "target_title": "ef ~ A Tale of Memories",
+      "review_index": 121,
+      "status": "A",
+      "reason": "4789 (ef ~ A Tale of Melodies) / 2924 (ef ~ A Tale of Memories): The two ef seasons adapt complementary halves of the same visual-novel ensemble narrative; unite the adaptation project.",
+      "evidence_urls": [
+        "https://anilist.co/anime/4789",
+        "https://anilist.co/anime/2924"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 889,
+      "target_media_id": 1519,
+      "relation": "SEQUEL",
+      "source_title": "Black Lagoon",
+      "target_title": "Black Lagoon: The Second Barrage",
+      "review_index": 122,
+      "status": "A",
+      "reason": "889 (Black Lagoon) / 1519 (Black Lagoon: The Second Barrage): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/889",
+        "https://anilist.co/anime/1519"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 118399,
+      "target_media_id": 6811,
+      "relation": "PREQUEL",
+      "source_title": "Yashahime: Princess Half-Demon",
+      "target_title": "InuYasha: The Final Act",
+      "review_index": 123,
+      "status": "C",
+      "reason": "118399 (Yashahime: Princess Half-Demon) / 6811 (InuYasha: The Final Act): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/118399",
+        "https://anilist.co/anime/6811"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 118399,
+      "target_media_id": 131264,
+      "relation": "SEQUEL",
+      "source_title": "Yashahime: Princess Half-Demon",
+      "target_title": "Yashahime: Princess Half-Demon - The Second Act",
+      "review_index": 124,
+      "status": "A",
+      "reason": "118399 (Yashahime: Princess Half-Demon) / 131264 (Yashahime: Princess Half-Demon - The Second Act): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/118399",
+        "https://anilist.co/anime/131264"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1956,
+      "target_media_id": 4196,
+      "relation": "SEQUEL",
+      "source_title": "Ikki Tousen: Dragon Destiny",
+      "target_title": "Ikki Tousen: Great Guardians",
+      "review_index": 125,
+      "status": "A",
+      "reason": "1956 (Ikki Tousen: Dragon Destiny) / 4196 (Ikki Tousen: Great Guardians): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1956",
+        "https://anilist.co/anime/4196"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20745,
+      "target_media_id": 15451,
+      "relation": "PREQUEL",
+      "source_title": "High School DxD BorN",
+      "target_title": "High School DxD NEW",
+      "review_index": 126,
+      "status": "A",
+      "reason": "20745 (High School DxD BorN) / 15451 (High School DxD NEW): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20745",
+        "https://anilist.co/anime/15451"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20680,
+      "target_media_id": 3572,
+      "relation": "PREQUEL",
+      "source_title": "Macross Delta",
+      "target_title": "Macross Frontier",
+      "review_index": 127,
+      "status": "C",
+      "reason": "20680 (Macross Delta) / 3572 (Macross Frontier): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20680",
+        "https://anilist.co/anime/3572"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 390,
+      "target_media_id": 21887,
+      "relation": "SEQUEL",
+      "source_title": "Suzuka",
+      "target_title": "Fuuka",
+      "review_index": 128,
+      "status": "C",
+      "reason": "390 (Suzuka) / 21887 (Fuuka): Fuuka follows a new protagonist generation after Suzuka; preserve the separately named manga/anime series.",
+      "evidence_urls": [
+        "https://anilist.co/anime/390",
+        "https://anilist.co/anime/21887"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20462,
+      "target_media_id": 20719,
+      "relation": "SEQUEL",
+      "source_title": "Chaika -The Coffin Princess-",
+      "target_title": "Chaika -The Coffin Princess- AVENGING BATTLE",
+      "review_index": 129,
+      "status": "A",
+      "reason": "20462 (Chaika -The Coffin Princess-) / 20719 (Chaika -The Coffin Princess- AVENGING BATTLE): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20462",
+        "https://anilist.co/anime/20719"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20727,
+      "target_media_id": 97886,
+      "relation": "SEQUEL",
+      "source_title": "Blood Blockade Battlefront",
+      "target_title": "Blood Blockade Battlefront & Beyond",
+      "review_index": 130,
+      "status": "A",
+      "reason": "20727 (Blood Blockade Battlefront) / 97886 (Blood Blockade Battlefront & Beyond): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20727",
+        "https://anilist.co/anime/97886"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 140660,
+      "target_media_id": 158895,
+      "relation": "SEQUEL",
+      "source_title": "Arknights: PRELUDE TO DAWN",
+      "target_title": "Arknights: PERISH IN FROST",
+      "review_index": 131,
+      "status": "A",
+      "reason": "140660 (Arknights: PRELUDE TO DAWN) / 158895 (Arknights: PERISH IN FROST): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/140660",
+        "https://anilist.co/anime/158895"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 85,
+      "target_media_id": 80,
+      "relation": "PREQUEL",
+      "source_title": "Mobile Suit Zeta Gundam",
+      "target_title": "Mobile Suit Gundam",
+      "review_index": 132,
+      "status": "C",
+      "reason": "85 (Mobile Suit Zeta Gundam) / 80 (Mobile Suit Gundam): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/85",
+        "https://anilist.co/anime/80"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 158931,
+      "target_media_id": 21861,
+      "relation": "PREQUEL",
+      "source_title": "Blue Exorcist -Shimane Illuminati Saga-",
+      "target_title": "Blue Exorcist: Kyoto Saga",
+      "review_index": 133,
+      "status": "A",
+      "reason": "158931 (Blue Exorcist -Shimane Illuminati Saga-) / 21861 (Blue Exorcist: Kyoto Saga): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/158931",
+        "https://anilist.co/anime/21861"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 112325,
+      "target_media_id": 140085,
+      "relation": "SEQUEL",
+      "source_title": "Shadowverse",
+      "target_title": "Shadowverse Flame",
+      "review_index": 134,
+      "status": "C",
+      "reason": "112325 (Shadowverse) / 140085 (Shadowverse Flame): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/112325",
+        "https://anilist.co/anime/140085"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20739,
+      "target_media_id": 19319,
+      "relation": "PREQUEL",
+      "source_title": "Gundam Build Fighters Try",
+      "target_title": "Gundam Build Fighters",
+      "review_index": 135,
+      "status": "C",
+      "reason": "20739 (Gundam Build Fighters Try) / 19319 (Gundam Build Fighters): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20739",
+        "https://anilist.co/anime/19319"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 7674,
+      "target_media_id": 10030,
+      "relation": "SEQUEL",
+      "source_title": "Bakuman.",
+      "target_title": "Bakuman. 2",
+      "review_index": 136,
+      "status": "A",
+      "reason": "7674 (Bakuman.) / 10030 (Bakuman. 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/7674",
+        "https://anilist.co/anime/10030"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 120534,
+      "target_media_id": 1186,
+      "relation": "PREQUEL",
+      "source_title": "Battle Athletes Victory ReSTART!",
+      "target_title": "Battle Athletes Victory",
+      "review_index": 137,
+      "status": "C",
+      "reason": "120534 (Battle Athletes Victory ReSTART!) / 1186 (Battle Athletes Victory): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/120534",
+        "https://anilist.co/anime/1186"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 151799,
+      "target_media_id": 8795,
+      "relation": "PREQUEL",
+      "source_title": "New PANTY & STOCKING with GARTERBELT",
+      "target_title": "Panty & Stocking with Garterbelt",
+      "review_index": 138,
+      "status": "A",
+      "reason": "151799 (New PANTY & STOCKING with GARTERBELT) / 8795 (Panty & Stocking with Garterbelt): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/151799",
+        "https://anilist.co/anime/8795"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 140187,
+      "target_media_id": 165810,
+      "relation": "SEQUEL",
+      "source_title": "The Prince of Tennis II U-17 World Cup",
+      "target_title": "The Prince of Tennis II U-17 World Cup Semifinal",
+      "review_index": 139,
+      "status": "A",
+      "reason": "140187 (The Prince of Tennis II U-17 World Cup) / 165810 (The Prince of Tennis II U-17 World Cup Semifinal): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/140187",
+        "https://anilist.co/anime/165810"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 102949,
+      "target_media_id": 21643,
+      "relation": "PREQUEL",
+      "source_title": "The Morose Mononokean Ⅱ",
+      "target_title": "The Morose Mononokean",
+      "review_index": 140,
+      "status": "A",
+      "reason": "102949 (The Morose Mononokean Ⅱ) / 21643 (The Morose Mononokean): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/102949",
+        "https://anilist.co/anime/21643"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 80,
+      "target_media_id": 108039,
+      "relation": "PREQUEL",
+      "source_title": "Mobile Suit Gundam",
+      "target_title": "Mobile Suit Gundam: The Origin - Advent of the Red Comet",
+      "review_index": 141,
+      "status": "C",
+      "reason": "80 (Mobile Suit Gundam) / 108039 (Mobile Suit Gundam: The Origin - Advent of the Red Comet): The Origin/Advent of the Red Comet is a separately produced Char prequel, not an extra episode of Amuro's 1979 television adaptation.",
+      "evidence_urls": [
+        "https://anilist.co/anime/80",
+        "https://anilist.co/anime/108039"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 108852,
+      "target_media_id": 116415,
+      "relation": "SEQUEL",
+      "source_title": "Bakugan: Battle Planet",
+      "target_title": "Bakugan Armored Alliance",
+      "review_index": 142,
+      "status": "A",
+      "reason": "108852 (Bakugan: Battle Planet) / 116415 (Bakugan Armored Alliance): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/108852",
+        "https://anilist.co/anime/116415"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 140596,
+      "target_media_id": 120697,
+      "relation": "PREQUEL",
+      "source_title": "DON'T TOY WITH ME, MISS NAGATORO 2nd Attack",
+      "target_title": "DON'T TOY WITH ME, MISS NAGATORO",
+      "review_index": 143,
+      "status": "A",
+      "reason": "140596 (DON'T TOY WITH ME, MISS NAGATORO 2nd Attack) / 120697 (DON'T TOY WITH ME, MISS NAGATORO): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/140596",
+        "https://anilist.co/anime/120697"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 9712,
+      "target_media_id": 5030,
+      "relation": "PREQUEL",
+      "source_title": "Maria†Holic Alive",
+      "target_title": "Maria†Holic",
+      "review_index": 144,
+      "status": "A",
+      "reason": "9712 (Maria†Holic Alive) / 5030 (Maria†Holic): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/9712",
+        "https://anilist.co/anime/5030"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 4242,
+      "target_media_id": 4240,
+      "relation": "PREQUEL",
+      "source_title": "Galactic Gale Baxingar",
+      "target_title": "Galaxy Cyclone Braiger",
+      "review_index": 145,
+      "status": "C",
+      "reason": "4242 (Galactic Gale Baxingar) / 4240 (Galaxy Cyclone Braiger): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/4242",
+        "https://anilist.co/anime/4240"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 4242,
+      "target_media_id": 4244,
+      "relation": "SEQUEL",
+      "source_title": "Galactic Gale Baxingar",
+      "target_title": "Galactic Whirlwind Sasuraiger",
+      "review_index": 146,
+      "status": "C",
+      "reason": "4242 (Galactic Gale Baxingar) / 4244 (Galactic Whirlwind Sasuraiger): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/4242",
+        "https://anilist.co/anime/4244"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 924,
+      "target_media_id": 925,
+      "relation": "PREQUEL",
+      "source_title": "Transformers Super-God Masterforce",
+      "target_title": "Transformers The Headmasters",
+      "review_index": 147,
+      "status": "C",
+      "reason": "924 (Transformers Super-God Masterforce) / 925 (Transformers The Headmasters): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/924",
+        "https://anilist.co/anime/925"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 924,
+      "target_media_id": 926,
+      "relation": "SEQUEL",
+      "source_title": "Transformers Super-God Masterforce",
+      "target_title": "Transformers Victory",
+      "review_index": 148,
+      "status": "C",
+      "reason": "924 (Transformers Super-God Masterforce) / 926 (Transformers Victory): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/924",
+        "https://anilist.co/anime/926"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 100876,
+      "target_media_id": 98314,
+      "relation": "PREQUEL",
+      "source_title": "Kakegurui xx",
+      "target_title": "Kakegurui",
+      "review_index": 149,
+      "status": "A",
+      "reason": "100876 (Kakegurui xx) / 98314 (Kakegurui): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/100876",
+        "https://anilist.co/anime/98314"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21128,
+      "target_media_id": 20447,
+      "relation": "PREQUEL",
+      "source_title": "Noragami Aragoto",
+      "target_title": "Noragami",
+      "review_index": 150,
+      "status": "A",
+      "reason": "21128 (Noragami Aragoto) / 20447 (Noragami): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21128",
+        "https://anilist.co/anime/20447"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 104252,
+      "target_media_id": 168500,
+      "relation": "SEQUEL",
+      "source_title": "Demon Lord, Retry!",
+      "target_title": "Demon Lord, Retry! R",
+      "review_index": 151,
+      "status": "A",
+      "reason": "104252 (Demon Lord, Retry!) / 168500 (Demon Lord, Retry! R): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/104252",
+        "https://anilist.co/anime/168500"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 99255,
+      "target_media_id": 100773,
+      "relation": "SEQUEL",
+      "source_title": "Food Wars! The Third Plate",
+      "target_title": "Food Wars! The Third Plate: Totsuki Train Arc",
+      "review_index": 152,
+      "status": "A",
+      "reason": "99255 (Food Wars! The Third Plate) / 100773 (Food Wars! The Third Plate: Totsuki Train Arc): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/99255",
+        "https://anilist.co/anime/100773"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2167,
+      "target_media_id": 4181,
+      "relation": "SEQUEL",
+      "source_title": "Clannad",
+      "target_title": "Clannad: After Story",
+      "review_index": 153,
+      "status": "A",
+      "reason": "2167 (Clannad) / 4181 (Clannad: After Story): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2167",
+        "https://anilist.co/anime/4181"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 17549,
+      "target_media_id": 20694,
+      "relation": "SEQUEL",
+      "source_title": "Non Non Biyori",
+      "target_title": "Non Non Biyori Repeat",
+      "review_index": 154,
+      "status": "A",
+      "reason": "17549 (Non Non Biyori) / 20694 (Non Non Biyori Repeat): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/17549",
+        "https://anilist.co/anime/20694"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 3002,
+      "target_media_id": 10271,
+      "relation": "SEQUEL",
+      "source_title": "Kaiji - Ultimate Survivor",
+      "target_title": "Kaiji - Against All Rules",
+      "review_index": 155,
+      "status": "A",
+      "reason": "3002 (Kaiji - Ultimate Survivor) / 10271 (Kaiji - Against All Rules): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/3002",
+        "https://anilist.co/anime/10271"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 114862,
+      "target_media_id": 20671,
+      "relation": "PREQUEL",
+      "source_title": "Log Horizon: Destruction of the Round Table",
+      "target_title": "Log Horizon 2",
+      "review_index": 156,
+      "status": "A",
+      "reason": "114862 (Log Horizon: Destruction of the Round Table) / 20671 (Log Horizon 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/114862",
+        "https://anilist.co/anime/20671"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 87495,
+      "target_media_id": 103110,
+      "relation": "SEQUEL",
+      "source_title": "IDOLiSH7",
+      "target_title": "IDOLiSH7 Second BEAT!",
+      "review_index": 157,
+      "status": "A",
+      "reason": "87495 (IDOLiSH7) / 103110 (IDOLiSH7 Second BEAT!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/87495",
+        "https://anilist.co/anime/103110"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 925,
+      "target_media_id": 2268,
+      "relation": "PREQUEL",
+      "source_title": "Transformers The Headmasters",
+      "target_title": "Transformers Generation 1",
+      "review_index": 158,
+      "status": "C",
+      "reason": "925 (Transformers The Headmasters) / 2268 (Transformers Generation 1): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/925",
+        "https://anilist.co/anime/2268"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 126316,
+      "target_media_id": 100186,
+      "relation": "PREQUEL",
+      "source_title": "B-PROJECT Passion*Love Call",
+      "target_title": "B-PROJECT-Zeccho＊Emotion-",
+      "review_index": 159,
+      "status": "A",
+      "reason": "126316 (B-PROJECT Passion*Love Call) / 100186 (B-PROJECT-Zeccho＊Emotion-): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/126316",
+        "https://anilist.co/anime/100186"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 7647,
+      "target_media_id": 9074,
+      "relation": "SEQUEL",
+      "source_title": "Arakawa Under the Bridge",
+      "target_title": "Arakawa Under the Bridge x Bridge",
+      "review_index": 160,
+      "status": "A",
+      "reason": "7647 (Arakawa Under the Bridge) / 9074 (Arakawa Under the Bridge x Bridge): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/7647",
+        "https://anilist.co/anime/9074"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 104647,
+      "target_media_id": 120209,
+      "relation": "SEQUEL",
+      "source_title": "My Next Life as a Villainess: All Routes Lead to Doom!",
+      "target_title": "My Next Life as a Villainess: All Routes Lead to Doom! X",
+      "review_index": 161,
+      "status": "A",
+      "reason": "104647 (My Next Life as a Villainess: All Routes Lead to Doom!) / 120209 (My Next Life as a Villainess: All Routes Lead to Doom! X): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/104647",
+        "https://anilist.co/anime/120209"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21300,
+      "target_media_id": 20629,
+      "relation": "PREQUEL",
+      "source_title": "Terra Formars: Revenge",
+      "target_title": "Terra Formars",
+      "review_index": 162,
+      "status": "A",
+      "reason": "21300 (Terra Formars: Revenge) / 20629 (Terra Formars): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21300",
+        "https://anilist.co/anime/20629"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21751,
+      "target_media_id": 100186,
+      "relation": "SEQUEL",
+      "source_title": "B-PROJECT",
+      "target_title": "B-PROJECT-Zeccho＊Emotion-",
+      "review_index": 163,
+      "status": "A",
+      "reason": "21751 (B-PROJECT) / 100186 (B-PROJECT-Zeccho＊Emotion-): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21751",
+        "https://anilist.co/anime/100186"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 345,
+      "target_media_id": 2035,
+      "relation": "SEQUEL",
+      "source_title": "Emma: A Victorian Romance",
+      "target_title": "Emma: A Victorian Romance Second Act",
+      "review_index": 164,
+      "status": "A",
+      "reason": "345 (Emma: A Victorian Romance) / 2035 (Emma: A Victorian Romance Second Act): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/345",
+        "https://anilist.co/anime/2035"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 6895,
+      "target_media_id": 13115,
+      "relation": "PREQUEL",
+      "source_title": "Hakuoki ~Demon of the Fleeting Blossom~",
+      "target_title": "Hakuoki ~Demon of the Fleeting Blossom~ Dawn of the Shinsengumi",
+      "review_index": 165,
+      "status": "C",
+      "reason": "6895 (Hakuoki ~Demon of the Fleeting Blossom~) / 13115 (Hakuoki ~Demon of the Fleeting Blossom~ Dawn of the Shinsengumi): Dawn of the Shinsengumi introduces Ryuunosuke in a separately named prequel television adaptation; the Chizuru seasons stay together.",
+      "evidence_urls": [
+        "https://anilist.co/anime/6895",
+        "https://anilist.co/anime/13115"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 6895,
+      "target_media_id": 9065,
+      "relation": "SEQUEL",
+      "source_title": "Hakuoki ~Demon of the Fleeting Blossom~",
+      "target_title": "Hakuoki ~Demon of the Fleeting Blossom~ Record of the Jade Blood",
+      "review_index": 166,
+      "status": "A",
+      "reason": "6895 (Hakuoki ~Demon of the Fleeting Blossom~) / 9065 (Hakuoki ~Demon of the Fleeting Blossom~ Record of the Jade Blood): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/6895",
+        "https://anilist.co/anime/9065"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1482,
+      "target_media_id": 21558,
+      "relation": "SEQUEL",
+      "source_title": "D.Gray-man",
+      "target_title": "D.Gray-man HALLOW",
+      "review_index": 167,
+      "status": "A",
+      "reason": "1482 (D.Gray-man) / 21558 (D.Gray-man HALLOW): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1482",
+        "https://anilist.co/anime/21558"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 6746,
+      "target_media_id": 20652,
+      "relation": "SEQUEL",
+      "source_title": "Durarara!!",
+      "target_title": "Durarara!! X2",
+      "review_index": 168,
+      "status": "A",
+      "reason": "6746 (Durarara!!) / 20652 (Durarara!! X2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/6746",
+        "https://anilist.co/anime/20652"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1534,
+      "target_media_id": 162720,
+      "relation": "SEQUEL",
+      "source_title": "PreCure Splash Star",
+      "target_title": "Power of Hope ~Precure Full Bloom~",
+      "review_index": 169,
+      "status": "C",
+      "reason": "1534 (PreCure Splash Star) / 162720 (Power of Hope ~Precure Full Bloom~): Power of Hope crosses adult Yes!5 and Splash Star heroines; keep the crossover separate instead of joining the parent seasons.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1534",
+        "https://anilist.co/anime/162720"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2548,
+      "target_media_id": 2558,
+      "relation": "SEQUEL",
+      "source_title": "Tales of Little Women",
+      "target_title": "Little Women II: Jo's Boys",
+      "review_index": 170,
+      "status": "C",
+      "reason": "2548 (Tales of Little Women) / 2558 (Little Women II: Jo's Boys): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2548",
+        "https://anilist.co/anime/2558"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 276,
+      "target_media_id": 277,
+      "relation": "SEQUEL",
+      "source_title": "Mahoromatic: Automatic Maiden",
+      "target_title": "Mahoromatic: Something More Beautiful",
+      "review_index": 171,
+      "status": "A",
+      "reason": "276 (Mahoromatic: Automatic Maiden) / 277 (Mahoromatic: Something More Beautiful): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/276",
+        "https://anilist.co/anime/277"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 4975,
+      "target_media_id": 21126,
+      "relation": "SEQUEL",
+      "source_title": "ChäoS;HEAd",
+      "target_title": "Chaos;Child",
+      "review_index": 172,
+      "status": "C",
+      "reason": "4975 (ChäoS;HEAd) / 21126 (Chaos;Child): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/4975",
+        "https://anilist.co/anime/21126"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 8624,
+      "target_media_id": 10444,
+      "relation": "SEQUEL",
+      "source_title": "Digimon Fusion",
+      "target_title": "Digimon Xros Wars: The Evil Death Generals and the Seven Kingdoms",
+      "review_index": 173,
+      "status": "A",
+      "reason": "8624 (Digimon Fusion) / 10444 (Digimon Xros Wars: The Evil Death Generals and the Seven Kingdoms): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/8624",
+        "https://anilist.co/anime/10444"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 101373,
+      "target_media_id": 106568,
+      "relation": "SEQUEL",
+      "source_title": "BAKUMATSU",
+      "target_title": "BAKUMATSU Crisis",
+      "review_index": 174,
+      "status": "A",
+      "reason": "101373 (BAKUMATSU) / 106568 (BAKUMATSU Crisis): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/101373",
+        "https://anilist.co/anime/106568"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 251,
+      "target_media_id": 4080,
+      "relation": "SEQUEL",
+      "source_title": "Kyo Kara Maoh! - God (?) Save Our King!",
+      "target_title": "Kyo Kara Maoh! Season 3",
+      "review_index": 175,
+      "status": "A",
+      "reason": "251 (Kyo Kara Maoh! - God (?) Save Our King!) / 4080 (Kyo Kara Maoh! Season 3): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/251",
+        "https://anilist.co/anime/4080"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 19775,
+      "target_media_id": 20762,
+      "relation": "SEQUEL",
+      "source_title": "Knights of Sidonia",
+      "target_title": "Knights of Sidonia: Battle for Planet Nine",
+      "review_index": 176,
+      "status": "A",
+      "reason": "19775 (Knights of Sidonia) / 20762 (Knights of Sidonia: Battle for Planet Nine): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/19775",
+        "https://anilist.co/anime/20762"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 127550,
+      "target_media_id": 114340,
+      "relation": "PREQUEL",
+      "source_title": "Kuma Kuma Kuma Bear - Punch!",
+      "target_title": "Kuma Kuma Kuma Bear",
+      "review_index": 177,
+      "status": "A",
+      "reason": "127550 (Kuma Kuma Kuma Bear - Punch!) / 114340 (Kuma Kuma Kuma Bear): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/127550",
+        "https://anilist.co/anime/114340"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 139095,
+      "target_media_id": 99749,
+      "relation": "PREQUEL",
+      "source_title": "FAIRY TAIL 100 YEARS QUEST",
+      "target_title": "Fairy Tail Final Season",
+      "review_index": 178,
+      "status": "C",
+      "reason": "139095 (FAIRY TAIL 100 YEARS QUEST) / 99749 (Fairy Tail Final Season): 100 Years Quest adapts the separately named major sequel manga; keep its identity while uniting the original Fairy Tail television runs.",
+      "evidence_urls": [
+        "https://anilist.co/anime/139095",
+        "https://anilist.co/anime/99749"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 113950,
+      "target_media_id": 99424,
+      "relation": "PREQUEL",
+      "source_title": "SSSS.DYNAZENON",
+      "target_title": "SSSS.GRIDMAN",
+      "review_index": 179,
+      "status": "C",
+      "reason": "113950 (SSSS.DYNAZENON) / 99424 (SSSS.GRIDMAN): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/113950",
+        "https://anilist.co/anime/99424"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 16049,
+      "target_media_id": 104462,
+      "relation": "SEQUEL",
+      "source_title": "A Certain Scientific Railgun S",
+      "target_title": "A Certain Scientific Railgun T",
+      "review_index": 180,
+      "status": "A",
+      "reason": "16049 (A Certain Scientific Railgun S) / 104462 (A Certain Scientific Railgun T): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/16049",
+        "https://anilist.co/anime/104462"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 8277,
+      "target_media_id": 15377,
+      "relation": "SEQUEL",
+      "source_title": "Samurai Girls",
+      "target_title": "Samurai Bride",
+      "review_index": 181,
+      "status": "A",
+      "reason": "8277 (Samurai Girls) / 15377 (Samurai Bride): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/8277",
+        "https://anilist.co/anime/15377"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 121176,
+      "target_media_id": 171110,
+      "relation": "SEQUEL",
+      "source_title": "Ascendance of a Bookworm Season 3",
+      "target_title": "Ascendance of a Bookworm: Adopted Daughter of an Archduke",
+      "review_index": 182,
+      "status": "A",
+      "reason": "121176 (Ascendance of a Bookworm Season 3) / 171110 (Ascendance of a Bookworm: Adopted Daughter of an Archduke): Adopted Daughter continues Myne/Rozemyne and the next light-novel part; a part subtitle and studio change do not themselves create a spin-off.",
+      "evidence_urls": [
+        "https://anilist.co/anime/121176",
+        "https://anilist.co/anime/171110"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2605,
+      "target_media_id": 3228,
+      "relation": "SEQUEL",
+      "source_title": "Sayonara, Zetsubou-Sensei",
+      "target_title": "Zoku Sayonara, Zetsubou-Sensei",
+      "review_index": 183,
+      "status": "A",
+      "reason": "2605 (Sayonara, Zetsubou-Sensei) / 3228 (Zoku Sayonara, Zetsubou-Sensei): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2605",
+        "https://anilist.co/anime/3228"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 8410,
+      "target_media_id": 5962,
+      "relation": "PREQUEL",
+      "source_title": "Beyblade: Metal Masters",
+      "target_title": "Beyblade: Metal Fusion",
+      "review_index": 184,
+      "status": "A",
+      "reason": "8410 (Beyblade: Metal Masters) / 5962 (Beyblade: Metal Fusion): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/8410",
+        "https://anilist.co/anime/5962"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 8410,
+      "target_media_id": 10370,
+      "relation": "SEQUEL",
+      "source_title": "Beyblade: Metal Masters",
+      "target_title": "Beyblade: Metal Fury",
+      "review_index": 185,
+      "status": "A",
+      "reason": "8410 (Beyblade: Metal Masters) / 10370 (Beyblade: Metal Fury): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/8410",
+        "https://anilist.co/anime/10370"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 635,
+      "target_media_id": 636,
+      "relation": "SEQUEL",
+      "source_title": "Jubei-chan the Ninja Girl: Secret of the Lovely Eyepatch",
+      "target_title": "Jubei Chan the Ninja Girl 2: The Counterattack of Siberia Yagyu",
+      "review_index": 186,
+      "status": "A",
+      "reason": "635 (Jubei-chan the Ninja Girl: Secret of the Lovely Eyepatch) / 636 (Jubei Chan the Ninja Girl 2: The Counterattack of Siberia Yagyu): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/635",
+        "https://anilist.co/anime/636"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20467,
+      "target_media_id": 20845,
+      "relation": "SEQUEL",
+      "source_title": "Fate/kaleid liner Prisma☆Illya 2wei!",
+      "target_title": "Fate/kaleid liner Prisma☆Illya 2wei! Herz!",
+      "review_index": 187,
+      "status": "A",
+      "reason": "20467 (Fate/kaleid liner Prisma☆Illya 2wei!) / 20845 (Fate/kaleid liner Prisma☆Illya 2wei! Herz!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20467",
+        "https://anilist.co/anime/20845"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 5958,
+      "target_media_id": 8407,
+      "relation": "SEQUEL",
+      "source_title": "Heaven's Lost Property",
+      "target_title": "Heaven's Lost Property: Forte",
+      "review_index": 188,
+      "status": "A",
+      "reason": "5958 (Heaven's Lost Property) / 8407 (Heaven's Lost Property: Forte): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/5958",
+        "https://anilist.co/anime/8407"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 17909,
+      "target_media_id": 97642,
+      "relation": "SEQUEL",
+      "source_title": "The Eccentric Family",
+      "target_title": "The Eccentric Family 2",
+      "review_index": 189,
+      "status": "A",
+      "reason": "17909 (The Eccentric Family) / 97642 (The Eccentric Family 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/17909",
+        "https://anilist.co/anime/97642"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 113470,
+      "target_media_id": 113476,
+      "relation": "SEQUEL",
+      "source_title": "SHOW BY ROCK!! Mashumairesh!!",
+      "target_title": "Show by Rock!! Stars!!",
+      "review_index": 190,
+      "status": "C",
+      "reason": "113470 (SHOW BY ROCK!! Mashumairesh!!) / 113476 (Show by Rock!! Stars!!): Stars is an ensemble crossover presentation rather than the direct Mashumairesh season.",
+      "evidence_urls": [
+        "https://anilist.co/anime/113470",
+        "https://anilist.co/anime/113476"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 113470,
+      "target_media_id": 21476,
+      "relation": "PREQUEL",
+      "source_title": "SHOW BY ROCK!! Mashumairesh!!",
+      "target_title": "Show By Rock!!#",
+      "review_index": 191,
+      "status": "C",
+      "reason": "113470 (SHOW BY ROCK!! Mashumairesh!!) / 21476 (Show By Rock!!#): Mashumairesh introduces Howan's band instead of Cyan's original band; keep the named spin-off series.",
+      "evidence_urls": [
+        "https://anilist.co/anime/113470",
+        "https://anilist.co/anime/21476"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 880,
+      "target_media_id": 50,
+      "relation": "PREQUEL",
+      "source_title": "Oh! My Goddess: Flights of Fancy",
+      "target_title": "Oh! My Goddess (TV)",
+      "review_index": 192,
+      "status": "A",
+      "reason": "880 (Oh! My Goddess: Flights of Fancy) / 50 (Oh! My Goddess (TV)): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/880",
+        "https://anilist.co/anime/50"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 14813,
+      "target_media_id": 20698,
+      "relation": "SEQUEL",
+      "source_title": "My Teen Romantic Comedy SNAFU",
+      "target_title": "My Teen Romantic Comedy SNAFU TOO!",
+      "review_index": 193,
+      "status": "A",
+      "reason": "14813 (My Teen Romantic Comedy SNAFU) / 20698 (My Teen Romantic Comedy SNAFU TOO!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/14813",
+        "https://anilist.co/anime/20698"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 62,
+      "target_media_id": 291,
+      "relation": "SEQUEL",
+      "source_title": "D.C.~Da Capo~",
+      "target_title": "D.C.S.S. ~Da Capo Second Season~",
+      "review_index": 194,
+      "status": "A",
+      "reason": "62 (D.C.~Da Capo~) / 291 (D.C.S.S. ~Da Capo Second Season~): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/62",
+        "https://anilist.co/anime/291"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 394,
+      "target_media_id": 53,
+      "relation": "PREQUEL",
+      "source_title": "Ai Yori Aoshi: Enishi",
+      "target_title": "Ai Yori Aoshi",
+      "review_index": 195,
+      "status": "A",
+      "reason": "394 (Ai Yori Aoshi: Enishi) / 53 (Ai Yori Aoshi): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/394",
+        "https://anilist.co/anime/53"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20850,
+      "target_media_id": 100240,
+      "relation": "SEQUEL",
+      "source_title": "Tokyo Ghoul √A",
+      "target_title": "Tokyo Ghoul:re",
+      "review_index": 196,
+      "status": "C",
+      "reason": "20850 (Tokyo Ghoul √A) / 100240 (Tokyo Ghoul:re): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20850",
+        "https://anilist.co/anime/100240"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 5258,
+      "target_media_id": 19647,
+      "relation": "SEQUEL",
+      "source_title": "Hajime no Ippo: The Fighting! New Challenger",
+      "target_title": "Hajime No Ippo: The Fighting! - Rising -",
+      "review_index": 197,
+      "status": "A",
+      "reason": "5258 (Hajime no Ippo: The Fighting! New Challenger) / 19647 (Hajime No Ippo: The Fighting! - Rising -): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/5258",
+        "https://anilist.co/anime/19647"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20698,
+      "target_media_id": 108489,
+      "relation": "SEQUEL",
+      "source_title": "My Teen Romantic Comedy SNAFU TOO!",
+      "target_title": "My Teen Romantic Comedy SNAFU Climax!",
+      "review_index": 198,
+      "status": "A",
+      "reason": "20698 (My Teen Romantic Comedy SNAFU TOO!) / 108489 (My Teen Romantic Comedy SNAFU Climax!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20698",
+        "https://anilist.co/anime/108489"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 97643,
+      "target_media_id": 21560,
+      "relation": "PREQUEL",
+      "source_title": "Berserk 2",
+      "target_title": "Berserk (2016)",
+      "review_index": 199,
+      "status": "A",
+      "reason": "97643 (Berserk 2) / 21560 (Berserk (2016)): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/97643",
+        "https://anilist.co/anime/21560"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 4196,
+      "target_media_id": 7580,
+      "relation": "SEQUEL",
+      "source_title": "Ikki Tousen: Great Guardians",
+      "target_title": "Ikki Tousen: Xtreme Xecutor",
+      "review_index": 200,
+      "status": "A",
+      "reason": "4196 (Ikki Tousen: Great Guardians) / 7580 (Ikki Tousen: Xtreme Xecutor): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/4196",
+        "https://anilist.co/anime/7580"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 15611,
+      "target_media_id": 20564,
+      "relation": "SEQUEL",
+      "source_title": "Cardfight!! Vanguard Link Joker",
+      "target_title": "Cardfight!! Vanguard Legion Mate",
+      "review_index": 201,
+      "status": "A",
+      "reason": "15611 (Cardfight!! Vanguard Link Joker) / 20564 (Cardfight!! Vanguard Legion Mate): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/15611",
+        "https://anilist.co/anime/20564"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1668,
+      "target_media_id": 1669,
+      "relation": "PREQUEL",
+      "source_title": "Beyblade G Revolution",
+      "target_title": "Beyblade V-Force",
+      "review_index": 202,
+      "status": "A",
+      "reason": "1668 (Beyblade G Revolution) / 1669 (Beyblade V-Force): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1668",
+        "https://anilist.co/anime/1669"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 873,
+      "target_media_id": 298,
+      "relation": "PREQUEL",
+      "source_title": ".hack//Roots",
+      "target_title": ".hack//Legend Of The Twilight",
+      "review_index": 203,
+      "status": "C",
+      "reason": "873 (.hack//Roots) / 298 (.hack//Legend Of The Twilight): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/873",
+        "https://anilist.co/anime/298"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 101004,
+      "target_media_id": 117448,
+      "relation": "SEQUEL",
+      "source_title": "How NOT to Summon a Demon Lord",
+      "target_title": "How NOT to Summon a Demon Lord Ω",
+      "review_index": 204,
+      "status": "A",
+      "reason": "101004 (How NOT to Summon a Demon Lord) / 117448 (How NOT to Summon a Demon Lord Ω): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/101004",
+        "https://anilist.co/anime/117448"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 99569,
+      "target_media_id": 67,
+      "relation": "PREQUEL",
+      "source_title": "Basilisk: The Ouka Ninja Scrolls",
+      "target_title": "Basilisk",
+      "review_index": 205,
+      "status": "C",
+      "reason": "99569 (Basilisk: The Ouka Ninja Scrolls) / 67 (Basilisk): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/99569",
+        "https://anilist.co/anime/67"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21772,
+      "target_media_id": 98473,
+      "relation": "SEQUEL",
+      "source_title": "Lostorage incited WIXOSS",
+      "target_title": "Lostorage conflated WIXOSS",
+      "review_index": 206,
+      "status": "A",
+      "reason": "21772 (Lostorage incited WIXOSS) / 98473 (Lostorage conflated WIXOSS): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21772",
+        "https://anilist.co/anime/98473"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21772,
+      "target_media_id": 20714,
+      "relation": "PREQUEL",
+      "source_title": "Lostorage incited WIXOSS",
+      "target_title": "selector spread WIXOSS",
+      "review_index": 207,
+      "status": "C",
+      "reason": "21772 (Lostorage incited WIXOSS) / 20714 (selector spread WIXOSS): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21772",
+        "https://anilist.co/anime/20714"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 100532,
+      "target_media_id": 21406,
+      "relation": "PREQUEL",
+      "source_title": "Amanchu! ~Advance~",
+      "target_title": "Amanchu!",
+      "review_index": 208,
+      "status": "A",
+      "reason": "100532 (Amanchu! ~Advance~) / 21406 (Amanchu!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/100532",
+        "https://anilist.co/anime/21406"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2789,
+      "target_media_id": 4667,
+      "relation": "SEQUEL",
+      "source_title": "Battle B-Daman",
+      "target_title": "Battle B-Daman: Fire Spirits",
+      "review_index": 209,
+      "status": "A",
+      "reason": "2789 (Battle B-Daman) / 4667 (Battle B-Daman: Fire Spirits): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2789",
+        "https://anilist.co/anime/4667"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 7334,
+      "target_media_id": 5337,
+      "relation": "PREQUEL",
+      "source_title": "Bakugan: Gundalian Invaders",
+      "target_title": "Bakugan: New Vestroia",
+      "review_index": 210,
+      "status": "A",
+      "reason": "7334 (Bakugan: Gundalian Invaders) / 5337 (Bakugan: New Vestroia): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/7334",
+        "https://anilist.co/anime/5337"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21379,
+      "target_media_id": 20845,
+      "relation": "PREQUEL",
+      "source_title": "Fate/kaleid liner Prisma☆Illya 3rei!!",
+      "target_title": "Fate/kaleid liner Prisma☆Illya 2wei! Herz!",
+      "review_index": 211,
+      "status": "A",
+      "reason": "21379 (Fate/kaleid liner Prisma☆Illya 3rei!!) / 20845 (Fate/kaleid liner Prisma☆Illya 2wei! Herz!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21379",
+        "https://anilist.co/anime/20845"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21115,
+      "target_media_id": 10447,
+      "relation": "PREQUEL",
+      "source_title": "Aquarion Logos",
+      "target_title": "Aquarion EVOL",
+      "review_index": 212,
+      "status": "C",
+      "reason": "21115 (Aquarion Logos) / 10447 (Aquarion EVOL): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21115",
+        "https://anilist.co/anime/10447"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21115,
+      "target_media_id": 162921,
+      "relation": "SEQUEL",
+      "source_title": "Aquarion Logos",
+      "target_title": "AQUARION: Myth of Emotions",
+      "review_index": 213,
+      "status": "C",
+      "reason": "21115 (Aquarion Logos) / 162921 (AQUARION: Myth of Emotions): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21115",
+        "https://anilist.co/anime/162921"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21840,
+      "target_media_id": 98574,
+      "relation": "SEQUEL",
+      "source_title": "Hitori no Shita - The Outcast",
+      "target_title": "Hitori no Shita - The Outcast 2",
+      "review_index": 214,
+      "status": "A",
+      "reason": "21840 (Hitori no Shita - The Outcast) / 98574 (Hitori no Shita - The Outcast 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21840",
+        "https://anilist.co/anime/98574"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 127721,
+      "target_media_id": 103110,
+      "relation": "PREQUEL",
+      "source_title": "IDOLiSH7 Third BEAT!",
+      "target_title": "IDOLiSH7 Second BEAT!",
+      "review_index": 215,
+      "status": "A",
+      "reason": "127721 (IDOLiSH7 Third BEAT!) / 103110 (IDOLiSH7 Second BEAT!): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/127721",
+        "https://anilist.co/anime/103110"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 10447,
+      "target_media_id": 478,
+      "relation": "PREQUEL",
+      "source_title": "Aquarion EVOL",
+      "target_title": "Aquarion",
+      "review_index": 216,
+      "status": "C",
+      "reason": "10447 (Aquarion EVOL) / 478 (Aquarion): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/10447",
+        "https://anilist.co/anime/478"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 172019,
+      "target_media_id": 162670,
+      "relation": "PREQUEL",
+      "source_title": "Dr. STONE SCIENCE FUTURE",
+      "target_title": "Dr. STONE New World Part 2",
+      "review_index": 217,
+      "status": "A",
+      "reason": "172019 (Dr. STONE SCIENCE FUTURE) / 162670 (Dr. STONE New World Part 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/172019",
+        "https://anilist.co/anime/162670"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 290,
+      "target_media_id": 396,
+      "relation": "SEQUEL",
+      "source_title": "Crest of the Stars",
+      "target_title": "Banner of the Stars",
+      "review_index": 218,
+      "status": "A",
+      "reason": "290 (Crest of the Stars) / 396 (Banner of the Stars): Crest/Banner continue Jinto and Lafiel's same adaptation journey; Banner's later parts are not independent lead series.",
+      "evidence_urls": [
+        "https://anilist.co/anime/290",
+        "https://anilist.co/anime/396"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 3467,
+      "target_media_id": 6023,
+      "relation": "SEQUEL",
+      "source_title": "Haruka Nogizaka's Secret",
+      "target_title": "Haruka Nogizaka's Secret: Purezza",
+      "review_index": 219,
+      "status": "A",
+      "reason": "3467 (Haruka Nogizaka's Secret) / 6023 (Haruka Nogizaka's Secret: Purezza): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/3467",
+        "https://anilist.co/anime/6023"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21249,
+      "target_media_id": 21540,
+      "relation": "SEQUEL",
+      "source_title": "Concrete Revolutio",
+      "target_title": "Concrete Revolutio: THE LAST SONG",
+      "review_index": 220,
+      "status": "A",
+      "reason": "21249 (Concrete Revolutio) / 21540 (Concrete Revolutio: THE LAST SONG): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21249",
+        "https://anilist.co/anime/21540"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21746,
+      "target_media_id": 21748,
+      "relation": "SEQUEL",
+      "source_title": "FLCL Progressive",
+      "target_title": "FLCL Alternative",
+      "review_index": 221,
+      "status": "C",
+      "reason": "21746 (FLCL Progressive) / 21748 (FLCL Alternative): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21746",
+        "https://anilist.co/anime/21748"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 11385,
+      "target_media_id": 10444,
+      "relation": "PREQUEL",
+      "source_title": "Digimon Xros Wars: The Young Hunters Who Leapt Through Time",
+      "target_title": "Digimon Xros Wars: The Evil Death Generals and the Seven Kingdoms",
+      "review_index": 222,
+      "status": "C",
+      "reason": "11385 (Digimon Xros Wars: The Young Hunters Who Leapt Through Time) / 10444 (Digimon Xros Wars: The Evil Death Generals and the Seven Kingdoms): Young Hunters follows Tagiru as a new main protagonist arc; retain its independently named successor story.",
+      "evidence_urls": [
+        "https://anilist.co/anime/11385",
+        "https://anilist.co/anime/10444"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 10030,
+      "target_media_id": 12365,
+      "relation": "SEQUEL",
+      "source_title": "Bakuman. 2",
+      "target_title": "Bakuman. 3",
+      "review_index": 223,
+      "status": "A",
+      "reason": "10030 (Bakuman. 2) / 12365 (Bakuman. 3): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/10030",
+        "https://anilist.co/anime/12365"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 4028,
+      "target_media_id": 1172,
+      "relation": "PREQUEL",
+      "source_title": "The Slayers Revolution",
+      "target_title": "The Slayers Try",
+      "review_index": 224,
+      "status": "A",
+      "reason": "4028 (The Slayers Revolution) / 1172 (The Slayers Try): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/4028",
+        "https://anilist.co/anime/1172"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 4028,
+      "target_media_id": 5233,
+      "relation": "SEQUEL",
+      "source_title": "The Slayers Revolution",
+      "target_title": "The Slayers Evolution-R",
+      "review_index": 225,
+      "status": "A",
+      "reason": "4028 (The Slayers Revolution) / 5233 (The Slayers Evolution-R): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/4028",
+        "https://anilist.co/anime/5233"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 109403,
+      "target_media_id": 20694,
+      "relation": "PREQUEL",
+      "source_title": "Non Non Biyori Nonstop",
+      "target_title": "Non Non Biyori Repeat",
+      "review_index": 226,
+      "status": "A",
+      "reason": "109403 (Non Non Biyori Nonstop) / 20694 (Non Non Biyori Repeat): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/109403",
+        "https://anilist.co/anime/20694"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21560,
+      "target_media_id": 155011,
+      "relation": "PREQUEL",
+      "source_title": "Berserk (2016)",
+      "target_title": "Berserk: The Golden Age Arc - Memorial Edition",
+      "review_index": 227,
+      "status": "C",
+      "reason": "21560 (Berserk (2016)) / 155011 (Berserk: The Golden Age Arc - Memorial Edition): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21560",
+        "https://anilist.co/anime/155011"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 98521,
+      "target_media_id": 21755,
+      "relation": "PREQUEL",
+      "source_title": "Time Bokan: The Villains' Strike Back",
+      "target_title": "Time Bokan 24",
+      "review_index": 228,
+      "status": "A",
+      "reason": "98521 (Time Bokan: The Villains' Strike Back) / 21755 (Time Bokan 24): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/98521",
+        "https://anilist.co/anime/21755"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 11741,
+      "target_media_id": 356,
+      "relation": "SEQUEL",
+      "source_title": "Fate/Zero Season 2",
+      "target_title": "Fate/stay night",
+      "review_index": 229,
+      "status": "C",
+      "reason": "11741 (Fate/Zero Season 2) / 356 (Fate/stay night): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/11741",
+        "https://anilist.co/anime/356"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21471,
+      "target_media_id": 21740,
+      "relation": "SEQUEL",
+      "source_title": "BBK/BRNK",
+      "target_title": "BBK/BRNK The Gentle Giants of the Galaxy",
+      "review_index": 230,
+      "status": "A",
+      "reason": "21471 (BBK/BRNK) / 21740 (BBK/BRNK The Gentle Giants of the Galaxy): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21471",
+        "https://anilist.co/anime/21740"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21748,
+      "target_media_id": 146472,
+      "relation": "SEQUEL",
+      "source_title": "FLCL Alternative",
+      "target_title": "FLCL: Grunge",
+      "review_index": 231,
+      "status": "C",
+      "reason": "21748 (FLCL Alternative) / 146472 (FLCL: Grunge): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21748",
+        "https://anilist.co/anime/146472"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21748,
+      "target_media_id": 146473,
+      "relation": "SEQUEL",
+      "source_title": "FLCL Alternative",
+      "target_title": "FLCL: Shoegaze",
+      "review_index": 232,
+      "status": "C",
+      "reason": "21748 (FLCL Alternative) / 146473 (FLCL: Shoegaze): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21748",
+        "https://anilist.co/anime/146473"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 100784,
+      "target_media_id": 99714,
+      "relation": "PREQUEL",
+      "source_title": "Gintama.: Silver Soul Arc",
+      "target_title": "Gintama.: Slip Arc",
+      "review_index": 233,
+      "status": "A",
+      "reason": "100784 (Gintama.: Silver Soul Arc) / 99714 (Gintama.: Slip Arc): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/100784",
+        "https://anilist.co/anime/99714"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2389,
+      "target_media_id": 6374,
+      "relation": "SEQUEL",
+      "source_title": "Gatchaman",
+      "target_title": "Eagle Riders",
+      "review_index": 234,
+      "status": "A",
+      "reason": "2389 (Gatchaman) / 6374 (Eagle Riders): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2389",
+        "https://anilist.co/anime/6374"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 132525,
+      "target_media_id": 132526,
+      "relation": "SEQUEL",
+      "source_title": "BUILD-DIVIDE -#000000- CODE BLACK",
+      "target_title": "BUILD-DIVIDE -#​FFFFFF- CODE WHITE",
+      "review_index": 235,
+      "status": "A",
+      "reason": "132525 (BUILD-DIVIDE -#000000- CODE BLACK) / 132526 (BUILD-DIVIDE -#​FFFFFF- CODE WHITE): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/132525",
+        "https://anilist.co/anime/132526"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 971,
+      "target_media_id": 21830,
+      "relation": "PREQUEL",
+      "source_title": "Astro Boy (2003)",
+      "target_title": "Atom: The Beginning",
+      "review_index": 236,
+      "status": "C",
+      "reason": "971 (Astro Boy (2003)) / 21830 (Atom: The Beginning): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/971",
+        "https://anilist.co/anime/21830"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 535,
+      "target_media_id": 1172,
+      "relation": "SEQUEL",
+      "source_title": "The Slayers Next",
+      "target_title": "The Slayers Try",
+      "review_index": 237,
+      "status": "A",
+      "reason": "535 (The Slayers Next) / 1172 (The Slayers Try): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/535",
+        "https://anilist.co/anime/1172"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 87476,
+      "target_media_id": 99733,
+      "relation": "SEQUEL",
+      "source_title": "Cardfight!! Vanguard G Next",
+      "target_title": "Cardfight!! Vanguard G: Z",
+      "review_index": 238,
+      "status": "A",
+      "reason": "87476 (Cardfight!! Vanguard G Next) / 99733 (Cardfight!! Vanguard G: Z): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/87476",
+        "https://anilist.co/anime/99733"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 146885,
+      "target_media_id": 131096,
+      "relation": "PREQUEL",
+      "source_title": "Bakugan: Evolutions",
+      "target_title": "Bakugan: Geogan Rising",
+      "review_index": 239,
+      "status": "A",
+      "reason": "146885 (Bakugan: Evolutions) / 131096 (Bakugan: Geogan Rising): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/146885",
+        "https://anilist.co/anime/131096"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21830,
+      "target_media_id": 2747,
+      "relation": "SEQUEL",
+      "source_title": "Atom: The Beginning",
+      "target_title": "Astro Boy",
+      "review_index": 240,
+      "status": "C",
+      "reason": "21830 (Atom: The Beginning) / 2747 (Astro Boy): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21830",
+        "https://anilist.co/anime/2747"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 21830,
+      "target_media_id": 3044,
+      "relation": "SEQUEL",
+      "source_title": "Atom: The Beginning",
+      "target_title": "Astro Boy (1980)",
+      "review_index": 241,
+      "status": "C",
+      "reason": "21830 (Atom: The Beginning) / 3044 (Astro Boy (1980)): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/21830",
+        "https://anilist.co/anime/3044"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 100773,
+      "target_media_id": 109963,
+      "relation": "SEQUEL",
+      "source_title": "Food Wars! The Third Plate: Totsuki Train Arc",
+      "target_title": "Food Wars! The Fourth Plate",
+      "review_index": 242,
+      "status": "A",
+      "reason": "100773 (Food Wars! The Third Plate: Totsuki Train Arc) / 109963 (Food Wars! The Fourth Plate): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/100773",
+        "https://anilist.co/anime/109963"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 289,
+      "target_media_id": 706,
+      "relation": "SEQUEL",
+      "source_title": "Comic Party",
+      "target_title": "Comic Party Revolution",
+      "review_index": 243,
+      "status": "A",
+      "reason": "289 (Comic Party) / 706 (Comic Party Revolution): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/289",
+        "https://anilist.co/anime/706"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 100791,
+      "target_media_id": 20800,
+      "relation": "SEQUEL",
+      "source_title": "Yuki Yuna is a Hero: The Washio Sumi Chapter",
+      "target_title": "Yuki Yuna is a Hero",
+      "review_index": 244,
+      "status": "C",
+      "reason": "100791 (Yuki Yuna is a Hero: The Washio Sumi Chapter) / 20800 (Yuki Yuna is a Hero): Washio Sumi Chapter follows the earlier Washio/Sonoko/Gin team as its own named prequel presentation.",
+      "evidence_urls": [
+        "https://anilist.co/anime/100791",
+        "https://anilist.co/anime/20800"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20972,
+      "target_media_id": 21733,
+      "relation": "SEQUEL",
+      "source_title": "Showa Genroku Rakugo Shinju",
+      "target_title": "Descending Stories: Showa Genroku Rakugo Shinju",
+      "review_index": 245,
+      "status": "A",
+      "reason": "20972 (Showa Genroku Rakugo Shinju) / 21733 (Descending Stories: Showa Genroku Rakugo Shinju): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20972",
+        "https://anilist.co/anime/21733"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20652,
+      "target_media_id": 20879,
+      "relation": "SEQUEL",
+      "source_title": "Durarara!! X2",
+      "target_title": "Durarara!! X2 The Second Arc",
+      "review_index": 246,
+      "status": "A",
+      "reason": "20652 (Durarara!! X2) / 20879 (Durarara!! X2 The Second Arc): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20652",
+        "https://anilist.co/anime/20879"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 4814,
+      "target_media_id": 20796,
+      "relation": "SEQUEL",
+      "source_title": "Junjo Romantica 2",
+      "target_title": "Junjou Romantica 3",
+      "review_index": 247,
+      "status": "A",
+      "reason": "4814 (Junjo Romantica 2) / 20796 (Junjou Romantica 3): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/4814",
+        "https://anilist.co/anime/20796"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 98229,
+      "target_media_id": 21652,
+      "relation": "PREQUEL",
+      "source_title": "Future Card Buddyfight X",
+      "target_title": "Future Card Buddyfight Triple D",
+      "review_index": 248,
+      "status": "A",
+      "reason": "98229 (Future Card Buddyfight X) / 21652 (Future Card Buddyfight Triple D): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/98229",
+        "https://anilist.co/anime/21652"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 20879,
+      "target_media_id": 20880,
+      "relation": "SEQUEL",
+      "source_title": "Durarara!! X2 The Second Arc",
+      "target_title": "Durarara!! X2 The Third Arc",
+      "review_index": 249,
+      "status": "A",
+      "reason": "20879 (Durarara!! X2 The Second Arc) / 20880 (Durarara!! X2 The Third Arc): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/20879",
+        "https://anilist.co/anime/20880"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 146473,
+      "target_media_id": 146472,
+      "relation": "PREQUEL",
+      "source_title": "FLCL: Shoegaze",
+      "target_title": "FLCL: Grunge",
+      "review_index": 250,
+      "status": "C",
+      "reason": "146473 (FLCL: Shoegaze) / 146472 (FLCL: Grunge): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/146473",
+        "https://anilist.co/anime/146472"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 2084,
+      "target_media_id": 2087,
+      "relation": "SEQUEL",
+      "source_title": "NG Knight Lamune & 40",
+      "target_title": "VS Knight Lamune & 40 Fire",
+      "review_index": 251,
+      "status": "C",
+      "reason": "2084 (NG Knight Lamune & 40) / 2087 (VS Knight Lamune & 40 Fire): Distinct protagonist generation, universe, remake, major named sequel or independent spin-off: retain the two independently identifiable productions.",
+      "evidence_urls": [
+        "https://anilist.co/anime/2084",
+        "https://anilist.co/anime/2087"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 98289,
+      "target_media_id": 101115,
+      "relation": "SEQUEL",
+      "source_title": "Beyblade Burst Evolution",
+      "target_title": "Beyblade Burst Turbo",
+      "review_index": 252,
+      "status": "A",
+      "reason": "98289 (Beyblade Burst Evolution) / 101115 (Beyblade Burst Turbo): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/98289",
+        "https://anilist.co/anime/101115"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 182920,
+      "target_media_id": 165681,
+      "relation": "PREQUEL",
+      "source_title": "CARDFIGHT!! VANGUARD Divinez DELUXE Arc",
+      "target_title": "CARDFIGHT!! VANGUARD Divinez Season 2",
+      "review_index": 253,
+      "status": "A",
+      "reason": "182920 (CARDFIGHT!! VANGUARD Divinez DELUXE Arc) / 165681 (CARDFIGHT!! VANGUARD Divinez Season 2): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/182920",
+        "https://anilist.co/anime/165681"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 1425,
+      "target_media_id": 1426,
+      "relation": "SEQUEL",
+      "source_title": "Lupin the 3rd Part 2",
+      "target_title": "Lupin the Third Part 3",
+      "review_index": 254,
+      "status": "A",
+      "reason": "1425 (Lupin the 3rd Part 2) / 1426 (Lupin the Third Part 3): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/1425",
+        "https://anilist.co/anime/1426"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 131096,
+      "target_media_id": 116415,
+      "relation": "PREQUEL",
+      "source_title": "Bakugan: Geogan Rising",
+      "target_title": "Bakugan Armored Alliance",
+      "review_index": 255,
+      "status": "A",
+      "reason": "131096 (Bakugan: Geogan Rising) / 116415 (Bakugan Armored Alliance): Direct named season/part or same-lead story continuation verified against these exact AniList identities and their PREQUEL/SEQUEL relation; unite this adaptation, without traversing other franchise branches.",
+      "evidence_urls": [
+        "https://anilist.co/anime/131096",
+        "https://anilist.co/anime/116415"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    },
+    {
+      "source_media_id": 111144,
+      "target_media_id": 101594,
+      "relation": "SEQUEL",
+      "source_title": "Cardfight!! Vanguard Shinemon Arc",
+      "target_title": "CARDFIGHT!! VANGUARD",
+      "review_index": 256,
+      "status": "C",
+      "reason": "111144 (Cardfight!! Vanguard Shinemon Arc) / 101594 (CARDFIGHT!! VANGUARD): Shinemon Arc centres on Shinemon in a separately named prequel story; the Aichi 2018 remake has its own identity.",
+      "evidence_urls": [
+        "https://anilist.co/anime/111144",
+        "https://anilist.co/anime/101594"
+      ],
+      "editorial_approved": false,
+      "production_approved": false
+    }
+  ]
+}

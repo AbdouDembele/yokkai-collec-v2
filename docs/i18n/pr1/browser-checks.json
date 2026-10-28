@@ -1,0 +1,278 @@
+{
+  "responsive": [
+    {
+      "route": "/login",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320,
+      "clippedButtons": []
+    },
+    {
+      "route": "/login",
+      "width": 375,
+      "viewport": 375,
+      "scroll": 375,
+      "clippedButtons": []
+    },
+    {
+      "route": "/login",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768,
+      "clippedButtons": []
+    },
+    {
+      "route": "/login",
+      "width": 1024,
+      "viewport": 1024,
+      "scroll": 1024,
+      "clippedButtons": []
+    },
+    {
+      "route": "/login",
+      "width": 1440,
+      "viewport": 1440,
+      "scroll": 1440,
+      "clippedButtons": []
+    },
+    {
+      "route": "/signup",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320,
+      "clippedButtons": []
+    },
+    {
+      "route": "/signup",
+      "width": 375,
+      "viewport": 375,
+      "scroll": 375,
+      "clippedButtons": []
+    },
+    {
+      "route": "/signup",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768,
+      "clippedButtons": []
+    },
+    {
+      "route": "/signup",
+      "width": 1024,
+      "viewport": 1024,
+      "scroll": 1024,
+      "clippedButtons": []
+    },
+    {
+      "route": "/signup",
+      "width": 1440,
+      "viewport": 1440,
+      "scroll": 1440,
+      "clippedButtons": []
+    },
+    {
+      "route": "/forgot-password",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320,
+      "clippedButtons": []
+    },
+    {
+      "route": "/forgot-password",
+      "width": 375,
+      "viewport": 375,
+      "scroll": 375,
+      "clippedButtons": []
+    },
+    {
+      "route": "/forgot-password",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768,
+      "clippedButtons": []
+    },
+    {
+      "route": "/forgot-password",
+      "width": 1024,
+      "viewport": 1024,
+      "scroll": 1024,
+      "clippedButtons": []
+    },
+    {
+      "route": "/forgot-password",
+      "width": 1440,
+      "viewport": 1440,
+      "scroll": 1440,
+      "clippedButtons": []
+    },
+    {
+      "route": "/reset-password",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320,
+      "clippedButtons": []
+    },
+    {
+      "route": "/reset-password",
+      "width": 375,
+      "viewport": 375,
+      "scroll": 375,
+      "clippedButtons": []
+    },
+    {
+      "route": "/reset-password",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768,
+      "clippedButtons": []
+    },
+    {
+      "route": "/reset-password",
+      "width": 1024,
+      "viewport": 1024,
+      "scroll": 1024,
+      "clippedButtons": []
+    },
+    {
+      "route": "/reset-password",
+      "width": 1440,
+      "viewport": 1440,
+      "scroll": 1440,
+      "clippedButtons": []
+    },
+    {
+      "route": "/account-deleted",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320,
+      "clippedButtons": []
+    },
+    {
+      "route": "/account-deleted",
+      "width": 375,
+      "viewport": 375,
+      "scroll": 375,
+      "clippedButtons": []
+    },
+    {
+      "route": "/account-deleted",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768,
+      "clippedButtons": []
+    },
+    {
+      "route": "/account-deleted",
+      "width": 1024,
+      "viewport": 1024,
+      "scroll": 1024,
+      "clippedButtons": []
+    },
+    {
+      "route": "/account-deleted",
+      "width": 1440,
+      "viewport": 1440,
+      "scroll": 1440,
+      "clippedButtons": []
+    },
+    {
+      "route": "/missing-i18n-proof",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320,
+      "clippedButtons": []
+    },
+    {
+      "route": "/missing-i18n-proof",
+      "width": 375,
+      "viewport": 375,
+      "scroll": 375,
+      "clippedButtons": []
+    },
+    {
+      "route": "/missing-i18n-proof",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768,
+      "clippedButtons": []
+    },
+    {
+      "route": "/missing-i18n-proof",
+      "width": 1024,
+      "viewport": 1024,
+      "scroll": 1024,
+      "clippedButtons": []
+    },
+    {
+      "route": "/missing-i18n-proof",
+      "width": 1440,
+      "viewport": 1440,
+      "scroll": 1440,
+      "clippedButtons": []
+    },
+    {
+      "route": "/design-system/home-preview",
+      "width": 320,
+      "viewport": 320,
+      "scroll": 320,
+      "clippedButtons": []
+    },
+    {
+      "route": "/design-system/home-preview",
+      "width": 375,
+      "viewport": 375,
+      "scroll": 375,
+      "clippedButtons": []
+    },
+    {
+      "route": "/design-system/home-preview",
+      "width": 768,
+      "viewport": 768,
+      "scroll": 768,
+      "clippedButtons": []
+    },
+    {
+      "route": "/design-system/home-preview",
+      "width": 1024,
+      "viewport": 1024,
+      "scroll": 1024,
+      "clippedButtons": []
+    },
+    {
+      "route": "/design-system/home-preview",
+      "width": 1440,
+      "viewport": 1440,
+      "scroll": 1440,
+      "clippedButtons": []
+    }
+  ],
+  "errors": [],
+  "checks": {
+    "firstHtmlFrench": true,
+    "cookie": {
+      "value": "v1%3Aauto%3Afr%3Anew",
+      "httpOnly": true,
+      "sameSite": "Lax",
+      "maxAgeDays": 365
+    },
+    "bannerDismissedAfterReload": true,
+    "switchWithoutReloadAndWithInputs": true,
+    "compactAccessibleAuthSelect": {
+      "x": 257,
+      "y": 15.5,
+      "width": 102,
+      "height": 44
+    },
+    "homeLatestFrench": true,
+    "countryUntrusted": true,
+    "browserEnglishWins": true,
+    "flagOffIgnoresFrenchCookieAndBrowser": true
+  },
+  "englishUiResiduals": [],
+  "zoom200": {
+    "method": "1440 px screen, 720 CSS px at 2x",
+    "viewport": 720,
+    "scroll": 720
+  },
+  "overflows": []
+}

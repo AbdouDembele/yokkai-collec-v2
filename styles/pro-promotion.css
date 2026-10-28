@@ -1,0 +1,201 @@
+.yk-pro-promo {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 24px;
+  width: min(calc(100% - 32px), 1192px);
+  min-width: 0;
+  margin: 24px auto 0;
+  padding: 24px 60px 24px 26px;
+  overflow: clip;
+  border: 1px solid #365072;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 0 50%, #1d38565c, transparent 55%),
+    linear-gradient(115deg, #0d1828, #080d18 76%);
+  box-shadow:
+    inset 0 1px #c9deff0d,
+    0 12px 36px #0003;
+  color: #eef4ff;
+}
+.yk-pro-promo::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0 0 0 65%;
+  background: repeating-linear-gradient(
+    125deg,
+    transparent 0 28px,
+    #91bbff07 29px 30px
+  );
+  mask-image: linear-gradient(90deg, transparent, #000);
+  pointer-events: none;
+}
+.yk-pro-promo-emblem {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 72px;
+  border: 1px solid #a9ccff45;
+  border-radius: 15px;
+  background: linear-gradient(145deg, #33527666, #0a142366);
+  color: #c4dfff;
+  box-shadow:
+    inset 0 1px #eff7ff20,
+    0 0 28px #8abdff14;
+  transform: rotate(-7deg);
+}
+.yk-pro-promo-emblem svg {
+  width: 42px;
+  height: 42px;
+}
+.yk-pro-promo-copy {
+  min-width: 0;
+}
+.yk-pro-promo-eyebrow {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 9px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #95abc7;
+}
+.yk-pro-promo-eyebrow span {
+  padding: 4px 7px;
+  border: 1px solid #aacfff38;
+  border-radius: 5px;
+  background: #abcfff0a;
+  color: #c8e0ff;
+}
+.yk-pro-promo h2 {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: clamp(19px, 2vw, 25px);
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.yk-pro-promo h2 span {
+  color: #b9d7ff;
+}
+.yk-pro-promo-description {
+  margin-top: 7px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #b4c4d9;
+}
+.yk-pro-promo ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 17px;
+  margin-top: 11px;
+  padding: 0;
+  list-style: none;
+}
+.yk-pro-promo li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #c8d7eb;
+  font-size: 10px;
+}
+.yk-pro-promo li::before {
+  content: "✦";
+  color: #99bceb;
+  font-size: 8px;
+}
+.yk-pro-promo-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  min-height: 44px;
+  padding: 11px 20px;
+  border: 1px solid #c2dcff;
+  border-radius: 10px;
+  background: linear-gradient(110deg, #d3e5ff, #aacbf7);
+  color: #0a1729;
+  font-size: 12px;
+  font-weight: 750;
+  white-space: nowrap;
+  box-shadow: 0 5px 22px #8cbcff1c;
+  transition:
+    background 150ms,
+    box-shadow 150ms;
+}
+.yk-pro-promo-link:hover {
+  background: #e4efff;
+  box-shadow: 0 5px 26px #8cbcff33;
+}
+.yk-pro-promo-dismiss {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  color: #9fb3ce;
+}
+.yk-pro-promo-dismiss:hover {
+  background: #b9d4ff12;
+  color: #eef4ff;
+}
+.yk-pro-promo :is(a, button):focus-visible {
+  outline: 2px solid #e2eeff;
+  outline-offset: 4px;
+}
+@media (min-width: 640px) {
+  .yk-pro-promo {
+    width: min(calc(100% - 56px), 1192px);
+  }
+}
+.yk-pro-promo[data-page="packs"] {
+  width: min(calc(100% - 48px), 1104px);
+}
+@media (max-width: 760px) {
+  .yk-pro-promo {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 18px;
+    padding: 20px 44px 20px 20px;
+  }
+  .yk-pro-promo-emblem {
+    display: none;
+  }
+  .yk-pro-promo-eyebrow {
+    font-size: 8px;
+  }
+  .yk-pro-promo-description {
+    font-size: 11px;
+  }
+}
+@media (max-width: 520px) {
+  .yk-pro-promo {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  .yk-pro-promo-eyebrow {
+    max-width: 235px;
+  }
+  .yk-pro-promo h2 {
+    font-size: 21px;
+  }
+  .yk-pro-promo-link {
+    justify-self: start;
+    gap: 30px;
+  }
+  .yk-pro-promo li {
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yk-pro-promo-link {
+    transition: none;
+  }
+}

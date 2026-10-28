@@ -1,0 +1,16 @@
+{
+  "20260928000000": {
+    "name": "discard_collection_card_balance_skipped_obsolete",
+    "justification": "Marqueur historique observé dans le registre après la restauration auto-hébergée du 26/09 (origine exacte non établie). La RPC de destruction et crédit atomiques est remplacée par 20260928000001_self_contained_collection_discard.sql (commit 3226fa5), puis 20261001000002_booster_destruction_estimates.sql. Accepter uniquement ce nom, sans modifier le registre."
+  },
+  "20261007000004": {
+    "name": null,
+    "justification": "Nom historique NULL ; les SELECT du 09/10/2026 confirment l’absence des cartes Kingdom ciblées. Accepter ce nom uniquement pour cette version, sans modifier le registre ni rejouer la preuve lors des déploiements.",
+    "proof": "migration-registry-proofs-2026-10-09.sql"
+  },
+  "20261007000005": {
+    "name": null,
+    "justification": "Nom historique NULL ; les SELECT du 09/10/2026 confirment la suppression des cartes Dragon Ball ciblées, la normalisation de franchise et les 42 noms attendus. Accepter ce nom uniquement pour cette version, sans modifier le registre ni rejouer la preuve lors des déploiements.",
+    "proof": "migration-registry-proofs-2026-10-09.sql"
+  }
+}

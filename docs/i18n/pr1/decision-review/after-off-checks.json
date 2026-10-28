@@ -1,0 +1,428 @@
+[
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 1440,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "18px",
+        "textWidth": 128.3658575439453,
+        "available": 103,
+        "scroll": 136,
+        "client": 119,
+        "box": {
+          "x": 315.37054443359375,
+          "y": 244.64955139160156,
+          "width": 130.8526611328125,
+          "height": 77.20091247558594
+        },
+        "rangeFitsStamp": false
+      },
+      {
+        "text": "LOST",
+        "fontSize": "18px",
+        "textWidth": 55.53979553222656,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "box": {
+          "x": 484.96429443359375,
+          "y": 244.64955139160156,
+          "width": 130.8526611328125,
+          "height": 77.20091247558594
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "18px",
+        "textWidth": 55.53979553222656,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "box": {
+          "x": 654.558349609375,
+          "y": 244.66314697265625,
+          "width": 130.86767578125,
+          "height": 77.2049560546875
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "18px",
+        "textWidth": 55.53979553222656,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "box": {
+          "x": 993.761474609375,
+          "y": 244.66314697265625,
+          "width": 130.86767578125,
+          "height": 77.2049560546875
+        },
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 375,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "box": {
+          "x": 9.105838775634766,
+          "y": 183.85055541992188,
+          "width": 100.11643981933594,
+          "height": 56.86138916015625
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "box": {
+          "x": 137.4339599609375,
+          "y": 183.85055541992188,
+          "width": 100.116455078125,
+          "height": 56.86138916015625
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "box": {
+          "x": 265.7623596191406,
+          "y": 183.86415100097656,
+          "width": 100.13153076171875,
+          "height": 56.865447998046875
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "box": {
+          "x": 201.6058349609375,
+          "y": 469.5224304199219,
+          "width": 100.116455078125,
+          "height": 56.861419677734375
+        },
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 320,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "box": {
+          "x": 7.027748107910156,
+          "y": 174.21798706054688,
+          "width": 85.94450378417969,
+          "height": 53.06402587890625
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "box": {
+          "x": 117.02774810791016,
+          "y": 174.21798706054688,
+          "width": 85.94451141357422,
+          "height": 53.06402587890625
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "box": {
+          "x": 227.02774047851562,
+          "y": 174.21798706054688,
+          "width": 85.94451904296875,
+          "height": 53.06402587890625
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "box": {
+          "x": 172.02774047851562,
+          "y": 434.2179870605469,
+          "width": 85.94451904296875,
+          "height": 53.06402587890625
+        },
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 768,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "11.52px",
+        "textWidth": 82.58921352539062,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "box": {
+          "x": 11.174666404724121,
+          "y": 237.74563598632812,
+          "width": 118.44754028320312,
+          "height": 65.14938354492188
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "11.52px",
+        "textWidth": 35.7391947265625,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "box": {
+          "x": 167.97154235839844,
+          "y": 237.74563598632812,
+          "width": 118.44752502441406,
+          "height": 65.14938354492188
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "11.52px",
+        "textWidth": 35.7391947265625,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "box": {
+          "x": 324.7684020996094,
+          "y": 237.74563598632812,
+          "width": 118.44754028320312,
+          "height": 65.14938354492188
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "11.52px",
+        "textWidth": 35.7391947265625,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "box": {
+          "x": 638.3624267578125,
+          "y": 237.7592315673828,
+          "width": 118.462646484375,
+          "height": 65.15342712402344
+        },
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 1024,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "15.36px",
+        "textWidth": 109.93009333496093,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "box": {
+          "x": 107.8841552734375,
+          "y": 244.58193969726562,
+          "width": 129.825439453125,
+          "height": 73.36740112304688
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "15.36px",
+        "textWidth": 47.56594575195312,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "box": {
+          "x": 277.4779052734375,
+          "y": 244.58193969726562,
+          "width": 129.825439453125,
+          "height": 73.36740112304688
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "15.36px",
+        "textWidth": 47.56594575195312,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "box": {
+          "x": 447.0719299316406,
+          "y": 244.5955352783203,
+          "width": 129.84054565429688,
+          "height": 73.37144470214844
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "15.36px",
+        "textWidth": 47.56594575195312,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "box": {
+          "x": 786.2750244140625,
+          "y": 244.5955352783203,
+          "width": 129.840576171875,
+          "height": 73.37144470214844
+        },
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 720,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "10.8px",
+        "textWidth": 77.42741247558594,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "box": {
+          "x": 10.214729309082031,
+          "y": 232.67320251464844,
+          "width": 110.75804138183594,
+          "height": 62.12232971191406
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "10.8px",
+        "textWidth": 33.50548742675781,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "box": {
+          "x": 157.40249633789062,
+          "y": 232.67117309570312,
+          "width": 110.77313232421875,
+          "height": 62.12640380859375
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "10.8px",
+        "textWidth": 33.50548742675781,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "box": {
+          "x": 304.6056213378906,
+          "y": 232.67117309570312,
+          "width": 110.77313232421875,
+          "height": 62.12640380859375
+        },
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "10.8px",
+        "textWidth": 33.50548742675781,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "box": {
+          "x": 599.0115966796875,
+          "y": 232.67320251464844,
+          "width": 110.758056640625,
+          "height": 62.12232971191406
+        },
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  }
+]

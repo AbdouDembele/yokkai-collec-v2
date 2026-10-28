@@ -1,0 +1,737 @@
+[
+  {
+    "key": "metadata.signInToYokkaiCollecToExploreYour",
+    "english": "Sign in to Yokkai Collec’ to explore your collection, open packs, and trade cards.",
+    "french": "Connectez-vous à Yokkai Collec’ pour retrouver votre collection, ouvrir vos packs et échanger vos cartes.",
+    "file": "app/(auth)/connexion/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.yourPasswordHasBeenUpdatedYouCanNowSignIn",
+    "english": "Your password has been updated. You can now sign in.",
+    "french": "Ton mot de passe a été modifié. Tu peux maintenant te connecter.",
+    "file": "app/(auth)/connexion/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "metadata.createYourYokkaiCollecAccountAndStartCollecting",
+    "english": "Create your Yokkai Collec’ account and start collecting your favorite characters with your first packs.",
+    "french": "Créez votre compte Yokkai Collec’ et commencez à collectionner vos personnages préférés avec vos premiers packs.",
+    "file": "app/(auth)/inscription/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.yourAdventureAwaits",
+    "english": "Your adventure awaits",
+    "french": "Entre dans la légende",
+    "file": "app/(auth)/inscription/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.oneUsernameOneFirstCardLetFateTakeCareOf",
+    "english": "One username. One first card. Let fate take care of the rest.",
+    "french": "Un pseudo. Une première carte. Le reste appartient au destin.",
+    "file": "app/(auth)/inscription/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.yokkaiCollecANewDiscoveryInEveryCard",
+    "english": "Yokkai Collec’ · A new discovery in every card.",
+    "french": "Yokkai Collec’ · À chaque carte, une découverte.",
+    "file": "app/(auth)/layout.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.resetYourPassword",
+    "english": "Reset your password",
+    "french": "Réinitialise ton mot de passe",
+    "file": "app/(auth)/mot-de-passe-oublie/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.enterYourEmailAddressToReceiveASecureResetLink",
+    "english": "Enter your email address to receive a secure reset link.",
+    "french": "Indique ton adresse email pour recevoir un lien sécurisé.",
+    "file": "app/(auth)/mot-de-passe-oublie/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.usernameTaken",
+    "english": "That username is already taken. Try another one.",
+    "french": "Ce pseudo est déjà pris, essaie-en un autre.",
+    "file": "app/auth/actions.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.usernameTaken",
+    "english": "That username is already taken. Try another one.",
+    "french": "Ce pseudo est déjà pris, essaie-en un autre.",
+    "file": "app/auth/actions.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.thisPasswordResetLinkIsInvalidOrHasExpired",
+    "english": "This password reset link is invalid or has expired.",
+    "french": "Ce lien de réinitialisation est invalide ou a expiré.",
+    "file": "app/auth/actions.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.resetInvalid",
+    "english": "This password reset link is invalid or has expired.",
+    "french": "Ce lien de réinitialisation est invalide ou a expiré.",
+    "file": "app/auth/actions.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.sessionExpired",
+    "english": "Your session has expired. Sign in again and retry.",
+    "french": "Votre session a expiré. Reconnectez-vous puis réessayez.",
+    "file": "app/auth/actions.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.signOutFailed",
+    "english": "Couldn't sign out. Please try again.",
+    "french": "La déconnexion a échoué. Réessayez.",
+    "file": "app/auth/actions.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.signOutFailed",
+    "english": "Couldn't sign out. Please try again.",
+    "french": "La déconnexion a échoué. Réessayez.",
+    "file": "app/auth/actions.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.yourAccountHasBeenDeleted",
+    "english": "Your account has been deleted",
+    "french": "Ton compte a été supprimé",
+    "file": "app/compte-supprime/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.yourCardsKarasAvatarAndSignInIdentityHaveBeen",
+    "english": "Your cards, Karas, avatar, and sign-in identity have been deleted. Your sessions have been revoked. Retained history will show “Deleted player”.",
+    "french": "Tes cartes, tes Karas, ton avatar et ton identité de connexion ont été effacés. Tes sessions ont été révoquées. Les historiques conservés affichent « Joueur supprimé ».",
+    "file": "app/compte-supprime/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.backToSignInLabel",
+    "english": "Back to sign in",
+    "french": "Revenir à la connexion",
+    "file": "app/compte-supprime/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.backToSignIn",
+    "english": "Back to sign in",
+    "french": "Revenir à la connexion",
+    "file": "app/compte-supprime/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "error.somethingWentWrongPleaseTryAgain",
+    "english": "Something went wrong. Please try again.",
+    "french": "Une erreur est survenue. Vous pouvez réessayer.",
+    "file": "app/error.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "homeLive.tryAgain",
+    "english": "Try again",
+    "french": "Réessayer",
+    "file": "app/error.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.tryAgain",
+    "english": "Try again",
+    "french": "Réessayer",
+    "file": "app/error.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "error.tryAgain",
+    "english": "Try again",
+    "french": "Réessayer",
+    "file": "app/error.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "notFound.theLinkMayBeOutdatedOrThePageMayHave",
+    "english": "The link may be outdated, or the page may have moved.",
+    "french": "Le lien est peut-être ancien ou la page a été déplacée.",
+    "file": "app/not-found.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "metadata.openPacksCollectYourFavoriteCharactersAndTrade",
+    "english": "Open packs, collect your favorite characters, and trade with other players.",
+    "french": "Ouvrez des packs, collectionnez vos personnages préférés et échangez avec les autres joueurs.",
+    "file": "app/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "siteFooter.tagline",
+    "english": "A new discovery in every card.",
+    "french": "À chaque carte, une découverte.",
+    "file": "app/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.signOutFailed",
+    "english": "Couldn't sign out. Please try again.",
+    "french": "La déconnexion a échoué. Réessaie.",
+    "file": "app/parametres/actions.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.signOutFailed",
+    "english": "Couldn't sign out. Please try again.",
+    "french": "La déconnexion a échoué. Réessaie.",
+    "file": "app/parametres/actions.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.settings",
+    "english": "Settings",
+    "french": "Paramètres",
+    "file": "app/parametres/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.keepYourCollectionSafe",
+    "english": "Keep your collection safe",
+    "french": "Protège ta collection",
+    "file": "app/reinitialiser-mot-de-passe/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.thisPasswordResetLinkIsInvalidOrHasExpired",
+    "english": "This password reset link is invalid or has expired.",
+    "french": "Ce lien de réinitialisation est invalide ou a expiré.",
+    "file": "app/reinitialiser-mot-de-passe/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.resetInvalid",
+    "english": "This password reset link is invalid or has expired.",
+    "french": "Ce lien de réinitialisation est invalide ou a expiré.",
+    "file": "app/reinitialiser-mot-de-passe/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.yokkaiCollecANewDiscoveryInEveryCard",
+    "english": "Yokkai Collec’ · A new discovery in every card.",
+    "french": "Yokkai Collec’ · À chaque carte, une découverte.",
+    "file": "app/reinitialiser-mot-de-passe/page.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "signOutButton.signingOut",
+    "english": "Signing out…",
+    "french": "Déconnexion…",
+    "file": "components/account-deletion-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.checkYourInbox",
+    "english": "Check your inbox",
+    "french": "Vérifie ta boîte mail",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.checkYourInbox",
+    "english": "Check your inbox",
+    "french": "Vérifie ta boîte mail",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.ifThisEmailAddressCanBeUsedToCreateAn",
+    "english": "If this email address can be used to create an account, you'll receive a confirmation link. Check your spam folder too. If you already have an account, you can sign in.",
+    "french": "Si cette adresse permet une nouvelle inscription, tu recevras un lien de confirmation. Pense aussi aux courriers indésirables. Si tu as déjà un compte, tu peux te connecter directement.",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.thisConfirmationLinkIsInvalidExpiredOrAlreadyUsedIf",
+    "english": "This confirmation link is invalid, expired, or already used. If your email is already confirmed, sign in. Otherwise, request a new link below.",
+    "french": "Ce lien de confirmation est invalide, a expiré ou a déjà été utilisé. Si ton adresse est déjà confirmée, connecte-toi. Sinon, demande un nouveau lien ci-dessous.",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.emailConfirmationIsTemporarilyUnavailableTryYourLinkAgainIn",
+    "english": "Email confirmation is temporarily unavailable. Try your link again in a moment.",
+    "french": "La confirmation est momentanément indisponible. Réessaie ton lien dans un instant.",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.createAnAccount",
+    "english": "Create an account",
+    "french": "Créer un compte",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.checking",
+    "english": "Checking…",
+    "french": "Vérification…",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.alreadyTaken",
+    "english": "Already taken",
+    "french": "Déjà pris",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.atLeast8Characters",
+    "english": "At least 8 characters.",
+    "french": "8 caractères minimum.",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.atLeast8Characters",
+    "english": "At least 8 characters.",
+    "french": "8 caractères minimum.",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.creatingAccount",
+    "english": "Creating account…",
+    "french": "Création du compte…",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.createMyAccount",
+    "english": "Create my account",
+    "french": "Créer mon compte",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.alreadyHaveAnAccount",
+    "english": "Already have an account? ",
+    "french": "Déjà un compte ? ",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.forgotPassword",
+    "english": "Forgot password?",
+    "french": "Mot de passe oublié ?",
+    "file": "components/auth-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authTurnstile.expired",
+    "english": "Verification has expired. Wait for a new check or try again.",
+    "french": "La vérification a expiré. Attends la nouvelle vérification ou réessaie.",
+    "file": "components/auth-turnstile.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authTurnstile.timeout",
+    "english": "Verification timed out. Please try again.",
+    "french": "La vérification a pris trop de temps. Réessaie.",
+    "file": "components/auth-turnstile.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authTurnstile.browserUnavailable",
+    "english": "Bot verification is unavailable. Try again or use another supported browser.",
+    "french": "La vérification anti-robot est indisponible. Réessaie ou utilise un autre navigateur compatible.",
+    "file": "components/auth-turnstile.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authTurnstile.unavailable",
+    "english": "Bot verification is unavailable. Please try again.",
+    "french": "La vérification anti-robot est indisponible. Réessaie.",
+    "file": "components/auth-turnstile.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authTurnstile.botVerificationSupportsKeyboardNavigationNoVisualPuzzleIsRequired",
+    "english": "Bot verification supports keyboard navigation. No visual puzzle is required.",
+    "french": "Vérification anti-robot : le widget est utilisable au clavier. Aucun puzzle visuel n’est nécessaire.",
+    "file": "components/auth-turnstile.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authTurnstile.loadFailed",
+    "english": "Verification couldn't load. Check your connection or try again.",
+    "french": "La vérification n’a pas pu charger. Vérifie ta connexion ou réessaie.",
+    "file": "components/auth-turnstile.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authTurnstile.retryVerification",
+    "english": "Retry verification",
+    "french": "Réessayer la vérification",
+    "file": "components/auth-turnstile.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authTurnstile.canTCompleteVerificationGetHelpFromTheTeam",
+    "english": "Can't complete verification? Get help from the team",
+    "french": "Vérification inaccessible ? Demander une aide humaine",
+    "file": "components/auth-turnstile.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authTurnstile.enableJavascriptToUseThisAccessibleVerificationIfYouStill",
+    "english": "Enable JavaScript to use this accessible verification. If you still can't complete it, contact the team through your usual support channel.",
+    "french": "Active JavaScript pour utiliser cette vérification accessible. Si elle reste inaccessible, demande de l’aide à l’équipe par ton canal habituel.",
+    "file": "components/auth-turnstile.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "confirmationResendForm.ifThisEmailAddressBelongsToAnAccountAwaitingConfirmation",
+    "english": "If this email address belongs to an account awaiting confirmation, you'll receive a new link. Check your spam folder too.",
+    "french": "Si cette adresse correspond à un compte à confirmer, tu recevras un nouveau lien. Vérifie aussi les courriers indésirables.",
+    "file": "components/confirmation-resend-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "confirmationResendForm.ifConfirmationIsNeededWeLlSendYouAnEmail",
+    "english": "If confirmation is needed, we'll send you an email. If your account is already confirmed, you can sign in.",
+    "french": "Si une confirmation est nécessaire, un e-mail te sera envoyé. Si ton compte est déjà confirmé, tu peux te connecter.",
+    "file": "components/confirmation-resend-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "confirmationResendForm.emailAddressToConfirm",
+    "english": "Email address to confirm",
+    "french": "Adresse e-mail à confirmer",
+    "file": "components/confirmation-resend-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "referralReminder.preparing",
+    "english": "Preparing…",
+    "french": "Préparation en cours…",
+    "file": "components/data-export-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "signOutButton.signingOut",
+    "english": "Signing out…",
+    "french": "Déconnexion…",
+    "file": "components/data-export-form.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.checkYourInbox",
+    "english": "Check your inbox",
+    "french": "Vérifie ta boîte mail",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.checkYourInbox",
+    "english": "Check your inbox",
+    "french": "Vérifie ta boîte mail",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.ifAnAccountMatchesThisEmailAddressYouLlReceive",
+    "english": "If an account matches this email address, you'll receive a password reset link. Check your spam folder too.",
+    "french": "Si un compte correspond à cette adresse, tu recevras un lien de réinitialisation. Pense aussi aux courriers indésirables.",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.backToSignIn",
+    "english": "Back to sign in →",
+    "french": "Retour à la connexion →",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.thisPasswordResetLinkIsInvalidExpiredOrAlreadyUsed",
+    "english": "This password reset link is invalid, expired, or already used. Request a new link.",
+    "french": "Ce lien de réinitialisation est invalide, a expiré ou a déjà été utilisé. Demande un nouveau lien.",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.linkVerificationIsTemporarilyUnavailableTryYourLinkAgainIn",
+    "english": "Link verification is temporarily unavailable. Try your link again in a moment.",
+    "french": "La vérification du lien est momentanément indisponible. Réessaie ton lien dans un instant.",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.requestAPasswordResetLink",
+    "english": "Request a password reset link",
+    "french": "Recevoir un lien de réinitialisation",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.backToSignInLabel",
+    "english": "Back to sign in",
+    "french": "Retour à la connexion",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "page.backToSignIn",
+    "english": "Back to sign in",
+    "french": "Retour à la connexion",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authForm.atLeast8Characters",
+    "english": "At least 8 characters.",
+    "french": "8 caractères minimum.",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.atLeast8Characters",
+    "english": "At least 8 characters.",
+    "french": "8 caractères minimum.",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "passwordResetForms.updating",
+    "english": "Updating…",
+    "french": "Mise à jour…",
+    "file": "components/password-reset-forms.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "signOutButton.signingOut",
+    "english": "Signing out…",
+    "french": "Déconnexion…",
+    "file": "components/sign-out-button.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "signOutButton.signOut",
+    "english": "Sign out",
+    "french": "Se déconnecter",
+    "file": "components/sign-out-button.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authMarketShowcase.market",
+    "english": "Market",
+    "french": "Marché",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.market",
+    "english": "Market",
+    "french": "Marché",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.trades",
+    "english": "Trades",
+    "french": "Échanges",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.disableSound",
+    "english": "Disable sound",
+    "french": "Désactiver les sons",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.soundOn",
+    "english": "Sound on",
+    "french": "Son activé",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.soundOff",
+    "english": "Sound off",
+    "french": "Son coupé",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "homeLive.tryAgain",
+    "english": "Try again",
+    "french": "Réessayer",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.tryAgain",
+    "english": "Try again",
+    "french": "Réessayer",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "error.tryAgain",
+    "english": "Try again",
+    "french": "Réessayer",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.balanceAndUsernameUnavailableTryAgain",
+    "english": "Balance and username unavailable · Try again",
+    "french": "Solde et pseudo indisponibles · Réessayer",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.settings",
+    "english": "Settings",
+    "french": "Paramètres",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "topbar.myAchievements",
+    "english": "My achievements",
+    "french": "Mes succès",
+    "file": "components/topbar.tsx",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.usernameShort",
+    "english": "Choose a username with at least 3 characters.",
+    "french": "Choisissez un pseudo d’au moins 3 caractères.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.usernameLong",
+    "english": "Choose a username with no more than 30 characters.",
+    "french": "Choisissez un pseudo de 30 caractères maximum.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.usernameCharacters",
+    "english": "Your username can't contain / \\ ? # % < > or control characters.",
+    "french": "Le pseudo ne peut pas contenir / \\ ? # % < > ni de caractères de contrôle.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.passwordLength",
+    "english": "Choose a password with 8–128 characters.",
+    "french": "Choisissez un mot de passe de 8 à 128 caractères.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.passwordLength",
+    "english": "Choose a password with 8–128 characters.",
+    "french": "Choisissez un mot de passe de 8 à 128 caractères.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.passwordDifferent",
+    "english": "Your new password must be different from your current one.",
+    "french": "Le nouveau mot de passe doit être différent de l’actuel.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.captchaFailed",
+    "english": "Bot verification failed or expired. Complete verification again before resubmitting the form.",
+    "french": "La vérification anti-robot a échoué ou a expiré. Réessaie la vérification avant de renvoyer le formulaire.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.weakPassword",
+    "english": "This password is too weak. Choose a longer one with more variety.",
+    "french": "Ce mot de passe est trop faible. Choisissez-en un plus long et plus varié.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.rateLimit",
+    "english": "Too many attempts. Wait a few minutes before trying again.",
+    "french": "Trop de tentatives. Patientez quelques minutes avant de réessayer.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.emailExists",
+    "english": "This email address is already in use. Try signing in.",
+    "french": "Cette adresse email est déjà utilisée. Essayez de vous connecter.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.addressNotAllowed",
+    "english": "This email address can't be used to sign up.",
+    "french": "Cette adresse email n’est pas autorisée à s’inscrire.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.signupDisabled",
+    "english": "Sign-ups are temporarily disabled.",
+    "french": "Les inscriptions sont temporairement désactivées.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.unavailable",
+    "english": "Sign-in is temporarily unavailable. Please try again in a moment.",
+    "french": "Le service de connexion est momentanément indisponible. Réessayez dans un instant.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.unavailable",
+    "english": "Sign-in is temporarily unavailable. Please try again in a moment.",
+    "french": "Le service de connexion est momentanément indisponible. Réessayez dans un instant.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.declined",
+    "english": "Authentication was declined. Check your details and try again.",
+    "french": "La demande d’authentification a été refusée. Vérifiez vos informations et réessayez.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.emailLimit",
+    "english": "The service has reached its email sending limit. Try again later; this isn't an issue with your address.",
+    "french": "La limite d’envoi d’e-mails du service est atteinte. Réessaie plus tard ; ton adresse n’est pas en cause.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  },
+  {
+    "key": "authErrors.emailUnavailable",
+    "english": "Email delivery is temporarily unavailable. Please try again later.",
+    "french": "Le service d’envoi d’e-mails est momentanément indisponible. Réessaie plus tard.",
+    "file": "lib/auth/forms.ts",
+    "commit": "a3b23cd"
+  }
+]

@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Sora:wght@300;400;500;600;700&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#090714;color:#F1EEFF;font-family:Sora,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#3FE0D0;text-decoration:none}a:hover{color:#8FF0E6}
+button{font-family:inherit}
+@keyframes yk-spin{to{transform:rotate(360deg)}}
+@keyframes yk-sweep{0%{background-position:160% 0}60%,100%{background-position:-60% 0}}
+@keyframes yk-float{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-10px) rotate(1.5deg)}}
+@keyframes yk-rumble{0%,100%{transform:none}15%{transform:translateX(-4px) rotate(-2deg)}30%{transform:translateX(5px) rotate(2deg)}45%{transform:translateX(-6px) rotate(-3deg) scale(1.02)}60%{transform:translateX(6px) rotate(3deg) scale(1.04)}80%{transform:translateX(-4px) rotate(-2deg) scale(1.06)}}
+@keyframes yk-vanish{to{transform:scale(1.35);opacity:0;filter:brightness(3)}}
+@keyframes yk-flash{0%{opacity:0}25%{opacity:.9}100%{opacity:0}}
+@keyframes yk-deal{from{transform:translateY(-60px) scale(.55) rotate(-10deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes yk-breathe{0%,100%{box-shadow:0 0 0 1px var(--g),0 0 12px var(--g)}50%{box-shadow:0 0 0 1px var(--g),0 0 34px var(--g)}}
+@keyframes yk-charge{0%{transform:none;filter:brightness(1)}20%{transform:translateX(-2px) rotate(-1deg)}40%{transform:translateX(3px) rotate(1.5deg)}60%{transform:translateX(-4px) rotate(-2deg) scale(1.03)}80%{transform:translateX(4px) rotate(2deg) scale(1.06);filter:brightness(1.6)}100%{transform:scale(1.08);filter:brightness(2.2)}}
+@keyframes yk-burst{from{transform:scale(.4);opacity:1}to{transform:scale(1.6);opacity:0}}
+@keyframes yk-rise{from{transform:translateY(40px) scale(.7);opacity:0;filter:brightness(3)}to{transform:none;opacity:1;filter:none}}
+@keyframes yk-fade{from{opacity:0}to{opacity:1}}
+@keyframes yk-blink{0%,100%{opacity:.35}50%{opacity:1}}
+@keyframes yk-drop{from{transform:translateY(-160px) scale(1.2);opacity:0}to{transform:none;opacity:1}}
+@keyframes yk-pop{from{transform:translateX(-50%) scale(0)}70%{transform:translateX(-50%) scale(1.2)}to{transform:translateX(-50%) scale(1)}}
+</style>
+</helmet>
+<div style="--acc: {{ accent }}; min-height:100vh; background:radial-gradient(1200px 600px at 50% -10%, #1D1844 0%, rgba(29,24,68,0) 60%), #090714; display:flex; flex-direction:column">
+
+  <header style="position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between; gap:16px; padding:0 24px; height:68px; background:rgba(9,7,20,.82); backdrop-filter:blur(12px); border-bottom:1px solid #1D1844">
+    <div onClick="{{ goHome }}" style="display:flex; align-items:center; gap:12px; cursor:pointer; flex-shrink:0">
+      <div style="width:34px; height:34px; border-radius:8px; border:1px solid var(--acc); display:flex; align-items:center; justify-content:center; font-family:'Noto Serif JP',serif; font-weight:700; font-size:18px; color:var(--acc); background:#04000B">妖</div>
+      <div style="font-family:Cinzel,serif; font-weight:700; font-size:19px; letter-spacing:.08em; white-space:nowrap">Yokkai Collec'</div>
+      <div style="font-size:11px; color:#8580AB; border:1px solid #1D1844; border-radius:999px; padding:2px 8px; white-space:nowrap">v0.1</div>
+    </div>
+    <nav style="display:flex; gap:0; height:100%; min-width:0; overflow:hidden">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+        <button onClick="{{ t.onClick }}" style="position:relative; height:100%; padding:0 12px; white-space:nowrap; background:none; border:none; cursor:pointer; font-size:14px; font-weight:500; letter-spacing:.02em; color:{{ t.color }}">
+          {{ t.label }}
+          <span style="position:absolute; left:12px; right:12px; bottom:0; height:2px; border-radius:2px; background:{{ t.bar }}"></span>
+        </button>
+      </sc-for>
+    </nav>
+    <div style="display:flex; align-items:center; gap:8px; flex-shrink:0">
+    <button onClick="{{ toggleSound }}" title="Son" style="width:40px; height:40px; flex-shrink:0; border-radius:999px; background:#0F0C1D; border:1px solid #1D1844; color:#A8A3C7; cursor:pointer; display:flex; align-items:center; justify-content:center" style-hover="border-color:var(--acc); color:#F1EEFF">
+      <sc-if value="{{ soundOn }}" hint-placeholder-val="{{ true }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"></path><path d="M16.5 8.5a5 5 0 0 1 0 7"></path><path d="M19 6a8.5 8.5 0 0 1 0 12"></path></svg></sc-if>
+      <sc-if value="{{ soundOff }}" hint-placeholder-val="{{ false }}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"></path><path d="M17 9l5 6M22 9l-5 6"></path></svg></sc-if>
+    </button>
+    <div onClick="{{ goBooster }}" style="display:flex; align-items:center; gap:10px; height:40px; padding:0 14px; border-radius:999px; background:#0F0C1D; border:1px solid #1D1844; cursor:pointer" title="Prochain pack" style-hover="border-color:var(--acc)">
+      <sc-if value="{{ packReady }}" hint-placeholder-val="{{ true }}">
+        <span style="width:8px; height:8px; border-radius:50%; background:var(--acc); box-shadow:0 0 10px var(--acc); animation:yk-blink 1.4s ease-in-out infinite"></span>
+        <span style="font-size:13px; font-weight:600; color:#F1EEFF; white-space:nowrap">1 pack prêt</span>
+      </sc-if>
+      <sc-if value="{{ packWaiting }}" hint-placeholder-val="{{ false }}">
+                <span style="font-size:14px; font-weight:600; font-variant-numeric:tabular-nums; color:var(--acc)">{{ timerText }}</span>
+        <span style="width:36px; height:3px; border-radius:999px; background:#04000B; overflow:hidden"><span style="display:block; height:100%; width:{{ timerPct }}; background:var(--acc)"></span></span>
+      </sc-if>
+    </div>
+    </div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <main data-screen-label="Accueil" style="flex:1; width:100%; max-width:1180px; margin:0 auto; padding:56px 32px 72px; display:flex; flex-direction:column; gap:56px">
+      <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr)); align-items:center; gap:48px">
+        <div style="display:flex; flex-direction:column; gap:24px">
+          <div style="font-size:12px; font-weight:500; letter-spacing:.28em; text-transform:uppercase; color:var(--acc)">Série 1 · Les Cent Démons</div>
+          <h1 style="margin:0; font-family:Cinzel,serif; font-weight:700; font-size:clamp(40px,6vw,72px); letter-spacing:.04em; line-height:1.02">Invoquez.<br>Collectionnez.<br>Complétez.</h1>
+          <p style="margin:0; max-width:460px; font-size:16px; line-height:1.6; color:#A8A3C7; text-wrap:pretty">Un pack de 10 cartes toutes les 30 minutes. {{ totalCount }} yokai à réunir, de la Commune à la légendaire Shiny.</p>
+          <div style="display:flex; flex-wrap:wrap; align-items:center; gap:16px; padding-top:8px">
+            <sc-if value="{{ packReady }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ goBooster }}" style="height:56px; padding:0 36px; border-radius:999px; border:none; background:var(--acc); color:#04000B; font-size:16px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; box-shadow:0 0 36px color-mix(in oklch, var(--acc) 40%, transparent)" style-hover="filter:brightness(1.1)">Ouvrir mon pack</button>
+            </sc-if>
+            <sc-if value="{{ packWaiting }}" hint-placeholder-val="{{ false }}">
+              <button disabled style="height:56px; padding:0 28px; border-radius:999px; background:#0F0C1D; border:1px solid #1D1844; color:#8580AB; font-size:14px; cursor:not-allowed; display:flex; align-items:center; gap:10px; white-space:nowrap">Prochain pack dans <span style="color:var(--acc); font-size:17px; font-weight:600; font-variant-numeric:tabular-nums">{{ timerText }}</span></button>
+            </sc-if>
+            <button onClick="{{ goCollection }}" style="height:56px; padding:0 28px; border-radius:999px; background:transparent; border:1px solid #1D1844; color:#F1EEFF; font-size:14px; font-weight:500; cursor:pointer" style-hover="background:#1D1844">Ma collection</button>
+          </div>
+        </div>
+        <div style="position:relative; height:clamp(340px,40vw,460px); display:flex; align-items:center; justify-content:center">
+          <div style="position:absolute; inset:0; border-radius:50%; background:radial-gradient(circle, rgba(190,230,255,.12) 0%, color-mix(in oklch, var(--acc) 10%, transparent) 35%, transparent 65%); pointer-events:none"></div>
+          <div style="position:absolute; width:clamp(150px,17vw,200px); aspect-ratio:5/7; transform:translateX(-62%) rotate(-14deg) translateY(24px); filter:brightness(.8)">
+            <dc-import name="YokaiCard" rarity="SSR" name-text="Yuki-onna" jp="雪女" cat="Spectre" num="#006" animated="{{ animated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+          </div>
+          <div style="position:absolute; width:clamp(150px,17vw,200px); aspect-ratio:5/7; transform:translateX(62%) rotate(14deg) translateY(24px); filter:brightness(.85)">
+            <dc-import name="YokaiCard" rarity="LR" name-text="Ryūjin" jp="龍神" cat="Eau" num="#002" animated="{{ animated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+          </div>
+          <div style="position:absolute; width:clamp(180px,20vw,240px); aspect-ratio:5/7; animation:yk-float 6s ease-in-out infinite">
+            <dc-import name="YokaiCard" rarity="SLR" name-text="Kyūbi" jp="九尾" cat="Bête" num="#001" animated="{{ animated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+          </div>
+        </div>
+      </section>
+
+      <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:20px">
+        <div onClick="{{ goCollection }}" style="display:flex; flex-direction:column; gap:20px; padding:24px; border-radius:16px; background:#0F0C1D; border:1px solid #1D1844; cursor:pointer; transition:border-color .2s" style-hover="border-color:var(--acc)">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px">
+            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#8580AB">Votre grimoire</div>
+            <div style="font-size:13px; color:var(--acc)">Voir →</div>
+          </div>
+          <div style="display:flex; align-items:baseline; gap:10px">
+            <span style="font-family:Cinzel,serif; font-weight:600; font-size:44px; line-height:1; font-variant-numeric:tabular-nums">{{ ownedPctText }}</span>
+            <span style="font-size:14px; color:#A8A3C7">{{ ownedCount }} / {{ totalCount }} yokai</span>
+          </div>
+          <div style="height:6px; border-radius:999px; background:#04000B; overflow:hidden"><div style="height:100%; width:{{ ownedPctText }}; background:var(--acc); box-shadow:0 0 12px var(--acc)"></div></div>
+          <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:12px 16px">
+            <sc-for list="{{ rarStats }}" as="r" hint-placeholder-count="6">
+              <div style="display:flex; flex-direction:column; gap:6px">
+                <div style="display:flex; justify-content:space-between; font-size:12px"><span style="font-weight:600; color:{{ r.color }}; white-space:nowrap">{{ r.short }}</span><span style="color:#A8A3C7; font-variant-numeric:tabular-nums">{{ r.owned }}/{{ r.total }}</span></div>
+                <div style="height:3px; border-radius:999px; background:#04000B; overflow:hidden"><div style="height:100%; width:{{ r.pct }}; background:{{ r.bar }}"></div></div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex; flex-direction:column; gap:20px; padding:24px; border-radius:16px; background:#0F0C1D; border:1px solid #1D1844">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px">
+            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#8580AB">Dernières obtentions</div>
+            <div style="font-size:12px; color:#8580AB">{{ recentDate }}</div>
+          </div>
+          <div style="display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px">
+            <sc-for list="{{ recent }}" as="c" hint-placeholder-count="5">
+              <div onClick="{{ c.onOpen }}" style="aspect-ratio:5/7; cursor:pointer; transition:transform .2s" style-hover="transform:translateY(-4px)">
+                <dc-import name="YokaiCard" rarity="{{ c.rarity }}" name-text="{{ c.name }}" jp="{{ c.jp }}" cat="{{ c.catLabel }}" num="{{ c.numText }}" animated="{{ animated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; padding-top:4px; border-top:1px solid #1D1844">
+            <div style="flex:1; display:flex; flex-direction:column; gap:2px; padding-top:14px">
+              <div style="font-size:12px; color:#8580AB">Plus rare possédée</div>
+              <div style="display:flex; align-items:center; gap:8px; font-size:15px; font-weight:600"><span style="width:8px; height:8px; border-radius:50%; background:{{ best.color }}"></span>{{ best.name }} <span style="font-weight:400; color:#A8A3C7">· {{ best.short }}</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isBooster }}" hint-placeholder-val="{{ false }}">
+    <main data-screen-label="Booster" style="flex:1; width:100%; max-width:1080px; margin:0 auto; padding:40px 32px 64px; display:flex; flex-direction:column; gap:32px">
+
+      <sc-if value="{{ isPackView }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; flex-direction:column; align-items:center; gap:32px; text-align:center">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:8px">
+            <div style="font-size:12px; font-weight:500; letter-spacing:.24em; text-transform:uppercase; color:var(--acc)">Regular Pack · 10 cartes</div>
+            <h1 style="margin:0; font-family:Cinzel,serif; font-weight:600; font-size:clamp(28px,4vw,44px); letter-spacing:.03em; line-height:1.1">Invoquez vos yokai</h1>
+            <p style="margin:0; font-size:14px; color:#A8A3C7">Touchez le pack pour le déchirer.</p>
+          </div>
+
+          <div style="position:relative; width:min(320px,72vw); aspect-ratio:2/3">
+            <div style="position:absolute; inset:-30%; border-radius:50%; background:radial-gradient(circle, color-mix(in oklch, var(--acc) 22%, transparent) 0%, transparent 65%); pointer-events:none"></div>
+            <div style="position:absolute; inset:0; animation:yk-float 5s ease-in-out infinite">
+              <div onClick="{{ openPack }}" style="position:relative; width:100%; height:100%; cursor:pointer; animation:{{ packAnim }}">
+                <div style="position:relative; width:100%; height:100%">
+                  <img src="assets/booster-pack.png" alt="Regular Pack Yokkai Collec'" style="display:block; width:100%; height:100%; object-fit:contain; filter:drop-shadow(0 30px 50px rgba(4,0,11,.9)) drop-shadow(0 0 40px rgba(140,80,255,.25))">
+                  <div style="position:absolute; left:11%; right:11%; top:8%; bottom:8%; border-radius:4px; pointer-events:none; background:linear-gradient(115deg, transparent 40%, rgba(255,255,255,.14) 50%, transparent 60%); background-size:300% 100%; mix-blend-mode:screen; animation:yk-sweep 4s ease-in-out infinite"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button onClick="{{ openPack }}" style="height:56px; padding:0 40px; border-radius:999px; border:none; background:var(--acc); color:#04000B; font-size:16px; font-weight:700; letter-spacing:.06em; text-transform:uppercase; cursor:pointer; box-shadow:0 0 36px color-mix(in oklch, var(--acc) 40%, transparent)" style-hover="filter:brightness(1.1)">Ouvrir le pack</button>
+
+          <div style="display:flex; flex-direction:column; align-items:center; gap:10px">
+            <div style="font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:#8580AB">Taux d'obtention par carte</div>
+            <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:8px">
+              <sc-for list="{{ rates }}" as="r" hint-placeholder-count="6">
+                <div style="display:flex; align-items:center; gap:8px; height:30px; padding:0 12px; border-radius:999px; background:#0F0C1D; border:1px solid #1D1844; font-size:12px">
+                  <span style="width:8px; height:8px; border-radius:50%; background:{{ r.color }}"></span>
+                  <span style="font-weight:600">{{ r.short }}</span>
+                  <span style="color:#A8A3C7; font-variant-numeric:tabular-nums">{{ r.rate }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ isDealt }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:24px">
+          <div style="display:flex; flex-direction:column; gap:8px">
+            <div style="font-size:12px; font-weight:500; letter-spacing:.24em; text-transform:uppercase; color:var(--acc)">Regular Pack · 10 cartes</div>
+            <h1 style="margin:0; font-family:Cinzel,serif; font-weight:600; font-size:clamp(26px,3.6vw,38px); letter-spacing:.03em; line-height:1.1">Révélez vos cartes</h1>
+            <p style="margin:0; font-size:14px; color:#A8A3C7; text-wrap:pretty">Retournez les cartes une à une — gardez le meilleur pour la fin.</p>
+          </div>
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+            <div style="display:flex; align-items:center; gap:10px; height:44px; padding:0 16px; border-radius:999px; background:#0F0C1D; border:1px solid #1D1844; font-size:13px; color:#A8A3C7">
+              Révélées <span style="font-weight:600; color:#F1EEFF; font-variant-numeric:tabular-nums">{{ revealedCount }} / 10</span>
+            </div>
+            <sc-if value="{{ notAllRevealed }}" hint-placeholder-val="{{ true }}">
+              <button onClick="{{ revealAll }}" style="height:44px; padding:0 20px; border-radius:999px; background:transparent; border:1px solid #1D1844; color:#F1EEFF; font-size:13px; font-weight:500; cursor:pointer" style-hover="background:#1D1844">Tout révéler ▸▸</button>
+            </sc-if>
+          </div>
+        </div>
+
+        <sc-if value="{{ hasStack }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex; flex-direction:column; align-items:center; gap:28px; padding:36px 0 8px">
+            <div style="position:relative; width:min(230px,52vw); aspect-ratio:5/7">
+              <div style="position:absolute; left:-14%; right:-14%; bottom:-16%; height:16%; border-radius:50%; background:radial-gradient(ellipse, rgba(4,0,11,.95), transparent 70%)"></div>
+              <div onClick="{{ tapStack }}" style="position:absolute; inset:0; cursor:pointer; transform:rotate(-3deg); animation:yk-rise .7s cubic-bezier(.2,.9,.2,1) both">
+                <sc-for list="{{ stack }}" as="c" hint-placeholder-count="10">
+                  <sc-if value="{{ c.inStack }}" hint-placeholder-val="{{ true }}">
+                    <div style="position:absolute; inset:0; z-index:{{ c.z }}; transform:{{ c.pos }}; filter:{{ c.dim }}; transition:transform .45s cubic-bezier(.2,.8,.2,1), filter .45s">
+                      <sc-if value="{{ c.burst }}" hint-placeholder-val="{{ false }}">
+                        <div style="position:absolute; inset:-45%; border-radius:50%; pointer-events:none; z-index:2; background:radial-gradient(circle, {{ c.burstColor }} 0%, transparent 62%); animation:yk-burst 1s .35s ease-out both"></div>
+                      </sc-if>
+                      <div style="width:100%; height:100%; perspective:1000px">
+                        <div style="position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .7s cubic-bezier(.2,.8,.2,1); transform:{{ c.flip }}">
+                          <div style="position:absolute; inset:0; border-radius:12px; overflow:hidden; backface-visibility:hidden; -webkit-backface-visibility:hidden; box-shadow:0 6px 18px rgba(4,0,11,.8); background:#04000B url('assets/card-back.png') center / cover no-repeat"></div>
+                          <sc-if value="{{ c.isTop }}" hint-placeholder-val="{{ false }}">
+                            <div style="position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; transform:rotateY(180deg)">
+                              <dc-import name="YokaiCard" rarity="{{ c.rarity }}" name-text="{{ c.name }}" jp="{{ c.jp }}" cat="{{ c.catLabel }}" num="{{ c.numText }}" animated="{{ c.faceAnimated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+                            </div>
+                          </sc-if>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-if>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:6px; padding-top:8px">
+              <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#A8A3C7; animation:yk-blink 1.8s ease-in-out infinite">{{ stackHint }}</div>
+              <div style="font-size:12px; color:#8580AB; font-variant-numeric:tabular-nums">{{ remainingText }}</div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div style="display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:40px clamp(12px,2vw,24px); padding-top:12px">
+          <sc-for list="{{ row }}" as="c" hint-placeholder-count="10">
+            <div style="position:relative; aspect-ratio:5/7">
+              <sc-if value="{{ c.empty }}" hint-placeholder-val="{{ true }}">
+                <div style="position:absolute; inset:0; border-radius:12px; border:1px dashed #1D1844; background:#04000B; display:flex; align-items:center; justify-content:center; font-size:12px; color:#8580AB; font-variant-numeric:tabular-nums">{{ c.slot }}</div>
+              </sc-if>
+              <sc-if value="{{ c.filled }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute; inset:0; animation:yk-drop .55s cubic-bezier(.2,.8,.2,1) both">
+                  <dc-import name="YokaiCard" rarity="{{ c.rarity }}" name-text="{{ c.name }}" jp="{{ c.jp }}" cat="{{ c.catLabel }}" num="{{ c.numText }}" animated="{{ animated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+                </div>
+                <sc-if value="{{ c.newShown }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute; top:-10px; left:50%; z-index:3; transform:translateX(-50%); padding:2px 10px; border-radius:999px; background:var(--acc); color:#04000B; font-size:11px; font-weight:700; letter-spacing:.12em; animation:yk-pop .4s .4s cubic-bezier(.3,1.6,.5,1) both">NEW</div>
+                </sc-if>
+                <sc-if value="{{ c.dupShown }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute; bottom:-10px; left:50%; transform:translateX(-50%); padding:2px 10px; border-radius:999px; background:#0F0C1D; border:1px solid #1D1844; color:#A8A3C7; font-size:11px; font-weight:600; white-space:nowrap">Doublon {{ c.dupText }}</div>
+                </sc-if>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ allRevealed }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:24px; margin-top:12px; padding:24px; border-radius:16px; background:#0F0C1D; border:1px solid #1D1844; animation:yk-fade .5s ease both">
+            <div style="display:flex; flex-direction:column; gap:12px">
+              <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#8580AB">Résultat du pack</div>
+              <div style="display:flex; flex-wrap:wrap; gap:8px">
+                <sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+                  <div style="display:flex; align-items:center; gap:8px; height:32px; padding:0 12px; border-radius:999px; background:#090714; border:1px solid #1D1844; font-size:13px">
+                    <span style="width:8px; height:8px; border-radius:50%; background:{{ s.color }}"></span><span style="font-weight:600">{{ s.short }}</span><span style="color:#A8A3C7">×{{ s.count }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="font-size:14px; color:#A8A3C7"><span style="color:var(--acc); font-weight:600">{{ newCount }} nouvelles cartes</span> ajoutées à votre collection</div>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:12px">
+              <button disabled style="height:52px; padding:0 22px; border-radius:999px; background:#090714; border:1px solid #1D1844; color:#8580AB; font-size:14px; font-weight:500; cursor:not-allowed; display:flex; align-items:center; gap:10px">Nouveau pack dans <span style="color:#F1EEFF; font-weight:600; font-variant-numeric:tabular-nums">{{ timerText }}</span></button>
+              <button onClick="{{ goCollection }}" style="height:52px; padding:0 28px; border-radius:999px; border:none; background:var(--acc); color:#04000B; font-size:14px; font-weight:700; letter-spacing:.04em; cursor:pointer" style-hover="filter:brightness(1.1)">Voir ma collection</button>
+            </div>
+          </div>
+        </sc-if>
+        <div style="display:flex; justify-content:center">
+          <button onClick="{{ resetPack }}" style="background:none; border:none; color:#8580AB; font-size:12px; cursor:pointer; text-decoration:underline; text-underline-offset:3px">Rejouer la démo</button>
+        </div>
+      </sc-if>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isCollection }}" hint-placeholder-val="{{ false }}">
+    <main data-screen-label="Collection" style="flex:1; width:100%; max-width:1240px; margin:0 auto; padding:40px 32px 64px; display:flex; flex-direction:column; gap:24px">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:24px">
+        <div style="display:flex; flex-direction:column; gap:8px">
+          <div style="font-size:12px; font-weight:500; letter-spacing:.24em; text-transform:uppercase; color:var(--acc)">Grimoire · Série 1</div>
+          <h1 style="margin:0; font-family:Cinzel,serif; font-weight:600; font-size:clamp(28px,4vw,40px); letter-spacing:.03em; line-height:1.1">Collection</h1>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px; min-width:260px">
+          <div style="display:flex; justify-content:space-between; font-size:13px; color:#A8A3C7"><span>Complétion</span><span style="color:#F1EEFF; font-weight:600; font-variant-numeric:tabular-nums">{{ ownedCount }} / {{ totalCount }} · {{ ownedPctText }}</span></div>
+          <div style="height:6px; border-radius:999px; background:#04000B; overflow:hidden"><div style="height:100%; width:{{ ownedPctText }}; background:var(--acc); box-shadow:0 0 12px var(--acc)"></div></div>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(max(110px,calc((100% - 60px) / 6)),1fr)); gap:12px">
+        <sc-for list="{{ rarStats }}" as="r" hint-placeholder-count="6">
+          <div style="display:flex; flex-direction:column; gap:10px; padding:14px 16px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:8px">
+              <span style="font-size:11px; font-weight:700; letter-spacing:.06em; padding:1px 6px; border-radius:4px; background:{{ r.badgeBg }}; color:{{ r.badgeFg }}; border:1px solid {{ r.color }}">{{ r.short }}</span>
+              <span style="font-size:13px; font-variant-numeric:tabular-nums; color:#A8A3C7"><span style="color:#F1EEFF; font-weight:600">{{ r.owned }}</span> / {{ r.total }}</span>
+            </div>
+            <div style="height:3px; border-radius:999px; background:#04000B; overflow:hidden"><div style="height:100%; width:{{ r.pct }}; background:{{ r.bar }}"></div></div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px">
+          <span style="width:84px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8580AB">Rareté</span>
+          <sc-for list="{{ rarChips }}" as="f" hint-placeholder-count="7">
+            <button onClick="{{ f.onClick }}" style="display:flex; align-items:center; gap:8px; height:34px; padding:0 14px; border-radius:999px; cursor:pointer; font-size:13px; font-weight:500; background:{{ f.bg }}; border:1px solid {{ f.bd }}; color:{{ f.fg }}">
+              <span style="width:8px; height:8px; border-radius:50%; background:{{ f.dot }}"></span>{{ f.label }}<span style="color:#8580AB; font-variant-numeric:tabular-nums">{{ f.count }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="height:1px; background:#1D1844"></div>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px">
+          <span style="width:84px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8580AB">Catégorie</span>
+          <sc-for list="{{ catChips }}" as="f" hint-placeholder-count="6">
+            <button onClick="{{ f.onClick }}" style="display:flex; align-items:center; gap:8px; height:34px; padding:0 14px; border-radius:999px; cursor:pointer; font-size:13px; font-weight:500; background:{{ f.bg }}; border:1px solid {{ f.bd }}; color:{{ f.fg }}">
+              {{ f.label }}<span style="color:#8580AB; font-variant-numeric:tabular-nums">{{ f.count }}</span>
+            </button>
+          </sc-for>
+          <button onClick="{{ toggleMissing }}" style="margin-left:auto; display:flex; align-items:center; gap:10px; height:34px; padding:0 4px 0 14px; border-radius:999px; background:none; border:none; color:#A8A3C7; font-size:13px; cursor:pointer">
+            Afficher les manquantes
+            <span style="position:relative; width:36px; height:20px; border-radius:999px; background:{{ missTrack }}; border:1px solid #1D1844; transition:background .2s"><span style="position:absolute; top:2px; left:{{ missKnob }}; width:14px; height:14px; border-radius:50%; background:#F1EEFF; transition:left .2s"></span></span>
+          </button>
+        </div>
+      </div>
+
+      <div style="font-size:13px; color:#8580AB">{{ resultText }} · triées par rareté</div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax({{ colMin }},1fr)); gap:28px 20px">
+        <sc-for list="{{ collection }}" as="c" hint-placeholder-count="12">
+          <div style="display:flex; flex-direction:column; gap:10px">
+            <sc-if value="{{ c.owned }}" hint-placeholder-val="{{ true }}">
+              <div onClick="{{ c.onOpen }}" style="position:relative; aspect-ratio:5/7; cursor:pointer; transition:transform .2s ease" style-hover="transform:translateY(-4px)">
+                <dc-import name="YokaiCard" rarity="{{ c.rarity }}" name-text="{{ c.name }}" jp="{{ c.jp }}" cat="{{ c.catLabel }}" num="{{ c.numText }}" animated="{{ animated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+                <sc-if value="{{ c.multi }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute; right:-6px; bottom:-6px; min-width:28px; height:24px; padding:0 8px; border-radius:999px; background:#04000B; border:1px solid #1D1844; color:#F1EEFF; font-size:12px; font-weight:600; display:flex; align-items:center; justify-content:center">×{{ c.count }}</div>
+                </sc-if>
+                <sc-if value="{{ c.isNew }}" hint-placeholder-val="{{ false }}">
+                  <div style="position:absolute; top:-8px; left:-6px; padding:1px 8px; border-radius:999px; background:var(--acc); color:#04000B; font-size:10px; font-weight:700; letter-spacing:.12em">NEW</div>
+                </sc-if>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:2px; padding:0 2px">
+                <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#8580AB">Obtenue le</div>
+                <div style="font-size:13px; color:#A8A3C7; font-variant-numeric:tabular-nums">{{ c.dateText }}</div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ c.missing }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative; aspect-ratio:5/7; border-radius:12px; border:1px dashed #1D1844; background:repeating-linear-gradient(45deg, rgba(29,24,68,.35) 0 1px, transparent 1px 10px), #04000B; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px">
+                <div style="position:absolute; top:10px; left:10px; right:10px; display:flex; justify-content:space-between; align-items:center"><span style="font-size:11px; color:#8580AB; font-variant-numeric:tabular-nums">{{ c.numText }}</span><span style="width:8px; height:8px; border-radius:50%; background:{{ c.color }}; opacity:.7"></span></div>
+                <div style="font-family:Cinzel,serif; font-size:40px; font-weight:600; color:#1D1844">?</div>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:2px; padding:0 2px">
+                <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#8580AB">{{ c.short }}</div>
+                <div style="font-size:13px; color:#8580AB">Non obtenue</div>
+              </div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isSystem }}" hint-placeholder-val="{{ false }}">
+    <main data-screen-label="Système" style="flex:1; width:100%; max-width:1120px; margin:0 auto; padding:40px 32px 64px; display:flex; flex-direction:column; gap:48px">
+      <div style="display:flex; flex-direction:column; gap:8px">
+        <div style="font-size:12px; font-weight:500; letter-spacing:.24em; text-transform:uppercase; color:var(--acc)">Tokens · Tailwind</div>
+        <h1 style="margin:0; font-family:Cinzel,serif; font-weight:600; font-size:clamp(28px,4vw,40px); letter-spacing:.03em">Système de design</h1>
+      </div>
+
+      <section style="display:flex; flex-direction:column; gap:16px">
+        <h2 style="margin:0; font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#A8A3C7">Rareté — 6 paliers</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:24px">
+          <sc-for list="{{ sysRarities }}" as="r" hint-placeholder-count="6">
+            <div style="display:flex; flex-direction:column; gap:12px">
+              <div style="aspect-ratio:5/7">
+                <dc-import name="YokaiCard" rarity="{{ r.key }}" name-text="{{ r.name }}" jp="{{ r.jp }}" cat="{{ r.catLabel }}" num="{{ r.numText }}" animated="{{ animated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:4px">
+                <div style="font-size:14px; font-weight:600">{{ r.short }} · {{ r.label }}</div>
+                <div style="font-size:12px; color:#8580AB; text-wrap:pretty">{{ r.desc }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:32px">
+        <div style="display:flex; flex-direction:column; gap:16px">
+          <h2 style="margin:0; font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#A8A3C7">Couleurs</h2>
+          <div style="display:grid; grid-template-columns:repeat(2,1fr); gap:12px">
+            <div style="display:flex; gap:12px; align-items:center"><div style="width:44px; height:44px; border-radius:8px; background:#04000B; border:1px solid #1D1844"></div><div style="font-size:12px; color:#8580AB"><b style="color:#F1EEFF">void</b><br>#04000B</div></div>
+            <div style="display:flex; gap:12px; align-items:center"><div style="width:44px; height:44px; border-radius:8px; background:#090714; border:1px solid #1D1844"></div><div style="font-size:12px; color:#8580AB"><b style="color:#F1EEFF">night</b><br>#090714</div></div>
+            <div style="display:flex; gap:12px; align-items:center"><div style="width:44px; height:44px; border-radius:8px; background:#0F0C1D; border:1px solid #1D1844"></div><div style="font-size:12px; color:#8580AB"><b style="color:#F1EEFF">surface</b><br>#0F0C1D</div></div>
+            <div style="display:flex; gap:12px; align-items:center"><div style="width:44px; height:44px; border-radius:8px; background:#1D1844"></div><div style="font-size:12px; color:#8580AB"><b style="color:#F1EEFF">veil</b><br>#1D1844</div></div>
+            <div style="display:flex; gap:12px; align-items:center"><div style="width:44px; height:44px; border-radius:8px; background:#3FE0D0"></div><div style="font-size:12px; color:#8580AB"><b style="color:#F1EEFF">accent-spirit</b><br>#3FE0D0 · CTA</div></div>
+            <div style="display:flex; gap:12px; align-items:center"><div style="width:44px; height:44px; border-radius:8px; background:#9D7BFF"></div><div style="font-size:12px; color:#8580AB"><b style="color:#F1EEFF">accent-neon</b><br>#9D7BFF · alt.</div></div>
+            <div style="display:flex; gap:12px; align-items:center"><div style="width:44px; height:44px; border-radius:8px; background:#F1EEFF"></div><div style="font-size:12px; color:#8580AB"><b style="color:#F1EEFF">ink</b><br>#F1EEFF</div></div>
+            <div style="display:flex; gap:12px; align-items:center"><div style="width:44px; height:44px; border-radius:8px; background:#8580AB"></div><div style="font-size:12px; color:#8580AB"><b style="color:#F1EEFF">ink-3</b><br>#8580AB · méta</div></div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px">
+          <h2 style="margin:0; font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#A8A3C7">Typo · Radius · Espacement</h2>
+          <div style="display:flex; flex-direction:column; gap:14px; padding:20px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px"><span style="font-family:Cinzel,serif; font-weight:600; font-size:34px">Display</span><span style="font-size:12px; color:#8580AB">Cinzel 600 · 44/28</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px"><span style="font-size:15px">Corps · UI</span><span style="font-size:12px; color:#8580AB">Sora 400–700 · 12–16</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px"><span style="font-family:'Noto Serif JP',serif; font-weight:700; font-size:28px">九尾 龍神</span><span style="font-size:12px; color:#8580AB">Noto Serif JP 700</span></div>
+            <div style="height:1px; background:#1D1844"></div>
+            <div style="font-size:12px; color:#A8A3C7; line-height:1.7">Radius : 4 badge · 8 input · 12 carte · 16 panneau · 20 modale · full CTA/chips<br>Espacement : 4 · 8 · 12 · 16 · 24 · 32 · 48<br>Mouvement : flip 700ms · deal 600ms (+70ms/carte) · charge 700–1300ms</div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:fixed; inset:0; z-index:50; background:rgba(4,0,11,.86); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:24px; animation:yk-fade .25s ease both">
+      <div onClick="{{ stop }}" style="position:relative; width:100%; max-width:760px; display:flex; flex-wrap:wrap; gap:36px; padding:32px; border-radius:20px; background:#0F0C1D; border:1px solid #1D1844; box-shadow:0 30px 80px rgba(4,0,11,.9)">
+        <button onClick="{{ closeModal }}" style="position:absolute; top:16px; right:16px; width:36px; height:36px; border-radius:999px; background:#090714; border:1px solid #1D1844; color:#A8A3C7; font-size:18px; line-height:1; cursor:pointer" style-hover="background:#1D1844; color:#F1EEFF">×</button>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:12px; margin:0 auto">
+          <div onMouseMove="{{ onTilt }}" onMouseLeave="{{ offTilt }}" style="width:260px; aspect-ratio:5/7; perspective:900px">
+            <div style="position:relative; width:100%; height:100%; transition:transform .12s ease-out; transform:{{ tiltT }}">
+              <dc-import name="YokaiCard" rarity="{{ m.rarity }}" name-text="{{ m.name }}" jp="{{ m.jp }}" cat="{{ m.catLabel }}" num="{{ m.numText }}" animated="{{ animated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+              <div style="position:absolute; inset:0; border-radius:12px; pointer-events:none; background:{{ glare }}; mix-blend-mode:screen"></div>
+            </div>
+          </div>
+          <div style="font-size:11px; color:#8580AB">Survolez pour incliner</div>
+        </div>
+        <div style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:24px; padding-top:8px">
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:{{ m.color }}">{{ m.short }} · {{ m.label }}</div>
+            <h2 style="margin:0; font-family:Cinzel,serif; font-weight:600; font-size:34px; letter-spacing:.03em; line-height:1.1">{{ m.name }}</h2>
+            <div style="font-family:'Noto Serif JP',serif; font-size:16px; color:#A8A3C7">{{ m.jp }}</div>
+          </div>
+          <div style="display:flex; flex-direction:column; border-top:1px solid #1D1844">
+            <div style="display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid #1D1844; font-size:14px"><span style="color:#8580AB">N°</span><span style="font-variant-numeric:tabular-nums">{{ m.numText }} / {{ totalText }}</span></div>
+            <div style="display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid #1D1844; font-size:14px"><span style="color:#8580AB">Catégorie</span><span>{{ m.catLabel }}</span></div>
+            <div style="display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid #1D1844; font-size:14px"><span style="color:#8580AB">Rareté</span><span style="display:flex; align-items:center; gap:8px"><span style="width:8px; height:8px; border-radius:50%; background:{{ m.color }}"></span>{{ m.label }}</span></div>
+            <div style="display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid #1D1844; font-size:14px"><span style="color:#8580AB">Obtenue le</span><span>{{ m.dateLong }}</span></div>
+            <div style="display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid #1D1844; font-size:14px"><span style="color:#8580AB">Exemplaires</span><span style="font-variant-numeric:tabular-nums">×{{ m.count }}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ spotOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSpot }}" style="position:fixed; inset:0; z-index:60; overflow:hidden; cursor:pointer; background:radial-gradient(circle at 50% 45%, {{ sp.tint }} 0%, #04000B 60%); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:28px; padding:24px; animation:yk-fade .4s ease both">
+      <div style="position:absolute; left:50%; top:45%; width:220vmax; height:220vmax; margin:-110vmax 0 0 -110vmax; background:repeating-conic-gradient(from 0deg, {{ sp.ray }} 0deg 5deg, transparent 5deg 15deg); -webkit-mask-image:radial-gradient(circle, #000 0%, transparent 40%); mask-image:radial-gradient(circle, #000 0%, transparent 40%); animation:yk-spin 40s linear infinite; pointer-events:none"></div>
+      <div style="position:relative; display:flex; flex-direction:column; align-items:center; gap:6px; animation:yk-fade .6s .3s ease both">
+        <div style="font-size:13px; font-weight:600; letter-spacing:.4em; text-transform:uppercase; color:{{ sp.color }}; padding-left:.4em">{{ sp.headline }}</div>
+      </div>
+      <div style="position:relative; width:min(300px,64vw); aspect-ratio:5/7; animation:yk-rise .9s cubic-bezier(.2,.9,.2,1) both">
+        <dc-import name="YokaiCard" rarity="{{ sp.rarity }}" name-text="{{ sp.name }}" jp="{{ sp.jp }}" cat="{{ sp.catLabel }}" num="{{ sp.numText }}" animated="{{ animated }}" style="width:100%; height:100%" hint-size="100%,100%"></dc-import>
+      </div>
+      <div style="position:relative; display:flex; flex-direction:column; align-items:center; gap:10px; text-align:center; animation:yk-fade .6s .6s ease both">
+        <div style="display:flex; align-items:center; gap:12px">
+          <h2 style="margin:0; font-family:Cinzel,serif; font-weight:700; font-size:clamp(28px,5vw,44px); letter-spacing:.06em">{{ sp.name }}</h2>
+          <sc-if value="{{ sp.isNew }}" hint-placeholder-val="{{ true }}">
+            <span style="padding:2px 10px; border-radius:999px; background:var(--acc); color:#04000B; font-size:12px; font-weight:700; letter-spacing:.12em">NEW</span>
+          </sc-if>
+        </div>
+        <div style="font-size:14px; color:#A8A3C7">{{ sp.label }} · {{ sp.catLabel }}</div>
+      </div>
+      <div style="position:relative; font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:#A8A3C7; animation:yk-blink 1.6s ease-in-out infinite">Toucher pour continuer</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ flash }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed; inset:0; z-index:70; pointer-events:none; background:radial-gradient(circle at 50% 50%, #FFFFFF 0%, color-mix(in oklch, var(--acc) 60%, transparent) 40%, transparent 80%); animation:yk-flash .7s ease-out forwards"></div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Cyan&quot;,&quot;Violet néon&quot;],&quot;default&quot;:&quot;Cyan&quot;,&quot;tsType&quot;:&quot;'Cyan'|'Violet néon'&quot;,&quot;section&quot;:&quot;Direction&quot;},&quot;animated&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Gacha&quot;},&quot;volume&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:60,&quot;min&quot;:0,&quot;max&quot;:100,&quot;step&quot;:5,&quot;unit&quot;:&quot;%&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Gacha&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Confortable&quot;,&quot;Compacte&quot;],&quot;default&quot;:&quot;Confortable&quot;,&quot;tsType&quot;:&quot;'Confortable'|'Compacte'&quot;,&quot;section&quot;:&quot;Collection&quot;}}">
+const RM = {
+  C:   { short: 'C', label: 'Commune', color: '#9097AB', rank: 0, badgeBg: '#9097AB', badgeFg: '#04000B', bar: '#9097AB', desc: 'Gris acier. Cadre fin, aucune animation.' },
+  R:   { short: 'R', label: 'Rare', color: '#D08A55', rank: 1, badgeBg: '#D08A55', badgeFg: '#04000B', bar: 'linear-gradient(90deg,#F2B888,#B06C3E)', desc: 'Bronze. Cadre métal chaud, reflet statique.' },
+  SR:  { short: 'SR', label: 'Super Rare', color: '#DCE2EC', rank: 2, badgeBg: 'linear-gradient(160deg,#FFFFFF,#AEB6C6)', badgeFg: '#04000B', bar: 'linear-gradient(90deg,#FFFFFF,#8D95A7)', desc: 'Argent. Cadre chromé, halo léger, burst au reveal.' },
+  SSR: { short: 'SSR', label: 'Super Super Rare', color: '#FF5FA8', rank: 3, badgeBg: '#FF5FA8', badgeFg: '#04000B', bar: 'linear-gradient(90deg,#FFD0E6,#FF5FA8)', desc: 'Rose. Halo pulsé, reflet balayant, étincelles, charge avant flip.' },
+  LR:  { short: 'LR', label: 'Légendaire', color: '#E8C26A', rank: 4, badgeBg: '#000', badgeFg: '#F6DC8E', bar: 'linear-gradient(90deg,#FFF3C4,#E8C26A,#9A7420)', desc: 'Gold noir. Fond noir, cadre or rotatif, écran d’invocation.' },
+  SLR: { short: 'SHINY LR', label: 'Légendaire Shiny', color: '#CFEFFF', rank: 5, badgeBg: 'linear-gradient(100deg,#E8FBFF,#FFB8EC,#B9C6FF,#A8FFE4,#FFF6B8)', badgeFg: '#04000B', bar: 'linear-gradient(90deg,#E8FBFF,#FFB8EC,#B9C6FF,#A8FFE4,#FFF6B8)', desc: 'Diamant. Cadre irisé rotatif, foil holographique, éclats.' },
+};
+const TELL = { SSR: 'rgba(255,95,168,.65)', LR: 'rgba(232,194,106,.7)', SLR: 'rgba(200,240,255,.8)' };
+const BURST = { SR: 'rgba(230,236,246,.55)', SSR: 'rgba(255,95,168,.7)', LR: 'rgba(246,220,142,.8)', SLR: 'rgba(220,245,255,.9)' };
+const CHARGE = { SSR: 700, LR: 1000, SLR: 1300 };
+const CATS = { bete: 'Bête', demon: 'Démon', objet: 'Objet', eau: 'Eau', spectre: 'Spectre' };
+const LIST = [
+  ['kyubi', 'Kyūbi', '九尾', 'bete', 'SLR'],
+  ['ryujin', 'Ryūjin', '龍神', 'eau', 'LR'], ['shuten', 'Shuten-dōji', '酒呑', 'demon', 'LR'], ['tamamo', 'Tamamo-no-Mae', '玉藻前', 'spectre', 'LR'],
+  ['tengu', 'Ō-Tengu', '大天狗', 'demon', 'SSR'], ['yukionna', 'Yuki-onna', '雪女', 'spectre', 'SSR'], ['gasha', 'Gashadokuro', '髑髏', 'spectre', 'SSR'], ['raiju', 'Raijū', '雷獣', 'bete', 'SSR'], ['nurari', 'Nurarihyon', '滑瓢', 'demon', 'SSR'],
+  ['umibozu', 'Umibōzu', '海坊主', 'eau', 'SR'], ['nekomata', 'Nekomata', '猫又', 'bete', 'SR'], ['jorogumo', 'Jorōgumo', '絡新婦', 'bete', 'SR'], ['kamaitachi', 'Kamaitachi', '鎌鼬', 'bete', 'SR'], ['rokuro', 'Rokurokubi', '轆轤首', 'spectre', 'SR'], ['tsuchi', 'Tsuchigumo', '土蜘蛛', 'demon', 'SR'],
+  ['kappa', 'Kappa', '河童', 'eau', 'R'], ['bakeneko', 'Bakeneko', '化猫', 'bete', 'R'], ['oni', 'Oni', '鬼', 'demon', 'R'], ['ittan', 'Ittan-momen', '一反木綿', 'objet', 'R'], ['nue', 'Nue', '鵺', 'bete', 'R'], ['baku', 'Baku', '獏', 'bete', 'R'], ['ningyo', 'Ningyo', '人魚', 'eau', 'R'], ['kasha', 'Kasha', '火車', 'demon', 'R'], ['hannya', 'Hannya', '般若', 'demon', 'R'],
+  ['tanuki', 'Tanuki', '狸', 'bete', 'C'], ['kasa', 'Kasa-obake', '傘', 'objet', 'C'], ['chochin', 'Chōchin-obake', '提灯', 'objet', 'C'], ['yurei', 'Yūrei', '幽霊', 'spectre', 'C'], ['kodama', 'Kodama', '木霊', 'spectre', 'C'], ['nurikabe', 'Nurikabe', '塗壁', 'objet', 'C'],
+  ['hitotsume', 'Hitotsume-kozō', '一つ目', 'spectre', 'C'], ['azuki', 'Azuki-arai', '小豆洗', 'eau', 'C'], ['zashiki', 'Zashiki-warashi', '座敷童', 'spectre', 'C'], ['konaki', 'Konaki-jiji', '子泣', 'spectre', 'C'], ['mokumoku', 'Mokumokuren', '目目連', 'objet', 'C'], ['sazae', 'Sazae-oni', '栄螺鬼', 'eau', 'C'],
+];
+const DB = {}; LIST.forEach(([id, name, jp, cat, rarity], i) => { DB[id] = { id, name, jp, cat, rarity, num: i + 1, numText: '#' + String(i + 1).padStart(3, '0'), catLabel: CATS[cat], ...RM[rarity] }; });
+const TOTAL = LIST.length;
+const PACK = ['kasa', 'kodama', 'tanuki', 'yurei', 'kappa', 'nue', 'kamaitachi', 'yukionna', 'ryujin', 'kyubi'];
+const BASE = { tengu: [1, '2026-09-08'], shuten: [1, '2026-09-14'], umibozu: [1, '2026-09-01'], nekomata: [1, '2026-09-19'], jorogumo: [1, '2026-09-10'],
+  bakeneko: [1, '2026-09-02'], oni: [2, '2026-09-11'], ittan: [1, '2026-09-17'], tanuki: [3, '2026-09-01'], nurikabe: [1, '2026-09-05'], azuki: [1, '2026-09-12'],
+  chochin: [2, '2026-09-03'], zashiki: [1, '2026-09-15'], kappa: [1, '2026-09-06'] };
+const TODAY = '2026-09-23';
+const RATES = [['C', '62 %'], ['R', '25 %'], ['SR', '9 %'], ['SSR', '3,4 %'], ['LR', '0,5 %'], ['SLR', '0,1 %']];
+const ORDER = ['SLR', 'LR', 'SSR', 'SR', 'R', 'C'];
+const CYCLE = 1800;
+const SPOT = { LR: { headline: 'Invocation légendaire', tint: 'rgba(232,194,106,.28)', ray: 'rgba(246,220,142,.16)' }, SLR: { headline: '✦ Invocation shiny ✦', tint: 'rgba(190,225,255,.30)', ray: 'rgba(220,240,255,.18)' } };
+
+const SFX = {
+  ctx: null, vol: 0.6, muted: false,
+  ac() { if (!this.ctx) { const A = window.AudioContext || window.webkitAudioContext; if (!A) return null; this.ctx = new A(); this.master = this.ctx.createGain(); this.master.connect(this.ctx.destination); } if (this.ctx.state === 'suspended') this.ctx.resume(); this.master.gain.value = this.muted ? 0 : this.vol; return this.ctx; },
+  noise(dur) { const c = this.ctx, b = c.createBuffer(1, Math.ceil(c.sampleRate * dur), c.sampleRate), d = b.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; const s = c.createBufferSource(); s.buffer = b; return s; },
+  env(g, t, a, peak, dur) { g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(peak, t + a); g.gain.exponentialRampToValueAtTime(0.0001, t + dur); },
+  hiss(t, dur, type, f0, f1, peak, q = 1) { const c = this.ctx, s = this.noise(dur), f = c.createBiquadFilter(), g = c.createGain(); f.type = type; f.Q.value = q; f.frequency.setValueAtTime(f0, t); f.frequency.exponentialRampToValueAtTime(f1, t + dur); this.env(g, t, Math.min(0.02, dur / 4), peak, dur); s.connect(f).connect(g).connect(this.master); s.start(t); s.stop(t + dur + 0.05); },
+  tone(t, freq, dur, peak, type = 'sine', slide) { const c = this.ctx, o = c.createOscillator(), g = c.createGain(); o.type = type; o.frequency.setValueAtTime(freq, t); if (slide) o.frequency.exponentialRampToValueAtTime(slide, t + dur); this.env(g, t, 0.01, peak, dur); o.connect(g).connect(this.master); o.start(t); o.stop(t + dur + 0.05); },
+  bell(t, freq, dur, peak) { [1, 2.01, 3.02, 4.2].forEach((m, i) => this.tone(t, freq * m, dur / (i + 1), peak / (i * 1.6 + 1))); },
+  play(name) {
+    const c = this.ac(); if (!c || this.muted) return; const t = c.currentTime + 0.01;
+    if (name === 'rumble') { this.hiss(t, 0.8, 'lowpass', 180, 420, 0.5, 0.7); this.tone(t, 55, 0.8, 0.25, 'triangle', 80); }
+    if (name === 'tear') { this.hiss(t, 0.35, 'bandpass', 900, 5200, 0.9, 0.8); this.hiss(t + 0.05, 0.25, 'highpass', 3000, 8000, 0.35); this.hiss(t + 0.1, 0.6, 'lowpass', 1200, 200, 0.35); this.tone(t + 0.08, 70, 0.5, 0.35, 'sine', 40); }
+    if (name === 'flip') { this.hiss(t, 0.09, 'highpass', 2500, 6000, 0.5); this.hiss(t + 0.06, 0.12, 'bandpass', 1800, 900, 0.25, 1.5); }
+    if (name === 'slide') { this.hiss(t, 0.22, 'bandpass', 2400, 700, 0.3, 1.2); this.tone(t + 0.2, 180, 0.12, 0.2, 'triangle', 110); }
+    if (name === 'flutter') { for (let i = 0; i < 8; i++) this.hiss(t + i * 0.05, 0.07, 'highpass', 2500, 6000, 0.3); }
+    if (name === 'sr') { this.bell(t + 0.05, 1318, 0.8, 0.12); }
+    if (name === 'ssr') { [880, 1109, 1319, 1760].forEach((f, i) => this.bell(t + i * 0.07, f, 1.1, 0.12)); this.hiss(t, 0.6, 'highpass', 6000, 9000, 0.08); }
+    if (name === 'lr') { this.tone(t, 49, 1.6, 0.5, 'sine', 36); this.hiss(t, 1.2, 'lowpass', 400, 80, 0.4); [392, 494, 587, 784].forEach(f => this.bell(t + 0.1, f, 2.4, 0.08)); [1568, 1976, 2349].forEach((f, i) => this.bell(t + 0.5 + i * 0.12, f, 1.4, 0.06)); }
+    if (name === 'slr') { this.tone(t, 55, 1.8, 0.45, 'sine', 40); [523, 659, 784, 1047, 1319, 1568, 2093, 2637].forEach((f, i) => this.bell(t + i * 0.06, f, 1.8, 0.08)); for (let i = 0; i < 10; i++) this.tone(t + 0.4 + Math.random() * 1.2, 3000 + Math.random() * 3000, 0.15, 0.04); this.hiss(t, 1.8, 'highpass', 5000, 11000, 0.1); }
+  },
+};
+
+class Component extends DCLogic {
+  state = { screen: 'home', phase: 'sealed', revealed: {}, idx: 0, hand: null, spot: null, flash: false, remain: CYCLE, cat: 'all', rar: 'all', showMissing: true, modal: null, tilt: { x: 0, y: 0 } };
+  timers = [];
+  componentDidMount() { this.t = setInterval(() => this.state.phase !== 'sealed' && this.setState(s => ({ remain: s.remain <= 1 ? CYCLE : s.remain - 1 })), 1000); }
+  componentWillUnmount() { clearInterval(this.t); this.timers.forEach(clearTimeout); }
+  later(fn, ms) { this.timers.push(setTimeout(fn, ms)); }
+
+  openPack() {
+    if (this.state.phase !== 'sealed') return;
+    const anim = this.props.animated ?? true;
+    if (!anim) { SFX.play('tear'); return this.setState({ phase: 'dealt' }); }
+    SFX.play('rumble');
+    this.setState({ phase: 'opening' });
+    this.later(() => { SFX.play('tear'); this.setState({ flash: true }); }, 800);
+    this.later(() => this.setState({ phase: 'dealt' }), 1150);
+    this.later(() => this.setState({ flash: false }), 1700);
+  }
+  sendHand() {
+    if (this.state.hand) SFX.play('slide');
+    this.setState(st => st.hand ? { idx: st.idx + 1, hand: null, revealed: { ...st.revealed, [st.hand]: true } } : null);
+  }
+  tapStack() {
+    const s = this.state;
+    if (s.spot) return;
+    if (s.hand) return this.sendHand();
+    const id = PACK[s.idx];
+    if (!id) return;
+    const anim = this.props.animated ?? true;
+    this.setState({ hand: id });
+    SFX.play('flip');
+    const rr = DB[id].rarity;
+    if (rr === 'SR' || rr === 'SSR') this.later(() => SFX.play(rr.toLowerCase()), 380);
+    if (DB[id].rank >= 4) { this.later(() => SFX.play('sr'), 380); this.later(() => { if (this.state.hand === id) { SFX.play(rr === 'SLR' ? 'slr' : 'lr'); this.setState({ spot: id }); } }, anim ? 1100 : 0); }
+    else this.later(() => this.state.hand === id && this.sendHand(), DB[id].rank >= 2 ? 1700 : 1200);
+  }
+  fmt(d, long) { return new Date(d + 'T12:00:00').toLocaleDateString('fr-FR', long ? { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' }); }
+  chip(active) { return active ? { bg: '#1D1844', bd: 'var(--acc)', fg: '#F1EEFF' } : { bg: '#090714', bd: '#1D1844', fg: '#A8A3C7' }; }
+
+  renderVals() {
+    const s = this.state;
+    const animated = this.props.animated ?? true;
+    SFX.vol = (this.props.volume ?? 60) / 100; SFX.muted = !!s.muted;
+    const accent = { Cyan: '#3FE0D0', 'Violet néon': '#9D7BFF' }[this.props.accent ?? 'Cyan'] || '#3FE0D0';
+    const set = screen => () => this.setState({ screen });
+    const tabs = [['home', 'Accueil'], ['booster', 'Booster'], ['collection', 'Collection'], ['system', 'Système']].map(([k, label]) => ({
+      label, onClick: set(k), color: s.screen === k ? '#F1EEFF' : '#8580AB', bar: s.screen === k ? accent : 'transparent',
+    }));
+
+    const owned = {};
+    Object.entries(BASE).forEach(([id, [count, date]]) => { owned[id] = { count, date }; });
+    const newIds = {};
+    PACK.filter(id => s.revealed[id]).forEach(id => {
+      if (owned[id]) owned[id] = { ...owned[id], count: owned[id].count + 1 };
+      else { owned[id] = { count: 1, date: TODAY }; newIds[id] = true; }
+    });
+
+    const stack = PACK.map((id, i) => {
+      const c = DB[id], d = i - s.idx, top = d === 0, open = top && s.hand === id;
+      return {
+        ...c, inStack: d >= 0, isTop: top, z: 30 - d,
+        pos: open ? 'translateY(-18px) scale(1.08) rotate(3deg)' : `translate(${d * 3}px, ${-d * 4}px) rotate(${d * 1.3}deg)`,
+        dim: d <= 0 ? 'none' : `brightness(${Math.max(0.45, 1 - d * 0.07)})`,
+        flip: open ? 'rotateY(180deg)' : 'rotateY(0deg)', faceAnimated: animated && open,
+        burst: open && animated && !!BURST[c.rarity], burstColor: BURST[c.rarity] || 'transparent',
+      };
+    });
+    const row = PACK.map((id, i) => {
+      const c = DB[id], filled = !!s.revealed[id];
+      return { ...c, filled, empty: !filled, slot: String(i + 1).padStart(2, '0'),
+        newShown: filled && !!newIds[id], dupShown: filled && !newIds[id], dupText: `×${owned[id] ? owned[id].count : 1}` };
+    });
+    const revealedCount = Object.keys(s.revealed).length;
+    const remaining = PACK.length - s.idx;
+    const allRevealed = revealedCount === 10;
+    const summary = ORDER.map(k => ({ ...RM[k], count: PACK.filter(id => DB[id].rarity === k).length })).filter(x => x.count);
+
+    const cards = LIST.map(([id]) => ({ ...DB[id], own: owned[id] }));
+    const passCat = c => s.cat === 'all' || c.cat === s.cat;
+    const passRar = c => s.rar === 'all' || c.rarity === s.rar;
+    const visibleBase = cards.filter(c => c.own || s.showMissing);
+    const collection = visibleBase.filter(c => passCat(c) && passRar(c))
+      .sort((a, b) => b.rank - a.rank || a.num - b.num)
+      .map(c => c.own ? {
+        ...c, owned: true, missing: false, count: c.own.count, multi: c.own.count > 1, isNew: !!newIds[c.id],
+        dateText: this.fmt(c.own.date), onOpen: () => this.setState({ modal: c.id, tilt: { x: 0, y: 0 } }),
+      } : { ...c, owned: false, missing: true });
+    const ownedCount = cards.filter(c => c.own).length;
+    const ownedList = cards.filter(c => c.own);
+    const recent = [...ownedList].sort((a, b) => b.own.date.localeCompare(a.own.date) || b.rank - a.rank).slice(0, 5)
+      .map(c => ({ ...c, onOpen: () => this.setState({ modal: c.id, tilt: { x: 0, y: 0 } }) }));
+    const best = [...ownedList].sort((a, b) => b.rank - a.rank || a.num - b.num)[0] || {};
+
+    const rarStats = ORDER.map(k => {
+      const all = cards.filter(c => c.rarity === k), o = all.filter(c => c.own).length;
+      return { ...RM[k], owned: o, total: all.length, pct: `${(o / all.length) * 100}%` };
+    });
+    const rarChips = [['all', 'Toutes', 'transparent'], ...ORDER.map(k => [k, RM[k].short, RM[k].color])].map(([k, label, dot]) => ({
+      label, dot, count: visibleBase.filter(c => passCat(c) && (k === 'all' || c.rarity === k)).length,
+      onClick: () => this.setState({ rar: k }), ...this.chip(s.rar === k),
+    }));
+    const catChips = [['all', 'Toutes'], ...Object.entries(CATS)].map(([k, label]) => ({
+      label, count: visibleBase.filter(c => passRar(c) && (k === 'all' || c.cat === k)).length,
+      onClick: () => this.setState({ cat: k }), ...this.chip(s.cat === k),
+    }));
+
+    const mo = s.modal && owned[s.modal];
+    const m = mo ? { ...DB[s.modal], count: mo.count, dateLong: this.fmt(mo.date, true) } : {};
+    const tx = s.tilt.x, ty = s.tilt.y;
+
+    const sp = s.spot ? { ...DB[s.spot], ...SPOT[DB[s.spot].rarity], isNew: !!newIds[s.spot] } : {};
+    const sysPick = { SLR: 'kyubi', LR: 'ryujin', SSR: 'yukionna', SR: 'kamaitachi', R: 'kappa', C: 'kasa' };
+    const sysRarities = ORDER.map(k => ({ ...DB[sysPick[k]], key: k, desc: RM[k].desc }));
+
+    const mm = String(Math.floor(s.remain / 60)).padStart(2, '0'), ss = String(s.remain % 60).padStart(2, '0');
+
+    return {
+      accent, tabs, animated,
+      isHome: s.screen === 'home', goHome: set('home'),
+      recent, best, recentDate: recent[0] ? this.fmt(recent[0].own.date) : '',
+      isBooster: s.screen === 'booster', isCollection: s.screen === 'collection', isSystem: s.screen === 'system',
+      goBooster: set('booster'), goCollection: set('collection'),
+      packReady: s.phase === 'sealed', packWaiting: s.phase !== 'sealed',
+      isPackView: s.phase !== 'dealt', isDealt: s.phase === 'dealt',
+      packAnim: s.phase === 'opening' ? 'yk-rumble .8s ease-in-out, yk-vanish .4s .8s ease-in forwards' : 'none',
+      openPack: () => this.openPack(),
+      rates: RATES.map(([k, rate]) => ({ ...RM[k], rate })),
+      stack, row, revealedCount, allRevealed, notAllRevealed: !allRevealed, summary,
+      hasStack: remaining > 0, tapStack: () => this.tapStack(),
+      stackHint: s.hand ? 'Touchez pour ranger' : 'Touchez le paquet',
+      remainingText: `${remaining} carte${remaining > 1 ? 's' : ''} restante${remaining > 1 ? 's' : ''}`,
+      newCount: Object.keys(newIds).length,
+      soundOn: !s.muted, soundOff: !!s.muted,
+      toggleSound: () => { SFX.muted = !s.muted; this.setState({ muted: !s.muted }); if (!SFX.muted) SFX.play('flip'); },
+      revealAll: () => SFX.play('flutter') || this.setState({ revealed: Object.fromEntries(PACK.map(id => [id, true])), idx: PACK.length, hand: null, spot: null }),
+      resetPack: () => { this.timers.forEach(clearTimeout); this.timers = []; this.setState({ phase: 'sealed', revealed: {}, idx: 0, hand: null, spot: null, flash: false, remain: CYCLE }); },
+      timerText: `${mm}:${ss}`, timerPct: `${((CYCLE - s.remain) / CYCLE) * 100}%`,
+      ownedCount, totalCount: TOTAL, totalText: '#' + String(TOTAL).padStart(3, '0'), ownedPctText: `${Math.round((ownedCount / TOTAL) * 100)}%`,
+      rarStats, rarChips, catChips, collection,
+      resultText: `${collection.length} emplacement${collection.length > 1 ? 's' : ''}`,
+      toggleMissing: () => this.setState(st => ({ showMissing: !st.showMissing })),
+      missTrack: s.showMissing ? accent : '#04000B', missKnob: s.showMissing ? '18px' : '2px',
+      colMin: (this.props.density ?? 'Confortable') === 'Compacte' ? '128px' : '168px',
+      modalOpen: !!mo, m, closeModal: () => this.setState({ modal: null }), stop: e => e.stopPropagation(),
+      onTilt: e => { const r = e.currentTarget.getBoundingClientRect(); this.setState({ tilt: { x: (e.clientX - r.left) / r.width - 0.5, y: (e.clientY - r.top) / r.height - 0.5 } }); },
+      offTilt: () => this.setState({ tilt: { x: 0, y: 0 } }),
+      tiltT: `rotateY(${tx * 22}deg) rotateX(${-ty * 22}deg)`,
+      glare: `radial-gradient(circle at ${(tx + 0.5) * 100}% ${(ty + 0.5) * 100}%, rgba(255,255,255,${tx || ty ? 0.22 : 0}) 0%, transparent 55%)`,
+      spotOpen: !!s.spot, sp, closeSpot: () => { this.setState({ spot: null }); this.later(() => this.sendHand(), 250); },
+      flash: s.flash, sysRarities,
+    };
+  }
+}
+</script>
+</body>
+</html>

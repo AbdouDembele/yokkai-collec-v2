@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Sora:wght@300;400;500;600&family=Noto+Serif+JP:wght@500;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;background:#090714;color:#F1EEFF;font-family:Sora,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+*{box-sizing:border-box}
+a{color:#E6C379;text-decoration:none}a:hover{color:#F4DDA6}
+button{font-family:inherit}
+</style>
+</helmet>
+<div style="--acc: {{ accent }}; min-height:100vh; background:radial-gradient(1200px 600px at 50% -10%, #1D1844 0%, rgba(29,24,68,0) 60%), #090714; display:flex; flex-direction:column">
+
+  <header style="position:sticky; top:0; z-index:20; display:flex; align-items:center; justify-content:space-between; gap:24px; padding:0 32px; height:68px; background:rgba(9,7,20,.82); backdrop-filter:blur(12px); border-bottom:1px solid #1D1844">
+    <div style="display:flex; align-items:center; gap:12px">
+      <div style="width:34px; height:34px; border-radius:8px; border:1px solid var(--acc,#E6C379); display:flex; align-items:center; justify-content:center; font-family:'Noto Serif JP',serif; font-weight:700; font-size:18px; color:var(--acc,#E6C379); background:#04000B">妖</div>
+      <div style="font-family:Cinzel,serif; font-weight:700; font-size:19px; letter-spacing:.08em">Yokkai Collec'</div>
+      <div style="font-size:11px; color:#8580AB; border:1px solid #1D1844; border-radius:999px; padding:2px 8px">v0.1</div>
+    </div>
+    <nav style="display:flex; gap:4px; height:100%">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="3">
+        <button onClick="{{ t.onClick }}" style="position:relative; height:100%; padding:0 16px; background:none; border:none; cursor:pointer; font-size:14px; font-weight:500; letter-spacing:.02em; color:{{ t.color }}">
+          {{ t.label }}
+          <span style="position:absolute; left:16px; right:16px; bottom:-1px; height:2px; border-radius:2px; background:{{ t.bar }}"></span>
+        </button>
+      </sc-for>
+    </nav>
+  </header>
+
+  <sc-if value="{{ isBooster }}" hint-placeholder-val="{{ true }}">
+    <main style="flex:1; width:100%; max-width:1120px; margin:0 auto; padding:48px 32px 64px; display:flex; flex-direction:column; gap:32px">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:24px">
+        <div style="display:flex; flex-direction:column; gap:8px">
+          <div style="font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--acc,#E6C379)">Regular Pack · 10 cartes</div>
+          <h1 style="margin:0; font-family:Cinzel,serif; font-weight:600; font-size:clamp(28px,4vw,40px); letter-spacing:.03em; line-height:1.1">Ouverture du booster</h1>
+          <p style="margin:0; font-size:14px; color:#A8A3C7; text-wrap:pretty">Touchez une carte pour la révéler, dans l'ordre de votre choix.</p>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap">
+          <div style="display:flex; align-items:center; gap:10px; padding:0 16px; height:44px; border-radius:999px; background:#0F0C1D; border:1px solid #1D1844; font-size:13px; color:#A8A3C7">
+            Révélées <span style="font-weight:600; color:#F1EEFF; font-variant-numeric:tabular-nums">{{ revealedCount }} / 10</span>
+          </div>
+          <button onClick="{{ revealAll }}" style="height:44px; padding:0 20px; border-radius:999px; background:transparent; border:1px solid #1D1844; color:#F1EEFF; font-size:13px; font-weight:500; cursor:pointer" style-hover="background:#1D1844">Tout révéler</button>
+        </div>
+      </div>
+
+      <div style="display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:clamp(10px,2vw,24px); perspective:1400px">
+        <sc-for list="{{ pack }}" as="c" hint-placeholder-count="10">
+          <div onClick="{{ c.onClick }}" style="container-type:inline-size; aspect-ratio:5/7; cursor:{{ c.cursor }}; transition:transform .25s ease" style-hover="transform:translateY(-6px)">
+            <div style="position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .7s cubic-bezier(.2,.8,.2,1); transform:{{ c.flip }}">
+              <div style="position:absolute; inset:0; border-radius:12px; overflow:hidden; backface-visibility:hidden; -webkit-backface-visibility:hidden; border:1.5px solid #1D1844; background:repeating-linear-gradient(45deg, rgba(29,24,68,.7) 0 1px, transparent 1px 12px), repeating-linear-gradient(-45deg, rgba(29,24,68,.7) 0 1px, transparent 1px 12px), radial-gradient(circle at 50% 45%, #1D1844 0%, #0F0C1D 55%, #04000B 100%); box-shadow:0 10px 30px rgba(4,0,11,.7); display:flex; align-items:center; justify-content:center">
+                <div style="position:absolute; inset:6cqw; border-radius:8px; border:1px solid rgba(230,195,121,.22)"></div>
+                <div style="display:flex; flex-direction:column; align-items:center; gap:6cqw">
+                  <div style="width:44cqw; height:44cqw; border-radius:50%; border:1px solid var(--acc,#E6C379); background:#04000B; box-shadow:0 0 24px rgba(230,195,121,.18); display:flex; align-items:center; justify-content:center; font-family:'Noto Serif JP',serif; font-weight:700; font-size:22cqw; color:var(--acc,#E6C379)">妖</div>
+                  <div style="font-family:Cinzel,serif; font-weight:600; font-size:7cqw; letter-spacing:.3em; color:#A8A3C7; padding-left:.3em">YOKKAI</div>
+                </div>
+              </div>
+              <div style="position:absolute; inset:0; border-radius:12px; padding:1.5px; backface-visibility:hidden; -webkit-backface-visibility:hidden; transform:rotateY(180deg); background:{{ c.frame }}; box-shadow:{{ c.glow }}">
+                <div style="position:relative; height:100%; border-radius:11px; overflow:hidden; background:radial-gradient(120% 75% at 50% 35%, {{ c.tint }} 0%, #0F0C1D 62%, #04000B 100%); display:flex; flex-direction:column; justify-content:space-between; padding:7cqw">
+                  <div style="display:flex; justify-content:space-between; align-items:center; gap:4px">
+                    <span style="font-size:clamp(9px,8cqw,12px); font-weight:600; letter-spacing:.06em; padding:1px 6px; border-radius:4px; color:#04000B; background:{{ c.color }}">{{ c.rarity }}</span>
+                    <span style="font-size:clamp(8px,6.5cqw,11px); letter-spacing:.12em; text-transform:uppercase; color:#A8A3C7">{{ c.catLabel }}</span>
+                  </div>
+                  <div style="text-align:center; font-family:'Noto Serif JP',serif; font-weight:700; line-height:1; font-size:{{ c.kSize }}; color:{{ c.color }}; text-shadow:0 0 24px {{ c.tint }}">{{ c.jp }}</div>
+                  <div style="text-align:center; font-family:Cinzel,serif; font-weight:600; font-size:clamp(10px,9cqw,15px); letter-spacing:.04em; color:#F1EEFF; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ c.name }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; gap:12px; padding-top:8px">
+        <sc-if value="{{ allRevealed }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ goCollection }}" style="height:52px; padding:0 32px; border-radius:999px; border:none; background:var(--acc,#E6C379); color:#04000B; font-size:15px; font-weight:600; letter-spacing:.02em; cursor:pointer; box-shadow:0 0 32px rgba(230,195,121,.25)" style-hover="filter:brightness(1.08)">Voir ma collection</button>
+        </sc-if>
+        <div style="position:relative; overflow:hidden; display:flex; align-items:center; gap:12px; height:52px; padding:0 28px; border-radius:999px; background:#0F0C1D; border:1px solid #1D1844; min-width:300px; justify-content:center">
+          <div style="position:absolute; left:0; top:0; bottom:0; width:{{ timerPct }}; background:linear-gradient(90deg, rgba(29,24,68,.2), #1D1844)"></div>
+          <span style="position:relative; font-size:13px; color:#A8A3C7">Prochain pack dans</span>
+          <span style="position:relative; font-size:17px; font-weight:600; font-variant-numeric:tabular-nums; color:var(--acc,#E6C379)">{{ timerText }}</span>
+        </div>
+        <button onClick="{{ resetPack }}" style="background:none; border:none; color:#8580AB; font-size:12px; cursor:pointer; text-decoration:underline; text-underline-offset:3px">Rejouer la démo</button>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isCollection }}" hint-placeholder-val="{{ false }}">
+    <main style="flex:1; width:100%; max-width:1240px; margin:0 auto; padding:48px 32px 64px; display:flex; flex-direction:column; gap:28px">
+      <div style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:24px">
+        <div style="display:flex; flex-direction:column; gap:8px">
+          <div style="font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--acc,#E6C379)">Grimoire</div>
+          <h1 style="margin:0; font-family:Cinzel,serif; font-weight:600; font-size:clamp(28px,4vw,40px); letter-spacing:.03em; line-height:1.1">Collection</h1>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:8px; min-width:240px">
+          <div style="display:flex; justify-content:space-between; font-size:13px; color:#A8A3C7"><span>Cartes découvertes</span><span style="color:#F1EEFF; font-weight:600; font-variant-numeric:tabular-nums">{{ ownedCount }} / 60</span></div>
+          <div style="height:4px; border-radius:999px; background:#04000B; overflow:hidden"><div style="height:100%; width:{{ ownedPct }}; background:var(--acc,#E6C379)"></div></div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844">
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px">
+          <span style="width:80px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8580AB">Rareté</span>
+          <sc-for list="{{ rarChips }}" as="f" hint-placeholder-count="5">
+            <button onClick="{{ f.onClick }}" style="display:flex; align-items:center; gap:8px; height:34px; padding:0 14px; border-radius:999px; cursor:pointer; font-size:13px; font-weight:500; background:{{ f.bg }}; border:1px solid {{ f.bd }}; color:{{ f.fg }}">
+              <span style="width:8px; height:8px; border-radius:50%; background:{{ f.dot }}"></span>{{ f.label }}<span style="color:#8580AB; font-variant-numeric:tabular-nums">{{ f.count }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="height:1px; background:#1D1844"></div>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:8px">
+          <span style="width:80px; font-size:11px; letter-spacing:.14em; text-transform:uppercase; color:#8580AB">Catégorie</span>
+          <sc-for list="{{ catChips }}" as="f" hint-placeholder-count="6">
+            <button onClick="{{ f.onClick }}" style="display:flex; align-items:center; gap:8px; height:34px; padding:0 14px; border-radius:999px; cursor:pointer; font-size:13px; font-weight:500; background:{{ f.bg }}; border:1px solid {{ f.bd }}; color:{{ f.fg }}">
+              {{ f.label }}<span style="color:#8580AB; font-variant-numeric:tabular-nums">{{ f.count }}</span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="font-size:13px; color:#8580AB">{{ resultText }} · triées par rareté</div>
+
+      <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax({{ colMin }},1fr)); gap:24px 20px">
+        <sc-for list="{{ collection }}" as="c" hint-placeholder-count="12">
+          <div onClick="{{ c.onOpen }}" style="display:flex; flex-direction:column; gap:10px; cursor:pointer; transition:transform .2s ease" style-hover="transform:translateY(-4px)">
+            <div style="container-type:inline-size; aspect-ratio:5/7; border-radius:12px; padding:1.5px; background:{{ c.frame }}; box-shadow:{{ c.glow }}">
+              <div style="position:relative; height:100%; border-radius:11px; overflow:hidden; background:radial-gradient(120% 75% at 50% 35%, {{ c.tint }} 0%, #0F0C1D 62%, #04000B 100%); display:flex; flex-direction:column; justify-content:space-between; padding:7cqw">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:4px">
+                  <span style="font-size:clamp(9px,8cqw,12px); font-weight:600; letter-spacing:.06em; padding:1px 6px; border-radius:4px; color:#04000B; background:{{ c.color }}">{{ c.rarity }}</span>
+                  <span style="font-size:clamp(8px,6.5cqw,11px); letter-spacing:.12em; text-transform:uppercase; color:#A8A3C7">{{ c.catLabel }}</span>
+                </div>
+                <div style="text-align:center; font-family:'Noto Serif JP',serif; font-weight:700; line-height:1; font-size:{{ c.kSize }}; color:{{ c.color }}; text-shadow:0 0 24px {{ c.tint }}">{{ c.jp }}</div>
+                <div style="text-align:center; font-family:Cinzel,serif; font-weight:600; font-size:clamp(10px,9cqw,15px); letter-spacing:.04em; color:#F1EEFF; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ c.name }}</div>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:2px; padding:0 2px">
+              <div style="font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:#8580AB">Obtenue le</div>
+              <div style="font-size:13px; color:#A8A3C7; font-variant-numeric:tabular-nums">{{ c.dateText }}</div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ isSystem }}" hint-placeholder-val="{{ false }}">
+    <main style="flex:1; width:100%; max-width:1120px; margin:0 auto; padding:48px 32px 64px; display:flex; flex-direction:column; gap:48px">
+      <div style="display:flex; flex-direction:column; gap:8px">
+        <div style="font-size:12px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--acc,#E6C379)">Tokens · Tailwind</div>
+        <h1 style="margin:0; font-family:Cinzel,serif; font-weight:600; font-size:clamp(28px,4vw,40px); letter-spacing:.03em">Système de design</h1>
+      </div>
+
+      <section style="display:flex; flex-direction:column; gap:16px">
+        <h2 style="margin:0; font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#A8A3C7">Couleurs de base</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px">
+          <div style="display:flex; flex-direction:column; gap:10px"><div style="height:88px; border-radius:12px; background:#04000B; border:1px solid #1D1844"></div><div style="font-size:14px; font-weight:600">void</div><div style="font-size:12px; color:#8580AB">#04000B · overlays, zones en retrait</div></div>
+          <div style="display:flex; flex-direction:column; gap:10px"><div style="height:88px; border-radius:12px; background:#090714; border:1px solid #1D1844"></div><div style="font-size:14px; font-weight:600">night</div><div style="font-size:12px; color:#8580AB">#090714 · fond principal</div></div>
+          <div style="display:flex; flex-direction:column; gap:10px"><div style="height:88px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844"></div><div style="font-size:14px; font-weight:600">surface</div><div style="font-size:12px; color:#8580AB">#0F0C1D · cartes, panneaux</div></div>
+          <div style="display:flex; flex-direction:column; gap:10px"><div style="height:88px; border-radius:12px; background:#1D1844"></div><div style="font-size:14px; font-weight:600">veil</div><div style="font-size:12px; color:#8580AB">#1D1844 · bordures, hover, actif</div></div>
+        </div>
+      </section>
+
+      <section style="display:flex; flex-direction:column; gap:16px">
+        <h2 style="margin:0; font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#A8A3C7">Accent (CTA) — 2 options</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:16px">
+          <div style="display:flex; gap:16px; align-items:center; padding:16px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844"><div style="width:64px; height:64px; border-radius:8px; background:#E6C379; flex-shrink:0"></div><div style="display:flex; flex-direction:column; gap:4px"><div style="font-size:14px; font-weight:600">accent-gold</div><div style="font-size:12px; color:#8580AB">#E6C379 · or champagne, premium, recommandé</div></div></div>
+          <div style="display:flex; gap:16px; align-items:center; padding:16px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844"><div style="width:64px; height:64px; border-radius:8px; background:#3FE0D0; flex-shrink:0"></div><div style="display:flex; flex-direction:column; gap:4px"><div style="font-size:14px; font-weight:600">accent-spirit</div><div style="font-size:12px; color:#8580AB">#3FE0D0 · cyan spectral, plus « tech »</div></div></div>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:16px">
+          <div style="display:flex; align-items:center; gap:12px"><div style="width:28px; height:28px; border-radius:6px; background:#F1EEFF"></div><div style="font-size:12px; color:#A8A3C7"><b style="color:#F1EEFF">ink</b> #F1EEFF · texte</div></div>
+          <div style="display:flex; align-items:center; gap:12px"><div style="width:28px; height:28px; border-radius:6px; background:#A8A3C7"></div><div style="font-size:12px; color:#A8A3C7"><b style="color:#F1EEFF">ink-2</b> #A8A3C7 · secondaire</div></div>
+          <div style="display:flex; align-items:center; gap:12px"><div style="width:28px; height:28px; border-radius:6px; background:#8580AB"></div><div style="font-size:12px; color:#A8A3C7"><b style="color:#F1EEFF">ink-3</b> #8580AB · métadonnées</div></div>
+        </div>
+      </section>
+
+      <section style="display:flex; flex-direction:column; gap:16px">
+        <h2 style="margin:0; font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#A8A3C7">Rareté</h2>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px">
+          <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844"><div style="height:6px; border-radius:999px; background:linear-gradient(90deg,#6B7089,#3A3D52)"></div><div style="display:flex; gap:8px; align-items:center"><span style="font-size:12px; font-weight:600; padding:1px 6px; border-radius:4px; background:#9AA0B8; color:#04000B">C</span><span style="font-size:14px; font-weight:600">Commune</span></div><div style="font-size:12px; color:#8580AB">#9AA0B8 · cadre acier, ombre neutre</div></div>
+          <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844"><div style="height:6px; border-radius:999px; background:linear-gradient(90deg,#6FA6FF,#2A5BC4)"></div><div style="display:flex; gap:8px; align-items:center"><span style="font-size:12px; font-weight:600; padding:1px 6px; border-radius:4px; background:#4C8DFF; color:#04000B">R</span><span style="font-size:14px; font-weight:600">Rare</span></div><div style="font-size:12px; color:#8580AB">#4C8DFF · cadre azur, halo léger</div></div>
+          <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844"><div style="height:6px; border-radius:999px; background:linear-gradient(90deg,#D29BFF,#7B3FE0)"></div><div style="display:flex; gap:8px; align-items:center"><span style="font-size:12px; font-weight:600; padding:1px 6px; border-radius:4px; background:#B26BFF; color:#04000B">SR</span><span style="font-size:14px; font-weight:600">Super Rare</span></div><div style="font-size:12px; color:#8580AB">#B26BFF · cadre améthyste, halo moyen</div></div>
+          <div style="display:flex; flex-direction:column; gap:12px; padding:16px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844"><div style="height:6px; border-radius:999px; background:linear-gradient(90deg,#FFE08A,#FF9A3C,#FF5E3A)"></div><div style="display:flex; gap:8px; align-items:center"><span style="font-size:12px; font-weight:600; padding:1px 6px; border-radius:4px; background:#FF9A3C; color:#04000B">SSR</span><span style="font-size:14px; font-weight:600">Super Super Rare</span></div><div style="font-size:12px; color:#8580AB">#FF9A3C · cadre flamme dégradé, halo fort</div></div>
+        </div>
+      </section>
+
+      <section style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:32px">
+        <div style="display:flex; flex-direction:column; gap:16px">
+          <h2 style="margin:0; font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#A8A3C7">Typographie</h2>
+          <div style="display:flex; flex-direction:column; gap:14px; padding:20px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844">
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px"><span style="font-family:Cinzel,serif; font-weight:600; font-size:40px">Display</span><span style="font-size:12px; color:#8580AB">Cinzel 600 · 40/28</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px"><span style="font-family:Cinzel,serif; font-weight:600; font-size:19px">Nom de carte</span><span style="font-size:12px; color:#8580AB">Cinzel 600 · 15–19</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px"><span style="font-size:15px">Corps de texte</span><span style="font-size:12px; color:#8580AB">Sora 400 · 14–15</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px"><span style="font-size:12px; letter-spacing:.2em; text-transform:uppercase">Overline</span><span style="font-size:12px; color:#8580AB">Sora 500 · 11–12 · +0.2em</span></div>
+            <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px"><span style="font-family:'Noto Serif JP',serif; font-weight:700; font-size:32px">狐 天狗</span><span style="font-size:12px; color:#8580AB">Noto Serif JP 700 · kanji</span></div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:16px">
+          <h2 style="margin:0; font-size:13px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:#A8A3C7">Espacement · Radius · Ombres</h2>
+          <div style="display:flex; flex-direction:column; gap:20px; padding:20px; border-radius:12px; background:#0F0C1D; border:1px solid #1D1844">
+            <div style="display:flex; align-items:flex-end; gap:10px; flex-wrap:wrap">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:4px; height:4px; background:var(--acc,#E6C379)"></div><span style="font-size:11px; color:#8580AB">4</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:8px; height:8px; background:var(--acc,#E6C379)"></div><span style="font-size:11px; color:#8580AB">8</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:12px; height:12px; background:var(--acc,#E6C379)"></div><span style="font-size:11px; color:#8580AB">12</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:16px; height:16px; background:var(--acc,#E6C379)"></div><span style="font-size:11px; color:#8580AB">16</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:24px; height:24px; background:var(--acc,#E6C379)"></div><span style="font-size:11px; color:#8580AB">24</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:32px; height:32px; background:var(--acc,#E6C379)"></div><span style="font-size:11px; color:#8580AB">32</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:48px; height:48px; background:var(--acc,#E6C379)"></div><span style="font-size:11px; color:#8580AB">48</span></div>
+            </div>
+            <div style="display:flex; gap:12px; flex-wrap:wrap">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:56px; height:40px; border:1px solid #F1EEFF; border-radius:4px"></div><span style="font-size:11px; color:#8580AB">4 · badge</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:56px; height:40px; border:1px solid #F1EEFF; border-radius:8px"></div><span style="font-size:11px; color:#8580AB">8 · input</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:56px; height:40px; border:1px solid #F1EEFF; border-radius:12px"></div><span style="font-size:11px; color:#8580AB">12 · carte</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:56px; height:40px; border:1px solid #F1EEFF; border-radius:20px"></div><span style="font-size:11px; color:#8580AB">20 · modale</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:6px"><div style="width:56px; height:40px; border:1px solid #F1EEFF; border-radius:999px"></div><span style="font-size:11px; color:#8580AB">full · CTA</span></div>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:12px">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:8px"><div style="width:100%; height:44px; border-radius:8px; background:#0F0C1D; box-shadow:0 8px 24px rgba(4,0,11,.9); border:1px solid #6B7089"></div><span style="font-size:11px; color:#8580AB">card</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:8px"><div style="width:100%; height:44px; border-radius:8px; background:#0F0C1D; box-shadow:0 8px 28px rgba(76,141,255,.3); border:1px solid #4C8DFF"></div><span style="font-size:11px; color:#8580AB">glow-r</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:8px"><div style="width:100%; height:44px; border-radius:8px; background:#0F0C1D; box-shadow:0 10px 36px rgba(178,107,255,.45); border:1px solid #B26BFF"></div><span style="font-size:11px; color:#8580AB">glow-sr</span></div>
+              <div style="display:flex; flex-direction:column; align-items:center; gap:8px"><div style="width:100%; height:44px; border-radius:8px; background:#0F0C1D; box-shadow:0 0 44px rgba(255,140,60,.55); border:1px solid #FF9A3C"></div><span style="font-size:11px; color:#8580AB">glow-ssr</span></div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </sc-if>
+
+  <sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeModal }}" style="position:fixed; inset:0; z-index:50; background:rgba(4,0,11,.84); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:24px">
+      <div onClick="{{ stop }}" style="position:relative; width:100%; max-width:720px; display:flex; flex-wrap:wrap; gap:32px; padding:32px; border-radius:20px; background:#0F0C1D; border:1px solid #1D1844; box-shadow:0 30px 80px rgba(4,0,11,.9)">
+        <button onClick="{{ closeModal }}" style="position:absolute; top:16px; right:16px; width:36px; height:36px; border-radius:999px; background:#090714; border:1px solid #1D1844; color:#A8A3C7; font-size:18px; line-height:1; cursor:pointer" style-hover="background:#1D1844; color:#F1EEFF">×</button>
+        <div style="container-type:inline-size; width:240px; flex-shrink:0; aspect-ratio:5/7; border-radius:14px; padding:2px; margin:0 auto; background:{{ m.frame }}; box-shadow:{{ m.glow }}">
+          <div style="position:relative; height:100%; border-radius:12px; overflow:hidden; background:radial-gradient(120% 75% at 50% 35%, {{ m.tint }} 0%, #0F0C1D 62%, #04000B 100%); display:flex; flex-direction:column; justify-content:space-between; padding:7cqw">
+            <div style="display:flex; justify-content:space-between; align-items:center"><span style="font-size:13px; font-weight:600; padding:1px 7px; border-radius:4px; color:#04000B; background:{{ m.color }}">{{ m.rarity }}</span><span style="font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:#A8A3C7">{{ m.catLabel }}</span></div>
+            <div style="text-align:center; font-family:'Noto Serif JP',serif; font-weight:700; line-height:1; font-size:{{ m.kSize }}; color:{{ m.color }}; text-shadow:0 0 30px {{ m.tint }}">{{ m.jp }}</div>
+            <div style="text-align:center; font-family:Cinzel,serif; font-weight:600; font-size:18px; color:#F1EEFF">{{ m.name }}</div>
+          </div>
+        </div>
+        <div style="flex:1; min-width:240px; display:flex; flex-direction:column; gap:24px; padding-top:8px">
+          <div style="display:flex; flex-direction:column; gap:6px">
+            <div style="font-size:12px; letter-spacing:.2em; text-transform:uppercase; color:{{ m.color }}">{{ m.rarityLabel }}</div>
+            <h2 style="margin:0; font-family:Cinzel,serif; font-weight:600; font-size:32px; letter-spacing:.03em; line-height:1.1">{{ m.name }}</h2>
+            <div style="font-family:'Noto Serif JP',serif; font-size:16px; color:#A8A3C7">{{ m.jp }}</div>
+          </div>
+          <div style="display:flex; flex-direction:column; border-top:1px solid #1D1844">
+            <div style="display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid #1D1844; font-size:14px"><span style="color:#8580AB">Catégorie</span><span>{{ m.catLabel }}</span></div>
+            <div style="display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid #1D1844; font-size:14px"><span style="color:#8580AB">Rareté</span><span style="display:flex; align-items:center; gap:8px"><span style="width:8px; height:8px; border-radius:50%; background:{{ m.color }}"></span>{{ m.rarityLabel }}</span></div>
+            <div style="display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid #1D1844; font-size:14px"><span style="color:#8580AB">Obtenue le</span><span style="font-variant-numeric:tabular-nums">{{ m.dateLong }}</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Or&quot;,&quot;Cyan&quot;],&quot;default&quot;:&quot;Or&quot;,&quot;tsType&quot;:&quot;'Or'|'Cyan'&quot;,&quot;section&quot;:&quot;Direction&quot;},&quot;rarityGlow&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Direction&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Confortable&quot;,&quot;Compacte&quot;],&quot;default&quot;:&quot;Confortable&quot;,&quot;tsType&quot;:&quot;'Confortable'|'Compacte'&quot;,&quot;section&quot;:&quot;Collection&quot;}}">
+const RAR = {
+  C:   { label: 'Commune', color: '#9AA0B8', frame: 'linear-gradient(160deg,#6B7089,#3A3D52)', glow: '0 8px 24px rgba(4,0,11,.7)', rank: 0 },
+  R:   { label: 'Rare', color: '#4C8DFF', frame: 'linear-gradient(160deg,#6FA6FF,#2A5BC4)', glow: '0 8px 28px rgba(76,141,255,.28)', rank: 1 },
+  SR:  { label: 'Super Rare', color: '#B26BFF', frame: 'linear-gradient(160deg,#D29BFF,#7B3FE0)', glow: '0 0 0 1px rgba(178,107,255,.25), 0 10px 36px rgba(178,107,255,.42)', rank: 2 },
+  SSR: { label: 'Super Super Rare', color: '#FF9A3C', frame: 'linear-gradient(150deg,#FFE08A,#FF9A3C 45%,#FF5E3A)', glow: '0 0 0 1px rgba(255,154,60,.35), 0 0 48px rgba(255,140,60,.5)', rank: 3 },
+};
+const CATS = { bete: 'Bête', demon: 'Démon', objet: 'Objet', eau: 'Eau', spectre: 'Spectre' };
+const DB = {
+  kitsune: ['Kitsune', '狐', 'bete', 'SSR'], ryujin: ['Ryūjin', '龍神', 'eau', 'SSR'], shuten: ['Shuten-dōji', '酒呑', 'demon', 'SSR'],
+  tengu: ['Tengu', '天狗', 'demon', 'SR'], yukionna: ['Yuki-onna', '雪女', 'spectre', 'SR'], umibozu: ['Umibōzu', '海坊主', 'eau', 'SR'], nekomata: ['Nekomata', '猫又', 'bete', 'SR'],
+  kappa: ['Kappa', '河童', 'eau', 'R'], bakeneko: ['Bakeneko', '化猫', 'bete', 'R'], oni: ['Oni', '鬼', 'demon', 'R'], kamaitachi: ['Kamaitachi', '鎌鼬', 'bete', 'R'], ittan: ['Ittan-momen', '反木綿', 'objet', 'R'],
+  tanuki: ['Tanuki', '狸', 'bete', 'C'], kasa: ['Kasa-obake', '傘', 'objet', 'C'], chochin: ['Chōchin-obake', '提灯', 'objet', 'C'], yurei: ['Yūrei', '幽霊', 'spectre', 'C'],
+  kodama: ['Kodama', '木霊', 'spectre', 'C'], nurikabe: ['Nurikabe', '塗壁', 'objet', 'C'], hitotsume: ['Hitotsume-kozō', '一つ目', 'spectre', 'C'], azuki: ['Azuki-arai', '小豆', 'eau', 'C'],
+};
+const PACK = ['tanuki', 'kasa', 'kappa', 'hitotsume', 'yurei', 'chochin', 'kodama', 'kamaitachi', 'yukionna', 'kitsune'];
+const OWNED = [
+  ['ryujin', '2026-09-03'], ['shuten', '2026-09-14'], ['tengu', '2026-09-08'], ['umibozu', '2026-09-01'], ['nekomata', '2026-09-19'],
+  ['bakeneko', '2026-09-02'], ['oni', '2026-09-11'], ['ittan', '2026-09-17'], ['nurikabe', '2026-09-05'], ['azuki', '2026-09-12'],
+];
+const CYCLE = 1800;
+
+class Component extends DCLogic {
+  state = { screen: 'booster', revealed: {}, remain: 1427, cat: 'all', rar: 'all', modal: null, obtained: {} };
+
+  componentDidMount() { this.t = setInterval(() => this.setState(s => ({ remain: s.remain <= 1 ? CYCLE : s.remain - 1 })), 1000); }
+  componentWillUnmount() { clearInterval(this.t); }
+
+  card(id, extra) {
+    const [name, jp, cat, rarity] = DB[id];
+    const r = RAR[rarity];
+    const glowOn = this.props.rarityGlow ?? true;
+    const len = jp.length;
+    return {
+      id, name, jp, cat, rarity, catLabel: CATS[cat], rarityLabel: r.label, color: r.color, frame: r.frame, rank: r.rank,
+      glow: glowOn ? r.glow : RAR.C.glow, tint: r.color + '38',
+      kSize: len === 1 ? '46cqw' : len === 2 ? '32cqw' : '24cqw', ...extra,
+    };
+  }
+
+  fmt(d, long) { return new Date(d + 'T12:00:00').toLocaleDateString('fr-FR', long ? { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' } : { day: 'numeric', month: 'short', year: 'numeric' }); }
+
+  chip(active) {
+    return active ? { bg: '#1D1844', bd: 'var(--acc,#E6C379)', fg: '#F1EEFF' } : { bg: '#090714', bd: '#1D1844', fg: '#A8A3C7' };
+  }
+
+  renderVals() {
+    const s = this.state;
+    const accent = (this.props.accent ?? 'Or') === 'Cyan' ? '#3FE0D0' : '#E6C379';
+    const set = screen => () => this.setState({ screen });
+    const tabs = [['booster', 'Booster'], ['collection', 'Collection'], ['system', 'Système']].map(([k, label]) => ({
+      label, onClick: set(k), color: s.screen === k ? '#F1EEFF' : '#8580AB', bar: s.screen === k ? accent : 'transparent',
+    }));
+
+    const pack = PACK.map(id => {
+      const open = !!s.revealed[id];
+      return this.card(id, {
+        flip: open ? 'rotateY(180deg)' : 'rotateY(0deg)', cursor: open ? 'default' : 'pointer',
+        onClick: () => !open && this.setState(st => ({ revealed: { ...st.revealed, [id]: true } })),
+      });
+    });
+    const revealedCount = Object.keys(s.revealed).length;
+    const today = '2026-09-22';
+    const packOwned = PACK.filter(id => s.revealed[id]).map(id => [id, today]);
+    const ownedAll = [...packOwned, ...OWNED.filter(([id]) => !s.revealed[id])];
+
+    const all = ownedAll.map(([id, d]) => this.card(id, { date: d }));
+    const byRar = all.filter(c => s.cat === 'all' || c.cat === s.cat);
+    const byCat = all.filter(c => s.rar === 'all' || c.rarity === s.rar);
+    const filtered = all.filter(c => (s.cat === 'all' || c.cat === s.cat) && (s.rar === 'all' || c.rarity === s.rar))
+      .sort((a, b) => b.rank - a.rank || b.date.localeCompare(a.date) || a.name.localeCompare(b.name))
+      .map(c => ({ ...c, dateText: this.fmt(c.date), onOpen: () => this.setState({ modal: c.id }) }));
+
+    const rarChips = [['all', 'Toutes', 'transparent'], ...['SSR', 'SR', 'R', 'C'].map(k => [k, k, RAR[k].color])].map(([k, label, dot]) => ({
+      label, dot, count: k === 'all' ? byRar.length : byRar.filter(c => c.rarity === k).length,
+      onClick: () => this.setState({ rar: k }), ...this.chip(s.rar === k),
+    }));
+    const catChips = [['all', 'Toutes'], ...Object.entries(CATS)].map(([k, label]) => ({
+      label, count: k === 'all' ? byCat.length : byCat.filter(c => c.cat === k).length,
+      onClick: () => this.setState({ cat: k }), ...this.chip(s.cat === k),
+    }));
+
+    const mEntry = s.modal && ownedAll.find(([id]) => id === s.modal);
+    const m = mEntry ? this.card(mEntry[0], { dateLong: this.fmt(mEntry[1], true) }) : {};
+    if (m.kSize) m.kSize = m.jp.length === 1 ? '46cqw' : m.jp.length === 2 ? '34cqw' : '26cqw';
+
+    const mm = String(Math.floor(s.remain / 60)).padStart(2, '0'), ss = String(s.remain % 60).padStart(2, '0');
+
+    return {
+      accent, tabs,
+      isBooster: s.screen === 'booster', isCollection: s.screen === 'collection', isSystem: s.screen === 'system',
+      pack, revealedCount, allRevealed: revealedCount === 10,
+      revealAll: () => this.setState({ revealed: Object.fromEntries(PACK.map(id => [id, true])) }),
+      resetPack: () => this.setState({ revealed: {} }),
+      goCollection: set('collection'),
+      timerText: `${mm}:${ss}`, timerPct: `${((CYCLE - s.remain) / CYCLE) * 100}%`,
+      ownedCount: all.length, ownedPct: `${(all.length / 60) * 100}%`,
+      rarChips, catChips, collection: filtered,
+      resultText: `${filtered.length} carte${filtered.length > 1 ? 's' : ''}`,
+      colMin: (this.props.density ?? 'Confortable') === 'Compacte' ? '128px' : '168px',
+      modalOpen: !!mEntry, m, closeModal: () => this.setState({ modal: null }), stop: e => e.stopPropagation(),
+    };
+  }
+}
+</script>
+</body>
+</html>

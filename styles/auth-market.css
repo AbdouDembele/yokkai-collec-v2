@@ -1,0 +1,283 @@
+.yk-auth-market-showcase {
+  container-type: inline-size;
+}
+.yk-auth-demo-market,
+.yk-auth-demo-auction {
+  min-width: 0;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 16px;
+  padding: clamp(14px, 3cqw, 24px);
+  background: linear-gradient(145deg, #101624, #080d17 75%);
+}
+.yk-auth-demo-header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.yk-auth-demo-header > div {
+  min-width: 0;
+}
+.yk-auth-demo-header h4 {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 4cqw, 28px);
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.yk-auth-demo-header p {
+  margin-top: 8px;
+  color: var(--color-ink-2);
+  font-size: 12px;
+  line-height: 1.6;
+}
+.yk-auth-demo-tag {
+  flex: none;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: var(--radius-pill);
+  padding: 5px 9px;
+  color: var(--color-ink-2);
+  font-size: 10px;
+}
+.yk-auth-demo-listings {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 12px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.yk-auth-demo-listings > li,
+.yk-auth-demo-listing {
+  min-width: 0;
+}
+.yk-auth-demo-listing {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.yk-auth-demo-seller {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-block: 12px 8px;
+  color: var(--color-ink-2);
+  font-size: 11px;
+}
+.yk-auth-demo-listing-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 10px;
+}
+.yk-auth-demo-listing-meta time {
+  color: var(--color-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.yk-auth-demo-listing-meta .yk-karas {
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.yk-auth-demo-auction-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 24px;
+}
+.yk-auth-demo-auction-left,
+.yk-auth-demo-auction-right {
+  display: grid;
+  min-width: 0;
+  align-content: start;
+  gap: 20px;
+}
+.yk-auth-demo-auction-art {
+  width: min(100%, 190px);
+  justify-self: center;
+}
+.yk-auth-demo-history,
+.yk-auth-demo-bidding,
+.yk-auth-demo-auction-chat {
+  min-width: 0;
+  border: 1px solid var(--color-veil);
+  border-radius: 12px;
+  padding: 14px;
+  background: #060a13a6;
+}
+.yk-auth-demo-history h5,
+.yk-auth-demo-auction-chat h5 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 650;
+}
+.yk-auth-demo-history h5 > span,
+.yk-auth-demo-auction-chat h5 > span {
+  color: var(--color-ink-3);
+  font-size: 10px;
+  font-weight: 400;
+}
+.yk-auth-demo-history ol,
+.yk-auth-demo-auction-chat ol {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.yk-auth-demo-history li {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding-block: 10px;
+  border-bottom: 1px solid var(--color-veil);
+}
+.yk-auth-demo-history li:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.yk-auth-demo-history li > div {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+  font-size: 11px;
+}
+.yk-auth-demo-history li .yk-karas {
+  gap: 5px;
+}
+.yk-auth-demo-leading {
+  margin-left: auto;
+  border-radius: 5px;
+  padding: 4px 6px;
+  background: #24c6a51a;
+  color: #64d6ba;
+  font-size: 9px;
+}
+.yk-auth-demo-figures {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--color-veil);
+}
+.yk-auth-demo-figures > div {
+  display: grid;
+  gap: 8px;
+}
+.yk-auth-demo-figures > div > span {
+  color: var(--color-ink-3);
+  font-size: 10px;
+}
+.yk-auth-demo-figures strong,
+.yk-auth-demo-figures b {
+  font-size: 23px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.yk-auth-demo-bidding form {
+  display: grid;
+  gap: 8px;
+  margin-top: 16px;
+}
+.yk-auth-demo-bidding label {
+  color: var(--color-ink-2);
+  font-size: 11px;
+}
+.yk-auth-demo-bidding form > div,
+.yk-auth-demo-auction-chat form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.yk-auth-demo-bidding input,
+.yk-auth-demo-auction-chat input {
+  flex: 1 1 120px;
+  width: 0;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px;
+  font-size: 12px;
+}
+.yk-auth-demo-auction .yk-button {
+  min-height: 44px;
+  padding: 8px 12px;
+  font-size: 11px;
+}
+.yk-auth-demo-bid-status,
+.yk-auth-demo-auction-chat > p,
+.yk-auth-market-example-note {
+  margin-top: 12px;
+  color: var(--color-ink-3);
+  font-size: 10px;
+  line-height: 1.7;
+}
+.yk-auth-demo-error {
+  margin-top: 12px;
+  color: var(--color-danger-ink);
+  font-size: 11px;
+  line-height: 1.7;
+}
+.yk-auth-demo-auction-chat ol {
+  display: grid;
+  max-height: 310px;
+  gap: 12px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  overscroll-behavior-y: contain;
+}
+.yk-auth-demo-auction-chat li {
+  display: flex;
+  align-items: start;
+  gap: 8px;
+}
+.yk-auth-demo-auction-chat li > div {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid var(--color-veil);
+  border-radius: 3px 10px 10px;
+  padding: 10px;
+  background: #121d2d;
+  font-size: 11px;
+}
+.yk-auth-demo-auction-chat li strong {
+  font-size: 11px;
+}
+.yk-auth-demo-auction-chat li p {
+  margin-top: 6px;
+  color: var(--color-ink-2);
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.yk-auth-demo-auction-chat form {
+  margin-top: 16px;
+}
+.yk-auth-demo-market .yk-card-shell:hover .yk-card-shell-plane,
+.yk-auth-demo-auction .yk-card-shell:hover .yk-card-shell-plane {
+  will-change: auto;
+}
+@container (min-width: 480px) {
+  .yk-auth-demo-listings {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .yk-auth-demo-auction-layout {
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  }
+}
+@container (min-width: 700px) {
+  .yk-auth-demo-listings {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

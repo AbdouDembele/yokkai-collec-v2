@@ -1,0 +1,52 @@
+{
+  "name": "yokkai-collec",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "setup": "git config core.hooksPath .githooks",
+    "prepare": "git config core.hooksPath .githooks || exit 0",
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "start": "next start",
+    "lint": "eslint",
+    "ci": "node scripts/ci.mjs",
+    "ci:db": "node scripts/ci-db.mjs",
+    "ci:all": "npm run verify",
+    "format": "node scripts/format.mjs --write",
+    "format:check": "node scripts/format.mjs --check",
+    "local:configure": "node scripts/configure-local-env.mjs",
+    "billing:sandbox": "node --env-file=.env.stripe-sandbox.local scripts/start-stripe-sandbox.mjs",
+    "admin:grant": "node --env-file-if-exists=.env.local scripts/grant-admin.mjs",
+    "import:cards": "node --env-file-if-exists=.env.local scripts/import-cards.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "verify": "node scripts/verify.mjs",
+    "verify:quick": "node scripts/ci.mjs --quick"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.1",
+    "csv-parse": "^7.0.2",
+    "next": "16.4.2",
+    "next-intl": "4.14.9",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "stripe": "^23.0.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.2",
+    "playwright-core": "1.63.0",
+    "prettier": "3.9.10",
+    "supabase": "^2.117.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  },
+  "engines": {
+    "node": "22.x"
+  }
+}

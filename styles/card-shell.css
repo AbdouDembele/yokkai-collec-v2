@@ -1,0 +1,128 @@
+.yk-card-shell {
+  --shell-tilt-x: 0deg;
+  --shell-tilt-y: 0deg;
+  --shell-reflect-x: 0%;
+  --shell-reflect-opacity: 0;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  perspective: var(--card-shell-perspective);
+  isolation: isolate;
+}
+
+.yk-card-shell-plane {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-card, 12px);
+  transform: translateY(0) rotateX(var(--shell-tilt-x))
+    rotateY(var(--shell-tilt-y));
+  transform-style: preserve-3d;
+  transition: transform var(--duration-fast) var(--ease-standard);
+  will-change: auto;
+}
+
+.yk-card-shell-plane > .yk-card,
+.yk-card-shell-plane > .yk-card-back {
+  height: 100%;
+}
+
+.yk-card-shell-reflection {
+  position: absolute;
+  inset: 0;
+  z-index: 8;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--shell-reflect-opacity);
+  transform: translateX(var(--shell-reflect-x));
+  background: linear-gradient(
+    115deg,
+    transparent 28%,
+    color-mix(in srgb, var(--color-ink) 14%, transparent) 43%,
+    color-mix(in srgb, var(--color-focus) 22%, transparent) 50%,
+    transparent 65%
+  );
+  mix-blend-mode: screen;
+  transition:
+    transform var(--duration-fast) var(--ease-standard),
+    opacity var(--duration-fast) var(--ease-standard);
+  will-change: auto;
+}
+
+/* Read-only catalogues can show dozens of cards at once. Keeping their
+   pointer-driven 3D layers active makes moving across the grid expensive. */
+.yk-card-shell-static {
+  perspective: none;
+}
+
+.yk-card-shell-static .yk-card-shell-plane {
+  transform: none;
+  transform-style: flat;
+  transition: transform var(--duration-fast) var(--ease-standard);
+  will-change: auto;
+}
+
+.yk-card-shell-static .yk-card-shell-reflection {
+  display: none;
+}
+
+.yk-card-shell-demo-hover,
+.yk-card-shell-demo-tilt,
+.yk-card-shell-demo-reflection {
+  --shell-reflect-opacity: var(--card-shell-reflection-opacity);
+}
+
+.yk-card-shell-demo-tilt {
+  --shell-tilt-x: var(--card-shell-demo-tilt-x);
+  --shell-tilt-y: var(--card-shell-demo-tilt-y);
+  --shell-reflect-x: 18%;
+}
+
+.yk-card-shell-demo-reflection {
+  --shell-reflect-x: var(--card-shell-demo-reflection-offset);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .yk-card-shell:hover .yk-card-shell-plane {
+    will-change: transform;
+  }
+
+  .yk-card-shell:hover .yk-card-shell-reflection {
+    will-change: transform, opacity;
+  }
+
+  .yk-card-shell-static:hover .yk-card-shell-plane {
+    transform: translateY(var(--card-shell-hover-lift));
+  }
+
+  .yk-card-shell:not(.yk-card-shell-static):not(.yk-card-shell-demo-tilt):not(
+      .yk-card-shell-demo-reflection
+    ):hover
+    .yk-card-shell-plane,
+  .yk-card-shell-demo-hover .yk-card-shell-plane {
+    transform: translateY(var(--card-shell-hover-lift))
+      rotateX(var(--shell-tilt-x)) rotateY(var(--shell-tilt-y));
+  }
+
+  .yk-card-shell:not(.yk-card-shell-static):not(.yk-card-shell-demo-tilt):not(
+      .yk-card-shell-demo-reflection
+    ):hover {
+    --shell-reflect-opacity: var(--card-shell-reflection-opacity);
+  }
+}
+
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .yk-card-shell {
+    --shell-tilt-x: 0deg !important;
+    --shell-tilt-y: 0deg !important;
+    --shell-reflect-x: 0% !important;
+    --shell-reflect-opacity: 0 !important;
+  }
+
+  .yk-card-shell-plane,
+  .yk-card-shell:hover .yk-card-shell-plane,
+  .yk-card-shell-reflection {
+    transform: none !important;
+    transition: none !important;
+  }
+}

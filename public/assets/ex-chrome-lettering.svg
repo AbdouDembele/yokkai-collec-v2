@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 76" fill="none">
+  <defs>
+    <linearGradient id="chrome" x1="0" y1="7" x2="0" y2="57" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#f4ffff"/>
+      <stop offset=".15" stop-color="#b5edee"/>
+      <stop offset=".32" stop-color="#f8ffff"/>
+      <stop offset=".48" stop-color="#83b8bd"/>
+      <stop offset=".61" stop-color="#163942"/>
+      <stop offset=".74" stop-color="#427d85"/>
+      <stop offset=".9" stop-color="#96e3e5"/>
+      <stop offset="1" stop-color="#d9ffff"/>
+    </linearGradient>
+    <linearGradient id="bevel" x1="45" y1="8" x2="57" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff"/>
+      <stop offset=".45" stop-color="#9fe5e8"/>
+      <stop offset="1" stop-color="#1c6471"/>
+    </linearGradient>
+    <path id="letters" fill-rule="evenodd" d="M54 22C54 11 45 7 32 7C13 7 4 16 4 34C4 51 13 57 30 57C40 57 47 55 52 51V40C45 44 38 46 30 46C22 46 18 43 18 38H54V22ZM19 27C20 20 24 17 32 17C38 17 41 20 41 27H19ZM49 9H66L74 24L85 9H103L83 32L100 56H82L72 41L60 56H42L63 32L49 9Z"/>
+  </defs>
+  <g transform="translate(23 5) skewX(-13)" stroke-linejoin="round">
+    <use href="#letters" transform="translate(1.2 2)" fill="#081723" stroke="#081723" stroke-width="6"/>
+    <use href="#letters" fill="#fff" stroke="#ecffff" stroke-width="8"/>
+    <use href="#letters" fill="url(#chrome)" stroke="#101619" stroke-width="5"/>
+    <use href="#letters" fill="url(#chrome)" stroke="url(#bevel)" stroke-width="1.6"/>
+    <path d="M12 24C16 14 23 12 33 12C40 12 45 14 48 18M57 13H63L73 31L87 13H95" stroke="#fff" stroke-opacity=".8" stroke-width="1.4" stroke-linecap="round"/>
+  </g>
+</svg>

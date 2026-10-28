@@ -1,0 +1,121 @@
+diff --git a/components/home-content.tsx b/components/home-content.tsx
+index 1775999..e40d1f5 100644
+--- a/components/home-content.tsx
++++ b/components/home-content.tsx
+@@ -1,3 +1,4 @@
++import { useTranslations } from "next-intl";
+ import type { ReactNode } from "react";
+ import Link from "next/link";
+ import { YokaiCard } from "@/components/yokai-card";
+@@ -7,23 +8,24 @@ import { ReferralReminder } from "@/components/referral-reminder";
+ import "@/styles/home.css";
+ 
+ export function HomeHero() {
++  const t = useTranslations("homeContent");
+   return (
+     <section className="yk-home-hero" aria-labelledby="home-title">
+       <div className="yk-home-hero-copy">
+-        <p className="eyebrow">A new discovery in every card</p>
++        <p className="eyebrow">{t("aNewDiscoveryInEveryCard")}</p>
+         <h1 id="home-title">
+-          Your favorites.
++          {t("yourFavorites")}
+           <br />
+-          Your collection.
++          {t("yourCollection")}
+           <br />
+-          <em>Your next obsession.</em>
++          <em>{t("yourNextObsession")}</em>
+         </h1>
+         <p>
+-          Open packs and discover your next favorite.
++          {t("openPacksAndDiscoverYourNextFavorite")}
+           <br />
+-          Collect cards and complete your binders.
++          {t("collectCardsAndCompleteYourBinders")}
+           <br />
+-          Trade with friends and sell at auction.
++          {t("tradeWithFriendsAndSellAtAuction")}
+         </p>
+       </div>
+       <div className="yk-home-ribbon-window" aria-hidden="true">
+@@ -44,19 +46,20 @@ export function HomeHero() {
+ }
+ 
+ export function HomeLinks({ discordEnabled }: { discordEnabled: boolean }) {
++  const t = useTranslations("homeContent");
+   return (
+     <>
+       <div className="yk-home-community-grid">
+         {discordEnabled && (
+           <section aria-labelledby="home-discord" className="yk-home-discord">
+             <div>
+-              <h2 id="home-discord">Join the Yokkai community</h2>
++              <h2 id="home-discord">{t("joinTheYokkaiCommunity")}</h2>
+             </div>
+             <Link
+               href="/discord"
+               className="yk-button yk-button-primary yk-home-panel-action"
+             >
+-              Join Discord ↗
++              {t("joinDiscord")}
+             </Link>
+             <svg
+               className="yk-home-discord-logo"
+@@ -73,20 +76,12 @@ export function HomeLinks({ discordEnabled }: { discordEnabled: boolean }) {
+         <ReferralReminder packChoices homeCard />
+       </div>
+       <section aria-labelledby="home-learn" className="yk-home-panel">
+-        <h2 id="home-learn">Learn more</h2>
++        <h2 id="home-learn">{t("learnMore")}</h2>
+         <div className="yk-home-guides">
+           {[
+-            ["/rules", "The rules", "Everything you need to start collecting."],
+-            [
+-              "/rarities",
+-              "Rarities & shiny cards",
+-              "Get to know the cards worth chasing."
+-            ],
+-            [
+-              "/info",
+-              "About Yokkai",
+-              "Explore the world behind your collection."
+-            ]
++            ["/rules", t("theRules"), t("startCollecting")],
++            ["/rarities", t("raritiesAndShiny"), t("chaseCards")],
++            ["/info", t("aboutYokkai"), t("exploreCollection")]
+           ].map(([href, title, description]) => (
+             <Link key={href} href={href}>
+               <h3>
+@@ -102,9 +97,10 @@ export function HomeLinks({ discordEnabled }: { discordEnabled: boolean }) {
+ }
+ 
+ export function HomeSkeleton() {
++  const t = useTranslations("homeContent");
+   return (
+     <div className="yk-home-skeleton" role="status">
+-      <span className="sr-only">Loading panel…</span>
++      <span className="sr-only">{t("loadingPanel")}</span>
+       <div />
+       <div />
+       <div />
+@@ -113,15 +109,17 @@ export function HomeSkeleton() {
+ }
+ 
+ export function HomePacks({ children }: { children: ReactNode }) {
++  const t = useTranslations("homeContent");
+   return (
+     <section className="yk-home-panel" aria-labelledby="home-packs">
+       <header className="yk-home-panel-heading">
+-        <h2 id="home-packs">Your packs</h2>
++        <h2 id="home-packs">{t("yourPacks")}</h2>
+         <Link
+           href="/boosters"
+           className="yk-button yk-button-primary yk-home-panel-action"
+         >
+-          Open a booster <span aria-hidden="true">↗</span>
++          {t("openABooster")}
++          <span aria-hidden="true">↗</span>
+         </Link>
+       </header>
+       <div className="yk-home-packs-grid">{children}</div>

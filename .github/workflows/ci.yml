@@ -1,0 +1,138 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  production-dependency-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Audit production dependencies (high or critical)
+        run: npm audit --omit=dev --audit-level=high
+
+  postgres17-auction-concurrency:
+    needs: checks
+    if: ${{ !cancelled() && (github.event_name == 'push' || needs.checks.outputs.sql == 'true') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: supabase/postgres:17.6.1.136
+        env:
+          POSTGRES_USER: supabase_admin
+          POSTGRES_HOST_AUTH_METHOD: trust
+        # Fresh isolated cluster, no ports exposed, no bundled Supabase init scripts.
+        options: >-
+          --tmpfs /docker-entrypoint-initdb.d
+          --health-cmd "pg_isready -U supabase_admin -d postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Replay all migrations on production PostgreSQL image and run 50 crossed bids
+        env:
+          TEST_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}
+        run: node tests/postgres17-auction-concurrency.mjs
+      - name: Collection page order matches localeCompare on ICU (production PostgreSQL image)
+        env:
+          TEST_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}
+        run: node tests/postgres17-collection-order.mjs
+
+  migration-security:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Replay all migrations and check SECURITY DEFINER grants
+        run: time node --test tests/migration-security.test.mjs
+
+  checks:
+    outputs:
+      sql: ${{ steps.sql-changes.outputs.sql }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      NEXT_PUBLIC_SUPABASE_URL: https://example.supabase.co
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: sb_publishable_ci_dummy
+      NEXT_PUBLIC_SITE_URL: https://example.invalid
+      MAINTENANCE_MODE: "false"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Detect SQL changes across the whole PR
+        id: sql-changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: node scripts/ci-sql-changes.mjs
+
+      - name: Restore Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: .next/cache
+          key: ${{ runner.os }}-next-node22-${{ hashFiles('package-lock.json') }}-${{ hashFiles('app/**', 'components/**', 'lib/**', 'utils/**', 'styles/**', 'next.config.ts', 'tsconfig.json', 'tailwind.config.ts', 'postcss.config.mjs') }}
+          restore-keys: |
+            ${{ runner.os }}-next-node22-${{ hashFiles('package-lock.json') }}-
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Format check
+        run: npm run format:check
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Auth pages have no horizontal overflow (Playwright, system Chrome)
+        run: node tests/auth-overflow.browser.mjs
+
+      - name: Check design-system is unavailable in production
+        run: node tests/design-system-production.mjs

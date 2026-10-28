@@ -1,0 +1,5 @@
+{
+  "TRADE_OFFER_RATE_LIMITED": "Too many trade offers. Please try again later.",
+  "TRADE_PENDING_LIMIT": "You have 20 pending offers. Cancel or resolve an offer before sending another.",
+  "TRADE_PAIR_LIMIT": "You already have 5 pending offers for this player. Resolve one before sending another."
+}

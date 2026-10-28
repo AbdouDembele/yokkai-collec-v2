@@ -1,0 +1,118 @@
+/* Visual tokens extracted from the supplied YokaiCard reference. */
+:root {
+  --rarity-r: #E8EDF5;
+  --rarity-sr: #C9A8E0;
+}
+
+.yk-rarity-C {
+  --card-frame: linear-gradient(160deg,#737A8F,#3A3E4F);
+  --card-inset: 1.5px;
+  --card-bg: radial-gradient(120% 75% at 50% 35%, #2A2D3C 0%, #0F0C1D 62%, #04000B 100%);
+  --card-ring: rgba(144,151,171,.18);
+  --card-line: transparent;
+  --card-badge: #9097AB;
+  --card-badge-ink: #04000B;
+  --card-badge-border: #9097AB;
+  --card-number: var(--color-ink-2);
+  --card-foil: none;
+  --card-foil-size: 100% 100%;
+  --card-glow: 0 8px 24px rgba(4,0,11,.7);
+  --card-glow-color: transparent;
+  --card-pulse: none;
+  --card-spin: none;
+  --card-sweep: none;
+  --card-spark: transparent;
+}
+.yk-rarity-R {
+  --card-frame: linear-gradient(160deg,#FFFFFF,#A9B1C2 30%,#5E6678 55%,#E8EDF5 80%,#8D95A7);
+  --card-inset: 2px;
+  --card-bg: radial-gradient(120% 75% at 50% 35%, #3A4052 0%, #10111F 62%, #04000B 100%);
+  --card-ring: rgba(220,226,236,.28);
+  --card-line: transparent;
+  --card-badge: linear-gradient(160deg,#FFFFFF,#AEB6C6);
+  --card-badge-ink: #04000B;
+  --card-badge-border: var(--rarity-r);
+  --card-number: var(--color-ink-2);
+  --card-foil: linear-gradient(125deg, transparent 30%, rgba(255,255,255,.14) 45%, transparent 55%, rgba(255,255,255,.08) 70%, transparent 80%);
+  --card-foil-size: 100% 100%;
+  --card-glow: 0 10px 30px rgba(220,226,236,.2);
+  --card-glow-color: transparent;
+  --card-pulse: none;
+  --card-spin: none;
+  --card-sweep: none;
+  --card-spark: transparent;
+}
+.yk-rarity-SR {
+  --card-frame: linear-gradient(160deg,#EADCF3,#C9A8E0 45%,#76538F 75%,#D9BFEA);
+  --card-inset: 2px;
+  --card-bg: radial-gradient(120% 75% at 50% 35%, #463052 0%, #15101B 62%, #04000B 100%);
+  --card-ring: rgba(201,168,224,.3);
+  --card-line: transparent;
+  --card-badge: var(--rarity-sr);
+  --card-badge-ink: #04000B;
+  --card-badge-border: var(--rarity-sr);
+  --card-number: var(--color-ink-2);
+  --card-foil: linear-gradient(125deg, transparent 40%, rgba(234,220,243,.14) 50%, transparent 60%);
+  --card-foil-size: 100% 100%;
+  --card-glow: 0 8px 26px rgba(201,168,224,.28);
+  --card-glow-color: transparent;
+  --card-pulse: none;
+  --card-spin: none;
+  --card-sweep: none;
+  --card-spark: transparent;
+}
+.yk-rarity-SSR {
+  --card-frame: linear-gradient(160deg,#FFD0E6,#FF5FA8 40%,#A3165E 70%,#FF8CC4);
+  --card-inset: 2px;
+  --card-bg: radial-gradient(120% 75% at 50% 35%, #5A1438 0%, #1A0A1E 62%, #04000B 100%);
+  --card-ring: rgba(255,95,168,.35);
+  --card-line: transparent;
+  --card-badge: #FF5FA8;
+  --card-badge-ink: #04000B;
+  --card-badge-border: #FF8CC4;
+  --card-number: var(--color-ink-2);
+  --card-foil: linear-gradient(110deg, transparent 38%, rgba(255,190,225,.35) 48%, rgba(255,255,255,.55) 50%, rgba(255,190,225,.35) 52%, transparent 62%);
+  --card-foil-size: 300% 100%;
+  --card-glow: 0 0 0 1px rgba(255,95,168,.5),0 10px 30px rgba(255,95,168,.5);
+  --card-glow-color: rgba(255,95,168,.5);
+  --card-pulse: yk-pulse 2.6s ease-in-out infinite;
+  --card-spin: none;
+  --card-sweep: yk-sweep 3.4s ease-in-out infinite;
+  --card-spark: #FFD0E6;
+}
+.yk-rarity-LR {
+  --card-frame: conic-gradient(from 0deg, #3A2A08, #F6DC8E, #9A7420, #1A1204, #E8C26A, #FFF3C4, #7A5A18, #3A2A08);
+  --card-inset: 3px;
+  --card-bg: radial-gradient(110% 70% at 50% 38%, #2E2208 0%, #0A0704 55%, #000 100%);
+  --card-ring: rgba(232,194,106,.35);
+  --card-line: rgba(232,194,106,.45);
+  --card-badge: #000;
+  --card-badge-ink: #F6DC8E;
+  --card-badge-border: #E8C26A;
+  --card-number: #E8C26A;
+  --card-foil: linear-gradient(110deg, transparent 38%, rgba(255,230,160,.35) 48%, rgba(255,255,255,.55) 50%, rgba(255,230,160,.35) 52%, transparent 62%);
+  --card-foil-size: 300% 100%;
+  --card-glow: 0 0 0 1px rgba(232,194,106,.5),0 10px 30px rgba(232,194,106,.5);
+  --card-glow-color: rgba(232,194,106,.5);
+  --card-pulse: yk-pulse 3s ease-in-out infinite;
+  --card-spin: yk-spin 6s linear infinite;
+  --card-sweep: yk-sweep 4s ease-in-out infinite;
+  --card-spark: #FFE7A0;
+}
+:root {
+  --holo-glow: rgba(200,230,255,.55);
+  --holo-spark: #FFFFFF;
+  --holo-frame: conic-gradient(from 0deg, #E8FBFF, #FFB8EC, #B9C6FF, #A8FFE4, #FFF6B8, #FFFFFF, #E8FBFF);
+  --holo-badge: linear-gradient(100deg,#E8FBFF,#FFB8EC,#B9C6FF,#A8FFE4,#FFF6B8);
+  --holo-foil: linear-gradient(125deg, rgba(255,120,220,0) 0%, rgba(255,120,220,.30) 18%, rgba(120,220,255,.30) 36%, rgba(160,255,200,.30) 54%, rgba(255,240,140,.30) 72%, rgba(255,120,220,.30) 90%);
+}
+
+/* Evolved extends the SSR rose palette; rainbow foil remains exclusive to Shiny. */
+:root {
+  --evolved-frame: linear-gradient(135deg, #fff7fc 0%, #ff79bf 12%, #9e155c 24%, #ffd9ec 33%, #ff38a0 47%, #6e0d43 58%, #fff1f9 70%, #ff6ab6 81%, #b5196b 91%, #ffe8f4 100%);
+  --evolved-badge: linear-gradient(145deg, #fff, #f0f2f4 50%, #dce1e6);
+  --evolved-ink: #243247;
+  --lr-evolved-frame: linear-gradient(135deg, #fff9df 0%, #f6d879 13%, #967020 25%, #fff0b8 36%, #edb831 48%, #62480e 59%, #fff7d9 71%, #f2c859 83%, #98701a 92%, #fff0ba 100%);
+  --evolved-glow: rgba(255, 42, 147, .62);
+  --evolved-foil: linear-gradient(115deg, transparent 35%, rgba(246, 160, 199, .10) 44%, rgba(255, 231, 242, .24) 49%, rgba(195, 64, 124, .12) 54%, transparent 64%);
+}

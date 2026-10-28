@@ -1,0 +1,47 @@
+import { createClient } from "@/utils/supabase/client";
+
+export type WallPost = {profileStyle?: PlayerCosmetics; id: string; text: string; mediaPath: string | null; hasMedia?: boolean; gifUrl: string | null; createdAt: string; previewUrl?: string };
+export type WallPage = { items: WallPost[]; next: { at: string; id: string } | null };
+export type WallAdapter = {
+  list: (ownerId: string, cursor?: WallPage["next"]) => Promise<WallPage>;
+  publish: (input: { id: string; text: string; mediaPath: string | null; gifUrl: string | null }) => Promise<WallPost>;
+  remove: (id: string) => Promise<string | null>;
+  upload: (file: File, ownerId: string) => Promise<string>;
+  discard: (path: string) => Promise<void>;
+};
+const messages: Record<string,string> = {
+  WALL_PRIVATE: "This wall is private. Only their friends can view it.",
+  WALL_RATE_LIMITED: "Wait a few seconds between posts (up to 30 per hour).",
+  WALL_FULL: "Your wall already has 500 posts. Delete one to continue.",
+  WALL_POST_INVALID: "Write up to 3,000 characters, or add an image or GIF.",
+  WALL_GIF_INVALID: "Choose a GIF from the picker.",
+  GIF_RATING_REJECTED: "Choose a GIF from the picker.",
+  WALL_MEDIA_INVALID: "The image is no longer available. Choose it again."
+};
+async function rpc<T>(name: string, args: Record<string,unknown>): Promise<T> {
+  const { data, error } = await createClient().rpc(name,args);
+  if(error) throw new Error(messages[error.message] ?? "The wall is temporarily unavailable. Please try again in a moment.");
+  return data as T;
+}
+export const liveWall: WallAdapter = {
+  list: (id,cursor) => rpc("get_profile_wall",{p_owner_id:id,p_before:cursor?.at??null,p_before_id:cursor?.id??null,p_limit:20}),
+  publish: input => rpc("publish_profile_wall_post",{p_id:input.id,p_body:input.text,p_media_path:input.mediaPath,p_gif_url:input.gifUrl}),
+  remove: async id => {
+    const {deleteWallPost}=await import("@/app/social/actions");
+    if (!(await deleteWallPost(id)).ok) throw new Error("Couldn't finish deleting this post and its files. Please try again.");
+    return null;
+  },
+  upload: async (file,ownerId) => {
+    const formats: Record<string,string> = {"image/jpeg":"jpg","image/png":"png","image/webp":"webp","image/gif":"gif"};
+    if(!formats[file.type] || file.size>6*1024*1024 || file.size===0) throw new Error("JPG, PNG, WebP, or GIF, up to 6 MB.");
+    const path=`${ownerId}/${crypto.randomUUID()}.${formats[file.type]}`;
+    const {error}=await createClient().storage.from("profile-wall-media").upload(path,file,{upsert:false,contentType:file.type});
+    if(error) throw new Error(error.message.includes("WALL_STORAGE_FULL") ? "Your wall has reached its 100 MB image quota. Delete an older post with an image to continue." : "Couldn't upload the image. Your text has been kept.");
+    return path;
+  },
+  discard: async path => {
+    const {error}=await createClient().storage.from("profile-wall-media").remove([path]);
+    if(error) throw new Error("Couldn't remove the file. Please try again.");
+  }
+};
+import type { PlayerCosmetics } from "@/components/styled-player-name";

@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "review": "v3-final-quality",
+  "editorial_approved": false,
+  "production_approved": false,
+  "owner_confirmations": [
+    {
+      "media_ids": [1491, 1301, 1302, 3602],
+      "decision": "Keep one Galaxy Express 999 binder, including TV and the movie cycle.",
+      "source": "Owner reply during final V3 quality review, 2026-10-25."
+    }
+  ],
+  "separations": [
+    {
+      "id": "Q-ONE-PIECE-IN-LOVE",
+      "media_ids": [197179],
+      "expected_root_media_id": 466,
+      "expected_display_name": "One Piece",
+      "target_root_media_id": 188668,
+      "display_name": "ONE PIECE in LOVE",
+      "reason": "Koisuru ONE PIECE is a school comedy about Yamamoto Luffy, Koyama Nami and Nakatsugawa Usopp, not the pirate protagonists. The festival special adapts its chapter 159 and has media 188668 as PARENT. The shared historical source label does not establish one series.",
+      "evidence_urls": [
+        "https://anilist.co/anime/197179",
+        "https://anilist.co/anime/188668",
+        "https://one-piece.com/news/71702/index.html",
+        "https://one-piece.com/news/74335/index.html",
+        "https://one-piece.com/op/koisuru/"
+      ]
+    },
+    {
+      "id": "Q-RILAKKUMA-ADAPTATIONS",
+      "media_ids": [183231],
+      "expected_root_media_id": 99230,
+      "expected_display_name": "RILAKKUMA",
+      "target_root_media_id": 183231,
+      "display_name": "RILAKKUMA (2026)",
+      "reason": "The 2026 Production I.G TV shorts form a new animation production. The only AniList links to the Netflix stop-motion series are CHARACTER, which proves shared characters, not a sequel. Keep Rilakkuma and Kaoru (99230) and its direct Theme Park Adventure sequel (125440) together, distinct from 183231.",
+      "evidence_urls": [
+        "https://anilist.co/anime/183231",
+        "https://anilist.co/anime/99230",
+        "https://anilist.co/anime/125440",
+        "https://www.production-ig.co.jp/works/rilakkuma/",
+        "https://www.aniplex.co.jp/lineup/rilakkuma/",
+        "https://media.netflix.com/en/only-on-netflix/80196883"
+      ]
+    }
+  ],
+  "display_renames": [
+    {
+      "id": "Q-RILAKKUMA-STOP-MOTION-NAME",
+      "anchor_media_id": 99230,
+      "expected_display_name": "RILAKKUMA",
+      "display_name": "Rilakkuma and Kaoru",
+      "reason": "Name the retained Netflix stop-motion identity explicitly after separating the independent 2026 adaptation. Preserve its existing binder ID."
+    },
+    {
+      "id": "Q-BEYBLADE-BURST-NAME",
+      "anchor_media_id": 98289,
+      "expected_display_name": "Beyblade Burst Evolution",
+      "display_name": "Beyblade Burst",
+      "reason": "Evolution is the first represented season, not the whole series. The absent first season 21236 is its verified PREQUEL. Burst seasons stay distinct from original Beyblade, Metal Saga and Beyblade X. Preserve the existing binder ID."
+    },
+    {
+      "id": "Q-INITIAL-D-NAME",
+      "anchor_media_id": 185,
+      "expected_display_name": "Initial D 1st Stage",
+      "display_name": "Initial D",
+      "reason": "The binder includes several numbered Stages of Takumi's series, not only First Stage. MF GHOST and the Legend retelling remain separate. Preserve the existing binder ID."
+    },
+    {
+      "id": "Q-FATE-STRANGE-FAKE-NAME",
+      "anchor_media_id": 154966,
+      "expected_display_name": "Fate/strange Fake -Whispers of Dawn-",
+      "display_name": "Fate/strange Fake",
+      "reason": "The prologue special and its direct TV series share one series identity. Display the series name, without treating the prologue subtitle as the entire binder. Protected cards under the same historical text keep their source binder and label."
+    },
+    {
+      "id": "Q-GUNDAM-WING-NAME",
+      "anchor_media_id": 90,
+      "expected_display_name": "Mobile Suit Gundam Wing: Endless Waltz",
+      "display_name": "Mobile Suit Gundam Wing",
+      "reason": "Wing TV and its Endless Waltz sequel belong to Wing. The OVA/movie edit is not the name of the whole TV series. Other Gundam universes remain distinct. Preserve the existing binder ID."
+    }
+  ]
+}

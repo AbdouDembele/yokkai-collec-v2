@@ -1,0 +1,1412 @@
+[
+  {
+    "stage": "before",
+    "lang": "en",
+    "width": 1440,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "18px",
+        "textWidth": 128.3658575439453,
+        "available": 103,
+        "scroll": 136,
+        "client": 119,
+        "rangeFitsStamp": false
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "18px",
+        "textWidth": 84.19535156250001,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "18px",
+        "textWidth": 84.19535156250001,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "18px",
+        "textWidth": 84.19535156250001,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "en",
+    "width": 375,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "en",
+    "width": 320,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "en",
+    "width": 768,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "11.52px",
+        "textWidth": 82.58921352539062,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "11.52px",
+        "textWidth": 54.07061459960937,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "11.52px",
+        "textWidth": 54.07061459960937,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "11.52px",
+        "textWidth": 54.07061459960937,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "en",
+    "width": 1024,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "15.36px",
+        "textWidth": 109.93009333496093,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "15.36px",
+        "textWidth": 72.01914567871094,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "15.36px",
+        "textWidth": 72.01914567871094,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "15.36px",
+        "textWidth": 72.01914567871094,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "en",
+    "width": 720,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "10.8px",
+        "textWidth": 77.42741247558594,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "10.8px",
+        "textWidth": 50.691206909179684,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "10.8px",
+        "textWidth": 50.691206909179684,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "10.8px",
+        "textWidth": 50.691206909179684,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "fr",
+    "width": 1440,
+    "htmlLang": "fr",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "18px",
+        "textWidth": 128.3658575439453,
+        "available": 103,
+        "scroll": 136,
+        "client": 119,
+        "rangeFitsStamp": false
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "18px",
+        "textWidth": 84.19535156250001,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "18px",
+        "textWidth": 84.19535156250001,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "18px",
+        "textWidth": 84.19535156250001,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "fr",
+    "width": 375,
+    "htmlLang": "fr",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "fr",
+    "width": 320,
+    "htmlLang": "fr",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "fr",
+    "width": 768,
+    "htmlLang": "fr",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "11.52px",
+        "textWidth": 82.58921352539062,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "11.52px",
+        "textWidth": 54.07061459960937,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "11.52px",
+        "textWidth": 54.07061459960937,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "11.52px",
+        "textWidth": 54.07061459960937,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "fr",
+    "width": 1024,
+    "htmlLang": "fr",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "15.36px",
+        "textWidth": 109.93009333496093,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "15.36px",
+        "textWidth": 72.01914567871094,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "15.36px",
+        "textWidth": 72.01914567871094,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "15.36px",
+        "textWidth": 72.01914567871094,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "before",
+    "lang": "fr",
+    "width": 720,
+    "htmlLang": "fr",
+    "labels": ["DESTROYED", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "10.8px",
+        "textWidth": 77.42741247558594,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "10.8px",
+        "textWidth": 50.691206909179684,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "10.8px",
+        "textWidth": 50.691206909179684,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "10.8px",
+        "textWidth": 50.691206909179684,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "en",
+    "width": 1440,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "18px",
+        "textWidth": 128.3658575439453,
+        "available": 103,
+        "scroll": 136,
+        "client": 119,
+        "rangeFitsStamp": false
+      },
+      {
+        "text": "LOST",
+        "fontSize": "18px",
+        "textWidth": 55.53979553222656,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "18px",
+        "textWidth": 55.53979553222656,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "18px",
+        "textWidth": 55.53979553222656,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "en",
+    "width": 375,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "en",
+    "width": 320,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "en",
+    "width": 768,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "11.52px",
+        "textWidth": 82.58921352539062,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "11.52px",
+        "textWidth": 35.7391947265625,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "11.52px",
+        "textWidth": 35.7391947265625,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "11.52px",
+        "textWidth": 35.7391947265625,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "en",
+    "width": 1024,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "15.36px",
+        "textWidth": 109.93009333496093,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "15.36px",
+        "textWidth": 47.56594575195312,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "15.36px",
+        "textWidth": 47.56594575195312,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "15.36px",
+        "textWidth": 47.56594575195312,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "en",
+    "width": 720,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "10.8px",
+        "textWidth": 77.42741247558594,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "10.8px",
+        "textWidth": 33.50548742675781,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "10.8px",
+        "textWidth": 33.50548742675781,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "10.8px",
+        "textWidth": 33.50548742675781,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "fr",
+    "width": 1440,
+    "htmlLang": "fr",
+    "labels": ["DÉTRUITE", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "GARDÉE",
+    "metrics": [
+      {
+        "text": "DÉTRUITE",
+        "fontSize": "18px",
+        "textWidth": 105.6628125,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "18px",
+        "textWidth": 84.19535156250001,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "18px",
+        "textWidth": 84.19535156250001,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "18px",
+        "textWidth": 84.19535156250001,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "fr",
+    "width": 375,
+    "htmlLang": "fr",
+    "labels": ["DÉTRUITE", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "GARDÉE",
+    "metrics": [
+      {
+        "text": "DÉTRUITE",
+        "fontSize": "9px",
+        "textWidth": 53.11265625,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "fr",
+    "width": 320,
+    "htmlLang": "fr",
+    "labels": ["DÉTRUITE", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "GARDÉE",
+    "metrics": [
+      {
+        "text": "DÉTRUITE",
+        "fontSize": "9px",
+        "textWidth": 53.11265625,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "9px",
+        "textWidth": 42.242695312500004,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "fr",
+    "width": 768,
+    "htmlLang": "fr",
+    "labels": ["DÉTRUITE", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "GARDÉE",
+    "metrics": [
+      {
+        "text": "DÉTRUITE",
+        "fontSize": "11.52px",
+        "textWidth": 67.98414201660157,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "11.52px",
+        "textWidth": 54.07061459960937,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "11.52px",
+        "textWidth": 54.07061459960937,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "11.52px",
+        "textWidth": 54.07061459960937,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "fr",
+    "width": 1024,
+    "htmlLang": "fr",
+    "labels": ["DÉTRUITE", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "GARDÉE",
+    "metrics": [
+      {
+        "text": "DÉTRUITE",
+        "fontSize": "15.36px",
+        "textWidth": 90.48052431640625,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "15.36px",
+        "textWidth": 72.01914567871094,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "15.36px",
+        "textWidth": 72.01914567871094,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "15.36px",
+        "textWidth": 72.01914567871094,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "after",
+    "lang": "fr",
+    "width": 720,
+    "htmlLang": "fr",
+    "labels": ["DÉTRUITE", "PERDUE", "PERDUE", "PERDUE"],
+    "kept": "GARDÉE",
+    "metrics": [
+      {
+        "text": "DÉTRUITE",
+        "fontSize": "10.8px",
+        "textWidth": 63.73515698242188,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "10.8px",
+        "textWidth": 50.691206909179684,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "10.8px",
+        "textWidth": 50.691206909179684,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "PERDUE",
+        "fontSize": "10.8px",
+        "textWidth": 50.691206909179684,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 1440,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "18px",
+        "textWidth": 128.3658575439453,
+        "available": 103,
+        "scroll": 136,
+        "client": 119,
+        "rangeFitsStamp": false
+      },
+      {
+        "text": "LOST",
+        "fontSize": "18px",
+        "textWidth": 55.53979553222656,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "18px",
+        "textWidth": 55.53979553222656,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "18px",
+        "textWidth": 55.53979553222656,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 375,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 75,
+        "scroll": 91,
+        "client": 91,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 320,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "9px",
+        "textWidth": 64.52287170410156,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "9px",
+        "textWidth": 27.921272583007813,
+        "available": 60,
+        "scroll": 76,
+        "client": 76,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 768,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "11.52px",
+        "textWidth": 82.58921352539062,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "11.52px",
+        "textWidth": 35.7391947265625,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "11.52px",
+        "textWidth": 35.7391947265625,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "11.52px",
+        "textWidth": 35.7391947265625,
+        "available": 93,
+        "scroll": 109,
+        "client": 109,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 1024,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "15.36px",
+        "textWidth": 109.93009333496093,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "15.36px",
+        "textWidth": 47.56594575195312,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "15.36px",
+        "textWidth": 47.56594575195312,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "15.36px",
+        "textWidth": 47.56594575195312,
+        "available": 103,
+        "scroll": 119,
+        "client": 119,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  },
+  {
+    "stage": "off",
+    "lang": "en",
+    "width": 720,
+    "htmlLang": "en",
+    "labels": ["DESTROYED", "LOST", "LOST", "LOST"],
+    "kept": "KEPT",
+    "metrics": [
+      {
+        "text": "DESTROYED",
+        "fontSize": "10.8px",
+        "textWidth": 77.42741247558594,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "10.8px",
+        "textWidth": 33.50548742675781,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "10.8px",
+        "textWidth": 33.50548742675781,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      },
+      {
+        "text": "LOST",
+        "fontSize": "10.8px",
+        "textWidth": 33.50548742675781,
+        "available": 85,
+        "scroll": 101,
+        "client": 101,
+        "rangeFitsStamp": true
+      }
+    ],
+    "overflow": false
+  }
+]

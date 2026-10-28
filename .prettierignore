@@ -1,0 +1,22 @@
+supabase/migrations/
+data/
+graphify-out/
+node_modules/
+.next/
+out/
+build/
+coverage/
+logs/
+.tools/
+next-env.d.ts
+*.tsbuildinfo
+*-lock.json
+*.lock
+pnpm-lock.yaml
+Yokkai Collec' UI design/
+# Cinematic JSX is protected by a byte-level regression fingerprint.
+components/boosters.tsx
+# Read as raw gradient data by ImageResponse; its parser rejects multiline values.
+styles/card-tokens.css
+# GoTrue Go templates: wrapping would split {{ }} actions.
+public/auth-emails/

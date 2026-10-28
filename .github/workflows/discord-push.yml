@@ -1,0 +1,25 @@
+name: Notif Discord
+on:
+  push:
+    branches: [master]
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - env:
+          WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        run: |
+          jq '{
+            username: "GitHub",
+            avatar_url: "https://github.com/github.png",
+            embeds: [{
+              author: { name: .sender.login, icon_url: .sender.avatar_url },
+              title: "[\(.repository.name)] \(.commits|length) commit(s) pushed to \(.ref|sub("refs/heads/";""))",
+              url: .compare,
+              description: ([.commits[] | "• [`\(.id[0:8])`](\(.url)) \(.message|split("\n")[0]) - \(.author.name)"] | join("\n")),
+              color: 16542758,
+              footer: { text: .repository.full_name },
+              timestamp: .head_commit.timestamp
+            }]
+          }' "$GITHUB_EVENT_PATH" \
+          | curl -sS -f -H "Content-Type: application/json" -d @- "$WEBHOOK"

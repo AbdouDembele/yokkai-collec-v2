@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Yokkai booster opening</title>
+<style>
+:root { --p:218px;--foil-h:388px;--foil-cut:17.3%;--booster-accent:#8dbdff;--spread:48px; }
+*,*::before,*::after { box-sizing:border-box; }
+html,body { margin:0;height:100%;overflow:hidden; }
+.scene { position:relative;width:100%;height:100svh;min-height:0;display:grid;place-items:center;isolation:isolate;perspective:1200px; }
+.ambient,.orbit,.floor,.burst,.ring,.rays { position:absolute;pointer-events:none; }
+.ambient { left:50%;top:48%;width:min(90vw,680px);aspect-ratio:1;transform:translate(-50%,-50%);background:radial-gradient(ellipse,#286cd529,transparent 67%); }
+.orbit { left:50%;top:49%;width:min(95vw,560px);aspect-ratio:1;border:1px solid #5187c211;border-radius:50%;transform:translate(-50%,-50%) rotateX(15deg); }
+.orbit::after { content:"";position:absolute;inset:7%;border:1px dashed #48729b15;border-radius:50%; }
+.stage { position:relative;width:var(--p);height:var(--foil-h); }
+.floor { left:50%;top:100%;width:110%;height:18px;border-radius:50%;background:#000;filter:blur(12px);transform:translateX(-50%);opacity:.7; }
+.pack-position { position:absolute;inset:0;z-index:4;perspective:900px; }
+.pack-float,.pack-entrance { position:absolute;inset:0;transform-style:preserve-3d; }
+.pack-float { animation:booster-float 5s ease-in-out infinite; }
+.foil-body,.foil-lid { position:absolute;inset:0;backface-visibility:hidden; }
+.foil-body img,.foil-lid img { display:block;width:100%;height:100%;object-fit:contain; }
+.foil-body { clip-path:polygon(0 calc(var(--foil-cut) - .3%),8% calc(var(--foil-cut) + .5%),18% calc(var(--foil-cut) - .5%),28% calc(var(--foil-cut) + .3%),38% calc(var(--foil-cut) - .3%),48% calc(var(--foil-cut) + .4%),58% calc(var(--foil-cut) - .5%),68% calc(var(--foil-cut) + .3%),78% calc(var(--foil-cut) - .3%),88% calc(var(--foil-cut) + .4%),100% calc(var(--foil-cut) - .3%),100% 100%,0 100%); }
+.foil-lid { clip-path:polygon(0 0,100% 0,100% calc(var(--foil-cut) - .3%),88% calc(var(--foil-cut) + .4%),78% calc(var(--foil-cut) - .3%),68% calc(var(--foil-cut) + .3%),58% calc(var(--foil-cut) - .5%),48% calc(var(--foil-cut) + .4%),38% calc(var(--foil-cut) - .3%),28% calc(var(--foil-cut) + .3%),18% calc(var(--foil-cut) - .5%),8% calc(var(--foil-cut) + .5%),0 calc(var(--foil-cut) - .3%));transform-origin:90% var(--foil-cut);z-index:2; }
+.pack-sheen { position:absolute;inset:0;background:linear-gradient(115deg,transparent 25%,#e7f6ff00 40%,#e7f6ff75 49%,transparent 57%);mask:var(--pack-mask) center/100% 100%;opacity:.24;animation:booster-sheen 6s infinite;pointer-events:none; }
+.foil-edge { position:absolute;left:6%;right:5%;top:var(--foil-cut);height:2px;background:white;box-shadow:0 0 10px #fff,0 0 25px #63c8ff,0 0 60px #196dff;transform:scaleX(0);opacity:0;transform-origin:left;z-index:4; }
+.charge-aura { position:absolute;inset:-55px;background:radial-gradient(ellipse,#3b98ff55,transparent 67%);opacity:0;z-index:-1; }
+.opening-cards { position:absolute;left:50%;top:50%;width:93%;aspect-ratio:5/7;transform:translate(-50%,-50%);z-index:3; }
+.opening-card { position:absolute;inset:0;border-radius:14px;background:url('__CARD_BACK__') center/100% 100% no-repeat;box-shadow:0 0 0 1px #a3cbff38,0 14px 30px #0008;opacity:0;backface-visibility:hidden; }
+.burst,.ring,.rays { left:50%;top:45%;opacity:0;z-index:5;transform:translate(-50%,-50%) scale(.1); }
+.burst { width:420px;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,#fff,#b3e7ff 3%,#3990ff80 13%,transparent 56%); }
+.ring { width:180px;aspect-ratio:1;border:2px solid #c7e8ff;border-radius:50%;box-shadow:0 0 8px var(--booster-accent); }
+.rays { width:650px;aspect-ratio:1;z-index:1;background:repeating-conic-gradient(from 5deg,transparent 0deg 16deg,#8ac7ff14 17deg,transparent 19deg 33deg);mask-image:radial-gradient(circle,transparent 5%,#000 15%,transparent 63%); }
+.opening-particles { position:absolute;left:50%;top:var(--foil-cut);z-index:6;pointer-events:none; }
+.opening-particles i { position:absolute;width:var(--length);height:var(--size);border-radius:1px;background:var(--color);opacity:0; }
+.progress { position:absolute;inset:auto 0 0;height:2px;background:#6bb8ff;transform:scaleX(0);transform-origin:left;box-shadow:0 0 15px #69b8ff; }
+.running .pack-float,.running .pack-sheen { animation:none; }
+.running .pack-sheen { opacity:0; }
+.running .pack-entrance { animation:booster-tension .68s cubic-bezier(.6,0,1,1) both; }
+.running .charge-aura { animation:booster-charge 2.94s ease-in both; }
+.running .foil-edge { animation:booster-cut .19s cubic-bezier(.6,0,1,1) .52s both,booster-cut-fade .28s linear .68s forwards; }
+.running .foil-lid { animation:foil-peel 0.67s cubic-bezier(.16,.85,.3,1) 0.68s both; }
+.running .foil-body { animation:foil-body-open .9s cubic-bezier(.3,0,.25,1) .68s both; }
+.running .burst { animation:booster-burst .85s cubic-bezier(.1,.65,.2,1) .87s both; }
+.running .ring { animation:booster-ring .78s cubic-bezier(.08,.65,.2,1) .87s forwards; }
+.running .rays { animation:booster-rays 1.2s linear .87s both; }
+.running .floor { animation:booster-floor .7s linear .87s both; }
+.running .opening-card { animation:booster-fan 1.05s cubic-bezier(.17,.84,.23,1) calc(1.04s + var(--order) * .065s) both; }
+.running .opening-particles i { animation:booster-particle var(--life) cubic-bezier(.2,.65,.4,1) var(--delay) forwards; }
+.running .progress { animation:booster-progress 2.94s linear both; }
+@keyframes booster-float { 0%,100%{transform:translateY(0) rotate(-4deg) rotateY(-7deg)}50%{transform:translateY(-13px) rotate(-1deg) rotateY(7deg)} }
+@keyframes booster-sheen { 0%,65%,100%{transform:translateX(-20%);opacity:0}75%{opacity:.35}85%{transform:translateX(16%);opacity:0} }
+@keyframes booster-tension { 0%{transform:rotate(0) scale(1)}55%{transform:rotate(-3deg) translateY(-3px)}85%{transform:rotate(2deg) translateY(-5px)}100%{transform:rotate(-1deg) translateY(-6px)} }
+@keyframes booster-charge { 0%{opacity:0;transform:scale(.8)}23%,45%{opacity:1;transform:scale(1.18)}100%{opacity:0;transform:scale(1.18)} }
+@keyframes booster-cut { 0%{transform:scaleX(0);opacity:0}20%{transform:scaleX(.15);opacity:1}100%{transform:scaleX(1);opacity:1} }
+@keyframes booster-cut-fade { from{opacity:1;transform:scaleX(1)}to{opacity:0;transform:scaleX(1.15)} }
+@keyframes foil-peel { 0%{transform:translate(0,0) rotate(0);opacity:1}15%{transform:translate(8px,-14px) rotate(-7deg);opacity:1}50%{transform:translate(130px,-90px) rotate(27deg);opacity:1}100%{transform:translate(390px,-230px) rotate(95deg);opacity:0} }
+@keyframes foil-body-open { 0%{transform:translateY(0) scale(1);opacity:1}20%{transform:translateY(18px);opacity:1}40%{transform:translateY(25px) rotate(-5deg);opacity:1}100%{transform:translateY(340px) rotate(13deg);opacity:0} }
+@keyframes booster-burst { 0%{opacity:0;transform:translate(-50%,-50%) scale(.12)}14%{opacity:.95;transform:translate(-50%,-50%) scale(.9)}100%{opacity:0;transform:translate(-50%,-50%) scale(1.8)} }
+@keyframes booster-ring { from{opacity:.75;transform:translate(-50%,-50%) scale(.2)}to{opacity:0;transform:translate(-50%,-50%) scale(5)} }
+@keyframes booster-rays { 0%{opacity:0;transform:translate(-50%,-50%) rotate(-10deg) scale(.3)}15%{opacity:1;transform:translate(-50%,-50%) rotate(8deg) scale(1)}100%{opacity:0;transform:translate(-50%,-50%) rotate(30deg) scale(1.3)} }
+@keyframes booster-floor { from{opacity:.7}to{opacity:.2} }
+@keyframes booster-fan { 0%{opacity:0;transform:translate(0,90px) rotate(0) scale(.65)}48%{opacity:1;transform:translate(calc(var(--index) * var(--spread) * 1.15),calc(var(--distance) * 13px - 50px)) rotate(calc(var(--index) * 10.35deg)) scale(1.07)}100%{opacity:1;transform:translate(calc(var(--index) * var(--spread)),calc(var(--distance) * 13px)) rotate(calc(var(--index) * 9deg)) scale(1)} }
+@keyframes booster-particle { 0%{opacity:1;transform:translate(0,var(--offset)) rotate(var(--angle)) scaleX(1)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) rotate(var(--angle)) scaleX(.2)} }
+@keyframes booster-progress { from{transform:scaleX(0)}to{transform:scaleX(1)} }
+@keyframes booster-reduced-out { from{opacity:1}to{opacity:0} }
+@keyframes booster-reduced-in { from{opacity:0}to{opacity:1} }
+@media(max-width:600px) { .scene{--spread:min(34px,9vw)}.opening-cards{width:87%}.ring{width:120px}.orbit{width:min(95vw,340px)}.opening-card{border-radius:10px} }
+@media(prefers-reduced-motion:reduce) {
+ .scene .pack-float,.scene .pack-sheen,.scene.running * { animation:none!important; }
+ .scene.running .pack-position { animation:booster-reduced-out .18s linear both!important; }
+ .scene.running .opening-card { animation:booster-reduced-in .18s linear both!important; }
+ .scene.running .opening-cards { opacity:1; }
+ .charge-aura,.burst,.ring,.rays,.opening-particles,.progress { display:none; }
+}
+</style>
+</head>
+<body>
+<div class="scene" id="scene" data-yokkai-opening="tear-and-fan" aria-hidden="true">
+ <div class="ambient"></div><div class="orbit"></div>
+ <div class="stage">
+  <div class="floor"></div><div class="rays"></div>
+  <div class="opening-cards"><div class="opening-card" style="--order:0;--index:-2;--distance:2"></div>
+<div class="opening-card" style="--order:1;--index:-1;--distance:1"></div>
+<div class="opening-card" style="--order:2;--index:0;--distance:0"></div>
+<div class="opening-card" style="--order:3;--index:1;--distance:1"></div>
+<div class="opening-card" style="--order:4;--index:2;--distance:2"></div></div>
+  <div class="pack-position"><div class="pack-float"><div class="charge-aura"></div><div class="pack-entrance">
+   <div class="foil-body"><img id="packBody" alt="" draggable="false"></div>
+   <div class="foil-lid"><img id="packLid" alt="" draggable="false"></div>
+   <div class="pack-sheen"></div><div class="foil-edge"></div>
+  </div></div></div>
+  <div class="burst"></div><div class="ring"></div>
+  <div class="opening-particles"><i style="--delay:0.68s;--life:0.606s;--offset:0px;--dx:-65.6px;--dy:-63.2px;--angle:3.848rad;--length:4.7px;--size:2.3px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.289s;--offset:0px;--dx:-137.4px;--dy:4.8px;--angle:3.220rad;--length:3.5px;--size:2.1px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.133s;--offset:0px;--dx:-89.3px;--dy:-10.2px;--angle:3.337rad;--length:2.6px;--size:1.0px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.159s;--offset:0px;--dx:-84.4px;--dy:79.4px;--angle:2.445rad;--length:3.1px;--size:1.7px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.021s;--offset:0px;--dx:-28.9px;--dy:-67.9px;--angle:4.324rad;--length:2.4px;--size:2.1px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.220s;--offset:0px;--dx:156.7px;--dy:-72.4px;--angle:5.790rad;--length:4.8px;--size:1.6px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.571s;--offset:0px;--dx:-5.8px;--dy:26.2px;--angle:1.743rad;--length:2.0px;--size:1.8px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.021s;--offset:0px;--dx:50.4px;--dy:-64.0px;--angle:5.358rad;--length:2.7px;--size:2.6px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.961s;--offset:0px;--dx:-53.8px;--dy:-38.6px;--angle:3.771rad;--length:2.3px;--size:1.0px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.874s;--offset:0px;--dx:20.3px;--dy:-87.8px;--angle:4.945rad;--length:3.3px;--size:0.9px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.538s;--offset:0px;--dx:49.9px;--dy:4.0px;--angle:0.229rad;--length:3.1px;--size:2.5px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.074s;--offset:0px;--dx:-37.3px;--dy:-77.7px;--angle:4.288rad;--length:2.8px;--size:1.0px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.819s;--offset:0px;--dx:-67.7px;--dy:-28.4px;--angle:3.493rad;--length:2.9px;--size:1.5px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.933s;--offset:0px;--dx:89.6px;--dy:0.8px;--angle:0.012rad;--length:3.1px;--size:0.8px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.279s;--offset:0px;--dx:125.4px;--dy:119.7px;--angle:0.695rad;--length:4.2px;--size:0.9px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.858s;--offset:0px;--dx:20.1px;--dy:64.9px;--angle:1.282rad;--length:2.7px;--size:1.9px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.115s;--offset:0px;--dx:125.5px;--dy:-112.5px;--angle:5.523rad;--length:5.1px;--size:1.6px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.715s;--offset:0px;--dx:65.1px;--dy:2.6px;--angle:0.127rad;--length:3.0px;--size:0.9px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.153s;--offset:0px;--dx:74.5px;--dy:65.2px;--angle:0.651rad;--length:2.7px;--size:1.1px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.792s;--offset:0px;--dx:33.4px;--dy:39.6px;--angle:0.919rad;--length:2.3px;--size:2.6px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.714s;--offset:0px;--dx:-79.6px;--dy:-42.1px;--angle:3.570rad;--length:4.0px;--size:2.0px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.285s;--offset:0px;--dx:-127.9px;--dy:68.4px;--angle:2.749rad;--length:3.5px;--size:1.5px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.804s;--offset:0px;--dx:86.8px;--dy:-21.1px;--angle:6.087rad;--length:3.6px;--size:1.1px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.860s;--offset:0px;--dx:12.8px;--dy:52.8px;--angle:1.343rad;--length:2.2px;--size:2.4px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.654s;--offset:0px;--dx:91.3px;--dy:20.2px;--angle:0.286rad;--length:4.8px;--size:2.3px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.534s;--offset:0px;--dx:39.5px;--dy:46.8px;--angle:0.943rad;--length:4.1px;--size:1.7px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:1.234s;--offset:0px;--dx:103.8px;--dy:-129.8px;--angle:5.342rad;--length:4.7px;--size:2.3px;--color:#eaf8ff"></i><i style="--delay:0.68s;--life:0.680s;--offset:0px;--dx:-7.2px;--dy:-57.7px;--angle:4.572rad;--length:2.5px;--size:1.9px;--color:#eaf8ff"></i><i style="--delay:0.87s;--life:1.053s;--offset:80px;--dx:-7.4px;--dy:-197.6px;--angle:4.686rad;--length:8.8px;--size:2.5px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.121s;--offset:80px;--dx:-15.8px;--dy:-144.2px;--angle:4.644rad;--length:6.8px;--size:1.3px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.603s;--offset:80px;--dx:-158.3px;--dy:212.4px;--angle:2.419rad;--length:11.4px;--size:2.6px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.833s;--offset:80px;--dx:-250.0px;--dy:156.1px;--angle:2.834rad;--length:10.3px;--size:1.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.196s;--offset:80px;--dx:-262.2px;--dy:-116.7px;--angle:3.810rad;--length:9.1px;--size:1.5px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.148s;--offset:80px;--dx:-19.5px;--dy:-68.8px;--angle:4.589rad;--length:4.5px;--size:1.1px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.818s;--offset:80px;--dx:-37.7px;--dy:-97.9px;--angle:4.500rad;--length:7.1px;--size:2.4px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.165s;--offset:80px;--dx:-175.9px;--dy:-9.9px;--angle:3.654rad;--length:5.7px;--size:0.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.696s;--offset:80px;--dx:-49.3px;--dy:117.5px;--angle:2.418rad;--length:3.1px;--size:2.2px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.270s;--offset:80px;--dx:-99.6px;--dy:496.7px;--angle:1.814rad;--length:10.7px;--size:2.0px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.100s;--offset:80px;--dx:-231.6px;--dy:73.1px;--angle:3.197rad;--length:6.9px;--size:1.2px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.588s;--offset:80px;--dx:-67.7px;--dy:148.9px;--angle:2.298rad;--length:5.7px;--size:1.1px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.602s;--offset:80px;--dx:-59.9px;--dy:130.7px;--angle:2.373rad;--length:4.5px;--size:1.2px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.134s;--offset:80px;--dx:284.2px;--dy:68.0px;--angle:6.214rad;--length:8.2px;--size:2.3px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.233s;--offset:80px;--dx:-108.9px;--dy:496.8px;--angle:1.834rad;--length:11.1px;--size:0.8px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.010s;--offset:80px;--dx:-29.4px;--dy:-13.9px;--angle:4.417rad;--length:3.3px;--size:1.3px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.501s;--offset:80px;--dx:45.4px;--dy:147.0px;--angle:1.025rad;--length:5.7px;--size:1.0px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.131s;--offset:80px;--dx:-240.9px;--dy:226.5px;--angle:2.618rad;--length:8.0px;--size:1.6px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.150s;--offset:80px;--dx:290.0px;--dy:-222.3px;--angle:5.463rad;--length:12.1px;--size:0.8px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.598s;--offset:80px;--dx:53.5px;--dy:19.0px;--angle:5.495rad;--length:4.2px;--size:1.8px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.627s;--offset:80px;--dx:6.6px;--dy:-28.9px;--angle:4.777rad;--length:5.3px;--size:0.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.882s;--offset:80px;--dx:119.7px;--dy:154.9px;--angle:0.570rad;--length:5.3px;--size:1.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.053s;--offset:80px;--dx:-195.2px;--dy:330.4px;--angle:2.241rad;--length:9.8px;--size:0.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.614s;--offset:80px;--dx:-23.2px;--dy:128.5px;--angle:1.967rad;--length:3.2px;--size:2.3px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.292s;--offset:80px;--dx:398.0px;--dy:201.6px;--angle:0.260rad;--length:10.4px;--size:1.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.737s;--offset:80px;--dx:57.6px;--dy:20.9px;--angle:5.532rad;--length:3.5px;--size:1.8px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.144s;--offset:80px;--dx:50.3px;--dy:-15.2px;--angle:5.166rad;--length:3.3px;--size:1.5px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.184s;--offset:80px;--dx:-73.9px;--dy:-261.2px;--angle:4.505rad;--length:9.9px;--size:2.1px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.740s;--offset:80px;--dx:-75.9px;--dy:253.7px;--angle:1.972rad;--length:8.6px;--size:2.0px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.193s;--offset:80px;--dx:-204.8px;--dy:490.1px;--angle:2.044rad;--length:12.3px;--size:2.1px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.895s;--offset:80px;--dx:31.0px;--dy:167.6px;--angle:1.236rad;--length:3.4px;--size:2.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.078s;--offset:80px;--dx:53.0px;--dy:-69.3px;--angle:5.043rad;--length:5.0px;--size:0.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.786s;--offset:80px;--dx:-137.1px;--dy:107.8px;--angle:2.912rad;--length:5.9px;--size:2.4px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.889s;--offset:80px;--dx:-202.8px;--dy:-165.5px;--angle:4.019rad;--length:11.7px;--size:2.0px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.043s;--offset:80px;--dx:-111.6px;--dy:-4.0px;--angle:3.808rad;--length:4.5px;--size:1.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.789s;--offset:80px;--dx:-107.6px;--dy:76.4px;--angle:3.136rad;--length:4.5px;--size:1.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.221s;--offset:80px;--dx:159.0px;--dy:414.5px;--angle:1.113rad;--length:9.6px;--size:1.8px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.770s;--offset:80px;--dx:72.0px;--dy:350.5px;--angle:1.315rad;--length:12.1px;--size:1.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.119s;--offset:80px;--dx:8.3px;--dy:2.2px;--angle:4.810rad;--length:2.5px;--size:1.6px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.674s;--offset:80px;--dx:-226.5px;--dy:-13.5px;--angle:3.509rad;--length:11.8px;--size:1.2px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.169s;--offset:80px;--dx:221.5px;--dy:-134.5px;--angle:5.493rad;--length:8.8px;--size:2.3px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.826s;--offset:80px;--dx:-59.5px;--dy:256.3px;--angle:1.890rad;--length:7.5px;--size:1.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.874s;--offset:80px;--dx:-33.0px;--dy:-23.6px;--angle:4.398rad;--length:4.0px;--size:1.4px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.887s;--offset:80px;--dx:-164.0px;--dy:287.8px;--angle:2.235rad;--length:9.8px;--size:1.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.074s;--offset:80px;--dx:-184.4px;--dy:263.5px;--angle:2.372rad;--length:7.8px;--size:1.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.274s;--offset:80px;--dx:194.3px;--dy:-210.7px;--angle:5.279rad;--length:9.3px;--size:1.8px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.981s;--offset:80px;--dx:-40.2px;--dy:232.9px;--angle:1.830rad;--length:5.2px;--size:2.3px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.992s;--offset:80px;--dx:-142.0px;--dy:-55.0px;--angle:3.908rad;--length:6.5px;--size:2.3px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.528s;--offset:80px;--dx:1.5px;--dy:23.2px;--angle:4.742rad;--length:3.0px;--size:2.2px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.697s;--offset:80px;--dx:153.5px;--dy:113.5px;--angle:0.252rad;--length:7.4px;--size:1.2px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.177s;--offset:80px;--dx:-13.7px;--dy:520.9px;--angle:1.602rad;--length:12.0px;--size:0.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.824s;--offset:80px;--dx:-61.4px;--dy:103.8px;--angle:2.724rad;--length:2.7px;--size:1.8px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.713s;--offset:80px;--dx:61.4px;--dy:133.8px;--angle:0.770rad;--length:3.9px;--size:1.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.670s;--offset:80px;--dx:234.9px;--dy:9.0px;--angle:6.015rad;--length:11.9px;--size:1.1px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.172s;--offset:80px;--dx:-115.1px;--dy:374.5px;--angle:1.955rad;--length:8.6px;--size:2.5px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.110s;--offset:80px;--dx:51.5px;--dy:-50.8px;--angle:5.071rad;--length:4.3px;--size:1.0px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.959s;--offset:80px;--dx:68.7px;--dy:101.9px;--angle:0.302rad;--length:2.5px;--size:2.5px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.257s;--offset:80px;--dx:279.9px;--dy:-273.5px;--angle:5.364rad;--length:12.0px;--size:1.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.752s;--offset:80px;--dx:-98.5px;--dy:17.2px;--angle:3.672rad;--length:5.0px;--size:1.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.585s;--offset:80px;--dx:143.6px;--dy:133.9px;--angle:0.403rad;--length:8.7px;--size:1.2px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.713s;--offset:80px;--dx:-85.7px;--dy:31.6px;--angle:3.604rad;--length:4.4px;--size:2.7px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.164s;--offset:80px;--dx:41.3px;--dy:-277.9px;--angle:4.825rad;--length:10.4px;--size:1.2px;--color:#73baff"></i><i style="--delay:0.87s;--life:0.543s;--offset:80px;--dx:-5.9px;--dy:10.6px;--angle:4.618rad;--length:3.7px;--size:0.9px;--color:#73baff"></i><i style="--delay:0.87s;--life:1.079s;--offset:80px;--dx:-61.3px;--dy:-38.3px;--angle:4.251rad;--length:4.2px;--size:2.6px;--color:#73baff"></i></div>
+ </div>
+ <div class="progress"></div>
+</div>
+<script>
+(() => {
+  'use strict';
+  const scene = document.getElementById('scene');
+  const packBody = document.getElementById('packBody');
+  const packLid = document.getElementById('packLid');
+  let loadSequence = 0;
+  const pendingLoads = new Set();
+  let packRatio = 1.7757;
+  let resizeFrame = 0;
+
+  // A pixel fallback avoids CSS typed division/multiplication compatibility
+  // differences on older mobile browsers, and honors the containing viewport.
+  function updateLayout() {
+    const vw = scene.clientWidth || window.innerWidth;
+    const vh = scene.clientHeight || window.innerHeight;
+    let limit = 218, widthFactor = .57, heightFactor = .70;
+    if (vw <= 900) { limit = 190; }
+    if (vw <= 600) { limit = 158; widthFactor = .58; }
+    if (vw <= 360) { limit = 158; widthFactor = .60; heightFactor = .68; }
+    if (vh <= 500) { limit = 200; widthFactor = .39; heightFactor = .63; }
+    if (vh <= 320) { limit = 150; widthFactor = .35; heightFactor = .59; }
+    const width = Math.max(1, Math.min(limit, vw * widthFactor, vh * heightFactor / packRatio));
+    scene.style.setProperty('--p', width.toFixed(2) + 'px');
+    scene.style.setProperty('--foil-h', (width * packRatio).toFixed(2) + 'px');
+  }
+  function handleResize() {
+    if (resizeFrame) cancelAnimationFrame(resizeFrame);
+    resizeFrame = requestAnimationFrame(() => { resizeFrame = 0; updateLayout(); });
+  }
+  window.addEventListener('resize', handleResize, {passive:true});
+  if (window.visualViewport) window.visualViewport.addEventListener('resize', handleResize, {passive:true});
+
+  function replay() {
+    scene.classList.remove('running');
+    // Force one style recalculation so all individual keyframes reset together.
+    void scene.offsetWidth;
+    scene.classList.add('running');
+  }
+
+  function setDimensions(img) {
+    if (!img.naturalWidth || !img.naturalHeight) throw new Error('Booster image not decoded');
+    packRatio = img.naturalHeight / img.naturalWidth;
+    scene.style.setProperty('--pack-ratio', packRatio.toFixed(6));
+    updateLayout();
+  }
+
+  async function ready(img) {
+    return new Promise((resolve,reject)=>{
+      let settled=false;
+      const finish=ok=>{
+        if(settled)return;
+        settled=true;clearTimeout(timer);pendingLoads.delete(cancel);
+        img.removeEventListener('load',loaded);img.removeEventListener('error',failed);
+        ok?resolve(img):reject(new Error('Booster image unavailable'));
+      };
+      const loaded=()=>finish(img.naturalWidth>0&&img.naturalHeight>0);
+      const failed=()=>finish(false);
+      const cancel=()=>finish(false);
+      pendingLoads.add(cancel);
+      const timer=setTimeout(failed,5000);
+      img.addEventListener('load',loaded);img.addEventListener('error',failed);
+      if(img.complete)loaded();
+    });
+  }
+
+  async function setYokkaiBooster(data = {}) {
+    const opts = typeof data === 'string' ? {boosterImage:data} : (data || {});
+    const url = opts.boosterImage || opts.packImage || opts.image || opts.imageUrl || opts.url;
+    if (!url) { replay(); return true; }
+    if (typeof url !== 'string') throw new TypeError('boosterImage doit être une URL ou une data URI');
+    const seq = ++loadSequence;
+    const candidate = new Image();
+    candidate.decoding = 'async';
+    candidate.src = url;
+    const back = new Image();
+    back.src = '__CARD_BACK__';
+    await Promise.all([ready(candidate), ready(back)]);
+    if (seq !== loadSequence) return false; // a newer image request superseded this one
+
+    const cut = Number(opts.tearAt);
+    if (opts.tearAt !== undefined && Number.isFinite(cut))
+      scene.style.setProperty('--foil-cut', `${Math.min(18, Math.max(6, cut))}%`);
+    else scene.style.setProperty('--foil-cut', '17.3%');
+
+    if (typeof opts.accentColor === 'string' && opts.accentColor.length < 100 &&
+        typeof CSS !== 'undefined' && CSS.supports('color', opts.accentColor)) {
+      scene.style.setProperty('--booster-accent', opts.accentColor);
+    } else {
+      scene.style.setProperty('--booster-accent', '#a8d2ff');
+    }
+
+    scene.classList.remove('running');
+    scene.style.setProperty('--pack-mask', `url(${JSON.stringify(url)})`);
+    packBody.src = url;
+    packLid.src = url;
+    setDimensions(candidate);
+    await Promise.all([ready(packBody), ready(packLid)]);
+    if (seq !== loadSequence) return false;
+    replay();
+    return true;
+  }
+
+  window.replayYokkaiBooster = replay;
+  window.setYokkaiBooster = setYokkaiBooster;
+
+  window.addEventListener('pagehide',()=>{
+    loadSequence++;
+    for(const cancel of pendingLoads)cancel();
+    if(resizeFrame)cancelAnimationFrame(resizeFrame);
+    window.removeEventListener('resize',handleResize);
+    window.visualViewport?.removeEventListener('resize',handleResize);
+  },{once:true});
+})();
+</script>
+</body></html>

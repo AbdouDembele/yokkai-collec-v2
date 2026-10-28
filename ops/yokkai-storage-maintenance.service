@@ -1,0 +1,16 @@
+[Unit]
+Description=Yokkai targeted storage maintenance (shared lock)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+Environment=CLEANUP_MODE=--dry-run
+EnvironmentFile=-/etc/default/yokkai-storage-maintenance
+ExecStart=/usr/local/sbin/yokkai-storage-maintenance $CLEANUP_MODE
+TimeoutStartSec=25min
+Nice=10
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=yokkai-storage

@@ -1,0 +1,20 @@
+#!/bin/sh
+# Bloque tout push direct sur master. Installé via `npm run setup`.
+while read -r local_ref local_sha remote_ref remote_sha; do
+  if [ "$remote_ref" = "refs/heads/master" ]; then
+    cat >&2 <<'MSG'
+
+  ✋ Push direct sur master refusé.
+
+  Toute modification passe par une Pull Request :
+    git checkout -b <initiales>/<description> origin/master
+    git push -u origin <initiales>/<description>
+    gh pr create
+
+  Voir docs/COLLABORATION.md
+
+MSG
+    exit 1
+  fi
+done
+exit 0

@@ -1,0 +1,50 @@
+.yk-card-cinematic-clean {
+  padding: 0;
+}
+
+.yk-lr-file-modal:has(.yk-card-cinematic-clean) > div:first-child {
+  display: none;
+}
+
+.yk-card-cinematic-demo {
+  height: max(580px, calc(100dvh - 200px));
+  overflow: hidden;
+  border: 1px solid #34445f;
+  border-radius: 16px;
+}
+
+.yk-invocation.yk-lr-file-modal {
+  background: #080705;
+}
+
+.yk-invocation.yk-lr-file-modal::before {
+  display: none;
+}
+
+.yk-invocation.yk-lr-file-modal > div:first-child {
+  z-index: 3;
+}
+
+.yk-lr-demo {
+  width: 100%;
+  padding: 16px;
+}
+
+.yk-lr-demo > header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.yk-lr-demo h1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.yk-lr-demo p {
+  color: var(--ink-2, #bbc6dc);
+  font-size: 14px;
+}

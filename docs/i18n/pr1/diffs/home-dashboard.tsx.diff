@@ -1,0 +1,107 @@
+diff --git a/components/home-dashboard.tsx b/components/home-dashboard.tsx
+index 46c7401..bdeae8e 100644
+--- a/components/home-dashboard.tsx
++++ b/components/home-dashboard.tsx
+@@ -1,3 +1,5 @@
++import { useTranslations } from "next-intl";
++import { getTranslations } from "next-intl/server";
+ import { AmbientGlow } from "@/components/ambient-glow";
+ import { Suspense, type ReactNode } from "react";
+ import Link from "next/link";
+@@ -33,12 +35,13 @@ import type { Rarity } from "@/lib/data/cards";
+ import type { MarketPage } from "@/lib/data/market";
+ 
+ async function PanelData({ load }: { load: () => Promise<ReactNode> }) {
++  const t = await getTranslations("homeDashboard");
+   try {
+     return await load();
+   } catch {
+     return (
+       <p role="status" className="yk-home-empty">
+-        This panel is temporarily unavailable. Please try again in a moment.
++        {t("thisPanelIsTemporarilyUnavailablePleaseTryAgainInA")}
+       </p>
+     );
+   }
+@@ -167,6 +170,7 @@ async function market() {
+ }
+ 
+ async function friendFeed(userId: string) {
++  const t = await getTranslations("homeDashboard");
+   const client = createClient(await cookies());
+   const profile = await client
+     .rpc("get_profile", { p_identifier: null })
+@@ -190,13 +194,14 @@ async function friendFeed(userId: string) {
+       <HomeFriendFeed
+         initial={{ items: [], next: null }}
+         viewer={viewer}
+-        initialError="Couldn't load your friends' posts. Refresh to try again."
++        initialError={t("friendPostsUnavailable")}
+       />
+     );
+   }
+ }
+ 
+ async function HomeTopbar() {
++  const t = await getTranslations("homeDashboard");
+   let snapshot: { user: { name: string }; karasBalance: number } | undefined;
+   try {
+     const client = createClient(await cookies());
+@@ -213,13 +218,14 @@ async function HomeTopbar() {
+       view="home"
+       name={snapshot?.user.name}
+       karas={snapshot?.karasBalance}
+-      infoError={snapshot ? undefined : "Couldn't load your balance."}
++      infoError={snapshot ? undefined : t("balanceUnavailable")}
+       account={<AccountMenu />}
+     />
+   );
+ }
+ 
+ export function HomeDashboard({ userId }: { userId: string }) {
++  const t = useTranslations("homeDashboard");
+   const discordEnabled = Boolean(getDiscordInviteUrl());
+   return (
+     <div className="relative isolate flex min-h-dvh w-full flex-col">
+@@ -241,24 +247,24 @@ export function HomeDashboard({ userId }: { userId: string }) {
+         </HomePacks>
+         <HomePanel
+           id="home-latest"
+-          title="Your latest pulls"
++          title={t("yourLatestPulls")}
+           href="/collection"
+-          link="View collection"
++          link={t("viewCollection")}
+         >
+           <Suspense fallback={<HomeSkeleton />}>
+             <PanelData load={() => latest(userId)} />
+           </Suspense>
+         </HomePanel>
+-        <HomePanel id="home-big" title="Big drops">
++        <HomePanel id="home-big" title={t("bigDrops")}>
+           <Suspense fallback={<HomeSkeleton />}>
+             <PanelData load={bigPulls} />
+           </Suspense>
+         </HomePanel>
+         <HomePanel
+           id="home-market"
+-          title="The market"
++          title={t("theMarket")}
+           href="/market"
+-          link="Browse the market"
++          link={t("browseMarket")}
+         >
+           <Suspense fallback={<HomeSkeleton />}>
+             <PanelData load={market} />
+@@ -266,9 +272,9 @@ export function HomeDashboard({ userId }: { userId: string }) {
+         </HomePanel>
+         <HomePanel
+           id="home-leaderboard"
+-          title="Leaderboard"
++          title={t("leaderboard")}
+           href="/leaderboard"
+-          link="View leaderboard"
++          link={t("viewLeaderboard")}
+         >
+           <Suspense fallback={<HomeSkeleton />}>
+             <HomeLeaderboard userId={userId} />

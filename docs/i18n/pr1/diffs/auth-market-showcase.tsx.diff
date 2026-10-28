@@ -1,0 +1,222 @@
+diff --git a/components/auth-market-showcase.tsx b/components/auth-market-showcase.tsx
+index afd6145..20d0683 100644
+--- a/components/auth-market-showcase.tsx
++++ b/components/auth-market-showcase.tsx
+@@ -1,4 +1,5 @@
+ "use client";
++import { useTranslations } from "next-intl";
+ 
+ import { useRef, useState } from "react";
+ import { YokaiCard } from "@/components/yokai-card";
+@@ -50,6 +51,7 @@ const openingMessages = [
+ 
+ // Every interaction stays in React state; this showcase never calls market RPCs.
+ export function AuthMarketShowcase() {
++  const t = useTranslations("authMarketShowcase");
+   const [selected, setSelected] = useState({ card: madara, seller: "Nova" });
+   const [bids, setBids] = useState(openingBids);
+   const [messages, setMessages] = useState(openingMessages);
+@@ -68,7 +70,7 @@ export function AuthMarketShowcase() {
+       value > 1000000
+     ) {
+       setError(
+-        `Enter a whole amount between ${(amount + 10).toLocaleString("en-US")} and 1,000,000 Karas.`
++        t("bidAmount", { minimum: (amount + 10).toLocaleString("en-US") })
+       );
+       return;
+     }
+@@ -83,25 +85,27 @@ export function AuthMarketShowcase() {
+     <div className="yk-auth-market-showcase">
+       <section
+         className="yk-auth-demo-market"
+-        aria-label="Interactive market preview"
++        aria-label={t("interactiveMarketPreview")}
+       >
+         <header className="yk-auth-demo-header">
+           <div>
+-            <span className="yk-auth-preview-label">THE AUCTION ROOM</span>
+-            <h4>Market</h4>
++            <span className="yk-auth-preview-label">{t("theAuctionRoom")}</span>
++            <h4>{t("market")}</h4>
+           </div>
+-          <span className="yk-auth-demo-tag">Interactive preview</span>
++          <span className="yk-auth-demo-tag">{t("interactivePreview")}</span>
+         </header>
+         <ul
+           className="yk-auth-demo-listings"
+-          aria-label="Example cards up for auction"
++          aria-label={t("exampleCardsUpForAuction")}
+         >
+           {listings.map(item => (
+             <li key={item.card.id}>
+               <button
+                 type="button"
+                 className="yk-auth-demo-listing"
+-                aria-label={`Preview auction for ${item.card.name}`}
++                aria-label={t("previewCardAuction", {
++                  cardName: item.card.name
++                })}
+                 onClick={() => {
+                   setSelected({ card: item.card, seller: item.seller });
+                   setBids(
+@@ -137,19 +141,22 @@ export function AuthMarketShowcase() {
+ 
+       <section
+         className="yk-auth-demo-auction"
+-        aria-label="Interactive auction preview"
++        aria-label={t("interactiveAuctionPreview")}
+         tabIndex={-1}
+         ref={detailRef}
+       >
+         <header className="yk-auth-demo-header">
+           <div>
+-            <span className="yk-auth-preview-label">MARKET · AUCTION</span>
++            <span className="yk-auth-preview-label">{t("marketAuction")}</span>
+             <h4>{selected.card.name}</h4>
+             <p>
+-              {selected.card.anime} · listed by {selected.seller}
++              {t("listedByPlayer", {
++                franchise: selected.card.anime ?? "",
++                seller: selected.seller
++              })}
+             </p>
+           </div>
+-          <span className="yk-auth-demo-tag">Demo</span>
++          <span className="yk-auth-demo-tag">{t("demo")}</span>
+         </header>
+         <div className="yk-auth-demo-auction-layout">
+           <div className="yk-auth-demo-auction-left">
+@@ -160,10 +167,11 @@ export function AuthMarketShowcase() {
+             </div>
+             <section
+               className="yk-auth-demo-history"
+-              aria-label="Preview bid history"
++              aria-label={t("previewBidHistory")}
+             >
+               <h5>
+-                Bid history <span>({bids.length})</span>
++                {t("bidHistory")}
++                <span>({bids.length})</span>
+               </h5>
+               <ol>
+                 {bids.map((entry, index) => (
+@@ -174,7 +182,9 @@ export function AuthMarketShowcase() {
+                       <Karas amount={entry.amount} />
+                     </div>
+                     {index === 0 && (
+-                      <span className="yk-auth-demo-leading">Leading</span>
++                      <span className="yk-auth-demo-leading">
++                        {t("leading")}
++                      </span>
+                     )}
+                   </li>
+                 ))}
+@@ -184,17 +194,17 @@ export function AuthMarketShowcase() {
+           <div className="yk-auth-demo-auction-right">
+             <section
+               className="yk-auth-demo-bidding"
+-              aria-label="Try bidding in the preview"
++              aria-label={t("tryBiddingInThePreview")}
+             >
+               <div className="yk-auth-demo-figures">
+                 <div>
+-                  <span>Current price</span>
++                  <span>{t("currentPrice")}</span>
+                   <strong>
+                     <Karas amount={amount} />
+                   </strong>
+                 </div>
+                 <div>
+-                  <span>Time remaining</span>
++                  <span>{t("timeRemaining")}</span>
+                   <b>00:14:56</b>
+                 </div>
+               </div>
+@@ -204,7 +214,9 @@ export function AuthMarketShowcase() {
+                   bid();
+                 }}
+               >
+-                <label htmlFor="preview-auction-bid">Your offer in Karas</label>
++                <label htmlFor="preview-auction-bid">
++                  {t("yourOfferInKaras")}
++                </label>
+                 <div>
+                   <input
+                     id="preview-auction-bid"
+@@ -218,13 +230,15 @@ export function AuthMarketShowcase() {
+                     onChange={event => setOffer(event.target.value)}
+                   />
+                   <Button type="submit" variant="secondary">
+-                    {offer ? "Place bid" : "+10 Karas"}
++                    {offer ? t("placeBid") : t("text10Karas")}
+                   </Button>
+                 </div>
+               </form>
+               {error && (
+                 <p role="alert" className="yk-auth-demo-error">
+-                  {error}
++                  {t("bidAmount", {
++                    minimum: (amount + 10).toLocaleString("en-US")
++                  })}
+                 </p>
+               )}
+               <p
+@@ -233,16 +247,17 @@ export function AuthMarketShowcase() {
+                 className="yk-auth-demo-bid-status"
+               >
+                 {bids[0].name === "You"
+-                  ? "You are leading in this preview."
+-                  : "Try a bid. No Karas are spent."}
++                  ? t("youAreLeadingInThisPreview")
++                  : t("tryABidNoKarasAreSpent")}
+               </p>
+             </section>
+             <section
+               className="yk-auth-demo-auction-chat"
+-              aria-label="Preview auction chat"
++              aria-label={t("previewAuctionChat")}
+             >
+               <h5>
+-                Auction chat <span>{messages.length} messages</span>
++                {t("auctionChat")}
++                <span>{t("messageCount", { count: messages.length })}</span>
+               </h5>
+               <ol ref={chatRef}>
+                 {messages.map((message, index) => (
+@@ -271,7 +286,7 @@ export function AuthMarketShowcase() {
+                 }}
+               >
+                 <label htmlFor="preview-auction-message" className="sr-only">
+-                  Try the preview chat
++                  {t("tryThePreviewChat")}
+                 </label>
+                 <input
+                   id="preview-auction-message"
+@@ -279,23 +294,23 @@ export function AuthMarketShowcase() {
+                   value={draft}
+                   onChange={event => setDraft(event.target.value)}
+                   maxLength={160}
+-                  placeholder="Try the chat…"
++                  placeholder={t("tryTheChat")}
+                 />
+                 <Button
+                   type="submit"
+                   variant="secondary"
+                   disabled={!draft.trim()}
+                 >
+-                  Send
++                  {t("send")}
+                 </Button>
+               </form>
+-              <p>Messages stay in this demo.</p>
++              <p>{t("messagesStayInThisDemo")}</p>
+             </section>
+           </div>
+         </div>
+       </section>
+       <p className="yk-auth-market-example-note">
+-        Interactive examples. Cards, bids and conversations are illustrative.
++        {t("interactiveExamplesCardsBidsAndConversationsAreIllustrative")}
+       </p>
+     </div>
+   );

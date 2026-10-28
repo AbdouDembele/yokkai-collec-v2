@@ -1,0 +1,325 @@
+{
+  "presentationConstantsExcluded": [
+    "formatDate: display helper moved into locale scope",
+    "dropBadgeLabel: UI sentence replaced by ICU badgeSuffix",
+    "dynamic(...): translated loading callbacks"
+  ],
+  "base": "fdfb3c2e52d0fa067977be6a02274b50a47b80ee",
+  "files": {
+    "components/binder-favorite-review.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/booster-opening.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/boosters.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/card-report-button.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/card-sharing.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/catalogue-card-modal.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/collection-filters.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/collection-loading.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/collection.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/community-views.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/game.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/pro-access.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/ui/index.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/ui/pagination.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    },
+    "components/yokai-card.tsx": {
+      "moduleDataConstantsUnchanged": true,
+      "sameJsxTagSequence": true,
+      "sameClassesStylesImagesDataAttributes": true,
+      "sameCardComponentProps": true
+    }
+  },
+  "formatOccurrences": [
+    {
+      "file": "components/binder-favorite-review.tsx",
+      "line": 53,
+      "expression": "candidate.total.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 93,
+      "expression": "date.toLocaleTimeString(\"en-US\", {\n    hour: \"2-digit\",\n    minute: \"2-digit\"\n  })"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 103,
+      "expression": "date.toLocaleDateString(\"en-US\", { day: \"numeric\", month: \"long\" })"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 602,
+      "expression": "revealedCount.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 602,
+      "expression": "cards.length.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 789,
+      "expression": "sellAllReward.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 844,
+      "expression": "(decision.karasReward ?? 0).toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 846,
+      "expression": "(decision.karasReward ?? 0).toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 851,
+      "expression": "keptCards.filter(c => c.isNew).length.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 920,
+      "expression": "sellAllReward.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 970,
+      "expression": "decisionReward(chosen.instanceId)?.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 1020,
+      "expression": "discardCandidate.destructionValue.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 1100,
+      "expression": "selectedValue.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 1412,
+      "expression": "rate.percent.toLocaleString(\"en-US\", {\n                  maximumFractionDigits: 2\n                })"
+    },
+    {
+      "file": "components/boosters.tsx",
+      "line": 1423,
+      "expression": "shinyRate.toLocaleString(\"en-US\", { maximumFractionDigits: 2 })"
+    },
+    {
+      "file": "components/catalogue-card-modal.tsx",
+      "line": 33,
+      "expression": "owner.copies.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 81,
+      "expression": "new Date(value).toLocaleDateString(\"en-US\", {\n    dateStyle: long ? \"long\" : \"medium\"\n  })"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 1347,
+      "expression": "(\n                            selectedAlbum?.total ??\n                            paniniCards.binderTotal ??\n                            paniniCards.total\n                          ).toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 1414,
+      "expression": "added.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 1547,
+      "expression": "paniniAlbums.total.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 1667,
+      "expression": "item.owned.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 1667,
+      "expression": "item.total.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 1672,
+      "expression": "item.owned.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 1673,
+      "expression": "item.total.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 1825,
+      "expression": "group.cards.length.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 2563,
+      "expression": "selectedCards.length.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 2660,
+      "expression": "discardCards.length.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/collection.tsx",
+      "line": 2665,
+      "expression": "discardValue?.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/community-views.tsx",
+      "line": 136,
+      "expression": "owner.copies.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/community-views.tsx",
+      "line": 2080,
+      "expression": "total.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/community-views.tsx",
+      "line": 2383,
+      "expression": "cards.length.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/community-views.tsx",
+      "line": 2418,
+      "expression": "filteredCards.length.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/ui/index.tsx",
+      "line": 82,
+      "expression": "amount.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/ui/index.tsx",
+      "line": 86,
+      "expression": "amount.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/ui/index.tsx",
+      "line": 157,
+      "expression": "count.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/ui/pagination.tsx",
+      "line": 137,
+      "expression": "pageCount.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/ui/pagination.tsx",
+      "line": 143,
+      "expression": "active.toLocaleString(\"en-US\")"
+    },
+    {
+      "file": "components/ui/pagination.tsx",
+      "line": 144,
+      "expression": "pageCount.toLocaleString(\"en-US\")"
+    }
+  ],
+  "protectedFiles": [
+    {
+      "file": "components/card-cinematic.tsx",
+      "unchanged": true,
+      "sha256": "82f9576ed1ce088ea15adf51acbea1a990062d5488b95611279db0ba577bceae"
+    },
+    {
+      "file": "styles/cards.css",
+      "unchanged": true,
+      "sha256": "6ff77f8da5e12008fdcf4a8b81a7db03b6fcf16c166e452a0f4e36326fc40226"
+    },
+    {
+      "file": "styles/boosters.css",
+      "unchanged": true,
+      "sha256": "5e10fea7168e409cf0456528a8524a1b3f1a2e50d875e86b2086ae60199b4db3"
+    },
+    {
+      "file": "styles/collection.css",
+      "unchanged": true,
+      "sha256": "e81cc3a0d054a68fb55b2402e8f2eef4f91934abec2f307610e3d1b4c9524bb2"
+    },
+    {
+      "file": "lib/ui/booster-opening-document.ts",
+      "unchanged": true,
+      "sha256": "7bf4b26dc2f11f3a348700ff2e40452ec5f1c591ba786a4d114eddec462be518"
+    },
+    {
+      "file": "data/booster-opening/reveal.html",
+      "unchanged": true,
+      "sha256": "f1e2730f11d4c7980403fa862f0283d883af85f3ccdc86a8773b2d2a5c01251a"
+    }
+  ],
+  "gameDataFromCardFromRowUnchanged": true
+}

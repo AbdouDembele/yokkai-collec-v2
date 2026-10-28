@@ -1,0 +1,162 @@
+.yk-locale-selector {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  font-size: 0.875rem;
+}
+.yk-locale-selector:has(.yk-locale-menu) {
+  z-index: 30;
+}
+.yk-locale-selector [role="alert"] {
+  flex-basis: 100%;
+  color: var(--color-danger-ink);
+  font-size: 0.75rem;
+}
+.yk-locale-flag {
+  display: inline-flex;
+  flex: 0 0 auto;
+  width: 20px;
+  height: 14px;
+  overflow: hidden;
+  border-radius: 3px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.15);
+}
+.yk-locale-flag svg {
+  width: 100%;
+  height: 100%;
+}
+.yk-locale-trigger {
+  display: inline-flex;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 999px;
+  color: #f3f7ff;
+  transition: background 150ms;
+}
+.yk-locale-trigger:hover,
+.yk-locale-trigger:focus-visible,
+.yk-locale-trigger[aria-expanded="true"] {
+  background: rgba(185, 201, 223, 0.12);
+}
+.yk-locale-trigger:disabled {
+  opacity: 0.6;
+}
+.yk-locale-trigger .yk-locale-flag {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+}
+.yk-locale-menu {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 4px);
+  right: 0;
+  display: grid;
+  min-width: 180px;
+  border: 1px solid #344964;
+  border-radius: 12px;
+  padding: 4px;
+  background: var(--color-night, #151222);
+  box-shadow: 0 12px 32px -4px rgba(6, 9, 19, 0.95);
+  animation: yk-account-panel-in 150ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.yk-locale-menu button {
+  display: flex;
+  width: 100%;
+  min-height: 40px;
+  align-items: center;
+  gap: 0.75rem;
+  border-radius: 8px;
+  padding: 0 0.75rem;
+  color: #e5edff;
+  font-size: 14px;
+  text-align: left;
+}
+.yk-locale-menu button:hover,
+.yk-locale-menu button:focus-visible {
+  background: rgba(185, 201, 223, 0.1);
+}
+.yk-locale-menu button[aria-pressed="true"] {
+  color: #fff;
+  font-weight: 600;
+}
+.yk-locale-menu button > svg {
+  margin-left: auto;
+}
+
+/* Account menu: flag in the top-right of the profile summary. */
+.yk-account-summary .yk-locale-selector {
+  margin-left: auto;
+  align-self: flex-start;
+}
+.yk-account-summary .yk-locale-flag {
+  border: 0;
+}
+
+/* Settings: labelled row with the full trigger. */
+.yk-locale-selector.is-full {
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  border: 1px solid #344964;
+  border-radius: 14px;
+  padding: 0.75rem 1rem;
+  background: var(--color-night, #151222);
+}
+.yk-locale-label {
+  color: #f3f7ff;
+  font-weight: 600;
+}
+.is-full .yk-locale-trigger {
+  border: 1px solid #344964;
+  padding: 0 0.875rem 0 0.5rem;
+}
+.is-full .yk-locale-trigger .yk-locale-flag {
+  width: 22px;
+  height: 22px;
+}
+
+.yk-locale-banner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  color: #f2f0ff;
+  background: #151222;
+}
+.yk-locale-banner button {
+  min-height: 44px;
+  padding: 0.5rem;
+  text-decoration: underline;
+}
+
+.yk-auth-header:has(.yk-locale-selector) {
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+}
+.yk-auth-header .yk-locale-selector {
+  margin-left: auto;
+  flex: 0 0 auto;
+}
+
+@media (max-width: 620px) {
+  .yk-auth-header:has(.yk-locale-selector) .yk-auth-brand {
+    width: 90px;
+  }
+  .yk-auth-header:has(.yk-locale-selector) .yk-auth-return {
+    font-size: 0.75rem;
+  }
+}
+.yk-username-step-signout:has(.yk-locale-selector) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+}
