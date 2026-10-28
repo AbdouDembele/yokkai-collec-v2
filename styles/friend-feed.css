@@ -87,12 +87,12 @@
   height: 390px;
   overflow: hidden;
   position: relative;
-  grid-template-rows: 42px 160px minmax(0, 1fr) 20px;
+  grid-template-rows: 42px 160px minmax(0, 1fr) 40px 24px;
   overscroll-behavior-y: contain;
   align-content: start;
   display: grid;
   grid-template-columns: 42px minmax(0, 1fr);
-  gap: 14px;
+  gap: 4px;
   margin: 0;
   padding: 16px;
   border: 1px solid #344964;
@@ -139,7 +139,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   max-height: 72px;
-  margin-top: 9px;
+  margin-top: 0;
   color: #edf3fc;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
@@ -180,7 +180,7 @@
   pointer-events: none;
 }
 .yk-feed-wall-link {
-  grid-row: 4;
+  grid-row: 5;
   display: inline-flex;
   gap: 6px;
   margin-top: 0;
@@ -245,7 +245,7 @@
     padding-inline: 16px;
   }
   .yk-feed-post {
-    gap: 10px;
+    gap: 4px;
     margin: 0;
     padding: 16px 12px;
     grid-template-columns: 42px minmax(0, 1fr);
@@ -256,19 +256,19 @@
 }
 
 .yk-feed-post[data-has-media="false"] {
-  grid-template-rows: 42px minmax(0, 1fr) 20px;
+  grid-template-rows: 42px minmax(0, 1fr) 40px 24px;
 }
 .yk-feed-post[data-has-media="false"] .yk-feed-text {
   grid-row: 2;
-  align-self: center;
-  margin-top: 0;
-  font-size: 20px;
+  align-self: start;
+  margin-top: 8px;
+  font-size: 16px;
   line-height: 1.5;
   -webkit-line-clamp: 7;
-  max-height: 210px;
+  max-height: 168px;
 }
 .yk-feed-post[data-has-media="false"] .yk-feed-wall-link {
-  grid-row: 3;
+  grid-row: 4;
 }
 
 .yk-home-main .yk-button.yk-home-panel-action.yk-feed-icon-action {
@@ -280,4 +280,81 @@
   width: 24px;
   height: 24px;
   flex-shrink: 0;
+}
+
+.yk-home-post-actions {
+  grid-row: 4 / span 2;
+  min-width: 0;
+  align-self: start;
+}
+.yk-feed-post[data-has-media="false"] .yk-home-post-actions {
+  grid-row: 3 / span 2;
+}
+.yk-home-post-actions .yk-wall-interactions {
+  margin-top: 0;
+}
+.yk-home-post-actions .yk-post-actions {
+  flex-wrap: nowrap;
+  gap: 6px;
+  padding-top: 0;
+  border-top: 0;
+}
+.yk-home-post-actions .yk-post-actions > button {
+  min-width: 0;
+  min-height: 40px;
+  padding: 7px 9px;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+.yk-home-post-actions .yk-action-count {
+  font-size: 12px;
+}
+.yk-home-reaction-summary {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  max-width: calc(100% - 100px);
+  height: 24px;
+  margin-top: 4px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.yk-home-reaction-summary > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  padding: 1px 6px;
+  border: 1px solid #526d91;
+  border-radius: 8px;
+  background: #142239;
+  color: #f3f7ff;
+  font-size: 12px;
+}
+.yk-home-reaction-summary > span[data-selected="true"] {
+  border-color: #8fbcff;
+  background: #2d5280;
+}
+.yk-home-reaction-summary strong {
+  font-size: 11px;
+}
+.yk-home-thread-modal {
+  width: min(760px, calc(100vw - 24px));
+}
+.yk-home-thread-modal .yk-post-thread {
+  margin-top: 0;
+  padding: 12px;
+  border: 0;
+}
+@media (max-width: 639px) {
+  .yk-feed-post[data-has-media="false"] .yk-feed-text {
+    font-size: 15px;
+  }
+}
+
+.yk-feed-wall-link {
+  justify-self: end;
+  align-self: center;
+  position: relative;
+  z-index: 1;
 }

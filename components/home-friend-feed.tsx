@@ -14,6 +14,7 @@ import {
 } from "react";
 import { Avatar } from "@/components/ui";
 import { StyledPlayerName } from "@/components/styled-player-name";
+import { WallPostInteractions } from "@/components/wall-post-interactions";
 import { ProfileWall } from "@/components/profile-wall";
 import { type WallAdapter } from "@/lib/data/profile-wall";
 import type { WallInteractions } from "@/lib/data/wall-interactions";
@@ -28,11 +29,60 @@ import "@/styles/friend-feed.css";
 
 const subscribeToHydration = () => () => {};
 
+function HomeFeedActions({
+  post,
+  adapter
+}: {
+  post: FriendFeedPost;
+  adapter?: WallInteractions;
+}) {
+  const container = useRef<HTMLDivElement>(null),
+    [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const node = container.current;
+    if (!node) return;
+    if (typeof IntersectionObserver === "undefined") {
+      let active = true;
+      void Promise.resolve().then(() => {
+        if (active) setVisible(true);
+      });
+      return () => {
+        active = false;
+      };
+    }
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "160px" }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <div className="yk-home-post-actions" ref={container}>
+      {visible && (
+        <WallPostInteractions
+          postId={post.id}
+          initialActivity={post.activity}
+          adapter={adapter}
+          compact
+          hideUnavailable
+        />
+      )}
+    </div>
+  );
+}
+
 export function HomeFriendFeed({
   initial,
   initialError = "",
   viewer,
   wallAdapter,
+  interactions,
   scope = "friends",
   load = scope === "everyone" ? getPublicFeed : getFriendFeed
 }: {
@@ -296,6 +346,7 @@ export function HomeFriendFeed({
                   </Link>
                 )}
                 {post.text && <p className="yk-feed-text">{post.text}</p>}
+                <HomeFeedActions post={post} adapter={interactions} />
                 <Link href={wall} className="yk-feed-wall-link">
                   {t("viewWall")}
                   <span aria-hidden="true">↗</span>
