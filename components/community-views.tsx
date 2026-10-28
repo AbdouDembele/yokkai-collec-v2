@@ -2248,10 +2248,11 @@ export function FriendsView() {
   const params = useSearchParams();
   const router = useRouter();
   const conversation = params.get("message") ?? undefined;
-  const showTrades = params.get("tab") === "trades";
+  const showTrades = Boolean(params.get("ami") || params.get("offre"));
   function navigateTrades(friendId?: string) {
+    if (!friendId) return;
     const query = new URLSearchParams({ tab: "trades" });
-    if (friendId) query.set("ami", friendId);
+    query.set("ami", friendId);
     router.push(`/social/friends?${query.toString()}`, { scroll: false });
   }
   return (
@@ -2259,6 +2260,7 @@ export function FriendsView() {
       initialConversationId={conversation}
       tradeSection={{
         active: showTrades,
+        friendId: params.get("ami") ?? undefined,
         content: <TradesView />,
         open: navigateTrades,
         close: () => router.push("/social/friends", { scroll: false })
@@ -2276,7 +2278,7 @@ export function TradesView() {
     <>
       <TradesPanel
         initialOfferId={searchParams.get("offre") ?? undefined}
-        initialFriendId={searchParams.get("ami") ?? undefined}
+        fixedFriendId={searchParams.get("ami") ?? undefined}
         initialRequestedCardId={searchParams.get("carte") ?? undefined}
       />
     </>

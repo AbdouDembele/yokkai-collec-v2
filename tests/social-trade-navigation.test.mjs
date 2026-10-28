@@ -19,7 +19,7 @@ function load(file, mocks) {
   );
   return exports;
 }
-test("legacy Trades links open the Social Friends exchange tab without losing targeted offers or cards", async () => {
+test("legacy Trades links preserve targeted offers or cards in Social Friends", async () => {
   const { default: page } = load("app/trades/page.tsx", name => {
     assert.equal(name, "next/navigation");
     return {
@@ -87,8 +87,19 @@ test("Friends opens a selected friend's exchange in Social and returns to the fr
   assert.equal(exchange.props.tradeSection.active, true);
   exchange.props.tradeSection.close();
   assert.equal(navigations.at(-1)[0], "/social/friends");
+  const before = navigations.length;
   friends.props.tradeSection.open();
-  const history = new URL(navigations.at(-1)[0], "https://example.invalid");
+  assert.equal(navigations.length, before, "a trade must target a friend");
+  const history = new URL(
+    "/social/friends?tab=trades",
+    "https://example.invalid"
+  );
   assert.equal(history.searchParams.get("tab"), "trades");
   assert.equal(history.searchParams.has("ami"), false);
+  params = history.searchParams;
+  assert.equal(
+    FriendsView().props.tradeSection.active,
+    false,
+    "the removed standalone tab does not open an empty trade page"
+  );
 });

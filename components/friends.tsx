@@ -382,6 +382,7 @@ export function FriendsPanel({
   onConversationClose?: () => void;
   tradeSection?: {
     active: boolean;
+    friendId?: string;
     content: ReactNode;
     open: (friendId?: string) => void;
     close: () => void;
@@ -588,94 +589,86 @@ export function FriendsPanel({
     outgoing: data?.outgoing ?? []
   };
   const current: FriendUser[] = lists[tab];
+  const tradeFriend = data?.friends.find(
+    person => person.id === tradeSection?.friendId
+  );
   return (
     <div className="yk-social-stack">
-      {!tradeSection?.active && (
-        <section className="yk-social-search">
-          <div>
-            <p className="eyebrow">Find a player</p>
-            <h2 className="yk-section-title mt-2">Grow your circle</h2>
+      <section className="yk-social-search">
+        <div>
+          <p className="eyebrow">Find a player</p>
+          <h2 className="yk-section-title mt-2">Grow your circle</h2>
+        </div>
+        <label className="yk-social-search-field">
+          <span aria-hidden="true">⌕</span>
+          <input
+            aria-label="Search players by username"
+            value={query}
+            onChange={e => {
+              setQuery(e.target.value);
+              setResults([]);
+              setSearching(e.target.value.trim().length >= 2);
+            }}
+            placeholder="Search usernames…"
+          />
+        </label>
+        {query.trim().length > 0 && query.trim().length < 2 && (
+          <p className="yk-search-hint">Enter at least two characters.</p>
+        )}
+        {searching && (
+          <p className="yk-search-hint" role="status">
+            Searching…
+          </p>
+        )}
+        {query.trim().length >= 2 && !searching && !results.length && (
+          <div className="yk-social-empty is-compact">
+            <strong>No players found</strong>
+            <span>Try another username.</span>
           </div>
-          <label className="yk-social-search-field">
-            <span aria-hidden="true">⌕</span>
-            <input
-              aria-label="Search players by username"
-              value={query}
-              onChange={e => {
-                setQuery(e.target.value);
-                setResults([]);
-                setSearching(e.target.value.trim().length >= 2);
-              }}
-              placeholder="Search usernames…"
-            />
-          </label>
-          {query.trim().length > 0 && query.trim().length < 2 && (
-            <p className="yk-search-hint">Enter at least two characters.</p>
-          )}
-          {searching && (
-            <p className="yk-search-hint" role="status">
-              Searching…
-            </p>
-          )}
-          {query.trim().length >= 2 && !searching && !results.length && (
-            <div className="yk-social-empty is-compact">
-              <strong>No players found</strong>
-              <span>Try another username.</span>
-            </div>
-          )}
-          {!!results.length && (
-            <ul className="yk-social-list is-search">
-              {results.map(person => (
-                <Person
-                  key={person.id}
-                  person={person}
-                  actions={
-                    <FriendAction
-                      key={`${person.id}:${person.status}:${blocked.some(item => item.id === person.id)}`}
-                      userId={person.id}
-                      status={person.status ?? "none"}
-                      blockedByMe={blocked.some(item => item.id === person.id)}
-                      onUnblocked={() =>
-                        setBlocked(current =>
-                          current.filter(item => item.id !== person.id)
-                        )
-                      }
-                      onChanged={() => void load()}
-                      adapter={
-                        adapter.action
-                          ? { ...adapter.action, unblock: moderation.unblock }
-                          : {
-                              ...liveFriendActions,
-                              unblock: moderation.unblock
-                            }
-                      }
-                    />
-                  }
-                />
-              ))}
-            </ul>
-          )}
-        </section>
-      )}
+        )}
+        {!!results.length && (
+          <ul className="yk-social-list is-search">
+            {results.map(person => (
+              <Person
+                key={person.id}
+                person={person}
+                actions={
+                  <FriendAction
+                    key={`${person.id}:${person.status}:${blocked.some(item => item.id === person.id)}`}
+                    userId={person.id}
+                    status={person.status ?? "none"}
+                    blockedByMe={blocked.some(item => item.id === person.id)}
+                    onUnblocked={() =>
+                      setBlocked(current =>
+                        current.filter(item => item.id !== person.id)
+                      )
+                    }
+                    onChanged={() => void load()}
+                    adapter={
+                      adapter.action
+                        ? { ...adapter.action, unblock: moderation.unblock }
+                        : {
+                            ...liveFriendActions,
+                            unblock: moderation.unblock
+                          }
+                    }
+                  />
+                }
+              />
+            ))}
+          </ul>
+        )}
+      </section>
       <section className="yk-social-panel">
         <Tabs
           label="Relationships"
-          value={tradeSection?.active ? "trades" : tab}
-          onChange={value => {
-            if (value === "trades") tradeSection?.open();
-            else {
-              setTab(value as FriendsTab);
-              if (tradeSection?.active) tradeSection.close();
-            }
-          }}
+          value={tab}
+          onChange={value => setTab(value as FriendsTab)}
           items={[
             {
               id: "friends",
               label: `My friends · ${lists.friends.length.toLocaleString("en-US")}${hasMore ? "+" : ""}`
             },
-            ...(tradeSection
-              ? [{ id: "trades", label: tradeText("tab") }]
-              : []),
             {
               id: "incoming",
               badge: lists.incoming.length ? (
@@ -699,9 +692,7 @@ export function FriendsPanel({
             }
           ]}
         />
-        {tradeSection?.active ? (
-          <div className="yk-friends-trades">{tradeSection.content}</div>
-        ) : !data && tab !== "blocked" ? (
+        {!data && tab !== "blocked" ? (
           !error && (
             <Skeleton
               label="Loading relationships"
@@ -777,7 +768,7 @@ export function FriendsPanel({
             </p>
           </div>
         )}
-        {!tradeSection?.active && tab !== "blocked" && hasMore && (
+        {tab !== "blocked" && hasMore && (
           <Button
             variant="secondary"
             disabled={loadingMore}
@@ -786,7 +777,7 @@ export function FriendsPanel({
             {loadingMore ? "Loading…" : "Load more"}
           </Button>
         )}
-        {!tradeSection?.active && data && !hasMore && tab !== "blocked" && (
+        {data && !hasMore && tab !== "blocked" && (
           <p role="status" className="sr-only">
             All relationships loaded.
           </p>
@@ -797,6 +788,20 @@ export function FriendsPanel({
           {error}
         </p>
       )}
+      <Modal
+        open={Boolean(tradeSection?.active)}
+        onClose={() => tradeSection?.close()}
+        title={
+          tradeFriend
+            ? tradeText("tradeWith", { name: tradeFriend.pseudo })
+            : tradeText("offer")
+        }
+        className="yk-private-trade-modal"
+      >
+        {tradeSection?.active && (
+          <div className="yk-friends-trades">{tradeSection.content}</div>
+        )}
+      </Modal>
       {conversation && (
         <PrivateMessages
           key={conversation.id}

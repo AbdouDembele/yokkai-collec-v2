@@ -1862,8 +1862,8 @@
     "reserveCount": "{count, plural, one {# pack} other {# packs}}"
   },
   "socialTrades": {
-    "tab": "Trades",
     "action": "Trade",
-    "tradeWith": "Trade with {name}"
+    "tradeWith": "Trade with {name}",
+    "offer": "Trade offer"
   }
 }
