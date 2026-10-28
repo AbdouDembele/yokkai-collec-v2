@@ -50,7 +50,7 @@ export function DiscordPromo({ enabled }: { enabled: boolean }) {
     <aside
       aria-label={t("yokkaiDiscordCommunity")}
       className={[
-        "fixed right-4 bottom-4 z-[69] grid w-[min(calc(100vw-2rem),27rem)]",
+        "yk-discord-promo fixed right-4 bottom-4 z-[69] grid w-[min(calc(100vw-2rem),27rem)]",
         "grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-3 rounded-[18px]",
         "border border-[#5865f2]/45 bg-surface/95 px-4 py-2.5 backdrop-blur-md",
         "shadow-[0_14px_45px_rgba(0,0,0,0.55),0_0_28px_rgba(88,101,242,0.16)]",

@@ -1,4 +1,5 @@
 import { cardRarityLabels } from "./helpers/card-rarity-labels.mjs";
+import { intl } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync } from "node:fs";
@@ -26,11 +27,13 @@ function load(file, overrides = {}) {
     exports,
     Error,
     require: name =>
-      name === "@/lib/ui/card-rarity-label"
-        ? cardRarityLabels
-        : name in overrides
-          ? overrides[name]
-          : require(name)
+      name === "next-intl"
+        ? intl
+        : name === "@/lib/ui/card-rarity-label"
+          ? cardRarityLabels
+          : name in overrides
+            ? overrides[name]
+            : require(name)
   });
   return exports;
 }

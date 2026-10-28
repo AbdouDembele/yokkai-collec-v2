@@ -1,11 +1,13 @@
 export function UnreadBadge({
   count,
   label,
+  accessibleLabel,
   singularLabel = label,
   variant = "default"
 }: {
   count: number;
   label: string;
+  accessibleLabel?: string;
   singularLabel?: string;
   variant?: "default" | "nav";
 }) {
@@ -23,7 +25,8 @@ export function UnreadBadge({
         {count > 99 ? "99+" : `+${count.toLocaleString("en-US")}`}
       </span>
       <span className="sr-only">
-        {count.toLocaleString("en-US")} {count === 1 ? singularLabel : label}
+        {accessibleLabel ??
+          `${count.toLocaleString("en-US")} ${count === 1 ? singularLabel : label}`}
       </span>
     </span>
   );

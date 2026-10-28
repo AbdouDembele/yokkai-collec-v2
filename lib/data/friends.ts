@@ -1,9 +1,10 @@
+import type { PlayerCosmetics } from "@/components/styled-player-name";
 import type { PageCursor, RpcPage } from "@/lib/data/demand-pages";
 import { createClient } from "@/utils/supabase/client";
 import { readRpcPages } from "@/lib/data/rpc-pages.mjs";
 
 export type FriendshipStatus = "none"|"incoming"|"outgoing"|"accepted"|"self";
-export type FriendUser = {id:string;pseudo:string;avatarUrl?:string|null;status?:FriendshipStatus;requestId?:string;createdAt?:string;isOnline?:boolean;lastSeenAt?:string|null};
+export type FriendUser = {profileStyle?:PlayerCosmetics;id:string;pseudo:string;avatarUrl?:string|null;status?:FriendshipStatus;requestId?:string;createdAt?:string;isOnline?:boolean;lastSeenAt?:string|null};
 export type Friendships = {friends:FriendUser[];incoming:FriendUser[];outgoing:FriendUser[]};
 export type PublicProfile = {id:string;pseudo:string;friendshipStatus:FriendshipStatus};
 let client:ReturnType<typeof createClient>|undefined;

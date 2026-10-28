@@ -1,3 +1,4 @@
+import { intl } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -67,6 +68,7 @@ test("tabs expose Feed, Everyone, Friends in order only after public RPC success
   for (const available of [undefined, false, true]) {
     const state = { available };
     const { SocialTabs } = load("components/social-tabs.tsx", {
+      "next-intl": intl,
       "next/navigation": { usePathname: () => "/social/everyone" },
       "next/link": link,
       "@/components/social-feed-provider": {

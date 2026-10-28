@@ -8,6 +8,7 @@ const supabaseImageOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "192.168.100.20", "192.168.1.16"],
   poweredByHeader: false,
+  devIndicators: false,
   images: {
     qualities: [75, 85], // Keep cached fronts' quality-75 requests valid.
     remotePatterns:

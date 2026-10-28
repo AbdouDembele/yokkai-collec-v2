@@ -360,12 +360,6 @@ export function Topbar({
             {t("market")}
           </Link>
           <Link
-            href="/trades"
-            aria-current={view === "trades" ? "page" : undefined}
-          >
-            {t("trades")}
-          </Link>
-          <Link
             href="/social"
             aria-current={view === "friends" ? "page" : undefined}
           >

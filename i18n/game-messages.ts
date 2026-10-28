@@ -416,3 +416,44 @@ export function gameErrorKey(
   }
   return fallback;
 }
+
+englishMessages.set(
+  "Sign in again to view your messages.",
+  "privateMessages.errors.auth"
+);
+englishMessages.set(
+  "This conversation is no longer available.",
+  "privateMessages.errors.closed"
+);
+englishMessages.set(
+  "Write a message between 1 and 2,000 characters.",
+  "privateMessages.errors.invalid"
+);
+englishMessages.set(
+  "Choose a GIF from the GIPHY picker.",
+  "privateMessages.errors.gif"
+);
+englishMessages.set(
+  "Please wait a moment before sending another message.",
+  "privateMessages.errors.rate"
+);
+englishMessages.set(
+  "This message couldn't be sent. Close the conversation and try again.",
+  "privateMessages.errors.conflict"
+);
+englishMessages.set(
+  "Messages are temporarily unavailable. Please try again.",
+  "privateMessages.errors.unavailable"
+);
+englishMessages.set(
+  "Couldn't load messages. Please try again.",
+  "privateMessages.errors.load"
+);
+englishMessages.set(
+  "Couldn't load older messages.",
+  "privateMessages.errors.older"
+);
+englishMessages.set(
+  "Couldn't send the message. Your draft has been kept.",
+  "privateMessages.errors.send"
+);

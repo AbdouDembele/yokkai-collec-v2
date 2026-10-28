@@ -1,7 +1,15 @@
-import type { Metadata } from "next";
-import { CommunityPage } from "@/components/community-page";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = { title: "Trades" };
-export default function Page() {
-  return <CommunityPage screen="trades" />;
+export default async function Page({
+  searchParams
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(await searchParams)) {
+    if (Array.isArray(value)) value.forEach(item => query.append(key, item));
+    else if (value !== undefined) query.append(key, value);
+  }
+  query.set("tab", "trades");
+  redirect(`/social/friends?${query.toString()}`);
 }

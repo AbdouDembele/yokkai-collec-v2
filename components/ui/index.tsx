@@ -220,11 +220,13 @@ export function Avatar({
   name,
   image,
   online,
+  onlineLabel,
   size = 40
 }: {
   name: string | null | undefined;
   image?: string;
   online?: boolean;
+  onlineLabel?: string;
   size?: number;
 }) {
   const displayName = name || "Deleted player";
@@ -251,7 +253,7 @@ export function Avatar({
       )}
       {online !== undefined && (
         <span
-          aria-label={online ? "Online" : "Offline"}
+          aria-label={onlineLabel ?? (online ? "Online" : "Offline")}
           className={`absolute right-0 bottom-0 size-2.5 rounded-full border-2 border-night ${online ? "bg-success" : "bg-ink-3"}`}
         />
       )}

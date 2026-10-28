@@ -1,0 +1,288 @@
+.yk-messenger {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 82;
+  max-width: calc(100vw - 24px);
+}
+.yk-messenger-launcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 12px 18px;
+  border: 1px solid #9bbaf075;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #1d2b45, #0c1424);
+  color: var(--color-ink);
+  font-weight: 700;
+  box-shadow:
+    0 10px 34px #0007,
+    0 0 22px #8ba7ed18;
+}
+.yk-messenger-launcher:hover {
+  border-color: #bbd2ff;
+  background: #243550;
+}
+.yk-messenger-launcher:focus-visible,
+.yk-messenger button:focus-visible {
+  outline: 2px solid #b9ceff;
+  outline-offset: 3px;
+}
+.yk-messenger-unread {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 25px;
+  min-height: 23px;
+  padding: 2px 6px;
+  border-radius: 8px 8px 8px 2px;
+  background: #ff527d;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 2px 9px #ff527d30;
+}
+.yk-messenger-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  display: flex;
+  flex-direction: column;
+  width: min(380px, calc(100vw - 24px));
+  height: min(570px, calc(100dvh - 104px));
+  max-height: calc(100dvh - 104px);
+  overflow: hidden;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 18px;
+  background: #0a101ddf;
+  backdrop-filter: blur(22px);
+  box-shadow: 0 18px 65px #0009;
+}
+.yk-messenger-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 56px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--color-veil);
+  background: #152034;
+}
+.yk-messenger-heading h2 {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 16px;
+  overflow-wrap: anywhere;
+}
+.yk-messenger-heading button {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  color: var(--color-ink-2);
+  font-size: 23px;
+}
+.yk-messenger-heading button:hover {
+  background: var(--color-veil);
+  color: var(--color-ink);
+}
+.yk-messenger-inbox {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.yk-messenger-subtitle {
+  margin: 0;
+  padding: 14px;
+  color: var(--color-ink-3);
+  font-size: 12px;
+}
+.yk-messenger-list {
+  list-style: none;
+  padding: 0 8px;
+  margin: 0;
+}
+.yk-messenger-conversation {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-width: 0;
+  min-height: 74px;
+  padding: 12px 8px;
+  text-align: left;
+  border-radius: 12px;
+}
+.yk-messenger-conversation:hover {
+  background: var(--color-veil);
+}
+.yk-messenger-contact {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+.yk-messenger-contact strong {
+  color: var(--color-ink);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+.yk-messenger-contact > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--color-ink-3);
+  font-size: 12px;
+}
+.yk-messenger-meta {
+  display: grid;
+  justify-items: end;
+  flex-shrink: 0;
+  gap: 7px;
+}
+.yk-messenger-meta time {
+  color: var(--color-ink-3);
+  font-size: 10px;
+}
+.yk-messenger-state {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  padding: 25px 16px;
+  color: var(--color-ink-3);
+  font-size: 13px;
+  text-align: center;
+}
+.yk-messenger-state strong {
+  color: var(--color-ink);
+}
+.yk-messenger-friends {
+  display: block;
+  margin: auto 12px 12px;
+  padding: 14px 8px;
+  min-height: 44px;
+  text-align: center;
+  border-top: 1px solid var(--color-veil);
+  color: #b5ceff;
+  font-size: 12px;
+}
+.yk-messenger-more {
+  align-self: center;
+  margin: 8px;
+}
+.yk-messenger-thread {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  padding: 10px;
+}
+.yk-messenger-thread .yk-private-messages-contact {
+  grid-template-columns: 32px minmax(0, 1fr) auto auto;
+  gap: 6px;
+  padding-bottom: 10px;
+}
+.yk-messenger-thread .yk-private-messages-contact > div p {
+  display: none;
+}
+.yk-messenger-thread .yk-private-messages-contact .yk-button {
+  min-height: 36px;
+  padding: 6px 8px;
+  font-size: 11px;
+}
+.yk-messenger-thread .yk-private-messages-contact strong {
+  font-size: 12px;
+}
+.yk-messenger-thread .yk-private-messages-log {
+  min-height: 0;
+  height: auto;
+  flex: 1;
+  padding: 12px 2px;
+}
+.yk-messenger-thread .yk-private-messages-empty {
+  min-height: 110px;
+  padding: 12px;
+}
+.yk-messenger-thread .yk-private-messages-compose {
+  padding-top: 10px;
+}
+.yk-messenger-thread .yk-private-messages-compose textarea {
+  min-height: 64px;
+  max-height: 110px;
+  font-size: 13px;
+}
+.yk-messenger-thread .yk-private-messages-compose > div > span {
+  font-size: 9px;
+}
+.yk-messenger-thread .yk-private-messages-compose .yk-button {
+  min-height: 38px;
+  padding: 8px 10px;
+  font-size: 11px;
+}
+.yk-messenger-thread .yk-private-message {
+  max-width: 92%;
+}
+body:has(.yk-messenger) .yk-discord-promo {
+  bottom: 84px;
+}
+body:has(.yk-messenger[data-open="true"])
+  :is(.yk-discord-promo, .yk-referral-reminder) {
+  visibility: hidden;
+  pointer-events: none;
+}
+@media (max-width: 640px) {
+  .yk-messenger {
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+  .yk-messenger-panel {
+    height: min(560px, calc(100dvh - 92px));
+    max-height: calc(100dvh - 92px);
+  }
+  body:has(.yk-messenger) .yk-referral-reminder {
+    bottom: 156px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yk-messenger * {
+    scroll-behavior: auto;
+  }
+}
+
+.yk-messenger-search {
+  display: block;
+  margin: 0 12px 12px;
+}
+.yk-messenger-search input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 10px;
+  background: #090e19;
+  color: var(--color-ink);
+  font-size: 13px;
+}
+.yk-messenger-search input:focus-visible {
+  outline: 2px solid #b9ceff;
+  outline-offset: 2px;
+}
+.yk-messenger-picker .yk-messenger-list {
+  padding-bottom: 12px;
+}
+.yk-messenger-friends {
+  width: calc(100% - 24px);
+}

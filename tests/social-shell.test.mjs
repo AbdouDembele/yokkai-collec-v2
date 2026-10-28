@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { intl } from "./helpers/i18n.mjs";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import vm from "node:vm";
@@ -131,6 +132,7 @@ test("Social opens Feed and hides Everyone until its availability probe succeeds
   });
   assert.equal(page().type, SocialFeed);
   const { SocialTabs } = load("components/social-tabs.tsx", {
+    "next-intl": intl,
     "@/components/social-feed-provider": {
       useSocialFeeds: () => ({
         public: {
@@ -192,6 +194,7 @@ test("Friends shows a skeleton initially and waits through search debounce befor
         has: () => true,
         get: (_, name) => {
           if (name === "react") return hooks;
+          if (name === "next-intl") return intl;
           if (name === "react/jsx-runtime") return require(name);
           if (name === "@/hooks/use-social-unread")
             return { useSocialUnread: () => undefined };

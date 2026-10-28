@@ -1,6 +1,7 @@
 "use client";
 
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
+import { useFormatter, useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button, Karas, StatusPill } from "@/components/ui";
 import { YokaiCard } from "@/components/yokai-card";
@@ -17,6 +18,7 @@ function Lot({
   cards: CollectedCard[];
   karas: number;
 }) {
+  const t = useTranslations("conversationTrade");
   return (
     <section className="yk-conversation-trade-lot">
       <h4>{title}</h4>
@@ -44,13 +46,13 @@ function Lot({
                     : ""}
                   {group.cards.length > 1 ? ` ×${group.cards.length}` : ""}
                 </strong>
-                {card.customImageUrl && <small>Custom image</small>}
+                {card.customImageUrl && <small>{t("customImage")}</small>}
               </div>
             );
           })}
         </div>
       ) : (
-        <p>No cards</p>
+        <p>{t("noCards")}</p>
       )}
       <Karas amount={karas} />
     </section>
@@ -68,6 +70,8 @@ export function ConversationTrade({
   busy: boolean;
   onRespond: (id: string, action: "accept" | "decline") => void;
 }) {
+  const t = useTranslations("conversationTrade");
+  const format = useFormatter();
   const [confirming, setConfirming] = useState(false);
   const own = offer.fromUser === viewerId;
   const incoming = offer.toUser === viewerId;
@@ -77,25 +81,29 @@ export function ConversationTrade({
     <article
       className={`yk-conversation-trade${own ? " is-own" : ""}`}
       data-trade-id={offer.id}
-      aria-label={`${own ? "Sent" : "Received"} trade offer`}
+      aria-label={t(own ? "sent" : "received")}
     >
       <header>
-        <strong>{offer.parentOfferId ? "Counteroffer" : "Trade offer"}</strong>
-        <StatusPill tone={presentation.tone}>{presentation.label}</StatusPill>
+        <strong>{t(offer.parentOfferId ? "counter" : "offer")}</strong>
+        <StatusPill tone={presentation.tone}>
+          {t(
+            `status.${["pending", "accepted", "declined", "cancelled", "expired", "countered"].includes(offer.status) ? offer.status : "unavailable"}`
+          )}
+        </StatusPill>
       </header>
       <p>
         {own
-          ? `You sent an offer to ${offer.toPseudo}.`
-          : `${offer.fromPseudo} sent you an offer.`}
+          ? t("sentTo", { name: offer.toPseudo })
+          : t("receivedFrom", { name: offer.fromPseudo })}
       </p>
       <div className="yk-conversation-trade-lots">
         <Lot
-          title="You give"
+          title={t("give")}
           cards={own ? offer.offeredCards : offer.requestedCards}
           karas={own ? offer.offeredKaras : offer.requestedKaras}
         />
         <Lot
-          title="You receive"
+          title={t("receive")}
           cards={own ? offer.requestedCards : offer.offeredCards}
           karas={own ? offer.requestedKaras : offer.offeredKaras}
         />
@@ -105,50 +113,48 @@ export function ConversationTrade({
           <div
             className="yk-conversation-trade-confirm"
             role="group"
-            aria-label="Confirm trade acceptance"
+            aria-label={t("confirmLabel")}
           >
-            <strong>This can&apos;t be undone</strong>
-            <p>
-              Accepting transfers these cards and Karas immediately. Custom
-              images are kept and transferred cards leave their folders.
-            </p>
+            <strong>{t("irreversible")}</strong>
+            <p>{t("notice")}</p>
             <div>
               <Button
                 disabled={busy}
                 onClick={() => onRespond(offer.id, "accept")}
               >
-                {busy ? "Accepting…" : "Confirm trade"}
+                {busy ? t("accepting") : t("confirm")}
               </Button>
               <Button
                 variant="secondary"
                 disabled={busy}
                 onClick={() => setConfirming(false)}
               >
-                Go back
+                {t("back")}
               </Button>
             </div>
           </div>
         ) : (
           <footer>
             <Button disabled={busy} onClick={() => setConfirming(true)}>
-              Accept
+              {t("accept")}
             </Button>
             <Button
               variant="secondary"
               disabled={busy}
               onClick={() => onRespond(offer.id, "decline")}
             >
-              Decline
+              {t("decline")}
             </Button>
           </footer>
         ))}
       {own && offer.status === "pending" && (
         <p className="yk-conversation-trade-waiting">
-          Waiting for {offer.toPseudo} to respond.
+          {t("waiting", { name: offer.toPseudo })}
         </p>
       )}
       <time dateTime={offer.createdAt}>
-        {new Date(offer.createdAt).toLocaleString("en-US", {
+        {format.dateTime(new Date(offer.createdAt), {
+          timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone,
           month: "short",
           day: "numeric",
           hour: "numeric",

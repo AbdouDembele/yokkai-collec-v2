@@ -1,6 +1,9 @@
 "use client";
+import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
+import { StyledPlayerName } from "@/components/styled-player-name";
+
 import { gameErrorKey } from "@/i18n/game-messages";
-import { useTranslations } from "next-intl";
+import { useFormatter, useTranslations } from "next-intl";
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import Link from "next/link";
@@ -13,14 +16,7 @@ import {
 import { UnreadBadge } from "@/components/unread-badge";
 import type { PrivateMessagesAdapter } from "@/lib/data/private-messages";
 import type { TradesPanelAdapter } from "@/components/trades";
-import {
-  Avatar,
-  Button,
-  Modal,
-  Skeleton,
-  StatusPill,
-  Tabs
-} from "@/components/ui";
+import { Button, Modal, Skeleton, StatusPill, Tabs } from "@/components/ui";
 import {
   getFriendships,
   getFriendshipsPage,
@@ -242,42 +238,81 @@ export function friendPresenceLabel(
   return `Last seen ${new Intl.DateTimeFormat("en-US", { dateStyle: "short", timeStyle: "short" }).format(new Date(person.lastSeenAt))}`;
 }
 
+function localizedPresence(
+  person: Pick<FriendUser, "isOnline" | "lastSeenAt">,
+  t: ReturnType<typeof useTranslations<"socialFriends">>,
+  format: ReturnType<typeof useFormatter>
+) {
+  if (person.isOnline) return t("online");
+  if (!person.lastSeenAt) return t("neverSeen");
+  const date = new Date(person.lastSeenAt);
+  const minutes = Math.floor(Math.max(0, Date.now() - date.getTime()) / 60000);
+  if (minutes < 1) return t("justSeen");
+  if (minutes < 60) return t("seenMinutes", { count: minutes });
+  const hours = Math.floor(minutes / 60);
+  if (hours < 24) return t("seenHours", { count: hours });
+  const days = Math.floor(hours / 24);
+  if (days < 7) return t("seenDays", { count: days });
+  return t("seenDate", {
+    date: format.dateTime(date, {
+      dateStyle: "short",
+      timeStyle: "short",
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+    })
+  });
+}
+
 function Person({
   person,
   actions,
   onMessage,
+  onTrade,
   unreadCount = 0,
   showPresence = false
 }: {
   person: FriendUser;
   actions?: ReactNode;
   onMessage?: () => void;
+  onTrade?: () => void;
   unreadCount?: number;
   showPresence?: boolean;
 }) {
+  const tradeText = useTranslations("socialTrades");
+  const f = useTranslations("socialFriends");
+  const format = useFormatter();
   return (
     <li className="yk-social-person">
-      <Avatar
+      <StyledPlayerAvatar
+        cosmetics={person.profileStyle}
         name={person.pseudo}
         image={person.avatarUrl ?? undefined}
         online={showPresence ? person.isOnline : undefined}
       />
       <Link href={`/profile/${encodeURIComponent(person.pseudo)}`}>
-        <strong>{person.pseudo}</strong>
+        <strong>
+          <StyledPlayerName
+            name={person.pseudo}
+            cosmetics={person.profileStyle}
+          />
+        </strong>
         <small
           className={
             showPresence && person.isOnline ? "yk-presence-online" : undefined
           }
         >
-          {showPresence ? friendPresenceLabel(person) : "View profile"}
+          {showPresence
+            ? localizedPresence(person, f, format)
+            : f("viewProfile")}
         </small>
       </Link>
       {actions && (
-        <div className="yk-friend-action-buttons">
+        <div
+          className={`yk-friend-action-buttons${onTrade ? " has-trade" : ""}`}
+        >
           {onMessage && (
             <Button
               variant="secondary"
-              aria-label={`Message ${person.pseudo}`}
+              aria-label={f("messageTo", { name: person.pseudo })}
               onClick={onMessage}
             >
               <svg
@@ -292,12 +327,34 @@ function Person({
                 <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-3 2V11.5a10 10 0 0 1 20 0Z" />
                 <path d="M7 10h9M7 14h6" />
               </svg>
-              Message
+              {f("message")}
               <UnreadBadge
                 count={unreadCount}
+                accessibleLabel={f("unread", { count: unreadCount })}
                 label="unread messages"
-                singularLabel="unread message"
               />
+            </Button>
+          )}
+          {onTrade && (
+            <Button
+              variant="secondary"
+              onClick={onTrade}
+              aria-label={tradeText("tradeWith", { name: person.pseudo })}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                width="16"
+                height="16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M4 7h16m-4-4 4 4-4 4M20 17H4m4-4-4 4 4 4" />
+              </svg>
+              {tradeText("action")}
             </Button>
           )}
           {actions}
@@ -307,25 +364,6 @@ function Person({
   );
 }
 type FriendsTab = "friends" | "incoming" | "outgoing" | "blocked";
-const emptyCopy: Record<FriendsTab, { title: string; text: string }> = {
-  blocked: {
-    title: "No blocked players",
-    text: "Players you block will appear here."
-  },
-  friends: {
-    title: "Your circle is still empty",
-    text: "Search for a username to invite your first friend."
-  },
-  incoming: {
-    title: "No incoming requests",
-    text: "New invitations will appear here."
-  },
-  outgoing: {
-    title: "No sent requests",
-    text: "Your pending invitations will appear here."
-  }
-};
-
 export type FriendsPanelAdapter = {
   friendships: () => Promise<Friendships>;
   search: (query: string) => Promise<FriendUser[]>;
@@ -347,12 +385,23 @@ const liveFriendsPanel: FriendsPanelAdapter = {
 export function FriendsPanel({
   adapter = liveFriendsPanel,
   initialConversationId,
-  onConversationClose
+  onConversationClose,
+  tradeSection
 }: {
   adapter?: FriendsPanelAdapter;
   initialConversationId?: string;
   onConversationClose?: () => void;
+  tradeSection?: {
+    active: boolean;
+    friendId?: string;
+    content: ReactNode;
+    open: (friendId?: string) => void;
+    close: () => void;
+  };
 } = {}) {
+  const tradeText = useTranslations("socialTrades");
+  const f = useTranslations("socialFriends");
+  const errorText = useTranslations();
   const pager = useMemo(
     () =>
       import("@/lib/data/demand-pages").then(({ createDemandPager }) =>
@@ -553,38 +602,41 @@ export function FriendsPanel({
     outgoing: data?.outgoing ?? []
   };
   const current: FriendUser[] = lists[tab];
+  const tradeFriend = data?.friends.find(
+    person => person.id === tradeSection?.friendId
+  );
   return (
     <div className="yk-social-stack">
       <section className="yk-social-search">
         <div>
-          <p className="eyebrow">Find a player</p>
-          <h2 className="yk-section-title mt-2">Grow your circle</h2>
+          <p className="eyebrow">{f("find")}</p>
+          <h2 className="yk-section-title mt-2">{f("grow")}</h2>
         </div>
         <label className="yk-social-search-field">
           <span aria-hidden="true">⌕</span>
           <input
-            aria-label="Search players by username"
+            aria-label={f("searchLabel")}
             value={query}
             onChange={e => {
               setQuery(e.target.value);
               setResults([]);
               setSearching(e.target.value.trim().length >= 2);
             }}
-            placeholder="Search usernames…"
+            placeholder={f("searchPlaceholder")}
           />
         </label>
         {query.trim().length > 0 && query.trim().length < 2 && (
-          <p className="yk-search-hint">Enter at least two characters.</p>
+          <p className="yk-search-hint">{f("searchHint")}</p>
         )}
         {searching && (
           <p className="yk-search-hint" role="status">
-            Searching…
+            {f("searching")}
           </p>
         )}
         {query.trim().length >= 2 && !searching && !results.length && (
           <div className="yk-social-empty is-compact">
-            <strong>No players found</strong>
-            <span>Try another username.</span>
+            <strong>{f("noResults")}</strong>
+            <span>{f("tryUsername")}</span>
           </div>
         )}
         {!!results.length && (
@@ -608,7 +660,10 @@ export function FriendsPanel({
                     adapter={
                       adapter.action
                         ? { ...adapter.action, unblock: moderation.unblock }
-                        : { ...liveFriendActions, unblock: moderation.unblock }
+                        : {
+                            ...liveFriendActions,
+                            unblock: moderation.unblock
+                          }
                     }
                   />
                 }
@@ -619,13 +674,16 @@ export function FriendsPanel({
       </section>
       <section className="yk-social-panel">
         <Tabs
-          label="Relationships"
+          label={f("relationships")}
           value={tab}
           onChange={value => setTab(value as FriendsTab)}
           items={[
             {
               id: "friends",
-              label: `My friends · ${lists.friends.length.toLocaleString("en-US")}${hasMore ? "+" : ""}`
+              label: f("myFriends", {
+                count: lists.friends.length,
+                more: hasMore ? "+" : ""
+              })
             },
             {
               id: "incoming",
@@ -633,27 +691,29 @@ export function FriendsPanel({
                 <span className="ml-2 inline-flex">
                   <UnreadBadge
                     count={lists.incoming.length}
+                    accessibleLabel={f("pendingRequests", {
+                      count: lists.incoming.length
+                    })}
                     label="pending friend requests"
-                    singularLabel="pending friend request"
                   />
                 </span>
               ) : undefined,
-              label: `Received requests · ${lists.incoming.length.toLocaleString("en-US")}`
+              label: f("incoming", { count: lists.incoming.length })
             },
             {
               id: "outgoing",
-              label: `Sent requests · ${lists.outgoing.length.toLocaleString("en-US")}`
+              label: f("outgoing", { count: lists.outgoing.length })
             },
             {
               id: "blocked",
-              label: `Blocked · ${blocked.length.toLocaleString("en-US")}`
+              label: f("blocked", { count: blocked.length })
             }
           ]}
         />
         {!data && tab !== "blocked" ? (
           !error && (
             <Skeleton
-              label="Loading relationships"
+              label={f("loadingRelationships")}
               className="mt-4 h-48 w-full rounded-panel"
             />
           )
@@ -671,34 +731,39 @@ export function FriendsPanel({
                 onMessage={
                   tab === "friends" ? () => setConversation(person) : undefined
                 }
+                onTrade={
+                  tab === "friends" && tradeSection
+                    ? () => tradeSection.open(person.id)
+                    : undefined
+                }
                 actions={
                   tab === "blocked" ? (
                     <Button
                       variant="secondary"
                       onClick={() => void unblock(person.id)}
                     >
-                      Unblock
+                      {f("unblock")}
                     </Button>
                   ) : tab === "incoming" ? (
                     <div className="yk-friend-action-buttons">
                       <Button
                         onClick={() => void respond(person.requestId!, true)}
                       >
-                        Accept
+                        {f("accept")}
                       </Button>
                       <Button
                         variant="secondary"
                         onClick={() => setRefusal(person)}
                       >
-                        Decline
+                        {f("decline")}
                       </Button>
                     </div>
                   ) : tab === "friends" ? (
                     <Button variant="danger" onClick={() => setRemoval(person)}>
-                      Remove
+                      {f("remove")}
                     </Button>
                   ) : (
-                    <StatusPill tone="gold">Pending</StatusPill>
+                    <StatusPill tone="gold">{f("pending")}</StatusPill>
                   )
                 }
               />
@@ -711,13 +776,13 @@ export function FriendsPanel({
             </span>
             <strong>
               {hasMore && tab !== "blocked"
-                ? "No relationships loaded in this tab yet"
-                : emptyCopy[tab].title}
+                ? f("notLoaded")
+                : f(`empty.${tab}.title`)}
             </strong>
             <p>
               {hasMore && tab !== "blocked"
-                ? "Load more to continue through your relationships."
-                : emptyCopy[tab].text}
+                ? f("loadHint")
+                : f(`empty.${tab}.text`)}
             </p>
           </div>
         )}
@@ -727,20 +792,34 @@ export function FriendsPanel({
             disabled={loadingMore}
             onClick={() => void loadMore()}
           >
-            {loadingMore ? "Loading…" : "Load more"}
+            {loadingMore ? f("loading") : f("loadMore")}
           </Button>
         )}
         {data && !hasMore && tab !== "blocked" && (
           <p role="status" className="sr-only">
-            All relationships loaded.
+            {f("allLoaded")}
           </p>
         )}
       </section>
       {error && (
         <p role="alert" className="yk-social-alert">
-          {error}
+          {errorText(gameErrorKey(error, "socialFriends.unavailable"))}
         </p>
       )}
+      <Modal
+        open={Boolean(tradeSection?.active)}
+        onClose={() => tradeSection?.close()}
+        title={
+          tradeFriend
+            ? tradeText("tradeWith", { name: tradeFriend.pseudo })
+            : tradeText("offer")
+        }
+        className="yk-private-trade-modal"
+      >
+        {tradeSection?.active && (
+          <div className="yk-friends-trades">{tradeSection.content}</div>
+        )}
+      </Modal>
       {conversation && (
         <PrivateMessages
           key={conversation.id}
@@ -757,17 +836,15 @@ export function FriendsPanel({
       <Modal
         open={!!refusal}
         onClose={() => setRefusal(undefined)}
-        title="Decline this request?"
+        title={f("declineTitle")}
         className="max-w-md"
       >
         <p className="text-sm leading-6 text-ink-2">
-          The request from{" "}
-          <strong className="text-ink">{refusal?.pseudo}</strong> will be
-          removed.
+          {f("declineBody", { name: refusal?.pseudo ?? "" })}
         </p>
         <div className="mt-6 flex justify-end gap-3">
           <Button variant="secondary" onClick={() => setRefusal(undefined)}>
-            Cancel
+            {f("cancel")}
           </Button>
           <Button
             variant="danger"
@@ -775,7 +852,7 @@ export function FriendsPanel({
               refusal?.requestId && void respond(refusal.requestId, false)
             }
           >
-            Decline
+            {f("decline")}
           </Button>
         </div>
       </Modal>
@@ -784,12 +861,11 @@ export function FriendsPanel({
         onClose={() => {
           if (!removing) setRemoval(undefined);
         }}
-        title="Remove this friend?"
+        title={f("removeTitle")}
         className="max-w-md"
       >
         <p className="text-sm leading-6 text-ink-2">
-          <strong className="text-ink">{removal?.pseudo}</strong> will be
-          removed from your friends list. You can send them a new request later.
+          {f("removeBody", { name: removal?.pseudo ?? "" })}
         </p>
         <div className="mt-6 flex justify-end gap-3">
           <Button
@@ -797,14 +873,14 @@ export function FriendsPanel({
             disabled={removing}
             onClick={() => setRemoval(undefined)}
           >
-            Cancel
+            {f("cancel")}
           </Button>
           <Button
             variant="danger"
             disabled={removing}
             onClick={() => void remove()}
           >
-            {removing ? "Suppression…" : "Remove"}
+            {removing ? f("removing") : f("remove")}
           </Button>
         </div>
       </Modal>

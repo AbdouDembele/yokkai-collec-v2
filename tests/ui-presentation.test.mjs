@@ -1452,7 +1452,7 @@ test("mobile : vitrine du profil en carrousel tactile et page Amis sans déborde
   assert.match(
     normalizeWhitespace(friends),
     normalizeWhitespace(
-      /tab === "friends" \?\(? <Button variant="danger" onClick=\{\(\) => setRemoval\(person\)\}>Remove<\/Button>/
+      /tab === "friends" \?\(? <Button variant="danger" onClick=\{\(\) => setRemoval\(person\)\}>\{f\("remove"\)\}<\/Button>/
     )
   );
   assert.doesNotMatch(
@@ -1461,7 +1461,7 @@ test("mobile : vitrine du profil en carrousel tactile et page Amis sans déborde
   );
   assert.match(
     normalizeWhitespace(friends),
-    normalizeWhitespace(/title="Remove this friend\?"/)
+    normalizeWhitespace(/title=\{f\("removeTitle"\)\}/)
   );
 });
 

@@ -1951,3 +1951,42 @@ body:has(.yk-pro-site-background) {
     opacity: 0.65;
   }
 }
+
+.yk-styled-player-avatar {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+  vertical-align: middle;
+  isolation: isolate;
+  overflow: visible;
+}
+.yk-styled-player-avatar[data-avatar-frame="orbit"] > span {
+  outline: 2px solid #9abcff;
+  outline-offset: 3px;
+}
+.yk-styled-player-avatar[data-avatar-frame="crystal"] > span {
+  outline: 3px double #9ccaff;
+  outline-offset: 3px;
+}
+.yk-styled-player-avatar[data-avatar-frame="bloom"] > span {
+  box-shadow: 0 0 0 3px #ff83bc88;
+}
+.yk-styled-player-avatar[data-avatar-frame="flame"] > span {
+  box-shadow: 0 0 12px 3px #ffb08d88;
+}
+.yk-social-person .yk-styled-player-name,
+.yk-messenger .yk-styled-player-name,
+.yk-private-messages-contact .yk-styled-player-name {
+  white-space: normal;
+  flex-wrap: wrap;
+  row-gap: 4px;
+}
+.yk-social-person .yk-style-name,
+.yk-messenger .yk-style-name,
+.yk-private-messages-contact .yk-style-name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.yk-messenger-conversation {
+  gap: 14px;
+}

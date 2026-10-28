@@ -13,6 +13,7 @@ import { PresenceHeartbeat } from "@/components/presence-heartbeat";
 import { ProAccessProvider } from "@/components/pro-access";
 import { ReferralReminder } from "@/components/referral-reminder";
 import { DiscordPromo } from "@/components/discord-promo";
+import { FloatingMessenger } from "@/components/floating-messenger";
 import { LinkedAccountNotice } from "@/components/linked-account-notice";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
 import "./globals.css";
@@ -20,6 +21,7 @@ import "../styles/ui.css";
 import "../styles/referrals.css";
 import "../styles/community.css";
 import "../styles/private-messages.css";
+import "../styles/messenger.css";
 import "../styles/profile.css";
 import "../styles/profile-style.css";
 import "../styles/collection.css";
@@ -145,6 +147,11 @@ export default async function RootLayout({
       "proPromotion",
       "discordPromo",
       "referralReminder",
+      "socialTrades",
+      "messenger",
+      "socialFriends",
+      "conversationTrade",
+      "privateMessages",
       "siteFooter",
       "error",
       "adminReportedCard",
@@ -187,6 +194,7 @@ export default async function RootLayout({
                 <DiscordPromo enabled={discordEnabled} />
               </ProAccessProvider>
             </BoostersLoadPriority>
+            <FloatingMessenger />
           </LocalePreferenceProvider>
         </NextIntlClientProvider>
       </body>

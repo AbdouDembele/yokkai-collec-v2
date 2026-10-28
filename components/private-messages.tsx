@@ -1,4 +1,9 @@
 "use client";
+import { gameErrorKey } from "@/i18n/game-messages";
+
+import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
+import { StyledPlayerName } from "@/components/styled-player-name";
+
 /* eslint-disable @next/next/no-img-element -- GIPHY media must remain animated. */
 
 import {
@@ -6,10 +11,11 @@ import {
   useRef,
   useState,
   type FormEvent,
-  type KeyboardEvent
+  type KeyboardEvent,
+  type ReactNode
 } from "react";
-import { useTranslations } from "next-intl";
-import { Avatar, Button, Modal } from "@/components/ui";
+import { useFormatter, useTranslations } from "next-intl";
+import { Button, Modal } from "@/components/ui";
 import { GifPicker, type GifChoice } from "@/components/gif-picker";
 import { TradesPanel, type TradesPanelAdapter } from "@/components/trades";
 import { ConversationTrade } from "@/components/conversation-trade";
@@ -37,20 +43,27 @@ function mergeMessages(first: PrivateMessage[], second: PrivateMessage[]) {
     (a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id)
   );
 }
-const time = new Intl.DateTimeFormat("en-US", {
-  hour: "numeric",
-  minute: "2-digit"
-});
-const date = new Intl.DateTimeFormat("en-US", {
-  month: "short",
-  day: "numeric"
-});
+function DockedMessageFrame({
+  children,
+  className
+}: {
+  children: ReactNode;
+  className?: string;
+  open?: boolean;
+  title: string;
+  onClose: () => void;
+}) {
+  return (
+    <div className={`yk-messenger-thread ${className ?? ""}`}>{children}</div>
+  );
+}
 
 export function PrivateMessages({
   friend,
   onClose,
   tradeAdapter,
   moderationAdapter,
+  docked = false,
   adapter = livePrivateMessages
 }: {
   friend: FriendUser;
@@ -58,8 +71,13 @@ export function PrivateMessages({
   adapter?: PrivateMessagesAdapter;
   tradeAdapter?: TradesPanelAdapter;
   moderationAdapter?: ModerationAdapter;
+  docked?: boolean;
 }) {
+  const MessageFrame = docked ? DockedMessageFrame : Modal;
   const t = useTranslations("privateMessages");
+  const errorText = useTranslations();
+  const format = useFormatter();
+  const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   const [page, setPage] = useState<PrivateMessagePage>();
   const [loading, setLoading] = useState(true);
   const [loadingOlder, setLoadingOlder] = useState(false);
@@ -337,28 +355,35 @@ export function PrivateMessages({
 
   return (
     <>
-      <Modal
+      <MessageFrame
         open
         onClose={onClose}
-        title={`Messages with ${friend.pseudo}`}
+        title={t("title", { name: friend.pseudo })}
         className="yk-private-messages-modal"
       >
         <div className="yk-private-messages-contact">
-          <Avatar
+          <StyledPlayerAvatar
+            cosmetics={friend.profileStyle}
             name={friend.pseudo}
+            size={docked ? 32 : 40}
             image={friend.avatarUrl ?? undefined}
             online={friend.isOnline}
           />
           <div>
-            <strong>{friend.pseudo}</strong>
-            <p>Only you and your friend can access this conversation.</p>
+            <strong>
+              <StyledPlayerName
+                name={friend.pseudo}
+                cosmetics={friend.profileStyle}
+              />
+            </strong>
+            <p>{t("privacy")}</p>
           </div>
           <Button
             variant="secondary"
             disabled={loading || unavailable || !page}
             onClick={() => setTrading(true)}
           >
-            Trade
+            {t("trade")}
           </Button>
           <PlayerModeration
             userId={friend.id}
@@ -371,7 +396,7 @@ export function PrivateMessages({
           className="yk-private-messages-log"
           ref={scroll}
           role="log"
-          aria-label="Conversation"
+          aria-label={t("conversation")}
           aria-live="polite"
           aria-relevant="additions text"
           aria-busy={loading}
@@ -392,7 +417,7 @@ export function PrivateMessages({
                 disabled={loadingOlder}
                 onClick={() => void older()}
               >
-                {loadingOlder ? "Loading…" : "Load older messages"}
+                {loadingOlder ? t("loading") : t("older")}
               </Button>
             </div>
           )}
@@ -410,23 +435,23 @@ export function PrivateMessages({
                   setVisibleTrades(value => value + 20);
                 }}
               >
-                Show older trades
+                {t("olderTrades")}
               </Button>
             </div>
           )}
           {loading ? (
             <p className="yk-private-messages-empty" role="status">
-              Loading messages…
+              {t("loadingMessages")}
             </p>
           ) : page && !timeline.length ? (
             <div className="yk-private-messages-empty">
-              <strong>Start a conversation</strong>
-              <p>Say hello to {friend.pseudo}.</p>
+              <strong>{t("start")}</strong>
+              <p>{t("sayHello", { name: friend.pseudo })}</p>
             </div>
           ) : null}
           {trades.loading && (
             <p className="yk-conversation-trades-status" role="status">
-              Loading trade offers…
+              {t("loadingTrades")}
             </p>
           )}
           {timeline.map(entry => {
@@ -460,7 +485,7 @@ export function PrivateMessages({
                   <img
                     className="yk-private-message-gif"
                     src={message.gifUrl}
-                    alt="GIF from GIPHY"
+                    alt={t("gifAlt")}
                     loading="lazy"
                     referrerPolicy="no-referrer"
                     onLoad={() => {
@@ -471,13 +496,26 @@ export function PrivateMessages({
                 )}
                 <time
                   dateTime={message.createdAt}
-                  title={new Date(message.createdAt).toLocaleString("en-US")}
+                  title={format.dateTime(new Date(message.createdAt), {
+                    dateStyle: "medium",
+                    timeStyle: "short",
+                    timeZone
+                  })}
                 >
                   <span className="sr-only">
-                    {own ? "You" : friend.pseudo},{" "}
+                    {own ? t("you") : friend.pseudo},{" "}
                   </span>
-                  {date.format(new Date(message.createdAt))} ·{" "}
-                  {time.format(new Date(message.createdAt))}
+                  {format.dateTime(new Date(message.createdAt), {
+                    month: "short",
+                    day: "numeric",
+                    timeZone
+                  })}{" "}
+                  ·{" "}
+                  {format.dateTime(new Date(message.createdAt), {
+                    hour: "numeric",
+                    minute: "2-digit",
+                    timeZone
+                  })}
                 </time>
                 {!own && !message.moderated && (
                   <PlayerModeration
@@ -495,25 +533,36 @@ export function PrivateMessages({
         </div>
         {trades.error && !unavailable && (
           <div className="yk-private-messages-error">
-            <p role="alert">{trades.error}</p>
+            <p role="alert">
+              {errorText(
+                gameErrorKey(trades.error, "privateMessages.errors.trades")
+              )}
+            </p>
             <button
               type="button"
               disabled={!!trades.busyId}
               onClick={() => void trades.retry()}
             >
-              Retry trades
+              {t("retryTrades")}
             </button>
           </div>
         )}
         {(sendError || error) && (
           <div className="yk-private-messages-error">
-            <p role="alert">{sendError || error}</p>
+            <p role="alert">
+              {errorText(
+                gameErrorKey(
+                  sendError || error,
+                  "privateMessages.errors.unavailable"
+                )
+              )}
+            </p>
             {!unavailable && !sendError && (
               <button
                 type="button"
                 onClick={() => setRetry(value => value + 1)}
               >
-                Try again
+                {t("retry")}
               </button>
             )}
           </div>
@@ -526,26 +575,26 @@ export function PrivateMessages({
             <div className="yk-private-messages-gif-draft">
               <img
                 src={gif.url}
-                alt={`Selected GIF: ${gif.title}`}
+                alt={t("selectedGif", { title: gif.title })}
                 referrerPolicy="no-referrer"
               />
               <button
                 type="button"
                 disabled={sending}
-                aria-label="Remove selected GIF"
+                aria-label={t("removeGifLabel")}
                 onClick={() => setGif(null)}
               >
-                Remove GIF
+                {t("removeGif")}
               </button>
             </div>
           )}
           <label className="sr-only" htmlFor="private-message-draft">
-            Message to {friend.pseudo}
+            {t("messageTo", { name: friend.pseudo })}
           </label>
           <textarea
             ref={composer}
             id="private-message-draft"
-            placeholder={`Message ${friend.pseudo}…`}
+            placeholder={t("placeholder", { name: friend.pseudo })}
             value={draft}
             maxLength={2000}
             rows={3}
@@ -569,8 +618,8 @@ export function PrivateMessages({
               />
             </div>
             <span id="private-message-hint">
-              Enter to send · Shift + Enter for a new line{" "}
-              <small>{draft.length.toLocaleString("en-US")} / 2,000</small>
+              {t("hint")}{" "}
+              <small>{t("length", { count: draft.length, max: 2000 })}</small>
             </span>
             <Button
               type="submit"
@@ -582,22 +631,20 @@ export function PrivateMessages({
                 (!draft.trim() && !gif)
               }
             >
-              {sending ? "Sending…" : "Send message"}
+              {sending ? t("sending") : t("send")}
             </Button>
           </div>
         </form>
-      </Modal>
+      </MessageFrame>
       {trading && (
         <Modal
           open
-          title={`Trade with ${friend.pseudo}`}
+          title={t("tradeWith", { name: friend.pseudo })}
           onClose={() => setTrading(false)}
           className="yk-private-trade-modal"
         >
           {tradeAdapter && (
-            <p className="yk-private-trade-preview-note">
-              Local trade preview. No real offer is sent.
-            </p>
+            <p className="yk-private-trade-preview-note">{t("localTrade")}</p>
           )}
           <TradesPanel
             adapter={tradeAdapter}
