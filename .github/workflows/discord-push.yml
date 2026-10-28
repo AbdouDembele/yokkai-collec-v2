@@ -5,6 +5,7 @@ on:
 jobs:
   notify:
     runs-on: ubuntu-latest
+    environment: DISCORD-WEBHOOK
     steps:
       - env:
           WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
