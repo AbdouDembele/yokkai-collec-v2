@@ -1,0 +1,748 @@
+.yk-card {
+  container: yokai / inline-size;
+  position: relative;
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  border-radius: 12px;
+  box-shadow: var(--card-glow);
+  isolation: isolate;
+}
+.yk-card-clip {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+}
+.yk-card-frame,
+.yk-shiny-frame {
+  position: absolute;
+  inset: -50%;
+  background: var(--card-frame);
+}
+.yk-card-interior {
+  position: absolute;
+  inset: var(--card-inset);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--card-bg);
+}
+.yk-card-interior::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.78) 0%,
+    rgba(0, 0, 0, 0.34) 14%,
+    transparent 30%,
+    transparent 58%,
+    rgba(0, 0, 0, 0.48) 76%,
+    rgba(0, 0, 0, 0.94) 100%
+  );
+}
+.yk-card-line {
+  position: absolute;
+  inset: 4cqw;
+  border: 1px solid var(--card-line);
+  border-radius: 7px;
+  z-index: 2;
+  pointer-events: none;
+}
+.yk-card-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 10%,
+    black 84%,
+    transparent 100%
+  );
+}
+.yk-card-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.yk-card-foil,
+.yk-holo {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--card-foil);
+  background-size: var(--card-foil-size, 100% 100%);
+}
+.yk-card-content {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  padding: 6cqw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.yk-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+}
+.yk-card-category-accessory {
+  position: absolute;
+  top: calc(6cqw + clamp(22px, 12cqw, 28px));
+  left: 6cqw;
+  max-width: 65%;
+  pointer-events: none;
+}
+.yk-card-rarity-accessory {
+  position: absolute;
+  top: calc(17.5cqw + 1px);
+  right: 6cqw;
+  max-width: 50%;
+  pointer-events: none;
+}
+.yk-card-badges {
+  display: flex;
+  align-items: center;
+  gap: 2cqw;
+}
+.yk-card-badge,
+.yk-shiny-badge {
+  font-size: clamp(8px, 6.5cqw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 1px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  background: var(--card-badge);
+  color: var(--card-badge-ink);
+  border: 1px solid var(--card-badge-border);
+}
+.yk-card-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 0;
+}
+.yk-card-name {
+  max-width: 100%;
+  font-family: var(--font-card-name);
+  font-weight: 700;
+  font-size: clamp(10px, 8.5cqw, 20px);
+  letter-spacing: 0.04em;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.yk-card-category {
+  min-width: 0;
+  max-width: calc(100% - 11cqw);
+  font-size: clamp(7px, 5.5cqw, 12px);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.yk-card-anime {
+  max-width: 100%;
+  font-size: clamp(7px, 5.5cqw, 12px);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.88);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.yk-card-name,
+.yk-card-category,
+.yk-card-anime,
+.yk-card-missing {
+  text-shadow:
+    0 1px 2px #000,
+    0 2px 5px #000,
+    0 0 12px #000;
+}
+.yk-card-missing {
+  text-align: center;
+  font-family: var(--font-jp);
+  font-size: 7cqw;
+  color: var(--color-ink-3);
+}
+.yk-sparkle {
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  color: var(--card-spark);
+  line-height: 1;
+  animation: yk-twinkle 2.6s ease-in-out infinite;
+  pointer-events: none;
+}
+.yk-animated {
+  animation: var(--card-pulse, none);
+}
+.yk-animated .yk-card-frame {
+  animation: var(--card-spin, none);
+}
+.yk-animated .yk-card-foil {
+  animation: var(--card-sweep, none);
+}
+.yk-shiny {
+  --evolution-rgb: 200, 230, 255;
+  --evolution-light-rgb: 255, 255, 255;
+  --evolution-dark-rgb: 130, 145, 210;
+  --evolution-edge: #e8fbff;
+  --card-glow-color: var(--holo-glow);
+  --card-glow: 0 0 0 1px var(--holo-glow), 0 10px 30px var(--holo-glow);
+  --card-pulse: yk-evolved-aura 4.8s ease-in-out infinite;
+  --card-spark: var(--holo-spark);
+}
+.yk-shiny-frame {
+  background: var(--holo-frame);
+  mix-blend-mode: screen;
+  opacity: 0.75;
+}
+.yk-animated .yk-shiny-frame {
+  animation: yk-spin 4s linear infinite;
+}
+.yk-shiny-badge {
+  background: var(--holo-badge);
+  color: var(--color-void);
+  border-color: var(--holo-spark);
+}
+.yk-shiny .yk-shiny-badge {
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.8), transparent 42%)
+      padding-box,
+    conic-gradient(
+        from 45deg,
+        #749ec8,
+        #d9eaff 18%,
+        #99b3d8 38%,
+        #f0e5ff 52%,
+        #8fb7ca 72%,
+        #e0faff 88%,
+        #749ec8
+      )
+      padding-box;
+  color: #fff;
+  border-color: #edf6ff;
+  text-shadow:
+    0 1px 1px #284467,
+    0 -1px 1px #526a8a,
+    1px 0 1px #526a8a,
+    -1px 0 1px #526a8a;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    inset 0 -1px 0 rgba(54, 80, 112, 0.5),
+    0 1px 4px rgba(0, 0, 0, 0.45),
+    0 0 7px rgba(206, 233, 255, 0.45);
+}
+.yk-holo {
+  background: var(--holo-foil);
+  background-size: 300% 300%;
+  mix-blend-mode: screen;
+}
+.yk-animated .yk-holo {
+  animation: yk-holo 4.5s ease-in-out infinite alternate;
+}
+/* The pearl finish drifts independently from the original Shiny sweep. */
+.yk-shiny .yk-card-art::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at 20% 25%,
+      rgba(148, 238, 255, 0.28),
+      transparent 52%
+    ),
+    radial-gradient(
+      ellipse at 80% 40%,
+      rgba(244, 170, 226, 0.24),
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse at 45% 85%,
+      rgba(173, 163, 255, 0.26),
+      transparent 52%
+    );
+  background-size: 160% 160%;
+  background-position: 35% 45%;
+  mix-blend-mode: screen;
+}
+.yk-shiny.yk-animated .yk-card-art::before {
+  animation: yk-shiny-pearl 9s ease-in-out infinite alternate;
+}
+.yk-shiny .yk-card-clip::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 1.3% 22%, #fff 0 0.35cqw, transparent 0.85cqw),
+    radial-gradient(circle at 98.7% 64%, #fff 0 0.4cqw, transparent 0.9cqw),
+    radial-gradient(circle at 32% 0.9%, #fff 0 0.3cqw, transparent 0.8cqw),
+    radial-gradient(circle at 72% 99.1%, #fff 0 0.3cqw, transparent 0.8cqw);
+  opacity: 0.55;
+  filter: drop-shadow(0 0 2px #d2edff);
+}
+.yk-shiny.yk-animated .yk-card-clip::before {
+  animation: yk-shiny-crystal 4.6s ease-in-out infinite;
+}
+@keyframes yk-shiny-pearl {
+  from {
+    background-position: 15% 25%;
+    opacity: 0.65;
+  }
+  to {
+    background-position: 80% 65%;
+    opacity: 1;
+  }
+}
+@keyframes yk-shiny-crystal {
+  0%,
+  45%,
+  100% {
+    opacity: 0.25;
+  }
+  22%,
+  72% {
+    opacity: 0.9;
+  }
+}
+.yk-shiny .yk-card-art::after {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  pointer-events: none;
+  opacity: 0.5;
+  background: linear-gradient(
+    112deg,
+    transparent 34%,
+    rgba(255, 255, 255, 0.08) 41%,
+    rgba(200, 230, 255, 0.72) 48%,
+    rgba(255, 184, 236, 0.42) 53%,
+    transparent 62%
+  );
+  mix-blend-mode: screen;
+  transform: translateX(-55%) rotate(4deg);
+}
+.yk-shiny.yk-animated .yk-card-art::after {
+  animation: yk-shiny-glint 3.2s ease-in-out infinite;
+}
+.yk-shiny .yk-card-interior {
+  box-shadow: inset 0 0 28px
+    color-mix(in srgb, var(--holo-glow) 55%, transparent);
+}
+/* SSR Evolved: diamond-cut rose chrome and charged crystal energy. */
+.yk-evolved {
+  --evolution-rgb: 255, 67, 155;
+  --evolution-light-rgb: 255, 225, 239;
+  --evolution-dark-rgb: 167, 16, 89;
+  --evolution-edge: #ffd7eb;
+  --evolution-accent: #ff3f9e;
+  --evolution-base: #48152e;
+  --evolution-mid: #180d17;
+  --card-frame: var(--evolved-frame);
+  --card-inset: clamp(3px, 1.7cqw, 5px);
+  --card-bg: radial-gradient(
+    110% 75% at 50% 32%,
+    var(--evolution-base),
+    var(--evolution-mid) 64%,
+    #08060b
+  );
+  --card-ring: rgba(var(--evolution-light-rgb), 0.24);
+  --card-glow:
+    0 0 0 1px rgba(var(--evolution-light-rgb), 0.55),
+    0 8px 28px var(--evolved-glow);
+  --card-glow-color: var(--evolved-glow);
+  --card-pulse: yk-evolved-aura 4.8s ease-in-out infinite;
+  --card-spin: none;
+  --card-spark: var(--evolution-edge);
+  --card-foil: var(--evolved-foil);
+  --card-sweep: yk-sweep 6s ease-in-out infinite;
+}
+.yk-evolved.yk-rarity-LR {
+  --evolved-frame: var(--lr-evolved-frame);
+  --evolved-glow: rgba(238, 185, 49, 0.62);
+  --evolution-rgb: 239, 188, 66;
+  --evolution-light-rgb: 255, 237, 179;
+  --evolution-dark-rgb: 135, 94, 17;
+  --evolution-edge: #fff0b8;
+  --evolution-accent: #edbc42;
+  --evolution-base: #44300c;
+  --evolution-mid: #191307;
+}
+
+.yk-shiny.yk-rarity-LR {
+  --card-frame: var(--holo-frame);
+  --card-inset: clamp(3px, 1.7cqw, 5px);
+  --card-line: rgba(200, 230, 255, 0.45);
+  --card-spin: none;
+}
+
+.yk-evolved .yk-card-frame,
+.yk-evolved .yk-shiny-frame,
+.yk-shiny.yk-rarity-LR .yk-card-frame,
+.yk-shiny.yk-rarity-LR .yk-shiny-frame {
+  inset: 0;
+  background: var(--card-frame);
+  mix-blend-mode: normal;
+  opacity: 1;
+  animation: none;
+}
+.yk-evolved .yk-card-interior,
+.yk-shiny.yk-rarity-LR .yk-card-interior {
+  box-shadow: inset 0 0 25px rgba(var(--evolution-rgb), 0.48);
+}
+.yk-evolved .yk-card-interior::before,
+.yk-shiny .yk-card-interior::before {
+  content: "";
+  position: absolute;
+  inset: 1.8cqw;
+  z-index: 2;
+  border: 1px solid rgba(var(--evolution-light-rgb), 0.8);
+  border-radius: 8px;
+  pointer-events: none;
+}
+.yk-evolved .yk-holo {
+  background: linear-gradient(
+    145deg,
+    rgba(var(--evolution-light-rgb), 0.13),
+    transparent 38%,
+    rgba(var(--evolution-dark-rgb), 0.1) 70%,
+    rgba(var(--evolution-light-rgb), 0.12)
+  );
+  background-size: 100% 100%;
+  mix-blend-mode: soft-light;
+  animation: none;
+}
+/* Dark metal keeps the infinity badge distinct from the rainbow Shiny finish. */
+.yk-evolved-badge {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(var(--evolution-light-rgb), 0.18),
+      transparent 42%
+    ),
+    linear-gradient(180deg, #293240, #111722 52%, #080c13);
+  color: var(--evolution-edge);
+  border-color: rgba(var(--evolution-light-rgb), 0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.6),
+    0 2px 4px rgba(0, 0, 0, 0.5);
+}
+.yk-evolved-symbol {
+  display: inline-block;
+  width: 1.2em;
+  height: 1lh;
+  vertical-align: top;
+}
+.yk-evolved .yk-evolved-spark {
+  font-size: 7cqw !important;
+  opacity: 0.9;
+  text-shadow:
+    0 0 4px #fff,
+    0 0 12px var(--evolution-accent),
+    0 0 20px var(--evolution-edge);
+  animation: yk-evolved-drift 4s ease-in-out infinite;
+}
+.yk-evolved-energy {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  overflow: hidden;
+  pointer-events: none;
+}
+.yk-evolved-lightning {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 0.72;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 3px #fff)
+    drop-shadow(0 0 8px rgba(225, 240, 255, 0.85));
+}
+.yk-evolved-lightning path {
+  opacity: 0;
+}
+.yk-evolved.yk-animated .yk-evolved-lightning path {
+  animation: yk-evolved-lightning 4.8s linear infinite;
+}
+.yk-evolved.yk-animated .yk-evolved-lightning path:nth-child(2) {
+  animation-delay: -2.4s;
+}
+.yk-evolved.yk-animated .yk-evolved-lightning path:nth-child(3) {
+  animation-delay: -1.2s;
+}
+.yk-evolved.yk-animated .yk-evolved-lightning path:nth-child(4) {
+  animation-delay: -3.6s;
+}
+.yk-evolved:not(.yk-animated) .yk-evolved-lightning path {
+  opacity: 0.22;
+}
+@keyframes yk-evolved-lightning {
+  0%,
+  10%,
+  50%,
+  100% {
+    opacity: 0;
+  }
+  14%,
+  31% {
+    opacity: 1;
+  }
+  24% {
+    opacity: 0.35;
+  }
+  44% {
+    opacity: 0.55;
+  }
+}
+.yk-evolved-scan {
+  position: absolute;
+  inset: -35%;
+  opacity: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 38%,
+    rgba(var(--evolution-rgb), 0.14) 43%,
+    rgba(var(--evolution-light-rgb), 0.6) 48%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(var(--evolution-light-rgb), 0.6) 52%,
+    rgba(var(--evolution-rgb), 0.14) 57%,
+    transparent 62%
+  );
+  mix-blend-mode: screen;
+}
+.yk-evolved.yk-animated .yk-evolved-scan {
+  animation: yk-evolved-scan 3.8s ease-in-out infinite;
+}
+.yk-evolved.yk-animated .yk-card-interior::before,
+.yk-shiny.yk-animated .yk-card-interior::before {
+  animation: yk-evolved-edge 4.8s ease-in-out infinite;
+}
+@keyframes yk-evolved-scan {
+  0%,
+  15% {
+    transform: translateX(-70%);
+    opacity: 0;
+  }
+  35%,
+  55% {
+    opacity: 0.9;
+  }
+  80%,
+  100% {
+    transform: translateX(70%);
+    opacity: 0;
+  }
+}
+@keyframes yk-evolved-edge {
+  0%,
+  100% {
+    border-color: rgba(var(--evolution-light-rgb), 0.3);
+    box-shadow: inset 0 0 8px rgba(var(--evolution-rgb), 0.1);
+  }
+  42% {
+    border-color: rgba(var(--evolution-light-rgb), 0.9);
+    box-shadow: inset 0 0 18px rgba(var(--evolution-rgb), 0.36);
+  }
+}
+
+.yk-evolved .yk-card-clip::after,
+.yk-shiny .yk-card-clip::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      ellipse at top left,
+      rgba(var(--evolution-light-rgb), 0.95),
+      rgba(var(--evolution-rgb), 0.38) 5%,
+      transparent 18%
+    ),
+    radial-gradient(
+      ellipse at bottom right,
+      rgba(var(--evolution-light-rgb), 0.95),
+      rgba(var(--evolution-rgb), 0.38) 5%,
+      transparent 18%
+    );
+}
+.yk-evolved.yk-animated .yk-card-clip::after,
+.yk-shiny.yk-animated .yk-card-clip::after {
+  animation: yk-evolved-corners 3.6s ease-in-out infinite;
+}
+@keyframes yk-evolved-corners {
+  0%,
+  100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes yk-evolved-aura {
+  0%,
+  12%,
+  55%,
+  100% {
+    box-shadow:
+      0 0 0 1px var(--evolution-edge),
+      0 0 18px rgba(var(--evolution-rgb), 0.5),
+      0 10px 28px rgba(var(--evolution-dark-rgb), 0.4);
+  }
+  18%,
+  31% {
+    box-shadow:
+      0 0 0 1px var(--evolution-edge),
+      0 0 26px rgba(var(--evolution-rgb), 0.9),
+      0 0 44px rgba(var(--evolution-rgb), 0.4),
+      0 10px 32px rgba(var(--evolution-dark-rgb), 0.6);
+  }
+}
+@keyframes yk-evolved-drift {
+  0%,
+  100% {
+    transform: translateY(12px) scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: translateY(-14px) scale(1.1);
+    opacity: 0.9;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yk-evolved,
+  .yk-shiny,
+  .yk-shiny.yk-animated .yk-card-art::before,
+  .yk-shiny.yk-animated .yk-card-clip::before,
+  .yk-shiny.yk-animated .yk-card-interior::before,
+  .yk-shiny.yk-animated .yk-card-clip::after,
+  .yk-evolved.yk-animated .yk-card-frame,
+  .yk-evolved.yk-animated .yk-card-foil,
+  .yk-evolved.yk-animated .yk-evolved-scan,
+  .yk-evolved.yk-animated .yk-card-interior::before,
+  .yk-evolved.yk-animated .yk-card-clip::after {
+    animation: none;
+  }
+  .yk-evolved.yk-animated .yk-evolved-lightning path {
+    animation: none;
+    opacity: 0.2;
+  }
+}
+
+.yk-card-back {
+  width: 100%;
+  aspect-ratio: 5 / 7;
+  border: none;
+  border-radius: 12px;
+  background: transparent url("/assets/bubble-card-back-v1.png") center / cover
+    no-repeat;
+  box-shadow: none;
+}
+@container yokai (max-width: 90px) {
+  .yk-card-badge,
+  .yk-shiny-badge {
+    font-size: 7cqw;
+    padding: 1cqw 2cqw;
+    border-width: 0.6px;
+  }
+  .yk-card-name {
+    font-size: 8.5cqw;
+  }
+  .yk-card-category {
+    font-size: 5.5cqw;
+    letter-spacing: 0.08em;
+  }
+  .yk-card-anime {
+    font-size: 5.5cqw;
+  }
+}
+@keyframes yk-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes yk-sweep {
+  0% {
+    background-position: 160% 0;
+  }
+  60%,
+  100% {
+    background-position: -60% 0;
+  }
+}
+@keyframes yk-holo {
+  from {
+    background-position: 0% 30%;
+  }
+  to {
+    background-position: 100% 70%;
+  }
+}
+@keyframes yk-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 1px var(--card-glow-color),
+      0 10px 26px var(--card-glow-color);
+  }
+  50% {
+    box-shadow:
+      0 0 0 1px var(--card-glow-color),
+      0 0 58px var(--card-glow-color);
+  }
+}
+@keyframes yk-twinkle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: scale(0.3) rotate(0deg);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+}
+@keyframes yk-shiny-glint {
+  0%,
+  18% {
+    transform: translateX(-65%) rotate(4deg);
+    opacity: 0;
+  }
+  42% {
+    opacity: 0.72;
+  }
+  68%,
+  100% {
+    transform: translateX(65%) rotate(4deg);
+    opacity: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yk-sparkle {
+    display: none;
+  }
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Yokkai maintenance every six hours and existing nightly schedule
+
+[Timer]
+OnCalendar=*-*-* 00,06,12,18:00:00 UTC
+OnCalendar=*-*-* 03:30:00 Europe/Paris
+RandomizedDelaySec=60
+Persistent=true
+Unit=yokkai-storage-maintenance.service
+
+[Install]
+WantedBy=timers.target

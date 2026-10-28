@@ -1,0 +1,232 @@
+.yk-referral-counters {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  max-width: 300px;
+}
+.yk-referral-counter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding: 14px 10px;
+  border: 1px solid var(--color-veil);
+  border-radius: 12px;
+  background: color-mix(
+    in srgb,
+    var(--color-accent-neon) 7%,
+    var(--color-surface)
+  );
+  transition:
+    border-color 160ms ease,
+    background 160ms ease,
+    transform 160ms ease;
+}
+button.yk-referral-counter:hover {
+  border-color: var(--color-accent-neon);
+  transform: translateY(-2px);
+}
+.yk-referral-counter-static {
+  justify-content: center;
+}
+.yk-referral-rank {
+  padding: 3px 9px;
+  border: 1px solid
+    color-mix(in srgb, var(--color-accent-gold) 35%, transparent);
+  border-radius: 20px;
+  background: color-mix(in srgb, var(--color-accent-gold) 8%, transparent);
+  color: var(--color-accent-gold);
+  font-size: 12px;
+  font-weight: 700;
+}
+.yk-referral-rank-position {
+  font-size: 10px;
+  color: var(--color-ink-3);
+}
+.yk-referral-counter-link {
+  color: var(--color-accent-neon);
+  font-size: 11px;
+}
+.yk-referral-counter:focus-visible,
+.yk-referral-identity:focus-visible {
+  outline: 2px solid var(--color-accent-neon);
+  outline-offset: 4px;
+}
+.yk-modal.yk-referral-modal {
+  width: min(760px, calc(100% - 24px));
+  padding: 20px 16px;
+  overflow: hidden;
+}
+.yk-modal.yk-referral-modal[open] {
+  display: flex;
+  flex-direction: column;
+}
+.yk-referral-modal > div:first-child {
+  flex-shrink: 0;
+}
+.yk-referral-details {
+  min-height: 0;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+.yk-referral-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.yk-referral-person {
+  min-width: 0;
+  padding: 16px;
+  border: 1px solid var(--color-veil);
+  border-radius: 12px;
+  background: var(--color-night);
+}
+.yk-referral-person-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.yk-referral-identity {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  max-width: 100%;
+  border-radius: 6px;
+}
+.yk-referral-identity strong {
+  overflow-wrap: anywhere;
+}
+.yk-referral-identity:hover strong {
+  color: var(--color-accent-neon);
+}
+.yk-referral-verification {
+  flex-shrink: 0;
+  padding: 4px 8px;
+  border: 1px solid var(--color-veil);
+  border-radius: 20px;
+  font-size: 11px;
+  color: var(--color-ink-3);
+}
+.yk-referral-verification.is-verified {
+  color: var(--color-success);
+  background: color-mix(in srgb, var(--color-success) 8%, transparent);
+}
+.yk-referral-person-stats {
+  display: grid;
+  gap: 12px;
+  margin: 16px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--color-veil);
+}
+.yk-referral-person-stats > div {
+  min-width: 0;
+}
+.yk-referral-person-stats dt {
+  margin-bottom: 5px;
+  font-size: 11px;
+  color: var(--color-ink-3);
+}
+.yk-referral-person-stats dd {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.yk-referral-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 20px;
+}
+.yk-referral-loading,
+.yk-referral-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 200px;
+  padding: 24px 0;
+  text-align: center;
+}
+.yk-referral-spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid var(--color-veil);
+  border-top-color: var(--color-accent-neon);
+  border-radius: 50%;
+  animation: yk-referral-spin 800ms linear infinite;
+}
+@keyframes yk-referral-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (min-width: 480px) {
+  .yk-referral-person-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .yk-modal.yk-referral-modal {
+    padding: 28px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yk-referral-counter {
+    transition: none;
+  }
+  button.yk-referral-counter:hover {
+    transform: none;
+  }
+  .yk-referral-spinner {
+    animation: none;
+  }
+}
+
+/* One-time notice after a Google/Discord identity joined an existing account. */
+.yk-linked-notice {
+  position: fixed;
+  inset-inline: 16px;
+  bottom: 16px;
+  z-index: 60;
+  display: flex;
+  max-width: 520px;
+  margin-inline: auto;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid color-mix(in srgb, var(--color-success) 40%, transparent);
+  border-radius: var(--radius-panel);
+  padding: 14px 16px;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  color: var(--color-ink);
+  font-size: 14px;
+  line-height: 1.5;
+}
+.yk-linked-notice p {
+  flex: 1;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.yk-linked-notice button {
+  min-width: 44px;
+  min-height: 44px;
+  margin: -12px -12px -12px 0;
+  border: 0;
+  background: none;
+  color: var(--color-ink-2);
+  font-size: 22px;
+  cursor: pointer;
+}
+.yk-linked-notice button:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+}

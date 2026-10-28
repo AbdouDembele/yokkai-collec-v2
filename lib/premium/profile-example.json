@@ -1,0 +1,112 @@
+{
+  "pseudo": "BBDOU",
+  "avatar": "/assets/premium-examples/bbdou-avatar.jpeg",
+  "banner": "/assets/premium-examples/bbdou-live-banner.gif",
+  "bannerStill": "/assets/premium-examples/bbdou-banner-still.webp",
+  "bannerFrame": {
+    "x": 50,
+    "y": 28,
+    "zoom": 1.00569485149972,
+    "rotation": 0
+  },
+  "style": {
+    "font": "display",
+    "effect": "pop",
+    "color": "#ffffff",
+    "secondary": "#ff00c8",
+    "badges": ["flame", "crystal", "bloom"],
+    "theme": "default",
+    "avatarFrame": "flame",
+    "showcaseEffect": "glow"
+  },
+  "cards": [
+    {
+      "name": "MADARA UCHIHA",
+      "category": "ANIME/MANGA",
+      "anime": "Naruto",
+      "rarity": "LR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-1.png",
+      "animated": "/assets/premium-examples/bbdou-showcase-1.gif"
+    },
+    {
+      "name": "OMNI-MAN",
+      "category": "COMICS",
+      "anime": "Invincible",
+      "rarity": "LR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-2.png"
+    },
+    {
+      "name": "SHADOW THE HEDGEHOG",
+      "category": "VIDEO GAMES",
+      "anime": "Sonic Adventure 2",
+      "rarity": "LR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-3.png"
+    },
+    {
+      "name": "TUNG TUNG TUNG SAHUR",
+      "category": "BRAINROT",
+      "anime": "",
+      "rarity": "LR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-4.png",
+      "animated": "/assets/premium-examples/bbdou-showcase-4.gif"
+    },
+    {
+      "name": "ROY MUSTANG",
+      "category": "ANIME/MANGA",
+      "anime": "Fullmetal Alchemist: Brotherhood",
+      "rarity": "LR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-5.png",
+      "animated": "/assets/premium-examples/bbdou-showcase-5.gif"
+    },
+    {
+      "name": "TAIGA KAGAMI",
+      "category": "ANIME/MANGA",
+      "anime": "Kuroko's Basketball",
+      "rarity": "SSR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-6.png",
+      "animated": "/assets/premium-examples/bbdou-showcase-6.gif"
+    },
+    {
+      "name": "HIROMI HIGURUMA",
+      "category": "ANIME/MANGA",
+      "anime": "JUJUTSU KAISEN",
+      "rarity": "SSR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-7.png",
+      "animated": "/assets/premium-examples/bbdou-showcase-7.gif"
+    },
+    {
+      "name": "EVELYNN",
+      "category": "VIDEO GAMES",
+      "anime": "K/DA",
+      "rarity": "SSR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-8.png",
+      "animated": "/assets/premium-examples/bbdou-showcase-8.gif"
+    },
+    {
+      "name": "AOKIJI KUZAN",
+      "category": "ANIME/MANGA",
+      "anime": "One Piece",
+      "rarity": "SSR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-9.png",
+      "animated": "/assets/premium-examples/bbdou-showcase-9.gif"
+    },
+    {
+      "name": "ANISSA",
+      "category": "COMICS",
+      "anime": "Invincible",
+      "rarity": "SSR",
+      "shiny": false,
+      "still": "/assets/premium-examples/bbdou-card-10.jpeg",
+      "animated": "/assets/premium-examples/bbdou-showcase-10.gif"
+    }
+  ]
+}

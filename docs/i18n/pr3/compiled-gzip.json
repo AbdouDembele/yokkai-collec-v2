@@ -1,0 +1,257 @@
+{
+  "base": "dd7cb0e2c77b0a6f16eeb9cc1480fa7f396eb151",
+  "routes": ["/profile", "/profile/[id]", "/settings"],
+  "scope": "Initial route client chunks plus relevant profile/community/collection/catalogue modal lazy imports; unique JavaScript files. JSON catalogues excluded.",
+  "compression": "gzip level 9 per compiled file",
+  "configuration": "Same installed dependencies and dummy environment; NEXT_PUBLIC_I18N_ENABLED=false; no production data or settings used.",
+  "before": {
+    "gzipBytes": 363340,
+    "uniqueFiles": 29,
+    "files": [
+      {
+        "file": "static/chunks/0937d497-cb7a9ff884a082ab.js",
+        "gzip": 63917
+      },
+      {
+        "file": "static/chunks/134-d14bacabcd7c393b.js",
+        "gzip": 54704
+      },
+      {
+        "file": "static/chunks/1594-899f8949356aad71.js",
+        "gzip": 2445
+      },
+      {
+        "file": "static/chunks/1600.10892558f9a11ef4.js",
+        "gzip": 2077
+      },
+      {
+        "file": "static/chunks/1858-cf07a7ecde52dcb4.js",
+        "gzip": 67824
+      },
+      {
+        "file": "static/chunks/216-49c36207aa5a46ea.js",
+        "gzip": 9051
+      },
+      {
+        "file": "static/chunks/2300.7a34cecce5934cf6.js",
+        "gzip": 4650
+      },
+      {
+        "file": "static/chunks/2886-22499a1fe32a73d9.js",
+        "gzip": 7853
+      },
+      {
+        "file": "static/chunks/3025-7f9d950ec2d53a2d.js",
+        "gzip": 10680
+      },
+      {
+        "file": "static/chunks/3187-1a71a34cd75f3599.js",
+        "gzip": 15489
+      },
+      {
+        "file": "static/chunks/4040-85922697117b3d1c.js",
+        "gzip": 5169
+      },
+      {
+        "file": "static/chunks/4204-d455ea79529057e0.js",
+        "gzip": 6291
+      },
+      {
+        "file": "static/chunks/4233-cb5ec9f030533800.js",
+        "gzip": 12132
+      },
+      {
+        "file": "static/chunks/4487-4afd1403c08577ff.js",
+        "gzip": 5523
+      },
+      {
+        "file": "static/chunks/4524-031089ad336d2199.js",
+        "gzip": 4971
+      },
+      {
+        "file": "static/chunks/519e8b78-463193cc4ea98816.js",
+        "gzip": 14256
+      },
+      {
+        "file": "static/chunks/6329-e81ee4b548bb7f55.js",
+        "gzip": 19509
+      },
+      {
+        "file": "static/chunks/7434-c8fea4fcae77d34b.js",
+        "gzip": 7855
+      },
+      {
+        "file": "static/chunks/7845-137d1a2f46446329.js",
+        "gzip": 17429
+      },
+      {
+        "file": "static/chunks/8059-bd85a9cf8e3ba9eb.js",
+        "gzip": 10697
+      },
+      {
+        "file": "static/chunks/8202-c77f571c9b6c8a55.js",
+        "gzip": 3261
+      },
+      {
+        "file": "static/chunks/824-c62e209cf7477e61.js",
+        "gzip": 5750
+      },
+      {
+        "file": "static/chunks/9618-02ba771d202c4398.js",
+        "gzip": 6115
+      },
+      {
+        "file": "static/chunks/9978.323bbb160fe57930.js",
+        "gzip": 577
+      },
+      {
+        "file": "static/chunks/app/profile/%5Bid%5D/page-775892322fb0897b.js",
+        "gzip": 171
+      },
+      {
+        "file": "static/chunks/app/profile/page-21bc555ea409335c.js",
+        "gzip": 172
+      },
+      {
+        "file": "static/chunks/app/settings/page-c17151bf5e4519fd.js",
+        "gzip": 1741
+      },
+      {
+        "file": "static/chunks/main-app-cbcbeb9af3c0479c.js",
+        "gzip": 227
+      },
+      {
+        "file": "static/chunks/webpack-8e517f378666784a.js",
+        "gzip": 2804
+      }
+    ]
+  },
+  "after": {
+    "gzipBytes": 368106,
+    "uniqueFiles": 30,
+    "files": [
+      {
+        "file": "static/chunks/0937d497-cb7a9ff884a082ab.js",
+        "gzip": 63917
+      },
+      {
+        "file": "static/chunks/134-d14bacabcd7c393b.js",
+        "gzip": 54704
+      },
+      {
+        "file": "static/chunks/1594-899f8949356aad71.js",
+        "gzip": 2445
+      },
+      {
+        "file": "static/chunks/1600.100d3c601ac3aa10.js",
+        "gzip": 2184
+      },
+      {
+        "file": "static/chunks/1858-cf07a7ecde52dcb4.js",
+        "gzip": 67824
+      },
+      {
+        "file": "static/chunks/216-d4c6f39c2f908e5f.js",
+        "gzip": 9067
+      },
+      {
+        "file": "static/chunks/2300.7a34cecce5934cf6.js",
+        "gzip": 4650
+      },
+      {
+        "file": "static/chunks/2652-60e17f3827df6261.js",
+        "gzip": 8616
+      },
+      {
+        "file": "static/chunks/3025-ed43e58bba837409.js",
+        "gzip": 10665
+      },
+      {
+        "file": "static/chunks/3145-90645892686ed42b.js",
+        "gzip": 3196
+      },
+      {
+        "file": "static/chunks/3187-1a71a34cd75f3599.js",
+        "gzip": 15489
+      },
+      {
+        "file": "static/chunks/4233-491d0678b4468276.js",
+        "gzip": 12228
+      },
+      {
+        "file": "static/chunks/4487-4afd1403c08577ff.js",
+        "gzip": 5523
+      },
+      {
+        "file": "static/chunks/4524-031089ad336d2199.js",
+        "gzip": 4971
+      },
+      {
+        "file": "static/chunks/519e8b78-463193cc4ea98816.js",
+        "gzip": 14256
+      },
+      {
+        "file": "static/chunks/5230-5ccfe79f2f817626.js",
+        "gzip": 6344
+      },
+      {
+        "file": "static/chunks/6329-404cfe60f6932d4e.js",
+        "gzip": 19340
+      },
+      {
+        "file": "static/chunks/6950-c94388c10e084251.js",
+        "gzip": 12050
+      },
+      {
+        "file": "static/chunks/7575-09c1cebd2018adc6.js",
+        "gzip": 6093
+      },
+      {
+        "file": "static/chunks/7845-565e016e92e648e0.js",
+        "gzip": 17435
+      },
+      {
+        "file": "static/chunks/8202-c77f571c9b6c8a55.js",
+        "gzip": 3261
+      },
+      {
+        "file": "static/chunks/824-c62e209cf7477e61.js",
+        "gzip": 5750
+      },
+      {
+        "file": "static/chunks/9579-f25215bc2ef1d18a.js",
+        "gzip": 3879
+      },
+      {
+        "file": "static/chunks/9618-b18d7bc7bb520f66.js",
+        "gzip": 9448
+      },
+      {
+        "file": "static/chunks/9978.323bbb160fe57930.js",
+        "gzip": 577
+      },
+      {
+        "file": "static/chunks/app/profile/%5Bid%5D/page-4bb93fde3c43c636.js",
+        "gzip": 170
+      },
+      {
+        "file": "static/chunks/app/profile/page-db3cbf977f1b8fa3.js",
+        "gzip": 171
+      },
+      {
+        "file": "static/chunks/app/settings/page-144cb1d10b885f0c.js",
+        "gzip": 805
+      },
+      {
+        "file": "static/chunks/main-app-cbcbeb9af3c0479c.js",
+        "gzip": 227
+      },
+      {
+        "file": "static/chunks/webpack-b916b6efc7d2f050.js",
+        "gzip": 2821
+      }
+    ]
+  },
+  "deltaBytes": 4766,
+  "budgetBytes": 5000
+}

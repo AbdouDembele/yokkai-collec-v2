@@ -1,0 +1,302 @@
+diff --git a/components/auth-showcase.tsx b/components/auth-showcase.tsx
+index 3075f94..89dd2f1 100644
+--- a/components/auth-showcase.tsx
++++ b/components/auth-showcase.tsx
+@@ -1,3 +1,4 @@
++import { useTranslations } from "next-intl";
+ import { YokaiCard } from "@/components/yokai-card";
+ import { AuthCardCustomization } from "@/components/auth-card-customization";
+ import { AuthDecisionPreview } from "@/components/auth-decision-preview";
+@@ -16,22 +17,19 @@ export function AuthShowcase({
+ }: {
+   infinityPreview?: boolean;
+ }) {
++  const t = useTranslations("authShowcase");
+   return (
+     <section className="yk-auth-showcase" aria-labelledby="auth-showcase-title">
+       <div className="yk-auth-showcase-heading">
+-        <p className="eyebrow">A new discovery in every card</p>
++        <p className="eyebrow">{t("aNewDiscoveryInEveryCard")}</p>
+         <h2 id="auth-showcase-title">
+-          Your favorites.
++          {t("yourFavorites")}
+           <br />
+-          Your collection.
++          {t("yourCollection")}
+           <br />
+-          <em>Your next obsession.</em>
++          <em>{t("yourNextObsession")}</em>
+         </h2>
+-        <p>
+-          Open a pack. Find a favorite. From the first pull to the last missing
+-          card, there&apos;s always something worth collecting. With Pro, make
+-          your cards your own with custom images and animated GIFs.
+-        </p>
++        <p>{t("openAPackFindAFavoriteFromTheFirstPull")}</p>
+       </div>
+ 
+       <AuthCardCarousel>
+@@ -67,28 +65,24 @@ export function AuthShowcase({
+         <article className="yk-auth-feature yk-auth-feature-evolution">
+           <div className="yk-auth-feature-copy">
+             <span className="yk-auth-feature-number">
+-              {infinityPreview ? "02 / ∞ INFINITY" : "02 / THE EVOLUTION"}
++              {infinityPreview ? t("text02Infinity") : t("text02TheEvolution")}
+             </span>
+             <h3>
+               {infinityPreview
+-                ? "Five copies. One INFINITY."
+-                : "Five copies. One evolution."}
++                ? t("fiveCopiesOneInfinity")
++                : t("fiveCopiesOneEvolution")}
+             </h3>
+             <p>
+               {infinityPreview ? (
+-                "Fuse five identical normal SSR cards or three identical normal LR cards into one INFINITY card. Same character. Same rarity. A new metallic finish and an infinity mark."
++                t("fuseFiveIdenticalNormalSsrCardsOrThreeIdenticalNormal")
+               ) : (
+-                <>
+-                  Got duplicates? Fuse five identical normal SSR cards into one
+-                  SSR Evolved, or three identical normal LR cards into one LR
+-                  Evolved. Same character. Same rarity. A new electric look.
+-                </>
++                <>{t("gotDuplicatesFuseFiveIdenticalNormalSsrCardsIntoOne")}</>
+               )}
+             </p>
+             <p>
+               {infinityPreview
+-                ? "Keep your custom artwork when you evolve. Shiny and INFINITY cards cannot be used for evolution."
+-                : "Shiny and already Evolved cards cannot be used for evolution."}
++                ? t("keepYourCustomArtworkWhenYouEvolveShinyAndInfinity")
++                : t("shinyAndAlreadyEvolvedCardsCannotBeUsedForEvolution")}
+             </p>
+           </div>
+           <div className="yk-auth-evolution-examples">
+@@ -100,11 +94,13 @@ export function AuthShowcase({
+               >
+                 <div className="yk-auth-evolution-heading">
+                   <strong>{card.name}</strong>
+-                  <span>{card.rarity} evolution</span>
++                  <span>{t("rarityEvolution", { rarity: card.rarity })}</span>
+                 </div>
+                 <div className="yk-auth-evolution-flow">
+                   <figure className="yk-auth-evolution-card">
+-                    <figcaption>5 normal {card.rarity} copies</figcaption>
++                    <figcaption>
++                      {t("normalCopies", { rarity: card.rarity })}
++                    </figcaption>
+                     <div className="yk-auth-evolution-stack">
+                       <CardShell interactive={false}>
+                         <YokaiCard {...card} />
+@@ -131,8 +127,8 @@ export function AuthShowcase({
+                 </div>
+                 <p>
+                   {infinityPreview
+-                    ? "Same character. A new INFINITY finish."
+-                    : "Same character. A new electric look."}
++                    ? t("sameCharacterANewInfinityFinish")
++                    : t("sameCharacterANewElectricLook")}
+                 </p>
+               </div>
+             ))}
+@@ -141,14 +137,13 @@ export function AuthShowcase({
+ 
+         <article className="yk-auth-feature yk-auth-feature-packs">
+           <div className="yk-auth-feature-copy">
+-            <span className="yk-auth-feature-number">03 / THE REVEAL</span>
+-            <h3>Small pack. Big possibilities.</h3>
+-            <p>
+-              Reveal five cards in every Regular Pack. Discover new characters,
+-              chase rare pulls, and find the ones you want to keep forever.
+-            </p>
++            <span className="yk-auth-feature-number">
++              {t("text03TheReveal")}
++            </span>
++            <h3>{t("smallPackBigPossibilities")}</h3>
++            <p>{t("revealFiveCardsInEveryRegularPackDiscoverNewCharacters")}</p>
+             <span className="yk-auth-feature-tag">
+-              Five cards. One new story.
++              {t("fiveCardsOneNewStory")}
+             </span>
+           </div>
+           <div className="yk-auth-pack-preview" aria-hidden="true">
+@@ -167,20 +162,18 @@ export function AuthShowcase({
+ 
+         <article className="yk-auth-feature">
+           <div className="yk-auth-feature-copy">
+-            <span className="yk-auth-feature-number">04 / THE COLLECTION</span>
+-            <h3>One more card. One step closer.</h3>
+-            <p>
+-              Build your albums by universe, track your progress, and spot the
+-              cards you&apos;re still missing. Every new find fills a little
+-              more of the page.
+-            </p>
++            <span className="yk-auth-feature-number">
++              {t("text04TheCollection")}
++            </span>
++            <h3>{t("oneMoreCardOneStepCloser")}</h3>
++            <p>{t("buildYourAlbumsByUniverseTrackYourProgressAndSpot")}</p>
+           </div>
+           <div
+             className="yk-auth-album-preview"
+-            aria-label="Illustrative album preview, two of three cards collected"
++            aria-label={t("illustrativeAlbumPreviewTwoOfThreeCardsCollected")}
+           >
+             <div className="yk-auth-preview-label">
+-              <span>Your album</span>
++              <span>{t("yourAlbum")}</span>
+               <b>2 / 3</b>
+             </div>
+             <div className="yk-auth-album-cards" aria-hidden="true">
+@@ -194,23 +187,21 @@ export function AuthShowcase({
+             <div className="yk-auth-album-progress" aria-hidden="true">
+               <span />
+             </div>
+-            <p>The next piece is out there.</p>
++            <p>{t("theNextPieceIsOutThere")}</p>
+           </div>
+         </article>
+ 
+         <article className="yk-auth-feature">
+           <div className="yk-auth-feature-copy">
+             <span className="yk-auth-feature-number">
+-              05 / YOUR FAVORITE WORLDS
++              {t("text05YourFavoriteWorlds")}
+             </span>
+-            <h3>A binder for every obsession.</h3>
+-            <p>
+-              Your favorite manga. The series you can&apos;t stop watching. The
+-              cartoons you grew up with. Your favorite K-pop group. Complete
+-              their collections, track every missing card, and pin your favorite
+-              binders so they&apos;re always close.
+-            </p>
+-            <div className="yk-auth-binder-tags" aria-label="Binder categories">
++            <h3>{t("aBinderForEveryObsession")}</h3>
++            <p>{t("yourFavoriteMangaTheSeriesYouCanTStopWatching")}</p>
++            <div
++              className="yk-auth-binder-tags"
++              aria-label={t("binderCategories")}
++            >
+               <span>Manga</span>
+               <span>Series</span>
+               <span>Cartoons</span>
+@@ -219,21 +210,21 @@ export function AuthShowcase({
+           </div>
+           <div
+             className="yk-auth-binder-preview"
+-            aria-label="Example favorite binders and collection progress"
++            aria-label={t("exampleFavoriteBindersAndCollectionProgress")}
+           >
+-            <span className="yk-auth-preview-label">Your binders</span>
++            <span className="yk-auth-preview-label">{t("yourBinders")}</span>
+             <div className="yk-auth-binder-tile yk-auth-binder-favorite">
+               <div>
+                 <strong>JUJUTSU KAISEN</strong>
+                 <span aria-hidden="true">★</span>
+               </div>
+               <p>
+-                <b>7</b> / 183 cards
++                <b>7</b> {t("text183Cards")}
+               </p>
+               <div className="yk-auth-binder-progress">
+                 <span style={{ width: "4%" }} />
+               </div>
+-              <small>4% complete</small>
++              <small>{t("text4Complete")}</small>
+             </div>
+             <div className="yk-auth-binder-tile yk-auth-binder-favorite">
+               <div>
+@@ -241,12 +232,12 @@ export function AuthShowcase({
+                 <span aria-hidden="true">★</span>
+               </div>
+               <p>
+-                <b>2</b> / 31 cards
++                <b>2</b> {t("text31Cards")}
+               </p>
+               <div className="yk-auth-binder-progress">
+                 <span style={{ width: "6%" }} />
+               </div>
+-              <small>6% complete</small>
++              <small>{t("text6Complete")}</small>
+             </div>
+             <div className="yk-auth-binder-tile yk-auth-binder-favorite">
+               <div>
+@@ -254,15 +245,15 @@ export function AuthShowcase({
+                 <span aria-hidden="true">★</span>
+               </div>
+               <p>
+-                <b>3</b> / 127 cards
++                <b>3</b> {t("text127Cards")}
+               </p>
+               <div className="yk-auth-binder-progress">
+                 <span style={{ width: "2%" }} />
+               </div>
+-              <small>2% complete</small>
++              <small>{t("text2Complete")}</small>
+             </div>
+             <p className="yk-auth-preview-caption">
+-              Example binders. Every card brings you closer.
++              {t("exampleBindersEveryCardBringsYouCloser")}
+             </p>
+           </div>
+           <AuthBinderShowcase />
+@@ -270,43 +261,40 @@ export function AuthShowcase({
+ 
+         <article className="yk-auth-feature yk-auth-feature-market">
+           <div className="yk-auth-feature-copy">
+-            <span className="yk-auth-feature-number">06 / THE MARKET</span>
+-            <h3>Find your next great deal.</h3>
+-            <p>
+-              Put your cards up for auction or bid on a new favorite with Karas,
+-              the in-game currency. Follow the bids, join the auction chat, and
+-              keep an eye on the countdown.
+-            </p>
++            <span className="yk-auth-feature-number">
++              {t("text06TheMarket")}
++            </span>
++            <h3>{t("findYourNextGreatDeal")}</h3>
++            <p>{t("putYourCardsUpForAuctionOrBidOnA")}</p>
+           </div>
+           <AuthMarketShowcase />
+         </article>
+ 
+         <article className="yk-auth-feature yk-auth-feature-social">
+           <div className="yk-auth-feature-copy">
+-            <span className="yk-auth-feature-number">07 / THE COMMUNITY</span>
+-            <h3>Better finds. Better together.</h3>
+-            <p>
+-              Add friends, chat, and trade your duplicates for the cards you
+-              love. Your next missing card could be in a friend&apos;s
+-              collection.
+-            </p>
++            <span className="yk-auth-feature-number">
++              {t("text07TheCommunity")}
++            </span>
++            <h3>{t("betterFindsBetterTogether")}</h3>
++            <p>{t("addFriendsChatAndTradeYourDuplicatesForTheCards")}</p>
+           </div>
+           <div
+             className="yk-auth-chat-preview"
+-            aria-label="Illustrative conversation and trade preview"
++            aria-label={t("illustrativeConversationAndTradePreview")}
+           >
+-            <p>Got a spare NEWJEANS?</p>
++            <p>{t("spareCard", { cardName: "NEWJEANS" })}</p>
+             <p>
+-              For your Luffy? <span aria-hidden="true">✦</span>
++              {t("tradeCard", { cardName: "Luffy" })}
++              <span aria-hidden="true">✦</span>
+             </p>
+             <div>
+-              <span aria-hidden="true">⇄</span> A new trade. A new favorite.
++              <span aria-hidden="true">⇄</span> {t("aNewTradeANewFavorite")}
+             </div>
+           </div>
+         </article>
+       </div>
+       <p className="yk-auth-showcase-signoff">
+-        Collect what you love. Make it yours.
++        {t("collectWhatYouLoveMakeItYours")}
+       </p>
+     </section>
+   );

@@ -1,0 +1,29 @@
+diff --git a/components/ui/index.tsx b/components/ui/index.tsx
+index 8046160..07fd4e8 100644
+--- a/components/ui/index.tsx
++++ b/components/ui/index.tsx
+@@ -1,5 +1,7 @@
+ "use client";
+ 
++import { useTranslations } from "next-intl";
++
+ import {
+   useEffect,
+   useId,
+@@ -272,6 +274,7 @@ export function Modal({
+   children: ReactNode;
+   className?: string;
+ }) {
++  const t = useTranslations("common");
+   const ref = useRef<HTMLDialogElement>(null);
+   const titleId = useId();
+   useEffect(() => {
+@@ -350,7 +353,7 @@ export function Modal({
+           type="button"
+           autoFocus
+           onClick={onClose}
+-          aria-label="Close"
++          aria-label={t("close")}
+           className="size-9 shrink-0 rounded-full border border-veil text-ink-2 hover:bg-veil"
+         >
+           ✕

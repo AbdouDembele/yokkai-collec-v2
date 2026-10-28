@@ -1,0 +1,99 @@
+diff --git a/components/auth-binder-showcase.tsx b/components/auth-binder-showcase.tsx
+index ac28061..cf97833 100644
+--- a/components/auth-binder-showcase.tsx
++++ b/components/auth-binder-showcase.tsx
+@@ -1,4 +1,5 @@
+ "use client";
++import { useTranslations } from "next-intl";
+ 
+ import { useState } from "react";
+ import { CardShell } from "@/components/card-shell";
+@@ -9,22 +10,26 @@ import "@/styles/auth-binder.css";
+ const ownedCount = cards.filter(card => card.owned).length;
+ 
+ export function AuthBinderShowcase() {
++  const t = useTranslations("authBinderShowcase");
+   const [pinned, setPinned] = useState(true);
+ 
+   return (
+-    <section className="yk-auth-binder-demo" aria-label="Naruto binder preview">
++    <section
++      className="yk-auth-binder-demo"
++      aria-label={t("narutoBinderPreview")}
++    >
+       <header className="yk-auth-binder-demo-header">
+         <div>
+-          <span className="yk-auth-preview-label">BINDER</span>
++          <span className="yk-auth-preview-label">{t("binder")}</span>
+           <h4>Naruto</h4>
+         </div>
+         <div className="yk-auth-binder-demo-summary">
+           <strong>
+-            {ownedCount} / {cards.length} cards
++            {t("binderProgress", { owned: ownedCount, total: cards.length })}
+           </strong>
+           <button
+             type="button"
+-            aria-label={pinned ? "Unpin Naruto binder" : "Pin Naruto binder"}
++            aria-label={pinned ? t("unpinNarutoBinder") : t("pinNarutoBinder")}
+             aria-pressed={pinned}
+             onClick={() => setPinned(current => !current)}
+           >
+@@ -35,7 +40,7 @@ export function AuthBinderShowcase() {
+       <div
+         className="yk-auth-binder-demo-progress"
+         role="progressbar"
+-        aria-label="Example Naruto binder completion"
++        aria-label={t("exampleNarutoBinderCompletion")}
+         aria-valuemin={0}
+         aria-valuemax={cards.length}
+         aria-valuenow={ownedCount}
+@@ -56,23 +61,26 @@ export function AuthBinderShowcase() {
+             <circle cx="10.5" cy="10.5" r="6.5" />
+             <path d="m16 16 4.5 4.5" />
+           </svg>
+-          <span className="sr-only">Search the example Naruto binder</span>
+-          <input type="search" disabled placeholder="Search cards…" />
++          <span className="sr-only">{t("searchTheExampleNarutoBinder")}</span>
++          <input type="search" disabled placeholder={t("searchCards")} />
+         </label>
+         <button type="button" className="yk-auth-binder-demo-toggle" disabled>
+           <span aria-hidden="true">○</span>
+-          Hide missing cards
++          {t("hideMissingCards")}
+         </button>
+       </div>
+       <ul
+         className="yk-auth-binder-demo-grid"
+-        aria-label="Example Naruto binder cards"
++        aria-label={t("exampleNarutoBinderCards")}
+       >
+         {cards.map(card => (
+           <li
+             key={card.id}
+             data-owned={card.owned}
+-            aria-label={`${card.name}, ${card.owned ? "collected" : "missing"}`}
++            aria-label={t("cardStatus", {
++              cardName: card.name,
++              owned: card.owned ? "yes" : "no"
++            })}
+           >
+             <CardShell interactive={false}>
+               <YokaiCard
+@@ -82,14 +90,13 @@ export function AuthBinderShowcase() {
+               />
+             </CardShell>
+             <span className="yk-auth-binder-demo-card-status">
+-              {card.owned ? "Collected" : "Missing"}
++              {card.owned ? t("collected") : t("missing")}
+             </span>
+           </li>
+         ))}
+       </ul>
+       <p className="yk-auth-binder-demo-note">
+-        Illustrative binder. Collected cards stand out; missing cards stay
+-        visible so you know what to chase next.
++        {t("illustrativeBinderCollectedCardsStandOutMissingCardsStayVisible")}
+       </p>
+     </section>
+   );

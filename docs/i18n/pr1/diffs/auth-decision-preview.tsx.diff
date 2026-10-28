@@ -1,0 +1,51 @@
+diff --git a/components/auth-decision-preview.tsx b/components/auth-decision-preview.tsx
+index 762f031..bcd0db1 100644
+--- a/components/auth-decision-preview.tsx
++++ b/components/auth-decision-preview.tsx
+@@ -1,6 +1,8 @@
++import { useTranslations } from "next-intl";
+ import { YokaiCard, type YokaiCardProps } from "@/components/yokai-card";
+ 
+ export function AuthDecisionPreview({ cards }: { cards: YokaiCardProps[] }) {
++  const t = useTranslations("authDecisionPreview");
+   return (
+     <div className="yk-auth-decision-preview">
+       <div className="yk-auth-decision-heading">
+@@ -8,8 +10,8 @@ export function AuthDecisionPreview({ cards }: { cards: YokaiCardProps[] }) {
+           <span className="yk-auth-feature-number">
+             THE DAILY DECISION PACK
+           </span>
+-          <h4>Which one will you choose?</h4>
+-          <p>Reveal five cards. Keep one. Turn the others into Karas.</p>
++          <h4>{t("whichOneWillYouChoose")}</h4>
++          <p>{t("revealFiveCardsKeepOneTurnTheOthersIntoKaras")}</p>
+         </div>
+         {/* eslint-disable-next-line @next/next/no-img-element */}
+         <img
+@@ -22,14 +24,14 @@ export function AuthDecisionPreview({ cards }: { cards: YokaiCardProps[] }) {
+       </div>
+       <div className="yk-auth-decision-demo">
+         <div className="yk-decision-banner">
+-          <p className="font-display text-karas">Choose your card</p>
++          <p className="font-display text-karas">{t("chooseYourCard")}</p>
+           <p className="text-ink-2">
+-            Five possibilities. Only one joins your collection.
++            {t("fivePossibilitiesOnlyOneJoinsYourCollection")}
+           </p>
+         </div>
+         <ol
+           className="yk-reveal-grid"
+-          aria-label="Example Decision Pack reveal with five cards"
++          aria-label={t("exampleDecisionPackRevealWithFiveCards")}
+         >
+           {cards.map((card, index) => (
+             <li className="yk-reveal-slot" key={`${card.name}-${index}`}>
+@@ -39,7 +41,7 @@ export function AuthDecisionPreview({ cards }: { cards: YokaiCardProps[] }) {
+         </ol>
+       </div>
+       <p className="yk-auth-decision-caption">
+-        <small>Illustrative reveal. Rarities vary.</small>
++        <small>{t("illustrativeRevealRaritiesVary")}</small>
+       </p>
+     </div>
+   );

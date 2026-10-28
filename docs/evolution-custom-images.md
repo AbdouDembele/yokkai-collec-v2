@@ -1,0 +1,9 @@
+# Conservation des images pendant l’évolution INFINITY
+
+À la demande du propriétaire, les évolutions SSR et LR conservent une image personnalisée issue des cinq exemplaires consommés. La copie personnalisée affichée est incluse dans la proposition lorsqu’elle est éligible. Si plusieurs copies sélectionnées possèdent une image personnalisée, la modale permet de choisir celle qui sera gardée et montre le résultat avant confirmation.
+
+L’ordre des UUID transmis place la copie choisie en premier. Les RPC existantes gardent leurs signatures et héritent de la première image personnalisée trouvée dans les cinq copies validées et verrouillées. Une image appartenant à un autre joueur ou à une copie non consommée ne peut pas être récupérée. Sans image personnalisée, le résultat conserve l’image originale. Les anciennes copies hors sélection restent intactes ; le dossier du résultat reste vide.
+
+Migration : `20261025220000_preserve_evolution_custom_images.sql`. Appliquée et enregistrée dans Supabase local. Les évolutions SSR et LR ont été vérifiées sur cette base dans une transaction annulée, avec conservation des 23 exemplaires de test. Le propriétaire demande désormais sa publication et son application en production ; l’état d’application final est indiqué dans la PR.
+
+Le test de présentation existant est mis à jour pour la décision produit explicitement demandée : son attente « custom (will be lost) » devient « custom (can be kept) ». L’assertion précise est conservée, avec des assertions supplémentaires pour l’aperçu, le choix de l’image et l’absence de l’ancien avertissement. Aucun test de droits, de sélection ou d’atomicité n’est affaibli. De nouveaux tests vérifient les deux raretés, le choix de l’image, sa persistance, les copies non consommées, les refus et l’annulation d’une insertion en échec.

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 76" fill="none">
+  <defs>
+    <linearGradient id="chrome" x1="0" y1="7" x2="0" y2="57" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#161b22"/>
+      <stop offset=".32" stop-color="#444d58"/>
+      <stop offset=".65" stop-color="#171d25"/>
+      <stop offset="1" stop-color="#0c1118"/>
+    </linearGradient>
+    <path id="letters" d="M11 8H52V20H25V27H48V38H25V45H52V57H11V8ZM61 20H76L85 45L96 20H111L96 57H76L61 20Z"/>
+  </defs>
+  <g transform="translate(16 5) skewX(-13)" stroke-linejoin="round">
+    <use href="#letters" transform="translate(1.2 2)" fill="#05080c" stroke="#05080c" stroke-width="6"/>
+    <use href="#letters" fill="#fff" stroke="#f2f6fa" stroke-width="7"/>
+    <use href="#letters" fill="url(#chrome)" stroke="#101619" stroke-width="5"/>
+    <use href="#letters" fill="url(#chrome)" stroke="#89939f" stroke-width=".7"/>
+  </g>
+</svg>

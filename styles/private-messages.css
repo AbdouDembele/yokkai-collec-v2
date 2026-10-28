@@ -1,0 +1,353 @@
+.yk-modal.yk-private-messages-modal {
+  width: min(700px, calc(100vw - 24px));
+  max-width: 700px;
+  max-height: 92dvh;
+  overflow: hidden;
+  padding: 24px;
+}
+.yk-modal.yk-private-messages-modal[open] {
+  display: flex;
+  flex-direction: column;
+}
+.yk-private-messages-modal > div:first-child,
+.yk-private-messages-contact,
+.yk-private-messages-compose,
+.yk-private-messages-error {
+  flex-shrink: 0;
+}
+.yk-private-messages-contact {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 12px;
+  padding: 0 0 18px;
+  border-bottom: 1px solid var(--color-veil);
+}
+.yk-private-messages-contact > div {
+  min-width: 0;
+}
+.yk-private-messages-contact > .yk-button {
+  margin-left: 0;
+  flex-shrink: 0;
+}
+.yk-private-message-gif {
+  display: block;
+  max-width: 100%;
+  width: 260px;
+  max-height: 260px;
+  object-fit: contain;
+  border-radius: 8px;
+  margin-top: 6px;
+}
+.yk-private-messages-compose > .yk-private-messages-gif-draft {
+  justify-content: flex-start;
+  margin: 0 0 10px;
+}
+.yk-private-messages-gif-draft img {
+  width: 90px;
+  height: 65px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+.yk-private-messages-gif-draft button {
+  color: var(--color-ink-2);
+  font-size: 12px;
+  text-decoration: underline;
+}
+.yk-modal.yk-private-trade-modal {
+  width: min(1100px, calc(100vw - 24px));
+  max-width: 1100px;
+}
+.yk-private-trade-preview-note {
+  margin-bottom: 16px;
+  color: var(--color-ink-3);
+  font-size: 12px;
+}
+.yk-private-messages-compose > div > span {
+  flex: 1;
+}
+.yk-private-messages-contact strong {
+  overflow-wrap: anywhere;
+}
+.yk-private-messages-contact p {
+  margin: 4px 0 0;
+  color: var(--color-ink-3);
+  font-size: 11px;
+  line-height: 1.6;
+}
+.yk-private-messages-log {
+  height: clamp(180px, 42dvh, 440px);
+  min-height: 60px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  padding: 18px 4px;
+}
+.yk-private-messages-older {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+.yk-private-messages-older .yk-button {
+  font-size: 11px;
+  min-height: 34px;
+}
+.yk-private-messages-empty {
+  display: grid;
+  place-content: center;
+  min-height: 180px;
+  gap: 8px;
+  padding: 20px;
+  color: var(--color-ink-3);
+  text-align: center;
+  font-size: 13px;
+}
+.yk-private-messages-empty strong {
+  color: var(--color-ink);
+  font-size: 17px;
+}
+.yk-private-message {
+  width: fit-content;
+  max-width: 83%;
+  margin: 0 0 12px;
+  padding: 11px 14px 8px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 14px 14px 14px 4px;
+  background: var(--color-night);
+}
+.yk-private-message.is-own {
+  margin-left: auto;
+  border-color: #7b9ee352;
+  border-radius: 14px 14px 4px 14px;
+  background: linear-gradient(130deg, #36445f, #212b3e);
+}
+.yk-private-message p {
+  margin: 0;
+  color: #efedf8;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.yk-private-message p.yk-private-message-removed {
+  color: #a9b3c7;
+  font-style: italic;
+}
+.yk-private-message time {
+  display: block;
+  margin-top: 5px;
+  color: #a9b3c7;
+  font-size: 9px;
+  text-align: right;
+}
+.yk-private-messages-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  color: var(--color-danger);
+  font-size: 12px;
+}
+.yk-private-messages-error button {
+  margin-left: auto;
+  flex-shrink: 0;
+  text-decoration: underline;
+}
+.yk-conversation-trades-status {
+  color: var(--color-ink-3);
+  font-size: 11px;
+  margin-bottom: 12px;
+}
+.yk-conversation-trade {
+  width: min(100%, 510px);
+  margin: 0 0 16px;
+  padding: 16px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 16px 16px 16px 4px;
+  background: var(--color-night);
+}
+.yk-conversation-trade.is-own {
+  margin-left: auto;
+  border-color: #7b9ee352;
+  border-radius: 16px 16px 4px 16px;
+}
+.yk-conversation-trade header,
+.yk-conversation-trade footer,
+.yk-conversation-trade-confirm > div {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.yk-conversation-trade header {
+  justify-content: space-between;
+}
+.yk-conversation-trade > p,
+.yk-conversation-trade-confirm p {
+  margin: 8px 0 12px;
+  color: var(--color-ink-3);
+  font-size: 11px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.yk-conversation-trade-lots {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  margin-block: 14px;
+}
+.yk-conversation-trade-lot {
+  min-width: 0;
+  padding: 10px;
+  border: 1px solid var(--color-veil);
+  border-radius: 10px;
+}
+.yk-conversation-trade-lot h4 {
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+.yk-conversation-trade-lot > p {
+  margin-bottom: 10px;
+  color: var(--color-ink-3);
+  font-size: 11px;
+}
+.yk-conversation-trade-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 75px), 1fr));
+  align-items: start;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.yk-conversation-trade-art {
+  max-width: 100px;
+  margin-bottom: 6px;
+}
+.yk-conversation-trade-cards strong,
+.yk-conversation-trade-cards small {
+  display: block;
+  font-size: 10px;
+  overflow-wrap: anywhere;
+}
+.yk-conversation-trade-cards small {
+  color: var(--color-ink-3);
+}
+.yk-conversation-trade-confirm {
+  padding: 12px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 10px;
+  font-size: 12px;
+}
+.yk-conversation-trade .yk-button {
+  min-height: 38px;
+  padding-inline: 12px;
+  font-size: 11px;
+}
+.yk-conversation-trade time {
+  display: block;
+  margin-top: 10px;
+  font-size: 10px;
+  color: var(--color-ink-3);
+  text-align: right;
+}
+.yk-private-messages-compose {
+  padding-top: 16px;
+  border-top: 1px solid var(--color-veil);
+}
+.yk-private-messages-compose textarea {
+  width: 100%;
+  max-height: 130px;
+  resize: none;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: var(--color-void);
+  color: var(--color-ink);
+  font: inherit;
+  font-size: 13px;
+}
+.yk-private-messages-compose textarea:focus-visible {
+  outline: 2px solid #9abcff;
+  outline-offset: 2px;
+}
+.yk-private-messages-compose > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+}
+.yk-private-messages-compose > div > span {
+  color: var(--color-ink-3);
+  font-size: 10px;
+  line-height: 1.7;
+}
+.yk-private-messages-compose small {
+  display: block;
+}
+.yk-private-messages-compose .yk-button {
+  flex-shrink: 0;
+}
+.yk-private-messages-preview-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+.yk-private-messages-preview-tools p {
+  width: 100%;
+  color: var(--color-ink-3);
+  font-size: 12px;
+}
+@media (max-width: 540px) {
+  .yk-conversation-trade-art {
+    max-width: 78px;
+  }
+  .yk-conversation-trade {
+    padding: 12px;
+  }
+  .yk-conversation-trade-lots {
+    gap: 8px;
+  }
+  .yk-conversation-trade-lot {
+    padding: 8px;
+  }
+  .yk-modal.yk-private-messages-modal {
+    padding: 16px;
+  }
+  .yk-private-message {
+    max-width: 90%;
+  }
+  .yk-private-messages-compose > div > span {
+    font-size: 9px;
+  }
+  .yk-private-messages-compose .yk-button {
+    padding-inline: 12px;
+    font-size: 11px;
+  }
+  .yk-social-person .yk-friend-action-buttons .yk-button {
+    flex: 1;
+  }
+}
+@media (max-height: 600px) {
+  .yk-modal.yk-private-messages-modal {
+    max-height: 96dvh;
+    padding: 12px;
+  }
+  .yk-private-messages-modal > div:first-child {
+    margin-bottom: 10px;
+  }
+  .yk-private-messages-contact {
+    padding-bottom: 8px;
+  }
+  .yk-private-messages-compose {
+    padding-top: 8px;
+  }
+  .yk-private-messages-compose textarea {
+    height: 54px;
+  }
+  .yk-private-messages-log {
+    padding-block: 8px;
+  }
+}

@@ -1,0 +1,183 @@
+diff --git a/components/home-live.tsx b/components/home-live.tsx
+index 6ac892a..5791353 100644
+--- a/components/home-live.tsx
++++ b/components/home-live.tsx
+@@ -1,4 +1,5 @@
+ "use client";
++import { useTranslations } from "next-intl";
+ 
+ import Link from "next/link";
+ import Image from "next/image";
+@@ -87,6 +88,7 @@ export function HomePackTimer({
+   kind?: "regular" | "decision";
+   preview?: boolean;
+ }) {
++  const t = useTranslations("homeLive");
+   const [loadedStatus, setStatus] = useState<
+     (PackStatus & { canResume?: boolean }) | null
+   >(null);
+@@ -150,17 +152,21 @@ export function HomePackTimer({
+         <h3>{kind === "decision" ? "Decision Pack" : "Regular Pack"}</h3>
+         <p className="yk-home-pack-state" aria-live="polite">
+           {status.canResume
+-            ? "Finish your pack"
+-            : `${status.available} / ${status.maximum} packs ready`}
++            ? t("finishYourPack")
++            : t("packsReady", {
++                available: status.available,
++                maximum: status.maximum
++              })}
+         </p>
+         {full ? (
+           <p className="yk-home-clock">
+-            Reserve <span>Full</span>
++            {t("reserve")}
++            <span>{t("full")}</span>
+           </p>
+         ) : (
+           status.nextPackAt !== null && (
+             <p className="yk-home-clock">
+-              {kind === "decision" ? "Resets in " : "Next pack in "}
++              {kind === "decision" ? t("resetsIn") : t("nextPackIn")}
+               <span role="timer" aria-live="off">
+                 {now === null || (!loadedStatus && !preview)
+                   ? "—:—"
+@@ -171,12 +177,12 @@ export function HomePackTimer({
+         )}
+         {error && (
+           <p role="status">
+-            Couldn&apos;t refresh your packs.{" "}
++            {t("couldnTRefreshYourPacks")}{" "}
+             <Button
+               variant="secondary"
+               onClick={() => setRetry(value => value + 1)}
+             >
+-              Try again
++              {t("tryAgain")}
+             </Button>
+           </p>
+         )}
+@@ -186,6 +192,7 @@ export function HomePackTimer({
+ }
+ 
+ export function LatestPulls({ cards }: { cards: HomeCard[] }) {
++  const t = useTranslations("homeLive");
+   const scrollRef = useHorizontalWheel(cards.length > 0);
+   const [selected, setSelected] = useState<HomeCard | null>(null);
+   return (
+@@ -206,7 +213,10 @@ export function LatestPulls({ cards }: { cards: HomeCard[] }) {
+                   className="yk-home-card-button"
+                   key={card.instanceId}
+                   tabIndex={copy === 1 ? undefined : -1}
+-                  aria-label={`View ${card.name}${card.shiny ? ", shiny" : ""}`}
++                  aria-label={t("viewCard", {
++                    cardName: card.name,
++                    shiny: card.shiny ? "yes" : "no"
++                  })}
+                   onClick={() => {
+                     if (copy !== 1)
+                       scrollRef.current
+@@ -225,7 +235,8 @@ export function LatestPulls({ cards }: { cards: HomeCard[] }) {
+         </div>
+       ) : (
+         <p className="yk-home-empty">
+-          No cards yet — <Link href="/boosters">open your first booster</Link>
++          {t("noCardsYet")}
++          <Link href="/boosters">{t("openYourFirstBooster")}</Link>
+         </p>
+       )}
+       <CatalogueCardModal
+@@ -237,6 +248,7 @@ export function LatestPulls({ cards }: { cards: HomeCard[] }) {
+ }
+ 
+ export function BigPulls({ pulls }: { pulls: BigPull[] }) {
++  const t = useTranslations("homeLive");
+   const scrollRef = useHorizontalWheel(pulls.length > 0);
+   const [selected, setSelected] = useState<BigPull["card"] | null>(null);
+   useEffect(() => {
+@@ -251,7 +263,7 @@ export function BigPulls({ pulls }: { pulls: BigPull[] }) {
+           ref={scrollRef}
+           tabIndex={0}
+           role="region"
+-          aria-label="Recent big drops, scroll to explore"
++          aria-label={t("recentBigDropsScrollToExplore")}
+         >
+           <div className="yk-home-big-track">
+             {[0, 1, 2].map(copy => (
+@@ -267,7 +279,10 @@ export function BigPulls({ pulls }: { pulls: BigPull[] }) {
+                     <button
+                       type="button"
+                       className="yk-home-card-button"
+-                      aria-label={`View ${pull.card.name}${pull.card.shiny ? ", shiny" : ""}`}
++                      aria-label={t("viewCard", {
++                        cardName: pull.card.name,
++                        shiny: pull.card.shiny ? "yes" : "no"
++                      })}
+                       tabIndex={copy === 1 ? undefined : -1}
+                       onClick={() => {
+                         if (copy !== 1)
+@@ -307,7 +322,7 @@ export function BigPulls({ pulls }: { pulls: BigPull[] }) {
+                         >
+                           ?
+                         </span>
+-                        <span>Private player</span>
++                        <span>{t("privatePlayer")}</span>
+                       </span>
+                     )}
+                   </article>
+@@ -317,7 +332,7 @@ export function BigPulls({ pulls }: { pulls: BigPull[] }) {
+           </div>
+         </div>
+       ) : (
+-        <p className="yk-home-empty">The next big drop could be yours.</p>
++        <p className="yk-home-empty">{t("theNextBigDropCouldBeYours")}</p>
+       )}
+       <CatalogueCardModal
+         selected={selected}
+@@ -334,6 +349,7 @@ export function HomeMarket({
+   initial: AuctionData[];
+   preview?: boolean;
+ }) {
++  const t = useTranslations("homeLive");
+   const [loaded, setAuctions] = useState<{
+     source: AuctionData[];
+     items: AuctionData[];
+@@ -381,8 +397,8 @@ export function HomeMarket({
+     <>
+       {error && (
+         <p role="status">
+-          Couldn&apos;t refresh auctions.{" "}
+-          <Link href="/market">Browse the market</Link>
++          {t("couldnTRefreshAuctions")}{" "}
++          <Link href="/market">{t("browseTheMarket")}</Link>
+         </p>
+       )}
+       {auctions.length ? (
+@@ -398,11 +414,15 @@ export function HomeMarket({
+               </CardShell>
+               <div className="yk-home-auction-meta">
+                 <Karas amount={auction.amount} />
+-                <span role="timer" aria-live="off" aria-label="Time remaining">
++                <span
++                  role="timer"
++                  aria-live="off"
++                  aria-label={t("timeRemaining")}
++                >
+                   {now === null
+-                    ? "Ending soon"
++                    ? t("endingSoon")
+                     : Date.parse(auction.endsAt) <= now
+-                      ? "Ended"
++                      ? t("ended")
+                       : auctionCountdown(Date.parse(auction.endsAt), now)}
+                 </span>
+               </div>
+@@ -411,7 +431,7 @@ export function HomeMarket({
+         </div>
+       ) : (
+         <p className="yk-home-empty">
+-          No active auctions yet. Check back for your next great find.
++          {t("noActiveAuctionsYetCheckBackForYourNextGreat")}
+         </p>
+       )}
+     </>

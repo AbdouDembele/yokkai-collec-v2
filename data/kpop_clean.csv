@@ -1,0 +1,64 @@
+source_id,nom,categorie,franchise,franchise_romaji,image_url,favoris_count,rarete_base,source
+,BLACKPINK,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/0/09/Blackpink_Coachella_2023_02_%28cropped%29.jpg,,LR,manual
+,BTS,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/P20260719DT-1104_BTS_perform_at_the_FIFA_World_Cup_Final.jpg/1920px-P20260719DT-1104_BTS_perform_at_the_FIFA_World_Cup_Final.jpg,,LR,manual
+,Chaewon,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/6/62/240329_Kim_Chae-won_%281%29.jpg,,R,manual
+,Danielle Marsh,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/d/de/Danielle_Marsh_for_Marie_Claire_Korea_April_2024_F.png,,R,manual
+,Eunchae,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/7/73/221013_Hong_Eun_Chae_%28LE_SSERAFIM%29_Airport_Departure.jpg/960px-221013_Hong_Eun_Chae_%28LE_SSERAFIM%29_Airport_Departure.jpg,,R,manual
+,Haerin,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/a/a7/Haerin_Seoul_Fashion_Week_3.jpg?utm_source=fr.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled,,R,manual
+,Hanni,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/2/24/Hanni_OLENS_2.jpg,,R,manual
+,Hyein,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Hyein_of_NewJeans%2C_July_26%2C_2024.png/330px-Hyein_of_NewJeans%2C_July_26%2C_2024.png,,R,manual
+,J-Hope,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/J-Hope_at_W_Korea_Breast_Cancer_Campaign%2C_15_October_2025.png/960px-J-Hope_at_W_Korea_Breast_Cancer_Campaign%2C_15_October_2025.png,,R,manual
+,Jennie,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/7/78/Jennie_2026_GDA_1.jpg,,SSR,manual
+,Jimin,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/3/33/Jimin_on_the_way_to_SBS_Radio%2C_31_March_2023_%282%29.jpg,,SR,manual
+,Jin,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/BTS_Jin_at_Maison_Fred%2C_13_March_2025_04.png/960px-BTS_Jin_at_Maison_Fred%2C_13_March_2025_04.png,,R,manual
+,Jisoo,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/090826_Jisoo_Incheon_Airport_departure_02.jpg/960px-090826_Jisoo_Incheon_Airport_departure_02.jpg,,SSR,manual
+,Jungkook,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Jung_Kook_of_BTS%2C_February_12%2C_2026_%281%29.png/960px-Jung_Kook_of_BTS%2C_February_12%2C_2026_%281%29.png,,SSR,manual
+,Kazuha,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Kazuha_of_Le_Sserafim%2C_April_5%2C_2024_%282%29.png/960px-Kazuha_of_Le_Sserafim%2C_April_5%2C_2024_%282%29.png,,R,manual
+,Le Sserafim,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/a/a5/Le_Sserafim_at_2026_Golden_Disc_awards.png,,SR,manual
+,Lisa,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/8/83/20240314_Lisa_Manoban_09_%28cropped%29.jpg,,SSR,manual
+,Minji,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/3/30/Minji_Olens_2024_FW_1.jpg,,R,manual
+,NewJeans,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/0/0d/2023_MMA_NewJeans.jpg,,SSR,manual
+,RM,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/RM_at_W_Korea_Love_Your_W%2C_November_2023.jpg/1280px-RM_at_W_Korea_Love_Your_W%2C_November_2023.jpg,,R,manual
+,Rosé,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/a/a2/Blackpink_Ros%C3%A9_Rimowa_2.jpg,,SSR,manual
+,Sakura,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/20260110_Le_Sserafim%27s_Sakura_Miyawaki_01.png/960px-20260110_Le_Sserafim%27s_Sakura_Miyawaki_01.png,,R,manual
+,Suga,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Suga_for_Valentino_and_Marie_Claire_Korea_06.jpg/960px-Suga_for_Valentino_and_Marie_Claire_Korea_06.jpg,,R,manual
+,V,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/d/d4/BTS%27s_V_20251004_04.jpg,,SSR,manual
+,Yunjin,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Huh_Yunjin_of_Le_Sserafim%2C_January_10%2C_2025.png/1280px-Huh_Yunjin_of_Le_Sserafim%2C_January_10%2C_2025.png,,R,manual
+,Twice,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Logo_of_TWICE.svg/1280px-Logo_of_TWICE.svg.png,,SSR,manual
+,Stray Kids,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/5/50/Stray_Kids_at_the_40th_Golden_Disc_Awards%2C_January_10%2C_2026_%281%29.png,,SSR,manual
+,Bang Chan,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Bang_Chan_of_Stray_Kids%2C_October_15%2C_2025_%282%29.png/960px-Bang_Chan_of_Stray_Kids%2C_October_15%2C_2025_%282%29.png,,SR,manual
+,Lee Know,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Lee_Know_at_the_Gucci_Edit_Room_event%2C_July_30%2C_2026_%281%29.png/960px-Lee_Know_at_the_Gucci_Edit_Room_event%2C_July_30%2C_2026_%281%29.png,,SR,manual
+,Changbin,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Changbin_of_Stray_Kids_at_the_40th_Golden_Disc_Awards%2C_January_10%2C_2026_%281%29.png/960px-Changbin_of_Stray_Kids_at_the_40th_Golden_Disc_Awards%2C_January_10%2C_2026_%281%29.png,,C,manual
+,Hyunjin,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Hyunjin_of_Stray_Kids_at_the_40th_Golden_Disc_Awards%2C_January_10%2C_2026_%281%29.png/960px-Hyunjin_of_Stray_Kids_at_the_40th_Golden_Disc_Awards%2C_January_10%2C_2026_%281%29.png,,SSR,manual
+,Han Ji-sung,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f7/Han_of_Stray_Kids_at_the_40th_Golden_Disc_Awards%2C_January_10%2C_2026_%281%29.png/960px-Han_of_Stray_Kids_at_the_40th_Golden_Disc_Awards%2C_January_10%2C_2026_%281%29.png,,R,manual
+,Felix,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Stray_Kids%27_Felix_at_the_Happiz_brand_launch%2C_13_April_2026_%281%29.png/960px-Stray_Kids%27_Felix_at_the_Happiz_brand_launch%2C_13_April_2026_%281%29.png,,SSR,manual
+,Seungmin,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Seungmin_of_Stray_Kids_at_the_Incheon_Airport%2C_February_21%2C_2026_%281%29.png/960px-Seungmin_of_Stray_Kids_at_the_Incheon_Airport%2C_February_21%2C_2026_%281%29.png,,C,manual
+,I.N,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/I.N_of_Stray_Kids_at_the_Incheon_Airport%2C_February_25%2C_2026_%281%29.png/960px-I.N_of_Stray_Kids_at_the_Incheon_Airport%2C_February_25%2C_2026_%281%29.png,,C,manual
+,EXO,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/9/91/Exo_monster_160618_suwon.png,,SR,manual
+,Xiumin,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/180623_%EB%A1%AF%EB%8D%B0_%ED%8C%A8%EB%B0%80%EB%A6%AC_%EC%BD%98%EC%84%9C%ED%8A%B8_%28%EC%8B%9C%EC%9A%B0%EB%AF%BC%29_3.png/960px-180623_%EB%A1%AF%EB%8D%B0_%ED%8C%A8%EB%B0%80%EB%A6%AC_%EC%BD%98%EC%84%9C%ED%8A%B8_%28%EC%8B%9C%EC%9A%B0%EB%AF%BC%29_3.png,,C,manual
+,Suho,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/f/fd/Suho_in_May_2026.png,,R,manual
+,Lay Zhang,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/Lay_at_Busan_International_Film_Festival_Opening_Ceremony_on_October_4%2C_2018_%282%29_%28derived%29.jpg/960px-Lay_at_Busan_International_Film_Festival_Opening_Ceremony_on_October_4%2C_2018_%282%29_%28derived%29.jpg,,C,manual
+,Baekhyun,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/0/02/%ED%95%98%EC%96%80%EB%A8%B8%EB%A6%AC_%EB%B0%B1%ED%98%84_3.jpg,,R,manual
+,Chen,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/2/2b/Chen_at_Billboard_K_POWER_100_on_August_27%2C_2024.png,,C,manual
+,Chanyeol,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Chanyeol_during_the_Exo_Planet_5_%E2%80%93_Exploration_concert_on_December_2019.jpg/960px-Chanyeol_during_the_Exo_Planet_5_%E2%80%93_Exploration_concert_on_December_2019.jpg,,C,manual
+,Doh Kyung-soo,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/7/73/D.O._at_the_press_conference_of_the_film_Underdog_in_January_2019.png,,R,manual
+,Kai,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/8/8e/Marie_Claire_Korea_Mterview_Kai.png,,R,manual
+,Sehun,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Oh_Se-hun_at_Rimowa_Essential_Poly_Color_Collection_Launch_on_July_5%2C_2019.png/960px-Oh_Se-hun_at_Rimowa_Essential_Poly_Color_Collection_Launch_on_July_5%2C_2019.png,,C,manual
+,Seventeen,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/Seventeen_%28%EC%84%B8%EB%B8%90%ED%8B%B4%29_at_2015_Summer_K-POP_Festival.jpg/1920px-Seventeen_%28%EC%84%B8%EB%B8%90%ED%8B%B4%29_at_2015_Summer_K-POP_Festival.jpg?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=thumbnail,,SR,manual
+,Aespa,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/0/0e/Aespa_Love_Your_W_2025_1.jpg,,R,manual
+,Karina,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/20250903_KARINA_Haus_Nowhere.jpg/960px-20250903_KARINA_Haus_Nowhere.jpg,,SR,manual
+,Giselle,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/Giselle_at_Incheon_Airport_on_March_4%2C_2026.jpg/960px-Giselle_at_Incheon_Airport_on_March_4%2C_2026.jpg,,R,manual
+,Winter,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Winter_at_Kilian_Paris_event_on_27012026_%284%29.png/1280px-Winter_at_Kilian_Paris_event_on_27012026_%284%29.png,,R,manual
+,Ningning,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/072926_Ningning_at_Gucci_photocall_05.png/960px-072926_Ningning_at_Gucci_photocall_05.png,,R,manual
+,Illit,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/c/c8/Illit_in_January_2026.png,,R,manual
+,Ateez,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/ATEEZ_in_August_2024_%28cropped%29.jpg/3840px-ATEEZ_in_August_2024_%28cropped%29.jpg,,R,manual
+,Enhypen,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/c/c3/Enhypen_at_Golden_disc_awards.png,,R,manual
+,Meovv,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/2/2b/251025_MEOVV.jpg,,C,manual
+,BabyMonster,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/f/f5/BABYMONSTER_in_Seattle.jpg,,C,manual
+,IVE,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ae/Ive_logo_%28Black%29.svg/960px-Ive_logo_%28Black%29.svg.png,,C,manual
+,Itzy,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/f/f5/251110_ITZY.png,,R,manual
+,Ryujin,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/8/87/ITZY%27s_Shin_Ryujin_in_August_2023_01.jpg,,R,manual
+,Yeji,KPOP,,,https://upload.wikimedia.org/wikipedia/commons/f/fa/Yeji_240926.png,,R,manual
+,Lia,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/251110_Choi_Jisu_%28Lia%29_from_ITZY.png/330px-251110_Choi_Jisu_%28Lia%29_from_ITZY.png,,C,manual
+,Chaeryeong,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/251110_Lee_Chaeryeong_from_ITZY.png/330px-251110_Lee_Chaeryeong_from_ITZY.png,,C,manual
+,Yuna,KPOP,,,https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5b/Yuna_at_Incheon_Airport_on_September_22%2C_2025.jpg/250px-Yuna_at_Incheon_Airport_on_September_22%2C_2025.jpg,,C,manual

@@ -1,0 +1,422 @@
+/* Pack selection only. The original pack artwork and opening styles stay intact. */
+.yk-game-main:has(.yk-pack-grid) {
+  position: relative;
+  isolation: isolate;
+  padding-top: clamp(12px, 1.5dvh, 20px);
+  padding-bottom: 8px;
+}
+.yk-pack-page-heading .yk-title {
+  margin-top: 0;
+  font-size: clamp(34px, 5.5dvh, 60px);
+  letter-spacing: -0.035em;
+  line-height: 1.15;
+}
+.yk-pack-page-heading > p {
+  max-width: none;
+  margin-top: 8px;
+  font-size: clamp(14px, 1.4vw, 18px);
+}
+.yk-pack-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(32px, 6vw, 96px);
+  max-width: 960px;
+  margin: 12px auto 0;
+}
+.yk-pack-grid .yk-pack-panel {
+  --pack-accent: var(--color-pack-accent);
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  color: var(--color-pack-ink);
+  background: none;
+  box-shadow: none;
+  transition: none;
+}
+.yk-pack-grid .yk-pack-panel::after {
+  content: none;
+}
+.yk-pack-grid .yk-pack-panel .yk-pack-art-stage {
+  --pack-info-size: 44px;
+  height: clamp(280px, calc(100dvh - 464px), 520px);
+  container-type: size;
+  flex-shrink: 0;
+  isolation: isolate;
+  background: none;
+}
+.yk-pack-aura {
+  position: absolute;
+  z-index: -1;
+  inset: -8% -4%;
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--color-accent-neon) 18%, transparent),
+    color-mix(in srgb, var(--color-pack-accent) 6%, transparent) 45%,
+    transparent 72%
+  );
+  filter: blur(40px);
+  pointer-events: none;
+}
+.yk-pack-floor {
+  position: absolute;
+  z-index: 0;
+  bottom: 0;
+  width: min(100%, 380px);
+  height: 48px;
+  border-radius: 50%;
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--color-pack-accent) 60%, transparent),
+    color-mix(in srgb, var(--color-accent-neon) 22%, transparent) 35%,
+    transparent 70%
+  );
+  filter: blur(8px);
+  box-shadow: 0 0 48px
+    color-mix(in srgb, var(--color-pack-accent) 14%, transparent);
+  pointer-events: none;
+}
+.yk-decision-panel .yk-pack-floor {
+  background: radial-gradient(
+    ellipse,
+    color-mix(in srgb, var(--color-accent-gold) 55%, transparent),
+    color-mix(in srgb, var(--color-pack-accent) 26%, transparent) 38%,
+    transparent 70%
+  );
+}
+.yk-pack-grid .yk-pack-panel .yk-pack-image {
+  width: auto;
+  height: calc(100% - 16px);
+  max-width: 85%;
+  object-fit: contain;
+  filter: drop-shadow(0 16px 15px var(--color-pack-shadow))
+    drop-shadow(0 0 18px var(--color-pack-glow))
+    drop-shadow(
+      0 0 3px color-mix(in srgb, var(--color-pack-accent) 40%, transparent)
+    );
+}
+.yk-pack-grid .yk-pack-panel .yk-pack-info {
+  top: 16px;
+  /* Follow the centered artwork's native ratio, with room for the hit target. */
+  left: min(
+    calc(100% - var(--pack-info-size)),
+    calc(50% + (100cqh - 16px) * 941 / 3344 + 8px)
+  );
+  right: auto;
+  width: var(--pack-info-size);
+  height: var(--pack-info-size);
+  color: var(--color-pack-accent);
+  border-color: var(--color-veil-strong);
+  background: var(--color-surface);
+}
+.yk-pack-panel .yk-pack-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 16px 0;
+  text-align: center;
+}
+.yk-pack-panel .yk-pack-body h2 {
+  font-size: clamp(24px, 2.2vw, 30px);
+  line-height: 1.3;
+  letter-spacing: -0.025em;
+}
+.yk-pack-grid .yk-pack-panel .yk-pack-status {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 72px;
+  margin: 8px 0 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--color-ink-2);
+  font-size: 14px;
+  line-height: 1.5;
+  font-variant-numeric: tabular-nums;
+}
+.yk-pack-grid .yk-pack-panel .yk-pack-reserve {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: var(--color-pack-ink);
+}
+.yk-pack-dots {
+  display: inline-flex;
+  gap: 8px;
+}
+.yk-pack-dots > span {
+  width: 12px;
+  height: 12px;
+  border: 1px solid var(--color-ink-3);
+  border-radius: 50%;
+  background: var(--color-veil);
+}
+.yk-pack-dots > span[data-filled="true"] {
+  border-color: var(--color-pack-accent);
+  background: var(--color-pack-accent);
+  box-shadow: 0 0 12px
+    color-mix(in srgb, var(--color-pack-accent) 24%, transparent);
+}
+.yk-pack-timing {
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.yk-pack-grid .yk-pack-panel .yk-pack-status .text-success {
+  color: var(--color-pack-success);
+}
+.yk-pack-grid .yk-pack-panel .yk-pack-status .text-warning {
+  color: var(--color-pack-warning);
+}
+.yk-pack-grid .yk-pack-panel .yk-pack-body > .yk-button {
+  width: min(100%, 280px);
+  min-height: 48px;
+  margin-top: 0;
+  border: 1px solid var(--color-pack-accent);
+  border-radius: 999px;
+  color: var(--color-pack-button-ink);
+  background: linear-gradient(
+    110deg,
+    var(--color-pack-button-start),
+    var(--color-pack-button-middle) 55%,
+    var(--color-pack-button-end)
+  );
+  box-shadow:
+    0 0 24px color-mix(in srgb, var(--color-pack-accent) 30%, transparent),
+    inset 0 1px 0
+      color-mix(in srgb, var(--color-pack-button-ink) 16%, transparent);
+  font-size: 15px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.yk-pack-grid .yk-pack-panel .yk-pack-body > .yk-button:disabled {
+  opacity: 1;
+  color: var(--color-ink-2);
+  border-color: var(--color-veil-strong);
+  background: var(--color-elevated);
+  box-shadow: none;
+}
+.yk-pack-panel[data-unavailable="true"] .yk-pack-image {
+  opacity: 0.55;
+  animation: none;
+}
+.yk-pack-panel[data-unavailable="true"] .yk-pack-floor {
+  opacity: 0.65;
+}
+.yk-pack-panel[data-unavailable="true"] .yk-pack-body h2 {
+  color: var(--color-pack-accent);
+}
+.yk-pack-panel[data-unavailable="true"] .yk-pack-status {
+  color: var(--color-ink-2);
+  opacity: 0.9;
+}
+.yk-pack-panel :is(.yk-button, .yk-pack-info):focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 4px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .yk-pack-grid .yk-pack-panel:hover {
+    transform: none;
+    box-shadow: none;
+    border: 0;
+  }
+  .yk-pack-grid .yk-pack-panel .yk-pack-body > .yk-button:not(:disabled):hover {
+    background: var(--color-veil-strong);
+    box-shadow: var(--shadow-interactive);
+  }
+}
+@media (min-width: 701px) and (max-height: 1200px) {
+  .yk-game-main:has(.yk-pack-grid) + footer {
+    margin-top: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .yk-pack-grid .yk-pack-panel .yk-pack-art-stage {
+    height: clamp(240px, calc(100svh - 464px), 520px);
+  }
+  .yk-pack-grid .yk-pack-panel .yk-pack-body > .yk-button {
+    min-height: 44px;
+  }
+}
+/* Let only the error state use the taller panel's available space. */
+@media (min-width: 701px) {
+  .yk-pack-grid:has(.yk-pack-body > [role="alert"]) .yk-pack-body {
+    flex: 1;
+  }
+  .yk-pack-grid:has(.yk-pack-body > [role="alert"]) .yk-pack-body > .yk-button {
+    margin-top: auto;
+  }
+}
+@media (max-width: 700px) {
+  .yk-game-main:has(.yk-pack-grid) {
+    padding-top: 32px;
+    padding-bottom: 40px;
+  }
+  .yk-pack-page-heading .yk-title {
+    font-size: clamp(32px, 8vw, 40px);
+  }
+  .yk-pack-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 56px;
+    margin-top: 32px;
+  }
+  .yk-pack-grid .yk-pack-panel .yk-pack-art-stage {
+    height: 340px;
+  }
+  .yk-pack-panel .yk-pack-body {
+    padding-inline: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .yk-pack-panel :is(.yk-button, .yk-pack-info) {
+    transition: none;
+  }
+  .yk-pack-panel .yk-pack-image {
+    animation: none;
+  }
+}
+
+/* Give large, tall displays a proportionate selection without changing laptop layouts. */
+@media (min-width: 2000px) and (min-height: 1201px) {
+  .yk-game-main:has(.yk-pack-grid) {
+    max-width: min(80vw, 2400px);
+    padding-top: clamp(32px, 3dvh, 72px);
+  }
+  .yk-pack-page-heading .yk-title {
+    font-size: clamp(44px, 2.2vw, 72px);
+  }
+  .yk-pack-page-heading > p {
+    margin-top: 16px;
+    font-size: clamp(16px, 0.8vw, 22px);
+    line-height: 1.5;
+  }
+  .yk-pack-grid {
+    max-width: min(70vw, 2000px);
+    gap: clamp(96px, 5vw, 192px);
+    margin-top: 32px;
+  }
+  .yk-pack-grid .yk-pack-panel .yk-pack-art-stage {
+    height: clamp(360px, calc(52dvh - 180px), 640px);
+    --pack-info-size: clamp(44px, 1.5vw, 52px);
+  }
+  .yk-pack-floor {
+    width: min(100%, clamp(300px, 18vw, 520px));
+    height: clamp(36px, 2.5dvh, 60px);
+  }
+  .yk-pack-info svg {
+    width: 50%;
+    height: 50%;
+  }
+  .yk-pack-panel .yk-pack-body {
+    padding-top: 16px;
+  }
+  .yk-pack-panel .yk-pack-body h2 {
+    font-size: clamp(26px, 1.2vw, 36px);
+  }
+  .yk-pack-grid .yk-pack-panel .yk-pack-status {
+    min-height: calc(3em + 6px);
+    font-size: clamp(14px, 0.6vw, 18px);
+    margin-bottom: 16px;
+  }
+  .yk-pack-timing {
+    font-size: clamp(12px, 0.4vw, 14px);
+  }
+  .yk-pack-dots > span {
+    width: clamp(12px, 0.4vw, 14px);
+    height: clamp(12px, 0.4vw, 14px);
+  }
+  .yk-pack-grid .yk-pack-panel .yk-pack-body > .yk-button {
+    width: clamp(280px, 11vw, 340px);
+    min-height: clamp(48px, 3dvh, 60px);
+    font-size: clamp(15px, 0.7vw, 20px);
+  }
+}
+
+/* Fit the idle desktop selection, including its promos and footer, without clipping. */
+@media (min-width: 1024px) and (max-height: 1200px) {
+  .yk-boosters-page:has(.yk-pack-grid) {
+    --pack-viewport-chrome: 472px;
+  }
+  .yk-boosters-page:has(.yk-pack-grid):has(.yk-pro-promo[data-page="packs"]) {
+    --pack-viewport-chrome: 564px;
+  }
+  .yk-boosters-page .yk-game-main:has(.yk-pack-grid) {
+    padding-top: 12px;
+  }
+  .yk-boosters-page .yk-pack-page-heading .yk-title {
+    font-size: 28px;
+    line-height: 1.2;
+  }
+  .yk-boosters-page .yk-pack-page-heading > p {
+    margin-top: 4px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .yk-boosters-page .yk-pack-grid {
+    margin-top: 8px;
+  }
+  .yk-boosters-page .yk-pack-grid .yk-pack-panel .yk-pack-art-stage {
+    height: clamp(100px, calc(100svh - var(--pack-viewport-chrome)), 620px);
+  }
+  .yk-boosters-page .yk-pack-panel .yk-pack-body h2 {
+    font-size: 24px;
+  }
+  .yk-boosters-page .yk-game-main:has(.yk-pack-grid) + .yk-site-footer {
+    margin-top: 0;
+    padding-block: 0;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-site-footer-inner {
+    min-height: 54px;
+    padding-block: 8px;
+    font-size: 11px;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-pro-promo[data-page="packs"] {
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    gap: 14px;
+    margin-top: 12px;
+    padding: 10px 44px 10px 16px;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-pro-promo-emblem {
+    width: 40px;
+    height: 48px;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-pro-promo-emblem svg {
+    width: 30px;
+    height: 30px;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-pro-promo-eyebrow {
+    float: left;
+    margin-right: 10px;
+    margin-top: 3px;
+    font-size: 8px;
+    gap: 6px;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-pro-promo-eyebrow span {
+    padding: 2px 5px;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-pro-promo h2 {
+    margin-top: 0;
+    font-size: 19px;
+    line-height: 1.3;
+    text-wrap: initial;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-pro-promo-description {
+    clear: both;
+    margin-top: 3px;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-pro-promo ul {
+    margin-top: 4px;
+  }
+  .yk-boosters-page:has(.yk-pack-grid) .yk-pro-promo li {
+    font-size: 9px;
+    line-height: 1.4;
+  }
+}

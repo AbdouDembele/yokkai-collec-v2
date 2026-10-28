@@ -1,0 +1,5 @@
+{
+  "TRADE_OFFER_RATE_LIMITED": "Trop d’offres d’échange. Réessaie plus tard.",
+  "TRADE_PENDING_LIMIT": "Tu as 20 offres en attente. Annule ou termine une offre avant d’en envoyer une autre.",
+  "TRADE_PAIR_LIMIT": "Tu as déjà 5 offres en attente pour ce joueur. Termine une offre avant d’en envoyer une autre."
+}

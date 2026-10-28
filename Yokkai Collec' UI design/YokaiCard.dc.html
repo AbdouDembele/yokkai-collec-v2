@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes yk-spin{to{transform:rotate(360deg)}}
+@keyframes yk-sweep{0%{background-position:160% 0}60%,100%{background-position:-60% 0}}
+@keyframes yk-holo{0%{background-position:0% 30%}100%{background-position:100% 70%}}
+@keyframes yk-pulse{0%,100%{box-shadow:0 0 0 1px var(--g),0 10px 26px var(--g)}50%{box-shadow:0 0 0 1px var(--g),0 0 58px var(--g)}}
+@keyframes yk-twinkle{0%,100%{opacity:0;transform:scale(.3) rotate(0deg)}50%{opacity:1;transform:scale(1) rotate(45deg)}}
+</style>
+</helmet>
+<div style="container-type:inline-size; position:relative; width:100%; height:100%; border-radius:12px; --g:{{ glowColor }}; box-shadow:{{ glow }}; animation:{{ outerAnim }}">
+  <div style="position:absolute; inset:0; border-radius:12px; overflow:hidden">
+    <div style="position:absolute; inset:-50%; background:{{ frame }}; animation:{{ frameAnim }}"></div>
+    <div style="position:absolute; inset:{{ inset }}; border-radius:10px; overflow:hidden; background:{{ bg }}">
+      <div style="position:absolute; left:15%; right:15%; top:22%; aspect-ratio:1; border-radius:50%; border:1px solid {{ ringColor }}"></div>
+      <sc-if value="{{ hasLine }}" hint-placeholder-val="{{ false }}">
+        <div style="position:absolute; inset:4cqw; border-radius:7px; border:1px solid {{ lineColor }}"></div>
+      </sc-if>
+      <div style="position:absolute; inset:0; pointer-events:none; background:{{ foil }}; background-size:{{ foilSize }}; mix-blend-mode:{{ blend }}; animation:{{ foilAnim }}"></div>
+      <sc-for list="{{ sparkles }}" as="s" hint-placeholder-count="0">
+        <div style="position:absolute; left:{{ s.x }}; top:{{ s.y }}; width:{{ s.size }}; height:{{ s.size }}; color:{{ s.color }}; font-size:{{ s.size }}; line-height:1; animation:yk-twinkle 2.6s ease-in-out infinite; animation-delay:{{ s.delay }}; pointer-events:none">✦</div>
+      </sc-for>
+      <div style="position:absolute; inset:0; padding:7cqw; display:flex; flex-direction:column; justify-content:space-between">
+        <div style="display:flex; justify-content:space-between; align-items:center; gap:4px">
+          <span style="font-size:clamp(8px,6cqw,13px); font-variant-numeric:tabular-nums; letter-spacing:.06em; color:{{ numColor }}">{{ num }}</span>
+          <span style="font-size:clamp(8px,6.5cqw,13px); font-weight:700; letter-spacing:.06em; padding:1px 6px; border-radius:4px; white-space:nowrap; background:{{ badgeBg }}; color:{{ badgeFg }}; border:1px solid {{ badgeBd }}">{{ badge }}</span>
+        </div>
+        <div style="text-align:center; font-family:'Noto Serif JP',serif; font-weight:700; line-height:1; font-size:{{ kSize }}; background:{{ kFill }}; -webkit-background-clip:text; background-clip:text; color:transparent; filter:drop-shadow(0 0 16px {{ kGlow }})">{{ jp }}</div>
+        <div style="display:flex; flex-direction:column; align-items:center; gap:2px; min-width:0">
+          <div style="max-width:100%; font-family:Cinzel,serif; font-weight:600; font-size:clamp(10px,8.5cqw,20px); letter-spacing:.04em; color:#F1EEFF; white-space:nowrap; overflow:hidden; text-overflow:ellipsis">{{ name }}</div>
+          <div style="font-size:clamp(7px,5.5cqw,12px); letter-spacing:.16em; text-transform:uppercase; color:#A8A3C7">{{ cat }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:240,&quot;height&quot;:336},&quot;rarity&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;C&quot;,&quot;R&quot;,&quot;SR&quot;,&quot;SSR&quot;,&quot;LR&quot;,&quot;SLR&quot;],&quot;default&quot;:&quot;SLR&quot;,&quot;tsType&quot;:&quot;'C'|'R'|'SR'|'SSR'|'LR'|'SLR'&quot;},&quot;nameText&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Kyūbi&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;jp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;九尾&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;cat&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Bête&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;num&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#001&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;animated&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const SWEEP = c => `linear-gradient(110deg, transparent 38%, ${c} 48%, rgba(255,255,255,.55) 50%, ${c} 52%, transparent 62%)`;
+const RD = {
+  C: { badge: 'C', badgeBg: '#9097AB', badgeFg: '#04000B', badgeBd: '#9097AB', frame: 'linear-gradient(160deg,#737A8F,#3A3E4F)', inset: '1.5px',
+    bg: 'radial-gradient(120% 75% at 50% 35%, #2A2D3C 0%, #0F0C1D 62%, #04000B 100%)', kFill: 'linear-gradient(#B9BECD,#8A90A3)', kGlow: 'rgba(0,0,0,0)',
+    ring: 'rgba(144,151,171,.18)', glow: '0 8px 24px rgba(4,0,11,.7)' },
+  R: { badge: 'R', badgeBg: '#D08A55', badgeFg: '#04000B', badgeBd: '#D08A55', frame: 'linear-gradient(160deg,#F2B888,#B06C3E 45%,#5A3016 75%,#D89464)', inset: '2px',
+    bg: 'radial-gradient(120% 75% at 50% 35%, #4A2A18 0%, #140C12 62%, #04000B 100%)', kFill: 'linear-gradient(170deg,#F6C396,#B8703F)', kGlow: 'rgba(208,138,85,.35)',
+    ring: 'rgba(208,138,85,.25)', glow: '0 8px 26px rgba(208,138,85,.22)', foil: 'linear-gradient(125deg, transparent 40%, rgba(255,210,170,.10) 50%, transparent 60%)' },
+  SR: { badge: 'SR', badgeBg: 'linear-gradient(160deg,#FFFFFF,#AEB6C6)', badgeFg: '#04000B', badgeBd: '#E8EDF5', frame: 'linear-gradient(160deg,#FFFFFF,#A9B1C2 30%,#5E6678 55%,#E8EDF5 80%,#8D95A7)', inset: '2px',
+    bg: 'radial-gradient(120% 75% at 50% 35%, #3A4052 0%, #10111F 62%, #04000B 100%)', kFill: 'linear-gradient(170deg,#FFFFFF,#AEB6C6 60%,#E8EDF5)', kGlow: 'rgba(220,226,236,.35)',
+    ring: 'rgba(220,226,236,.28)', glow: '0 10px 30px rgba(220,226,236,.2)', foil: 'linear-gradient(125deg, transparent 30%, rgba(255,255,255,.14) 45%, transparent 55%, rgba(255,255,255,.08) 70%, transparent 80%)' },
+  SSR: { badge: 'SSR', badgeBg: '#FF5FA8', badgeFg: '#04000B', badgeBd: '#FF8CC4', frame: 'linear-gradient(160deg,#FFD0E6,#FF5FA8 40%,#A3165E 70%,#FF8CC4)', inset: '2px',
+    bg: 'radial-gradient(120% 75% at 50% 35%, #5A1438 0%, #1A0A1E 62%, #04000B 100%)', kFill: 'linear-gradient(170deg,#FFD0E6,#FF5FA8)', kGlow: 'rgba(255,95,168,.6)',
+    ring: 'rgba(255,95,168,.35)', glowColor: 'rgba(255,95,168,.5)', pulse: '2.6s', foil: SWEEP('rgba(255,190,225,.35)'), foilSize: '300% 100%', foilAnim: 'yk-sweep 3.4s ease-in-out infinite',
+    spark: ['#FFD0E6', 3] },
+  LR: { badge: 'LR', badgeBg: '#000', badgeFg: '#F6DC8E', badgeBd: '#E8C26A', frame: 'conic-gradient(from 0deg, #3A2A08, #F6DC8E, #9A7420, #1A1204, #E8C26A, #FFF3C4, #7A5A18, #3A2A08)', frameAnim: 'yk-spin 6s linear infinite', inset: '3px',
+    bg: 'radial-gradient(110% 70% at 50% 38%, #2E2208 0%, #0A0704 55%, #000 100%)', kFill: 'linear-gradient(170deg,#FFF3C4,#E8C26A 45%,#9A7420 75%,#F6DC8E)', kGlow: 'rgba(232,194,106,.55)',
+    ring: 'rgba(232,194,106,.35)', line: 'rgba(232,194,106,.45)', glowColor: 'rgba(232,194,106,.5)', pulse: '3s', foil: SWEEP('rgba(255,230,160,.35)'), foilSize: '300% 100%', foilAnim: 'yk-sweep 4s ease-in-out infinite',
+    spark: ['#FFE7A0', 4], numColor: '#E8C26A' },
+  SLR: { badge: 'SHINY LR', badgeBg: 'linear-gradient(100deg,#E8FBFF,#FFB8EC,#B9C6FF,#A8FFE4,#FFF6B8)', badgeFg: '#04000B', badgeBd: '#FFFFFF', frame: 'conic-gradient(from 0deg, #E8FBFF, #FFB8EC, #B9C6FF, #A8FFE4, #FFF6B8, #FFFFFF, #E8FBFF)', frameAnim: 'yk-spin 4s linear infinite', inset: '3px',
+    bg: 'radial-gradient(110% 70% at 50% 38%, #1E2A4A 0%, #0B0E22 55%, #04000B 100%)', kFill: 'linear-gradient(135deg,#FFFFFF,#BFF3FF 25%,#FFC6F0 50%,#C9D2FF 75%,#FFFFFF)', kGlow: 'rgba(190,235,255,.7)',
+    ring: 'rgba(210,240,255,.35)', line: 'rgba(230,248,255,.5)', glowColor: 'rgba(190,230,255,.55)', pulse: '2.2s',
+    foil: 'linear-gradient(125deg, rgba(255,120,220,0) 0%, rgba(255,120,220,.30) 18%, rgba(120,220,255,.30) 36%, rgba(160,255,200,.30) 54%, rgba(255,240,140,.30) 72%, rgba(255,120,220,.30) 90%)', foilSize: '300% 300%', blend: 'screen', foilAnim: 'yk-holo 4.5s ease-in-out infinite alternate',
+    spark: ['#FFFFFF', 8], numColor: '#DDF6FF' },
+};
+const SPOTS = [['12%', '18%'], ['78%', '26%'], ['20%', '62%'], ['70%', '58%'], ['48%', '14%'], ['84%', '46%'], ['8%', '40%'], ['58%', '70%']];
+
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const r = RD[p.rarity] || RD.C;
+    const anim = p.animated ?? true;
+    const jp = p.jp ?? '';
+    const k = { 1: '44cqw', 2: '32cqw', 3: '24cqw' }[jp.length] || '19cqw';
+    const sparkles = anim && r.spark ? SPOTS.slice(0, r.spark[1]).map(([x, y], i) => ({ x, y, color: r.spark[0], size: i % 3 === 0 ? '9cqw' : '6cqw', delay: `${(i * 0.37) % 2.6}s` })) : [];
+    return {
+      name: p.nameText ?? 'Kyūbi', jp, cat: p.cat, num: p.num,
+      badge: r.badge, badgeBg: r.badgeBg, badgeFg: r.badgeFg, badgeBd: r.badgeBd,
+      frame: r.frame, frameAnim: anim && r.frameAnim ? r.frameAnim : 'none', inset: r.inset, bg: r.bg,
+      kFill: r.kFill, kGlow: r.kGlow, kSize: k, ringColor: r.ring, hasLine: !!r.line, lineColor: r.line,
+      numColor: r.numColor || '#A8A3C7',
+      glowColor: r.glowColor || 'transparent',
+      glow: r.glow || `0 0 0 1px ${r.glowColor}, 0 10px 30px ${r.glowColor}`,
+      outerAnim: anim && r.pulse ? `yk-pulse ${r.pulse} ease-in-out infinite` : 'none',
+      foil: r.foil || 'none', foilSize: r.foilSize || '100% 100%', blend: r.blend || 'normal', foilAnim: anim && r.foilAnim ? r.foilAnim : 'none',
+      sparkles,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,642 @@
+:root {
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-display: var(--font-inter), system-ui, sans-serif;
+  --font-card-name: var(--font-cinzel), Georgia, serif;
+  --font-jp: var(--font-noto-jp), serif;
+}
+:root {
+  color-scheme: dark;
+  --color-karas-readable-gold: #ffda75;
+  --ease-yokkai: var(--ease-standard);
+}
+/* Frame the supplied PNG's transparent margins without altering the artwork. */
+img[src*="brand-logo-ice-retro.png"] {
+  aspect-ratio: 1612 / 805;
+  object-fit: cover;
+  object-position: 50% 44%;
+}
+body {
+  background-color: #05060a;
+  background-image:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.03),
+      transparent 10%,
+      transparent 90%,
+      rgba(255, 255, 255, 0.02)
+    ),
+    radial-gradient(
+      60% 35% at 50% 105%,
+      rgba(255, 255, 255, 0.02),
+      transparent 70%
+    ),
+    linear-gradient(rgba(255, 255, 255, 0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+    linear-gradient(180deg, #08090d 0%, #06070a 35%, #040506 100%);
+  background-position: center;
+  background-size:
+    auto,
+    auto,
+    100% 4px,
+    4px 100%,
+    auto;
+  background-attachment: fixed;
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+}
+
+@media (max-width: 760px), (prefers-reduced-motion: reduce) {
+  body {
+    background-attachment: scroll;
+  }
+}
+.yk-page-transition {
+  min-height: 100%;
+  animation: yk-page-enter var(--page-enter-duration) var(--ease-standard)
+    var(--page-enter-delay) both;
+  transform-origin: center top;
+}
+.yk-route-loading {
+  width: 100%;
+  max-width: var(--layout-content-max);
+  margin-inline: auto;
+  padding: 40px var(--layout-gutter);
+}
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+button:disabled {
+  cursor: not-allowed;
+}
+:is(button, a, input, select, textarea):focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 4px;
+}
+a[aria-current="page"] {
+  color: var(--color-ink);
+}
+.eyebrow {
+  color: var(--color-accent-gold);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+.yk-title {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 4vw, 40px);
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  font-weight: 700;
+}
+.yk-section-title {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-ink-2);
+}
+.yk-button,
+.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 11px 20px;
+  border: 1px solid var(--color-focus);
+  border-radius: 8px;
+  background: var(--color-veil);
+  color: var(--color-ink);
+  font-size: 13px;
+  font-weight: 700;
+  transition:
+    transform var(--duration-instant) var(--ease-instant),
+    background var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+.yk-button-primary:hover:not(:disabled),
+.primary:hover:not(:disabled),
+.yk-button-primary[data-demo-state="hover"] {
+  background: var(--color-veil-strong);
+  box-shadow: var(--shadow-interactive);
+}
+.yk-button:active:not(:disabled),
+.yk-button[data-demo-state="pressed"] {
+  transform: scale(0.97);
+  background: var(--color-elevated);
+}
+.yk-button[data-demo-state="focus"] {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 4px;
+}
+.yk-button-secondary {
+  border-color: var(--color-veil);
+  color: var(--color-ink-2);
+  background: var(--color-surface);
+}
+.yk-button-secondary:hover:not(:disabled),
+.yk-button-secondary[data-demo-state="hover"] {
+  border-color: var(--color-veil-strong);
+  background: var(--color-elevated);
+  color: var(--color-ink);
+}
+.yk-button-danger {
+  border-color: color-mix(in srgb, var(--color-danger) 60%, transparent);
+  background: color-mix(in srgb, var(--color-danger) 14%, transparent);
+  color: var(--color-danger-ink);
+}
+.yk-button-danger:hover:not(:disabled),
+.yk-button-danger[data-demo-state="hover"] {
+  background: var(--color-danger);
+  color: var(--color-ink);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--color-danger) 50%, transparent);
+}
+.yk-button:disabled,
+.primary:disabled {
+  background: var(--color-night);
+  color: var(--color-ink-3);
+  border-color: var(--color-veil);
+  box-shadow: none;
+  opacity: 1;
+}
+.yk-button[aria-busy="true"]::before {
+  content: "";
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: yk-ui-spin var(--duration-slow) linear infinite;
+}
+.yk-karas {
+  border: 1px solid color-mix(in srgb, var(--color-karas) 72%, transparent);
+  border-radius: 999px;
+  background: var(--color-void);
+  padding: 7px 12px;
+  box-shadow: inset 0 0 8px
+    color-mix(in srgb, var(--color-karas) 15%, transparent);
+  font-family: var(--font-display);
+  font-weight: 700;
+}
+.yk-karas-gem {
+  width: 10px;
+  height: 10px;
+  flex: 0 0 auto;
+  transform: rotate(45deg);
+  border-radius: 2px;
+  background: var(--background-karas);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-karas) 32%, transparent);
+}
+/* Shared currency treatment, including existing gold-specific callers. */
+.yk-karas,
+.text-karas,
+.yk-karas-gold,
+.yk-bid-quick.yk-karas-gold,
+.yk-auction-history .text-karas,
+.yk-market-price {
+  color: var(--color-karas-readable-gold);
+}
+.yk-karas-gem,
+.yk-karas-gold .yk-karas-gem,
+.yk-market-price .yk-karas-gem {
+  background:
+    radial-gradient(
+      circle at 25% 20%,
+      #fffdf3 0%,
+      rgb(255 243 189 / 80%) 18%,
+      transparent 45%
+    ),
+    linear-gradient(
+      145deg,
+      #fff1b0 0%,
+      #f2ca72 30%,
+      #c08318 47%,
+      #fff1ba 52%,
+      #ffd66e 68%,
+      #b77515 100%
+    );
+  box-shadow:
+    inset 1px 1px 1px rgb(255 249 223 / 75%),
+    inset -1px -1px 1px rgb(135 81 9 / 65%),
+    0 0 5px rgb(255 217 123 / 55%),
+    0 0 13px rgb(233 172 58 / 35%);
+}
+.yk-modal {
+  margin: auto;
+  width: min(820px, calc(100% - 32px));
+  max-height: 90dvh;
+  padding: 28px;
+  overflow: auto;
+  border: 1px solid var(--color-veil);
+  border-radius: 14px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-modal);
+  animation: yk-ui-modal-in var(--modal-duration) var(--ease-standard) both;
+}
+.yk-modal::backdrop {
+  background: color-mix(in srgb, var(--color-void) 80%, transparent);
+  backdrop-filter: blur(8px);
+  animation: yk-ui-fade-in var(--modal-duration) var(--ease-standard) both;
+}
+.yk-modal.yk-card-report-modal {
+  width: min(34rem, calc(100% - 32px));
+}
+.yk-card-report-reason {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid var(--color-veil);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--color-void) 72%, transparent);
+  color: var(--color-ink-2);
+  cursor: pointer;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.yk-card-report-reason:hover,
+.yk-card-report-reason.is-selected {
+  border-color: color-mix(in srgb, var(--color-danger) 65%, transparent);
+  background: color-mix(in srgb, var(--color-danger) 12%, transparent);
+  color: var(--color-ink);
+}
+.yk-card-report-reason input {
+  accent-color: var(--color-danger);
+}
+.auth-label,
+.yk-field-label {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--color-ink-2);
+  font-size: 13px;
+  font-weight: 600;
+}
+.auth-input,
+select,
+.yk-field-control {
+  width: 100%;
+  min-height: 46px;
+  border: 1px solid var(--color-veil);
+  border-radius: 8px;
+  padding: 11px 13px;
+  background: var(--color-void);
+  color: var(--color-ink);
+  transition:
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard),
+    background var(--duration-fast) var(--ease-standard);
+}
+.auth-input::placeholder {
+  color: var(--color-ink-3);
+}
+.auth-input:focus,
+.yk-field-control:focus,
+.yk-field-control[data-demo-state="focus"] {
+  border-color: var(--color-focus-ring);
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 2px;
+  box-shadow: var(--shadow-focus);
+}
+.auth-input[aria-invalid="true"],
+.yk-field-control[aria-invalid="true"] {
+  border-color: var(--color-danger);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--color-danger) 30%, transparent);
+}
+.auth-error {
+  border: 1px solid color-mix(in srgb, var(--color-danger) 40%, transparent);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--color-danger) 10%, transparent);
+  padding: 14px;
+  color: var(--color-danger-ink);
+}
+.yk-field-help {
+  display: block;
+  margin-top: 7px;
+  color: var(--color-ink-3);
+  font-size: 12px;
+  line-height: 1.4;
+}
+.yk-field-error {
+  color: var(--color-danger-ink);
+}
+.yk-tabs {
+  display: inline-flex;
+  max-width: 100%;
+  gap: 4px;
+  overflow-x: auto;
+  border: 1px solid var(--color-veil);
+  border-radius: 10px;
+  padding: 4px;
+  background: var(--color-void);
+}
+.yk-tab {
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  padding: 8px 14px;
+  color: var(--color-ink-2);
+  white-space: nowrap;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard);
+}
+.yk-tab[aria-selected="true"],
+.yk-tab[aria-current="page"] {
+  border-color: var(--color-veil-strong);
+  background: var(--color-surface);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-tab);
+}
+.yk-tab:disabled {
+  color: var(--color-disabled);
+}
+.yk-skeleton {
+  border-radius: 8px;
+  background: linear-gradient(
+    100deg,
+    var(--color-surface) 20%,
+    var(--color-veil) 45%,
+    var(--color-surface) 70%
+  );
+  background-size: 220% 100%;
+  animation: yk-ui-skeleton var(--duration-skeleton) linear infinite;
+}
+.yk-feedback {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  border: 1px solid currentColor;
+  border-radius: 8px;
+  padding: 14px 16px;
+  animation: yk-ui-feedback-in var(--feedback-duration) var(--ease-standard)
+    both;
+}
+.yk-feedback-success {
+  background: color-mix(in srgb, var(--color-success) 15%, transparent);
+  color: var(--color-success);
+}
+.yk-feedback-error {
+  background: color-mix(in srgb, var(--color-danger) 15%, transparent);
+  color: var(--color-danger-ink);
+}
+.yk-feedback-icon {
+  display: grid;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 12px;
+}
+.yk-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 50;
+  width: min(320px, calc(100% - 32px));
+  border: 1px solid var(--color-veil);
+  border-left: 4px solid var(--color-success);
+  border-radius: 8px;
+  background: var(--color-surface);
+  padding: 16px;
+  color: var(--color-ink);
+  box-shadow: var(--shadow-toast);
+  animation: yk-ui-toast-in var(--feedback-duration) var(--ease-standard) both;
+}
+.yk-chip {
+  display: inline-flex;
+  min-height: 32px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--color-veil);
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: var(--color-surface);
+  color: var(--color-ink-2);
+  font-size: 12px;
+  transition:
+    color var(--duration-fast) var(--ease-standard),
+    background var(--duration-fast) var(--ease-standard),
+    border-color var(--duration-fast) var(--ease-standard),
+    box-shadow var(--duration-fast) var(--ease-standard);
+}
+.yk-chip[aria-pressed="true"] {
+  border-color: var(--color-focus);
+  background: var(--color-veil);
+  color: var(--color-ink);
+  box-shadow: var(--shadow-chip);
+}
+.yk-chip:disabled {
+  cursor: not-allowed;
+  color: var(--color-disabled);
+  opacity: 0.7;
+}
+@keyframes yk-ui-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes yk-ui-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes yk-ui-modal-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes yk-ui-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes yk-ui-feedback-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes yk-ui-skeleton {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -120% 0;
+  }
+}
+@keyframes yk-page-enter {
+  from {
+    opacity: 0;
+    transform: scale(var(--page-enter-scale));
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@media (max-width: 620px) {
+  .yk-route-loading {
+    padding-inline: var(--layout-gutter-compact);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  :where(body *, body *::before, body *::after):not(
+    :where(
+      .yk-card,
+      .yk-card *,
+      .yk-card-back,
+      .yk-card-back *,
+      .yk-reveal-stage,
+      .yk-reveal-stage *
+    )
+  ) {
+    animation-duration: var(--duration-reduced) !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: var(--duration-reduced) !important;
+    transition-property:
+      opacity, color, background-color, border-color, box-shadow !important;
+    transform: none !important;
+    scroll-behavior: auto !important;
+  }
+  /* The reset above targets motion; static shape transforms must survive it (page-specific ones live next to their component). */
+  .yk-karas-gem {
+    transform: rotate(45deg) !important;
+  }
+}
+/* Shared card grid (Collection, Catalogue, Marché, future card pages): one column scale, no per-page overrides. */
+.yk-card-grid {
+  display: grid;
+  grid-template-columns: repeat(
+    var(--card-grid-columns, var(--card-grid-columns-xl)),
+    minmax(0, 1fr)
+  );
+  gap: var(--collection-row-gap) var(--collection-grid-gap);
+}
+@media (max-width: 1280px) {
+  .yk-card-grid {
+    --card-grid-columns: var(--card-grid-columns-lg);
+  }
+}
+@media (max-width: 1080px) {
+  .yk-card-grid {
+    --card-grid-columns: var(--card-grid-columns-md);
+  }
+}
+@media (max-width: 760px) {
+  .yk-card-grid {
+    --card-grid-columns: var(--card-grid-columns-sm);
+  }
+}
+
+/* One pagination layout for every numbered list. */
+.yk-pagination {
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+  margin-block: 1.25rem;
+  color: var(--color-ink-3);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  scroll-margin-top: 6rem;
+}
+.yk-pagination-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  max-width: 100%;
+}
+.yk-pagination .yk-page-button {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-width: 2.5rem;
+  min-height: 2.75rem;
+  padding: 0.25rem;
+  border: 1px solid var(--color-veil);
+  border-radius: 0.75rem;
+  background: var(--color-night);
+  color: var(--color-ink-3);
+  font: inherit;
+  cursor: pointer;
+}
+.yk-pagination .yk-page-button:hover:not(:disabled) {
+  border-color: var(--color-accent-gold);
+  color: var(--color-accent-gold);
+}
+.yk-pagination .yk-page-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.yk-pagination :is(button, input):focus-visible,
+.yk-pagination:focus-visible {
+  outline: 2px solid var(--color-accent-gold);
+  outline-offset: 3px;
+}
+.yk-page-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  white-space: nowrap;
+}
+.yk-page-entry input {
+  box-sizing: border-box;
+  width: 3rem;
+  min-height: 2.75rem;
+  border: 1px solid var(--color-accent-gold);
+  border-radius: 0.75rem;
+  background: var(--color-night);
+  color: var(--color-accent-gold);
+  text-align: center;
+  font: inherit;
+}
+[id$="-list"] {
+  scroll-margin-top: 6rem;
+}
+@media (max-width: 374px) {
+  .yk-page-entry > span:first-of-type {
+    display: none;
+  }
+  .yk-pagination {
+    font-size: 0.6875rem;
+  }
+  .yk-pagination-controls,
+  .yk-page-entry {
+    gap: 0.125rem;
+  }
+  .yk-page-entry input {
+    width: 2rem;
+  }
+}

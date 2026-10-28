@@ -1,0 +1,107 @@
+{
+  "url": "http://localhost:3017/design-system/boosters-load-preview",
+  "assertions": [
+    "Statuts 0 ms : Ouvrir disponible avec collection sans réponse, une requête par statut",
+    "Statuts 800 ms : Ouvrir disponible avec collection sans réponse, une requête par statut",
+    "Statuts 3000 ms : Ouvrir disponible avec collection sans réponse, une requête par statut",
+    "Collection partielle puis reçue après ouverture : aucune mention NEW / Doublon",
+    "15 s : erreurs et Réessayer ; reprise uniquement page 2 ; verrou notifications libéré",
+    "Chaque statut s’affiche seul ; infos joueur sans réponse puis Réessayer, boosters toujours disponibles",
+    "Ancien comportement : statuts reçus mais toujours Chargement après 15 s lorsque collection ne répond jamais"
+  ],
+  "timings": [
+    {
+      "latency": 0,
+      "events": [
+        "7 ms · get_game_info lancé",
+        "7 ms · get_regular_pack_status lancé",
+        "7 ms · get_decision_pack_status lancé",
+        "28 ms · get_game_info terminé",
+        "28 ms · get_regular_pack_status terminé",
+        "28 ms · get_decision_pack_status terminé",
+        "28 ms · user_cards page 1 lancé",
+        "28 ms · folders lancé",
+        "28 ms · get_my_active_auction_cards lancé",
+        "55 ms · user_cards page 1 terminé",
+        "55 ms · user_cards page 2 lancé",
+        "55 ms · folders terminé",
+        "55 ms · get_my_active_auction_cards terminé",
+        "55 ms · list_notifications lancé",
+        "55 ms · get_profile lancé",
+        "55 ms · is_current_user_admin lancé",
+        "55 ms · touch_presence lancé",
+        "77 ms · list_notifications terminé",
+        "77 ms · get_profile terminé",
+        "77 ms · is_current_user_admin terminé",
+        "77 ms · touch_presence terminé"
+      ]
+    },
+    {
+      "latency": 800,
+      "events": [
+        "5 ms · get_game_info lancé",
+        "5 ms · get_regular_pack_status lancé",
+        "5 ms · get_decision_pack_status lancé",
+        "19 ms · get_game_info terminé",
+        "803 ms · get_regular_pack_status terminé",
+        "803 ms · get_decision_pack_status terminé",
+        "803 ms · user_cards page 1 lancé",
+        "803 ms · folders lancé",
+        "803 ms · get_my_active_auction_cards lancé",
+        "823 ms · user_cards page 1 terminé",
+        "823 ms · user_cards page 2 lancé",
+        "823 ms · folders terminé",
+        "823 ms · get_my_active_auction_cards terminé",
+        "823 ms · list_notifications lancé",
+        "823 ms · get_profile lancé",
+        "823 ms · is_current_user_admin lancé",
+        "823 ms · touch_presence lancé",
+        "845 ms · list_notifications terminé",
+        "845 ms · get_profile terminé",
+        "845 ms · is_current_user_admin terminé",
+        "845 ms · touch_presence terminé"
+      ]
+    },
+    {
+      "latency": 3000,
+      "events": [
+        "5 ms · get_game_info lancé",
+        "5 ms · get_regular_pack_status lancé",
+        "5 ms · get_decision_pack_status lancé",
+        "18 ms · get_game_info terminé",
+        "1002 ms · user_cards page 1 lancé",
+        "1002 ms · folders lancé",
+        "1002 ms · get_my_active_auction_cards lancé",
+        "1019 ms · user_cards page 1 terminé",
+        "1019 ms · user_cards page 2 lancé",
+        "1019 ms · folders terminé",
+        "1019 ms · get_my_active_auction_cards terminé",
+        "1019 ms · list_notifications lancé",
+        "1019 ms · get_profile lancé",
+        "1019 ms · is_current_user_admin lancé",
+        "1019 ms · touch_presence lancé",
+        "1033 ms · list_notifications terminé",
+        "1033 ms · get_profile terminé",
+        "1033 ms · is_current_user_admin terminé",
+        "1033 ms · touch_presence terminé",
+        "3001 ms · get_regular_pack_status terminé",
+        "3002 ms · get_decision_pack_status terminé"
+      ]
+    }
+  ],
+  "retried": {
+    "get_game_info": 1,
+    "get_regular_pack_status": 2,
+    "get_decision_pack_status": 2,
+    "user_cards page 1": 1,
+    "folders": 1,
+    "get_my_active_auction_cards": 1,
+    "user_cards page 2": 2,
+    "list_notifications": 2,
+    "get_profile": 1,
+    "is_current_user_admin": 1,
+    "touch_presence": 1
+  },
+  "exceptions": [],
+  "supabaseRequests": 0
+}

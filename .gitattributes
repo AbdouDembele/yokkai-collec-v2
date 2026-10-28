@@ -1,0 +1,3 @@
+.githooks/* text eol=lf
+scripts/check-prod-drift.sh text eol=lf
+scripts/deploy-migrations.sh text eol=lf

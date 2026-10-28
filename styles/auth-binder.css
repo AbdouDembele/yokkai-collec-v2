@@ -1,0 +1,144 @@
+.yk-auth-binder-demo {
+  container-type: inline-size;
+  grid-column: 1 / -1;
+  min-width: 0;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 16px;
+  padding: clamp(14px, 3vw, 24px);
+  background: #080d17b3;
+}
+.yk-auth-binder-demo-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.yk-auth-binder-demo-header h4 {
+  margin-top: 8px;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 700;
+}
+.yk-auth-binder-demo-summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-accent-gold);
+  font-size: 12px;
+}
+.yk-auth-binder-demo-summary button {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 50%;
+  font-size: 22px;
+  cursor: pointer;
+}
+.yk-auth-binder-demo-summary button[aria-pressed="false"] {
+  color: var(--color-ink-3);
+}
+.yk-auth-binder-demo-progress {
+  height: 4px;
+  margin-top: 20px;
+  overflow: hidden;
+  border-radius: var(--radius-pill);
+  background: var(--color-veil);
+}
+.yk-auth-binder-demo-progress > span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #a8c1f2, var(--color-accent-gold));
+}
+.yk-auth-binder-demo-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-block: 20px 24px;
+}
+.yk-auth-binder-demo-search {
+  display: flex;
+  align-items: center;
+  flex: 1 1 190px;
+  min-width: 0;
+  gap: 10px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 8px;
+  padding: 0 12px;
+  color: var(--color-ink-3);
+  background: #060a12;
+}
+.yk-auth-binder-demo-search svg {
+  flex: none;
+}
+.yk-auth-binder-demo-search input {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  border: 0;
+  padding: 10px 0;
+  background: transparent;
+  color: var(--color-ink);
+  font-size: 12px;
+}
+.yk-auth-binder-demo-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  gap: 8px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 8px;
+  padding: 10px 12px;
+  color: var(--color-ink-2);
+  font-size: 11px;
+  cursor: default;
+}
+.yk-auth-binder-demo-search input:disabled,
+.yk-auth-binder-demo-toggle:disabled {
+  opacity: 1;
+  cursor: default;
+}
+.yk-auth-binder-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.yk-auth-binder-demo-grid > li {
+  min-width: 0;
+}
+.yk-auth-binder-demo .yk-card-shell:hover .yk-card-shell-plane {
+  will-change: auto;
+}
+.yk-auth-binder-demo-card-status {
+  display: block;
+  margin-top: 9px;
+  color: var(--color-ink-3);
+  font-size: 10px;
+  text-align: center;
+}
+.yk-auth-binder-demo-grid
+  > li[data-owned="true"]
+  .yk-auth-binder-demo-card-status {
+  color: var(--color-ink-2);
+}
+.yk-auth-binder-demo-note {
+  margin-top: 20px;
+  color: var(--color-ink-3);
+  font-size: 10px;
+  line-height: 1.8;
+}
+@container (min-width: 430px) {
+  .yk-auth-binder-demo-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+@container (min-width: 650px) {
+  .yk-auth-binder-demo-grid {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+}

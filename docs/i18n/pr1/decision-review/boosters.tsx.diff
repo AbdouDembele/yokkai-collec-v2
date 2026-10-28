@@ -1,0 +1,36 @@
+diff --git a/components/boosters.tsx b/components/boosters.tsx
+index 85e0c66..a1f0963 100644
+--- a/components/boosters.tsx
++++ b/components/boosters.tsx
+@@ -1,4 +1,5 @@
+ "use client";
++import { useTranslations } from "next-intl";
+ import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
+ import { AmbientGlow } from "@/components/ambient-glow";
+ import { ReferralReminder } from "@/components/referral-reminder";
+@@ -179,6 +180,7 @@ export function BoosterReveal({
+   onComplete?: () => void;
+   onSound?: (sound: Sound) => void;
+ }) {
++  const t = useTranslations("boosters.decision");
+   const localPreview = process.env.NODE_ENV === "development" && previewOnly;
+   const [faceUp, setFaceUp] = useState(false);
+   const [revealLocked, setRevealLocked] = useState(false);
+@@ -695,7 +697,7 @@ export function BoosterReveal({
+                     )}
+                     {lost && (
+                       <span className="yk-lost-stamp">
+-                        {isDiscarded ? "DESTROYED" : "PERDUE"}
++                        {isDiscarded ? t("destroyed") : t("lost")}
+                       </span>
+                     )}
+                   </button>
+@@ -705,7 +707,7 @@ export function BoosterReveal({
+                     {auctioned.has(card.instanceId) ? (
+                       <StatusPill tone="info">LISTED</StatusPill>
+                     ) : kept ? (
+-                      <StatusPill>KEPT</StatusPill>
++                      <StatusPill>{t("kept")}</StatusPill>
+                     ) : choosing ? (
+                       <Button
+                         variant={

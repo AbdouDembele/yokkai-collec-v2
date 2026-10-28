@@ -1,0 +1,86 @@
+[
+  {
+    "file": "components/auth-card-customization.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/auth-decision-preview.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/auth-showcase.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/auth-binder-showcase.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/auth-market-showcase.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/auth-card-carousel.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/home-content.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/home-live.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/home-dashboard.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/ui/index.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "app/design-system/home-preview/page.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  },
+  {
+    "file": "components/home-friend-feed-preview.tsx",
+    "jsxStructureIdentical": true,
+    "nonTextPropsIdentical": true,
+    "cardPropsIdentical": true,
+    "cardImportsAndModuleDataIdentical": true
+  }
+]

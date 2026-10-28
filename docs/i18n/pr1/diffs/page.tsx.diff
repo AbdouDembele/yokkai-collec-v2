@@ -1,0 +1,54 @@
+diff --git a/app/design-system/home-preview/page.tsx b/app/design-system/home-preview/page.tsx
+index 9ce66e0..f5c0e1b 100644
+--- a/app/design-system/home-preview/page.tsx
++++ b/app/design-system/home-preview/page.tsx
+@@ -1,3 +1,4 @@
++import { useTranslations } from "next-intl";
+ import { AmbientGlow } from "@/components/ambient-glow";
+ import type { Metadata } from "next";
+ import { Topbar } from "@/components/topbar";
+@@ -23,6 +24,7 @@ export const metadata: Metadata = {
+ const now = Date.now();
+ 
+ export default function HomePreview() {
++  const t = useTranslations("homeDashboard");
+   const cards: HomeCard[] = Array.from({ length: 12 }, (_, index) => ({
+     ...AUTH_MARQUEE_CARDS[index % AUTH_MARQUEE_CARDS.length],
+     instanceId: `preview-${index}`,
+@@ -59,8 +61,8 @@ export default function HomePreview() {
+         notifications={[
+           {
+             id: "79020000-0000-4000-9000-000000000001",
+-            title: "New reply to your post",
+-            text: "Moonflower replied to your post.",
++            title: t("previewReplyTitle"),
++            text: t("previewReply", { player: "Moonflower" }),
+             time: new Date(now).toLocaleString("en-US"),
+             read: false,
+             href: "/profile?tab=wall",
+@@ -94,20 +96,20 @@ export default function HomePreview() {
+         </HomePacks>
+         <HomePanel
+           id="home-latest"
+-          title="Your latest pulls"
++          title={t("yourLatestPulls")}
+           href="/collection"
+-          link="View collection"
++          link={t("viewCollection")}
+         >
+           <LatestPulls cards={cards} />
+         </HomePanel>
+-        <HomePanel id="home-big" title="Big pulls">
++        <HomePanel id="home-big" title={t("previewBigPulls")}>
+           <BigPulls pulls={pulls} />
+         </HomePanel>
+         <HomePanel
+           id="home-market"
+-          title="The market"
++          title={t("theMarket")}
+           href="/market"
+-          link="Browse the market"
++          link={t("previewBrowseMarket")}
+         >
+           <HomeMarket initial={auctions} preview />
+         </HomePanel>

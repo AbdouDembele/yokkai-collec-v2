@@ -1,0 +1,16 @@
+[Unit]
+Description=Debounced application deployment cleanup events
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStart=/usr/local/sbin/yokkai-storage-maintenance --watch
+Restart=on-failure
+RestartSec=10
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=yokkai-storage-events
+
+[Install]
+WantedBy=multi-user.target

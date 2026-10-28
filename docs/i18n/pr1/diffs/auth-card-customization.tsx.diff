@@ -1,0 +1,64 @@
+diff --git a/components/auth-card-customization.tsx b/components/auth-card-customization.tsx
+index 3c4fa16..850bda4 100644
+--- a/components/auth-card-customization.tsx
++++ b/components/auth-card-customization.tsx
+@@ -1,4 +1,5 @@
+ "use client";
++import { useTranslations } from "next-intl";
+ 
+ import { useSyncExternalStore } from "react";
+ import Link from "next/link";
+@@ -16,6 +17,7 @@ const prefersReducedMotion = () =>
+ const serverMotionPreference = () => true;
+ 
+ export function AuthCardCustomization() {
++  const t = useTranslations("authCardCustomization");
+   const reducedMotion = useSyncExternalStore(
+     subscribeMotionPreference,
+     prefersReducedMotion,
+@@ -26,14 +28,10 @@ export function AuthCardCustomization() {
+     <article className="yk-auth-feature yk-auth-feature-custom">
+       <div className="yk-auth-feature-copy">
+         <span className="yk-auth-feature-number">
+-          01 / YOUR CARDS, YOUR WAY
++          {t("text01YourCardsYourWay")}
+         </span>
+-        <h3>Same card. Your own style.</h3>
+-        <p>
+-          Your favorite scene. The perfect GIF. With Yokkai Pro, customize your
+-          cards with your own images and animated GIFs. Keep the character and
+-          rarity. Make the artwork yours.
+-        </p>
++        <h3>{t("sameCardYourOwnStyle")}</h3>
++        <p>{t("yourFavoriteSceneThePerfectGifWithYokkaiProCustomize")}</p>
+         <Link href="/premium" className="yk-auth-pro-link">
+           <span aria-hidden="true">✦</span> Yokkai Pro{" "}
+           <span aria-hidden="true">↗</span>
+@@ -42,7 +40,7 @@ export function AuthCardCustomization() {
+       <div className="yk-auth-custom-preview">
+         <div className="yk-auth-custom-pair">
+           <figure>
+-            <figcaption>Original</figcaption>
++            <figcaption>{t("original")}</figcaption>
+             <YokaiCard {...AUTH_SHOWCASE_CARDS[0]} animated={false} />
+           </figure>
+           <span className="yk-auth-custom-arrow" aria-hidden="true">
+@@ -50,7 +48,8 @@ export function AuthCardCustomization() {
+           </span>
+           <figure>
+             <figcaption>
+-              Your style <span>GIF</span>
++              {t("yourStyle")}
++              <span>GIF</span>
+             </figcaption>
+             <YokaiCard
+               {...AUTH_SHOWCASE_CARDS[0]}
+@@ -60,7 +59,7 @@ export function AuthCardCustomization() {
+             />
+           </figure>
+         </div>
+-        <p>Your image. Your GIF. Your signature.</p>
++        <p>{t("yourImageYourGifYourSignature")}</p>
+       </div>
+     </article>
+   );

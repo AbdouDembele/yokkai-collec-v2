@@ -1,0 +1,62 @@
+diff --git a/components/home-friend-feed-preview.tsx b/components/home-friend-feed-preview.tsx
+index a2fd4b7..33ce152 100644
+--- a/components/home-friend-feed-preview.tsx
++++ b/components/home-friend-feed-preview.tsx
+@@ -1,5 +1,6 @@
+ "use client";
+ 
++import { useTranslations } from "next-intl";
+ import { useMemo, useRef, useState } from "react";
+ import { HomeFriendFeed } from "@/components/home-friend-feed";
+ import { Button } from "@/components/ui";
+@@ -63,6 +64,7 @@ const posts: FriendFeedPost[] = [
+ ];
+ 
+ export function HomeFriendFeedPreview() {
++  const t = useTranslations("homeDashboard");
+   const [empty, setEmpty] = useState(false);
+   const [fail, setFail] = useState(false);
+   const [failPublish, setFailPublish] = useState(false);
+@@ -220,7 +222,7 @@ export function HomeFriendFeedPreview() {
+         style={{ display: "flex", gap: 8, marginBottom: 12, flexWrap: "wrap" }}
+       >
+         <Button variant="secondary" onClick={() => setEmpty(value => !value)}>
+-          {empty ? "Show sample posts" : "Preview empty feed"}
++          {empty ? t("previewSamplePosts") : t("previewEmptyFeed")}
+         </Button>
+         <label>
+           <input
+@@ -228,7 +230,7 @@ export function HomeFriendFeedPreview() {
+             checked={fail}
+             onChange={event => setFail(event.target.checked)}
+           />{" "}
+-          Fail feed requests
++          {t("previewFailFeed")}
+         </label>
+         <label>
+           <input
+@@ -236,20 +238,20 @@ export function HomeFriendFeedPreview() {
+             checked={failPublish}
+             onChange={event => setFailPublish(event.target.checked)}
+           />{" "}
+-          Fail wall publishing
++          {t("previewFailPublishing")}
+         </label>
+-        <p>Local preview only. Sample posts; no real players are contacted.</p>
++        <p>{t("previewLocalOnly")}</p>
+         <label>
+           <input
+             type="checkbox"
+             checked={failInteractions}
+             onChange={event => setFailInteractions(event.target.checked)}
+           />{" "}
+-          Fail post interactions
++          {t("previewFailInteractions")}
+         </label>
+         {published && (
+           <p role="status" data-preview-published={publishCount}>
+-            Preview post published: {published}
++            {t("previewPublished", { post: published })}
+           </p>
+         )}
+       </div>
