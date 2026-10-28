@@ -2,7 +2,7 @@
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
 
-import Link from "next/link";
+import { MessengerFriends } from "@/components/messenger-friends";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
 import { useFormatter, useTranslations } from "next-intl";
@@ -37,6 +37,7 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
   const t = useTranslations("messenger");
   const format = useFormatter();
   const [open, setOpen] = useState(false);
+  const [choosing, setChoosing] = useState(false);
   const [friend, setFriend] = useState<FriendUser>();
   const [data, setData] = useState<ConversationPage>();
   const [loading, setLoading] = useState(false);
@@ -49,7 +50,7 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
   const panel = useRef<HTMLDivElement>(null);
   const panelId = useId();
   const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const active = open && !friend;
+  const active = open && !friend && !choosing;
   useEffect(() => {
     mounted.current = true;
     return () => {
@@ -86,6 +87,7 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
     const clearBlocked = () => {
       setData(undefined);
       setFriend(undefined);
+      setChoosing(false);
       setRetry(value => value + 1);
     };
     window.addEventListener("player-block-changed", clearBlocked);
@@ -122,6 +124,7 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
   function close() {
     setOpen(false);
     setFriend(undefined);
+    setChoosing(false);
     launcher.current?.focus();
   }
   function preview(item: ConversationSummary) {
@@ -154,14 +157,15 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
           }}
         >
           <header className="yk-messenger-heading">
-            {friend && (
+            {(friend || choosing) && (
               <button
                 type="button"
                 onClick={() => {
-                  setFriend(undefined);
+                  if (friend) setFriend(undefined);
+                  else setChoosing(false);
                   setLoading(true);
                 }}
-                aria-label={t("back")}
+                aria-label={t(friend && choosing ? "backToFriends" : "back")}
               >
                 ←
               </button>
@@ -173,7 +177,7 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
                   cosmetics={friend.profileStyle}
                 />
               ) : (
-                t("title")
+                t(choosing ? "chooseFriend" : "title")
               )}
             </h2>
             <button type="button" onClick={close} aria-label={t("close")}>
@@ -187,6 +191,8 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
               docked
               onClose={close}
             />
+          ) : choosing ? (
+            <MessengerFriends onSelect={setFriend} />
           ) : (
             <div className="yk-messenger-inbox">
               <p className="yk-messenger-subtitle">{t("intro")}</p>
@@ -276,13 +282,13 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
                   {more ? t("loading") : t("more")}
                 </button>
               )}
-              <Link
+              <button
+                type="button"
                 className="yk-messenger-friends"
-                href="/social/friends"
-                onClick={close}
+                onClick={() => setChoosing(true)}
               >
                 {t("friends")}
-              </Link>
+              </button>
             </div>
           )}
         </div>

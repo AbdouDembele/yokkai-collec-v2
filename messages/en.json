@@ -1923,7 +1923,17 @@
     "openConversation": "Open conversation with {name}",
     "removed": "Message removed",
     "gif": "GIF",
-    "youPreview": "You: {text}"
+    "youPreview": "You: {text}",
+    "chooseFriend": "New message",
+    "chooseFriendHint": "Choose a friend to start chatting here.",
+    "backToFriends": "Back to friends",
+    "searchFriends": "Search your friends…",
+    "friendsError": "Couldn't load your friends. Please try again.",
+    "noMatchingFriends": "No matching friends",
+    "noFriends": "No friends to message yet",
+    "noFriendsHint": "Add friends in Social to find them here.",
+    "moreFriends": "Load more friends",
+    "moreFriendsHint": "Search filters the friends loaded here. Load more to see the rest."
   },
   "socialFriends": {
     "sections": "Social sections",

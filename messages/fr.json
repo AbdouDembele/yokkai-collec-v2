@@ -1923,7 +1923,17 @@
     "openConversation": "Ouvrir la conversation avec {name}",
     "removed": "Message supprimé",
     "gif": "GIF",
-    "youPreview": "Toi : {text}"
+    "youPreview": "Toi : {text}",
+    "chooseFriend": "Nouveau message",
+    "chooseFriendHint": "Choisis un ami pour discuter ici.",
+    "backToFriends": "Retour aux amis",
+    "searchFriends": "Rechercher parmi tes amis…",
+    "friendsError": "Impossible de charger tes amis. Réessaie.",
+    "noMatchingFriends": "Aucun ami correspondant",
+    "noFriends": "Aucun ami à qui écrire pour le moment",
+    "noFriendsHint": "Ajoute des amis dans Social pour les retrouver ici.",
+    "moreFriends": "Afficher plus d’amis",
+    "moreFriendsHint": "La recherche filtre les amis chargés ici. Affiche plus d’amis pour voir la suite."
   },
   "socialFriends": {
     "sections": "Rubriques sociales",
