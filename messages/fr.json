@@ -1860,5 +1860,10 @@
     "interval": "Toutes les {minutes} min",
     "reserveLabel": "Réserve Regular Pack",
     "reserveCount": "{count, plural, one {# pack} other {# packs}}"
+  },
+  "socialTrades": {
+    "tab": "Échanges",
+    "action": "Échanger",
+    "tradeWith": "Échanger avec {name}"
   }
 }

@@ -145,6 +145,7 @@ export default async function RootLayout({
       "proPromotion",
       "discordPromo",
       "referralReminder",
+      "socialTrades",
       "siteFooter",
       "error",
       "adminReportedCard",

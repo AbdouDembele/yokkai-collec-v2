@@ -2248,9 +2248,21 @@ export function FriendsView() {
   const params = useSearchParams();
   const router = useRouter();
   const conversation = params.get("message") ?? undefined;
+  const showTrades = params.get("tab") === "trades";
+  function navigateTrades(friendId?: string) {
+    const query = new URLSearchParams({ tab: "trades" });
+    if (friendId) query.set("ami", friendId);
+    router.push(`/social/friends?${query.toString()}`, { scroll: false });
+  }
   return (
     <FriendsPanel
       initialConversationId={conversation}
+      tradeSection={{
+        active: showTrades,
+        content: <TradesView />,
+        open: navigateTrades,
+        close: () => router.push("/social/friends", { scroll: false })
+      }}
       onConversationClose={() => {
         if (conversation) router.replace("/social/friends", { scroll: false });
       }}

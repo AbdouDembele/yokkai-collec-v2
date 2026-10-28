@@ -1860,5 +1860,10 @@
     "interval": "Every {minutes} min",
     "reserveLabel": "Regular Pack reserve",
     "reserveCount": "{count, plural, one {# pack} other {# packs}}"
+  },
+  "socialTrades": {
+    "tab": "Trades",
+    "action": "Trade",
+    "tradeWith": "Trade with {name}"
   }
 }

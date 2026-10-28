@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { intl } from "./helpers/i18n.mjs";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import vm from "node:vm";
@@ -192,6 +193,7 @@ test("Friends shows a skeleton initially and waits through search debounce befor
         has: () => true,
         get: (_, name) => {
           if (name === "react") return hooks;
+          if (name === "next-intl") return intl;
           if (name === "react/jsx-runtime") return require(name);
           if (name === "@/hooks/use-social-unread")
             return { useSocialUnread: () => undefined };
