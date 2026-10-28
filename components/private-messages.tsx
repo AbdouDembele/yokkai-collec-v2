@@ -6,7 +6,8 @@ import {
   useRef,
   useState,
   type FormEvent,
-  type KeyboardEvent
+  type KeyboardEvent,
+  type ReactNode
 } from "react";
 import { useTranslations } from "next-intl";
 import { Avatar, Button, Modal } from "@/components/ui";
@@ -46,11 +47,27 @@ const date = new Intl.DateTimeFormat("en-US", {
   day: "numeric"
 });
 
+function DockedMessageFrame({
+  children,
+  className
+}: {
+  children: ReactNode;
+  className?: string;
+  open?: boolean;
+  title: string;
+  onClose: () => void;
+}) {
+  return (
+    <div className={`yk-messenger-thread ${className ?? ""}`}>{children}</div>
+  );
+}
+
 export function PrivateMessages({
   friend,
   onClose,
   tradeAdapter,
   moderationAdapter,
+  docked = false,
   adapter = livePrivateMessages
 }: {
   friend: FriendUser;
@@ -58,7 +75,9 @@ export function PrivateMessages({
   adapter?: PrivateMessagesAdapter;
   tradeAdapter?: TradesPanelAdapter;
   moderationAdapter?: ModerationAdapter;
+  docked?: boolean;
 }) {
+  const MessageFrame = docked ? DockedMessageFrame : Modal;
   const t = useTranslations("privateMessages");
   const [page, setPage] = useState<PrivateMessagePage>();
   const [loading, setLoading] = useState(true);
@@ -337,7 +356,7 @@ export function PrivateMessages({
 
   return (
     <>
-      <Modal
+      <MessageFrame
         open
         onClose={onClose}
         title={`Messages with ${friend.pseudo}`}
@@ -346,6 +365,7 @@ export function PrivateMessages({
         <div className="yk-private-messages-contact">
           <Avatar
             name={friend.pseudo}
+            size={docked ? 32 : 40}
             image={friend.avatarUrl ?? undefined}
             online={friend.isOnline}
           />
@@ -586,7 +606,7 @@ export function PrivateMessages({
             </Button>
           </div>
         </form>
-      </Modal>
+      </MessageFrame>
       {trading && (
         <Modal
           open

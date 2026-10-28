@@ -149,6 +149,9 @@ const allowlist = {
   ], // Bounded keyset pages of permitted wall posts only; no anon or private-wall bypass.
   "public.get_private_messages(uuid, timestamp with time zone, uuid, integer)":
     ["authenticated"], // Only auth.uid() and an accepted, unblocked friend; bounded conversation pages.
+  "public.get_private_conversations(timestamp with time zone, uuid, integer)": [
+    "authenticated"
+  ], // Only auth.uid() conversations with accepted, unblocked, active friends; bounded keyset pages and sanitized previews, never marks read.
   "public.get_social_unread()": ["authenticated"], // Only auth.uid() unread aggregates; accepted, unblocked conversations and valid incoming requests.
   "public.mark_private_messages_read(uuid, uuid)": ["authenticated"], // Only auth.uid(); verifies incoming message ownership, social/deletion locks and monotonic read watermark.
   "public.send_private_message(uuid, text, uuid)": ["authenticated"], // Sender is auth.uid(); accepted friendship, blocks, deletion fence, rate limit and idempotency checked server-side.

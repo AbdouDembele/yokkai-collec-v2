@@ -1865,5 +1865,24 @@
     "action": "Trade",
     "tradeWith": "Trade with {name}",
     "offer": "Trade offer"
+  },
+  "messenger": {
+    "title": "Messages",
+    "openMessages": "Open messages",
+    "close": "Close messages",
+    "back": "Back to conversations",
+    "intro": "Your private conversations",
+    "loading": "Loading…",
+    "error": "Couldn't load your conversations.",
+    "retry": "Try again",
+    "empty": "No conversations yet",
+    "emptyHint": "Choose a friend to start chatting.",
+    "friends": "Message a friend",
+    "more": "Load more conversations",
+    "unread": "{count, plural, one {# unread message} other {# unread messages}}",
+    "openConversation": "Open conversation with {name}",
+    "removed": "Message removed",
+    "gif": "GIF",
+    "youPreview": "You: {text}"
   }
 }

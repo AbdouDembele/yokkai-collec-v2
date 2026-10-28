@@ -194,7 +194,7 @@ export function ReferralReminder({
             isBoosters
               ? "yk-referral-reminder--boosters"
               : [
-                  "fixed bottom-4 left-16 z-[70] grid w-[min(calc(100vw-5rem),32rem)]",
+                  "yk-referral-reminder fixed bottom-4 left-16 z-[70] grid w-[min(calc(100vw-5rem),32rem)]",
                   "grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-3 rounded-[18px]",
                   "border border-veil-strong bg-surface/95 px-4 py-2.5 backdrop-blur-md",
                   "shadow-[0_14px_45px_rgba(0,0,0,0.55),0_0_24px_rgba(141,173,255,0.08)]",

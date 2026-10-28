@@ -1865,5 +1865,24 @@
     "action": "Échanger",
     "tradeWith": "Échanger avec {name}",
     "offer": "Offre d’échange"
+  },
+  "messenger": {
+    "title": "Messages",
+    "openMessages": "Ouvrir les messages",
+    "close": "Fermer les messages",
+    "back": "Retour aux conversations",
+    "intro": "Tes conversations privées",
+    "loading": "Chargement…",
+    "error": "Impossible de charger tes conversations.",
+    "retry": "Réessayer",
+    "empty": "Aucune conversation pour le moment",
+    "emptyHint": "Choisis un ami pour commencer à discuter.",
+    "friends": "Écrire à un ami",
+    "more": "Voir plus de conversations",
+    "unread": "{count, plural, one {# message non lu} other {# messages non lus}}",
+    "openConversation": "Ouvrir la conversation avec {name}",
+    "removed": "Message supprimé",
+    "gif": "GIF",
+    "youPreview": "Toi : {text}"
   }
 }
