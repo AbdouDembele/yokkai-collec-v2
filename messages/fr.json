@@ -704,7 +704,8 @@
     "previewFailInteractions": "Simuler une erreur d’interaction",
     "previewPublished": "Publication d’exemple publiée : {post}",
     "leaderboard": "Classement",
-    "viewLeaderboard": "Voir le classement"
+    "viewLeaderboard": "Voir le classement",
+    "publicPostsUnavailable": "Impossible de charger les publications publiques. Actualise pour réessayer."
   },
   "authExperience": {
     "freeToJoinAWholeCollectionToMakeYourOwn": "Inscription gratuite. Toute une collection à ton image.",
@@ -998,7 +999,14 @@
     "viewPlayerWall": "Voir le mur de {player}",
     "viewPlayerPost": "Voir la publication de {player}",
     "sharedGif": "GIF partagé sur un mur",
-    "sharedImage": "Image partagée sur un mur"
+    "sharedImage": "Image partagée sur un mur",
+    "everyoneFeed": "Fil public",
+    "everyoneWallPosts": "Publications publiques de la communauté",
+    "publicEmptyTitle": "Aucune publication publique pour le moment",
+    "publicEmptyHint": "Retrouve ici les publications publiques de la communauté.",
+    "publicPostsNotice": "Seules les publications des profils publics apparaissent dans ce fil. La visibilité de ton profil reste applicable.",
+    "imageKind": "Image",
+    "gifKind": "GIF"
   },
   "proPromotion": {
     "discoverYokkaiPro": "Découvrir Yokkai Pro",

@@ -147,6 +147,7 @@
   line-height: 1.5;
 }
 .yk-feed-media-preview {
+  position: relative;
   grid-row: 2;
   display: grid;
   place-items: center;
@@ -156,9 +157,27 @@
   background: linear-gradient(135deg, #152a45, #080e1b);
 }
 .yk-feed-media {
+  display: block;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  min-width: 0;
+  min-height: 0;
+  object-fit: contain;
+  object-position: center;
+}
+.yk-feed-media-kind {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 7px;
+  border: 1px solid #b9c9df55;
+  border-radius: 6px;
+  background: #060913e8;
+  color: #f3f7ff;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+  pointer-events: none;
 }
 .yk-feed-wall-link {
   grid-row: 4;

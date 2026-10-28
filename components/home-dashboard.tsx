@@ -169,7 +169,7 @@ async function market() {
   return <HomeMarket initial={(data as MarketPage).items} />;
 }
 
-async function friendFeed(userId: string) {
+async function communityFeed(userId: string) {
   const t = await getTranslations("homeDashboard");
   const client = createClient(await cookies());
   const profile = await client
@@ -185,16 +185,23 @@ async function friendFeed(userId: string) {
       : undefined;
   try {
     const { data, error } = await client
-      .rpc("get_home_wall_feed", { p_limit: 10 })
+      .rpc("get_public_wall_feed", { p_limit: 10 })
       .abortSignal(AbortSignal.timeout(12000));
     if (error) throw error;
-    return <HomeFriendFeed initial={data as FriendFeedPage} viewer={viewer} />;
+    return (
+      <HomeFriendFeed
+        scope="everyone"
+        initial={data as FriendFeedPage}
+        viewer={viewer}
+      />
+    );
   } catch {
     return (
       <HomeFriendFeed
+        scope="everyone"
         initial={{ items: [], next: null }}
         viewer={viewer}
-        initialError={t("friendPostsUnavailable")}
+        initialError={t("publicPostsUnavailable")}
       />
     );
   }
@@ -281,7 +288,7 @@ export function HomeDashboard({ userId }: { userId: string }) {
           </Suspense>
         </HomePanel>
         <Suspense fallback={<HomeSkeleton />}>
-          <PanelData load={() => friendFeed(userId)} />
+          <PanelData load={() => communityFeed(userId)} />
         </Suspense>
         <HomeLinks discordEnabled={discordEnabled} />
       </main>

@@ -704,7 +704,8 @@
     "previewFailInteractions": "Fail post interactions",
     "previewPublished": "Preview post published: {post}",
     "leaderboard": "Leaderboard",
-    "viewLeaderboard": "View leaderboard"
+    "viewLeaderboard": "View leaderboard",
+    "publicPostsUnavailable": "Couldn't load public posts. Refresh to try again."
   },
   "authExperience": {
     "freeToJoinAWholeCollectionToMakeYourOwn": "Free to join. A whole collection to make your own.",
@@ -998,7 +999,14 @@
     "viewPlayerWall": "View {player}'s wall",
     "viewPlayerPost": "View {player}'s wall post",
     "sharedGif": "GIF shared on a wall",
-    "sharedImage": "Image shared on a wall"
+    "sharedImage": "Image shared on a wall",
+    "everyoneFeed": "Everyone",
+    "everyoneWallPosts": "Public community posts",
+    "publicEmptyTitle": "No public posts yet",
+    "publicEmptyHint": "Discover the community’s public posts here.",
+    "publicPostsNotice": "Only posts from public profiles appear in this feed. Your profile visibility still applies.",
+    "imageKind": "Image",
+    "gifKind": "GIF"
   },
   "proPromotion": {
     "discoverYokkaiPro": "Discover Yokkai Pro",

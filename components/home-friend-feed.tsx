@@ -19,6 +19,7 @@ import { type WallAdapter } from "@/lib/data/profile-wall";
 import type { WallInteractions } from "@/lib/data/wall-interactions";
 import {
   getFriendFeed,
+  getPublicFeed,
   type FriendFeedPage,
   type FriendFeedPost,
   type FriendFeedLoader
@@ -32,9 +33,11 @@ export function HomeFriendFeed({
   initialError = "",
   viewer,
   wallAdapter,
-  load = getFriendFeed
+  scope = "friends",
+  load = scope === "everyone" ? getPublicFeed : getFriendFeed
 }: {
   initial: FriendFeedPage;
+  scope?: "friends" | "everyone";
   initialError?: string;
   viewer?: FriendFeedPost["author"];
   wallAdapter?: WallAdapter;
@@ -77,6 +80,8 @@ export function HomeFriendFeed({
       if (clear) setPage({ items: [], next: null });
       try {
         const next = await load();
+        if (scope === "everyone" && next.available === false)
+          throw new Error("PUBLIC_FEED_UNAVAILABLE");
         if (id === request.current) setPage(next);
       } catch {
         if (id === request.current) {
@@ -89,7 +94,7 @@ export function HomeFriendFeed({
         }
       }
     },
-    [load]
+    [load, scope]
   );
 
   useEffect(() => {
@@ -128,11 +133,21 @@ export function HomeFriendFeed({
   }, []);
 
   return (
-    <section className="yk-friend-feed" aria-labelledby="home-friend-feed">
+    <section
+      className="yk-friend-feed"
+      data-feed-scope={scope}
+      aria-labelledby="home-friend-feed"
+    >
       <header className="yk-feed-heading">
         <div>
-          <h2 id="home-friend-feed">{t("friendFeed")}</h2>
-          <Link href="/social">{t("seeAll")}</Link>
+          <h2 id="home-friend-feed">
+            {t(scope === "everyone" ? "everyoneFeed" : "friendFeed")}
+          </h2>
+          {scope === "everyone" ? (
+            <Link href="/social/everyone">{t("seeAll")}</Link>
+          ) : (
+            <Link href="/social">{t("seeAll")}</Link>
+          )}
         </div>
         <Link
           href="/profile?tab=wall"
@@ -160,7 +175,11 @@ export function HomeFriendFeed({
             }}
           />
           <p className="yk-feed-publish-note">
-            {t("postsAppearHereOnYourWallAndInYourFriends")}
+            {t(
+              scope === "everyone"
+                ? "publicPostsNotice"
+                : "postsAppearHereOnYourWallAndInYourFriends"
+            )}
           </p>
         </div>
       )}
@@ -168,7 +187,9 @@ export function HomeFriendFeed({
         className="yk-feed-timeline"
         ref={timeline}
         tabIndex={0}
-        aria-label={t("friendsWallPosts")}
+        aria-label={t(
+          scope === "everyone" ? "everyoneWallPosts" : "friendsWallPosts"
+        )}
         aria-busy={busy}
       >
         {error && (
@@ -183,10 +204,26 @@ export function HomeFriendFeed({
         )}
         {!busy && !error && !page.items.length && (
           <div className="yk-feed-empty">
-            <h3>{t("yourTimelineStartsWithYourFriends")}</h3>
-            <p>{t("shareAPostOnYourWallOrAddFriendsTo")}</p>
-            <Link href="/social/friends">
-              {t("findFriends")}
+            <h3>
+              {t(
+                scope === "everyone"
+                  ? "publicEmptyTitle"
+                  : "yourTimelineStartsWithYourFriends"
+              )}
+            </h3>
+            <p>
+              {t(
+                scope === "everyone"
+                  ? "publicEmptyHint"
+                  : "shareAPostOnYourWallOrAddFriendsTo"
+              )}
+            </p>
+            <Link
+              href={
+                scope === "everyone" ? "/social/everyone" : "/social/friends"
+              }
+            >
+              {t(scope === "everyone" ? "seeAll" : "findFriends")}
               <span aria-hidden="true">↗</span>
             </Link>
           </div>
@@ -253,6 +290,9 @@ export function HomeFriendFeed({
                       decoding="async"
                       className="yk-feed-media"
                     />
+                    <span className="yk-feed-media-kind" aria-hidden="true">
+                      {t(post.gifUrl ? "gifKind" : "imageKind")}
+                    </span>
                   </Link>
                 )}
                 {post.text && <p className="yk-feed-text">{post.text}</p>}
