@@ -161,7 +161,10 @@ test("Boosters reminder ignores old dismissals, has no close action, and keeps c
     modalHtml,
     /value="https:\/\/example\.test\/signup\?ref=my%20code"/
   );
-  assert.match(modalHtml, /every 5 min instead\s+of 10/);
+  assert.match(
+    modalHtml,
+    /Save 10 Regular Packs instead of 5\. One pack every 5 min for everyone\./
+  );
   assert.match(modalHtml, /2 Decision Packs per day instead\s+of 1/);
   assert.doesNotMatch(modalHtml, />Share</);
   const copy = findCopy(modalTree);
@@ -361,7 +364,10 @@ test("Home card opens the existing booster choices and prepares its link only on
   const tree = s.render();
   const html = renderToStaticMarkup(tree);
   assert.match(html, /Don’t stop now\./);
-  assert.match(html, /Get \+5 packs per friend, or 2× faster packs with Pro\./);
+  assert.match(
+    html,
+    /Get \+5 packs per friend, or double your pack reserve with Pro\./
+  );
   assert.match(html, /See options/);
   assert.match(html, /yk-home-pack-options-art/);
   assert.match(html, /home-booster-box\.webp/);

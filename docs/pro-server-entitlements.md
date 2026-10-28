@@ -8,14 +8,15 @@ Un abonnement doit être actif, payé, non suspendu pour risque, non expiré, v�
 
 | Droit                                            | Basic      | Pro        |
 | ------------------------------------------------ | ---------- | ---------- |
-| Regular Pack                                     | 10 minutes | 5 minutes  |
+| Regular Pack                                     | 5 minutes  | 5 minutes  |
+| Réserve de Regular Packs                         | 5 packs    | 10 packs   |
 | Decision Pack                                    | 1 par jour | 2 par jour |
 | Enchères actives                                 | 3          | 6          |
 | Cartes en vitrine                                | 5          | 10         |
 | Nouvelle image de carte Imgur/Pinterest          | Non        | Oui        |
 | Bannière importée, avatar animé, style de profil | Non        | Oui        |
 
-La réserve Regular reste limitée à cinq packs. Les Decision Packs sont renouvelés pour tous à **20 h, fuseau `Europe/Paris`**, avec prise en compte des changements d'heure : chaque période commence à 20 h Paris et finit au prochain 20 h Paris, même si elle dure 23 ou 25 heures. Basic reçoit un pack et Pro deux packs disponibles ensemble, sans intervalle de 12 heures entre les deux. Les packs non utilisés ne sont pas reportés à la période suivante. Les probabilités de rareté ne changent pas. Les succès Pro restent annoncés mais leur logique et leurs récompenses sont différées.
+La réserve Regular est limitée à cinq packs pour Basic et dix pour Pro, y compris les accès Pro manuels sans expiration. Les packs bonus de parrainage restent séparés de cette réserve. Les Decision Packs sont renouvelés pour tous à **20 h, fuseau `Europe/Paris`**, avec prise en compte des changements d'heure : chaque période commence à 20 h Paris et finit au prochain 20 h Paris, même si elle dure 23 ou 25 heures. Basic reçoit un pack et Pro deux packs disponibles ensemble, sans intervalle de 12 heures entre les deux. Les packs non utilisés ne sont pas reportés à la période suivante. Les probabilités de rareté ne changent pas. Les succès Pro restent annoncés mais leur logique et leurs récompenses sont différées.
 
 L'ouverture consomme une unité du quota de la période sous verrou serveur. Reprendre un choix déjà en attente ne consomme pas de nouvelle unité ; un choix en attente à 20 h reste accessible sans être redessiné. Une transition Basic/Pro ne remet pas la consommation à zéro : passer Pro ajoute au maximum une ouverture dans la même période et repasser Basic n'accorde aucun pack supplémentaire.
 

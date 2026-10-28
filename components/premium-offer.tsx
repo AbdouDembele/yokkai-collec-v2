@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import type { BillingSettings } from "@/lib/billing/settings";
 import { PremiumBannerPreview } from "@/components/premium-banner-preview";
@@ -42,6 +43,7 @@ export function PremiumOffer({
   profileMotion?: ReactNode;
   profilePreview?: ReactNode;
 }) {
+  const t = useTranslations("regularPackRules");
   return (
     <div
       className="yk-pro-offer"
@@ -55,11 +57,7 @@ export function PremiumOffer({
             <br />
             <em>More cards.</em>
           </h1>
-          <p className="yk-premium-intro">
-            Open Regular Packs twice as often. Choose from two daily Decision
-            Packs. Grow your collection faster, then make every favorite your
-            own.
-          </p>
+          <p className="yk-premium-intro">{t("proIntro")}</p>
           <div className="yk-premium-hero-actions">
             <PremiumCheckout signedIn={signedIn} billing={billing} />
             <a href="#plan-comparison" className="yk-pro-compare-button">
@@ -98,16 +96,21 @@ export function PremiumOffer({
               </div>
               <div className="yk-pro-pack-copy">
                 <strong>
-                  {rules.basic.regularPackMinutes /
-                    rules.pro.regularPackMinutes}
+                  {rules.pro.regularPackReserve /
+                    rules.basic.regularPackReserve}
                   ×
                 </strong>
-                <span>as often</span>
-                <p>1 pack every {rules.pro.regularPackMinutes} minutes.</p>
+                <span>{t("reserveSize")}</span>
                 <p>
-                  Up to{" "}
-                  <b>{60 / rules.pro.regularPackMinutes} packs per hour</b> when
-                  opened regularly.
+                  {t("sharedInterval", {
+                    minutes: rules.pro.regularPackMinutes
+                  })}
+                </p>
+                <p>
+                  {t.rich("hourly", {
+                    count: 60 / rules.pro.regularPackMinutes,
+                    strong: chunks => <b>{chunks}</b>
+                  })}
                 </p>
               </div>
             </div>
@@ -259,8 +262,21 @@ export function PremiumOffer({
               </tr>
               <tr>
                 <th scope="row">Regular Pack</th>
-                <td>Every {rules.basic.regularPackMinutes} min</td>
-                <td>Every {rules.pro.regularPackMinutes} min</td>
+                <td>
+                  {t("interval", { minutes: rules.basic.regularPackMinutes })}
+                </td>
+                <td>
+                  {t("interval", { minutes: rules.pro.regularPackMinutes })}
+                </td>
+              </tr>
+              <tr>
+                <th scope="row">{t("reserveLabel")}</th>
+                <td>
+                  {t("reserveCount", { count: rules.basic.regularPackReserve })}
+                </td>
+                <td>
+                  {t("reserveCount", { count: rules.pro.regularPackReserve })}
+                </td>
               </tr>
               <tr>
                 <th scope="row">Decision Pack</th>

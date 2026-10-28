@@ -62,11 +62,11 @@ test("paid server state activates actual game limits, never client flags; expiry
     "update public.user_profiles set regular_pack_interval_seconds=300"
   ])
     await assert.rejects(db.query(sql), /permission denied/);
-  assert.equal((await status()).refillSeconds, 600);
+  assert.equal((await status()).refillSeconds, 300);
   assert.equal((await status()).maximum, 5);
   await admin();
   await db.query(
-    "update public.user_profiles set next_regular_pack_at=clock_timestamp()+interval '10 minutes',next_decision_pack_at=clock_timestamp()+interval '24 hours' where user_id=$1",
+    "update public.user_profiles set next_regular_pack_at=clock_timestamp()+interval '5 minutes',next_decision_pack_at=clock_timestamp()+interval '24 hours' where user_id=$1",
     [owner]
   );
   await db.query(
@@ -149,7 +149,7 @@ test("paid server state activates actual game limits, never client flags; expiry
     [owner]
   );
   assert.equal(await eligible(), false);
-  assert.equal((await status()).refillSeconds, 600);
+  assert.equal((await status()).refillSeconds, 300);
   assert.equal((await status()).maximum, 5);
   await login(owner);
   await assert.rejects(
@@ -207,7 +207,7 @@ test("paid server state activates actual game limits, never client flags; expiry
     scope
   ]);
   assert.equal(await eligible(), false);
-  assert.equal((await status()).refillSeconds, 600);
+  assert.equal((await status()).refillSeconds, 300);
   await login(other);
   await assert.rejects(
     db.query("select public.update_profile('',null,$1::uuid[],null)", [

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { intl } from "./helpers/i18n.mjs";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { resolve } from "node:path";
@@ -35,6 +36,7 @@ function renderOffer() {
     module: loaded,
     exports: loaded.exports,
     require: id => {
+      if (id === "next-intl") return intl;
       if (id === "@/lib/premium/offer") return rulesModule.exports;
       if (id === "@/components/premium-banner-preview")
         return { PremiumBannerPreview: marker("Animated banner preview") };
@@ -58,10 +60,15 @@ function renderOffer() {
 test("Premium leads with more cards, then both visual previews before the comparison", () => {
   const html = renderOffer();
   assert.match(html, /<h1>More style\.<br\/><em>More cards\.<\/em><\/h1>/);
-  assert.match(html, /Regular Packs twice as often/);
+  assert.match(html, /Save twice as many Regular Packs/);
   assert.match(html, /<strong>2×<\/strong>/);
   assert.match(html, /<strong>2<\/strong><span>every day<\/span>/);
   assert.match(html, /Existing membership checkout/);
+  assert.match(
+    html,
+    /Regular Pack reserve<\/th><td>5 packs<\/td><td>10 packs<\/td>/
+  );
+  assert.doesNotMatch(html, /twice as often|as often|Every 10 min/);
   assert.ok(html.indexOf("Animated banner preview") > html.indexOf("</h1>"));
   assert.ok(
     html.indexOf("Custom card artwork preview") >
@@ -87,7 +94,7 @@ test("Basic and Pro compare real pack quotas and accessible inclusion marks", ()
   assert.match(html, /<tbody aria-label="More cards">/);
   assert.match(
     html,
-    /<th scope="row">Regular Pack<\/th><td>Every 10 min<\/td><td>Every 5 min<\/td>/
+    /<th scope="row">Regular Pack<\/th><td>Every 5 min<\/td><td>Every 5 min<\/td>/
   );
   assert.match(
     html,
@@ -126,8 +133,11 @@ test("pack highlights use official booster artwork and a quota-derived hourly pa
   assert.match(html, /data-pack-kind="decision"/);
   assert.match(html, /chrome-decision-booster-v1\.png/);
   assert.match(html, /alt="Decision Pack"/);
-  assert.match(html, /1 pack every 5 minutes\./);
-  assert.match(html, /Up to <b>12 packs per hour<\/b> when opened regularly\./);
+  assert.match(html, /1 pack every 5 minutes for everyone\./);
+  assert.match(
+    html,
+    /Up to <b>12 packs per hour<\/b> for everyone when opened regularly\./
+  );
   const css = readFileSync(resolve(root, "styles/premium.css"), "utf8");
   assert.match(
     css,

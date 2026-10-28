@@ -1009,7 +1009,6 @@
     "yourImagesYourGifsACollectionWithYourSignature": "Tes images. Tes GIFs. Une collection à ton image.",
     "proHighlights": "Les atouts de Pro",
     "customCardArtwork": "Illustrations personnalisées",
-    "fasterPacks": "Des packs plus rapides",
     "moreRoomToCollect": "Plus de place pour collectionner",
     "explorePro": "Découvrir Pro ",
     "hideProPromotionUntilTomorrow": "Masquer la promotion Pro jusqu'à demain",
@@ -1019,8 +1018,9 @@
     "earn5BonusPacksWhenYourFriendVerifiesTheirEmail": "Reçois 5 packs bonus quand ton ami confirme son adresse e-mail.",
     "getInviteLink": "Obtenir le lien d'invitation",
     "getPro": "Passer à Pro",
-    "refillYourPacksFasterWithYokkaiPro": "Recharge tes packs plus vite avec Yokkai Pro.",
-    "exploreProLabel": "Découvrir Pro"
+    "exploreProLabel": "Découvrir Pro",
+    "largerPackReserve": "Une plus grande réserve de packs",
+    "saveMorePacksWithYokkaiPro": "Stocke jusqu’à 10 Regular Packs avec Yokkai Pro au lieu de 5."
   },
   "discordPromo": {
     "yokkaiDiscordCommunity": "Communauté Discord Yokkai",
@@ -1031,7 +1031,6 @@
   },
   "referralReminder": {
     "donTStopNow": "Continue sur ta lancée.",
-    "get5PacksPerFriendOr2FasterPacksWith": "Reçois +5 packs par ami, ou des packs 2× plus rapides avec Pro.",
     "seeOptions": "Voir les options ",
     "referralReward": "Récompense de parrainage",
     "wantMoreBoosters": "Envie de plus de packs ?",
@@ -1055,14 +1054,13 @@
     "yourInviteLink": "Ton lien d'invitation",
     "share": "Partager",
     "couldnTCopyTheLinkPleaseTryAgain": "Impossible de copier le lien. Réessaie.",
-    "fasterPacks": "packs plus rapides",
-    "text1RegularPackEvery": "1 Regular Pack toutes les ",
-    "minInsteadOf": "min au lieu de ",
     "decisionPacksPerDayInsteadOf": "Decision Packs par jour au lieu de ",
     "explorePro": "Découvrir Pro",
-    "regularPackInterval": "1 {packName} toutes les {minutes} min au lieu de {basicMinutes}",
     "decisionPacksPerDay": "{count} {packName} par jour au lieu de {basicCount}",
-    "shareInvitation": "Rejoins-moi sur Yokkai Collec' pour ouvrir des packs de cartes."
+    "shareInvitation": "Rejoins-moi sur Yokkai Collec' pour ouvrir des packs de cartes.",
+    "bonusPacksOrLargerReserve": "Reçois +5 packs par ami, ou double ta réserve de packs avec Pro.",
+    "reserveSize": "la réserve de packs",
+    "regularPackReserve": "Stocke {count} Regular Packs au lieu de {basicCount}. Un pack toutes les {minutes} min pour tous."
   },
   "authCardCarousel": {
     "discoverCards": "Découvre les cartes {rarity} à collectionner",
@@ -1853,5 +1851,14 @@
     "manageWithStripe": "Gère ton abonnement, ton moyen de paiement et tes factures en toute sécurité avec Stripe. Consulte notre <privacy>politique de confidentialité</privacy>.",
     "deletionIncomplete": "La suppression de ton compte n’a pas pu être terminée. N’envoie pas de nouvelle demande. Contacte l’équipe pour vérifier son état.{hasContact, select, yes { Contact : {contact}.} other {}}",
     "referralRankLabel": "Top {value}"
+  },
+  "regularPackRules": {
+    "proIntro": "Stocke deux fois plus de Regular Packs. Choisis parmi deux Decision Packs par jour. Agrandis ta collection, puis personnalise tes favoris.",
+    "reserveSize": "la réserve",
+    "sharedInterval": "1 pack toutes les {minutes} minutes pour tous.",
+    "hourly": "Jusqu’à <strong>{count} packs par heure</strong> pour tous en les ouvrant régulièrement.",
+    "interval": "Toutes les {minutes} min",
+    "reserveLabel": "Réserve de Regular Packs",
+    "reserveCount": "{count, plural, one {# pack} other {# packs}}"
   }
 }

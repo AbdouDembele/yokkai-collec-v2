@@ -52,7 +52,7 @@ export function ProPromotionBanner({
         </p>
         <ul aria-label={t("proHighlights")}>
           <li>{t("customCardArtwork")}</li>
-          <li>{t("fasterPacks")}</li>
+          <li>{t("largerPackReserve")}</li>
           <li>{t("moreRoomToCollect")}</li>
         </ul>
       </div>
@@ -176,7 +176,7 @@ export function ProPromotion({
             <section className="rounded-panel border border-veil p-5">
               <h3 className="font-display text-xl">{t("getPro")}</h3>
               <p className="my-4 text-sm text-ink-2">
-                {t("refillYourPacksFasterWithYokkaiPro")}
+                {t("saveMorePacksWithYokkaiPro")}
               </p>
               <Link href="/premium" className="yk-button yk-button-primary">
                 {t("exploreProLabel")}
