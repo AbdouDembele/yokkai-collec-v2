@@ -1858,7 +1858,7 @@
     "sharedInterval": "1 pack toutes les {minutes} minutes pour tous.",
     "hourly": "Jusqu’à <strong>{count} packs par heure</strong> pour tous en les ouvrant régulièrement.",
     "interval": "Toutes les {minutes} min",
-    "reserveLabel": "Réserve de Regular Packs",
+    "reserveLabel": "Réserve Regular Pack",
     "reserveCount": "{count, plural, one {# pack} other {# packs}}"
   }
 }
