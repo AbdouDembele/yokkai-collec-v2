@@ -22,3 +22,10 @@ Le VPS et son déploiement continuent d'utiliser le dépôt d'origine.
 Les migrations sont copiées comme sources historiques : aucune migration n'a
 été appliquée au VPS pendant cet import et aucun secret GitHub n'a été copié.
 Pour une nouvelle base, suivre les instructions de configuration du projet.
+
+## Adaptation de la CI du dépôt privé
+
+Le premier contrôle GitHub a atteint sa limite de 15 minutes. Le job
+`checks` dispose donc de 30 minutes dans ce nouveau dépôt. Seul ce budget
+de durée change dans le workflow : mêmes tests, mêmes assertions, mêmes
+triggers. Les sources applicatives restent identiques à celles du VPS.
