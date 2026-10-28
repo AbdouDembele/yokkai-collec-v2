@@ -132,6 +132,7 @@ test("Social opens Feed and hides Everyone until its availability probe succeeds
   });
   assert.equal(page().type, SocialFeed);
   const { SocialTabs } = load("components/social-tabs.tsx", {
+    "next-intl": intl,
     "@/components/social-feed-provider": {
       useSocialFeeds: () => ({
         public: {
