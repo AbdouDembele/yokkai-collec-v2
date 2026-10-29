@@ -145,6 +145,14 @@ export function TradePathsPreview({
                 pollIntervalMs={null}
               />
             ),
+            compose: id => (
+              <TradesPanel
+                key={id}
+                adapter={adapter}
+                fixedFriendId={id}
+                pollIntervalMs={null}
+              />
+            ),
             open: id => {
               setEvents(e => [...e, "route-start"]);
               window.setTimeout(

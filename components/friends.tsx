@@ -15,7 +15,7 @@ import {
 } from "@/lib/data/social-unread";
 import { UnreadBadge } from "@/components/unread-badge";
 import type { PrivateMessagesAdapter } from "@/lib/data/private-messages";
-import { TradesPanel, type TradesPanelAdapter } from "@/components/trades";
+import type { TradesPanelAdapter } from "@/components/trades";
 import { Button, Modal, Skeleton, StatusPill, Tabs } from "@/components/ui";
 import {
   getFriendships,
@@ -396,6 +396,7 @@ export function FriendsPanel({
     routeKey?: string;
     friendId?: string;
     content: ReactNode;
+    compose?: (friendId: string) => ReactNode;
     open: (friendId?: string) => void;
     close: () => void;
   };
@@ -844,15 +845,9 @@ export function FriendsPanel({
         >
           {tradeOpen && (
             <div className="yk-friends-trades">
-              {localTradeFriend ? (
-                <TradesPanel
-                  key={localTradeFriend}
-                  adapter={adapter.trades}
-                  fixedFriendId={localTradeFriend}
-                />
-              ) : (
-                tradeSection?.content
-              )}
+              {localTradeFriend && tradeSection?.compose
+                ? tradeSection.compose(localTradeFriend)
+                : tradeSection?.content}
             </div>
           )}
         </Modal>

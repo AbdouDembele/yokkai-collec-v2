@@ -1105,9 +1105,10 @@ export function TradesPanel({
           nextContext.friendCards.some(
             card => card.instanceId === initialRequestedCardId
           )
-        )
-          updateRequested(new Set([initialRequestedCardId]));
-        else setError("This card is no longer available to trade.");
+        ) {
+          requestedRef.current = new Set([initialRequestedCardId]);
+          setRequested(new Set([initialRequestedCardId]));
+        } else setError("This card is no longer available to trade.");
       }
     })().catch(reason => {
       if (active)

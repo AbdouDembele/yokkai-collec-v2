@@ -2263,6 +2263,9 @@ export function FriendsView() {
         routeKey: params.toString(),
         friendId: params.get("ami") ?? undefined,
         content: <TradesView />,
+        compose: friendId => (
+          <TradesPanel key={friendId} fixedFriendId={friendId} />
+        ),
         open: navigateTrades,
         close: () => router.push("/social/friends", { scroll: false })
       }}
