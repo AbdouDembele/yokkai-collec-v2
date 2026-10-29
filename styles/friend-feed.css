@@ -180,7 +180,7 @@
   pointer-events: none;
 }
 .yk-feed-wall-link {
-  grid-row: 5;
+  grid-row: 4;
   display: inline-flex;
   gap: 6px;
   margin-top: 0;
@@ -268,7 +268,7 @@
   max-height: 168px;
 }
 .yk-feed-post[data-has-media="false"] .yk-feed-wall-link {
-  grid-row: 4;
+  grid-row: 3;
 }
 
 .yk-home-main .yk-button.yk-home-panel-action.yk-feed-icon-action {
@@ -294,6 +294,8 @@
   margin-top: 0;
 }
 .yk-home-post-actions .yk-post-actions {
+  grid-row: 2;
+  grid-column: 1;
   flex-wrap: nowrap;
   gap: 6px;
   padding-top: 0;
@@ -310,12 +312,14 @@
   font-size: 12px;
 }
 .yk-home-reaction-summary {
+  grid-row: 1;
+  grid-column: 1;
   display: flex;
   align-items: center;
   gap: 5px;
   max-width: calc(100% - 100px);
   height: 40px;
-  margin-top: 4px;
+  margin-top: 0;
   overflow-x: auto;
   scrollbar-width: none;
 }
@@ -398,4 +402,14 @@
 .yk-feed-post[data-has-media="true"] .yk-feed-text {
   -webkit-line-clamp: 2;
   max-height: 48px;
+}
+
+.yk-home-post-actions .yk-compact-post-interactions {
+  display: grid;
+  grid-template-rows: 40px 40px;
+  gap: 4px;
+}
+.yk-home-post-actions .yk-compact-post-interactions > .yk-button {
+  grid-row: 2;
+  grid-column: 1;
 }

@@ -563,22 +563,6 @@ export function WallPostInteractions({
         className="yk-wall-interactions yk-compact-post-interactions"
         data-post-activity={postId}
       >
-        {error && !open ? (
-          <button
-            type="button"
-            className="yk-button"
-            title={t(gameErrorKey(error, "profileUi.profileUnavailable"))}
-            onClick={() => {
-              setBusy(false);
-              setError("");
-              setRetry(value => value + 1);
-            }}
-          >
-            {t("profileUi.retry")}
-          </button>
-        ) : (
-          controls
-        )}
         {!error && !!activity?.reactions?.length && (
           <div
             className="yk-home-reaction-summary"
@@ -609,6 +593,22 @@ export function WallPostInteractions({
               );
             })}
           </div>
+        )}
+        {error && !open ? (
+          <button
+            type="button"
+            className="yk-button"
+            title={t(gameErrorKey(error, "profileUi.profileUnavailable"))}
+            onClick={() => {
+              setBusy(false);
+              setError("");
+              setRetry(value => value + 1);
+            }}
+          >
+            {t("profileUi.retry")}
+          </button>
+        ) : (
+          controls
         )}
         <Modal
           open={open}
