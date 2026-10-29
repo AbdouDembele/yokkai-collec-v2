@@ -62,7 +62,7 @@ test("trigger-only EXECUTE is denied to PUBLIC, anon and authenticated", async t
   }
 });
 
-test("wishlist compatibility view has no client privileges and keeps its SQL callers", async t => {
+test("wishlist compatibility view has no client privileges or acquisition cleanup callers", async t => {
   const { db } = await replayMigrations();
   t.after(() => db.close());
   for (const role of ["public", "anon", "authenticated"]) {
@@ -95,7 +95,8 @@ test("wishlist compatibility view has no client privileges and keeps its SQL cal
         [String.raw`\mpublic\.wishlist\M`]
       )
     ).rows.map(row => row.proname),
-    ["respond_trade_offer", "settle_expired_auctions"]
+    [],
+    "acquisition no longer removes wishlist entries through the compatibility view"
   );
   await assert.rejects(
     authenticated(db, alice, "select * from public.wishlist"),
@@ -313,7 +314,7 @@ test("authenticated actions still fire all five achievement triggers", async t =
         [bob, pack[0].id]
       )
     ).rows[0].count,
-    0
+    1
   );
   await completed(db, alice, "marche-conclu");
   await completed(db, bob, "marche-conclu");
@@ -385,6 +386,6 @@ test("authenticated actions still fire all five achievement triggers", async t =
         [bob, pack[1].id]
       )
     ).rows[0].count,
-    0
+    1
   );
 });

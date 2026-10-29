@@ -3,14 +3,8 @@ import { EmojiReactionPicker } from "@/components/emoji-reaction-picker";
 import { reactionEmoji } from "@/lib/ui/reaction-emojis";
 import { insertMessageEmoji } from "@/lib/ui/message-emoji";
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
-import {
-  PlayerProfilePreview,
-  type PlayerPreviewAdapter
-} from "@/components/player-profile-preview";
-import {
-  auctionMentionParts,
-  type MentionPlayer
-} from "@/lib/ui/auction-mentions";
+import type { PlayerPreviewAdapter } from "@/components/player-profile-preview";
+import { AuctionMessageText } from "@/components/auction-message-text";
 import { gameErrorKey } from "@/i18n/game-messages";
 import { useTranslations, useFormatter, useLocale } from "next-intl";
 import Link from "next/link";
@@ -48,6 +42,10 @@ import { CardReportButton } from "@/components/card-report-button";
 import { GifPicker, type GifChoice } from "@/components/gif-picker";
 import { CARD_PAGE_SIZES } from "@/lib/ui/pagination";
 import { startVisiblePolling } from "@/lib/ui/visible-polling";
+import {
+  marketLabelKeys as labelKeys,
+  marketEmptyStates as marketEmptyStateKeys
+} from "@/lib/ui/market-labels";
 import { useMarketSort } from "@/lib/ui/market-sort";
 import {
   auctionReconciliationScopes,
@@ -434,8 +432,6 @@ const urgencyClass = (seconds: number) =>
     : seconds < 3600
       ? "yk-urgency-soon"
       : "";
-const formatKaras = (amount: number) =>
-  `${amount.toLocaleString("en-US")} Karas`;
 const formatEndDate = (endsAt?: string, locale = "en-US") =>
   endsAt
     ? new Date(endsAt).toLocaleDateString(locale, {
@@ -510,7 +506,7 @@ function WatchButton({
   );
 }
 function AuctionTile({ auction: a }: { auction: AuctionPresentation }) {
-  const t = useTranslations("market");
+  const tm = useTranslations("market");
   const locale = useLocale();
   const format = useFormatter();
   const formatKaras = (amount: number) => format.number(amount) + " Karas";
@@ -520,20 +516,20 @@ function AuctionTile({ auction: a }: { auction: AuctionPresentation }) {
       ? a.status
       : undefined;
   const ended = formatEndDate(a.endsAt, locale);
-  const label = t("viewAuction", {
+  const label = tm("viewAuction", {
     name: a.card.name,
     details:
       outcome === "won"
-        ? t("wonDetails", { amount: formatKaras(a.amount), date: ended })
+        ? tm("wonDetails", { amount: formatKaras(a.amount), date: ended })
         : outcome === "sold"
-          ? t(a.buyer ? "soldBuyerDetails" : "soldDetails", {
+          ? tm(a.buyer ? "soldBuyerDetails" : "soldDetails", {
               amount: formatKaras(a.amount),
               buyer: a.buyer ?? "",
               date: ended
             })
           : outcome === "unsold"
-            ? t("unsoldDetails", { date: ended })
-            : t(a.finished ? "endedDetails" : "liveDetails", {
+            ? tm("unsoldDetails", { date: ended })
+            : tm(a.finished ? "endedDetails" : "liveDetails", {
                 amount: formatKaras(a.amount),
                 remaining: a.remaining
               })
@@ -563,12 +559,12 @@ function AuctionTile({ auction: a }: { auction: AuctionPresentation }) {
           {outcome ? (
             <span className="yk-market-outcome truncate">
               {outcome === "won"
-                ? t("boughtFrom", { name: a.seller })
+                ? tm("boughtFrom", { name: a.seller })
                 : outcome === "unsold"
-                  ? t("returned")
+                  ? tm("returned")
                   : a.buyer
-                    ? t("soldTo", { name: a.buyer })
-                    : t("sold")}
+                    ? tm("soldTo", { name: a.buyer })
+                    : tm("sold")}
             </span>
           ) : (
             <span className="yk-market-seller">
@@ -585,7 +581,7 @@ function AuctionTile({ auction: a }: { auction: AuctionPresentation }) {
               className={`yk-market-timer ${a.finished ? "" : urgencyClass(a.remainingSeconds)}`}
             >
               <HourglassIcon />
-              {outcome ? ended : a.finished ? t("ended") : a.remaining}
+              {outcome ? ended : a.finished ? tm("ended") : a.remaining}
             </span>
             <span className="yk-market-tile-state">
               {a.status && <AuctionStatus status={a.status} />}
@@ -600,33 +596,7 @@ function AuctionTile({ auction: a }: { auction: AuctionPresentation }) {
   );
 }
 
-const marketEmptyStates = {
-  all: {
-    title: "No auctions yet",
-    text: "Your listings, bids and won auctions will appear here.",
-    action: "Browse market"
-  },
-  mine: {
-    title: "No auctions in progress",
-    text: "You have no active listings or leading bids.",
-    action: "Browse market"
-  },
-  won: {
-    title: "You haven't won an auction yet",
-    text: "Cards you win will appear here.",
-    action: "See auctions ending soon"
-  },
-  sales: {
-    title: "No sold auctions yet",
-    text: "Cards you sell to another player will appear here.",
-    action: "List a card"
-  },
-  unsold: {
-    title: "No unsold auctions",
-    text: "Listings that end without a bid will appear here.",
-    action: "List a card"
-  }
-} as const;
+const marketEmptyStates = marketEmptyStateKeys;
 type MineTab = keyof typeof marketEmptyStates;
 const mineTabs = [
   ["all", "All"],
@@ -682,22 +652,10 @@ export function MarketView({
   onLoadMore?: () => void;
   onToggleWatch?: (id: string) => Promise<void>;
 }) {
-  const t = useTranslations("market");
+  const tm = useTranslations("market");
   const format = useFormatter();
   const formatKaras = (amount: number) => format.number(amount) + " Karas";
-  const labelKeys: Record<string, string> = {
-    "Ending soon": "labelEnd",
-    "Price: low to high": "labelAsc",
-    "Price: high to low": "labelDesc",
-    "Most popular": "labelPopular",
-    All: "labelAll",
-    Active: "labelMine",
-    Won: "labelWon",
-    Sold: "labelSales",
-    Unsold: "labelUnsold",
-    Auctions: "labelBrowse",
-    "My auctions": "labelMyAuctions"
-  };
+
   const [section, setSection] = useState(initialSection);
   const [mineTab, setMineTab] = useState<MineTab>("all");
   const [query, setQuery] = useState("");
@@ -762,17 +720,17 @@ export function MarketView({
   const mineCount = mineCounts?.all;
   const shown = section === "browse" ? browse : mine;
   const heading = !shown
-    ? t("loading")
+    ? tm("loading")
     : section === "browse"
-      ? t("upForAuction", { count: shown.length })
-      : t("count" + mineTab, { count: shown.length });
+      ? tm("upForAuction", { count: shown.length })
+      : tm(`count${mineTab}`, { count: shown.length });
   const recap =
     counts?.sales != null && counts.unsold != null
-      ? t(
+      ? tm(
           counts.salesKaras ? "recapSales" : "recap",
           counts.salesKaras
             ? {
-                recap: t("recap", {
+                recap: tm("recap", {
                   won: format.number(counts.won),
                   sold: format.number(counts.sales),
                   unsold: format.number(counts.unsold)
@@ -817,7 +775,7 @@ export function MarketView({
           <path d="M3 12a9 9 0 1 0 3-6.7L3 8" />
           <path d="M3 3v5h5" />
         </svg>
-        {t("reset")}
+        {tm("reset")}
       </button>
       <div className="yk-filter-search">
         <svg
@@ -833,19 +791,19 @@ export function MarketView({
           <path d="m20 20-4-4" />
         </svg>
         <label className="sr-only" htmlFor="market-query">
-          {t("search")}
+          {tm("search")}
         </label>
         <input
           id="market-query"
           type="search"
           value={query}
           onChange={e => setQuery(e.target.value)}
-          placeholder={t("searchPlaceholder")}
+          placeholder={tm("searchPlaceholder")}
         />
       </div>
       <div className="yk-market-filter-scroll">
         {section === "browse" && (
-          <FilterGroup title={t("sort")}>
+          <FilterGroup title={tm("sort")}>
             {(
               [
                 ["end", "Ending soon"],
@@ -862,13 +820,13 @@ export function MarketView({
                 onClick={() => setSort(key)}
               >
                 <span className="yk-filter-check" />
-                <span>{t(labelKeys[label])}</span>
+                <span>{tm(labelKeys[label])}</span>
               </button>
             ))}
           </FilterGroup>
         )}
         {section === "mine" && (
-          <CatalogueFilterSection title={t("status")}>
+          <CatalogueFilterSection title="Status">
             {mineTabs.map(([key, label]) => (
               <button
                 type="button"
@@ -878,7 +836,7 @@ export function MarketView({
                 onClick={() => setMineTab(key)}
               >
                 <span className="yk-filter-check" />
-                <span>{t(labelKeys[label])}</span>
+                <span>{tm(labelKeys[label])}</span>
                 {mineCounts?.[key] != null && (
                   <strong>{format.number(mineCounts[key])}</strong>
                 )}
@@ -886,13 +844,13 @@ export function MarketView({
             ))}
           </CatalogueFilterSection>
         )}
-        <CatalogueFilterSection title={t("rarity")} count={rarity.length}>
+        <CatalogueFilterSection title="Rarity" count={rarity.length}>
           <RarityChips
             selected={rarity}
             onToggle={r => setRarity(current => toggleFilterValue(current, r))}
           />
         </CatalogueFilterSection>
-        <CatalogueFilterSection title={t("category")} count={category ? 1 : 0}>
+        <CatalogueFilterSection title="Category" count={category ? 1 : 0}>
           {categories.map(item => (
             <button
               type="button"
@@ -931,13 +889,13 @@ export function MarketView({
         >
           <path d="M4 6h16M7 12h10M10 18h4" />
         </svg>
-        {t("filters")}
+        {tm("filters")}
         {filtered ? <span>•</span> : null}
       </button>
       <div
         className="yk-market-sections"
         role="tablist"
-        aria-label={t("sections")}
+        aria-label={tm("sections")}
       >
         {(
           [
@@ -956,20 +914,20 @@ export function MarketView({
               setCategory("");
             }}
           >
-            {t(labelKeys[label])}
+            {tm(labelKeys[label])}
             {count != null && <span>{count}</span>}
           </button>
         ))}
       </div>
       <div className="yk-market-band-actions">
         <StatusPill>
-          {t("activeListings", { count: activeSales ?? "—" })}
+          {tm("activeListings", { count: activeSales ?? "—" })}
         </StatusPill>
       </div>
     </div>
   );
   return (
-    <section aria-label={t("region")} className="yk-market">
+    <section aria-label={tm("region")} className="yk-market">
       {pageHeading ? (
         <header className="yk-market-heading">
           {pageHeading}
@@ -986,10 +944,10 @@ export function MarketView({
             </p>
             <p className="mt-1 text-xs text-ink-3">
               {filtered
-                ? t("matching")
+                ? tm("matching")
                 : section === "browse"
-                  ? t("allActive")
-                  : t("yourListings")}
+                  ? tm("allActive")
+                  : tm("yourListings")}
             </p>
           </div>
         </div>
@@ -998,7 +956,7 @@ export function MarketView({
         <button
           type="button"
           className="yk-filter-backdrop"
-          aria-label={t("closeFilters")}
+          aria-label={tm("closeFilters")}
           onClick={() => setFiltersOpen(false)}
         />
       )}
@@ -1006,13 +964,13 @@ export function MarketView({
         <aside
           id="market-filters"
           className={`yk-collection-sidebar yk-market-sidebar ${filtersOpen ? "yk-sidebar-open" : ""}`}
-          aria-label={t("filterLabel")}
+          aria-label={tm("filterLabel")}
         >
           <div className="yk-sidebar-mobile-head">
-            <strong>{t("filters")}</strong>
+            <strong>{tm("filters")}</strong>
             <button
               type="button"
-              aria-label={t("closeFilters")}
+              aria-label={tm("closeFilters")}
               onClick={() => setFiltersOpen(false)}
             >
               ×
@@ -1024,15 +982,15 @@ export function MarketView({
           {!pageHeading && toolbar}
           {section === "browse" ? (
             !browse ? (
-              <Unavailable>{t("loading")}</Unavailable>
+              <Unavailable>{tm("loading")}</Unavailable>
             ) : !browse.length ? (
               <Unavailable>
-                {filtered ? t("noMatch") : t("noActive")}
+                {filtered ? tm("noMatch") : tm("noActive")}
               </Unavailable>
             ) : (
               <ul
                 className="yk-card-grid yk-market-list"
-                aria-label={t("activeLabel")}
+                aria-label={tm("activeLabel")}
               >
                 {browse.map(a => (
                   <AuctionTile key={a.id} auction={a} />
@@ -1040,7 +998,7 @@ export function MarketView({
               </ul>
             )
           ) : !lists || !mine ? (
-            <Unavailable>{t("loadingMine")}</Unavailable>
+            <Unavailable>{tm("loadingMine")}</Unavailable>
           ) : (
               mineCounts?.[mineTab] != null
                 ? !mineCounts[mineTab]
@@ -1054,17 +1012,17 @@ export function MarketView({
                 ✦
               </span>
               <p className="mt-4 font-display text-lg">
-                {t("empty" + mineTab + "Title")}
+                {tm(marketEmptyStates[mineTab].title)}
               </p>
               <p className="mt-2 max-w-md text-sm leading-6 text-ink-2">
-                {t("empty" + mineTab + "Text")}
+                {tm(marketEmptyStates[mineTab].text)}
               </p>
               {mineTab === "sales" || mineTab === "unsold" ? (
                 <Link
                   href="/collection"
                   className="yk-button yk-button-secondary mt-6"
                 >
-                  {t("empty" + mineTab + "Action")}
+                  {tm(marketEmptyStates[mineTab].action)}
                 </Link>
               ) : (
                 <Button
@@ -1075,19 +1033,19 @@ export function MarketView({
                     setSort("end");
                   }}
                 >
-                  {t("empty" + mineTab + "Action")}
+                  {tm(marketEmptyStates[mineTab].action)}
                 </Button>
               )}
             </div>
           ) : !mine.length ? (
-            <Unavailable>{t("noMatch")}</Unavailable>
+            <Unavailable>{tm("noMatch")}</Unavailable>
           ) : (
             <>
               {recap && <p className="yk-market-recap">{recap}</p>}
               <ul
                 className="yk-card-grid yk-market-list"
-                aria-label={t("mineLabel", {
-                  status: t(
+                aria-label={tm("mineLabel", {
+                  status: tm(
                     "label" + mineTab[0].toUpperCase() + mineTab.slice(1)
                   )
                 })}
@@ -1106,16 +1064,16 @@ export function MarketView({
                   disabled={loadingMore}
                   onClick={onLoadMore}
                 >
-                  {loadingMore ? t("loadingMore") : t("loadMore")}
+                  {loadingMore ? tm("loadingMore") : tm("loadMore")}
                 </Button>
               )}
               <p role="status" className="text-sm text-ink-2">
                 {loadingMore ? (
-                  t("loading")
+                  tm("loading")
                 ) : marketPage?.hasMore && marketLimit >= MARKET_MAX_ITEMS ? (
-                  t("limit")
+                  tm("limit")
                 ) : marketPage && !marketPage.hasMore ? (
-                  <span className="sr-only">{t("allLoaded")}</span>
+                  <span className="sr-only">{tm("allLoaded")}</span>
                 ) : (
                   ""
                 )}
@@ -1273,9 +1231,6 @@ export function AuctionChatPanel({
     options: typeof mentionOptions;
     index: number;
   }>();
-  const [previewPlayer, setPreviewPlayer] = useState<
-    (MentionPlayer & { trigger: HTMLButtonElement }) | null
-  >(null);
   const mentionPlayers = [
     ...(chat?.participants ?? []),
     ...(chat?.messages ?? [])
@@ -1499,32 +1454,11 @@ export function AuctionChatPanel({
                     decoding="async"
                   />
                 ) : (
-                  <span className="yk-auction-chat-message">
-                    {auctionMentionParts(item.message, mentionPlayers).map(
-                      (part, index) =>
-                        part.player ? (
-                          <button
-                            type="button"
-                            className="yk-auction-chat-mention"
-                            key={index}
-                            aria-haspopup="dialog"
-                            aria-label={t("playerPreview.open", {
-                              name: part.player.pseudo
-                            })}
-                            onClick={event =>
-                              setPreviewPlayer({
-                                ...part.player!,
-                                trigger: event.currentTarget
-                              })
-                            }
-                          >
-                            {part.text}
-                          </button>
-                        ) : (
-                          part.text
-                        )
-                    )}
-                  </span>
+                  <AuctionMessageText
+                    message={item.message}
+                    players={mentionPlayers}
+                    adapter={adapter.preview}
+                  />
                 )}
                 {!item.mine && (
                   <PlayerModeration
@@ -1671,15 +1605,6 @@ export function AuctionChatPanel({
             ? t("profileUi.auctionChatClosed")
             : t("profileUi.placeABidToJoinTheChat")}
         </p>
-      )}
-      {previewPlayer && (
-        <PlayerProfilePreview
-          key={previewPlayer.userId}
-          player={previewPlayer}
-          returnFocus={previewPlayer.trigger}
-          adapter={adapter.preview}
-          onClose={() => setPreviewPlayer(null)}
-        />
       )}
     </section>
   );

@@ -29,6 +29,8 @@ test("market ranks real distinct interest and puts personal follows before pagin
         )
       ).rows[0].id
     );
+  let expirySequence = 0;
+  const fixtureClock = Date.now();
   async function auction(card = 1, minutes = 60, amount = 10) {
     const copy = (
       await db.query(
@@ -39,8 +41,13 @@ test("market ranks real distinct interest and puts personal follows before pagin
     return (
       await db.query(
         `insert into public.auctions(card_instance_id,seller_id,starting_price,current_price,duration_minutes,ends_at)
-       values ($1,$2,10,$3,60,clock_timestamp()+make_interval(mins=>$4)) returning id`,
-        [copy, seller, amount, minutes]
+       values ($1,$2,10,$3,60,to_timestamp($4::double precision / 1000)) returning id`,
+        [
+          copy,
+          seller,
+          amount,
+          fixtureClock + minutes * 60000 + expirySequence++
+        ]
       )
     ).rows[0].id;
   }

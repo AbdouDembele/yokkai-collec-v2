@@ -104,6 +104,7 @@ function panel(adapter, componentSource = component) {
     useFormatter: intl.useFormatter,
     Intl,
     auctionMentionParts,
+    AuctionMessageText: "message-text",
     gameErrorKey: gameMessages.gameErrorKey,
     useState,
     useRef,

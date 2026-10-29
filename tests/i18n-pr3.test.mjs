@@ -16,6 +16,10 @@ const messages = Object.fromEntries(
 );
 const files = [
   "profile",
+  "profile-completion",
+  "profile-private",
+  "friend-message-button",
+  "auction-message-text",
   "profile-wall",
   "profile-sales",
   "profile-license-picker",

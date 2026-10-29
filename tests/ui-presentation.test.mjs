@@ -2809,13 +2809,13 @@ test("Phase 6 : liste du marché, suivi et Mes enchères", () => {
   assert.match(
     normalizeWhitespace(source),
     normalizeWhitespace(
-      /\{section==="mine"&&\(?<CatalogueFilterSection title=\{t\("status"\)\}>/
+      /\{section==="mine"&&\(?<CatalogueFilterSection title="Status">/
     )
   );
   assert.match(
     normalizeWhitespace(source),
     normalizeWhitespace(
-      /<div className="yk-market-filter-scroll">\{section==="browse"&&\(?<FilterGroup title=\{t\("sort"\)\}>/
+      /<div className="yk-market-filter-scroll">\{section==="browse"&&\(?<FilterGroup title=\{tm\("sort"\)\}>/
     )
   );
   // Same layout as Collection/Catalogue: the sidebar stays in normal page flow without its own scroll area.
@@ -2881,7 +2881,7 @@ test("la recherche du marché filtre en mémoire par nom et franchise", () => {
   );
   assert.match(
     normalizeWhitespace(source),
-    normalizeWhitespace(/t\("noMatch"\)/)
+    normalizeWhitespace(/tm\("noMatch"\)/)
   );
   assert.ok(
     existsSync(

@@ -47,6 +47,7 @@ function chatHarness() {
     useFormatter: intl.useFormatter,
     Intl,
     auctionMentionParts,
+    AuctionMessageText: "message-text",
     gameErrorKey: gameMessages.gameErrorKey,
     exports,
     require: () => jsx,
