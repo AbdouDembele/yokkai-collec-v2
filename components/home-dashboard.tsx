@@ -267,6 +267,9 @@ export function HomeDashboard({ userId }: { userId: string }) {
             <PanelData load={bigPulls} />
           </Suspense>
         </HomePanel>
+        <Suspense fallback={<HomeSkeleton />}>
+          <PanelData load={() => communityFeed(userId)} />
+        </Suspense>
         <HomePanel
           id="home-market"
           title={t("theMarket")}
@@ -287,9 +290,6 @@ export function HomeDashboard({ userId }: { userId: string }) {
             <HomeLeaderboard userId={userId} />
           </Suspense>
         </HomePanel>
-        <Suspense fallback={<HomeSkeleton />}>
-          <PanelData load={() => communityFeed(userId)} />
-        </Suspense>
         <HomeLinks discordEnabled={discordEnabled} />
       </main>
       <SiteFooter
