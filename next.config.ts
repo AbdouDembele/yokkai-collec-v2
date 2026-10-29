@@ -67,6 +67,16 @@ const nextConfig: NextConfig = {
       "frame-ancestors 'none'"
     ].join("; ");
     return [
+      // These files are public and identical for every visitor. Keep a bounded
+      // TTL (no immutable directive): filenames are not content-versioned.
+      {
+        source: "/fonts/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=3600" }]
+      },
+      {
+        source: "/assets/sfx/:path*",
+        headers: [{ key: "Cache-Control", value: "public, max-age=3600" }]
+      },
       {
         source: "/:path*",
         headers: [

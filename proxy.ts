@@ -184,6 +184,6 @@ export async function proxy(request: NextRequest) {
 export const config = {
   matcher: [
     "/design-system/:path*",
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"
+    "/((?!_next/static|_next/image|favicon.ico|fonts/.*\\.(?:woff2?|ttf|otf)$|assets/sfx/.*\\.mp3$|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"
   ]
 };
