@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import {
   auctionMentionParts,
@@ -50,15 +51,17 @@ export function AuctionMessageText({
           )
         )}
       </span>{" "}
-      {previewPlayer && (
-        <PlayerProfilePreview
-          key={previewPlayer.userId}
-          player={previewPlayer}
-          returnFocus={previewPlayer.trigger}
-          adapter={adapter}
-          onClose={() => setPreviewPlayer(null)}
-        />
-      )}
+      {previewPlayer &&
+        createPortal(
+          <PlayerProfilePreview
+            key={previewPlayer.userId}
+            player={previewPlayer}
+            returnFocus={previewPlayer.trigger}
+            adapter={adapter}
+            onClose={() => setPreviewPlayer(null)}
+          />,
+          document.body
+        )}
     </>
   );
 }
