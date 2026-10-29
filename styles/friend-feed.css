@@ -328,15 +328,15 @@
   align-items: center;
   gap: 5px;
   flex-shrink: 0;
-  min-width: 52px;
+  min-width: 44px;
   min-height: 40px;
-  padding: 4px 10px;
+  padding: 4px 8px;
   cursor: pointer;
   border: 1px solid #526d91;
   border-radius: 8px;
   background: #142239;
   color: #f3f7ff;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 1;
 }
 .yk-home-reaction-summary > button[aria-pressed="true"] {
