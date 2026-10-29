@@ -591,10 +591,13 @@ export function WallPostInteractions({
                 `profileUi.emoji${choice.id.replace(/(^|-)(\w)/g, (_, _separator, letter: string) => letter.toUpperCase())}`
               );
               return (
-                <span
+                <button
                   key={item.emoji}
+                  type="button"
+                  disabled={busy || !activity}
+                  aria-pressed={item.reactedByMe}
+                  onClick={() => void update("react", item.emoji)}
                   data-selected={item.reactedByMe}
-                  role="img"
                   aria-label={t("profileUi.reactionCount", {
                     label,
                     count: item.count
@@ -602,7 +605,7 @@ export function WallPostInteractions({
                 >
                   <span aria-hidden="true">{choice.emoji}</span>
                   <strong aria-hidden="true">{fmt.number(item.count)}</strong>
-                </span>
+                </button>
               );
             })}
           </div>

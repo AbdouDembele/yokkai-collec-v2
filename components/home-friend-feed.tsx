@@ -200,10 +200,10 @@ export function HomeFriendFeed({
           )}
         </div>
         <Link
-          href="/profile?tab=wall"
+          href={scope === "everyone" ? "/social/everyone" : "/profile?tab=wall"}
           className="yk-button yk-button-primary yk-home-panel-action"
         >
-          {t("viewMyWall")}
+          {t(scope === "everyone" ? "viewPublicFeed" : "viewMyWall")}
           <span aria-hidden="true">↗</span>
         </Link>
       </header>

@@ -319,19 +319,22 @@
   overflow-x: auto;
   scrollbar-width: none;
 }
-.yk-home-reaction-summary > span {
+.yk-home-reaction-summary > button {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   flex-shrink: 0;
+  min-width: 32px;
+  min-height: 24px;
   padding: 1px 6px;
+  cursor: pointer;
   border: 1px solid #526d91;
   border-radius: 8px;
   background: #142239;
   color: #f3f7ff;
   font-size: 12px;
 }
-.yk-home-reaction-summary > span[data-selected="true"] {
+.yk-home-reaction-summary > button[aria-pressed="true"] {
   border-color: #8fbcff;
   background: #2d5280;
 }
@@ -379,4 +382,13 @@
   .yk-friend-feed[data-feed-scope="everyone"] .yk-feed-heading {
     padding-block: 12px;
   }
+}
+
+.yk-home-reaction-summary > button:hover:not(:disabled) {
+  border-color: #b9ceff;
+  background: #274361;
+}
+.yk-home-reaction-summary > button:disabled {
+  cursor: wait;
+  opacity: 0.7;
 }
