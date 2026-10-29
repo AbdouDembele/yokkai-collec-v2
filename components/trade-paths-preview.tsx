@@ -29,7 +29,7 @@ export function TradePathsPreview({
       active: false
     });
   const status = useRef<TradeOffer["status"]>("pending"),
-    created = useRef<TradeOffer>(),
+    created = useRef<TradeOffer | undefined>(undefined),
     mutated = useRef(false);
   const adapter = useMemo<TradesPanelAdapter>(
     () => ({
