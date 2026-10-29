@@ -358,3 +358,25 @@
   position: relative;
   z-index: 1;
 }
+
+/* Compact public previews on Home; the friends-feed presentation stays unchanged. */
+.yk-friend-feed[data-feed-scope="everyone"] .yk-feed-heading {
+  padding-block: 14px;
+}
+.yk-friend-feed[data-feed-scope="everyone"] .yk-feed-post {
+  height: 340px;
+  padding-block: 8px;
+  grid-template-rows: 42px 128px minmax(0, 1fr) 40px 24px;
+}
+.yk-friend-feed[data-feed-scope="everyone"] .yk-feed-media-preview {
+  height: 128px;
+}
+.yk-friend-feed[data-feed-scope="everyone"]
+  .yk-feed-post[data-has-media="false"] {
+  grid-template-rows: 42px minmax(0, 1fr) 40px 24px;
+}
+@media (max-width: 639px) {
+  .yk-friend-feed[data-feed-scope="everyone"] .yk-feed-heading {
+    padding-block: 12px;
+  }
+}
