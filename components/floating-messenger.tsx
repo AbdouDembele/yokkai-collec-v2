@@ -33,7 +33,65 @@ function ChatIcon() {
     </svg>
   );
 }
-function MessengerSession({ unread }: { unread: SocialUnread }) {
+export function MessengerSession({
+  unread,
+  loadConversations = getPrivateConversations
+}: {
+  unread: SocialUnread;
+  loadConversations?: typeof getPrivateConversations;
+}) {
+  const pathname = usePathname();
+  const dock = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const element = dock.current;
+    let footer = document.querySelector<HTMLElement>(".yk-site-footer");
+    if (!element) return;
+    let frame = 0;
+    let previous = -1;
+    const update = () => {
+      frame = 0;
+      const clearance = Math.max(
+        0,
+        Math.ceil(
+          window.innerHeight -
+            (footer?.getBoundingClientRect().top ?? window.innerHeight)
+        )
+      );
+      if (clearance !== previous) {
+        element.style.setProperty(
+          "--yk-messenger-footer-clearance",
+          String(clearance) + "px"
+        );
+        previous = clearance;
+      }
+    };
+    const schedule = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    const resize = new ResizeObserver(schedule);
+    if (footer) resize.observe(footer);
+    resize.observe(document.body);
+    // Streaming navigation can mount a new footer after this session's effect.
+    const mutations = new MutationObserver(() => {
+      if (footer?.isConnected) return;
+      if (footer) resize.unobserve(footer);
+      footer = document.querySelector<HTMLElement>(".yk-site-footer");
+      if (footer) resize.observe(footer);
+      schedule();
+    });
+    mutations.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    update();
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", schedule);
+      window.removeEventListener("resize", schedule);
+      resize.disconnect();
+      mutations.disconnect();
+      element.style.removeProperty("--yk-messenger-footer-clearance");
+    };
+  }, [pathname]);
   const t = useTranslations("messenger");
   const format = useFormatter();
   const [open, setOpen] = useState(false);
@@ -60,7 +118,7 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
   useEffect(() => {
     if (!active) return;
     let current = true;
-    getPrivateConversations()
+    loadConversations()
       .then(
         result => {
           if (current && result.viewerId === unread.viewerId) {
@@ -78,7 +136,7 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
     return () => {
       current = false;
     };
-  }, [active, unread, retry]);
+  }, [active, unread, retry, loadConversations]);
   useEffect(() => {
     if (!open) return;
     panel.current?.querySelector<HTMLButtonElement>("button")?.focus();
@@ -100,7 +158,7 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
     setMore(true);
     setError(false);
     try {
-      const result = await getPrivateConversations(cursor);
+      const result = await loadConversations(cursor);
       if (mounted.current && result.viewerId === unread.viewerId) {
         setData(previous => ({
           ...result,
@@ -140,7 +198,11 @@ function MessengerSession({ unread }: { unread: SocialUnread }) {
     unread.messages.map(item => [item.friendId, item.count])
   );
   return (
-    <aside className="yk-messenger" data-open={open ? "true" : "false"}>
+    <aside
+      ref={dock}
+      className="yk-messenger"
+      data-open={open ? "true" : "false"}
+    >
       {open && (
         <div
           id={panelId}

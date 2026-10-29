@@ -1878,7 +1878,11 @@ export function AuctionView({
           {auction.history?.length ? ` (${auction.history.length})` : ""}
         </h2>
         {auction.history?.length ? (
-          <ol className="mt-4">
+          <ol
+            className="yk-auction-history-list mt-4"
+            tabIndex={0}
+            aria-label={t("profileUi.bidHistory")}
+          >
             {auction.history.map((h, i) => (
               <li
                 key={h.id}

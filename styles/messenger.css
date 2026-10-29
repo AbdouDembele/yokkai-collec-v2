@@ -1,7 +1,10 @@
 .yk-messenger {
+  --yk-messenger-edge-gap: max(16px, env(safe-area-inset-bottom));
   position: fixed;
   right: max(16px, env(safe-area-inset-right));
-  bottom: max(16px, env(safe-area-inset-bottom));
+  bottom: calc(
+    var(--yk-messenger-edge-gap) + var(--yk-messenger-footer-clearance, 0px)
+  );
   z-index: 82;
   max-width: calc(100vw - 24px);
 }
@@ -53,8 +56,23 @@
   display: flex;
   flex-direction: column;
   width: min(380px, calc(100vw - 24px));
-  height: min(570px, calc(100dvh - 104px));
-  max-height: calc(100dvh - 104px);
+  height: min(
+    570px,
+    max(
+      0px,
+      calc(
+        100dvh - var(--yk-messenger-footer-clearance, 0px) -
+          var(--yk-messenger-edge-gap) - 88px
+      )
+    )
+  );
+  max-height: max(
+    0px,
+    calc(
+      100dvh - var(--yk-messenger-footer-clearance, 0px) -
+        var(--yk-messenger-edge-gap) - 88px
+    )
+  );
   overflow: hidden;
   border: 1px solid var(--color-veil-strong);
   border-radius: 18px;
@@ -244,12 +262,27 @@ body:has(.yk-messenger[data-open="true"])
 }
 @media (max-width: 640px) {
   .yk-messenger {
+    --yk-messenger-edge-gap: max(12px, env(safe-area-inset-bottom));
     right: 12px;
-    bottom: max(12px, env(safe-area-inset-bottom));
   }
   .yk-messenger-panel {
-    height: min(560px, calc(100dvh - 92px));
-    max-height: calc(100dvh - 92px);
+    height: min(
+      560px,
+      max(
+        0px,
+        calc(
+          100dvh - var(--yk-messenger-footer-clearance, 0px) -
+            var(--yk-messenger-edge-gap) - 80px
+        )
+      )
+    );
+    max-height: max(
+      0px,
+      calc(
+        100dvh - var(--yk-messenger-footer-clearance, 0px) -
+          var(--yk-messenger-edge-gap) - 80px
+      )
+    );
   }
   body:has(.yk-messenger) .yk-referral-reminder {
     bottom: 156px;
