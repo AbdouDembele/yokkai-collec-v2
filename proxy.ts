@@ -3,7 +3,10 @@ import { NextResponse } from "next/server";
 import { createTranslator } from "next-intl";
 import english from "@/messages/en.json";
 import french from "@/messages/fr.json";
-import { updateSession } from "@/utils/supabase/proxy";
+import {
+  updateSession,
+  type ProxySessionContext
+} from "@/utils/supabase/proxy";
 import {
   i18nEnabled,
   parseLocaleCookie,
@@ -123,9 +126,10 @@ export async function proxy(request: NextRequest) {
   const sharedPage =
     /^\/share\/[0-9a-f]{32}(?:\/image\/(?:og|story|square))?$/.test(pathname);
   if (sharedPage && pathname.includes("/image/")) return NextResponse.next();
+  const session: ProxySessionContext = {};
   const response = sharedPage
     ? NextResponse.next({ request })
-    : await updateSession(request);
+    : await updateSession(request, session);
   // A valid cookie is authoritative. Only recover a missing preference once,
   // before HTML rendering, so the recovered profile also reaches the browser.
   if (enabled && !savedLocale && !pathname.startsWith("/api/")) {
@@ -140,24 +144,30 @@ export async function proxy(request: NextRequest) {
         import("@/utils/supabase/auth-fetch")
       ]);
       const { url, key, cookieName } = getSupabaseConfig();
-      const client = createServerClient(url, key, {
-        cookieOptions: { name: cookieName },
-        global: { fetch: serverAuthFetch(url, request.headers) },
-        cookies: {
-          getAll: () => request.cookies.getAll(),
-          setAll: (values, headers) => {
-            values.forEach(({ name, value, options }) => {
-              request.cookies.set(name, value);
-              response.cookies.set(name, value, options);
-            });
-            Object.entries(headers).forEach(([name, value]) =>
-              response.headers.set(name, value)
-            );
+      const client =
+        session.client ??
+        createServerClient(url, key, {
+          cookieOptions: { name: cookieName },
+          global: { fetch: serverAuthFetch(url, request.headers) },
+          cookies: {
+            getAll: () => request.cookies.getAll(),
+            setAll: (values, headers) => {
+              values.forEach(({ name, value, options }) => {
+                request.cookies.set(name, value);
+                response.cookies.set(name, value, options);
+              });
+              Object.entries(headers).forEach(([name, value]) =>
+                response.headers.set(name, value)
+              );
+            }
           }
-        }
-      });
-      const { data } = await client.auth.getClaims();
-      if (data?.claims?.sub) {
+        });
+      // Reuse the verification already performed in THIS proxy invocation.
+      // Public share pages bypass updateSession, so they still verify here.
+      const authenticated = session.client
+        ? session.authenticated
+        : Boolean((await client.auth.getClaims()).data?.claims?.sub);
+      if (authenticated) {
         const { data: locale, error } = await client
           .rpc("get_my_locale")
           .abortSignal(AbortSignal.timeout(5000));
