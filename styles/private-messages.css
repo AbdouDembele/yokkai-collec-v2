@@ -351,3 +351,36 @@
     padding-block: 8px;
   }
 }
+
+.yk-private-messages-compose > .yk-private-messages-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+}
+.yk-private-messages-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.yk-private-messages-tools :is(.yk-gif-trigger, .yk-message-emoji-trigger) {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  min-height: 44px;
+  padding: 6px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 10px;
+  color: var(--color-accent-gold);
+}
+.yk-message-emoji-trigger:hover,
+.yk-message-emoji-trigger[aria-expanded="true"] {
+  background: var(--color-veil);
+}
+.yk-message-emoji-trigger:focus-visible {
+  outline: 2px solid #9abcff;
+  outline-offset: 2px;
+}
+.yk-private-messages-toolbar > span {
+  text-align: right;
+  white-space: nowrap;
+}

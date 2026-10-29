@@ -1151,7 +1151,10 @@
       "send": "Impossible d’envoyer le message. Ton brouillon a été conservé.",
       "trades": "Les offres d’échange sont temporairement indisponibles. Réessaie."
     },
-    "privacy": "Seuls toi et ton ami pouvez accéder à cette conversation."
+    "privacy": "Seuls toi et ton ami pouvez accéder à cette conversation.",
+    "addEmoji": "Ajouter un émoji",
+    "chooseEmoji": "Choisir un émoji",
+    "insertEmoji": "Insérer {label}"
   },
   "adminReports": {
     "contextPrivateMessage": "Message privé",

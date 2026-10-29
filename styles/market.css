@@ -733,10 +733,23 @@
   background: color-mix(in srgb, var(--color-accent-gold) 10%, transparent);
 }
 .yk-modal.yk-gif-modal {
-  width: min(34rem, calc(100% - 24px));
+  width: min(34rem, calc(100vw - 24px));
+  max-height: calc(100dvh - 24px);
+  padding: clamp(12px, 3vw, 24px);
+  overflow: hidden;
 }
+.yk-modal.yk-gif-modal[open] {
+  display: flex;
+  flex-direction: column;
+}
+.yk-gif-modal > div:first-child {
+  flex-shrink: 0;
+}
+
 .yk-gif-panel {
-  position: relative;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: calc(var(--spacing) * 3);
   border: 1px solid var(--color-veil-strong);
   border-radius: var(--radius-panel);
@@ -843,11 +856,8 @@
   color: var(--color-accent-gold);
 }
 .yk-gif-preview {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: grid;
-  align-content: center;
+  display: flex;
+  flex-direction: column;
   gap: calc(var(--spacing) * 3);
   padding: calc(var(--spacing) * 4);
   border-radius: inherit;
@@ -856,7 +866,7 @@
 }
 .yk-gif-preview img {
   width: 100%;
-  max-height: 320px;
+  height: min(320px, max(80px, calc(100dvh - 240px)));
   object-fit: contain;
   border-radius: var(--radius-input);
 }

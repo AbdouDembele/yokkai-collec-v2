@@ -1151,7 +1151,10 @@
       "send": "Couldn't send the message. Your draft has been kept.",
       "trades": "Trade offers are temporarily unavailable. Please try again."
     },
-    "privacy": "Only you and your friend can access this conversation."
+    "privacy": "Only you and your friend can access this conversation.",
+    "addEmoji": "Add an emoji",
+    "chooseEmoji": "Choose an emoji",
+    "insertEmoji": "Insert {label}"
   },
   "adminReports": {
     "contextPrivateMessage": "Private message",

@@ -17,6 +17,9 @@ import {
 import { useFormatter, useTranslations } from "next-intl";
 import { Button, Modal } from "@/components/ui";
 import { GifPicker, type GifChoice } from "@/components/gif-picker";
+import { EmojiReactionPicker } from "@/components/emoji-reaction-picker";
+import { reactionEmoji } from "@/lib/ui/reaction-emojis";
+import { insertMessageEmoji } from "@/lib/ui/message-emoji";
 import { TradesPanel, type TradesPanelAdapter } from "@/components/trades";
 import { ConversationTrade } from "@/components/conversation-trade";
 import { useConversationTrades } from "@/hooks/use-conversation-trades";
@@ -342,6 +345,24 @@ export function PrivateMessages({
       }
     }
   }
+  function insertEmoji(id: string) {
+    const emoji = reactionEmoji(id)?.emoji;
+    const input = composer.current;
+    if (!emoji || !input || sending || loading || unavailable || !page) return;
+    const next = insertMessageEmoji(
+      draft,
+      emoji,
+      input.selectionStart,
+      input.selectionEnd
+    );
+    if (!next) return;
+    setDraft(next.text);
+    requestAnimationFrame(() => {
+      if (!mounted.current) return;
+      composer.current?.focus({ preventScroll: true });
+      composer.current?.setSelectionRange(next.caret, next.caret);
+    });
+  }
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (
       event.key === "Enter" &&
@@ -601,9 +622,9 @@ export function PrivateMessages({
             disabled={sending || loading || unavailable || !page}
             onChange={event => setDraft(event.target.value)}
             onKeyDown={onKeyDown}
-            aria-describedby="private-message-hint"
+            aria-describedby="private-message-length"
           />
-          <div>
+          <div className="yk-private-messages-toolbar">
             <div className="yk-private-messages-tools">
               <GifPicker
                 disabled={sending || loading || unavailable || !page}
@@ -616,10 +637,15 @@ export function PrivateMessages({
                   setSendError("");
                 }}
               />
+              <EmojiReactionPicker
+                mode="message"
+                disabled={sending || loading || unavailable || !page}
+                selected={[]}
+                onSelect={insertEmoji}
+              />
             </div>
-            <span id="private-message-hint">
-              {t("hint")}{" "}
-              <small>{t("length", { count: draft.length, max: 2000 })}</small>
+            <span id="private-message-length">
+              {t("length", { count: draft.length, max: 2000 })}
             </span>
             <Button
               type="submit"

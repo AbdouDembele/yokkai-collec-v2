@@ -8,13 +8,16 @@ import { REACTION_EMOJIS } from "@/lib/ui/reaction-emojis";
 export function EmojiReactionPicker({
   disabled,
   selected,
-  onSelect
+  onSelect,
+  mode = "reaction"
 }: {
   disabled: boolean;
   selected: string[];
   onSelect: (emoji: string) => void;
+  mode?: "reaction" | "message";
 }) {
   const t = useTranslations();
+  const message = mode === "message";
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All");
@@ -22,7 +25,7 @@ export function EmojiReactionPicker({
   const trigger = useRef<HTMLButtonElement>(null);
   const restoreFocus = useRef(false);
   function close() {
-    restoreFocus.current = true;
+    restoreFocus.current = !message;
     setOpen(false);
   }
   useEffect(() => {
@@ -36,7 +39,7 @@ export function EmojiReactionPicker({
   const filtered = REACTION_EMOJIS.filter(
     item =>
       (category === "All" || category === item.group) &&
-      `${item.label} ${item.id} ${item.emoji}`
+      `${item.label} ${item.id} ${item.emoji} ${t(`profileUi.emoji${item.id.replace(/(^|-)(\w)/g, (_, _separator, letter: string) => letter.toUpperCase())}`)}`
         .toLowerCase()
         .includes(query.trim().toLowerCase())
   );
@@ -45,11 +48,13 @@ export function EmojiReactionPicker({
       <button
         ref={trigger}
         type="button"
-        className="yk-add-reaction"
+        className={message ? "yk-message-emoji-trigger" : "yk-add-reaction"}
         disabled={disabled}
         aria-haspopup="dialog"
         aria-expanded={open}
-        aria-label={t("profileUi.addEmojiReaction")}
+        aria-label={t(
+          message ? "privateMessages.addEmoji" : "profileUi.addEmojiReaction"
+        )}
         onClick={() => {
           setOpen(true);
           setQuery("");
@@ -69,17 +74,21 @@ export function EmojiReactionPicker({
           <path d="M19 13a8 8 0 1 1-8-9" />
           <path d="M8 13s1 2 4 2 4-2 4-2M8 9h.01M14 9h.01M18 3v6M15 6h6" />
         </svg>
-        <span>{t("profileUi.react")}</span>
+        {!message && <span>{t("profileUi.react")}</span>}
       </button>
       <Modal
         open={open}
         onClose={close}
-        title={t("profileUi.pickYourReaction")}
+        title={t(
+          message ? "privateMessages.chooseEmoji" : "profileUi.pickYourReaction"
+        )}
         className="yk-reaction-modal"
       >
-        <p className="yk-reaction-intro">
-          {t("profileUi.reactionPickerHint")}{" "}
-        </p>
+        {!message && (
+          <p className="yk-reaction-intro">
+            {t("profileUi.reactionPickerHint")}{" "}
+          </p>
+        )}
         <label htmlFor={searchId} className="sr-only">
           {t("profileUi.searchReactions")}{" "}
         </label>
@@ -117,12 +126,15 @@ export function EmojiReactionPicker({
               title={t(
                 `profileUi.emoji${item.id.replace(/(^|-)(\w)/g, (_, _separator, letter: string) => letter.toUpperCase())}`
               )}
-              aria-label={t("profileUi.reactWith", {
-                label: t(
-                  `profileUi.emoji${item.id.replace(/(^|-)(\w)/g, (_, _separator, letter: string) => letter.toUpperCase())}`
-                )
-              })}
-              aria-pressed={selected.includes(item.id)}
+              aria-label={t(
+                message ? "privateMessages.insertEmoji" : "profileUi.reactWith",
+                {
+                  label: t(
+                    `profileUi.emoji${item.id.replace(/(^|-)(\w)/g, (_, _separator, letter: string) => letter.toUpperCase())}`
+                  )
+                }
+              )}
+              aria-pressed={message ? undefined : selected.includes(item.id)}
               onClick={() => {
                 onSelect(item.id);
                 close();
@@ -137,7 +149,11 @@ export function EmojiReactionPicker({
             {t("profileUi.reactionSearchEmpty")}{" "}
           </p>
         )}
-        <p className="yk-reaction-hint">{t("profileUi.reactionRemoveHint")} </p>
+        {!message && (
+          <p className="yk-reaction-hint">
+            {t("profileUi.reactionRemoveHint")}{" "}
+          </p>
+        )}
       </Modal>
     </>
   );
