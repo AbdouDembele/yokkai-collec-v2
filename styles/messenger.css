@@ -286,3 +286,8 @@ body:has(.yk-messenger[data-open="true"])
 .yk-messenger-friends {
   width: calc(100% - 24px);
 }
+
+/* Keep the pack animation, reveal and result controls unobstructed. */
+body:has(.yk-opening-stage, .yk-reveal-screen) .yk-messenger {
+  display: none;
+}

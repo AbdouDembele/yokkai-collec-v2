@@ -28,6 +28,7 @@ export function createSocialFeedStore(
   };
   let generation = 0;
   let reading = false;
+  let locating = 0;
   let freshCursor: FriendFeedPage["next"] = null;
   const listeners = new Set<() => void>();
   const set = (patch: Partial<typeof state>) => {
@@ -126,6 +127,39 @@ export function createSocialFeedStore(
       return () => {
         listeners.delete(listener);
       };
+    },
+    // Retrieve one bounded public page around a linked post, without walking
+    // older pages or changing the normal pagination cursor. ACLs remain in load().
+    locate: async (id: string, cursor: NonNullable<FriendFeedPage["next"]>) => {
+      const version = generation,
+        request = ++locating;
+      const current = () => version === generation && request === locating;
+      try {
+        const page = await load(cursor);
+        if (!current()) return "cancelled" as const;
+        const post =
+          page.available !== false
+            ? page.items.find(item => item.id === id)
+            : undefined;
+        if (!post) {
+          set({
+            items: state.items.filter(item => item.id !== id),
+            pending: state.pending.filter(item => item.id !== id)
+          });
+          return "missing" as const;
+        }
+        const hydrated = hydrate ? (await hydrate([post]))[0] : post;
+        if (!current()) return "cancelled" as const;
+        if (!hydrated) return "missing" as const;
+        set({
+          items: merge(state.items, [hydrated]),
+          pending: state.pending.filter(item => item.id !== id)
+        });
+        return "found" as const;
+      } catch {
+        if (!current()) return "cancelled" as const;
+        return "failed" as const;
+      }
     },
     refresh: () => read(),
     more: () => read(true),

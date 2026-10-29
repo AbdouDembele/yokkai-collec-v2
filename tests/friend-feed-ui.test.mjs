@@ -66,6 +66,7 @@ const { HomeFriendFeed } = load("components/home-friend-feed.tsx", {
   },
   "@/lib/data/friend-feed": data,
   "@/lib/data/profile-wall": { liveWall: {} },
+  "@/lib/ui/public-post-link": { publicPostHref: () => "/social/everyone" },
   "@/styles/friend-feed.css": {}
 });
 const post = {

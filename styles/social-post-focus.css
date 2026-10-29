@@ -1,0 +1,11 @@
+.yk-social-feed-post {
+  min-width: 0;
+  scroll-margin-top: calc(var(--topbar-height, 80px) + 20px);
+  border-radius: var(--radius-panel);
+}
+.yk-social-feed-post:target,
+.yk-social-feed-post[data-public-post-focused="true"],
+.yk-social-feed-post[data-public-post-focused="true"]:focus {
+  outline: 2px solid #9abcff;
+  outline-offset: 4px;
+}

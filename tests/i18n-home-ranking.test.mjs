@@ -20,6 +20,9 @@ async function render(locale, unavailable = false) {
       }
     ],
     mine: { isPublic: true, position: 1, score: 1250 },
+    profileStyles: {
+      me: { active: true, style: { avatarFrame: "bloodmoon" } }
+    },
     rankedPlayers: 42
   };
   const messages = JSON.parse(readFileSync(`messages/${locale}.json`, "utf8"));
@@ -54,6 +57,19 @@ async function render(locale, unavailable = false) {
         if (name === "@/components/ui")
           return {
             Avatar: ({ name }) => React.createElement("span", null, name)
+          };
+        if (name === "@/components/styled-player-avatar")
+          return {
+            StyledPlayerAvatar: ({ name, cosmetics }) =>
+              React.createElement(
+                "span",
+                {
+                  "data-avatar-frame": cosmetics?.active
+                    ? cosmetics.style.avatarFrame
+                    : "none"
+                },
+                name
+              )
           };
         if (name === "@/components/styled-player-name")
           return {
@@ -94,6 +110,8 @@ test("Home ranking keeps player data and exact English copy while translating it
     assert.ok(english.includes(text));
     assert.ok(french.includes(text));
   }
+  assert.match(english, /data-avatar-frame="bloodmoon"/);
+  assert.match(french, /data-avatar-frame="bloodmoon"/);
   assert.match(english, /Your collection/);
   assert.match(english, /Rank #1 of 42/);
   assert.match(french, /Ta collection/);

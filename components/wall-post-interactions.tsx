@@ -15,7 +15,7 @@ import {
   useRef,
   useState
 } from "react";
-import { Avatar, Button } from "@/components/ui";
+import { Avatar, Button, Modal } from "@/components/ui";
 import { EmojiReactionPicker } from "@/components/emoji-reaction-picker";
 import { GifPicker } from "@/components/gif-picker";
 import { PlayerModeration } from "@/components/player-moderation";
@@ -31,11 +31,13 @@ export function WallPostInteractions({
   postId,
   initialActivity,
   hideUnavailable = false,
+  compact = false,
   adapter = liveWallInteractions
 }: {
   postId: string;
   initialActivity?: WallActivity | null;
   hideUnavailable?: boolean;
+  compact?: boolean;
   adapter?: WallInteractions;
 }) {
   const fmt = useFormatter();
@@ -218,73 +220,84 @@ export function WallPostInteractions({
     }
   }
   if (hideUnavailable && !activity && (!error || unavailable)) return null;
-  return (
-    <div className="yk-wall-interactions" data-post-activity={postId}>
-      <div className="yk-post-actions">
-        <button
-          type="button"
-          className="yk-post-like"
-          aria-pressed={activity?.likedByMe ?? false}
-          disabled={busy || !activity}
-          onClick={() => void update("like")}
+  const controls = (
+    <div className="yk-post-actions">
+      <button
+        type="button"
+        className="yk-post-like"
+        aria-pressed={activity?.likedByMe ?? false}
+        disabled={busy || !activity}
+        onClick={() => void update("like")}
+      >
+        <svg
+          width="17"
+          height="17"
+          viewBox="0 0 24 24"
+          fill={activity?.likedByMe ? "currentColor" : "none"}
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinejoin="round"
+          aria-hidden="true"
         >
-          <svg
-            width="17"
-            height="17"
-            viewBox="0 0 24 24"
-            fill={activity?.likedByMe ? "currentColor" : "none"}
-            stroke="currentColor"
-            strokeWidth="1.7"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" />
-          </svg>
-          <span>
-            {activity?.likedByMe ? t("profileUi.liked") : t("profileUi.like")}
-          </span>
-          {activity && (
-            <strong className="yk-action-count">
-              {fmt.number(activity.likes)}
-            </strong>
-          )}
-        </button>
-        <button
-          type="button"
-          aria-expanded={open}
-          aria-controls={`${fieldId}-thread`}
-          disabled={!activity}
-          onClick={() => setOpen(value => !value)}
+          <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" />
+        </svg>
+        <span className={compact ? "sr-only" : undefined}>
+          {activity?.likedByMe ? t("profileUi.liked") : t("profileUi.like")}
+        </span>
+        {activity && (
+          <strong className="yk-action-count">
+            {fmt.number(
+              activity.likes,
+              compact ? { notation: "compact" } : undefined
+            )}
+          </strong>
+        )}
+      </button>
+      <button
+        type="button"
+        aria-expanded={open}
+        aria-controls={`${fieldId}-thread`}
+        disabled={!activity}
+        onClick={() => setOpen(value => !value)}
+      >
+        <svg
+          width="17"
+          height="17"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.7"
+          strokeLinejoin="round"
+          aria-hidden="true"
         >
-          <svg
-            width="17"
-            height="17"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.7"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-3 3V11.5a8.5 8.5 0 0 1 8.5-8.5h3a8.5 8.5 0 0 1 8.5 8.5Z" />
-          </svg>
-          <span>{t("profileUi.reply")}</span>
-          {activity && (
-            <strong className="yk-action-count">
-              {fmt.number(activity.replyCount)}
-            </strong>
-          )}
-        </button>
-        <EmojiReactionPicker
-          disabled={busy || !activity}
-          selected={
-            activity?.reactions
-              ?.filter(item => item.reactedByMe)
-              .map(item => item.emoji) ?? []
-          }
-          onSelect={emoji => void update("react", emoji)}
-        />
-      </div>
+          <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5H4l-3 3V11.5a8.5 8.5 0 0 1 8.5-8.5h3a8.5 8.5 0 0 1 8.5 8.5Z" />
+        </svg>
+        <span className={compact ? "sr-only" : undefined}>
+          {t("profileUi.reply")}
+        </span>
+        {activity && (
+          <strong className="yk-action-count">
+            {fmt.number(
+              activity.replyCount,
+              compact ? { notation: "compact" } : undefined
+            )}
+          </strong>
+        )}
+      </button>
+      <EmojiReactionPicker
+        disabled={busy || !activity}
+        selected={
+          activity?.reactions
+            ?.filter(item => item.reactedByMe)
+            .map(item => item.emoji) ?? []
+        }
+        onSelect={emoji => void update("react", emoji)}
+      />
+    </div>
+  );
+  const details = (
+    <>
+      {" "}
       {!!activity?.reactions?.length && (
         <div
           className="yk-reaction-chips"
@@ -542,6 +555,75 @@ export function WallPostInteractions({
           )}
         </div>
       )}
+    </>
+  );
+  if (compact)
+    return (
+      <div
+        className="yk-wall-interactions yk-compact-post-interactions"
+        data-post-activity={postId}
+      >
+        {!error && !!activity?.reactions?.length && (
+          <div
+            className="yk-home-reaction-summary"
+            aria-label={t("profileUi.postReactions")}
+          >
+            {activity.reactions.map(item => {
+              const choice = reactionEmoji(item.emoji);
+              if (!choice) return null;
+              const label = t(
+                `profileUi.emoji${choice.id.replace(/(^|-)(\w)/g, (_, _separator, letter: string) => letter.toUpperCase())}`
+              );
+              return (
+                <button
+                  key={item.emoji}
+                  type="button"
+                  disabled={busy || !activity}
+                  aria-pressed={item.reactedByMe}
+                  onClick={() => void update("react", item.emoji)}
+                  data-selected={item.reactedByMe}
+                  aria-label={t("profileUi.reactionCount", {
+                    label,
+                    count: item.count
+                  })}
+                >
+                  <span aria-hidden="true">{choice.emoji}</span>
+                  <strong aria-hidden="true">{fmt.number(item.count)}</strong>
+                </button>
+              );
+            })}
+          </div>
+        )}
+        {error && !open ? (
+          <button
+            type="button"
+            className="yk-button"
+            title={t(gameErrorKey(error, "profileUi.profileUnavailable"))}
+            onClick={() => {
+              setBusy(false);
+              setError("");
+              setRetry(value => value + 1);
+            }}
+          >
+            {t("profileUi.retry")}
+          </button>
+        ) : (
+          controls
+        )}
+        <Modal
+          open={open}
+          onClose={() => setOpen(false)}
+          title={t("profileUi.conversation")}
+          className="yk-home-thread-modal"
+        >
+          {details}
+        </Modal>
+      </div>
+    );
+  return (
+    <div className="yk-wall-interactions" data-post-activity={postId}>
+      {controls}
+      {details}
     </div>
   );
 }

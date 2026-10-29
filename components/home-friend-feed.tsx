@@ -14,27 +14,81 @@ import {
 } from "react";
 import { Avatar } from "@/components/ui";
 import { StyledPlayerName } from "@/components/styled-player-name";
+import { WallPostInteractions } from "@/components/wall-post-interactions";
 import { ProfileWall } from "@/components/profile-wall";
 import { type WallAdapter } from "@/lib/data/profile-wall";
 import type { WallInteractions } from "@/lib/data/wall-interactions";
 import {
   getFriendFeed,
+  getPublicFeed,
   type FriendFeedPage,
   type FriendFeedPost,
   type FriendFeedLoader
 } from "@/lib/data/friend-feed";
+import { publicPostHref } from "@/lib/ui/public-post-link";
 import "@/styles/friend-feed.css";
 
 const subscribeToHydration = () => () => {};
+
+function HomeFeedActions({
+  post,
+  adapter
+}: {
+  post: FriendFeedPost;
+  adapter?: WallInteractions;
+}) {
+  const container = useRef<HTMLDivElement>(null),
+    [visible, setVisible] = useState(false);
+  useEffect(() => {
+    const node = container.current;
+    if (!node) return;
+    if (typeof IntersectionObserver === "undefined") {
+      let active = true;
+      void Promise.resolve().then(() => {
+        if (active) setVisible(true);
+      });
+      return () => {
+        active = false;
+      };
+    }
+    const observer = new IntersectionObserver(
+      entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          setVisible(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "160px" }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+  return (
+    <div className="yk-home-post-actions" ref={container}>
+      {visible && (
+        <WallPostInteractions
+          postId={post.id}
+          initialActivity={post.activity}
+          adapter={adapter}
+          compact
+          hideUnavailable
+        />
+      )}
+    </div>
+  );
+}
 
 export function HomeFriendFeed({
   initial,
   initialError = "",
   viewer,
   wallAdapter,
-  load = getFriendFeed
+  interactions,
+  scope = "friends",
+  load = scope === "everyone" ? getPublicFeed : getFriendFeed
 }: {
   initial: FriendFeedPage;
+  scope?: "friends" | "everyone";
   initialError?: string;
   viewer?: FriendFeedPost["author"];
   wallAdapter?: WallAdapter;
@@ -77,6 +131,8 @@ export function HomeFriendFeed({
       if (clear) setPage({ items: [], next: null });
       try {
         const next = await load();
+        if (scope === "everyone" && next.available === false)
+          throw new Error("PUBLIC_FEED_UNAVAILABLE");
         if (id === request.current) setPage(next);
       } catch {
         if (id === request.current) {
@@ -89,7 +145,7 @@ export function HomeFriendFeed({
         }
       }
     },
-    [load]
+    [load, scope]
   );
 
   useEffect(() => {
@@ -128,17 +184,27 @@ export function HomeFriendFeed({
   }, []);
 
   return (
-    <section className="yk-friend-feed" aria-labelledby="home-friend-feed">
+    <section
+      className="yk-friend-feed"
+      data-feed-scope={scope}
+      aria-labelledby="home-friend-feed"
+    >
       <header className="yk-feed-heading">
         <div>
-          <h2 id="home-friend-feed">{t("friendFeed")}</h2>
-          <Link href="/social">{t("seeAll")}</Link>
+          <h2 id="home-friend-feed">
+            {t(scope === "everyone" ? "everyoneFeed" : "friendFeed")}
+          </h2>
+          {scope === "everyone" ? (
+            <Link href="/social/everyone">{t("seeAll")}</Link>
+          ) : (
+            <Link href="/social">{t("seeAll")}</Link>
+          )}
         </div>
         <Link
-          href="/profile?tab=wall"
+          href={scope === "everyone" ? "/social/everyone" : "/profile?tab=wall"}
           className="yk-button yk-button-primary yk-home-panel-action"
         >
-          {t("viewMyWall")}
+          {t(scope === "everyone" ? "viewPublicFeed" : "viewMyWall")}
           <span aria-hidden="true">↗</span>
         </Link>
       </header>
@@ -160,7 +226,11 @@ export function HomeFriendFeed({
             }}
           />
           <p className="yk-feed-publish-note">
-            {t("postsAppearHereOnYourWallAndInYourFriends")}
+            {t(
+              scope === "everyone"
+                ? "publicPostsNotice"
+                : "postsAppearHereOnYourWallAndInYourFriends"
+            )}
           </p>
         </div>
       )}
@@ -168,7 +238,9 @@ export function HomeFriendFeed({
         className="yk-feed-timeline"
         ref={timeline}
         tabIndex={0}
-        aria-label={t("friendsWallPosts")}
+        aria-label={t(
+          scope === "everyone" ? "everyoneWallPosts" : "friendsWallPosts"
+        )}
         aria-busy={busy}
       >
         {error && (
@@ -183,16 +255,34 @@ export function HomeFriendFeed({
         )}
         {!busy && !error && !page.items.length && (
           <div className="yk-feed-empty">
-            <h3>{t("yourTimelineStartsWithYourFriends")}</h3>
-            <p>{t("shareAPostOnYourWallOrAddFriendsTo")}</p>
-            <Link href="/social/friends">
-              {t("findFriends")}
+            <h3>
+              {t(
+                scope === "everyone"
+                  ? "publicEmptyTitle"
+                  : "yourTimelineStartsWithYourFriends"
+              )}
+            </h3>
+            <p>
+              {t(
+                scope === "everyone"
+                  ? "publicEmptyHint"
+                  : "shareAPostOnYourWallOrAddFriendsTo"
+              )}
+            </p>
+            <Link
+              href={
+                scope === "everyone" ? "/social/everyone" : "/social/friends"
+              }
+            >
+              {t(scope === "everyone" ? "seeAll" : "findFriends")}
               <span aria-hidden="true">↗</span>
             </Link>
           </div>
         )}
         {page.items.slice(0, 10).map(post => {
           const wall = `/profile/${encodeURIComponent(post.author.id)}?tab=wall`;
+          const destination =
+            scope === "everyone" ? publicPostHref(post) : wall;
           return (
             <article
               className="yk-feed-post"
@@ -236,7 +326,7 @@ export function HomeFriendFeed({
                 </header>
                 {(post.hasMedia || post.gifUrl) && (
                   <Link
-                    href={wall}
+                    href={destination}
                     className="yk-feed-media-preview"
                     aria-label={t("viewPlayerPost", {
                       player: post.author.name
@@ -253,11 +343,15 @@ export function HomeFriendFeed({
                       decoding="async"
                       className="yk-feed-media"
                     />
+                    <span className="yk-feed-media-kind" aria-hidden="true">
+                      {t(post.gifUrl ? "gifKind" : "imageKind")}
+                    </span>
                   </Link>
                 )}
                 {post.text && <p className="yk-feed-text">{post.text}</p>}
-                <Link href={wall} className="yk-feed-wall-link">
-                  {t("viewWall")}
+                <HomeFeedActions post={post} adapter={interactions} />
+                <Link href={destination} className="yk-feed-wall-link">
+                  {t(scope === "everyone" ? "viewPost" : "viewWall")}
                   <span aria-hidden="true">↗</span>
                 </Link>
               </div>

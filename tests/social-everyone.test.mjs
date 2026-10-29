@@ -315,6 +315,8 @@ function feedCase({
       Skeleton: ({ label }) => React.createElement("p", null, label),
       Button: ({ children }) => React.createElement("button", null, children)
     },
+    "@/components/public-post-focus": { PublicPostFocus: () => null },
+    "@/styles/social-post-focus.css": {},
     "@/lib/data/profile": {},
     "@/lib/ui/visible-polling": {}
   });

@@ -72,6 +72,7 @@ test("Home leaves deletion to the wall and never calls the removal adapter", asy
     "@/components/wall-post-interactions": { WallPostInteractions: () => null },
     "@/lib/data/profile-wall": { liveWall: {} },
     "@/lib/data/friend-feed": {},
+    "@/lib/ui/public-post-link": { publicPostHref: () => "/social/everyone" },
     "@/styles/friend-feed.css": {}
   };
   const js = ts.transpileModule(

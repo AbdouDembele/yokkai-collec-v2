@@ -89,6 +89,7 @@ test("a successful Home publication reloads the first page and includes the own 
     "@/components/wall-post-interactions": { WallPostInteractions: () => null },
     "@/lib/data/friend-feed": {},
     "@/lib/data/profile-wall": { liveWall: {} },
+    "@/lib/ui/public-post-link": { publicPostHref: () => "/social/everyone" },
     "@/styles/friend-feed.css": {}
   });
   const html = renderToStaticMarkup(

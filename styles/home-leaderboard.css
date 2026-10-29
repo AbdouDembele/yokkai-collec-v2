@@ -306,7 +306,10 @@
 .yk-home-ranking-podium > li[data-rank="3"] .yk-home-ranking-rank {
   animation-delay: -1.6s;
 }
-.yk-home-ranking-podium .yk-home-ranking-avatar > span {
+.yk-home-ranking-podium
+  .yk-home-ranking-avatar
+  > .yk-styled-player-avatar
+  > span {
   border-color: color-mix(in srgb, var(--medal) 50%, transparent);
   box-shadow: 0 0 22px color-mix(in srgb, var(--medal) 12%, transparent);
 }
@@ -447,4 +450,12 @@
   .yk-home-ranking-sparks {
     display: none;
   }
+}
+
+/* Leave room for the player's decoration, including above the podium avatar. */
+.yk-home-ranking-avatar {
+  padding: 9px;
+}
+.yk-home-ranking-list .yk-styled-player-avatar {
+  margin: 7px;
 }
