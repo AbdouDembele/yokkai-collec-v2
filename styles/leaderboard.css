@@ -565,3 +565,7 @@
     grid-template-columns: minmax(0, 1fr) 320px;
   }
 }
+
+.yk-leaderboard-player > .yk-styled-player-avatar {
+  margin-block: 8px;
+}

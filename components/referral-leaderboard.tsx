@@ -8,7 +8,8 @@ import {
   useState,
   type ReactNode
 } from "react";
-import { Avatar, Button } from "@/components/ui";
+import { Button } from "@/components/ui";
+import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
 import { getReferralLeaderboard } from "@/lib/leaderboard/client";
 import type { ReferralLeaderboard } from "@/lib/leaderboard/shared";
@@ -301,7 +302,8 @@ export function ReferralLeaderboardView({
                       href={`/profile/${encodeURIComponent(entry.pseudo)}`}
                       className="yk-leaderboard-player"
                     >
-                      <Avatar
+                      <StyledPlayerAvatar
+                        cosmetics={data.profileStyles?.[entry.userId]}
                         name={entry.pseudo}
                         image={entry.avatarUrl ?? undefined}
                         size={42}

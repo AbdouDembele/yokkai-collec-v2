@@ -1,7 +1,7 @@
 import { getTranslations } from "next-intl/server";
 import Link from "next/link";
 import { cookies } from "next/headers";
-import { Avatar } from "@/components/ui";
+import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
 import { createClient } from "@/utils/supabase/server";
 import type { CollectionLeaderboard } from "@/lib/leaderboard/shared";
@@ -82,7 +82,8 @@ export async function HomeLeaderboard({ userId }: { userId: string }) {
                       <path d="m16 15 2 3-2 3-2-3 2-3Z" fill="#6d501b" />
                     </svg>
                   )}
-                  <Avatar
+                  <StyledPlayerAvatar
+                    cosmetics={ranking.profileStyles?.[entry.userId]}
                     name={entry.pseudo}
                     image={entry.avatarUrl ?? undefined}
                     size={48}
@@ -129,7 +130,8 @@ export async function HomeLeaderboard({ userId }: { userId: string }) {
                 className="yk-home-ranking-player"
                 href={`/profile/${encodeURIComponent(entry.pseudo)}`}
               >
-                <Avatar
+                <StyledPlayerAvatar
+                  cosmetics={ranking.profileStyles?.[entry.userId]}
                   name={entry.pseudo}
                   image={entry.avatarUrl ?? undefined}
                   size={36}
