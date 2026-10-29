@@ -1,4 +1,5 @@
 "use client";
+import "@/styles/wall-interactions.css";
 import { useTranslations } from "next-intl";
 
 import { useEffect, useId, useRef, useState } from "react";

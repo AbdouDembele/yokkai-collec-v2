@@ -172,6 +172,24 @@ try {
       .click();
     const picker = page.locator(".yk-reaction-modal[open]");
     await picker.waitFor();
+    assert.equal(
+      await picker
+        .locator(".yk-reaction-grid")
+        .evaluate(el => getComputedStyle(el).display),
+      "grid",
+      "Emoji picker styles missing outside Social"
+    );
+    assert(
+      await picker
+        .locator(".yk-reaction-grid button")
+        .first()
+        .evaluate(el => el.getBoundingClientRect().width >= 28),
+      "Emoji choices are too small"
+    );
+    assert(
+      await picker.evaluate(el => el.getBoundingClientRect().width <= 420),
+      "Emoji dialog must stay compact"
+    );
     const fire = m.profileUi.emojiFire;
     await picker.locator("input[type=search]").fill(fire);
     assert.equal(
