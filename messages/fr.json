@@ -1000,6 +1000,7 @@
     "viewPlayerPost": "Voir la publication de {player}",
     "sharedGif": "GIF partagé sur un mur",
     "sharedImage": "Image partagée sur un mur",
+    "viewPost": "Voir le post",
     "viewPublicFeed": "Voir le fil",
     "everyoneFeed": "Fil public",
     "everyoneWallPosts": "Publications publiques de la communauté",
@@ -1007,7 +1008,13 @@
     "publicEmptyHint": "Retrouve ici les publications publiques de la communauté.",
     "publicPostsNotice": "Seules les publications des profils publics apparaissent dans ce fil. La visibilité de ton profil reste applicable.",
     "imageKind": "Image",
-    "gifKind": "GIF"
+    "gifKind": "GIF",
+    "postNavigation": {
+      "loading": "Ouverture de la publication…",
+      "unavailable": "Cette publication n’est plus disponible dans le fil public.",
+      "failed": "Impossible d’ouvrir la publication. Réessaie.",
+      "retry": "Réessayer"
+    }
   },
   "proPromotion": {
     "discoverYokkaiPro": "Découvrir Yokkai Pro",

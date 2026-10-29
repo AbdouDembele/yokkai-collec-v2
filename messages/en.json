@@ -1000,6 +1000,7 @@
     "viewPlayerPost": "View {player}'s wall post",
     "sharedGif": "GIF shared on a wall",
     "sharedImage": "Image shared on a wall",
+    "viewPost": "View post",
     "viewPublicFeed": "View feed",
     "everyoneFeed": "Everyone",
     "everyoneWallPosts": "Public community posts",
@@ -1007,7 +1008,13 @@
     "publicEmptyHint": "Discover the community’s public posts here.",
     "publicPostsNotice": "Only posts from public profiles appear in this feed. Your profile visibility still applies.",
     "imageKind": "Image",
-    "gifKind": "GIF"
+    "gifKind": "GIF",
+    "postNavigation": {
+      "loading": "Opening the post…",
+      "unavailable": "This post is no longer available in the public feed.",
+      "failed": "The post could not be opened. Please try again.",
+      "retry": "Try again"
+    }
   },
   "proPromotion": {
     "discoverYokkaiPro": "Discover Yokkai Pro",

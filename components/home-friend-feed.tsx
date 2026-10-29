@@ -25,6 +25,7 @@ import {
   type FriendFeedPost,
   type FriendFeedLoader
 } from "@/lib/data/friend-feed";
+import { publicPostHref } from "@/lib/ui/public-post-link";
 import "@/styles/friend-feed.css";
 
 const subscribeToHydration = () => () => {};
@@ -280,6 +281,8 @@ export function HomeFriendFeed({
         )}
         {page.items.slice(0, 10).map(post => {
           const wall = `/profile/${encodeURIComponent(post.author.id)}?tab=wall`;
+          const destination =
+            scope === "everyone" ? publicPostHref(post) : wall;
           return (
             <article
               className="yk-feed-post"
@@ -323,7 +326,7 @@ export function HomeFriendFeed({
                 </header>
                 {(post.hasMedia || post.gifUrl) && (
                   <Link
-                    href={wall}
+                    href={destination}
                     className="yk-feed-media-preview"
                     aria-label={t("viewPlayerPost", {
                       player: post.author.name
@@ -347,8 +350,8 @@ export function HomeFriendFeed({
                 )}
                 {post.text && <p className="yk-feed-text">{post.text}</p>}
                 <HomeFeedActions post={post} adapter={interactions} />
-                <Link href={wall} className="yk-feed-wall-link">
-                  {t("viewWall")}
+                <Link href={destination} className="yk-feed-wall-link">
+                  {t(scope === "everyone" ? "viewPost" : "viewWall")}
                   <span aria-hidden="true">↗</span>
                 </Link>
               </div>

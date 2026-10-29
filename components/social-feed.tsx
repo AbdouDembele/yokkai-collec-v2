@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { Suspense, useEffect, useState, useSyncExternalStore } from "react";
+import { PublicPostFocus } from "@/components/public-post-focus";
+import "@/styles/social-post-focus.css";
 import { ProfileWall } from "@/components/profile-wall";
 import { Button, Skeleton } from "@/components/ui";
 import { getProfile, type Profile } from "@/lib/data/profile";
@@ -63,6 +65,11 @@ export function SocialFeed({
       className="yk-social-stack"
       aria-label={everyone ? "Everyone feed" : "Friend feed"}
     >
+      {everyone && (
+        <Suspense fallback={null}>
+          <PublicPostFocus />
+        </Suspense>
+      )}
       {everyone && viewer && !viewer.isPublic && (
         <div className="yk-profile-notice">
           <p>
@@ -156,36 +163,42 @@ export function SocialFeed({
       )}
       <div className="yk-wall-posts">
         {state.items.map(post => (
-          <ProfileWall
+          <div
             key={post.id}
-            feedPost={{
-              ...post,
-              mediaPath: null,
-              profileStyle: post.author.profileStyle ?? undefined
-            }}
-            ownerId={post.author.id}
-            pseudo={post.author.name}
-            avatarUrl={post.author.avatarUrl}
-            authorAction={
-              everyone && (
-                <EveryoneFriendAction
-                  key={`${post.author.id}:${post.relationship}:${post.requestId ?? ""}`}
-                  post={post}
-                  onChanged={relationship =>
-                    store.relationshipChanged(post.author.id, relationship)
-                  }
-                />
-              )
-            }
-            isMe={viewer?.id === post.author.id}
-            isPublic={everyone}
-            canRead
-            active
-            canInteract
-            initialActivity={post.activity}
-            canReport={!!viewer}
-            onDeleted={store.removed}
-          />
+            id={everyone ? "public-post-" + post.id : undefined}
+            tabIndex={everyone ? -1 : undefined}
+            className="yk-social-feed-post"
+          >
+            <ProfileWall
+              feedPost={{
+                ...post,
+                mediaPath: null,
+                profileStyle: post.author.profileStyle ?? undefined
+              }}
+              ownerId={post.author.id}
+              pseudo={post.author.name}
+              avatarUrl={post.author.avatarUrl}
+              authorAction={
+                everyone && (
+                  <EveryoneFriendAction
+                    key={`${post.author.id}:${post.relationship}:${post.requestId ?? ""}`}
+                    post={post}
+                    onChanged={relationship =>
+                      store.relationshipChanged(post.author.id, relationship)
+                    }
+                  />
+                )
+              }
+              isMe={viewer?.id === post.author.id}
+              isPublic={everyone}
+              canRead
+              active
+              canInteract
+              initialActivity={post.activity}
+              canReport={!!viewer}
+              onDeleted={store.removed}
+            />
+          </div>
         ))}
       </div>
       {state.next && (
