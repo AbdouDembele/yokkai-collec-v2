@@ -87,7 +87,7 @@
   height: 390px;
   overflow: hidden;
   position: relative;
-  grid-template-rows: 42px 160px minmax(0, 1fr) 40px 24px;
+  grid-template-rows: 42px 160px minmax(0, 1fr) 40px 40px;
   overscroll-behavior-y: contain;
   align-content: start;
   display: grid;
@@ -256,7 +256,7 @@
 }
 
 .yk-feed-post[data-has-media="false"] {
-  grid-template-rows: 42px minmax(0, 1fr) 40px 24px;
+  grid-template-rows: 42px minmax(0, 1fr) 40px 40px;
 }
 .yk-feed-post[data-has-media="false"] .yk-feed-text {
   grid-row: 2;
@@ -314,7 +314,7 @@
   align-items: center;
   gap: 5px;
   max-width: calc(100% - 100px);
-  height: 24px;
+  height: 40px;
   margin-top: 4px;
   overflow-x: auto;
   scrollbar-width: none;
@@ -324,22 +324,23 @@
   align-items: center;
   gap: 5px;
   flex-shrink: 0;
-  min-width: 32px;
-  min-height: 24px;
-  padding: 1px 6px;
+  min-width: 52px;
+  min-height: 40px;
+  padding: 4px 10px;
   cursor: pointer;
   border: 1px solid #526d91;
   border-radius: 8px;
   background: #142239;
   color: #f3f7ff;
-  font-size: 12px;
+  font-size: 20px;
+  line-height: 1;
 }
 .yk-home-reaction-summary > button[aria-pressed="true"] {
   border-color: #8fbcff;
   background: #2d5280;
 }
 .yk-home-reaction-summary strong {
-  font-size: 11px;
+  font-size: 14px;
 }
 .yk-home-thread-modal {
   width: min(760px, calc(100vw - 24px));
@@ -369,14 +370,14 @@
 .yk-friend-feed[data-feed-scope="everyone"] .yk-feed-post {
   height: 340px;
   padding-block: 8px;
-  grid-template-rows: 42px 128px minmax(0, 1fr) 40px 24px;
+  grid-template-rows: 42px 128px minmax(0, 1fr) 40px 40px;
 }
 .yk-friend-feed[data-feed-scope="everyone"] .yk-feed-media-preview {
   height: 128px;
 }
 .yk-friend-feed[data-feed-scope="everyone"]
   .yk-feed-post[data-has-media="false"] {
-  grid-template-rows: 42px minmax(0, 1fr) 40px 24px;
+  grid-template-rows: 42px minmax(0, 1fr) 40px 40px;
 }
 @media (max-width: 639px) {
   .yk-friend-feed[data-feed-scope="everyone"] .yk-feed-heading {
@@ -391,4 +392,10 @@
 .yk-home-reaction-summary > button:disabled {
   cursor: wait;
   opacity: 0.7;
+}
+
+/* Reserve room for larger reaction buttons while keeping compact cards fixed. */
+.yk-feed-post[data-has-media="true"] .yk-feed-text {
+  -webkit-line-clamp: 2;
+  max-height: 48px;
 }
