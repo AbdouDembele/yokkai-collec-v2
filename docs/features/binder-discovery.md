@@ -29,3 +29,7 @@ L'ajout de cette nouvelle fonction à la liste des SECURITY DEFINER accessibles 
 - Le rendu a été vérifié de 320 à 1440 px et en mise en page équivalente à 200 %. Le zoom natif du navigateur à 200 % reste non vérifié.
 
 Les contrôles complets sont exécutés par GitHub Actions. Consulter les checks de la PR avant de reprendre la livraison.
+
+## Adaptation du contrat de navigation validée par Walid
+
+Le test collection-panini-performance remplace les deux contrôles de l’ancien bouton bascule Classeur par deux contrôles précis : l’onglet Cartes active la grille et efface le classeur sélectionné ; l’onglet Classeurs affiche son état actif et ouvre les classeurs. Les deux autres assertions du test restent inchangées. Walid a explicitement validé cette adaptation au nouveau comportement produit. Les tests des ouvertures de packs restent inchangés ; la progression des classeurs est chargée à la demande.

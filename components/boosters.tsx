@@ -1,7 +1,6 @@
 "use client";
 import { gameErrorKey } from "@/i18n/game-messages";
 import { useTranslations, useFormatter } from "next-intl";
-import { PackBinderProgress } from "@/components/pack-binder-progress";
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
 import { AmbientGlow } from "@/components/ambient-glow";
 import { packCopySnapshot, packCopyLabels, packRevealWindow, packRareRevealQueue } from "@/lib/ui/pack-opening";
@@ -30,6 +29,11 @@ import { CardBack, YokaiCard } from "@/components/yokai-card";
 import type { SfxName } from "@/hooks/use-sfx";
 import { animation } from "@/lib/ui/animations";
 import { runFinalBoosterOpening } from "@/lib/ui/pack-opening";
+
+const PackBinderProgress = dynamic(
+  () => import("@/components/pack-binder-progress").then(module => module.PackBinderProgress),
+  { ssr: false }
+);
 
 const CollectionView = dynamic(
   () => import("@/components/collection").then(module => module.CollectionView),
