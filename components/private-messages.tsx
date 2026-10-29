@@ -17,6 +17,9 @@ import {
 import { useFormatter, useTranslations } from "next-intl";
 import { Button, Modal } from "@/components/ui";
 import { GifPicker, type GifChoice } from "@/components/gif-picker";
+import { EmojiReactionPicker } from "@/components/emoji-reaction-picker";
+import { reactionEmoji } from "@/lib/ui/reaction-emojis";
+import { insertMessageEmoji } from "@/lib/ui/message-emoji";
 import { TradesPanel, type TradesPanelAdapter } from "@/components/trades";
 import { ConversationTrade } from "@/components/conversation-trade";
 import { useConversationTrades } from "@/hooks/use-conversation-trades";
@@ -342,6 +345,24 @@ export function PrivateMessages({
       }
     }
   }
+  function insertEmoji(id: string) {
+    const emoji = reactionEmoji(id)?.emoji;
+    const input = composer.current;
+    if (!emoji || !input || sending || loading || unavailable || !page) return;
+    const next = insertMessageEmoji(
+      draft,
+      emoji,
+      input.selectionStart,
+      input.selectionEnd
+    );
+    if (!next) return;
+    setDraft(next.text);
+    requestAnimationFrame(() => {
+      if (!mounted.current) return;
+      composer.current?.focus({ preventScroll: true });
+      composer.current?.setSelectionRange(next.caret, next.caret);
+    });
+  }
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {
     if (
       event.key === "Enter" &&
@@ -472,61 +493,72 @@ export function PrivateMessages({
             const own = message.senderId === page.viewerId;
             return (
               <div
-                className={`yk-private-message${own ? " is-own" : ""}`}
+                className={`yk-private-message-row${own ? " is-own" : ""}`}
                 key={entry.id}
               >
-                {message.moderated && (
-                  <p className="yk-private-message-removed">
-                    {t("removedByModeration")}
-                  </p>
-                )}
-                {message.text && <p>{message.text}</p>}
-                {message.gifUrl && isPrivateMessageGif(message.gifUrl) && (
-                  <img
-                    className="yk-private-message-gif"
-                    src={message.gifUrl}
-                    alt={t("gifAlt")}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    onLoad={() => {
-                      if (stickToBottom.current && scroll.current)
-                        scroll.current.scrollTop = scroll.current.scrollHeight;
-                    }}
+                {!own && (
+                  <StyledPlayerAvatar
+                    name={friend.pseudo}
+                    image={friend.avatarUrl ?? undefined}
+                    cosmetics={friend.profileStyle}
+                    size={28}
                   />
                 )}
-                <time
-                  dateTime={message.createdAt}
-                  title={format.dateTime(new Date(message.createdAt), {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                    timeZone
-                  })}
-                >
-                  <span className="sr-only">
-                    {own ? t("you") : friend.pseudo},{" "}
-                  </span>
-                  {format.dateTime(new Date(message.createdAt), {
-                    month: "short",
-                    day: "numeric",
-                    timeZone
-                  })}{" "}
-                  ·{" "}
-                  {format.dateTime(new Date(message.createdAt), {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    timeZone
-                  })}
-                </time>
-                {!own && !message.moderated && (
-                  <PlayerModeration
-                    userId={friend.id}
-                    pseudo={friend.pseudo}
-                    adapter={moderationAdapter}
-                    contextType="private_message"
-                    contextId={message.id}
-                    onBlocked={onClose}
-                  />
-                )}
+                <div className={`yk-private-message${own ? " is-own" : ""}`}>
+                  {message.moderated && (
+                    <p className="yk-private-message-removed">
+                      {t("removedByModeration")}
+                    </p>
+                  )}
+                  {message.text && <p>{message.text}</p>}
+                  {message.gifUrl && isPrivateMessageGif(message.gifUrl) && (
+                    <img
+                      className="yk-private-message-gif"
+                      src={message.gifUrl}
+                      alt={t("gifAlt")}
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                      onLoad={() => {
+                        if (stickToBottom.current && scroll.current)
+                          scroll.current.scrollTop =
+                            scroll.current.scrollHeight;
+                      }}
+                    />
+                  )}
+                  <time
+                    dateTime={message.createdAt}
+                    title={format.dateTime(new Date(message.createdAt), {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                      timeZone
+                    })}
+                  >
+                    <span className="sr-only">
+                      {own ? t("you") : friend.pseudo},{" "}
+                    </span>
+                    {format.dateTime(new Date(message.createdAt), {
+                      month: "short",
+                      day: "numeric",
+                      timeZone
+                    })}{" "}
+                    ·{" "}
+                    {format.dateTime(new Date(message.createdAt), {
+                      hour: "numeric",
+                      minute: "2-digit",
+                      timeZone
+                    })}
+                  </time>
+                  {!own && !message.moderated && (
+                    <PlayerModeration
+                      userId={friend.id}
+                      pseudo={friend.pseudo}
+                      adapter={moderationAdapter}
+                      contextType="private_message"
+                      contextId={message.id}
+                      onBlocked={onClose}
+                    />
+                  )}
+                </div>
               </div>
             );
           })}
@@ -601,9 +633,9 @@ export function PrivateMessages({
             disabled={sending || loading || unavailable || !page}
             onChange={event => setDraft(event.target.value)}
             onKeyDown={onKeyDown}
-            aria-describedby="private-message-hint"
+            aria-describedby="private-message-length"
           />
-          <div>
+          <div className="yk-private-messages-toolbar">
             <div className="yk-private-messages-tools">
               <GifPicker
                 disabled={sending || loading || unavailable || !page}
@@ -616,10 +648,15 @@ export function PrivateMessages({
                   setSendError("");
                 }}
               />
+              <EmojiReactionPicker
+                mode="message"
+                disabled={sending || loading || unavailable || !page}
+                selected={[]}
+                onSelect={insertEmoji}
+              />
             </div>
-            <span id="private-message-hint">
-              {t("hint")}{" "}
-              <small>{t("length", { count: draft.length, max: 2000 })}</small>
+            <span id="private-message-length">
+              {t("length", { count: draft.length, max: 2000 })}
             </span>
             <Button
               type="submit"

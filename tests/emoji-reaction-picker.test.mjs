@@ -22,15 +22,17 @@ function load(file, mocks = {}) {
     module: testModule,
     exports: testModule.exports,
     require: name =>
-      name in mocks
-        ? mocks[name]
-        : name === "next-intl"
-          ? intl
-          : name === "@/i18n/game-messages"
-            ? gameMessages
-            : name === "@/i18n/locale"
-              ? loadLocaleModule()
-              : require(name)
+      name.endsWith(".css")
+        ? {}
+        : name in mocks
+          ? mocks[name]
+          : name === "next-intl"
+            ? intl
+            : name === "@/i18n/game-messages"
+              ? gameMessages
+              : name === "@/i18n/locale"
+                ? loadLocaleModule()
+                : require(name)
   });
   return testModule.exports;
 }

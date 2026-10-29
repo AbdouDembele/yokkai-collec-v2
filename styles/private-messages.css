@@ -351,3 +351,65 @@
     padding-block: 8px;
   }
 }
+
+.yk-private-messages-compose > .yk-private-messages-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 8px;
+}
+.yk-private-messages-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.yk-private-messages-tools :is(.yk-gif-trigger, .yk-message-emoji-trigger) {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  min-height: 44px;
+  padding: 6px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 10px;
+  color: var(--color-accent-gold);
+}
+.yk-private-messages-tools .yk-message-emoji-trigger {
+  color: #fff;
+}
+.yk-message-emoji-trigger:hover,
+.yk-message-emoji-trigger[aria-expanded="true"] {
+  background: var(--color-veil);
+}
+.yk-message-emoji-trigger:focus-visible {
+  outline: 2px solid #9abcff;
+  outline-offset: 2px;
+}
+.yk-private-messages-toolbar > span {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.yk-private-message-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 7px 8px;
+  min-width: 0;
+}
+.yk-private-message-row.is-own {
+  justify-content: flex-end;
+}
+.yk-private-message-row > .yk-styled-player-avatar {
+  margin-top: 8px;
+}
+.yk-private-message-row > .yk-private-message {
+  min-width: 0;
+  max-width: calc(100% - 42px);
+  margin-bottom: 0;
+}
+.yk-private-message-row.is-own > .yk-private-message {
+  max-width: 92%;
+}
+.yk-private-messages-contact {
+  gap: 18px;
+  padding-inline: 12px;
+}

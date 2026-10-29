@@ -152,6 +152,8 @@ export default async function RootLayout({
       "socialFriends",
       "conversationTrade",
       "privateMessages",
+      "playerPreview",
+      "market",
       "siteFooter",
       "error",
       "adminReportedCard",

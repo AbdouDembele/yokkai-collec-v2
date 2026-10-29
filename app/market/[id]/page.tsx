@@ -1,7 +1,11 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { CommunityPage } from "@/components/community-page";
 
-export const metadata: Metadata = { title: "Auction" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("market");
+  return { title: t("auctionTitle") };
+}
 export default async function Page({
   params
 }: {

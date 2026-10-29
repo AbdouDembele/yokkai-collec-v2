@@ -154,7 +154,11 @@ function harness(adapter) {
     },
     "react/jsx-runtime": { ...runtime, jsx: wrap("jsx"), jsxs: wrap("jsxs") },
     "next/link": { __esModule: true, default: ({ children }) => children },
-    "next/dynamic": { __esModule: true, default: () => CollectionView },
+    "next/dynamic": {
+      __esModule: true,
+      default: loader =>
+        loader.toString().includes("profile-completion") ? stub : CollectionView
+    },
     "next/navigation": {
       usePathname: () => "/profile/Alice",
       useSearchParams: () => new URLSearchParams()
@@ -176,6 +180,7 @@ function harness(adapter) {
     "@/components/player-moderation": { PlayerModeration: stub },
     "@/components/profile-license-picker": {},
     "@/components/profile-wall": { ProfileWall: stub },
+    "@/components/profile-private": { ProfilePrivate: stub },
     "@/components/banner-crop": {},
     "@/components/banner-image": { BannerImage: stub },
     "@/components/profile-style-fields": {},
@@ -189,7 +194,7 @@ function harness(adapter) {
     }),
     "@/components/pro-access": { useProMembershipStatus: () => false },
     "@/lib/data/moderation": {},
-    "@/components/friends": { FriendAction: stub },
+    "@/components/friends": { FriendAction: stub, FriendMessageButton: stub },
     "@/lib/data/profile": {},
     "@/lib/data/wishlist": {},
     "@/lib/ui/card-search": {},

@@ -197,87 +197,96 @@ export function GifPicker({
         className="yk-gif-modal"
       >
         <section className="yk-gif-panel">
-          <div
-            className="yk-gif-categories"
-            aria-label={t("profileUi.gifcategories")}
-          >
-            {GIF_CATEGORIES.map(category => (
-              <button
-                type="button"
-                key={category.label}
-                className={query === category.term ? "is-active" : undefined}
-                onClick={() => choose(category.term)}
+          {!selected && (
+            <>
+              <div
+                className="yk-gif-categories"
+                aria-label={t("profileUi.gifcategories")}
               >
-                {t(`profileUi.gifCategory${category.label}`)}
-              </button>
-            ))}
-          </div>
-          <label className="sr-only" htmlFor="auction-gif-search">
-            {t("profileUi.searchGIFs")}{" "}
-          </label>
-          <div className="yk-gif-search">
-            <span aria-hidden="true">⌕</span>
-            <input
-              id="auction-gif-search"
-              type="search"
-              value={query}
-              onChange={event => setQuery(event.target.value)}
-              placeholder={t("profileUi.searchGIPHY")}
-            />
-            {query && (
-              <button
-                type="button"
-                aria-label={t("profileUi.clearSearch")}
-                onClick={() => setQuery("")}
-              >
-                ×
-              </button>
-            )}
-          </div>
-          <div className="yk-gif-results" aria-busy={loading && offset === 0}>
-            {gifs.map(gif => (
-              <button
-                type="button"
-                key={gif.id}
-                aria-label={t("profileUi.gifPreviewTitle", {
-                  title: gif.title
-                })}
-                onClick={() => {
-                  setSelected(gif);
-                  setRejected(false);
-                }}
-              >
-                <img
-                  src={gif.previewUrl}
-                  alt={gif.title}
-                  loading="lazy"
-                  decoding="async"
+                {GIF_CATEGORIES.map(category => (
+                  <button
+                    type="button"
+                    key={category.label}
+                    className={
+                      query === category.term ? "is-active" : undefined
+                    }
+                    onClick={() => choose(category.term)}
+                  >
+                    {t(`profileUi.gifCategory${category.label}`)}
+                  </button>
+                ))}
+              </div>
+              <label className="sr-only" htmlFor="auction-gif-search">
+                {t("profileUi.searchGIFs")}{" "}
+              </label>
+              <div className="yk-gif-search">
+                <span aria-hidden="true">⌕</span>
+                <input
+                  id="auction-gif-search"
+                  type="search"
+                  value={query}
+                  onChange={event => setQuery(event.target.value)}
+                  placeholder={t("profileUi.searchGIPHY")}
                 />
-              </button>
-            ))}
-          </div>
-          {loading && offset === 0 && (
-            <div className="yk-gif-loading" role="status">
-              {t("profileUi.loadingGIFs")}{" "}
-            </div>
-          )}
-          {!loading && !error && !gifs.length && (
-            <p>{t("profileUi.noGIFsFound")}</p>
-          )}
-          {error && (
-            <p role="alert">
-              {t(gameErrorKey(error, "profileUi.profileUnavailable"))}
-            </p>
-          )}
-          {hasMore && !error && (
-            <button
-              type="button"
-              className="yk-gif-more"
-              disabled={loading}
-              onClick={() => setOffset(value => value + PAGE_SIZE)}
-            >
-              {loading ? t("packs.loading") : t("profileUi.loadMore")}
-            </button>
+                {query && (
+                  <button
+                    type="button"
+                    aria-label={t("profileUi.clearSearch")}
+                    onClick={() => setQuery("")}
+                  >
+                    ×
+                  </button>
+                )}
+              </div>
+              <div
+                className="yk-gif-results"
+                aria-busy={loading && offset === 0}
+              >
+                {gifs.map(gif => (
+                  <button
+                    type="button"
+                    key={gif.id}
+                    aria-label={t("profileUi.gifPreviewTitle", {
+                      title: gif.title
+                    })}
+                    onClick={() => {
+                      setSelected(gif);
+                      setRejected(false);
+                    }}
+                  >
+                    <img
+                      src={gif.previewUrl}
+                      alt={gif.title}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </button>
+                ))}
+              </div>
+              {loading && offset === 0 && (
+                <div className="yk-gif-loading" role="status">
+                  {t("profileUi.loadingGIFs")}{" "}
+                </div>
+              )}
+              {!loading && !error && !gifs.length && (
+                <p>{t("profileUi.noGIFsFound")}</p>
+              )}
+              {error && (
+                <p role="alert">
+                  {t(gameErrorKey(error, "profileUi.profileUnavailable"))}
+                </p>
+              )}
+              {hasMore && !error && (
+                <button
+                  type="button"
+                  className="yk-gif-more"
+                  disabled={loading}
+                  onClick={() => setOffset(value => value + PAGE_SIZE)}
+                >
+                  {loading ? t("packs.loading") : t("profileUi.loadMore")}
+                </button>
+              )}
+            </>
           )}
           {selected && (
             <div
@@ -291,7 +300,11 @@ export function GifPicker({
                 decoding="async"
               />
               <div>
-                <button type="button" onClick={() => setSelected(null)}>
+                <button
+                  type="button"
+                  autoFocus
+                  onClick={() => setSelected(null)}
+                >
                   {t("packs.cancel")}{" "}
                 </button>
                 <button

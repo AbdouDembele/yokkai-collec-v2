@@ -128,6 +128,13 @@ const friendsModule = load("components/friends.tsx", {
   "@/lib/data/social-unread": { invalidateSocialUnread: () => {} },
   "@/components/unread-badge": load("components/unread-badge.tsx", {}),
   "@/components/private-messages": { PrivateMessages: () => null },
+  "@/components/friend-message-button": load(
+    "components/friend-message-button.tsx",
+    {
+      "@/components/ui": ui,
+      "@/components/private-messages": { PrivateMessages: () => null }
+    }
+  ),
   "next/link": link,
   "@/components/ui": ui,
   "@/lib/data/friends": {},
@@ -149,6 +156,22 @@ function renderProfile(profile) {
     },
     "@/components/ui": ui,
     "@/components/friends": friendsModule,
+    "@/components/profile-private": load("components/profile-private.tsx", {}),
+    "next/dynamic": {
+      __esModule: true,
+      default: loader => {
+        if (loader.toString().includes("profile-completion"))
+          return load("components/profile-completion.tsx", {
+            "next/link": link,
+            "@/components/profile-private": load(
+              "components/profile-private.tsx",
+              {}
+            )
+          }).ProfileCompletion;
+        const dynamic = require("next/dynamic");
+        return (dynamic.default ?? dynamic)(loader);
+      }
+    },
     "@/lib/data/moderation": {},
     "@/components/player-moderation": { PlayerModeration: () => null },
     "@/components/profile-wall": { ProfileWall: () => null },

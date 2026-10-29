@@ -49,6 +49,8 @@ const liveFriendActions: FriendActionAdapter = {
   respond: respondFriendRequest
 };
 
+export { FriendMessageButton } from "@/components/friend-message-button";
+
 export function FriendAction({
   userId,
   status,

@@ -224,7 +224,7 @@
   border-color: #8fbcff;
   background: #304c70;
 }
-.yk-reaction-modal {
+.yk-modal.yk-reaction-modal {
   width: min(420px, calc(100vw - 32px));
   max-height: min(620px, calc(100dvh - 32px));
   padding: 24px;
@@ -274,7 +274,7 @@
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 6px;
   min-height: 48px;
-  max-height: 270px;
+  max-height: 320px;
   overflow-y: auto;
 }
 .yk-reaction-grid button {
@@ -327,7 +327,7 @@
   .yk-post-reply > div {
     padding: 10px;
   }
-  .yk-reaction-modal {
+  .yk-modal.yk-reaction-modal {
     padding: 20px;
   }
 }
