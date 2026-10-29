@@ -1,0 +1,1841 @@
+{
+  "baselineAt": "2026-10-29T02:51:26.256175+00:00",
+  "baseCommit": "35d06a2d330c51768e4fe4e4372e51006f898a87",
+  "rpc": [
+    {
+      "status": 200,
+      "ttfb": 0.145244,
+      "total": 0.158047,
+      "bytes": 16883,
+      "rpc": "get_card_binder_metadata",
+      "attempt": 0,
+      "bodyHash": "2db55352f4981e383feb76e742310a81c531fe1f3ecc9a96eb364795998d0ca9",
+      "items": 24,
+      "totalCards": null
+    },
+    {
+      "status": 200,
+      "ttfb": 0.098042,
+      "total": 0.100645,
+      "bytes": 16883,
+      "rpc": "get_card_binder_metadata",
+      "attempt": 1,
+      "bodyHash": "2db55352f4981e383feb76e742310a81c531fe1f3ecc9a96eb364795998d0ca9",
+      "items": 24,
+      "totalCards": null
+    },
+    {
+      "status": 200,
+      "ttfb": 0.119281,
+      "total": 0.122781,
+      "bytes": 16883,
+      "rpc": "get_card_binder_metadata",
+      "attempt": 2,
+      "bodyHash": "2db55352f4981e383feb76e742310a81c531fe1f3ecc9a96eb364795998d0ca9",
+      "items": 24,
+      "totalCards": null
+    },
+    {
+      "status": 200,
+      "ttfb": 0.122335,
+      "total": 0.12253,
+      "bytes": 7554,
+      "rpc": "get_binder_catalogue_page",
+      "attempt": 0,
+      "bodyHash": "8ea8149d80ad4fe8931371e274d76b8f8e0300dfd4643e64cf24834ddbf2a041",
+      "items": 24,
+      "totalCards": 92326
+    },
+    {
+      "status": 200,
+      "ttfb": 0.176763,
+      "total": 0.176948,
+      "bytes": 7554,
+      "rpc": "get_binder_catalogue_page",
+      "attempt": 1,
+      "bodyHash": "8ea8149d80ad4fe8931371e274d76b8f8e0300dfd4643e64cf24834ddbf2a041",
+      "items": 24,
+      "totalCards": 92326
+    },
+    {
+      "status": 200,
+      "ttfb": 0.138667,
+      "total": 0.138798,
+      "bytes": 7554,
+      "rpc": "get_binder_catalogue_page",
+      "attempt": 2,
+      "bodyHash": "8ea8149d80ad4fe8931371e274d76b8f8e0300dfd4643e64cf24834ddbf2a041",
+      "items": 24,
+      "totalCards": 92326
+    },
+    {
+      "status": 200,
+      "ttfb": 0.273775,
+      "total": 0.273915,
+      "bytes": 7830,
+      "rpc": "get_binder_catalogue_page:search",
+      "attempt": 0,
+      "bodyHash": "46df04de39d0667c850228136462ea0bd48432b6246939a4eabb66cf829d6745",
+      "items": 24,
+      "totalCards": 566
+    },
+    {
+      "status": 200,
+      "ttfb": 0.243753,
+      "total": 0.243917,
+      "bytes": 7830,
+      "rpc": "get_binder_catalogue_page:search",
+      "attempt": 1,
+      "bodyHash": "46df04de39d0667c850228136462ea0bd48432b6246939a4eabb66cf829d6745",
+      "items": 24,
+      "totalCards": 566
+    },
+    {
+      "status": 200,
+      "ttfb": 0.209144,
+      "total": 0.209422,
+      "bytes": 7830,
+      "rpc": "get_binder_catalogue_page:search",
+      "attempt": 2,
+      "bodyHash": "46df04de39d0667c850228136462ea0bd48432b6246939a4eabb66cf829d6745",
+      "items": 24,
+      "totalCards": 566
+    }
+  ],
+  "sql": [
+    {
+      "cohort": 0,
+      "name": "albums",
+      "attempt": 0,
+      "ms": 1230.419,
+      "planningMs": 0.059,
+      "hits": 108962,
+      "reads": 0
+    },
+    {
+      "cohort": 0,
+      "name": "albums",
+      "attempt": 1,
+      "ms": 1200.515,
+      "planningMs": 0.068,
+      "hits": 108962,
+      "reads": 0
+    },
+    {
+      "cohort": 0,
+      "name": "albums",
+      "attempt": 2,
+      "ms": 1279.548,
+      "planningMs": 0.054,
+      "hits": 108962,
+      "reads": 0
+    },
+    {
+      "cohort": 0,
+      "name": "albumsFavorites",
+      "attempt": 0,
+      "ms": 1263.155,
+      "planningMs": 0.049,
+      "hits": 108962,
+      "reads": 0
+    },
+    {
+      "cohort": 0,
+      "name": "profile",
+      "attempt": 0,
+      "ms": 161.18,
+      "planningMs": 0.053,
+      "hits": 6026,
+      "reads": 1
+    },
+    {
+      "cohort": 0,
+      "name": "profile",
+      "attempt": 1,
+      "ms": 164.431,
+      "planningMs": 0.051,
+      "hits": 6027,
+      "reads": 0
+    },
+    {
+      "cohort": 0,
+      "name": "profile",
+      "attempt": 2,
+      "ms": 153.465,
+      "planningMs": 0.056,
+      "hits": 6027,
+      "reads": 0
+    },
+    {
+      "cohort": 0,
+      "name": "ranking",
+      "attempt": 0,
+      "ms": 328.886,
+      "planningMs": 0.053,
+      "hits": 21491,
+      "reads": 0
+    },
+    {
+      "cohort": 0,
+      "name": "ranking",
+      "attempt": 1,
+      "ms": 358.761,
+      "planningMs": 0.054,
+      "hits": 21491,
+      "reads": 0
+    },
+    {
+      "cohort": 0,
+      "name": "ranking",
+      "attempt": 2,
+      "ms": 327.292,
+      "planningMs": 0.068,
+      "hits": 21491,
+      "reads": 0
+    },
+    {
+      "cohort": 1,
+      "name": "albums",
+      "attempt": 0,
+      "ms": 1378.308,
+      "planningMs": 0.056,
+      "hits": 108961,
+      "reads": 1
+    },
+    {
+      "cohort": 1,
+      "name": "albums",
+      "attempt": 1,
+      "ms": 1306.004,
+      "planningMs": 0.051,
+      "hits": 108962,
+      "reads": 0
+    },
+    {
+      "cohort": 1,
+      "name": "albums",
+      "attempt": 2,
+      "ms": 1405.186,
+      "planningMs": 0.05,
+      "hits": 108962,
+      "reads": 0
+    },
+    {
+      "cohort": 1,
+      "name": "albumsFavorites",
+      "attempt": 0,
+      "ms": 1270.501,
+      "planningMs": 0.057,
+      "hits": 108962,
+      "reads": 0
+    },
+    {
+      "cohort": 1,
+      "name": "profile",
+      "attempt": 0,
+      "ms": 172.059,
+      "planningMs": 0.056,
+      "hits": 6109,
+      "reads": 1
+    },
+    {
+      "cohort": 1,
+      "name": "profile",
+      "attempt": 1,
+      "ms": 171.018,
+      "planningMs": 0.052,
+      "hits": 6110,
+      "reads": 0
+    },
+    {
+      "cohort": 1,
+      "name": "profile",
+      "attempt": 2,
+      "ms": 164.797,
+      "planningMs": 0.056,
+      "hits": 6110,
+      "reads": 0
+    },
+    {
+      "cohort": 1,
+      "name": "ranking",
+      "attempt": 0,
+      "ms": 355.998,
+      "planningMs": 0.067,
+      "hits": 21170,
+      "reads": 0
+    },
+    {
+      "cohort": 1,
+      "name": "ranking",
+      "attempt": 1,
+      "ms": 378.39,
+      "planningMs": 0.058,
+      "hits": 21170,
+      "reads": 0
+    },
+    {
+      "cohort": 1,
+      "name": "ranking",
+      "attempt": 2,
+      "ms": 361.311,
+      "planningMs": 0.054,
+      "hits": 21170,
+      "reads": 0
+    },
+    {
+      "cohort": 2,
+      "name": "albums",
+      "attempt": 0,
+      "ms": 1456.511,
+      "planningMs": 0.049,
+      "hits": 109584,
+      "reads": 3
+    },
+    {
+      "cohort": 2,
+      "name": "albums",
+      "attempt": 1,
+      "ms": 1396.934,
+      "planningMs": 0.063,
+      "hits": 109587,
+      "reads": 0
+    },
+    {
+      "cohort": 2,
+      "name": "albums",
+      "attempt": 2,
+      "ms": 1417.98,
+      "planningMs": 0.064,
+      "hits": 109587,
+      "reads": 0
+    },
+    {
+      "cohort": 2,
+      "name": "albumsFavorites",
+      "attempt": 0,
+      "ms": 1314.688,
+      "planningMs": 0.053,
+      "hits": 109587,
+      "reads": 0
+    },
+    {
+      "cohort": 2,
+      "name": "profile",
+      "attempt": 0,
+      "ms": 2264.054,
+      "planningMs": 0.2,
+      "hits": 219597,
+      "reads": 5
+    },
+    {
+      "cohort": 2,
+      "name": "profile",
+      "attempt": 1,
+      "ms": 2123.74,
+      "planningMs": 0.062,
+      "hits": 219602,
+      "reads": 0
+    },
+    {
+      "cohort": 2,
+      "name": "profile",
+      "attempt": 2,
+      "ms": 1980.126,
+      "planningMs": 0.055,
+      "hits": 219602,
+      "reads": 0
+    },
+    {
+      "cohort": 2,
+      "name": "ranking",
+      "attempt": 0,
+      "ms": 374.214,
+      "planningMs": 0.072,
+      "hits": 23352,
+      "reads": 0
+    },
+    {
+      "cohort": 2,
+      "name": "ranking",
+      "attempt": 1,
+      "ms": 357.216,
+      "planningMs": 0.05,
+      "hits": 23352,
+      "reads": 0
+    },
+    {
+      "cohort": 2,
+      "name": "ranking",
+      "attempt": 2,
+      "ms": 354.397,
+      "planningMs": 0.185,
+      "hits": 23352,
+      "reads": 0
+    }
+  ],
+  "profileComponents": [
+    {
+      "cohort": 0,
+      "name": "profileBase",
+      "ms": 10.474,
+      "hits": 1907
+    },
+    {
+      "cohort": 0,
+      "name": "profileDetails",
+      "ms": 164.828,
+      "hits": 4084
+    },
+    {
+      "cohort": 0,
+      "name": "favorites",
+      "ms": 18.01,
+      "hits": 2669
+    },
+    {
+      "cohort": 0,
+      "name": "widgets",
+      "ms": 1.082,
+      "hits": 44
+    },
+    {
+      "cohort": 1,
+      "name": "profileBase",
+      "ms": 9.059,
+      "hits": 1904
+    },
+    {
+      "cohort": 1,
+      "name": "profileDetails",
+      "ms": 158.527,
+      "hits": 4170
+    },
+    {
+      "cohort": 1,
+      "name": "favorites",
+      "ms": 32.707,
+      "hits": 2669
+    },
+    {
+      "cohort": 1,
+      "name": "widgets",
+      "ms": 1.033,
+      "hits": 44
+    },
+    {
+      "cohort": 2,
+      "name": "profileBase",
+      "ms": 16.338,
+      "hits": 2289
+    },
+    {
+      "cohort": 2,
+      "name": "profileDetails",
+      "ms": 137.537,
+      "hits": 5614
+    },
+    {
+      "cohort": 2,
+      "name": "favorites",
+      "ms": 854.423,
+      "hits": 108686
+    },
+    {
+      "cohort": 2,
+      "name": "widgets",
+      "ms": 0.733,
+      "hits": 44
+    }
+  ],
+  "images": [
+    {
+      "mime": "image/gif",
+      "kind": "large",
+      "expectedBytes": 2504977,
+      "attempt": 0,
+      "dns": 0.002868,
+      "tcp": 0.016274,
+      "tls": 0.038921,
+      "ttfb": 0.098379,
+      "total": 0.211077,
+      "bytes": 2504977,
+      "status": 200,
+      "headers": {
+        "content-type": "image/gif",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"426554898358e40162694b7c87837d2f\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4e738b762f5-HAM"
+      }
+    },
+    {
+      "mime": "image/gif",
+      "kind": "large",
+      "expectedBytes": 2504977,
+      "attempt": 1,
+      "dns": 0.001025,
+      "tcp": 0.004768,
+      "tls": 0.024707,
+      "ttfb": 0.071502,
+      "total": 0.103641,
+      "bytes": 2504977,
+      "status": 200,
+      "headers": {
+        "content-type": "image/gif",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"426554898358e40162694b7c87837d2f\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4ea18784cd1-FRA"
+      }
+    },
+    {
+      "mime": "image/gif",
+      "kind": "large",
+      "expectedBytes": 2504977,
+      "attempt": 2,
+      "dns": 0.001106,
+      "tcp": 0.005067,
+      "tls": 0.026068,
+      "ttfb": 0.069802,
+      "total": 0.102505,
+      "bytes": 2504977,
+      "status": 200,
+      "headers": {
+        "content-type": "image/gif",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"426554898358e40162694b7c87837d2f\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4ec7ca83637-FRA"
+      }
+    },
+    {
+      "mime": "image/gif",
+      "kind": "small",
+      "expectedBytes": 5485,
+      "attempt": 0,
+      "dns": 0.001026,
+      "tcp": 0.004747,
+      "tls": 0.024177,
+      "ttfb": 0.05006,
+      "total": 0.050265,
+      "bytes": 5485,
+      "status": 200,
+      "headers": {
+        "content-type": "image/gif",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"73681e70891af9d3492201731758b347\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4eebfadd275-FRA"
+      }
+    },
+    {
+      "mime": "image/gif",
+      "kind": "small",
+      "expectedBytes": 5485,
+      "attempt": 1,
+      "dns": 0.001124,
+      "tcp": 0.004839,
+      "tls": 0.026179,
+      "ttfb": 0.062266,
+      "total": 0.062466,
+      "bytes": 5485,
+      "status": 200,
+      "headers": {
+        "content-type": "image/gif",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"73681e70891af9d3492201731758b347\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4f0b8724d95-FRA"
+      }
+    },
+    {
+      "mime": "image/gif",
+      "kind": "small",
+      "expectedBytes": 5485,
+      "attempt": 2,
+      "dns": 0.001089,
+      "tcp": 0.005002,
+      "tls": 0.023182,
+      "ttfb": 0.053872,
+      "total": 0.054053,
+      "bytes": 5485,
+      "status": 200,
+      "headers": {
+        "content-type": "image/gif",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"73681e70891af9d3492201731758b347\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4f2b860d36d-FRA"
+      }
+    },
+    {
+      "mime": "image/jpeg",
+      "kind": "large",
+      "expectedBytes": 6146566,
+      "attempt": 0,
+      "dns": 0.001149,
+      "tcp": 0.014354,
+      "tls": 0.037922,
+      "ttfb": 0.142094,
+      "total": 0.266521,
+      "bytes": 6146566,
+      "status": 200,
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"d9dffaa967af24152eb5a2bc3ce0a039\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4f4d89e62e9-HAM"
+      }
+    },
+    {
+      "mime": "image/jpeg",
+      "kind": "large",
+      "expectedBytes": 6146566,
+      "attempt": 1,
+      "dns": 0.001134,
+      "tcp": 0.004945,
+      "tls": 0.024006,
+      "ttfb": 0.09474,
+      "total": 0.137112,
+      "bytes": 6146566,
+      "status": 200,
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"d9dffaa967af24152eb5a2bc3ce0a039\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4f80efd2676-FRA"
+      }
+    },
+    {
+      "mime": "image/jpeg",
+      "kind": "large",
+      "expectedBytes": 6146566,
+      "attempt": 2,
+      "dns": 0.001237,
+      "tcp": 0.004917,
+      "tls": 0.023112,
+      "ttfb": 0.069004,
+      "total": 0.116673,
+      "bytes": 6146566,
+      "status": 200,
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"d9dffaa967af24152eb5a2bc3ce0a039\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4fa8b6f367a-FRA"
+      }
+    },
+    {
+      "mime": "image/jpeg",
+      "kind": "small",
+      "expectedBytes": 1188,
+      "attempt": 0,
+      "dns": 0.000988,
+      "tcp": 0.01394,
+      "tls": 0.035864,
+      "ttfb": 0.08037,
+      "total": 0.08054,
+      "bytes": 1188,
+      "status": 200,
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "max-age=86400",
+        "etag": "W/\"9b417f98c0506d28addf71afba597df2\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4fcffda6cb0-HAM"
+      }
+    },
+    {
+      "mime": "image/jpeg",
+      "kind": "small",
+      "expectedBytes": 1188,
+      "attempt": 1,
+      "dns": 0.000959,
+      "tcp": 0.014264,
+      "tls": 0.037099,
+      "ttfb": 0.080262,
+      "total": 0.08042,
+      "bytes": 1188,
+      "status": 200,
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "max-age=86400",
+        "etag": "W/\"9b417f98c0506d28addf71afba597df2\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee4ff2e0662eb-HAM"
+      }
+    },
+    {
+      "mime": "image/jpeg",
+      "kind": "small",
+      "expectedBytes": 1188,
+      "attempt": 2,
+      "dns": 0.00109,
+      "tcp": 0.014291,
+      "tls": 0.038199,
+      "ttfb": 0.079021,
+      "total": 0.079198,
+      "bytes": 1188,
+      "status": 200,
+      "headers": {
+        "content-type": "image/jpeg",
+        "cache-control": "max-age=86400",
+        "etag": "W/\"9b417f98c0506d28addf71afba597df2\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee5015eb4131b-HAM"
+      }
+    },
+    {
+      "mime": "image/png",
+      "kind": "large",
+      "expectedBytes": 5792886,
+      "attempt": 0,
+      "dns": 0.001021,
+      "tcp": 0.004795,
+      "tls": 0.027108,
+      "ttfb": 0.078263,
+      "total": 0.121645,
+      "bytes": 5792886,
+      "status": 200,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"ca9e15d765c96d79fb0710a8f81c20d5\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee5036e09986c-FRA"
+      }
+    },
+    {
+      "mime": "image/png",
+      "kind": "large",
+      "expectedBytes": 5792886,
+      "attempt": 1,
+      "dns": 0.001456,
+      "tcp": 0.014563,
+      "tls": 0.039363,
+      "ttfb": 0.089938,
+      "total": 0.223481,
+      "bytes": 5792886,
+      "status": 200,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"ca9e15d765c96d79fb0710a8f81c20d5\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee505e8f2bafb-HAM"
+      }
+    },
+    {
+      "mime": "image/png",
+      "kind": "large",
+      "expectedBytes": 5792886,
+      "attempt": 2,
+      "dns": 0.001137,
+      "tcp": 0.004918,
+      "tls": 0.024243,
+      "ttfb": 0.071777,
+      "total": 0.11591,
+      "bytes": 5792886,
+      "status": 200,
+      "headers": {
+        "content-type": "image/png",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"ca9e15d765c96d79fb0710a8f81c20d5\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee508ddd2d3a2-FRA"
+      }
+    },
+    {
+      "mime": "image/png",
+      "kind": "small",
+      "expectedBytes": 486,
+      "attempt": 0,
+      "dns": 0.000957,
+      "tcp": 0.014171,
+      "tls": 0.036835,
+      "ttfb": 0.080738,
+      "total": 0.080905,
+      "bytes": 486,
+      "status": 200,
+      "headers": {
+        "content-type": "image/png",
+        "content-length": "486",
+        "cache-control": "max-age=3600",
+        "etag": "\"6ac167d9e8da0b9c34b7d7bcb527bd87\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee50b5dcb15a3-HAM"
+      }
+    },
+    {
+      "mime": "image/png",
+      "kind": "small",
+      "expectedBytes": 486,
+      "attempt": 1,
+      "dns": 0.000992,
+      "tcp": 0.01456,
+      "tls": 0.036939,
+      "ttfb": 0.077403,
+      "total": 0.07759,
+      "bytes": 486,
+      "status": 200,
+      "headers": {
+        "content-type": "image/png",
+        "content-length": "486",
+        "cache-control": "max-age=3600",
+        "etag": "\"6ac167d9e8da0b9c34b7d7bcb527bd87\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee50d79990fcc-HAM"
+      }
+    },
+    {
+      "mime": "image/png",
+      "kind": "small",
+      "expectedBytes": 486,
+      "attempt": 2,
+      "dns": 0.001231,
+      "tcp": 0.005063,
+      "tls": 0.025239,
+      "ttfb": 0.056698,
+      "total": 0.056951,
+      "bytes": 486,
+      "status": 200,
+      "headers": {
+        "content-type": "image/png",
+        "content-length": "486",
+        "cache-control": "max-age=3600",
+        "etag": "\"6ac167d9e8da0b9c34b7d7bcb527bd87\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee50f8fd1d2ba-FRA"
+      }
+    },
+    {
+      "mime": "image/webp",
+      "kind": "large",
+      "expectedBytes": 4873956,
+      "attempt": 0,
+      "dns": 0.001096,
+      "tcp": 0.004791,
+      "tls": 0.032677,
+      "ttfb": 0.084384,
+      "total": 0.127673,
+      "bytes": 4873956,
+      "status": 200,
+      "headers": {
+        "content-type": "image/webp",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"23c82da2820d91c7843206a2981fea57\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee51198314e6c-FRA"
+      }
+    },
+    {
+      "mime": "image/webp",
+      "kind": "large",
+      "expectedBytes": 4873956,
+      "attempt": 1,
+      "dns": 0.001039,
+      "tcp": 0.014329,
+      "tls": 0.038233,
+      "ttfb": 0.093739,
+      "total": 0.21698,
+      "bytes": 4873956,
+      "status": 200,
+      "headers": {
+        "content-type": "image/webp",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"23c82da2820d91c7843206a2981fea57\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee5142bd10ed3-HAM"
+      }
+    },
+    {
+      "mime": "image/webp",
+      "kind": "large",
+      "expectedBytes": 4873956,
+      "attempt": 2,
+      "dns": 0.000937,
+      "tcp": 0.005155,
+      "tls": 0.022752,
+      "ttfb": 0.053468,
+      "total": 0.095134,
+      "bytes": 4873956,
+      "status": 200,
+      "headers": {
+        "content-type": "image/webp",
+        "cache-control": "max-age=3600",
+        "etag": "W/\"23c82da2820d91c7843206a2981fea57\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee5170967d20b-FRA"
+      }
+    },
+    {
+      "mime": "image/webp",
+      "kind": "small",
+      "expectedBytes": 224,
+      "attempt": 0,
+      "dns": 0.000975,
+      "tcp": 0.004954,
+      "tls": 0.023425,
+      "ttfb": 0.058856,
+      "total": 0.059038,
+      "bytes": 224,
+      "status": 200,
+      "headers": {
+        "content-type": "image/webp",
+        "content-length": "224",
+        "cache-control": "max-age=3600",
+        "etag": "\"001712c083e19829669896b0d2bab938\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee519486bdc60-FRA"
+      }
+    },
+    {
+      "mime": "image/webp",
+      "kind": "small",
+      "expectedBytes": 224,
+      "attempt": 1,
+      "dns": 0.000962,
+      "tcp": 0.013879,
+      "tls": 0.036428,
+      "ttfb": 0.087355,
+      "total": 0.087533,
+      "bytes": 224,
+      "status": 200,
+      "headers": {
+        "content-type": "image/webp",
+        "content-length": "224",
+        "cache-control": "max-age=3600",
+        "etag": "\"001712c083e19829669896b0d2bab938\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee51b6e647c16-HAM"
+      }
+    },
+    {
+      "mime": "image/webp",
+      "kind": "small",
+      "expectedBytes": 224,
+      "attempt": 2,
+      "dns": 0.000979,
+      "tcp": 0.013972,
+      "tls": 0.039704,
+      "ttfb": 0.08137,
+      "total": 0.081558,
+      "bytes": 224,
+      "status": 200,
+      "headers": {
+        "content-type": "image/webp",
+        "content-length": "224",
+        "cache-control": "max-age=3600",
+        "etag": "\"001712c083e19829669896b0d2bab938\"",
+        "vary": "Accept-Encoding",
+        "cf-cache-status": "DYNAMIC",
+        "cf-ray": "a51ee51dafd9444a-HAM"
+      }
+    }
+  ],
+  "rustfs": {
+    "startedAt": "2026-10-29T02:54:09.919652+00:00",
+    "endedAt": "2026-10-29T02:59:13.556812+00:00",
+    "windows": [
+      {
+        "seconds": 15,
+        "at": "2026-10-29T02:54:24.920389+00:00",
+        "cpuCores": 1.01,
+        "readBytesPerSec": 1275982,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6425075712,
+        "storageRequests": 24,
+        "storageCodes": {
+          "200": 24
+        },
+        "storageP50Ms": 17.030032008886337,
+        "storageP95Ms": 49.043779999017715
+      },
+      {
+        "seconds": 15.19,
+        "at": "2026-10-29T02:54:40.110941+00:00",
+        "cpuCores": 1.379,
+        "readBytesPerSec": 13442159,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6542258176,
+        "storageRequests": 0,
+        "storageCodes": {},
+        "storageP50Ms": null,
+        "storageP95Ms": null
+      },
+      {
+        "seconds": 15.21,
+        "at": "2026-10-29T02:54:55.319864+00:00",
+        "cpuCores": 1.497,
+        "readBytesPerSec": 18823539,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6543654912,
+        "storageRequests": 0,
+        "storageCodes": {},
+        "storageP50Ms": null,
+        "storageP95Ms": null
+      },
+      {
+        "seconds": 15.19,
+        "at": "2026-10-29T02:55:10.513319+00:00",
+        "cpuCores": 0.992,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6445760512,
+        "storageRequests": 0,
+        "storageCodes": {},
+        "storageP50Ms": null,
+        "storageP95Ms": null
+      },
+      {
+        "seconds": 15.19,
+        "at": "2026-10-29T02:55:25.704581+00:00",
+        "cpuCores": 1.004,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6442881024,
+        "storageRequests": 0,
+        "storageCodes": {},
+        "storageP50Ms": null,
+        "storageP95Ms": null
+      },
+      {
+        "seconds": 15.16,
+        "at": "2026-10-29T02:55:40.868521+00:00",
+        "cpuCores": 1,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6442225664,
+        "storageRequests": 0,
+        "storageCodes": {},
+        "storageP50Ms": null,
+        "storageP95Ms": null
+      },
+      {
+        "seconds": 15.21,
+        "at": "2026-10-29T02:55:56.074254+00:00",
+        "cpuCores": 0.993,
+        "readBytesPerSec": 19395,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6445211648,
+        "storageRequests": 4,
+        "storageCodes": {
+          "200": 1,
+          "304": 3
+        },
+        "storageP50Ms": 77.23917597532272,
+        "storageP95Ms": 82.09229600429535
+      },
+      {
+        "seconds": 15.21,
+        "at": "2026-10-29T02:56:11.287478+00:00",
+        "cpuCores": 0.992,
+        "readBytesPerSec": 306395,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6209810432,
+        "storageRequests": 78,
+        "storageCodes": {
+          "200": 72,
+          "304": 6
+        },
+        "storageP50Ms": 47.58101698756218,
+        "storageP95Ms": 177.15539100766182
+      },
+      {
+        "seconds": 15.2,
+        "at": "2026-10-29T02:56:26.489490+00:00",
+        "cpuCores": 0.994,
+        "readBytesPerSec": 144958,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6215438336,
+        "storageRequests": 15,
+        "storageCodes": {
+          "200": 14,
+          "304": 1
+        },
+        "storageP50Ms": 65.1024520099163,
+        "storageP95Ms": 78.19193798303604
+      },
+      {
+        "seconds": 15.18,
+        "at": "2026-10-29T02:56:41.668326+00:00",
+        "cpuCores": 0.999,
+        "readBytesPerSec": 183498,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6216978432,
+        "storageRequests": 31,
+        "storageCodes": {
+          "200": 27,
+          "304": 4
+        },
+        "storageP50Ms": 24.474804013967514,
+        "storageP95Ms": 62.838520020246506
+      },
+      {
+        "seconds": 15.17,
+        "at": "2026-10-29T02:56:56.833864+00:00",
+        "cpuCores": 1.004,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6216876032,
+        "storageRequests": 2,
+        "storageCodes": {
+          "304": 2
+        },
+        "storageP50Ms": 12.516002982854843,
+        "storageP95Ms": 12.516002982854843
+      },
+      {
+        "seconds": 15.18,
+        "at": "2026-10-29T02:57:12.014472+00:00",
+        "cpuCores": 0.998,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6213828608,
+        "storageRequests": 1,
+        "storageCodes": {
+          "304": 1
+        },
+        "storageP50Ms": 7.990020990371704,
+        "storageP95Ms": 7.990020990371704
+      },
+      {
+        "seconds": 15.2,
+        "at": "2026-10-29T02:57:27.219110+00:00",
+        "cpuCores": 0.998,
+        "readBytesPerSec": 472513,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6231097344,
+        "storageRequests": 47,
+        "storageCodes": {
+          "200": 47
+        },
+        "storageP50Ms": 38.5910530090332,
+        "storageP95Ms": 136.31433001160622
+      },
+      {
+        "seconds": 15.29,
+        "at": "2026-10-29T02:57:42.509366+00:00",
+        "cpuCores": 0.987,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6225358848,
+        "storageRequests": 6,
+        "storageCodes": {
+          "200": 5,
+          "304": 1
+        },
+        "storageP50Ms": 23.72606399655342,
+        "storageP95Ms": 27.814896017313004
+      },
+      {
+        "seconds": 15.19,
+        "at": "2026-10-29T02:57:57.696088+00:00",
+        "cpuCores": 1.404,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6217023488,
+        "storageRequests": 1,
+        "storageCodes": {
+          "200": 1
+        },
+        "storageP50Ms": 38.28549501299858,
+        "storageP95Ms": 38.28549501299858
+      },
+      {
+        "seconds": 15.17,
+        "at": "2026-10-29T02:58:12.866746+00:00",
+        "cpuCores": 1.001,
+        "readBytesPerSec": 9720,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6053715968,
+        "storageRequests": 10,
+        "storageCodes": {
+          "200": 2,
+          "304": 8
+        },
+        "storageP50Ms": 36.97389501333237,
+        "storageP95Ms": 40.10860100388527
+      },
+      {
+        "seconds": 15.16,
+        "at": "2026-10-29T02:58:28.028396+00:00",
+        "cpuCores": 1.004,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6053150720,
+        "storageRequests": 0,
+        "storageCodes": {},
+        "storageP50Ms": null,
+        "storageP95Ms": null
+      },
+      {
+        "seconds": 15.19,
+        "at": "2026-10-29T02:58:43.216696+00:00",
+        "cpuCores": 1.003,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6052757504,
+        "storageRequests": 0,
+        "storageCodes": {},
+        "storageP50Ms": null,
+        "storageP95Ms": null
+      },
+      {
+        "seconds": 15.17,
+        "at": "2026-10-29T02:58:58.384291+00:00",
+        "cpuCores": 0.998,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6053576704,
+        "storageRequests": 0,
+        "storageCodes": {},
+        "storageP50Ms": null,
+        "storageP95Ms": null
+      },
+      {
+        "seconds": 15.17,
+        "at": "2026-10-29T02:59:13.556812+00:00",
+        "cpuCores": 1.003,
+        "readBytesPerSec": 0,
+        "writeBytesPerSec": 0,
+        "memoryBytes": 6053871616,
+        "storageRequests": 0,
+        "storageCodes": {},
+        "storageP50Ms": null,
+        "storageP95Ms": null
+      }
+    ],
+    "logLines": 1,
+    "signals": [],
+    "safeConfig": {
+      "RUSTFS_OBS_LOG_DIRECTORY": "/logs"
+    },
+    "restarts": 0,
+    "oom": false
+  },
+  "rustfsDetails": {
+    "at": 1793243253.6068623,
+    "threads": [
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.566
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.531
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.14
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.131
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.083
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.067
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.012
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.011
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.011
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.011
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.011
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.011
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.011
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.01
+      },
+      {
+        "thread": "rustfs-worker",
+        "cpuCores": 0.01
+      }
+    ],
+    "signals": [
+      "{\"timestamp\":\"2026-10-29T02:15:17.784323212Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle budget reached\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"cycle\":1561,\"duration\":\"1800.341738681s\",\"reason\":\"Some(Runtime)\",\"max_duration\":\"Some(1800s)\",\"max_objects\":\"None\",\"max_directories\":\"None\",\"state\":\"budget_reached\",\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":2273,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(17)\"}",
+      "{\"timestamp\":\"2026-10-29T02:15:17.806329696Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle deadline expired; durable cursor[path] fencing completed when possible\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"state\":\"cycle_timeout\",\"worker_stopped\":true,\"cycle_state_persisted\":true,\"generation_fenced\":true,\"recovery_required\":false,\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":1656,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(12)\"}",
+      "{\"timestamp\":\"2026-10-29T02:46:23.587846528Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle budget reached\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"cycle\":1562,\"duration\":\"1800.320836063s\",\"reason\":\"Some(Runtime)\",\"max_duration\":\"Some(1800s)\",\"max_objects\":\"None\",\"max_directories\":\"None\",\"state\":\"budget_reached\",\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":2273,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(13)\"}",
+      "{\"timestamp\":\"2026-10-29T02:46:23.618214287Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle deadline expired; durable cursor[path] fencing completed when possible\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"state\":\"cycle_timeout\",\"worker_stopped\":true,\"cycle_state_persisted\":true,\"generation_fenced\":true,\"recovery_required\":false,\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":1656,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(17)\"}",
+      "{\"timestamp\":\"2026-10-29T01:13:22.572248724Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle budget reached\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"cycle\":1559,\"duration\":\"1800.396782701s\",\"reason\":\"Some(Runtime)\",\"max_duration\":\"Some(1800s)\",\"max_objects\":\"None\",\"max_directories\":\"None\",\"state\":\"budget_reached\",\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":2273,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(13)\"}",
+      "{\"timestamp\":\"2026-10-29T01:13:22.590701754Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle deadline expired; durable cursor[path] fencing completed when possible\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"state\":\"cycle_timeout\",\"worker_stopped\":true,\"cycle_state_persisted\":true,\"generation_fenced\":true,\"recovery_required\":false,\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":1656,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(10)\"}",
+      "{\"timestamp\":\"2026-10-29T01:44:21.896974514Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle budget reached\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"cycle\":1560,\"duration\":\"1800.272286675s\",\"reason\":\"Some(Runtime)\",\"max_duration\":\"Some(1800s)\",\"max_objects\":\"None\",\"max_directories\":\"None\",\"state\":\"budget_reached\",\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":2273,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(17)\"}",
+      "{\"timestamp\":\"2026-10-29T01:44:21.923885697Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle deadline expired; durable cursor[path] fencing completed when possible\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"state\":\"cycle_timeout\",\"worker_stopped\":true,\"cycle_state_persisted\":true,\"generation_fenced\":true,\"recovery_required\":false,\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":1656,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(12)\"}",
+      "{\"timestamp\":\"2026-10-29T00:11:21.9915261Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle budget reached\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"cycle\":1557,\"duration\":\"1800.297856987s\",\"reason\":\"Some(Runtime)\",\"max_duration\":\"Some(1800s)\",\"max_objects\":\"None\",\"max_directories\":\"None\",\"state\":\"budget_reached\",\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":2273,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(16)\"}",
+      "{\"timestamp\":\"2026-10-29T00:11:22.01666895Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle deadline expired; durable cursor[path] fencing completed when possible\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"state\":\"cycle_timeout\",\"worker_stopped\":true,\"cycle_state_persisted\":true,\"generation_fenced\":true,\"recovery_required\":false,\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":1656,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(15)\"}",
+      "{\"timestamp\":\"2026-10-29T00:42:16.962489486Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle budget reached\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"cycle\":1558,\"duration\":\"1800.344995806s\",\"reason\":\"Some(Runtime)\",\"max_duration\":\"Some(1800s)\",\"max_objects\":\"None\",\"max_directories\":\"None\",\"state\":\"budget_reached\",\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":2273,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(12)\"}",
+      "{\"timestamp\":\"2026-10-29T00:42:16.982346365Z\",\"level\":\"WARN\",\"message\":\"Scanner cycle deadline expired; durable cursor[path] fencing completed when possible\",\"event\":\"scanner_cycle_state\",\"component\":\"scanner\",\"subsystem\":\"runtime\",\"state\":\"cycle_timeout\",\"worker_stopped\":true,\"cycle_state_persisted\":true,\"generation_fenced\":true,\"recovery_required\":false,\"target\":\"rustfs::scanner\",\"filename\":\"crates[path]\",\"line_number\":1656,\"threadName\":\"rustfs-worker\",\"threadId\":\"ThreadId(12)\"}"
+    ]
+  },
+  "authAgents": {
+    "node": 638,
+    "browser": 55
+  },
+  "authRequestCounts": [
+    {
+      "variant": "reference",
+      "clients": 2,
+      "claims": 2,
+      "locales": ["french-user"]
+    },
+    {
+      "variant": "candidate",
+      "clients": 1,
+      "claims": 1,
+      "locales": ["french-user"]
+    }
+  ],
+  "profileCategories": [
+    {
+      "repeat": 0,
+      "name": "reference",
+      "ms": 119.628,
+      "hits": 686
+    },
+    {
+      "repeat": 0,
+      "name": "candidate",
+      "ms": 38.835,
+      "hits": 686
+    },
+    {
+      "repeat": 1,
+      "name": "reference",
+      "ms": 146.656,
+      "hits": 686
+    },
+    {
+      "repeat": 1,
+      "name": "candidate",
+      "ms": 39.096,
+      "hits": 686
+    },
+    {
+      "repeat": 2,
+      "name": "reference",
+      "ms": 119.436,
+      "hits": 686
+    },
+    {
+      "repeat": 2,
+      "name": "candidate",
+      "ms": 35.054,
+      "hits": 686
+    },
+    {
+      "repeat": 3,
+      "name": "reference",
+      "ms": 124.135,
+      "hits": 686
+    },
+    {
+      "repeat": 3,
+      "name": "candidate",
+      "ms": 38.878,
+      "hits": 686
+    },
+    {
+      "repeat": 4,
+      "name": "reference",
+      "ms": 118.183,
+      "hits": 686
+    },
+    {
+      "repeat": 4,
+      "name": "candidate",
+      "ms": 39.798,
+      "hits": 686
+    }
+  ],
+  "variants": [
+    {
+      "cohort": 0,
+      "name": "albums",
+      "variant": "reference",
+      "ms": 1847.159,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 0,
+      "name": "albums",
+      "variant": "candidate",
+      "ms": 1600.671,
+      "hits": 105561,
+      "temp": 3181
+    },
+    {
+      "cohort": 0,
+      "name": "albums",
+      "variant": "candidate-memory",
+      "ms": 1279.193,
+      "hits": 105561,
+      "temp": 1746
+    },
+    {
+      "cohort": 0,
+      "name": "ranking",
+      "variant": "reference",
+      "ms": 311.518,
+      "hits": 10550,
+      "temp": 846
+    },
+    {
+      "cohort": 0,
+      "name": "ranking",
+      "variant": "candidate",
+      "ms": 259.074,
+      "hits": 10550,
+      "temp": 457
+    },
+    {
+      "cohort": 0,
+      "name": "ranking",
+      "variant": "candidate-memory",
+      "ms": 292.996,
+      "hits": 10550,
+      "temp": 0
+    },
+    {
+      "cohort": 1,
+      "name": "albums",
+      "variant": "reference",
+      "ms": 1458.56,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 1,
+      "name": "albums",
+      "variant": "candidate",
+      "ms": 1306.163,
+      "hits": 105561,
+      "temp": 3181
+    },
+    {
+      "cohort": 1,
+      "name": "albums",
+      "variant": "candidate-memory",
+      "ms": 1248.091,
+      "hits": 105561,
+      "temp": 1746
+    },
+    {
+      "cohort": 1,
+      "name": "ranking",
+      "variant": "reference",
+      "ms": 319.683,
+      "hits": 10229,
+      "temp": 846
+    },
+    {
+      "cohort": 1,
+      "name": "ranking",
+      "variant": "candidate",
+      "ms": 318.721,
+      "hits": 10229,
+      "temp": 457
+    },
+    {
+      "cohort": 1,
+      "name": "ranking",
+      "variant": "candidate-memory",
+      "ms": 279.191,
+      "hits": 10229,
+      "temp": 0
+    },
+    {
+      "cohort": 2,
+      "name": "albums",
+      "variant": "reference",
+      "ms": 1718.881,
+      "hits": 106185,
+      "temp": 4943
+    },
+    {
+      "cohort": 2,
+      "name": "albums",
+      "variant": "candidate",
+      "ms": 1944.252,
+      "hits": 106186,
+      "temp": 3188
+    },
+    {
+      "cohort": 2,
+      "name": "albums",
+      "variant": "candidate-memory",
+      "ms": 1613.019,
+      "hits": 106186,
+      "temp": 1747
+    },
+    {
+      "cohort": 2,
+      "name": "ranking",
+      "variant": "reference",
+      "ms": 328.012,
+      "hits": 12411,
+      "temp": 846
+    },
+    {
+      "cohort": 2,
+      "name": "ranking",
+      "variant": "candidate",
+      "ms": 370.053,
+      "hits": 12411,
+      "temp": 457
+    },
+    {
+      "cohort": 2,
+      "name": "ranking",
+      "variant": "candidate-memory",
+      "ms": 308.059,
+      "hits": 12411,
+      "temp": 0
+    }
+  ],
+  "aggregateVariants": [
+    {
+      "cohort": 0,
+      "repeat": 0,
+      "variant": "reference",
+      "ms": 1798.127,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 0,
+      "repeat": 0,
+      "variant": "aggregate",
+      "ms": 1523.293,
+      "hits": 105558,
+      "temp": 5447
+    },
+    {
+      "cohort": 0,
+      "repeat": 1,
+      "variant": "reference",
+      "ms": 1756.667,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 0,
+      "repeat": 1,
+      "variant": "aggregate",
+      "ms": 1719.275,
+      "hits": 105558,
+      "temp": 5447
+    },
+    {
+      "cohort": 0,
+      "repeat": 2,
+      "variant": "reference",
+      "ms": 2047.433,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 0,
+      "repeat": 2,
+      "variant": "aggregate",
+      "ms": 1988.705,
+      "hits": 105558,
+      "temp": 5447
+    },
+    {
+      "cohort": 1,
+      "repeat": 0,
+      "variant": "reference",
+      "ms": 2204.421,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 1,
+      "repeat": 0,
+      "variant": "aggregate",
+      "ms": 1876.988,
+      "hits": 105558,
+      "temp": 5447
+    },
+    {
+      "cohort": 1,
+      "repeat": 1,
+      "variant": "reference",
+      "ms": 1665.391,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 1,
+      "repeat": 1,
+      "variant": "aggregate",
+      "ms": 1504.237,
+      "hits": 105558,
+      "temp": 5447
+    },
+    {
+      "cohort": 1,
+      "repeat": 2,
+      "variant": "reference",
+      "ms": 1571.561,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 1,
+      "repeat": 2,
+      "variant": "aggregate",
+      "ms": 1674.331,
+      "hits": 105558,
+      "temp": 5447
+    },
+    {
+      "cohort": 2,
+      "repeat": 0,
+      "variant": "reference",
+      "ms": 1707.997,
+      "hits": 106185,
+      "temp": 4943
+    },
+    {
+      "cohort": 2,
+      "repeat": 0,
+      "variant": "aggregate",
+      "ms": 1744.934,
+      "hits": 106183,
+      "temp": 5448
+    },
+    {
+      "cohort": 2,
+      "repeat": 1,
+      "variant": "reference",
+      "ms": 1730.728,
+      "hits": 106185,
+      "temp": 4943
+    },
+    {
+      "cohort": 2,
+      "repeat": 1,
+      "variant": "aggregate",
+      "ms": 1647.4,
+      "hits": 106183,
+      "temp": 5448
+    },
+    {
+      "cohort": 2,
+      "repeat": 2,
+      "variant": "reference",
+      "ms": 1816.432,
+      "hits": 106185,
+      "temp": 4943
+    },
+    {
+      "cohort": 2,
+      "repeat": 2,
+      "variant": "aggregate",
+      "ms": 1587.367,
+      "hits": 106183,
+      "temp": 5448
+    }
+  ],
+  "proofJoinVariants": [
+    {
+      "cohort": 0,
+      "repeat": 0,
+      "variant": "reference",
+      "ms": 1606.923,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 0,
+      "repeat": 0,
+      "variant": "proof-join",
+      "ms": 3298.025,
+      "hits": 300220,
+      "temp": 11039
+    },
+    {
+      "cohort": 0,
+      "repeat": 1,
+      "variant": "reference",
+      "ms": 1620.309,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 0,
+      "repeat": 1,
+      "variant": "proof-join",
+      "ms": 2538.423,
+      "hits": 302768,
+      "temp": 11039
+    },
+    {
+      "cohort": 0,
+      "repeat": 2,
+      "variant": "reference",
+      "ms": 1493.481,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 0,
+      "repeat": 2,
+      "variant": "proof-join",
+      "ms": 3175.405,
+      "hits": 302768,
+      "temp": 11039
+    },
+    {
+      "cohort": 1,
+      "repeat": 0,
+      "variant": "reference",
+      "ms": 1734.929,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 1,
+      "repeat": 0,
+      "variant": "proof-join",
+      "ms": 2970.445,
+      "hits": 302768,
+      "temp": 11039
+    },
+    {
+      "cohort": 1,
+      "repeat": 1,
+      "variant": "reference",
+      "ms": 1671.485,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 1,
+      "repeat": 1,
+      "variant": "proof-join",
+      "ms": 2764.246,
+      "hits": 302768,
+      "temp": 11039
+    },
+    {
+      "cohort": 1,
+      "repeat": 2,
+      "variant": "reference",
+      "ms": 1758.865,
+      "hits": 105557,
+      "temp": 4939
+    },
+    {
+      "cohort": 1,
+      "repeat": 2,
+      "variant": "proof-join",
+      "ms": 2700.796,
+      "hits": 302768,
+      "temp": 11039
+    },
+    {
+      "cohort": 2,
+      "repeat": 0,
+      "variant": "reference",
+      "ms": 1608.49,
+      "hits": 106185,
+      "temp": 4943
+    },
+    {
+      "cohort": 2,
+      "repeat": 0,
+      "variant": "proof-join",
+      "ms": 2673.752,
+      "hits": 303390,
+      "temp": 11043
+    },
+    {
+      "cohort": 2,
+      "repeat": 1,
+      "variant": "reference",
+      "ms": 1769.856,
+      "hits": 106185,
+      "temp": 4943
+    },
+    {
+      "cohort": 2,
+      "repeat": 1,
+      "variant": "proof-join",
+      "ms": 2508.901,
+      "hits": 303390,
+      "temp": 11043
+    },
+    {
+      "cohort": 2,
+      "repeat": 2,
+      "variant": "reference",
+      "ms": 1586.286,
+      "hits": 106185,
+      "temp": 4943
+    },
+    {
+      "cohort": 2,
+      "repeat": 2,
+      "variant": "proof-join",
+      "ms": 2665.13,
+      "hits": 303390,
+      "temp": 11043
+    }
+  ]
+}

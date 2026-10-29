@@ -1,0 +1,15 @@
+{
+  "description": "Public card images only; no credentials or query strings",
+  "expression": "(http.host eq \"api.yokkai-collec.com\"\n and http.request.method in {\"GET\" \"HEAD\"}\n and starts_with(http.request.uri.path, \"/storage/v1/object/public/card-images/\")\n and http.request.uri.query eq \"\"\n and not any(http.request.headers.names[*] eq \"authorization\")\n and not any(http.request.headers.names[*] eq \"cookie\"))",
+  "action": "set_cache_settings",
+  "action_parameters": {
+    "cache": true,
+    "edge_ttl": {
+      "mode": "bypass_by_default"
+    },
+    "browser_ttl": {
+      "mode": "respect_origin"
+    }
+  },
+  "enabled": false
+}

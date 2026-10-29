@@ -3,7 +3,17 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseConfig } from "@/utils/supabase/config";
 import { serverAuthFetch } from "@/utils/supabase/auth-fetch";
 
-export async function updateSession(request: NextRequest) {
+// Created inside one proxy invocation. Never populate this from request headers,
+// cookies or a module-level cache; only getClaims() below can verify identity.
+export type ProxySessionContext = {
+  client?: ReturnType<typeof createServerClient>;
+  authenticated?: boolean;
+};
+
+export async function updateSession(
+  request: NextRequest,
+  context?: ProxySessionContext
+) {
   const { url, key, cookieName } = getSupabaseConfig();
   let response = NextResponse.next({ request });
   const responseHeaders = new Headers();
@@ -46,6 +56,11 @@ export async function updateSession(request: NextRequest) {
   // Its token carries user_metadata.pseudo once chosen, so only pending OAuth
   // sessions query the database. A failed check lets the request through.
   const claims = data?.claims;
+  if (context) {
+    context.client = supabase;
+    context.authenticated =
+      typeof claims?.sub === "string" && claims.sub.length > 0;
+  }
   const provider = claims?.app_metadata?.provider;
   if (
     (provider === "google" || provider === "discord") &&
