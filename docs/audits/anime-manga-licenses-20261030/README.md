@@ -32,3 +32,11 @@ Les captures de schéma, compteurs horodatés, empreintes et manifeste de sauveg
 Résoudre explicitement les noms et cibles manquants, puis définir le traitement des cartes qui perdraient leur classeur sans supprimer les cartes elles-mêmes. Refaire le dry-run sur l'état réel, préparer les opérations par IDs avec assertions, valider le rollback et coordonner toute intervention SQL avant d'appliquer quoi que ce soit.
 
 La PR #15 des fonctionnalités de classeurs reste séparée, en brouillon et sans déploiement. Cette PR de synthèse ne modifie que la documentation ; elle n'autorise aucune opération de nettoyage.
+
+## Évolution du périmètre demandée après le premier audit
+
+L'utilisateur a précisé que DELETE doit viser les cartes du catalogue et a explicitement inclus leurs exemplaires possédés et leurs dépendances. Les images et Storage restent exclus. Cette précision remplace la protection initiale de tous les exemplaires ; les décisions KEEP/MERGE de l'Excel restent à respecter.
+
+Un audit V2 et une copie révisée de l'Excel sont conservés localement hors Git. Les associations textuelles exactes permettent de retrouver la plupart des noms précédemment absents sans élargir la suppression au classeur parent. Des sources/cibles restent non résolues et certaines cartes croisent KEEP et DELETE. Le nouveau périmètre touche aussi des transactions et récompenses en attente : leur traitement doit être défini avant suppression.
+
+L'ancienne sauvegarde ciblée des licences ne suffit pas pour ce périmètre élargi. Prévoir une sauvegarde cohérente de toutes les données concernées et une restauration répétée dans un environnement isolé. Aucun SQL de suppression n'est déclaré exécutable et aucune opération n'est appliquée à la production.
