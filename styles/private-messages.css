@@ -387,3 +387,29 @@
   text-align: right;
   white-space: nowrap;
 }
+
+.yk-private-message-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 7px 8px;
+  min-width: 0;
+}
+.yk-private-message-row.is-own {
+  justify-content: flex-end;
+}
+.yk-private-message-row > .yk-styled-player-avatar {
+  margin-top: 8px;
+}
+.yk-private-message-row > .yk-private-message {
+  min-width: 0;
+  max-width: calc(100% - 42px);
+  margin-bottom: 0;
+}
+.yk-private-message-row.is-own > .yk-private-message {
+  max-width: 92%;
+}
+.yk-private-messages-contact {
+  gap: 18px;
+  padding-inline: 12px;
+}

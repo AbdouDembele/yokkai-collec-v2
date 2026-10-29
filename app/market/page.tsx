@@ -1,17 +1,12 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
+import { MarketHeading } from "@/components/market-heading";
 import { CommunityPage } from "@/components/community-page";
 
-export const metadata: Metadata = { title: "Market" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("market");
+  return { title: t("title") };
+}
 export default function Page() {
-  return (
-    <CommunityPage
-      screen="market"
-      pageHeading={
-        <div>
-          <p className="eyebrow">The auction house</p>
-          <h1 className="yk-title mt-3">Market</h1>
-        </div>
-      }
-    />
-  );
+  return <CommunityPage screen="market" pageHeading={<MarketHeading />} />;
 }

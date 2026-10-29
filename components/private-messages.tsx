@@ -493,61 +493,72 @@ export function PrivateMessages({
             const own = message.senderId === page.viewerId;
             return (
               <div
-                className={`yk-private-message${own ? " is-own" : ""}`}
+                className={`yk-private-message-row${own ? " is-own" : ""}`}
                 key={entry.id}
               >
-                {message.moderated && (
-                  <p className="yk-private-message-removed">
-                    {t("removedByModeration")}
-                  </p>
-                )}
-                {message.text && <p>{message.text}</p>}
-                {message.gifUrl && isPrivateMessageGif(message.gifUrl) && (
-                  <img
-                    className="yk-private-message-gif"
-                    src={message.gifUrl}
-                    alt={t("gifAlt")}
-                    loading="lazy"
-                    referrerPolicy="no-referrer"
-                    onLoad={() => {
-                      if (stickToBottom.current && scroll.current)
-                        scroll.current.scrollTop = scroll.current.scrollHeight;
-                    }}
+                {!own && (
+                  <StyledPlayerAvatar
+                    name={friend.pseudo}
+                    image={friend.avatarUrl ?? undefined}
+                    cosmetics={friend.profileStyle}
+                    size={28}
                   />
                 )}
-                <time
-                  dateTime={message.createdAt}
-                  title={format.dateTime(new Date(message.createdAt), {
-                    dateStyle: "medium",
-                    timeStyle: "short",
-                    timeZone
-                  })}
-                >
-                  <span className="sr-only">
-                    {own ? t("you") : friend.pseudo},{" "}
-                  </span>
-                  {format.dateTime(new Date(message.createdAt), {
-                    month: "short",
-                    day: "numeric",
-                    timeZone
-                  })}{" "}
-                  ·{" "}
-                  {format.dateTime(new Date(message.createdAt), {
-                    hour: "numeric",
-                    minute: "2-digit",
-                    timeZone
-                  })}
-                </time>
-                {!own && !message.moderated && (
-                  <PlayerModeration
-                    userId={friend.id}
-                    pseudo={friend.pseudo}
-                    adapter={moderationAdapter}
-                    contextType="private_message"
-                    contextId={message.id}
-                    onBlocked={onClose}
-                  />
-                )}
+                <div className={`yk-private-message${own ? " is-own" : ""}`}>
+                  {message.moderated && (
+                    <p className="yk-private-message-removed">
+                      {t("removedByModeration")}
+                    </p>
+                  )}
+                  {message.text && <p>{message.text}</p>}
+                  {message.gifUrl && isPrivateMessageGif(message.gifUrl) && (
+                    <img
+                      className="yk-private-message-gif"
+                      src={message.gifUrl}
+                      alt={t("gifAlt")}
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
+                      onLoad={() => {
+                        if (stickToBottom.current && scroll.current)
+                          scroll.current.scrollTop =
+                            scroll.current.scrollHeight;
+                      }}
+                    />
+                  )}
+                  <time
+                    dateTime={message.createdAt}
+                    title={format.dateTime(new Date(message.createdAt), {
+                      dateStyle: "medium",
+                      timeStyle: "short",
+                      timeZone
+                    })}
+                  >
+                    <span className="sr-only">
+                      {own ? t("you") : friend.pseudo},{" "}
+                    </span>
+                    {format.dateTime(new Date(message.createdAt), {
+                      month: "short",
+                      day: "numeric",
+                      timeZone
+                    })}{" "}
+                    ·{" "}
+                    {format.dateTime(new Date(message.createdAt), {
+                      hour: "numeric",
+                      minute: "2-digit",
+                      timeZone
+                    })}
+                  </time>
+                  {!own && !message.moderated && (
+                    <PlayerModeration
+                      userId={friend.id}
+                      pseudo={friend.pseudo}
+                      adapter={moderationAdapter}
+                      contextType="private_message"
+                      contextId={message.id}
+                      onBlocked={onClose}
+                    />
+                  )}
+                </div>
               </div>
             );
           })}

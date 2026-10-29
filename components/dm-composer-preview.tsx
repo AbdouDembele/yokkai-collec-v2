@@ -7,7 +7,12 @@ import type {
   PrivateMessagesAdapter
 } from "@/lib/data/private-messages";
 import type { TradesPanelAdapter } from "@/components/trades";
-const friend = { id: "dm-preview-friend", pseudo: "Preview Friend" };
+const friend = {
+  id: "dm-preview-friend",
+  pseudo: "Preview Friend",
+  avatarUrl: "/assets/landing/levi.webp",
+  profileStyle: { active: true, style: { avatarFrame: "bloodmoon" as const } }
+};
 const tradeAdapter: TradesPanelAdapter = {
   friendships: async () => ({ friends: [], incoming: [], outgoing: [] }),
   listOffers: async () => [],
@@ -22,7 +27,15 @@ export function DmComposerPreview({ docked = true }: { docked?: boolean }) {
     () => true,
     () => false
   );
-  const messages = useRef<PrivateMessage[]>([]),
+  const messages = useRef<PrivateMessage[]>([
+      {
+        id: "preview-incoming",
+        senderId: friend.id,
+        recipientId: "dm-preview-viewer",
+        text: "Avatar decoration preview",
+        createdAt: "2026-10-29T10:00:00Z"
+      }
+    ]),
     failed = useRef(false);
   const [open, setOpen] = useState(true),
     [attempts, setAttempts] = useState(0),

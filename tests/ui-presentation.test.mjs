@@ -319,9 +319,13 @@ test("les routes consommatrices de MarketView ont exactement un h1 sans saut de 
   vm.runInNewContext(code, {
     exports,
     require: name =>
-      name === "@/components/community-page"
-        ? { CommunityPage: props => React.createElement(MarketView, props) }
-        : require(name)
+      name === "next-intl/server"
+        ? intlServer
+        : name === "@/components/community-page"
+          ? { CommunityPage: props => React.createElement(MarketView, props) }
+          : name === "@/components/market-heading"
+            ? load("components/market-heading.tsx")
+            : require(name)
   });
   const html = renderToStaticMarkup(exports.default());
   assert.equal((html.match(/<h1(?:\s|>)/g) ?? []).length, 1);
@@ -2805,13 +2809,13 @@ test("Phase 6 : liste du marché, suivi et Mes enchères", () => {
   assert.match(
     normalizeWhitespace(source),
     normalizeWhitespace(
-      /\{section==="mine"&&\(?<CatalogueFilterSection title="Status">/
+      /\{section==="mine"&&\(?<CatalogueFilterSection title=\{t\("status"\)\}>/
     )
   );
   assert.match(
     normalizeWhitespace(source),
     normalizeWhitespace(
-      /<div className="yk-market-filter-scroll">\{section==="browse"&&\(?<FilterGroup title="Sort by">/
+      /<div className="yk-market-filter-scroll">\{section==="browse"&&\(?<FilterGroup title=\{t\("sort"\)\}>/
     )
   );
   // Same layout as Collection/Catalogue: the sidebar stays in normal page flow without its own scroll area.
@@ -2877,13 +2881,31 @@ test("la recherche du marché filtre en mémoire par nom et franchise", () => {
   );
   assert.match(
     normalizeWhitespace(source),
-    normalizeWhitespace(/No auctions match your search and filters/)
+    normalizeWhitespace(/t\("noMatch"\)/)
   );
   assert.ok(
     existsSync(
       path.join(root, "app/design-system/market-search-preview/page.tsx")
     )
   );
+});
+
+test("market empty state keeps the exact English message and its French translation", () => {
+  assert.equal(
+    englishMessages.market.noMatch,
+    "No auctions match your search and filters."
+  );
+  const french = JSON.parse(
+    readFileSync(path.join(root, "messages/fr.json"), "utf8")
+  );
+  assert.equal(
+    french.market.noMatch,
+    "Aucune enchère ne correspond à la recherche et aux filtres."
+  );
+  assert.equal(englishMessages.market.status, "Status");
+  assert.equal(french.market.status, "Statut");
+  assert.equal(englishMessages.market.sort, "Sort by");
+  assert.equal(french.market.sort, "Trier par");
 });
 
 test("le Marché trie par favoris_count puis fin et identifiant", () => {

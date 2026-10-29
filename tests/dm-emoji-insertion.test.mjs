@@ -31,3 +31,11 @@ test("DM emoji insertion respects textarea capacity and never truncates multi-co
   const empty = insertMessageEmoji("", "❤️", 0, 0);
   assert.equal(empty.text, "❤️");
 });
+
+test("auction emoji insertion respects the 500-character limit and selection replacement", () => {
+  assert.equal(insertMessageEmoji("x".repeat(499), "😂", 499, 499, 500), null);
+  const next = insertMessageEmoji("x".repeat(500), "😂", 498, 500, 500);
+  assert.equal(next.text.length, 500);
+  assert.equal(next.text.slice(-2), "😂");
+  assert.equal(next.caret, 500);
+});

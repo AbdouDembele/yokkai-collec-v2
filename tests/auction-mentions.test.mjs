@@ -1,3 +1,4 @@
+import { auctionMentionParts } from "./helpers/auction-mentions.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
@@ -43,6 +44,9 @@ function chatHarness() {
   const sent = [];
   const context = {
     useTranslations: intl.useTranslations,
+    useFormatter: intl.useFormatter,
+    Intl,
+    auctionMentionParts,
     gameErrorKey: gameMessages.gameErrorKey,
     exports,
     require: () => jsx,
@@ -91,8 +95,10 @@ function chatHarness() {
       querySelectorAll: () => participants.map(() => ({ setAttribute() {} }))
     },
     HTMLTextAreaElement: Object,
+    StyledPlayerAvatar: "avatar",
     Avatar: () => null,
     StyledPlayerName: () => null,
+    EmojiReactionPicker: "emoji-picker",
     GifPicker: () => null,
     Button: () => null
   };

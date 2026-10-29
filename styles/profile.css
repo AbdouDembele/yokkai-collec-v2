@@ -1,10 +1,11 @@
-main:has(.yk-profile-hub) {
+main:has(.yk-profile-hub:not([data-profile-compact="true"])) {
   max-width: 1440px;
 }
-#main-content:has(.yk-profile-hub) {
+#main-content:has(.yk-profile-hub:not([data-profile-compact="true"])) {
   max-width: 1440px;
 }
-#main-content:has(.yk-profile-hub) > div:first-child {
+#main-content:has(.yk-profile-hub:not([data-profile-compact="true"]))
+  > div:first-child {
   position: static;
   width: auto;
   max-width: none;

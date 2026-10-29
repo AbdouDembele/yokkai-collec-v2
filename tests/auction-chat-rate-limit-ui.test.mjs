@@ -1,3 +1,4 @@
+import { auctionMentionParts } from "./helpers/auction-mentions.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import vm from "node:vm";
@@ -100,6 +101,9 @@ function panel(adapter, componentSource = component) {
     },
     Math,
     useTranslations: intl.useTranslations,
+    useFormatter: intl.useFormatter,
+    Intl,
+    auctionMentionParts,
     gameErrorKey: gameMessages.gameErrorKey,
     useState,
     useRef,
@@ -107,9 +111,11 @@ function panel(adapter, componentSource = component) {
     useMemo: fn => fn(),
     useCallback: fn => fn(),
     liveAuctionChat: adapter,
+    StyledPlayerAvatar: "avatar",
     Avatar: "avatar",
     StyledPlayerName: ({ name, fallbackLabel }) => fallbackLabel ?? name,
     PlayerModeration: "moderation",
+    EmojiReactionPicker: "emoji-picker",
     GifPicker: "gif-picker",
     Button: "button",
     Link: "a",
