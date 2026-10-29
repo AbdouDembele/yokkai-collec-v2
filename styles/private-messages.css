@@ -372,6 +372,9 @@
   border-radius: 10px;
   color: var(--color-accent-gold);
 }
+.yk-private-messages-tools .yk-message-emoji-trigger {
+  color: #fff;
+}
 .yk-message-emoji-trigger:hover,
 .yk-message-emoji-trigger[aria-expanded="true"] {
   background: var(--color-veil);
