@@ -526,6 +526,22 @@
   border-radius: var(--radius-panel);
   background: var(--color-surface);
 }
+.yk-auction-history-list {
+  max-height: min(24rem, 60dvh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--color-veil-strong) transparent;
+  padding-right: 8px;
+}
+.yk-auction-history-list:focus-visible {
+  outline: 2px solid var(--color-accent-gold);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+.yk-auction-history li > p {
+  overflow-wrap: anywhere;
+}
 .yk-auction-history li {
   display: flex;
   align-items: center;
