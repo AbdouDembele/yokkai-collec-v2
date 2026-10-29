@@ -362,7 +362,10 @@ export async function getCataloguePage({ query = "", category = "", rarity = "",
 } = {}): Promise<CataloguePage> {
   if (typeof process !== "undefined" && process.env.NEXT_PUBLIC_STABLE_BINDERS_ENABLED === "true") {
     const safeSize = Math.min(60, Math.max(1, Math.trunc(pageSize)));
-    const { data, error } = await db().rpc("get_binder_catalogue_page", { p_query: cardSearchTerms(query).join(" "), p_category: cardFilterParam(category), p_rarity: cardFilterParam(rarity), p_offset: (Math.max(1, Math.trunc(page)) - 1) * safeSize, p_limit: safeSize, p_sort: "rarity" });
+    // Catalogue queries match card names and attached licenses. Binder aliases
+    // are discovery terms for albums, not licenses belonging to every card.
+    const terms = cardSearchTerms(query);
+    const { data, error } = await db().rpc(terms.length ? "get_catalogue_cards_page" : "get_binder_catalogue_page", { p_query: terms.join(" "), p_category: cardFilterParam(category), p_rarity: cardFilterParam(rarity), p_offset: (Math.max(1, Math.trunc(page)) - 1) * safeSize, p_limit: safeSize, p_sort: "rarity" });
     if (error) throw failure(error);
     const result = data as CatalogueSearchPage | null;
     const { withBinderMetadata } = await import("@/lib/data/binders");
