@@ -33,6 +33,7 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.binder_popularity_counts(text)": ["authenticated"], // Authenticated aggregate of distinct effective favorites per binder; no player identity or individual preference rows. Walid approved this addition.
   "public.get_my_locale()": ["authenticated"], // Only the JWT owner's nullable locale; no target identifier.
   "public.set_my_locale(text)": ["authenticated"], // Validated en/fr/NULL update on auth.uid() only.
   "public.assert_player_not_banned()": ["authenticated"], // Reads only the caller's own auth.users ban state; raises ACCOUNT_BANNED. Needed by SECURITY INVOKER wrappers and Storage policies.

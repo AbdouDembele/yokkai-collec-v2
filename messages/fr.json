@@ -2141,5 +2141,27 @@
     "emptyunsoldTitle": "Aucune enchère invendue",
     "emptyunsoldText": "Les annonces terminées sans offre apparaîtront ici.",
     "emptyunsoldAction": "Mettre une carte aux enchères"
+  },
+  "binderDiscovery": {
+    "cardsTab": "Mes cartes",
+    "bindersTab": "Mes classeurs",
+    "views": "Vues de la collection",
+    "homeTitle": "Tes classeurs",
+    "homeHint": "Tes univers favoris, une carte de plus vers la collection complète.",
+    "seeAll": "Voir mes classeurs",
+    "favorite": "Favori",
+    "completed": "Terminé",
+    "continue": "À compléter",
+    "count": "{owned} / {total} {total, plural, one {carte} other {cartes}}",
+    "missing": "{count, plural, =0 {Classeur terminé !} one {Il t’en manque #} other {Il t’en manque #}}",
+    "progressFor": "Progression du classeur {name}",
+    "empty": "Choisis un univers à collectionner. Tes favoris et tes classeurs en cours apparaîtront ici.",
+    "choose": "Découvrir les classeurs",
+    "loading": "Chargement de tes classeurs…",
+    "unavailable": "Tes classeurs sont temporairement indisponibles.",
+    "retry": "Réessayer",
+    "packTitle": "Tes classeurs progressent",
+    "newForBinder": "{count, plural, one {# nouvelle carte dans ce classeur} other {# nouvelles cartes dans ce classeur}}",
+    "popularityOrder": "Tes favoris en premier, puis les licences les plus mises en favoris par les joueurs."
   }
 }

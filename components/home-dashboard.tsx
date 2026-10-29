@@ -9,6 +9,7 @@ import { AccountMenu } from "@/components/account-menu";
 import { Topbar } from "@/components/topbar";
 import { SiteFooter } from "@/components/site-footer";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
+import { HomeBinders } from "@/components/home-binders";
 import { HomeFriendFeed } from "@/components/home-friend-feed";
 import { HomeLeaderboard } from "@/components/home-leaderboard";
 import type { FriendFeedPage } from "@/lib/data/friend-feed";
@@ -267,6 +268,7 @@ export function HomeDashboard({ userId }: { userId: string }) {
             <PanelData load={bigPulls} />
           </Suspense>
         </HomePanel>
+        <HomeBinders />
         <Suspense fallback={<HomeSkeleton />}>
           <PanelData load={() => communityFeed(userId)} />
         </Suspense>

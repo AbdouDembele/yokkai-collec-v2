@@ -2141,5 +2141,27 @@
     "emptyunsoldTitle": "No unsold auctions",
     "emptyunsoldText": "Listings that end without a bid will appear here.",
     "emptyunsoldAction": "List a card"
+  },
+  "binderDiscovery": {
+    "cardsTab": "My cards",
+    "bindersTab": "My binders",
+    "views": "Collection views",
+    "homeTitle": "Your binders",
+    "homeHint": "Your favorite universes, one card closer to completion.",
+    "seeAll": "See my binders",
+    "favorite": "Favorite",
+    "completed": "Completed",
+    "continue": "Keep collecting",
+    "count": "{owned} / {total} {total, plural, one {card} other {cards}}",
+    "missing": "{count, plural, =0 {Binder complete!} one {# card to go} other {# cards to go}}",
+    "progressFor": "{name} binder progress",
+    "empty": "Choose a universe to collect. Your favorites and binders in progress will appear here.",
+    "choose": "Explore binders",
+    "loading": "Loading your binders…",
+    "unavailable": "Your binders are temporarily unavailable.",
+    "retry": "Try again",
+    "packTitle": "Your binders are growing",
+    "newForBinder": "{count, plural, one {# new card in this binder} other {# new cards in this binder}}",
+    "popularityOrder": "Your favorites first, then the community’s most favorited licenses."
   }
 }
