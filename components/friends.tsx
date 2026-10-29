@@ -15,7 +15,7 @@ import {
 } from "@/lib/data/social-unread";
 import { UnreadBadge } from "@/components/unread-badge";
 import type { PrivateMessagesAdapter } from "@/lib/data/private-messages";
-import type { TradesPanelAdapter } from "@/components/trades";
+import { TradesPanel, type TradesPanelAdapter } from "@/components/trades";
 import { Button, Modal, Skeleton, StatusPill, Tabs } from "@/components/ui";
 import {
   getFriendships,
@@ -393,6 +393,7 @@ export function FriendsPanel({
   onConversationClose?: () => void;
   tradeSection?: {
     active: boolean;
+    routeKey?: string;
     friendId?: string;
     content: ReactNode;
     open: (friendId?: string) => void;
@@ -400,6 +401,22 @@ export function FriendsPanel({
   };
 } = {}) {
   const tradeText = useTranslations("socialTrades");
+  const [localTradeFriend, setLocalTradeFriend] = useState<string>();
+  const [dismissedTradeKey, setDismissedTradeKey] = useState<string>();
+  const tradeRouteKey =
+    tradeSection?.routeKey ?? tradeSection?.friendId ?? "offer";
+  const tradeOpen = Boolean(
+    localTradeFriend ||
+    (tradeSection?.active && dismissedTradeKey !== tradeRouteKey)
+  );
+  useEffect(() => {
+    const reset = () => {
+      setLocalTradeFriend(undefined);
+      setDismissedTradeKey(undefined);
+    };
+    window.addEventListener("popstate", reset);
+    return () => window.removeEventListener("popstate", reset);
+  }, []);
   const f = useTranslations("socialFriends");
   const errorText = useTranslations();
   const pager = useMemo(
@@ -603,7 +620,7 @@ export function FriendsPanel({
   };
   const current: FriendUser[] = lists[tab];
   const tradeFriend = data?.friends.find(
-    person => person.id === tradeSection?.friendId
+    person => person.id === (localTradeFriend ?? tradeSection?.friendId)
   );
   return (
     <div className="yk-social-stack">
@@ -733,7 +750,11 @@ export function FriendsPanel({
                 }
                 onTrade={
                   tab === "friends" && tradeSection
-                    ? () => tradeSection.open(person.id)
+                    ? () => {
+                        setDismissedTradeKey(undefined);
+                        setLocalTradeFriend(person.id);
+                        tradeSection.open(person.id);
+                      }
                     : undefined
                 }
                 actions={
@@ -806,20 +827,36 @@ export function FriendsPanel({
           {errorText(gameErrorKey(error, "socialFriends.unavailable"))}
         </p>
       )}
-      <Modal
-        open={Boolean(tradeSection?.active)}
-        onClose={() => tradeSection?.close()}
-        title={
-          tradeFriend
-            ? tradeText("tradeWith", { name: tradeFriend.pseudo })
-            : tradeText("offer")
-        }
-        className="yk-private-trade-modal"
-      >
-        {tradeSection?.active && (
-          <div className="yk-friends-trades">{tradeSection.content}</div>
-        )}
-      </Modal>
+      {tradeOpen && (
+        <Modal
+          open={tradeOpen}
+          onClose={() => {
+            setLocalTradeFriend(undefined);
+            setDismissedTradeKey(tradeRouteKey);
+            tradeSection?.close();
+          }}
+          title={
+            tradeFriend
+              ? tradeText("tradeWith", { name: tradeFriend.pseudo })
+              : tradeText("offer")
+          }
+          className="yk-private-trade-modal"
+        >
+          {tradeOpen && (
+            <div className="yk-friends-trades">
+              {localTradeFriend ? (
+                <TradesPanel
+                  key={localTradeFriend}
+                  adapter={adapter.trades}
+                  fixedFriendId={localTradeFriend}
+                />
+              ) : (
+                tradeSection?.content
+              )}
+            </div>
+          )}
+        </Modal>
+      )}
       {conversation && (
         <PrivateMessages
           key={conversation.id}

@@ -225,8 +225,10 @@ export const getTradeContext = async (friendId: string) => {
   const context = await call<TradeContext>("get_trade_context", {
     p_friend_id: friendId
   });
-  const ownCards = await withLiveCardFranchises(context.ownCards);
-  const friendCards = await withLiveCardFranchises(context.friendCards);
+  // Enrich both sides in one batch instead of two sequential waterfalls.
+  const cards = await withLiveCardFranchises([...context.ownCards, ...context.friendCards]);
+  const ownCards = cards.slice(0, context.ownCards.length);
+  const friendCards = cards.slice(context.ownCards.length);
   return { ...context, ownCards, friendCards };
 };
 async function enrichTradeOffers(offers: TradeOffer[]) {
@@ -300,5 +302,6 @@ export async function respondTradeOffer(
   });
   if (action === "accept" && accepted)
     invalidatePlayerSnapshots(["collection", "balance"]);
-  return accepted;
+  // SQL returns false for a successful decline; errors still throw above.
+  return action === "decline" ? true : accepted;
 }

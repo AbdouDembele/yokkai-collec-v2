@@ -2260,6 +2260,7 @@ export function FriendsView() {
       initialConversationId={conversation}
       tradeSection={{
         active: showTrades,
+        routeKey: params.toString(),
         friendId: params.get("ami") ?? undefined,
         content: <TradesView />,
         open: navigateTrades,
@@ -2277,6 +2278,7 @@ export function TradesView() {
   return (
     <>
       <TradesPanel
+        key={searchParams.toString()}
         initialOfferId={searchParams.get("offre") ?? undefined}
         fixedFriendId={searchParams.get("ami") ?? undefined}
         initialRequestedCardId={searchParams.get("carte") ?? undefined}

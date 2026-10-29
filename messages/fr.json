@@ -1920,7 +1920,10 @@
   "socialTrades": {
     "action": "Échanger",
     "tradeWith": "Échanger avec {name}",
-    "offer": "Offre d’échange"
+    "offer": "Offre d’échange",
+    "loadingOffers": "Chargement des offres d’échange…",
+    "unavailableOffer": "Cette offre n’est plus disponible.",
+    "refreshFailed": "L’échange a été mis à jour, mais les dernières offres n’ont pas pu être rechargées. Rouvre l’échange pour réessayer."
   },
   "messenger": {
     "title": "Messages",

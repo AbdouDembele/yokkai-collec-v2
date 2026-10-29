@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
 import { startVisiblePolling } from "@/lib/ui/visible-polling";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
@@ -371,6 +372,54 @@ function TradeSummary({
 
 type TradeTab = "compose" | "received" | "sent" | "history";
 
+// Serialize refreshes around mutations. A read started before accept/cancel
+// must never restore Pending after the server has committed the action.
+function createTradeOfferReader(
+  pager: ReturnType<typeof createDemandPager<TradeOffer>>
+) {
+  type Page = {
+    items: TradeOffer[];
+    nextCursor: Record<string, unknown> | null;
+  };
+  let revision = 0;
+  let snapshot: Page = { items: [], nextCursor: null };
+  let pending: { revision: number; promise: Promise<Page> } | undefined;
+  function read(more = false): Promise<Page> {
+    if (!more && pending?.revision === revision) return pending.promise;
+    const epoch = revision;
+    const previous = pending?.promise;
+    const promise: Promise<Page> = (async () => {
+      if (previous)
+        await previous.then(
+          () => undefined,
+          () => undefined
+        );
+      try {
+        const page = await (more ? pager.more() : pager.refresh());
+        if (epoch === revision) snapshot = page;
+        return snapshot;
+      } catch (error) {
+        if (epoch !== revision) return snapshot;
+        throw error;
+      }
+    })().finally(() => {
+      if (pending?.promise === promise) pending = undefined;
+    });
+    pending = { revision: epoch, promise };
+    return promise;
+  }
+  return {
+    read,
+    invalidate: () => {
+      revision++;
+    },
+    commit: (items: TradeOffer[]) => {
+      revision++;
+      snapshot = { ...snapshot, items };
+    }
+  };
+}
+
 function OfferList({
   offers,
   busy,
@@ -596,7 +645,17 @@ export function TradesPanel({
   initialOfferId?: string;
   onOfferSent?: () => void;
 } = {}) {
+  const t = useTranslations("socialTrades");
   const initialFriendId = fixedFriendId ?? requestedInitialFriendId;
+  const [resolvedFixedFriend, setResolvedFixedFriend] = useState<{
+    input: string;
+    id: string;
+  }>();
+  const fixedTargetId =
+    fixedFriendId &&
+    (resolvedFixedFriend?.input === fixedFriendId
+      ? resolvedFixedFriend.id
+      : fixedFriendId);
   const offerPager = useMemo(
     () =>
       createDemandPager(
@@ -609,6 +668,10 @@ export function TradesPanel({
         offer => offer.id
       ),
     [adapter]
+  );
+  const offerReader = useMemo(
+    () => createTradeOfferReader(offerPager),
+    [offerPager]
   );
   const friendPager = useMemo(
     () =>
@@ -623,15 +686,17 @@ export function TradesPanel({
       ),
     [adapter]
   );
+  const [offersLoading, setOffersLoading] = useState(true);
   const [hasMoreOffers, setHasMoreOffers] = useState(false);
   const [hasMoreFriends, setHasMoreFriends] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   async function readOffers(more = false) {
-    const page = await (more ? offerPager.more() : offerPager.refresh());
+    const page = await (more ? offerReader.read(true) : offerReader.read());
     setHasMoreOffers(!!page.nextCursor);
     return page.items;
   }
   async function readFriends(more = false) {
+    if (fixedFriendId) return { friends: [], incoming: [], outgoing: [] };
     const page = await (more ? friendPager.more() : friendPager.refresh());
     setHasMoreFriends(!!page.nextCursor);
     return groupFriendships(page.items);
@@ -662,7 +727,9 @@ export function TradesPanel({
       .includes(friendQuery.trim().toLocaleLowerCase("en-US"))
   );
   const [offers, setOffers] = useState<TradeOffer[]>([]);
-  const [tab, setTab] = useState<TradeTab>("compose");
+  const [tab, setTab] = useState<TradeTab>(
+    initialOfferId ? "received" : "compose"
+  );
   const [context, setContext] = useState<TradeContext>();
   const [friendId, setFriendId] = useState("");
   const [offered, setOffered] = useState<Set<string>>(new Set());
@@ -678,9 +745,7 @@ export function TradesPanel({
     parentId: string | null;
   }>();
   const [pendingCounter, setPendingCounter] = useState<TradeOffer>();
-  const [reviewedId, setReviewedId] = useState<string | undefined>(
-    fixedFriendId ? undefined : initialOfferId
-  );
+  const [reviewedId, setReviewedId] = useState<string | undefined>(undefined);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [accepting, setAccepting] = useState<TradeOffer>();
@@ -692,6 +757,7 @@ export function TradesPanel({
   const requestedRef = useRef(requested);
   const submissionLock = useRef(false);
   const cancellationLock = useRef(false);
+  const responseLock = useRef(false);
   function updateOffered(next: Set<string>) {
     offeredRef.current = next;
     setOffered(next);
@@ -699,6 +765,14 @@ export function TradesPanel({
   function updateRequested(next: Set<string>) {
     requestedRef.current = next;
     setRequested(next);
+  }
+  function commitOfferStatus(id: string, status: TradeOffer["status"]) {
+    const next = offersRef.current.map(offer =>
+      offer.id === id ? { ...offer, status } : offer
+    );
+    offerReader.commit(next);
+    offersRef.current = next;
+    setOffers(next);
   }
   async function reload() {
     const [relations, history] = await Promise.all([
@@ -712,32 +786,40 @@ export function TradesPanel({
   useEffect(() => {
     let active = true;
     let loading = true;
-    void Promise.all([friendPager.refresh(), offerPager.refresh()])
-      .then(
-        ([relationsPage, offersPage]) => {
-          const relations = groupFriendships(relationsPage.items);
-          const history = offersPage.items;
-          if (active) {
-            setHasMoreFriends(!!relationsPage.nextCursor);
-            setHasMoreOffers(!!offersPage.nextCursor);
-            offersRef.current = history;
-            setFriends(relations.friends);
-            setOffers(history);
-          }
-        },
-        e => {
+    // Offers must remain usable even if the independent friends lookup is slow.
+    if (!fixedFriendId)
+      void friendPager
+        .refresh()
+        .then(page => {
+          if (!active) return;
+          setFriends(groupFriendships(page.items).friends);
+          setHasMoreFriends(!!page.nextCursor);
+        })
+        .catch(e => {
           if (active)
             setError(e instanceof Error ? e.message : "Couldn't load trades.");
-        }
-      )
+        });
+    void offerReader
+      .read()
+      .then(page => {
+        if (!active) return;
+        setHasMoreOffers(!!page.nextCursor);
+        offersRef.current = page.items;
+        setOffers(page.items);
+      })
+      .catch(e => {
+        if (active)
+          setError(e instanceof Error ? e.message : "Couldn't load trades.");
+      })
       .finally(() => {
         loading = false;
+        if (active) setOffersLoading(false);
       });
     const refresh = async () => {
       if (loading || document.visibilityState === "hidden") return;
       loading = true;
       try {
-        const page = await offerPager.refresh();
+        const page = await offerReader.read();
         if (!active) return;
         const history = page.items;
         setHasMoreOffers(!!page.nextCursor);
@@ -802,22 +884,48 @@ export function TradesPanel({
       active = false;
       stop?.();
     };
-  }, [adapter, pollIntervalMs, offerPager, friendPager]);
+  }, [adapter, pollIntervalMs, offerReader, friendPager, fixedFriendId]);
   useEffect(() => {
     if (!initialOfferId) return;
+    if (
+      fixedFriendId &&
+      !/^[0-9a-f-]{36}$/i.test(fixedFriendId) &&
+      resolvedFixedFriend?.input !== fixedFriendId
+    )
+      return;
     let active = true;
     void (async () => {
-      let page = await offerPager.refresh();
+      let page = await offerReader.read();
       while (
         !page.items.some(offer => offer.id === initialOfferId) &&
         page.nextCursor &&
         active
       )
-        page = await offerPager.more();
+        page = await offerReader.read(true);
       if (active) {
         offersRef.current = page.items;
         setOffers(page.items);
         setHasMoreOffers(!!page.nextCursor);
+        const offer = page.items.find(item => item.id === initialOfferId);
+        if (
+          offer &&
+          fixedTargetId &&
+          offer.fromUser !== fixedTargetId &&
+          offer.toUser !== fixedTargetId
+        ) {
+          setError(t("unavailableOffer"));
+          return;
+        }
+        // The outer dialog is already mounted before opening its review dialog.
+        if (offer)
+          setTab(
+            offer.status === "pending"
+              ? offer.incoming
+                ? "received"
+                : "sent"
+              : "history"
+          );
+        setReviewedId(initialOfferId);
       }
     })().catch(e => {
       if (active)
@@ -826,13 +934,20 @@ export function TradesPanel({
     return () => {
       active = false;
     };
-  }, [initialOfferId, offerPager]);
+  }, [
+    initialOfferId,
+    offerReader,
+    fixedFriendId,
+    fixedTargetId,
+    resolvedFixedFriend?.input,
+    t
+  ]);
   async function chooseFriend(
     id: string,
     parentId: string | null = null,
     requestedCardId?: string
   ) {
-    if (fixedFriendId && id !== fixedFriendId) return;
+    if (fixedTargetId && id !== fixedTargetId) return;
     friendIdRef.current = id;
     setFriendId(id);
     setParent(parentId);
@@ -869,7 +984,7 @@ export function TradesPanel({
     }
   }
   function requestFriendChange(id: string, parentId: string | null = null) {
-    if (fixedFriendId && id !== fixedFriendId) return;
+    if (fixedTargetId && id !== fixedTargetId) return;
     if (id === friendId && parentId === parent) return;
     if (requested.size) {
       setPendingFriend({ id, parentId });
@@ -878,7 +993,7 @@ export function TradesPanel({
     void chooseFriend(id, parentId);
   }
   async function composeCounter(offer: TradeOffer) {
-    if (fixedFriendId && offer.fromUser !== fixedFriendId) return;
+    if (fixedTargetId && offer.fromUser !== fixedTargetId) return;
     if (
       !offer.fromUser ||
       !tradeOfferIsActionable(offer.id, offersRef.current)
@@ -930,7 +1045,7 @@ export function TradesPanel({
     }
   }
   function requestCounter(offer: TradeOffer) {
-    if (friendId || hasContent) {
+    if (hasContent) {
       setPendingCounter(offer);
       return;
     }
@@ -939,78 +1054,86 @@ export function TradesPanel({
   useEffect(() => {
     if (!initialFriendId) return;
     let active = true;
-    void friendPager
-      .refresh()
-      .then(async firstPage => {
-        if (!active) return;
-        const relations = groupFriendships(firstPage.items);
+    void (async () => {
+      let friend: FriendUser | undefined;
+      if (fixedFriendId && /^[0-9a-f-]{36}$/i.test(initialFriendId)) {
+        // get_trade_context authorizes the friendship on the server. No need
+        // to download every friendship before a known friend's composer.
+        friend = { id: initialFriendId.toLowerCase(), pseudo: "" };
+      } else {
+        let page = await friendPager.refresh();
         const normalized = initialFriendId.toLocaleLowerCase("en-US");
-        let friend = relations.friends.find(
-          item =>
-            item.id === initialFriendId ||
-            item.pseudo.toLocaleLowerCase("en-US") === normalized
-        );
-        let page = firstPage;
+        const match = (item: FriendUser) =>
+          item.id === initialFriendId ||
+          item.pseudo.toLocaleLowerCase("en-US") === normalized;
+        friend = groupFriendships(page.items).friends.find(match);
         while (!friend && page.nextCursor && active) {
           page = await friendPager.more();
-          const next = groupFriendships(page.items);
-          setFriends(next.friends);
+          setFriends(groupFriendships(page.items).friends);
           setHasMoreFriends(!!page.nextCursor);
-          friend = next.friends.find(
-            item =>
-              item.id === initialFriendId ||
-              item.pseudo.toLocaleLowerCase("en-US") === normalized
-          );
+          friend = groupFriendships(page.items).friends.find(match);
         }
-        if (!friend) {
-          setError("This player isn't available to trade.");
-          return;
-        }
-        friendIdRef.current = friend.id;
-        setFriendId(friend.id);
-        setParent(null);
-        setRequested(new Set());
-        setContext(undefined);
-        setError("");
-        const request = ++contextRequest.current;
-        const nextContext = await loadTradeContextIfCurrent(
-          adapter.context,
-          friend.id,
-          request,
-          () => ({
-            friendId: friendIdRef.current,
-            requestId: contextRequest.current
-          })
-        );
-        if (!active || !nextContext) return;
-        setContext(nextContext);
-        if (initialRequestedCardId) {
-          if (
-            nextContext.friendCards.some(
-              card => card.instanceId === initialRequestedCardId
-            )
+      }
+      if (!active) return;
+      if (!friend) {
+        setError("This player isn't available to trade.");
+        return;
+      }
+      if (fixedFriendId)
+        setResolvedFixedFriend({ input: fixedFriendId, id: friend.id });
+      friendIdRef.current = friend.id;
+      setFriendId(friend.id);
+      setParent(null);
+      updateRequested(new Set());
+      setContext(undefined);
+      setError("");
+      if (initialOfferId) return;
+      const request = ++contextRequest.current;
+      const nextContext = await loadTradeContextIfCurrent(
+        adapter.context,
+        friend.id,
+        request,
+        () => ({
+          friendId: friendIdRef.current,
+          requestId: contextRequest.current
+        })
+      );
+      if (!active || !nextContext) return;
+      setContext(nextContext);
+      if (initialRequestedCardId) {
+        if (
+          nextContext.friendCards.some(
+            card => card.instanceId === initialRequestedCardId
           )
-            setRequested(new Set([initialRequestedCardId]));
-          else setError("This card is no longer available to trade.");
-        }
-      })
-      .catch(reason => {
-        if (active)
-          setError(
-            reason instanceof Error ? reason.message : "Couldn't load trades."
-          );
-      });
+        )
+          updateRequested(new Set([initialRequestedCardId]));
+        else setError("This card is no longer available to trade.");
+      }
+    })().catch(reason => {
+      if (active)
+        setError(
+          reason instanceof Error ? reason.message : "Couldn't load trades."
+        );
+    });
     return () => {
       active = false;
     };
-  }, [adapter, friendPager, initialFriendId, initialRequestedCardId]);
+  }, [
+    adapter,
+    friendPager,
+    initialFriendId,
+    initialRequestedCardId,
+    fixedFriendId,
+    initialOfferId
+  ]);
   async function submit() {
-    if (fixedFriendId && context?.friend.id !== fixedFriendId) return;
+    if (fixedFriendId && context?.friend.id !== fixedTargetId) return;
     if (!context || !tryStartTradeSubmission(submissionLock, hasContent))
       return;
     setBusy(true);
     setError("");
     setSentNotice("");
+    offerReader.invalidate();
     try {
       await adapter.create(
         tradeSubmission({
@@ -1022,7 +1145,8 @@ export function TradesPanel({
           parent
         })
       );
-      await reload();
+      offerReader.invalidate();
+      await reload().then(undefined, () => setError(t("refreshFailed")));
       updateOffered(new Set());
       updateRequested(new Set());
       setOfferedKaras("0");
@@ -1036,7 +1160,7 @@ export function TradesPanel({
       setParent(null);
       setSentNotice("Offer sent. You can now find it in this tab.");
       setTab("sent");
-      if (fixedFriendId) await chooseFriend(fixedFriendId);
+
       onOfferSent?.();
     } catch (e) {
       setError(
@@ -1050,12 +1174,28 @@ export function TradesPanel({
     }
   }
   async function respond(id: string, action: "accept" | "decline") {
+    if (
+      responseLock.current ||
+      !offersRef.current.some(
+        offer => offer.id === id && offer.incoming && offer.status === "pending"
+      )
+    )
+      return;
+    responseLock.current = true;
+    offerReader.invalidate();
     setBusy(true);
     setError("");
     try {
-      await adapter.respond(id, action);
+      const accepted = await adapter.respond(id, action);
+      if (action === "accept" && !accepted)
+        throw new Error(t("unavailableOffer"));
+      commitOfferStatus(id, action === "accept" ? "accepted" : "declined");
       setAccepting(undefined);
-      await reload();
+      try {
+        await reload();
+      } catch {
+        setError(t("refreshFailed"));
+      }
     } catch (e) {
       setAccepting(undefined);
       setError(
@@ -1065,17 +1205,24 @@ export function TradesPanel({
         await reload();
       } catch {}
     } finally {
+      responseLock.current = false;
       setBusy(false);
     }
   }
   async function cancel(id: string) {
     if (cancellationLock.current) return;
+    offerReader.invalidate();
     setBusy(true);
     setError("");
     try {
       await runTradeCancellation(cancellationLock, adapter.cancel, id);
+      commitOfferStatus(id, "cancelled");
       setCancelling(undefined);
-      await reload();
+      try {
+        await reload();
+      } catch {
+        setError(t("refreshFailed"));
+      }
     } catch (e) {
       setCancelling(undefined);
       setError(e instanceof Error ? e.message : "Couldn't cancel this offer.");
@@ -1090,7 +1237,7 @@ export function TradesPanel({
   const scopedOffers = fixedFriendId
     ? offers.filter(
         offer =>
-          offer.fromUser === fixedFriendId || offer.toUser === fixedFriendId
+          offer.fromUser === fixedTargetId || offer.toUser === fixedTargetId
       )
     : offers;
   const received = filterTradeOffers(scopedOffers, "received");
@@ -1109,7 +1256,11 @@ export function TradesPanel({
         <Tabs
           label="Trade navigation"
           value={tab}
-          onChange={value => setTab(value as TradeTab)}
+          onChange={value => {
+            setTab(value as TradeTab);
+            if (value === "compose" && fixedTargetId && !context)
+              void chooseFriend(fixedTargetId);
+          }}
           items={[
             { id: "compose", label: "Proposer" },
             {
@@ -1347,14 +1498,22 @@ export function TradesPanel({
                 </h2>
               </div>
             </div>
-            <OfferList
-              offers={
-                tab === "received" ? received : tab === "sent" ? sent : history
-              }
-              busy={busy}
-              onReview={offer => setReviewedId(offer.id)}
-              onCancel={tab === "sent" ? setCancelling : undefined}
-            />
+            {offersLoading ? (
+              <p role="status">{t("loadingOffers")}</p>
+            ) : (
+              <OfferList
+                offers={
+                  tab === "received"
+                    ? received
+                    : tab === "sent"
+                      ? sent
+                      : history
+                }
+                busy={busy}
+                onReview={offer => setReviewedId(offer.id)}
+                onCancel={tab === "sent" ? setCancelling : undefined}
+              />
+            )}
             {hasMoreOffers && (
               <Button
                 variant="secondary"

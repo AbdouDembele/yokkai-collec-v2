@@ -1920,7 +1920,10 @@
   "socialTrades": {
     "action": "Trade",
     "tradeWith": "Trade with {name}",
-    "offer": "Trade offer"
+    "offer": "Trade offer",
+    "loadingOffers": "Loading trade offers…",
+    "unavailableOffer": "This offer is no longer available.",
+    "refreshFailed": "The trade was updated, but the latest offers could not be refreshed. Reopen the trade to retry."
   },
   "messenger": {
     "title": "Messages",
