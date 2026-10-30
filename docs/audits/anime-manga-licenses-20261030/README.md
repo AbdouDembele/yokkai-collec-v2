@@ -1,42 +1,39 @@
-# Audit du tri des licences ANIME/MANGA — en attente
+# Audit V3 du tri des licences ANIME/MANGA — sans application
 
-Le tri Excel a été contrôlé en lecture seule sur le schéma réel de production. Le lot reste en STOP, sans application partielle.
+Le nettoyage reste en attente. Cette synthèse conserve le résultat de l'audit V3 demandé avant toute opération destructive. Aucun SQL de nettoyage, migration ni déploiement n'est inclus dans cette PR.
 
-## Décisions reçues
+## Décisions intégrées
 
-- 1 805 lignes : 80 KEEP, 136 MERGE, 1 589 DELETE.
-- Aucune décision inconnue, licence dupliquée, cible de MERGE vide, autofusion, chaîne ou cycle.
-- Les noms et les cibles du fichier sont la source de vérité ; aucune correspondance approximative n'autorise une opération.
+- Le fichier comporte désormais 80 KEEP, 137 MERGE et 1 588 DELETE. Seule la décision expressément autorisée pour Aria AA remplace DELETE par MERGE vers Aria the Scarlet Ammo.
+- Le regroupement Aria demandé est déjà satisfait par l'identité stable actuelle ; les six cartes sont préservées, sans association dupliquée à créer.
+- DELETE inclut les cartes catalogue exactement identifiées, leurs exemplaires possédés et leurs dépendances nécessaires. Les cartes KEEP/MERGE restent protégées.
+- Les enchères actives doivent être arrêtées proprement ; toute présence de séquestre impose d'exclure et de signaler le cas. Les historiques doivent être préservés.
+- Les échanges pending concernés peuvent être annulés. Les choix de packs peuvent être retirés uniquement si chaque pack actif conserve une récompense valide.
+- Les références wishlist et de bannière autorisées peuvent être retirées. Les références de vitrine doivent préserver les profils et les autres cartes.
+- Aucun fichier image ni objet Storage ne doit être supprimé.
 
-## Blocages constatés
+## Résultat V3
 
-- 139 sources n'ont pas de correspondance exacte parmi les noms des classeurs ANIME/MANGA actuels.
-- 89 lignes MERGE ont une cible non résolue sous le nom exact fourni.
-- Le retrait des associations DELETE reconnues laisserait 8 712 cartes sans classeur. Ce nombre a été recoupé par deux calculs indépendants.
-- Le modèle combine associations textuelles, franchise principale et identités de classeurs calculées. Effacer simplement l'une de ces représentations ne garantit pas un catalogue cohérent.
+Les correspondances physiques exactes ont été distinguées des classeurs parents afin de ne pas élargir le périmètre par simple nom de licence. Le jeu de candidats résolus a été figé par IDs et ne recoupe aucune carte KEEP/MERGE résolue. Ces contrôles restent une photographie d'une production active et devront être répétés sous verrou avant toute application.
 
-## Mesures prises
+Huit sources restent non résolues ; 89 lignes MERGE correspondent à 27 noms de cible non validés. Ces lignes restent SKIP + REPORT. Aucune proposition d'alias n'est transformée en décision utilisateur.
 
-Aucune carte, possession, image, association, préférence, donnée historique ou identité de licence n'est modifiée. Aucun nettoyage Storage, aucune migration, aucun déploiement et aucune application partielle ne sont inclus.
+Parmi les fusions exactes, certaines sont déjà satisfaites ; d'autres concernent un classeur entier ou seulement une association au sein d'un parent plus large. Leurs mappings et le rollback sélectif restent à préparer et à répéter, sans déplacer de cartes hors périmètre.
 
-Une sauvegarde ciblée a été créée sur le VPS, avec index et lecture/décompression complète validés. Une restauration SQL réelle n'a pas été répétée ; le plan n'est pas déclaré exécutable.
+Les contrôles de séquestre et de récompenses pending passent à la capture V3. Une vérification supplémentaire a détecté des vitrines référençant des IDs d'exemplaires plutôt que des IDs catalogue ; ces dépendances sont documentées dans le rapport privé.
 
-## Rapports détaillés locaux
+## Sauvegarde et restauration
 
-Les rapports RAPPORT-LICENCES-DRY-RUN.md et RAPPORT-LICENCES-CLEANUP.md, ainsi que les listes de correspondances, anomalies, opérations différées et cartes à décision manuelle, restent dans le dossier local ignoré .tools/license-cleanup-full-reports. Leurs détails de production ne sont pas publiés dans cette PR.
+Une sauvegarde cohérente de la base entière remplace la sauvegarde ciblée insuffisante de V1. L'archive reste privée sur le VPS et couvre le schéma, les données et les dépendances, ainsi que les métadonnées Storage. Les fichiers binaires Storage restent intacts et hors du dump SQL.
 
-Les captures de schéma, compteurs horodatés, empreintes et manifeste de sauvegarde restent également hors Git. Le fichier Excel original n'est pas modifié.
+Une restauration SQL réelle a réussi dans un conteneur isolé, sans réseau ni port publié, avec les tâches planifiées désactivées. Tous les compteurs de contrôle correspondent au même snapshot source. Le clone jetable a été supprimé.
 
-## Reprendre
+Cette restauration valide l'exploitabilité du dump. Elle ne vaut pas encore répétition de l'application du nettoyage et de son rollback sélectif ; le lot n'est donc pas déclaré exécutable.
 
-Résoudre explicitement les noms et cibles manquants, puis définir le traitement des cartes qui perdraient leur classeur sans supprimer les cartes elles-mêmes. Refaire le dry-run sur l'état réel, préparer les opérations par IDs avec assertions, valider le rollback et coordonner toute intervention SQL avant d'appliquer quoi que ce soit.
+## Livrables privés et reprise
 
-La PR #15 des fonctionnalités de classeurs reste séparée, en brouillon et sans déploiement. Cette PR de synthèse ne modifie que la documentation ; elle n'autorise aucune opération de nettoyage.
+RAPPORT-LICENCES-SUPPRESSION-CARTES-V3.md, la copie Excel V3 et les CSV de correspondances/IDs restent dans les livrables locaux hors Git. Le fichier Excel original n'est pas écrasé. Aucun identifiant de carte, détail de possession, lien d'image, snapshot brut, archive ou secret n'est publié dans cette PR.
 
-## Évolution du périmètre demandée après le premier audit
+Les prochaines étapes sont de valider les correspondances restantes ou leur exclusion explicite, de préparer les mappings et la transaction contrôlée, puis de répéter l'application et le retour arrière sur une restauration isolée. Toute application future nécessite un nouvel impact, les assertions critiques et la coordination SQL de docs/COLLABORATION.md.
 
-L'utilisateur a précisé que DELETE doit viser les cartes du catalogue et a explicitement inclus leurs exemplaires possédés et leurs dépendances. Les images et Storage restent exclus. Cette précision remplace la protection initiale de tous les exemplaires ; les décisions KEEP/MERGE de l'Excel restent à respecter.
-
-Un audit V2 et une copie révisée de l'Excel sont conservés localement hors Git. Les associations textuelles exactes permettent de retrouver la plupart des noms précédemment absents sans élargir la suppression au classeur parent. Des sources/cibles restent non résolues et certaines cartes croisent KEEP et DELETE. Le nouveau périmètre touche aussi des transactions et récompenses en attente : leur traitement doit être défini avant suppression.
-
-L'ancienne sauvegarde ciblée des licences ne suffit pas pour ce périmètre élargi. Prévoir une sauvegarde cohérente de toutes les données concernées et une restauration répétée dans un environnement isolé. Aucun SQL de suppression n'est déclaré exécutable et aucune opération n'est appliquée à la production.
+La PR #15 des fonctionnalités de classeurs reste séparée, en brouillon et sans déploiement.
