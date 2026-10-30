@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { LeaderboardTopbar } from "@/components/leaderboard-topbar";
@@ -8,12 +9,14 @@ import { getCurrentUser } from "@/lib/auth/session";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
 import "@/styles/leaderboard.css";
 
-export const metadata: Metadata = {
-  title: "Leaderboards",
-  description:
-    "Explore the top collectors and referrers. Compare rare collections and verified referrals.",
-  alternates: { canonical: "/leaderboard" }
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("socialUi");
+  return {
+    title: t("leaderboardsTitle"),
+    description: t("leaderboardsDescription"),
+    alternates: { canonical: "/leaderboard" }
+  };
+}
 
 export default async function LeaderboardPage() {
   const user = await getCurrentUser();

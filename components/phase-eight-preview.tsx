@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useEffect, useRef, useState } from "react";
 import {
@@ -155,7 +156,6 @@ const rawNotifications: AppNotification[] = [
     achievementName: "Premier pas dans le marché"
   }
 ];
-const notifications = rawNotifications.map(notificationItem);
 
 export function AchievementsPreview() {
   const [items, setItems] = useState(achievements);
@@ -185,6 +185,10 @@ export function NotificationsPreview({
 }: {
   mode?: "list" | "empty" | "error";
 }) {
+  const tNotifications = useTranslations("topbar");
+  const notifications = rawNotifications.map(item =>
+    notificationItem(item, tNotifications)
+  );
   useEffect(() => {
     const frame = window.requestAnimationFrame(() =>
       document
@@ -217,6 +221,10 @@ export function NotificationsPreview({
 }
 
 export function PhaseEightActionProof() {
+  const tNotifications = useTranslations("topbar");
+  const notifications = rawNotifications.map(item =>
+    notificationItem(item, tNotifications)
+  );
   const [events, setEvents] = useState<string[]>([]);
   const started = useRef(false);
   const [claimItem, setClaimItem] = useState(achievements[1]);

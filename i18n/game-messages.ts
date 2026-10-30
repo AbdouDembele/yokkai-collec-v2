@@ -389,7 +389,6 @@ for (const [message, key] of Object.entries({
   "Couldn't reach the market. Please try again.": "profileUi.marketUnreachable"
 }))
   englishMessages.set(message, key);
-const keys = new Set([...codes.values(), ...englishMessages.values()]);
 export function gameErrorKey(
   error: unknown,
   fallback = "cardErrors.couldntReachGameDataPleaseTryAgainIn"
@@ -457,3 +456,6 @@ englishMessages.set(
   "Couldn't send the message. Your draft has been kept.",
   "privateMessages.errors.send"
 );
+
+// Include compatibility registrations made below the function declaration.
+const keys = new Set([...codes.values(), ...englishMessages.values()]);

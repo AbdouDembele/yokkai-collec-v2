@@ -1110,6 +1110,7 @@
   margin-top: var(--spacing);
 }
 .yk-trade-offer {
+  min-width: 0;
   border: 1px solid var(--color-veil);
   border-radius: var(--radius-panel);
   padding: calc(var(--spacing) * 5);
@@ -1127,6 +1128,10 @@
 }
 .yk-trade-offer > header strong {
   font-family: var(--font-display);
+}
+.yk-trade-offer > header > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .yk-trade-offer > header p,
 .yk-trade-offer-sides > div > p {
@@ -1542,6 +1547,15 @@
   margin-top: 0;
 }
 @media (max-width: 480px) {
+  .yk-social-panel:lang(fr) .yk-tabs {
+    grid-auto-flow: row;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    overflow: visible;
+  }
+  .yk-social-panel:lang(fr) .yk-tab {
+    min-height: 44px;
+    overflow-wrap: anywhere;
+  }
   .yk-social-stack > nav.yk-tabs {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

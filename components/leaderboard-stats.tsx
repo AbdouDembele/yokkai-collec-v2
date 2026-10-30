@@ -1,3 +1,4 @@
+import { useFormatter } from "next-intl";
 import type { LeaderboardCardCounts } from "@/lib/leaderboard/shared";
 
 type StatKind = "cards" | "infinity" | "shiny";
@@ -48,12 +49,13 @@ export function LeaderboardStats({
 }: {
   counts?: LeaderboardCardCounts;
 }) {
+  const fmt = useFormatter();
   return (
     <span className="yk-leaderboard-stats">
       {(["sr", "ssr", "lr"] as const).map(rarity => (
         <span key={rarity} className={`yk-leaderboard-stat is-${rarity}`}>
           <LeaderboardRarityBadge rarity={rarity.toUpperCase()} />
-          <b>{counts?.[rarity].toLocaleString("en-US") ?? "—"}</b>
+          <b>{counts ? fmt.number(counts[rarity]) : "—"}</b>
         </span>
       ))}
       {(
@@ -65,7 +67,7 @@ export function LeaderboardStats({
         <span key={kind} className={`yk-leaderboard-stat is-${kind}`}>
           <LeaderboardStatIcon kind={kind} />
           <span>
-            <b>{count?.toLocaleString("en-US") ?? "—"}</b> {label}
+            <b>{count == null ? "—" : fmt.number(count)}</b> {label}
           </span>
         </span>
       ))}

@@ -1,3 +1,4 @@
+import { intl } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import test from "node:test";
 import { readFileSync } from "node:fs";
@@ -171,16 +172,19 @@ test("private notification opens the sender's conversation and never contains a 
   const api = loadTs("components/topbar.tsx", name =>
     name === "react" || name === "react/jsx-runtime" ? require(name) : {}
   );
-  const item = api.notificationItem({
-    id: "note",
-    type: "private_message_received",
-    referenceId: "alice",
-    actorPseudo: "Alice",
-    readAt: null,
-    createdAt: "2026-10-19T10:00:00Z",
-    cardName: null,
-    achievementName: null
-  });
+  const item = api.notificationItem(
+    {
+      id: "note",
+      type: "private_message_received",
+      referenceId: "alice",
+      actorPseudo: "Alice",
+      readAt: null,
+      createdAt: "2026-10-19T10:00:00Z",
+      cardName: null,
+      achievementName: null
+    },
+    intl.useTranslations("topbar")
+  );
   assert.equal(item.href, "/social/friends?message=alice");
   assert.equal(item.title, "New private message");
   assert.equal(item.kind, "message");

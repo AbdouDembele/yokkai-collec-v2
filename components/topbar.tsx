@@ -1,5 +1,9 @@
 "use client";
-import { useTranslations } from "next-intl";
+import { useTranslations, useFormatter } from "next-intl";
+
+import { useSyncExternalStore } from "react";
+import { i18nEnabled } from "@/i18n/locale";
+const subscribeToHydration = () => () => {};
 
 import Link from "next/link";
 import { LocaleSelector } from "@/components/locale-controls";
@@ -65,132 +69,194 @@ const notificationStyle = {
   mission: ["✦", "text-success bg-success/14"]
 };
 export function notificationItem(
-  notification: AppNotification
+  notification: AppNotification,
+  t: ReturnType<typeof useTranslations<"topbar">>,
+  time?: string
 ): NotificationItem {
   const common = {
     id: notification.id,
-    time: new Date(notification.createdAt).toLocaleString("en-US"),
+    time: time ?? new Date(notification.createdAt).toLocaleString("en-US"),
     read: !!notification.readAt
   };
   if (notification.type === "wall_post_reply")
     return {
       ...common,
-      title: "New reply to your post",
-      text: `${notification.actorPseudo ?? "A friend"} replied to your post.`,
+      title: t("notificationReplyTitle"),
+      text: t("notificationReplyText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationFriendFallback")
+      }),
       href: "/profile?tab=wall",
       kind: "reply"
     };
   if (notification.type === "private_message_received")
     return {
       ...common,
-      title: "New private message",
-      text: `${notification.actorPseudo ?? "A friend"} sent you a message.`,
+      title: t("notificationMessageTitle"),
+      text: t("notificationMessageText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationFriendFallback")
+      }),
       href: `/social/friends?message=${encodeURIComponent(notification.referenceId)}`,
       kind: "message"
     };
   if (notification.type === "friend_request")
     return {
       ...common,
-      title: "New friend request",
-      text: `${notification.actorPseudo ?? "Deleted player"} sent you a friend request.`,
+      title: t("notificationFriendTitle"),
+      text: t("notificationFriendText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationDeletedPlayer")
+      }),
       href: "/social/friends",
       kind: "friend"
     };
   if (notification.type === "outbid")
     return {
       ...common,
-      title: "You've been outbid",
-      text: `You've been outbid on ${notification.cardName ?? "a card"}.`,
+      title: t("notificationOutbidTitle"),
+      text: t("notificationOutbidText", {
+        cardName: notification.cardName ?? t("notificationCardFallback")
+      }),
       href: `/market/${notification.referenceId}`,
       kind: "outbid"
     };
   if (notification.type === "trade_offer_received")
     return {
       ...common,
-      title: "New trade offer",
-      text: `${notification.actorPseudo ?? "Deleted player"} sent you a trade offer.`,
+      title: t("notificationOfferTitle"),
+      text: t("notificationOfferText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationDeletedPlayer")
+      }),
       href: `/trades?offre=${notification.referenceId}`,
       kind: "trade"
     };
   if (notification.type === "trade_counter_offer_received")
     return {
       ...common,
-      title: "New counteroffer",
-      text: `${notification.actorPseudo ?? "Deleted player"} sent you a counteroffer.`,
+      title: t("notificationCounterTitle"),
+      text: t("notificationCounterText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationDeletedPlayer")
+      }),
       href: `/trades?offre=${notification.referenceId}`,
       kind: "trade-counter"
     };
   if (notification.type === "trade_offer_accepted")
     return {
       ...common,
-      title: "Offer accepted",
-      text: `${notification.actorPseudo ?? "Deleted player"} accepted your trade offer.`,
+      title: t("notificationAcceptedTitle"),
+      text: t("notificationAcceptedText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationDeletedPlayer")
+      }),
       href: `/trades?offre=${notification.referenceId}`,
       kind: "trade-accepted"
     };
   if (notification.type === "trade_offer_declined")
     return {
       ...common,
-      title: "Offer declined",
-      text: `${notification.actorPseudo ?? "Deleted player"} declined your trade offer.`,
+      title: t("notificationDeclinedTitle"),
+      text: t("notificationDeclinedText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationDeletedPlayer")
+      }),
       href: `/trades?offre=${notification.referenceId}`,
       kind: "trade-declined"
     };
   if (notification.type === "trade_offer_cancelled")
     return {
       ...common,
-      title: "Offer canceled",
-      text: `${notification.actorPseudo ?? "Deleted player"} canceled their trade offer.`,
+      title: t("notificationCancelledTitle"),
+      text: t("notificationCancelledText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationDeletedPlayer")
+      }),
       href: `/trades?offre=${notification.referenceId}`,
       kind: "trade-cancelled"
     };
   if (notification.type === "auction_won")
     return {
       ...common,
-      title: "Auction won",
-      text: `You won ${notification.cardName ?? "a card"}!`,
+      title: t("notificationWonTitle"),
+      text: t("notificationWonText", {
+        cardName: notification.cardName ?? t("notificationCardFallback")
+      }),
       href: `/market/${notification.referenceId}`,
       kind: "won"
     };
   if (notification.type === "auction_sold")
     return {
       ...common,
-      title: "Card sold",
-      text: `You sold ${notification.cardName ?? "a character"} for ${(notification.karaAmount ?? 0).toLocaleString("en-US")} Karas.`,
+      title: t("notificationSoldTitle"),
+      text: t("notificationSoldText", {
+        cardName: notification.cardName ?? t("notificationCharacterFallback"),
+        karaAmount: notification.karaAmount ?? 0
+      }),
       href: `/market/${notification.referenceId}`,
       kind: "sold"
     };
   if (notification.type === "auction_chat_mention")
     return {
       ...common,
-      title: "Auction mention",
-      text: `${notification.actorPseudo ?? "Deleted player"} mentioned you in the chat for ${notification.cardName ?? "an auction"}.`,
+      title: t("notificationMentionTitle"),
+      text: t("notificationMentionText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationDeletedPlayer"),
+        cardName: notification.cardName ?? t("notificationAuctionFallback")
+      }),
       href: `/market/${notification.referenceId}#chat-enchere`,
       kind: "mention"
     };
   if (notification.type === "achievement_completed")
     return {
       ...common,
-      title: "Achievement unlocked",
-      text: `New achievement: ${notification.achievementName ?? "an achievement"}.`,
+      title: t("notificationAchievementTitle"),
+      text: t("notificationAchievementText", {
+        achievementName:
+          notification.achievementName ?? t("notificationAchievementFallback")
+      }),
       href: `/achievements#${notification.referenceId}`,
       kind: "mission"
     };
   if (notification.type === "wishlist_card_on_auction")
     return {
       ...common,
-      title: "Wishlist card up for auction",
-      text: `${notification.cardName ?? "A card"} on your wishlist is now up for auction. Take a look!`,
+      title: t("notificationWishlistTitle"),
+      text: t("notificationWishlistText", {
+        cardName: notification.cardName ?? t("notificationWishlistCardFallback")
+      }),
       href: `/market/${notification.referenceId}`,
       kind: "wishlist"
     };
   return {
     ...common,
-    title: "New activity",
-    text: "New activity is available.",
+    title: t("notificationActivityTitle"),
+    text: t("notificationActivityText"),
     kind: "mission"
   };
 }
+export function useNotificationItems(notifications?: AppNotification[]) {
+  const t = useTranslations("topbar");
+  const fmt = useFormatter();
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false
+  );
+  return notifications?.map(item =>
+    notificationItem(
+      item,
+      t,
+      i18nEnabled()
+        ? hydrated
+          ? fmt.dateTime(new Date(item.createdAt), {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+              timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            })
+          : "—"
+        : undefined
+    )
+  );
+}
+
 export function Topbar({
   view,
   account,
@@ -249,7 +315,7 @@ export function Topbar({
     socialUnread,
     secondaryReady && (!!socialUnread || !notifications)
   );
-  const loaded = feed.notifications?.map(notificationItem);
+  const loaded = useNotificationItems(feed.notifications);
   const shown = notifications ?? loaded;
   const visibleNotificationError = externalNotificationError ?? feed.error;
   const unread = shown?.filter(n => !n.read).length;
