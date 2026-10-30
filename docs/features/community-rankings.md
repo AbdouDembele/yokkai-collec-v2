@@ -1,6 +1,6 @@
 # Classements des profils et des licences — essais locaux
 
-Deux onglets supplémentaires dans /leaderboard et /social/leaderboard : les profils les plus aimés et la progression par licence. Les classements Collection et Parrainages restent disponibles. EN/FR intégrés ; avatars, cadres et pseudos personnalisés suivent les droits Pro existants.
+Deux onglets supplémentaires dans /leaderboard et /social/leaderboard : les profils les plus aimés et la progression des licences, globale ou par licence. Les classements Collection et Parrainages restent disponibles. EN/FR intégrés ; avatars, cadres et pseudos personnalisés suivent les droits Pro existants.
 
 ## Règles de calcul
 
@@ -8,6 +8,18 @@ Deux onglets supplémentaires dans /leaderboard et /social/leaderboard : les pro
 - Licences : choix d’un classeur dans le catalogue courant, avec recherche et pages de 24 licences. Classement des joueurs par cartes distinctes actuellement possédées dans ce classeur. Les variantes et les doublons d’un même identifiant ne comptent qu’une fois ; une carte transférée ou supprimée cesse de contribuer. Le total reprend exactement les licences secondaires, les identités stables par catégorie et les fusions validées des classeurs. Le mode historique par nom exact reste compatible.
 - Pour une même licence, le dénominateur est identique pour tous les joueurs : les classeurs terminés arrivent avant les progressions partielles. Par exemple, 4/4 précède 3/4 ; 5 exemplaires de la même carte valent toujours une seule carte distincte. Les pourcentages affichés ne s’arrondissent jamais à 100 % avant la dernière carte.
 - Les égalités partagent un rang de compétition, par exemple 1, 2, 2, 4. Les pseudos départagent uniquement l’ordre d’affichage.
+
+## Classement global des licences
+
+L’onglet Licences s’ouvre sur le nombre de **licences terminées**, tous classeurs et catégories confondus. Un second tri classe les joueurs par **cartes distinctes possédées dans tout le catalogue**. La vue **Par licence** conserve le sélecteur et sa recherche ; la licence choisie reste sélectionnée après un aller-retour dans la vue globale.
+
+Les deux tris affichent les deux compteurs de chaque joueur. Le dénominateur vient du catalogue courant, sans valeur 90 000 codée en dur : recette locale du 30 octobre 2026, 82 557 cartes et 2 738 classeurs. Une identité de carte ne compte qu’une fois, y compris avec des variantes ou plusieurs associations de licence. En revanche, cette carte peut participer à plusieurs classeurs réellement distincts. Les classeurs fusionnés sont comptés une seule fois, et les classeurs vides ne sont pas considérés terminés.
+
+Le classement par licences terminées inclut aussi les joueurs qui ont commencé une collection sans avoir fini de licence. Les ex æquo conservent un même rang ; le nombre de cartes distinctes, puis le pseudo et l’identifiant, stabilisent leur affichage. Le tri par cartes distinctes est indépendant du score pondéré de l’onglet Collection existant.
+
+Migration supplémentaire : **20261030220000_global_license_leaderboard.sql**, appliquée uniquement à Kara, pas au VPS. Elle étend le lecteur de licences existant, avec les sélecteurs réservés global:completed et global:cards (et leurs variantes :legacy lorsque les classeurs historiques sont activés). Elle ne crée aucune nouvelle signature ni autorisation. Les règles d’authentification, de confidentialité, de blocage, de recherche, d’amis et de pagination restent identiques. Le lecteur par licence reste inchangé.
+
+Le nouveau test global-license-rankings-db vérifie notamment la différence entre les deux tris, les totaux du catalogue, les fusions avec cartes partagées, les licences secondaires et homonymes, les variantes, la perte de cartes, les profils privés et les accès refusés. Aucun test existant ni liste de droits n’est modifié pour cette extension. Le retour arrière restaure la définition précédente du lecteur, sans mutation des données métier.
 
 ## Visibilité et lecture bornée
 
@@ -28,3 +40,5 @@ Walid a explicitement validé l’ajout de ces deux signatures à tests/security
 Parcours connecté local avec le compte abdou : les fonctions réelles et la licence Dragon Ball (253 cartes) sont contrôlées. Les états de pagination, recherche, liste vide, amis et réponses tardives sont aussi vérifiés avec des réponses synthétiques interceptées seulement dans le navigateur de recette, sans créer de faux likes ou joueurs en base.
 
 Mise en page FR/EN contrôlée à 320, 375, 600, 768, 1024, 1280 et 1440 px. La largeur 720 px simule une fenêtre réduite ; le zoom natif à 200 % reste non vérifié. La CI complète reste réservée à GitHub Actions avant toute livraison.
+
+Recette globale additionnelle : vrais compteurs locaux, passage entre les deux tris et une licence, conservation du choix, recherche de joueur, filtre Amis et vue Social, en EN/FR de 320 à 1440 px. Le zoom natif à 200 % reste non vérifié.

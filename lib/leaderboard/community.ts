@@ -13,15 +13,25 @@ export type CommunityRanking = CommunityRankingRequest & {
   total: number;
   rankedPlayers: number;
   binder: { key: string; license: string; total: number } | null;
+  catalogue?: { totalCards: number; totalLicenses: number };
+  metric?: "completed" | "cards";
   entries: {
     userId: string;
     pseudo: string;
     avatarUrl: string | null;
     position: number;
     value: number;
+    completedLicenses?: number;
+    distinctCards?: number;
     isFriend: boolean;
   }[];
-  mine: { value: number; isPublic: boolean; position: number | null } | null;
+  mine: {
+    value: number;
+    isPublic: boolean;
+    position: number | null;
+    completedLicenses?: number;
+    distinctCards?: number;
+  } | null;
   profileStyles: Record<string, PlayerCosmetics>;
 };
 

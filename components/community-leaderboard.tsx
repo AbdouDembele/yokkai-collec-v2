@@ -10,6 +10,7 @@ import {
   getPaniniAlbumsPage,
   type PaniniAlbumProgress
 } from "@/lib/data/cards";
+import { stableBindersEnabled } from "@/lib/data/binders";
 import { binderIdentity } from "@/lib/ui/binder-identity";
 import {
   getCommunityRanking,
@@ -42,6 +43,9 @@ export function CommunityLeaderboardView({
     query: "",
     friendsOnly: embedded
   });
+  const [licenseView, setLicenseView] = useState<
+    "completed" | "cards" | "license"
+  >("completed");
   const [selected, setSelected] = useState<PaniniAlbumProgress | null>(null);
   const [licenseQuery, setLicenseQuery] = useState(""),
     [licensePage, setLicensePage] = useState(1);
@@ -59,7 +63,7 @@ export function CommunityLeaderboardView({
   };
 
   useEffect(() => {
-    if (kind !== "licenses") return;
+    if (kind !== "licenses" || licenseView !== "license") return;
     let active = true;
     const timer = setTimeout(() => {
       void getPaniniAlbumsPage({
@@ -87,23 +91,29 @@ export function CommunityLeaderboardView({
       active = false;
       clearTimeout(timer);
     };
-  }, [kind, licenseQuery, licensePage, licenseRetry, userId]);
+  }, [kind, licenseView, licenseQuery, licensePage, licenseRetry, userId]);
 
+  const isSpecificLicense = kind === "licenses" && licenseView === "license";
+  const isGlobal = kind === "licenses" && !isSpecificLicense;
+  const rankingKey =
+    kind !== "licenses"
+      ? ""
+      : isSpecificLicense
+        ? selected
+          ? binderIdentity(selected)
+          : ""
+        : "global:" + licenseView + (stableBindersEnabled() ? "" : ":legacy");
   useEffect(() => {
-    if (kind === "licenses" && !selected) return;
+    if (isSpecificLicense && !rankingKey) return;
     let active = true;
     const run = async () => {
       try {
-        let next = await getCommunityRanking(
-          kind,
-          options,
-          selected ? binderIdentity(selected) : ""
-        );
+        let next = await getCommunityRanking(kind, options, rankingKey);
         if (options.offset > 0 && !next.entries.length && active)
           next = await getCommunityRanking(
             kind,
             { ...options, offset: 0 },
-            selected ? binderIdentity(selected) : ""
+            rankingKey
           );
         if (active) {
           setData(next);
@@ -121,11 +131,29 @@ export function CommunityLeaderboardView({
     return () => {
       active = false;
     };
-  }, [kind, options, selected, userId]);
+  }, [kind, options, rankingKey, isSpecificLicense, userId]);
 
   const isLicense = kind === "licenses",
     mine = data?.mine,
-    totalCards = data?.binder?.total ?? 0;
+    totalCards = data?.binder?.total ?? data?.catalogue?.totalCards ?? 0;
+  const globalDetails = (entry: {
+    completedLicenses?: number;
+    distinctCards?: number;
+  }) =>
+    t("globalDetails", {
+      completed: entry.completedLicenses ?? 0,
+      owned: fmt.number(entry.distinctCards ?? 0),
+      total: fmt.number(totalCards)
+    });
+  const progressTotal =
+    isGlobal && licenseView === "completed"
+      ? (data?.catalogue?.totalLicenses ?? 0)
+      : totalCards;
+  const metricLabel = isGlobal
+    ? licenseView === "completed"
+      ? "completedNoun"
+      : "distinctNoun"
+    : "likesNoun";
   const percent = (value: number) =>
     fmt.number(completionRatio(value, totalCards), {
       style: "percent",
@@ -156,7 +184,7 @@ export function CommunityLeaderboardView({
         <Button
           variant="secondary"
           onClick={() => reload()}
-          disabled={loading || (isLicense && !selected)}
+          disabled={loading || (isSpecificLicense && !selected)}
         >
           {common("socialUi.refreshRankings")}
         </Button>
@@ -164,6 +192,34 @@ export function CommunityLeaderboardView({
       {navigation}
 
       {isLicense && (
+        <div
+          className="yk-leaderboard-scopes yk-ranking-modes"
+          role="group"
+          aria-label={t("licenseScope")}
+        >
+          {(["completed", "cards", "license"] as const).map(mode => (
+            <Button
+              key={mode}
+              variant="secondary"
+              aria-pressed={licenseView === mode}
+              onClick={() => {
+                setLicenseView(mode);
+                setData(null);
+                reload({ ...options, offset: 0 });
+              }}
+            >
+              {t(
+                mode === "completed"
+                  ? "globalCompleted"
+                  : mode === "cards"
+                    ? "globalCards"
+                    : "byLicense"
+              )}
+            </Button>
+          ))}
+        </div>
+      )}
+      {isSpecificLicense && (
         <section
           className="yk-ranking-license-picker"
           aria-label={t("chooseLicense")}
@@ -266,18 +322,30 @@ export function CommunityLeaderboardView({
         </section>
       )}
 
-      {(!isLicense || selected) && (
+      {(!isSpecificLicense || selected) && (
         <>
           <section
             className="yk-leaderboard-mine"
-            aria-label={t(isLicense ? "yourProgress" : "yourLikes")}
+            aria-label={t(
+              isGlobal
+                ? "yourGlobalProgress"
+                : isSpecificLicense
+                  ? "yourProgress"
+                  : "yourLikes"
+            )}
             aria-busy={loading}
           >
             <div className="yk-leaderboard-personal">
               <span className="eyebrow">
-                {t(isLicense ? "yourProgress" : "yourLikes")}
+                {t(
+                  isGlobal
+                    ? "yourGlobalProgress"
+                    : isSpecificLicense
+                      ? "yourProgress"
+                      : "yourLikes"
+                )}
               </span>
-              {isLicense && data?.binder && (
+              {isSpecificLicense && data?.binder && (
                 <h2 className="yk-ranking-license-name">
                   {data.binder.license}
                 </h2>
@@ -285,17 +353,23 @@ export function CommunityLeaderboardView({
               <strong>
                 {loading || !mine
                   ? "—"
-                  : isLicense
+                  : isSpecificLicense
                     ? percent(mine.value)
                     : fmt.number(mine.value)}
               </strong>
-              {!loading && mine && isLicense && totalCards > 0 && (
+              {!loading && mine && isSpecificLicense && totalCards > 0 && (
                 <p>
                   {t("cardsCount", {
                     owned: fmt.number(mine.value),
                     total: fmt.number(totalCards)
                   })}
                 </p>
+              )}
+              {!loading && mine && isGlobal && (
+                <>
+                  <p>{t(metricLabel, { count: mine.value })}</p>
+                  <p>{globalDetails(mine)}</p>
+                </>
               )}
               <p>
                 {loading
@@ -322,7 +396,7 @@ export function CommunityLeaderboardView({
           <div className="yk-leaderboard-layout">
             <section
               className="yk-leaderboard-board"
-              aria-label={t("listLabel", { kind })}
+              aria-label={t("listLabel", { kind: isGlobal ? "global" : kind })}
               aria-busy={loading}
             >
               <div
@@ -419,7 +493,9 @@ export function CommunityLeaderboardView({
                   </p>
                   <ol
                     className="yk-leaderboard-list"
-                    aria-label={t("listLabel", { kind })}
+                    aria-label={t("listLabel", {
+                      kind: isGlobal ? "global" : kind
+                    })}
                   >
                     {data.entries.map(entry => (
                       <li
@@ -463,42 +539,58 @@ export function CommunityLeaderboardView({
                         </Link>
                         <span className="yk-leaderboard-points">
                           <strong>
-                            {isLicense
+                            {isSpecificLicense
                               ? percent(entry.value)
                               : fmt.number(entry.value)}
                           </strong>
                           <small>
-                            {isLicense
+                            {isSpecificLicense
                               ? t("cardsCount", {
                                   owned: fmt.number(entry.value),
                                   total: fmt.number(totalCards)
                                 })
-                              : t("likesNoun", { count: entry.value })}
+                              : t(metricLabel, { count: entry.value })}
                           </small>
                         </span>
                         {isLicense && (
                           <div className="yk-ranking-completion">
                             <progress
                               value={entry.value}
-                              max={totalCards || 1}
-                              aria-label={t("progressLabel", {
-                                name: entry.pseudo,
-                                owned: entry.value,
-                                total: totalCards
-                              })}
+                              max={progressTotal || 1}
+                              aria-label={
+                                isGlobal
+                                  ? t("globalProgressLabel", {
+                                      name: entry.pseudo,
+                                      value: entry.value,
+                                      total: progressTotal,
+                                      metric: licenseView
+                                    })
+                                  : t("progressLabel", {
+                                      name: entry.pseudo,
+                                      owned: entry.value,
+                                      total: totalCards
+                                    })
+                              }
                             />
                             <span
                               className={
-                                entry.value === totalCards && totalCards > 0
+                                !isGlobal &&
+                                entry.value === totalCards &&
+                                totalCards > 0
                                   ? "is-completed"
                                   : ""
                               }
                             >
-                              {entry.value === totalCards && totalCards > 0
-                                ? t("completed")
-                                : t("remaining", {
-                                    count: Math.max(0, totalCards - entry.value)
-                                  })}
+                              {isGlobal
+                                ? globalDetails(entry)
+                                : entry.value === totalCards && totalCards > 0
+                                  ? t("completed")
+                                  : t("remaining", {
+                                      count: Math.max(
+                                        0,
+                                        totalCards - entry.value
+                                      )
+                                    })}
                             </span>
                           </div>
                         )}
@@ -550,7 +642,15 @@ export function CommunityLeaderboardView({
             </section>
             <aside className="yk-leaderboard-rules">
               <h2>{t("rules")}</h2>
-              <p>{t(isLicense ? "licenseRules" : "likesRules")}</p>
+              <p>
+                {t(
+                  isGlobal
+                    ? "globalRules"
+                    : isSpecificLicense
+                      ? "licenseRules"
+                      : "likesRules"
+                )}
+              </p>
               <p>{t("privacyRules")}</p>
               {isLicense && <p>{t("currentRules")}</p>}
             </aside>
