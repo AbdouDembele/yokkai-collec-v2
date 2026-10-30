@@ -42,3 +42,5 @@ Parcours connecté local avec le compte abdou : les fonctions réelles et la lic
 Mise en page FR/EN contrôlée à 320, 375, 600, 768, 1024, 1280 et 1440 px. La largeur 720 px simule une fenêtre réduite ; le zoom natif à 200 % reste non vérifié. La CI complète reste réservée à GitHub Actions avant toute livraison.
 
 Recette globale additionnelle : vrais compteurs locaux, passage entre les deux tris et une licence, conservation du choix, recherche de joueur, filtre Amis et vue Social, en EN/FR de 320 à 1440 px. Le zoom natif à 200 % reste non vérifié.
+
+Dans la vue Licences terminées, le résumé personnel et chaque ligne indiquent le nombre de licences terminées sur le total des licences du site. Le compteur de cartes reste réservé à la vue Cartes distinctes. Aucun calcul SQL ne change.

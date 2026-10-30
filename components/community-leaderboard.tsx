@@ -140,11 +140,16 @@ export function CommunityLeaderboardView({
     completedLicenses?: number;
     distinctCards?: number;
   }) =>
-    t("globalDetails", {
-      completed: entry.completedLicenses ?? 0,
-      owned: fmt.number(entry.distinctCards ?? 0),
-      total: fmt.number(totalCards)
-    });
+    licenseView === "completed"
+      ? t("completedDetails", {
+          completed: entry.completedLicenses ?? 0,
+          total: data?.catalogue?.totalLicenses ?? 0
+        })
+      : t("globalDetails", {
+          completed: entry.completedLicenses ?? 0,
+          owned: fmt.number(entry.distinctCards ?? 0),
+          total: fmt.number(totalCards)
+        });
   const progressTotal =
     isGlobal && licenseView === "completed"
       ? (data?.catalogue?.totalLicenses ?? 0)
