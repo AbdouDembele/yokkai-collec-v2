@@ -33,3 +33,11 @@ Les contrôles complets sont exécutés par GitHub Actions. Consulter les checks
 ## Adaptation du contrat de navigation validée par Walid
 
 Le test collection-panini-performance remplace les deux contrôles de l’ancien bouton bascule Classeur par deux contrôles précis : l’onglet Cartes active la grille et efface le classeur sélectionné ; l’onglet Classeurs affiche son état actif et ouvre les classeurs. Les deux autres assertions du test restent inchangées. Walid a explicitement validé cette adaptation au nouveau comportement produit. Les tests des ouvertures de packs restent inchangés ; la progression des classeurs est chargée à la demande.
+
+## Couvertures issues du catalogue
+
+Les pages de classeurs renvoient une image représentative de leur propre catalogue, même sans exemplaire possédé. La sélection reprend les associations exactes et le filtre de catégorie, ignore les URL vides et privilégie les raretés élevées, avec un départage stable par identifiant. Elle est limitée aux classeurs de la page et réutilise le catalogue déjà lu ; aucun appel par couverture ni téléchargement complet du catalogue dans le navigateur. Les images personnalisées des joueurs ne sont pas utilisées.
+
+La Collection et l'accueil utilisent cette couverture, avec le repli préexistant si un ancien serveur ne renvoie pas le champ. Aucun ordre, compteur de progression, favori, droit ou contrôle de confidentialité n'est modifié.
+
+Migration supplémentaire : 20261030200000_binder_cover_images.sql, appliquée uniquement à Kara pour cette reprise locale, pas au VPS. Elle remplace les deux lecteurs existants sans changer leur signature ni leurs privilèges. Les tests ajoutés vérifient les cartes non possédées, catégories homonymes, licences secondaires, URL vides, pagination et accès privés. Les tests existants restent inchangés.

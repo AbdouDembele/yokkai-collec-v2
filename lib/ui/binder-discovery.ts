@@ -23,6 +23,7 @@ export function binderHighlights(albums: PaniniAlbumProgress[], limit = 3) {
     .slice(0, limit);
 }
 export function binderCover(binder: PaniniAlbumProgress, cards: Card[]) {
+  if (binder.image?.trim()) return binder.image;
   return cards.find(card =>
     binder.binderKey
       ? card.binders?.some(item => item.key === binder.binderKey)

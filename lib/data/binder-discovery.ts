@@ -32,6 +32,7 @@ export async function getHomeBinders(
   const page = await adapter.albums({ page: 1, pageSize: 72 });
   return Promise.all(
     binderHighlights(page.items).map(async album => {
+      if (album.image?.trim()) return album;
       try {
         const cover = await adapter.cards({
           license: binderIdentity(album),
