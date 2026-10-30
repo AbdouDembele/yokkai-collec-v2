@@ -14,7 +14,7 @@ export type CommunityRanking = CommunityRankingRequest & {
   rankedPlayers: number;
   binder: { key: string; license: string; total: number } | null;
   catalogue?: { totalCards: number; totalLicenses: number };
-  metric?: "completed" | "cards";
+  metric?: "overall" | "completed" | "cards";
   entries: {
     userId: string;
     pseudo: string;

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
+import { GlobalLicenseStats } from "@/components/global-license-stats";
 import { LicenseRankingChoice } from "@/components/license-ranking-choice";
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
@@ -45,9 +46,9 @@ export function CommunityLeaderboardView({
     query: "",
     friendsOnly: embedded
   });
-  const [licenseView, setLicenseView] = useState<
-    "completed" | "cards" | "license"
-  >("completed");
+  const [licenseView, setLicenseView] = useState<"overall" | "license">(
+    "overall"
+  );
   const [licenseCategory, setLicenseCategory] = useState("");
   const [categories, setCategories] = useState<string[]>([]);
   const [categoryError, setCategoryError] = useState(false);
@@ -185,29 +186,6 @@ export function CommunityLeaderboardView({
   const isLicense = kind === "licenses",
     mine = data?.mine,
     totalCards = data?.binder?.total ?? data?.catalogue?.totalCards ?? 0;
-  const globalDetails = (entry: {
-    completedLicenses?: number;
-    distinctCards?: number;
-  }) =>
-    licenseView === "completed"
-      ? t("completedDetails", {
-          completed: entry.completedLicenses ?? 0,
-          total: data?.catalogue?.totalLicenses ?? 0
-        })
-      : t("globalDetails", {
-          completed: entry.completedLicenses ?? 0,
-          owned: fmt.number(entry.distinctCards ?? 0),
-          total: fmt.number(totalCards)
-        });
-  const progressTotal =
-    isGlobal && licenseView === "completed"
-      ? (data?.catalogue?.totalLicenses ?? 0)
-      : totalCards;
-  const metricLabel = isGlobal
-    ? licenseView === "completed"
-      ? "completedNoun"
-      : "distinctNoun"
-    : "likesNoun";
   const percent = (value: number) =>
     fmt.number(completionRatio(value, totalCards), {
       style: "percent",
@@ -246,7 +224,7 @@ export function CommunityLeaderboardView({
           role="group"
           aria-label={t("licenseScope")}
         >
-          {(["completed", "cards", "license"] as const).map(mode => (
+          {(["overall", "license"] as const).map(mode => (
             <Button
               key={mode}
               variant="secondary"
@@ -257,13 +235,7 @@ export function CommunityLeaderboardView({
                 reload({ ...options, offset: 0 });
               }}
             >
-              {t(
-                mode === "completed"
-                  ? "globalCompleted"
-                  : mode === "cards"
-                    ? "globalCards"
-                    : "byLicense"
-              )}
+              {t(mode === "overall" ? "globalTab" : "byLicense")}
             </Button>
           ))}
         </div>
@@ -391,13 +363,25 @@ export function CommunityLeaderboardView({
                   {data.binder.license}
                 </h2>
               )}
-              <strong>
-                {loading || !mine
-                  ? "—"
-                  : isSpecificLicense
-                    ? percent(mine.value)
-                    : fmt.number(mine.value)}
-              </strong>
+              {isGlobal ? (
+                !loading &&
+                mine && (
+                  <GlobalLicenseStats
+                    completed={mine.completedLicenses ?? 0}
+                    cards={mine.distinctCards ?? 0}
+                    totalLicenses={data?.catalogue?.totalLicenses ?? 0}
+                    totalCards={totalCards}
+                  />
+                )
+              ) : (
+                <strong>
+                  {loading || !mine
+                    ? "—"
+                    : isSpecificLicense
+                      ? percent(mine.value)
+                      : fmt.number(mine.value)}
+                </strong>
+              )}
               {!loading && mine && isSpecificLicense && totalCards > 0 && (
                 <p>
                   {t("cardsCount", {
@@ -405,12 +389,6 @@ export function CommunityLeaderboardView({
                     total: fmt.number(totalCards)
                   })}
                 </p>
-              )}
-              {!loading && mine && isGlobal && (
-                <>
-                  <p>{t(metricLabel, { count: mine.value })}</p>
-                  <p>{globalDetails(mine)}</p>
-                </>
               )}
               <p>
                 {loading
@@ -578,60 +556,56 @@ export function CommunityLeaderboardView({
                             </strong>
                           </span>
                         </Link>
-                        <span className="yk-leaderboard-points">
-                          <strong>
-                            {isSpecificLicense
-                              ? percent(entry.value)
-                              : fmt.number(entry.value)}
-                          </strong>
-                          <small>
-                            {isSpecificLicense
-                              ? t("cardsCount", {
-                                  owned: fmt.number(entry.value),
-                                  total: fmt.number(totalCards)
-                                })
-                              : t(metricLabel, { count: entry.value })}
-                          </small>
-                        </span>
-                        {isLicense && (
+                        {isGlobal ? (
+                          <GlobalLicenseStats
+                            completed={entry.completedLicenses ?? 0}
+                            cards={entry.distinctCards ?? 0}
+                            totalLicenses={data?.catalogue?.totalLicenses ?? 0}
+                            totalCards={totalCards}
+                            compact
+                          />
+                        ) : (
+                          <>
+                            <span className="yk-leaderboard-points">
+                              <strong>
+                                {isSpecificLicense
+                                  ? percent(entry.value)
+                                  : fmt.number(entry.value)}
+                              </strong>
+                              <small>
+                                {isSpecificLicense
+                                  ? t("cardsCount", {
+                                      owned: fmt.number(entry.value),
+                                      total: fmt.number(totalCards)
+                                    })
+                                  : t("likesNoun", { count: entry.value })}
+                              </small>
+                            </span>
+                          </>
+                        )}
+                        {isSpecificLicense && (
                           <div className="yk-ranking-completion">
                             <progress
                               value={entry.value}
-                              max={progressTotal || 1}
-                              aria-label={
-                                isGlobal
-                                  ? t("globalProgressLabel", {
-                                      name: entry.pseudo,
-                                      value: entry.value,
-                                      total: progressTotal,
-                                      metric: licenseView
-                                    })
-                                  : t("progressLabel", {
-                                      name: entry.pseudo,
-                                      owned: entry.value,
-                                      total: totalCards
-                                    })
-                              }
+                              max={totalCards || 1}
+                              aria-label={t("progressLabel", {
+                                name: entry.pseudo,
+                                owned: entry.value,
+                                total: totalCards
+                              })}
                             />
                             <span
                               className={
-                                !isGlobal &&
-                                entry.value === totalCards &&
-                                totalCards > 0
+                                entry.value === totalCards && totalCards > 0
                                   ? "is-completed"
                                   : ""
                               }
                             >
-                              {isGlobal
-                                ? globalDetails(entry)
-                                : entry.value === totalCards && totalCards > 0
-                                  ? t("completed")
-                                  : t("remaining", {
-                                      count: Math.max(
-                                        0,
-                                        totalCards - entry.value
-                                      )
-                                    })}
+                              {entry.value === totalCards && totalCards > 0
+                                ? t("completed")
+                                : t("remaining", {
+                                    count: Math.max(0, totalCards - entry.value)
+                                  })}
                             </span>
                           </div>
                         )}

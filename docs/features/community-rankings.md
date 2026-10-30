@@ -48,3 +48,9 @@ Dans la vue Licences terminées, le résumé personnel et chaque ligne indiquent
 La vue Par licence présente la recherche, puis la catégorie et le choix de licence. Les catégories viennent des métadonnées du catalogue existant ; le filtrage est effectué par le lecteur borné de classeurs, avant pagination. Un changement de catégorie remet la recherche et la page à zéro et efface la sélection précédente ; seules les licences de la nouvelle catégorie sont proposées. Les vues globales restent sur tout le site. Aucune migration supplémentaire.
 
 Les boutons Précédent / Suivante et le compteur de pages du sélecteur de licence sont retirés. La liste déroulante garde une hauteur limitée et charge les licences suivantes en défilant, par lots bornés de 72. Elle reste utilisable au clavier (flèches, Début/Fin, Entrée et Échap) ; recherche et catégorie remettent le chargement à la première page. La pagination du classement des joueurs reste inchangée. Aucune migration supplémentaire.
+
+## Vue globale unifiée
+
+Les deux sous-onglets globaux sont remplacés par Global / Overall, à côté de Par licence. Le résumé personnel et chaque joueur affichent deux ratios séparés : licences terminées / total des licences et cartes distinctes / total des cartes. Le rang global compare d’abord les licences terminées, puis les cartes distinctes. Les paires identiques restent ex æquo.
+
+Migration 20261030230000_unified_global_license_rank.sql : ajout du sélecteur global:overall au lecteur existant, sans nouvelle signature ni changement de droits. Les anciennes vues SQL global:completed et global:cards gardent leur comportement, tout comme la lecture d’une licence précise. Migration locale uniquement, pas appliquée au VPS. Aucun test existant n’est modifié ; un test supplémentaire protège le départage et les anciens contrats.
