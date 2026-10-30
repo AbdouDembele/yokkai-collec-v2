@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { RankingIcon } from "@/components/ranking-icon";
 import { useEffect, useState, type ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
@@ -348,6 +349,13 @@ export function CommunityLeaderboardView({
             )}
             aria-busy={loading}
           >
+            <div
+              className="yk-leaderboard-emblem"
+              data-ranking={kind}
+              aria-hidden="true"
+            >
+              <RankingIcon kind={kind} />
+            </div>
             <div className="yk-leaderboard-personal">
               <span className="eyebrow">
                 {t(

@@ -17,3 +17,5 @@ Retouche : suppression du bouton pause ; rotation automatique toutes les cinq se
 Validation Walid obtenue pour remplacer uniquement la valeur attendue du test du carrousel : 5000 ms au lieu de 8000 ms. Toutes les autres assertions restent intactes. Cette adaptation doit figurer dans la description de la PR #15.
 
 Visual refresh (local): segmented ranking tabs with decorative icons and a dedicated accent per view; larger podium avatars, compact rank labels, gold/silver/bronze cards, and a single grouped list for the remaining players. Mobile puts the winner above the other two players. Existing profile cosmetics, texts, scores, readers and five-second rotation are preserved. No new SQL migration or test changes.
+
+The decorative heart and book are shared through RankingIcon between the Home tabs and the personal score panels of the Profile likes and Licenses pages. The detail-page emblems reuse the existing PowerRanking emblem layout, with pink and blue accents respectively. No text, score or SQL behavior changes.

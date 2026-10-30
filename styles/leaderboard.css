@@ -39,10 +39,21 @@
   place-items: center;
   width: 56px;
   height: 56px;
+  flex-shrink: 0;
   border: 1px solid #e9bf6540;
   border-radius: 16px;
   background: #e9bf650a;
   color: #e9bf65;
+}
+.yk-leaderboard-emblem[data-ranking="likes"] {
+  color: #f3a5c6;
+  border-color: #f3a5c640;
+  background: #f3a5c60a;
+}
+.yk-leaderboard-emblem[data-ranking="licenses"] {
+  color: #a8bfff;
+  border-color: #a8bfff40;
+  background: #a8bfff0a;
 }
 .yk-leaderboard-emblem svg {
   width: 30px;
