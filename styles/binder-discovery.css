@@ -311,12 +311,12 @@
 
 @media (min-width: 1024px) {
   .yk-collection .yk-panini-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
   .yk-collection .yk-panini-album-open {
     position: relative;
-    grid-template-columns: 84px minmax(0, 1fr);
+    grid-template-columns: 124px minmax(0, 1fr);
     grid-template-rows: minmax(68px, 1fr) auto auto 4px;
     gap: 8px 12px;
     min-height: 176px;
@@ -328,7 +328,7 @@
     grid-column: auto;
     grid-row: auto;
     inset: 0 auto 0 0;
-    width: 84px;
+    width: 124px;
     height: 100%;
     aspect-ratio: auto;
     border-radius: 0;
@@ -378,7 +378,7 @@
 }
 @media (min-width: 1280px) {
   .yk-collection .yk-panini-grid {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
