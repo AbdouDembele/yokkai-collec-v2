@@ -44,4 +44,6 @@ Migration supplémentaire : 20261030200000_binder_cover_images.sql, appliquée u
 
 ## Présentation des titres et compteurs
 
-Le titre occupe l'en-tête de chaque classeur, centré s'il est court et aligné à gauche au-delà de 32 caractères, sans troncature. L'étoile reste en haut à droite. La couverture garde sa taille validée : 120 px de largeur, 108 px sur les cartes étroites. Le compteur est à droite de la couverture, avec le total et le libellé traduits ; le pourcentage et sa barre sont regroupés en dessous. La page conserve ses alignements par rangée et les commandes restent accessibles au clavier.
+La grille utilise deux colonnes sur grand écran. Chaque carte regroupe une couverture à gauche et le titre, le compteur et la progression à droite. Les titres courts sont centrés et les longs restent alignés à gauche, sans troncature. La taille de couverture validée est conservée : 120 × 160 px, 108 × 144 px sur les cartes étroites. Sur ces dernières, la couverture passe au-dessus du titre et la ligne compteur/pourcentage précède la progression. L'étoile reste en haut à droite avec une cible de 44 px. Le cadre illustré est simplifié pour laisser l'image visible, sans modifier les fichiers image du catalogue.
+
+Recette locale : largeurs 320, 375, 600, 768, 900, 1024, 1440 et 1920 px, EN/FR ; les noms, compteurs et favoris ne se chevauchent pas, les progressions d'une rangée sont alignées. Le zoom natif à 200 % reste non revérifié pendant ces retouches.

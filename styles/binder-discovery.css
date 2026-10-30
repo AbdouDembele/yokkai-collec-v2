@@ -181,36 +181,56 @@
   container-type: inline-size;
 }
 .yk-collection .yk-panini-grid {
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr));
+  gap: 16px;
   align-items: stretch;
 }
 .yk-collection .yk-panini-album-open {
   display: grid;
   grid-template-columns: 120px minmax(0, 1fr);
-  grid-template-rows: minmax(44px, auto) minmax(160px, 1fr);
-  align-items: start;
-  gap: 12px 20px;
+  grid-template-rows: minmax(88px, 1fr) auto 4px;
+  align-items: center;
+  gap: 12px 24px;
   height: 100%;
-  min-height: 248px;
-  padding: 16px;
+  min-height: 196px;
+  padding: 18px;
+  border-color: #8fa4ca22;
+  border-radius: 16px;
+  background: linear-gradient(115deg, #17233780, #0b101b 48%);
 }
 .yk-collection .yk-panini-album-open > .yk-binder-cover {
   grid-column: 1;
-  grid-row: 2;
+  grid-row: 1 / -1;
+  align-self: start;
   width: 120px;
+  border-radius: 8px;
+  border-color: #a9b9da44;
+  box-shadow: 0 8px 18px #0005;
+}
+.yk-collection .yk-panini-album-open > .yk-binder-cover img {
+  opacity: 1;
+}
+.yk-collection .yk-panini-album-open > .yk-binder-cover:after {
+  background: linear-gradient(90deg, #0004, transparent 14%);
+}
+.yk-collection .yk-panini-album-open > .yk-binder-cover svg {
+  display: none;
+}
+.yk-collection .yk-panini-album-open > .yk-binder-cover .yk-binder-spine {
+  opacity: 0.35;
 }
 .yk-collection .yk-panini-album-open .yk-panini-details {
   display: contents;
 }
 .yk-collection .yk-panini-album-open .yk-panini-details > strong {
-  grid-column: 1 / -1;
+  grid-column: 2;
   grid-row: 1;
   align-self: center;
   min-width: 0;
-  margin: 0 48px;
+  margin: 0 44px 0 0;
   padding: 0;
   color: var(--color-ink);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 650;
   line-height: 1.45;
   text-align: center;
@@ -224,65 +244,61 @@
   .yk-panini-album-open
   .yk-panini-details
   > strong[data-long-title="true"] {
-  align-self: start;
-  margin-left: 0;
   text-align: left;
 }
 .yk-collection .yk-panini-album-open .yk-panini-count {
   grid-column: 2;
   grid-row: 2;
-  align-self: center;
   justify-self: start;
+  align-self: center;
   display: flex;
-  flex-direction: column;
-  align-items: start;
+  align-items: baseline;
   gap: 6px;
   min-width: 0;
   max-width: 100%;
-  margin: 0 0 28px;
+  margin: 0 90px 0 0;
   padding: 0;
   border: 0;
-  border-radius: 0;
   background: transparent;
   color: var(--color-ink-2);
-  line-height: 1.2;
+  font-size: 12px;
+  line-height: 1.5;
 }
 .yk-collection .yk-panini-count-values {
-  display: flex;
-  flex-wrap: wrap;
+  display: inline-flex;
   align-items: baseline;
-  gap: 6px;
+  gap: 5px;
   font-variant-numeric: tabular-nums;
-  font-size: 18px;
+  font-size: 13px;
 }
 .yk-collection .yk-panini-count-values b {
-  color: var(--color-ink);
-  font-size: 30px;
+  color: #f0d9a3;
+  font-size: 17px;
   font-weight: 650;
-  line-height: 1;
+  line-height: inherit;
 }
 .yk-collection .yk-panini-count-separator {
-  opacity: 0.4;
-  font-size: 16px;
-  font-weight: 400;
+  opacity: 0.45;
+  font-size: 12px;
 }
 .yk-collection .yk-panini-count-label {
   color: var(--color-ink-3);
-  font-size: 12px;
+  font-size: 11px;
 }
 .yk-collection .yk-panini-album-open .yk-panini-progress {
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 3;
   align-self: end;
   height: 4px;
+  background: #27334a80;
 }
 .yk-collection .yk-panini-album-open .yk-panini-details > small {
   grid-column: 2;
   grid-row: 2;
-  justify-self: start;
-  align-self: end;
-  margin-bottom: 14px;
-  color: var(--color-ink-2);
+  justify-self: end;
+  align-self: center;
+  margin: 0;
+  color: var(--color-ink-3);
   font-size: 11px;
   line-height: 1.5;
 }
@@ -292,27 +308,37 @@
   right: 14px;
   width: 44px;
   height: 44px;
+  background: #11182780;
+  border-color: #8fa4ca2b;
 }
-@container (max-width: 300px) {
+@container (max-width: 340px) {
   .yk-collection .yk-panini-album-open {
-    grid-template-columns: 108px minmax(0, 1fr);
-    grid-template-rows: minmax(44px, auto) minmax(144px, 1fr);
-    column-gap: 14px;
-    min-height: 232px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 144px minmax(0, 1fr) auto 4px;
+    gap: 14px;
+    min-height: 0;
+    padding: 16px;
   }
   .yk-collection .yk-panini-album-open > .yk-binder-cover {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: center;
     width: 108px;
   }
   .yk-collection .yk-panini-album-open .yk-panini-details > strong {
-    margin-left: 0;
-    font-size: 14px;
+    grid-column: 1;
+    grid-row: 2;
+    margin: 0;
+    font-size: 15px;
   }
-  .yk-collection .yk-panini-count-values {
-    gap: 4px;
-    font-size: 14px;
+  .yk-collection .yk-panini-album-open .yk-panini-count,
+  .yk-collection .yk-panini-album-open .yk-panini-details > small {
+    grid-column: 1;
+    grid-row: 3;
   }
-  .yk-collection .yk-panini-count-values b {
-    font-size: 24px;
+  .yk-collection .yk-panini-album-open .yk-panini-progress {
+    grid-column: 1;
+    grid-row: 4;
   }
 }
 
