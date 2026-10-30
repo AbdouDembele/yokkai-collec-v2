@@ -710,6 +710,7 @@ export function TradesPanel({
   initialOfferId?: string;
   onOfferSent?: () => void;
 } = {}) {
+  const t = useTranslations("socialTrades");
   const tPr4 = useTranslations();
   const initialFriendId = fixedFriendId ?? requestedInitialFriendId;
   const [resolvedFixedFriend, setResolvedFixedFriend] = useState<{
