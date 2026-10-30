@@ -6,6 +6,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
 import { GlobalLicenseStats } from "@/components/global-license-stats";
+import { RankingChoice } from "@/components/ranking-choice";
 import { LicenseRankingChoice } from "@/components/license-ranking-choice";
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
@@ -23,6 +24,8 @@ import {
   type CommunityRankingKind,
   type CommunityRankingRequest
 } from "@/lib/leaderboard/community";
+
+const categoryKey = (category: string) => category;
 
 export function CommunityLeaderboardView({
   userId,
@@ -262,12 +265,20 @@ export function CommunityLeaderboardView({
               setLicensesLoading(true);
             }}
           />
-          <label htmlFor="ranking-category-select">{t("chooseCategory")}</label>
-          <select
+          <label id="ranking-category-label" htmlFor="ranking-category-select">
+            {t("chooseCategory")}
+          </label>
+          <RankingChoice
             id="ranking-category-select"
-            value={licenseCategory}
-            onChange={event => {
-              setLicenseCategory(event.target.value);
+            labelId="ranking-category-label"
+            className="yk-ranking-category-choice"
+            items={["", ...categories]}
+            selected={licenseCategory}
+            getKey={categoryKey}
+            getLabel={category => category || t("allCategories")}
+            placeholder={t("allCategories")}
+            onSelect={category => {
+              setLicenseCategory(category);
               setLicensePage(1);
               setLicenseQuery("");
               setSelected(null);
@@ -277,14 +288,7 @@ export function CommunityLeaderboardView({
               setLicensesError(false);
               reload({ ...options, offset: 0 });
             }}
-          >
-            <option value="">{t("allCategories")}</option>
-            {categories.map(category => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
+          />
           {categoryError && (
             <div role="alert">
               <p>{t("categoryFailed")}</p>
@@ -300,6 +304,9 @@ export function CommunityLeaderboardView({
             {t("chooseLicense")}
           </label>
           <LicenseRankingChoice
+            key={JSON.stringify([licenseCategory, licenseQuery])}
+            category={licenseCategory}
+            query={licenseQuery}
             items={choices.items}
             selected={selected}
             loading={licensesLoading}

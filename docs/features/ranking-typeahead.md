@@ -1,0 +1,7 @@
+# Ranking choices: keyboard navigation — local
+
+Category and license choices share an accessible listbox. While the trigger or its menu has focus, typing jumps to and scrolls the matching option into view. Multiple letters refine a prefix for 800 ms; repeating a single letter cycles through its matches. Matching ignores case, accents and decorative punctuation at the start of a title. Enter or a click commits the choice; Escape returns focus without changing the category or license. Arrow keys, Home, End and touch selection remain available.
+
+The license menu preserves the current category and search filter. If a matching license is not loaded, the existing reader searches bounded pages of at most 72 matching licenses after a short debounce; it adds the matching option without replacing the visible search field or automatically changing the selected license. Opening a menu does not fetch the whole catalogue. Superseded lookups and dismissed menus ignore late results. No SQL migration, database writes, privilege changes or new player text.
+
+Validation: new focused tests cover accent normalization, repeated letters, prefix refinement and idle reset. No existing test changed. Browser checks use the local database and cover FR/EN, category and license jumps, a license outside the initial page, explicit selection, Escape, late responses and mobile/tablet/desktop menu bounds. Native browser zoom at 200% remains unverified.
