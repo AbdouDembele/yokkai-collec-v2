@@ -119,6 +119,9 @@
   "public.catalogue_binder_groups": {
     "excluded": "Global editorial binder identities and activation flags; contains no player records or preferences."
   },
+  "public.catalogue_binder_source_merges": {
+    "excluded": "Global exact category/source-license editorial mapping; no player records or preferences."
+  },
   "public.catalogue_binder_group_merges": {
     "excluded": "Global redirects and indexed catalogue source metadata for editorial binder merges; no player records or preferences."
   },

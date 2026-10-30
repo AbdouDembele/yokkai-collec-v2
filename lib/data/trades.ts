@@ -211,7 +211,7 @@ async function call<T>(
       )
     : await db().rpc(name, args);
   const { data, error } = result;
-  if (error) throw new Error(tradeErrorMessage(error.message ?? ""));
+  if (error) throw new Error(tradeErrorMessage(error.message ?? ""), {cause: {i18nKey: ({TRADE_OFFER_RATE_LIMITED: "socialUi.tradeRateLimit", TRADE_PENDING_LIMIT: "socialUi.tradePendingLimit", TRADE_PAIR_LIMIT: "socialUi.tradePairLimit"} as Record<string, string>)[error.message ?? ""]}});
   return (
     typeof paged === "object"
       ? {

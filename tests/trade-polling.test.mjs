@@ -1,3 +1,4 @@
+import { englishMessages } from "./helpers/i18n.mjs";
 import { normalizeWhitespace } from "./helpers/normalize-whitespace.mjs";
 import test from "node:test";
 import assert from "node:assert/strict";
@@ -486,7 +487,7 @@ test("l’annulation reste disponible uniquement pour une offre envoyée en atte
     normalizeWhitespace(/onCancel=\{tab==="sent"\?setCancelling:undefined\}/)
   );
   assert.match(
-    normalizeWhitespace(source),
+    normalizeWhitespace(JSON.stringify(englishMessages.socialUi)),
     normalizeWhitespace(/This offer was canceled/)
   );
   assert.match(
@@ -531,7 +532,7 @@ test("une acceptation devenue impossible traduit TRADE_NOT_PENDING et recharge l
   assert.match(
     normalizeWhitespace(failure),
     normalizeWhitespace(
-      /setError\(e instanceof Error \? e\.message : "Couldn't complete this action\."\)/
+      /setError\(gameErrorKey\(e, gameErrorKey\("Couldn't complete this action\."\)\)\)/
     )
   );
   assert.match(

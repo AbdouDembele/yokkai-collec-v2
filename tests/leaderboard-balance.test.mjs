@@ -1,3 +1,4 @@
+import { intl } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -28,6 +29,7 @@ test("Leaderboard loads zero and nonzero balances, refreshes changes and recover
   vm.runInNewContext(source, {
     exports,
     require: name => {
+      if (name === "next-intl") return intl;
       if (name === "react")
         return {
           useState(initial) {

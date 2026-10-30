@@ -1,4 +1,9 @@
-import { intl } from "./helpers/i18n.mjs";
+import {
+  intl,
+  intlServer,
+  gameMessages,
+  socialMessages
+} from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -19,7 +24,14 @@ function load(file, mocks = {}, globals = {}) {
       exports,
       Error,
       ...globals,
-      require: name => (name in mocks ? mocks[name] : require(name))
+      require: name => {
+        if (name in mocks) return mocks[name];
+        if (name === "next-intl") return intl;
+        if (name === "next-intl/server") return intlServer;
+        if (name === "@/i18n/game-messages") return gameMessages;
+        if (name === "@/i18n/social-messages") return socialMessages;
+        return require(name);
+      }
     }
   );
   return exports;
@@ -330,7 +342,7 @@ function feedCase({
   };
 }
 
-test("Everyone redirects only when the public RPC is missing", () => {
+test("Everyone redirects only when the public RPC is missing", async () => {
   assert.throws(
     () => feedCase({ available: false }).render(),
     /redirect:\/social/
@@ -340,11 +352,14 @@ test("Everyone redirects only when the public RPC is missing", () => {
     /Loading/
   );
   const SocialFeed = () => null;
-  const { default: page, metadata } = load("app/social/everyone/page.tsx", {
-    "@/components/social-feed": { SocialFeed }
-  });
+  const { default: page, generateMetadata } = load(
+    "app/social/everyone/page.tsx",
+    {
+      "@/components/social-feed": { SocialFeed }
+    }
+  );
   assert.equal(page().props.source, "public");
-  assert.equal(metadata.title, "Everyone");
+  assert.equal((await generateMetadata()).title, "Everyone");
 });
 
 test("private composer explains privacy and never inserts a private publication into Everyone", () => {

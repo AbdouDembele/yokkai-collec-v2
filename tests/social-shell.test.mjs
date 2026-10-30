@@ -1,5 +1,10 @@
+import {
+  intl,
+  gameMessages,
+  socialMessages,
+  loadLocaleModule
+} from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
-import { intl } from "./helpers/i18n.mjs";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import vm from "node:vm";
@@ -21,7 +26,18 @@ function load(file, mocks = {}) {
   vm.runInNewContext(code, {
     exports,
     URLSearchParams,
-    require: name => (name in mocks ? mocks[name] : require(name))
+    require: name =>
+      name === "next-intl"
+        ? intl
+        : name === "@/i18n/game-messages"
+          ? gameMessages
+          : name === "@/i18n/social-messages"
+            ? socialMessages
+            : name === "@/i18n/locale"
+              ? loadLocaleModule()
+              : name in mocks
+                ? mocks[name]
+                : require(name)
   });
   return exports;
 }
@@ -115,12 +131,17 @@ test("friend and private message notifications open Social Friends", () => {
     actorPseudo: "Alice"
   };
   assert.equal(
-    notificationItem({ ...notification, type: "friend_request" }).href,
+    notificationItem(
+      { ...notification, type: "friend_request" },
+      intl.useTranslations("topbar")
+    ).href,
     "/social/friends"
   );
   assert.equal(
-    notificationItem({ ...notification, type: "private_message_received" })
-      .href,
+    notificationItem(
+      { ...notification, type: "private_message_received" },
+      intl.useTranslations("topbar")
+    ).href,
     "/social/friends?message=player%2B123"
   );
 });

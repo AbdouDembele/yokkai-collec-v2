@@ -1,6 +1,10 @@
 "use client";
+import { useSyncExternalStore } from "react";
+import { i18nEnabled } from "@/i18n/locale";
+const subscribeToHydration = () => () => {};
+import { socialErrorKey as gameErrorKey } from "@/i18n/social-messages";
+import { useTranslations, useFormatter } from "next-intl";
 
-import { useTranslations } from "next-intl";
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
 import { startVisiblePolling } from "@/lib/ui/visible-polling";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
@@ -85,6 +89,7 @@ function CardPicker({
   selected: Set<string>;
   onChange: (next: Set<string>) => void;
 }) {
+  const tPr4 = useTranslations();
   const [query, setQuery] = useState("");
   const [rarity, setRarity] = useState<"" | Rarity>("");
   const [sort, setSort] = useState<"rarity" | "newest" | "oldest">("rarity");
@@ -125,22 +130,22 @@ function CardPicker({
     >
       <div className="yk-trade-picker-toolbar">
         <label className="sr-only" htmlFor={searchId}>
-          Search for a card to trade
+          {tPr4("socialUi.searchForACardToTrade")}
         </label>
         <input
           id={searchId}
           type="search"
           value={query}
           onChange={event => setQuery(event.target.value)}
-          placeholder="Search cards or franchises…"
+          placeholder={tPr4("socialUi.searchCardsOrFranchises")}
           className="auth-input"
         />
         <select
-          aria-label="Filter by rarity"
+          aria-label={tPr4("socialUi.filterByRarity")}
           value={rarity}
           onChange={event => setRarity(event.target.value as "" | Rarity)}
         >
-          <option value="">All rarities</option>
+          <option value="">{tPr4("socialUi.allRarities")}</option>
           {(["LR", "SSR", "SR", "R", "C"] as Rarity[]).map(value => (
             <option key={value} value={value}>
               {value}
@@ -148,17 +153,17 @@ function CardPicker({
           ))}
         </select>
         <select
-          aria-label="Sort cards"
+          aria-label={tPr4("socialUi.sortCards")}
           value={sort}
           onChange={event => setSort(event.target.value as typeof sort)}
         >
-          <option value="rarity">Rarity</option>
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
+          <option value="rarity">{tPr4("collectionUi.rarity")}</option>
+          <option value="newest">{tPr4("socialUi.newestFirst")}</option>
+          <option value="oldest">{tPr4("socialUi.oldestFirst")}</option>
         </select>
       </div>
       <p className="yk-trade-picker-note">
-        Locked or listed copies aren&apos;t available for trades.
+        {tPr4("socialUi.lockedOrListedCopiesArenTAvailable")}
       </p>
       {groups.length ? (
         <div className="yk-trade-picker-grid">
@@ -197,12 +202,14 @@ function CardPicker({
                 </div>
                 <div
                   className="yk-trade-quantity"
-                  aria-label={`Number of copies of ${card.name}`}
+                  aria-label={tPr4("socialUi.copiesOf", { name: card.name })}
                 >
                   <button
                     type="button"
                     disabled={quantity === 0}
-                    aria-label={`Remove one copy of ${card.name}`}
+                    aria-label={tPr4("socialUi.removeCopy", {
+                      name: card.name
+                    })}
                     onClick={() =>
                       onChange(
                         selectGroupQuantity(selected, group.cards, quantity - 1)
@@ -215,7 +222,7 @@ function CardPicker({
                   <button
                     type="button"
                     disabled={quantity === group.cards.length}
-                    aria-label={`Add one copy of ${card.name}`}
+                    aria-label={tPr4("socialUi.addCopy", { name: card.name })}
                     onClick={() =>
                       onChange(
                         selectGroupQuantity(selected, group.cards, quantity + 1)
@@ -231,15 +238,12 @@ function CardPicker({
         </div>
       ) : (
         <p role="status" className="py-10 text-center text-sm text-ink-3">
-          No cards match these filters.
+          {tPr4("collectionUi.noCardsMatchTheseFilters")}
         </p>
       )}
       <footer className="yk-trade-picker-footer">
-        <span>
-          {selected.size.toLocaleString("en-US")}{" "}
-          {selected.size === 1 ? "copy" : "copies"} selected
-        </span>
-        <Button onClick={onClose}>Confirm selection</Button>
+        <span>{tPr4("socialUi.selectedCopies", { count: selected.size })}</span>
+        <Button onClick={onClose}>{tPr4("socialUi.confirmSelection")}</Button>
       </footer>
     </Modal>
   );
@@ -248,6 +252,7 @@ function OfferCards({ cards }: { cards: CollectedCard[] }) {
   return <ReviewCards cards={cards} />;
 }
 function ReviewCards({ cards }: { cards: CollectedCard[] }) {
+  const tPr4 = useTranslations();
   return cards.length ? (
     <div className="yk-trade-review-cards">
       {groupCollection(cards).map(group => {
@@ -271,13 +276,15 @@ function ReviewCards({ cards }: { cards: CollectedCard[] }) {
                 ? ` · ${cardRarityLabel(card.rarity, card.shiny, card.isEvolved)}`
                 : ""}
             </strong>
-            {card.customImageUrl && <small>Custom image</small>}
+            {card.customImageUrl && (
+              <small>{tPr4("socialUi.customImage")}</small>
+            )}
           </div>
         );
       })}
     </div>
   ) : (
-    <p className="mt-3 text-xs text-ink-3">No cards</p>
+    <p className="mt-3 text-xs text-ink-3">{tPr4("socialUi.noCards")}</p>
   );
 }
 function TradeSummary({
@@ -291,15 +298,16 @@ function TradeSummary({
   offeredKaras: number;
   requestedKaras: number;
 }) {
+  const tPr4 = useTranslations();
   const grouped = (cards: CollectedCard[]) => groupCollection(cards);
   const hasCustom = offered.some(card => card.customImageUrl);
   const hasFolder = offered.some(card => card.folderId);
   return (
     <section className="yk-trade-summary" aria-labelledby="trade-summary-title">
-      <h3 id="trade-summary-title">Review before sending</h3>
+      <h3 id="trade-summary-title">{tPr4("socialUi.reviewBeforeSending")}</h3>
       <div>
         <article>
-          <strong>You give</strong>
+          <strong>{tPr4("socialUi.youGive")}</strong>
           {grouped(offered).length ? (
             <ul>
               {grouped(offered).map(group => (
@@ -313,18 +321,20 @@ function TradeSummary({
               ))}
             </ul>
           ) : (
-            <p>No cards</p>
+            <p>{tPr4("socialUi.noCards")}</p>
           )}
           <Karas amount={offeredKaras} />
           {offered.length > 0 && (
             <details>
-              <summary>Specific copies ({offered.length})</summary>
+              <summary>
+                {tPr4("socialUi.specificCopies", { count: offered.length })}
+              </summary>
               <ul>
                 {offered.map(card => (
                   <li key={card.instanceId}>
                     <code>{card.instanceId}</code>
-                    {card.customImageUrl ? "· custom image" : ""}
-                    {card.folderId ? "· stored in a folder" : ""}
+                    {card.customImageUrl ? tPr4("socialUi.customImage2") : ""}
+                    {card.folderId ? tPr4("socialUi.storedInAFolder") : ""}
                   </li>
                 ))}
               </ul>
@@ -332,7 +342,7 @@ function TradeSummary({
           )}
         </article>
         <article>
-          <strong>You receive</strong>
+          <strong>{tPr4("socialUi.youReceive")}</strong>
           {grouped(requested).length ? (
             <ul>
               {grouped(requested).map(group => (
@@ -346,24 +356,15 @@ function TradeSummary({
               ))}
             </ul>
           ) : (
-            <p>No cards</p>
+            <p>{tPr4("socialUi.noCards")}</p>
           )}
           <Karas amount={requestedKaras} />
         </article>
       </div>
       {(hasCustom || hasFolder) && (
         <ul className="yk-trade-summary-warnings">
-          {hasCustom && (
-            <li>
-              The custom image will be kept and visible to the recipient after
-              the transfer.
-            </li>
-          )}
-          {hasFolder && (
-            <li>
-              The card will be removed from its folder during the transfer.
-            </li>
-          )}
+          {hasCustom && <li>{tPr4("socialUi.theCustomImageWillBeKeptAnd")}</li>}
+          {hasFolder && <li>{tPr4("socialUi.theCardWillBeRemovedFromIts")}</li>}
         </ul>
       )}
     </section>
@@ -431,14 +432,21 @@ function OfferList({
   onReview?: (offer: TradeOffer) => void;
   onCancel?: (offer: TradeOffer) => void;
 }) {
+  const tPr4 = useTranslations();
+  const fmt = useFormatter();
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false
+  );
   if (!offers.length)
     return (
       <div className="yk-social-empty">
         <span className="yk-social-empty-icon" aria-hidden="true">
           ⇄
         </span>
-        <strong>No trade offers</strong>
-        <p>Trade offers for this tab will appear here.</p>
+        <strong>{tPr4("socialUi.noTradeOffers")}</strong>
+        <p>{tPr4("socialUi.tradeOffersForThisTabWillAppear")}</p>
       </div>
     );
   return (
@@ -447,7 +455,15 @@ function OfferList({
         <article key={offer.id} className="yk-trade-offer">
           <header>
             <Avatar
-              name={offer.incoming ? offer.fromPseudo : offer.toPseudo}
+              name={
+                offer.incoming
+                  ? offer.fromUser === null
+                    ? tPr4("profileUi.deletedPlayer")
+                    : offer.fromPseudo
+                  : offer.toUser === null
+                    ? tPr4("profileUi.deletedPlayer")
+                    : offer.toPseudo
+              }
               image={
                 (offer.incoming ? offer.fromAvatarUrl : offer.toAvatarUrl) ??
                 undefined
@@ -456,25 +472,61 @@ function OfferList({
             />
             <div>
               <strong>
-                {offer.incoming ? offer.fromPseudo : offer.toPseudo}
+                {offer.incoming
+                  ? offer.fromUser === null
+                    ? tPr4("profileUi.deletedPlayer")
+                    : offer.fromPseudo
+                  : offer.toUser === null
+                    ? tPr4("profileUi.deletedPlayer")
+                    : offer.toPseudo}
               </strong>
               <p>
-                {offer.incoming ? "Offer received" : "Offer sent"} ·{" "}
-                {new Date(offer.createdAt).toLocaleString("en-US")}
+                {offer.incoming
+                  ? tPr4("socialUi.offerReceived")
+                  : tPr4("socialUi.offerSent")}{" "}
+                ·{" "}
+                {i18nEnabled()
+                  ? hydrated
+                    ? fmt.dateTime(new Date(offer.createdAt), {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "numeric",
+                        second: "numeric",
+                        timeZone:
+                          Intl.DateTimeFormat().resolvedOptions().timeZone
+                      })
+                    : "—"
+                  : new Date(offer.createdAt).toLocaleString("en-US")}
               </p>
             </div>
             <StatusPill tone={tradeStatusPresentation(offer.status).tone}>
-              {tradeStatusPresentation(offer.status).label}
+              {tPr4(`socialUi.tradeStatus${offer.status}`)}
             </StatusPill>
           </header>
           <div className="yk-trade-offer-sides">
             <div>
-              <p>{offer.fromPseudo} gives</p>
+              <p>
+                {tPr4("socialUi.gives", {
+                  name:
+                    offer.fromUser === null
+                      ? tPr4("profileUi.deletedPlayer")
+                      : offer.fromPseudo
+                })}
+              </p>
               <OfferCards cards={offer.offeredCards} />
               {offer.offeredKaras > 0 && <Karas amount={offer.offeredKaras} />}
             </div>
             <div>
-              <p>{offer.toPseudo} gives</p>
+              <p>
+                {tPr4("socialUi.gives", {
+                  name:
+                    offer.toUser === null
+                      ? tPr4("profileUi.deletedPlayer")
+                      : offer.toPseudo
+                })}
+              </p>
               <OfferCards cards={offer.requestedCards} />
               {offer.requestedKaras > 0 && (
                 <Karas amount={offer.requestedKaras} />
@@ -484,7 +536,9 @@ function OfferList({
           {(onReview || onCancel) && (
             <footer>
               {onReview && (
-                <Button onClick={() => onReview(offer)}>Review trade</Button>
+                <Button onClick={() => onReview(offer)}>
+                  {tPr4("socialUi.reviewTrade")}
+                </Button>
               )}
               {onCancel && (
                 <Button
@@ -492,7 +546,7 @@ function OfferList({
                   disabled={busy}
                   onClick={() => onCancel(offer)}
                 >
-                  Cancel offer
+                  {tPr4("socialUi.cancelOffer")}
                 </Button>
               )}
             </footer>
@@ -520,6 +574,7 @@ function TradeReview({
   onCancel: () => void;
   onClose: () => void;
 }) {
+  const tPr4 = useTranslations();
   const presentation = tradeStatusPresentation(offer?.status);
   const actionable = offer?.incoming && offer.status === "pending";
   const cancellable = offer && !offer.incoming && offer.status === "pending";
@@ -528,29 +583,39 @@ function TradeReview({
       <header>
         <p className="eyebrow">
           {offer
-            ? `Trade with ${offer.incoming ? offer.fromPseudo : offer.toPseudo}`
-            : "Offre introuvable"}
+            ? tPr4("socialUi.tradeWith", {
+                name: offer.incoming
+                  ? offer.fromUser === null
+                    ? tPr4("profileUi.deletedPlayer")
+                    : offer.fromPseudo
+                  : offer.toUser === null
+                    ? tPr4("profileUi.deletedPlayer")
+                    : offer.toPseudo
+              })
+            : tPr4("socialUi.offreIntrouvable")}
         </p>
-        <StatusPill tone={presentation.tone}>{presentation.label}</StatusPill>
+        <StatusPill tone={presentation.tone}>
+          {tPr4(`socialUi.tradeStatus${offer?.status ?? "unavailable"}`)}
+        </StatusPill>
       </header>
       {offer ? (
         <>
           <p className="mt-4 text-sm text-ink-2">
             {offer.status === "accepted"
-              ? "This trade was accepted. Here's what was exchanged."
+              ? tPr4("socialUi.thisTradeWasAcceptedHereSWhat")
               : offer.status === "declined"
-                ? "This offer was declined."
+                ? tPr4("socialUi.thisOfferWasDeclined")
                 : offer.status === "countered"
-                  ? "A counteroffer replaced this offer."
+                  ? tPr4("socialUi.aCounterofferReplacedThisOffer")
                   : offer.status === "cancelled"
-                    ? "This offer was canceled."
+                    ? tPr4("socialUi.thisOfferWasCanceled")
                     : offer.status === "pending"
-                      ? "Review both sides before responding."
-                      : "This offer is no longer available."}
+                      ? tPr4("socialUi.reviewBothSidesBeforeResponding")
+                      : tPr4("socialUi.thisOfferIsNoLongerAvailable")}
           </p>
           <div className="yk-trade-review-lots">
             <article>
-              <h3>What you receive</h3>
+              <h3>{tPr4("socialUi.whatYouReceive")}</h3>
               <ReviewCards
                 cards={
                   offer.incoming ? offer.offeredCards : offer.requestedCards
@@ -563,7 +628,7 @@ function TradeReview({
               />
             </article>
             <article>
-              <h3>What you give</h3>
+              <h3>{tPr4("socialUi.whatYouGive")}</h3>
               <ReviewCards
                 cards={
                   offer.incoming ? offer.requestedCards : offer.offeredCards
@@ -579,30 +644,30 @@ function TradeReview({
         </>
       ) : (
         <p className="mt-4 text-sm text-ink-2">
-          This offer couldn&apos;t be found or is no longer available.
+          {tPr4("socialUi.thisOfferCouldnTBeFoundOr")}
         </p>
       )}
       <footer>
         {actionable && (
           <>
             <Button disabled={busy} onClick={onAccept}>
-              Accept
+              {tPr4("profileUi.accept")}
             </Button>
             <Button variant="secondary" disabled={busy} onClick={onCounter}>
-              Counteroffer
+              {tPr4("socialUi.counteroffer")}
             </Button>
             <Button variant="secondary" disabled={busy} onClick={onDecline}>
-              Decline
+              {tPr4("profileUi.decline")}
             </Button>
           </>
         )}
         {cancellable && (
           <Button variant="secondary" disabled={busy} onClick={onCancel}>
-            Cancel offer
+            {tPr4("socialUi.cancelOffer")}
           </Button>
         )}
         <Button variant="secondary" onClick={onClose}>
-          Close
+          {tPr4("collectionUi.close")}
         </Button>
       </footer>
     </section>
@@ -646,6 +711,7 @@ export function TradesPanel({
   onOfferSent?: () => void;
 } = {}) {
   const t = useTranslations("socialTrades");
+  const tPr4 = useTranslations();
   const initialFriendId = fixedFriendId ?? requestedInitialFriendId;
   const [resolvedFixedFriend, setResolvedFixedFriend] = useState<{
     input: string;
@@ -713,7 +779,7 @@ export function TradesPanel({
       }
     } catch (e) {
       setError(
-        e instanceof Error ? e.message : "Couldn't load more. Please try again."
+        gameErrorKey(e, gameErrorKey("Couldn't load more. Please try again."))
       );
     } finally {
       setLoadingMore(false);
@@ -735,7 +801,10 @@ export function TradesPanel({
   const [offered, setOffered] = useState<Set<string>>(new Set());
   const [requested, setRequested] = useState<Set<string>>(new Set());
   const [picker, setPicker] = useState<"offered" | "requested">();
-  const [selectionNotice, setSelectionNotice] = useState("");
+  const [selectionNotice, setSelectionNotice] = useState<{
+    key: string;
+    count: number;
+  } | null>(null);
   const [sentNotice, setSentNotice] = useState("");
   const [offeredKaras, setOfferedKaras] = useState("0");
   const [requestedKaras, setRequestedKaras] = useState("0");
@@ -864,9 +933,10 @@ export function TradesPanel({
               setRequested(nextRequested.selected);
             }
             if (removed)
-              setSelectionNotice(
-                `${removed.toLocaleString("en-US")} selected ${removed === 1 ? "card is" : "cards are"} no longer available and ${removed === 1 ? "has" : "have"} been removed.`
-              );
+              setSelectionNotice({
+                key: "socialUi.selectionRemoved",
+                count: removed
+              });
             setContext(nextContext);
           }
         }
@@ -913,7 +983,7 @@ export function TradesPanel({
           offer.fromUser !== fixedTargetId &&
           offer.toUser !== fixedTargetId
         ) {
-          setError(t("unavailableOffer"));
+          setError("socialTrades.unavailableOffer");
           return;
         }
         // The outer dialog is already mounted before opening its review dialog.
@@ -929,7 +999,7 @@ export function TradesPanel({
       }
     })().catch(e => {
       if (active)
-        setError(e instanceof Error ? e.message : "Couldn't load this offer.");
+        setError(gameErrorKey(e, gameErrorKey("Couldn't load this offer.")));
     });
     return () => {
       active = false;
@@ -953,7 +1023,7 @@ export function TradesPanel({
     setParent(parentId);
     updateRequested(new Set());
     setContext(undefined);
-    setSelectionNotice("");
+    setSelectionNotice(null);
     setError("");
     const request = ++contextRequest.current;
     try {
@@ -980,7 +1050,7 @@ export function TradesPanel({
       }
     } catch (e) {
       if (friendIdRef.current === id && contextRequest.current === request)
-        setError(e instanceof Error ? e.message : "Couldn't load trades.");
+        setError(gameErrorKey(e, gameErrorKey("Couldn't load trades.")));
     }
   }
   function requestFriendChange(id: string, parentId: string | null = null) {
@@ -1028,8 +1098,8 @@ export function TradesPanel({
       setRequestedKaras(draft.requestedKaras);
       setSelectionNotice(
         draft.removed
-          ? `${draft.removed.toLocaleString("en-US")} ${draft.removed === 1 ? "card" : "cards"} from the original offer ${draft.removed === 1 ? "is" : "are"} no longer available.`
-          : ""
+          ? { key: "socialUi.originalRemoved", count: draft.removed }
+          : null
       );
       setReviewedId(undefined);
       setTab("compose");
@@ -1037,7 +1107,7 @@ export function TradesPanel({
       if (contextRequest.current === request) {
         friendIdRef.current = previousFriend;
         setError(
-          e instanceof Error ? e.message : "Couldn't prepare the counteroffer."
+          gameErrorKey(e, gameErrorKey("Couldn't prepare the counteroffer."))
         );
       }
     } finally {
@@ -1147,27 +1217,30 @@ export function TradesPanel({
         })
       );
       offerReader.invalidate();
-      await reload().then(undefined, () => setError(t("refreshFailed")));
+      await reload().then(undefined, () =>
+        setError("socialTrades.refreshFailed")
+      );
       updateOffered(new Set());
       updateRequested(new Set());
       setOfferedKaras("0");
       setRequestedKaras("0");
       setPicker(undefined);
-      setSelectionNotice("");
+      setSelectionNotice(null);
       setContext(undefined);
       friendIdRef.current = "";
       contextRequest.current++;
       setFriendId("");
       setParent(null);
-      setSentNotice("Offer sent. You can now find it in this tab.");
+      setSentNotice("socialUi.sentNotice");
       setTab("sent");
 
       onOfferSent?.();
     } catch (e) {
       setError(
-        e instanceof Error
-          ? e.message
-          : "Couldn't send this offer. Please try again."
+        gameErrorKey(
+          e,
+          gameErrorKey("Couldn't send this offer. Please try again.")
+        )
       );
     } finally {
       submissionLock.current = false;
@@ -1189,19 +1262,17 @@ export function TradesPanel({
     try {
       const accepted = await adapter.respond(id, action);
       if (action === "accept" && !accepted)
-        throw new Error(t("unavailableOffer"));
+        throw new Error("This offer is no longer available.");
       commitOfferStatus(id, action === "accept" ? "accepted" : "declined");
       setAccepting(undefined);
       try {
         await reload();
       } catch {
-        setError(t("refreshFailed"));
+        setError("socialTrades.refreshFailed");
       }
     } catch (e) {
       setAccepting(undefined);
-      setError(
-        e instanceof Error ? e.message : "Couldn't complete this action."
-      );
+      setError(gameErrorKey(e, gameErrorKey("Couldn't complete this action.")));
       try {
         await reload();
       } catch {}
@@ -1222,11 +1293,11 @@ export function TradesPanel({
       try {
         await reload();
       } catch {
-        setError(t("refreshFailed"));
+        setError("socialTrades.refreshFailed");
       }
     } catch (e) {
       setCancelling(undefined);
-      setError(e instanceof Error ? e.message : "Couldn't cancel this offer.");
+      setError(gameErrorKey(e, gameErrorKey("Couldn't cancel this offer.")));
       try {
         await reload();
       } catch {}
@@ -1255,7 +1326,7 @@ export function TradesPanel({
     <div className="yk-social-stack" data-fixed-trade-friend={fixedFriendId}>
       <section className="yk-social-panel">
         <Tabs
-          label="Trade navigation"
+          label={tPr4("socialUi.tradeNavigation")}
           value={tab}
           onChange={value => {
             setTab(value as TradeTab);
@@ -1263,38 +1334,46 @@ export function TradesPanel({
               void chooseFriend(fixedTargetId);
           }}
           items={[
-            { id: "compose", label: "Proposer" },
+            { id: "compose", label: tPr4("socialUi.proposer") },
             {
               id: "received",
-              label: `Received · ${received.length.toLocaleString("en-US")}${hasMoreOffers ? "+" : ""}`
+              label: tPr4("socialUi.receivedTab", {
+                count: received.length,
+                more: hasMoreOffers ? "yes" : "no"
+              })
             },
             {
               id: "sent",
-              label: `Sent · ${sent.length.toLocaleString("en-US")}${hasMoreOffers ? "+" : ""}`
+              label: tPr4("socialUi.sentTab", {
+                count: sent.length,
+                more: hasMoreOffers ? "yes" : "no"
+              })
             },
-            { id: "history", label: "History" }
+            { id: "history", label: tPr4("socialUi.history") }
           ]}
         />
         {tab === "compose" && (
-          <div role="tabpanel" aria-label="Offer a trade">
+          <div role="tabpanel" aria-label={tPr4("collectionUi.offerATrade")}>
             <div className="yk-trade-heading mt-6">
               <div>
-                <p className="eyebrow">New offer</p>
+                <p className="eyebrow">{tPr4("socialUi.newOffer")}</p>
                 <h2 className="yk-section-title mt-2">
-                  {fixedFriendId ? "Your trade" : "Choose a friend"}
+                  {fixedFriendId
+                    ? tPr4("socialUi.yourTrade")
+                    : tPr4("socialUi.chooseAFriend")}
                 </h2>
               </div>
               {context && (
                 <StatusPill tone="info">
-                  Trade with {context.friend.pseudo}
+                  {tPr4("socialUi.tradeWith", { name: context.friend.pseudo })}
                 </StatusPill>
               )}
             </div>
             {!fixedFriendId && (
               <input
                 type="search"
-                aria-label="Rechercher un ami"
-                placeholder="Rechercher un ami…"
+                aria-label={tPr4("socialUi.rechercherUnAmi")}
+                placeholder={tPr4("socialUi.rechercherUnAmi2")}
                 className="auth-input mt-4"
                 value={friendQuery}
                 onChange={event => setFriendQuery(event.target.value)}
@@ -1302,7 +1381,7 @@ export function TradesPanel({
             )}
             {!fixedFriendId && friendQuery.trim() && !visibleFriends.length && (
               <p role="status" className="mt-4 text-sm text-ink-2">
-                Aucun ami correspondant parmi les amis chargés.
+                {tPr4("socialUi.aucunAmiCorrespondantParmiLesAmisCharg")}
               </p>
             )}
             {!fixedFriendId && (
@@ -1331,18 +1410,20 @@ export function TradesPanel({
                 disabled={loadingMore}
                 onClick={() => void loadMore("friends")}
               >
-                {loadingMore ? "Loading…" : "Load more friends"}
+                {loadingMore
+                  ? tPr4("packs.loading")
+                  : tPr4("socialUi.loadMoreFriends")}
               </Button>
             )}
             {!fixedFriendId && !!friends.length && !hasMoreFriends && (
               <p role="status" className="sr-only">
-                All friends loaded.
+                {tPr4("socialUi.allFriendsLoaded")}
               </p>
             )}
             {!friends.length && (
               <div className="yk-social-empty is-compact">
-                <strong>No friends available</strong>
-                <span>Add a friend from the Friends page first.</span>
+                <strong>{tPr4("socialUi.noFriendsAvailable")}</strong>
+                <span>{tPr4("socialUi.addAFriendFromTheFriendsPage")}</span>
               </div>
             )}
             {context && (
@@ -1352,10 +1433,11 @@ export function TradesPanel({
                     <header>
                       <span className="yk-trade-side-index">01</span>
                       <div>
-                        <p>You give</p>
+                        <p>{tPr4("socialUi.youGive")}</p>
                         <small>
-                          Your collection ·{" "}
-                          {offered.size.toLocaleString("en-US")} selected
+                          {tPr4("socialUi.ownSelection", {
+                            count: offered.size
+                          })}
                         </small>
                       </div>
                     </header>
@@ -1373,10 +1455,11 @@ export function TradesPanel({
                       variant="secondary"
                       onClick={() => setPicker("offered")}
                     >
-                      Add cards from my collection
+                      {tPr4("socialUi.addCardsFromMyCollection")}
                     </Button>
                     <label className="yk-trade-karas">
-                      Karas to offer <Karas amount={context.balance} />
+                      {tPr4("socialUi.karasToOffer")}
+                      <Karas amount={context.balance} />
                       <input
                         type="number"
                         min="0"
@@ -1389,8 +1472,9 @@ export function TradesPanel({
                     </label>
                     {insufficient && (
                       <p role="alert" className="yk-inline-error">
-                        Not enough Karas (your balance:{" "}
-                        {context.balance.toLocaleString("en-US")} K)
+                        {tPr4("socialUi.balanceShort", {
+                          balance: context.balance
+                        })}
                       </p>
                     )}
                   </section>
@@ -1398,10 +1482,12 @@ export function TradesPanel({
                     <header>
                       <span className="yk-trade-side-index">02</span>
                       <div>
-                        <p>You receive</p>
+                        <p>{tPr4("socialUi.youReceive")}</p>
                         <small>
-                          Collection of {context.friend.pseudo} ·{" "}
-                          {requested.size.toLocaleString("en-US")} selected
+                          {tPr4("socialUi.friendSelection", {
+                            name: context.friend.pseudo,
+                            count: requested.size
+                          })}
                         </small>
                       </div>
                     </header>
@@ -1419,10 +1505,12 @@ export function TradesPanel({
                       variant="secondary"
                       onClick={() => setPicker("requested")}
                     >
-                      Browse cards from {context.friend.pseudo}
+                      {tPr4("socialUi.browseFriend", {
+                        name: context.friend.pseudo
+                      })}
                     </Button>
                     <label className="yk-trade-karas">
-                      Karas to request
+                      {tPr4("socialUi.karasToRequest")}
                       <input
                         type="number"
                         min="0"
@@ -1435,7 +1523,9 @@ export function TradesPanel({
                 </div>
                 {selectionNotice && (
                   <p role="alert" className="yk-social-alert mt-5">
-                    {selectionNotice}
+                    {tPr4(selectionNotice.key, {
+                      count: selectionNotice.count
+                    })}
                   </p>
                 )}
                 <TradeSummary
@@ -1449,20 +1539,17 @@ export function TradesPanel({
                   requestedKaras={Number(requestedKaras) || 0}
                 />
                 <footer className="yk-trade-submit">
-                  <p>
-                    Card ownership will be checked again when the trade is
-                    accepted.
-                  </p>
+                  <p>{tPr4("socialUi.cardOwnershipWillBeCheckedAgainWhen")}</p>
                   <Button
                     aria-busy={busy || undefined}
                     disabled={busy || !hasContent || insufficient}
                     onClick={() => void submit()}
                   >
                     {busy
-                      ? "Sending…"
+                      ? tPr4("collectionShared.sending")
                       : parent
-                        ? "Send counteroffer"
-                        : "Send offer"}
+                        ? tPr4("socialUi.sendCounteroffer")
+                        : tPr4("socialUi.sendOffer")}
                   </Button>
                 </footer>
               </div>
@@ -1474,28 +1561,30 @@ export function TradesPanel({
             role="tabpanel"
             aria-label={
               tab === "received"
-                ? "Received offers"
+                ? tPr4("socialUi.receivedOffers")
                 : tab === "sent"
-                  ? "Sent offers"
-                  : "Trade history"
+                  ? tPr4("socialUi.sentOffers")
+                  : tPr4("socialUi.tradeHistory")
             }
           >
             {tab === "sent" && sentNotice && (
-              <Feedback tone="success" title="Offer sent">
-                {sentNotice}
+              <Feedback tone="success" title={tPr4("socialUi.offerSent")}>
+                {tPr4(sentNotice)}
               </Feedback>
             )}
             <div className="yk-trade-history-head mt-6">
               <div>
                 <p className="eyebrow">
-                  {tab === "history" ? "History" : "Active"}
+                  {tab === "history"
+                    ? tPr4("socialUi.history")
+                    : tPr4("socialUi.active")}
                 </p>
                 <h2 className="yk-section-title mt-2">
                   {tab === "received"
-                    ? "Received offers"
+                    ? tPr4("socialUi.receivedOffers")
                     : tab === "sent"
-                      ? "Sent offers"
-                      : "Completed trades"}
+                      ? tPr4("socialUi.sentOffers")
+                      : tPr4("socialUi.completedTrades")}
                 </h2>
               </div>
             </div>
@@ -1521,12 +1610,14 @@ export function TradesPanel({
                 disabled={loadingMore}
                 onClick={() => void loadMore("offers")}
               >
-                {loadingMore ? "Loading…" : "Load more"}
+                {loadingMore
+                  ? tPr4("packs.loading")
+                  : tPr4("profileUi.loadMore")}
               </Button>
             )}
             {!hasMoreOffers && (
               <p role="status" className="sr-only">
-                All offers loaded.
+                {tPr4("socialUi.allOffersLoaded")}
               </p>
             )}
           </div>
@@ -1534,13 +1625,13 @@ export function TradesPanel({
       </section>
       {error && (
         <p role="alert" className="yk-social-alert">
-          {error}
+          {tPr4(gameErrorKey(error, "socialUi.couldnTLoadTrades"))}
         </p>
       )}
       <Modal
         open={!!reviewedId}
         onClose={() => setReviewedId(undefined)}
-        title="Review trade"
+        title={tPr4("socialUi.reviewTrade")}
         className="yk-trade-review-modal"
       >
         <TradeReview
@@ -1556,7 +1647,7 @@ export function TradesPanel({
         />
         {error && (
           <p role="alert" className="yk-social-alert mt-4">
-            {error}
+            {tPr4(gameErrorKey(error, "socialUi.couldnTLoadTrades"))}
           </p>
         )}
       </Modal>
@@ -1565,7 +1656,7 @@ export function TradesPanel({
           <CardPicker
             open={picker === "offered"}
             onClose={() => setPicker(undefined)}
-            title="Choose from your collection"
+            title={tPr4("socialUi.chooseFromYourCollection")}
             cards={context.ownCards}
             selected={offered}
             onChange={updateOffered}
@@ -1573,7 +1664,9 @@ export function TradesPanel({
           <CardPicker
             open={picker === "requested"}
             onClose={() => setPicker(undefined)}
-            title={`Choose from ${context.friend.pseudo}'s collection`}
+            title={tPr4("socialUi.chooseFriendCards", {
+              name: context.friend.pseudo
+            })}
             cards={context.friendCards}
             selected={requested}
             onChange={updateRequested}
@@ -1583,20 +1676,18 @@ export function TradesPanel({
       <Modal
         open={!!pendingFriend}
         onClose={() => setPendingFriend(undefined)}
-        title="Change friend?"
+        title={tPr4("socialUi.changeFriend")}
         className="max-w-lg"
       >
         <p className="text-sm leading-6 text-ink-2">
-          The requested cards belong to your current friend. Changing friends
-          will clear only that selection. Your offered cards and entered Karas
-          amounts will be kept.
+          {tPr4("socialUi.theRequestedCardsBelongToYourCurrent")}
         </p>
         <div className="mt-6 flex justify-end gap-3">
           <Button
             variant="secondary"
             onClick={() => setPendingFriend(undefined)}
           >
-            Cancel
+            {tPr4("packs.cancel")}
           </Button>
           <Button
             onClick={() => {
@@ -1605,26 +1696,25 @@ export function TradesPanel({
               if (next) void chooseFriend(next.id, next.parentId);
             }}
           >
-            Change friend
+            {tPr4("socialUi.changeFriend2")}
           </Button>
         </div>
       </Modal>
       <Modal
         open={!!pendingCounter}
         onClose={() => setPendingCounter(undefined)}
-        title="Replace draft?"
+        title={tPr4("socialUi.replaceDraft")}
         className="max-w-lg"
       >
         <p className="text-sm leading-6 text-ink-2">
-          Preparing this counteroffer will replace the friend, cards, and Karas
-          in your current draft.
+          {tPr4("socialUi.preparingThisCounterofferWillReplaceTheFriend")}
         </p>
         <div className="mt-6 flex justify-end gap-3">
           <Button
             variant="secondary"
             onClick={() => setPendingCounter(undefined)}
           >
-            Keep my draft
+            {tPr4("socialUi.keepMyDraft")}
           </Button>
           <Button
             onClick={() => {
@@ -1633,31 +1723,30 @@ export function TradesPanel({
               if (offer) void composeCounter(offer);
             }}
           >
-            Replace and continue
+            {tPr4("socialUi.replaceAndContinue")}
           </Button>
         </div>
       </Modal>
       <Modal
         open={!!accepting}
         onClose={() => setAccepting(undefined)}
-        title="This can't be undone"
+        title={tPr4("socialUi.thisCanTBeUndone")}
         className="max-w-lg"
       >
         <p className="text-sm leading-6 text-ink-2">
-          Accepting will transfer the cards and Karas in this offer immediately.
-          Check its contents one last time.
+          {tPr4("socialUi.acceptingWillTransferTheCardsAndKaras")}
         </p>
         {accepting && (
           <div className="yk-trade-confirm">
             <div>
-              <strong>You receive</strong>
+              <strong>{tPr4("socialUi.youReceive")}</strong>
               <OfferCards cards={accepting.offeredCards} />
               {accepting.offeredKaras > 0 && (
                 <Karas amount={accepting.offeredKaras} />
               )}
             </div>
             <div>
-              <strong>You give</strong>
+              <strong>{tPr4("socialUi.youGive")}</strong>
               <OfferCards cards={accepting.requestedCards} />
               {accepting.requestedKaras > 0 && (
                 <Karas amount={accepting.requestedKaras} />
@@ -1667,24 +1756,24 @@ export function TradesPanel({
         )}
         <div className="mt-6 flex justify-end gap-3">
           <Button variant="secondary" onClick={() => setAccepting(undefined)}>
-            Cancel
+            {tPr4("packs.cancel")}
           </Button>
           <Button
             disabled={busy}
             onClick={() => accepting && void respond(accepting.id, "accept")}
           >
-            {busy ? "Accepting…" : "Confirm trade"}
+            {busy ? tPr4("socialUi.accepting") : tPr4("socialUi.confirmTrade")}
           </Button>
         </div>
       </Modal>
       <Modal
         open={!!cancelling}
         onClose={() => setCancelling(undefined)}
-        title="Cancel this offer?"
+        title={tPr4("socialUi.cancelThisOffer")}
         className="max-w-lg"
       >
         <p className="text-sm leading-6 text-ink-2">
-          This offer will be removed from pending offers.
+          {tPr4("socialUi.thisOfferWillBeRemovedFromPending")}
         </p>
         <div className="mt-6 flex justify-end gap-3">
           <Button
@@ -1692,14 +1781,14 @@ export function TradesPanel({
             disabled={busy}
             onClick={() => setCancelling(undefined)}
           >
-            Keep offer
+            {tPr4("socialUi.keepOffer")}
           </Button>
           <Button
             variant="danger"
             disabled={busy}
             onClick={() => cancelling && void cancel(cancelling.id)}
           >
-            {busy ? "Canceling…" : "Cancel offer"}
+            {busy ? tPr4("profileUi.canceling") : tPr4("socialUi.cancelOffer")}
           </Button>
         </div>
       </Modal>

@@ -148,7 +148,7 @@ test("market Load more retains its prefix size on polling and ignores a stale fi
       invalidatePlayerSnapshots() {},
       buildAuctionLists: items => ({ active: items }),
       headings: { market: ["Market", "Market"] },
-      notificationItem: value => value,
+      useNotificationItems: values => values,
       Topbar: Marker,
       MarketView: Marker
     }

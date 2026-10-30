@@ -27,7 +27,7 @@ import {
   type CollectedCard,
   type Rarity
 } from "@/lib/data/cards";
-import { notificationItem, Topbar } from "@/components/topbar";
+import { useNotificationItems, Topbar } from "@/components/topbar";
 import {
   Avatar,
   Button,
@@ -3086,7 +3086,7 @@ export function CommunityView({
                   tError("market.auctionTitle")
                 ]
               : headings[screen];
-  const notificationItems = (feed.notifications ?? []).map(notificationItem);
+  const notificationItems = useNotificationItems(feed.notifications ?? []);
   return (
     <>
       <Topbar

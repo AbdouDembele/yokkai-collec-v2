@@ -327,7 +327,7 @@ test("les routes consommatrices de MarketView ont exactement un h1 sans saut de 
             ? load("components/market-heading.tsx")
             : require(name)
   });
-  const html = renderToStaticMarkup(exports.default());
+  const html = renderToStaticMarkup(await exports.default());
   assert.equal((html.match(/<h1(?:\s|>)/g) ?? []).length, 1);
   assert.match(
     readFileSync(
@@ -3451,20 +3451,41 @@ test("les notifications connues ont un texte et une redirection, les inconnues u
   ]) {
     assert.match(model, new RegExp(type));
   }
-  assert.match(source, /on your wishlist is now up for auction. Take a look!/);
-  assert.match(source, /You've been outbid on/);
-  assert.match(source, /You won/);
-  assert.match(source, /You sold/);
-  assert.match(source, /sent you a trade offer/);
-  assert.match(source, /sent you a counteroffer/);
-  assert.match(source, /accepted your trade offer/);
-  assert.match(source, /declined your trade offer/);
-  assert.match(source, /canceled their trade offer/);
-  assert.match(source, /New activity/);
+  assert.match(
+    JSON.stringify(englishMessages.topbar),
+    /on your wishlist is now up for auction. Take a look!/
+  );
+  assert.match(JSON.stringify(englishMessages.topbar), /You've been outbid on/);
+  assert.match(JSON.stringify(englishMessages.topbar), /You won/);
+  assert.match(JSON.stringify(englishMessages.topbar), /You sold/);
+  assert.match(
+    JSON.stringify(englishMessages.topbar),
+    /sent you a trade offer/
+  );
+  assert.match(
+    JSON.stringify(englishMessages.topbar),
+    /sent you a counteroffer/
+  );
+  assert.match(
+    JSON.stringify(englishMessages.topbar),
+    /accepted your trade offer/
+  );
+  assert.match(
+    JSON.stringify(englishMessages.topbar),
+    /declined your trade offer/
+  );
+  assert.match(
+    JSON.stringify(englishMessages.topbar),
+    /canceled their trade offer/
+  );
+  assert.match(JSON.stringify(englishMessages.topbar), /New activity/);
   for (const glyph of ["⇄", "↺", "✓", "×"])
     assert.match(source, new RegExp(glyph));
-  assert.match(source, /New achievement/);
-  assert.match(source, /sent you a friend request/);
+  assert.match(JSON.stringify(englishMessages.topbar), /New achievement/);
+  assert.match(
+    JSON.stringify(englishMessages.topbar),
+    /sent you a friend request/
+  );
   for (const href of [
     "/market/",
     "/friends",
@@ -3474,43 +3495,52 @@ test("les notifications connues ont un texte et une redirection, les inconnues u
     assert.match(source, new RegExp(href.replace("?", "\\?")));
   }
   const { notificationItem } = load("components/topbar.tsx");
-  const unknown = notificationItem({
-    id: "unknown",
-    type: "future_type",
-    referenceId: "ref",
-    readAt: null,
-    createdAt: "2026-10-05T00:00:00Z",
-    cardName: null,
-    actorPseudo: null,
-    achievementName: null
-  });
+  const unknown = notificationItem(
+    {
+      id: "unknown",
+      type: "future_type",
+      referenceId: "ref",
+      readAt: null,
+      createdAt: "2026-10-05T00:00:00Z",
+      cardName: null,
+      actorPseudo: null,
+      achievementName: null
+    },
+    intl.useTranslations("topbar")
+  );
   assert.equal(unknown.title, "New activity");
   assert.equal(unknown.text, "New activity is available.");
-  const sold = notificationItem({
-    id: "sold",
-    type: "auction_sold",
-    referenceId: "auction",
-    readAt: null,
-    createdAt: "2026-10-05T00:00:00Z",
-    cardName: "Kitsune",
-    actorPseudo: null,
-    achievementName: null,
-    karaAmount: 1250
-  });
+  const sold = notificationItem(
+    {
+      id: "sold",
+      type: "auction_sold",
+      referenceId: "auction",
+      readAt: null,
+      createdAt: "2026-10-05T00:00:00Z",
+      cardName: "Kitsune",
+      actorPseudo: null,
+      achievementName: null,
+      karaAmount: 1250
+    },
+    intl.useTranslations("topbar")
+  );
   assert.equal(sold.title, "Card sold");
   assert.equal(sold.text, "You sold Kitsune for 1,250 Karas.");
   assert.equal(sold.kind, "sold");
   assert.equal(sold.href, "/market/auction");
-  const mention = notificationItem({
-    id: "mention",
-    type: "auction_chat_mention",
-    referenceId: "auction",
-    readAt: null,
-    createdAt: "2026-10-05T00:00:00Z",
-    cardName: "Kitsune",
-    actorPseudo: "Bob",
-    achievementName: null
-  });
+  const mention = notificationItem(
+    {
+      id: "mention",
+      type: "auction_chat_mention",
+      referenceId: "auction",
+      readAt: null,
+      createdAt: "2026-10-05T00:00:00Z",
+      cardName: "Kitsune",
+      actorPseudo: "Bob",
+      achievementName: null
+    },
+    intl.useTranslations("topbar")
+  );
   assert.equal(mention.text, "Bob mentioned you in the chat for Kitsune.");
   assert.equal(mention.href, "/market/auction#chat-enchere");
   assert.equal(mention.kind, "mention");

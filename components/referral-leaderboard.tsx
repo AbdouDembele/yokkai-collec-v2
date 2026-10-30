@@ -1,5 +1,7 @@
 "use client";
+import { useTranslations, useFormatter } from "next-intl";
 
+import { socialErrorKey as gameErrorKey } from "@/i18n/social-messages";
 import Link from "next/link";
 import {
   useCallback,
@@ -14,9 +16,6 @@ import { StyledPlayerName } from "@/components/styled-player-name";
 import { getReferralLeaderboard } from "@/lib/leaderboard/client";
 import type { ReferralLeaderboard } from "@/lib/leaderboard/shared";
 
-const number = (value: number) => value.toLocaleString("en-US");
-const referrals = (value: number) =>
-  `${number(value)} verified ${value === 1 ? "referral" : "referrals"}`;
 type Request = { offset: number; query: string; friendsOnly: boolean };
 
 export function ReferralLeaderboardView({
@@ -28,6 +27,9 @@ export function ReferralLeaderboardView({
   embedded?: boolean;
   navigation?: ReactNode;
 }) {
+  const tPr4 = useTranslations();
+  const fmt = useFormatter();
+  const number = fmt.number;
   const [data, setData] = useState<ReferralLeaderboard | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -65,11 +67,7 @@ export function ReferralLeaderboardView({
       if (current === request.current) setData(next);
     } catch (reason) {
       if (current === request.current)
-        setError(
-          reason instanceof Error
-            ? reason.message
-            : "Couldn't load the referral leaderboard."
-        );
+        setError(gameErrorKey(reason, "socialUi.referralLeaderboardFailed"));
     } finally {
       if (current === request.current) setLoading(false);
     }
@@ -84,11 +82,7 @@ export function ReferralLeaderboardView({
       })
       .catch(reason => {
         if (active && current === request.current)
-          setError(
-            reason instanceof Error
-              ? reason.message
-              : "Couldn't load the referral leaderboard."
-          );
+          setError(gameErrorKey(reason, "socialUi.referralLeaderboardFailed"));
       })
       .finally(() => {
         if (active && current === request.current) setLoading(false);
@@ -109,22 +103,25 @@ export function ReferralLeaderboardView({
     >
       <header className="yk-leaderboard-heading">
         <div>
-          <p className="eyebrow">Grow the community</p>
+          <p className="eyebrow">{tPr4("socialUi.growTheCommunity")}</p>
           <Heading className="yk-title" id="referral-leaderboard-title">
-            Referral leaderboard
+            {tPr4("socialUi.referralLeaderboard")}
           </Heading>
-          <p>Bring friends. Climb together.</p>
+          <p>{tPr4("socialUi.bringFriendsClimbTogether")}</p>
         </div>
         <Button
           variant="secondary"
           onClick={() => void load(lastRequest.current)}
           disabled={loading}
         >
-          Refresh rankings
+          {tPr4("socialUi.refreshRankings")}
         </Button>
       </header>
       {navigation}
-      <section className="yk-leaderboard-mine" aria-label="Your referral rank">
+      <section
+        className="yk-leaderboard-mine"
+        aria-label={tPr4("socialUi.yourReferralRank")}
+      >
         <div className="yk-leaderboard-emblem">
           <svg
             viewBox="0 0 24 24"
@@ -138,29 +135,36 @@ export function ReferralLeaderboardView({
           </svg>
         </div>
         <div className="yk-leaderboard-personal">
-          <span className="eyebrow">Your verified referrals</span>
+          <span className="eyebrow">
+            {tPr4("socialUi.yourVerifiedReferrals")}
+          </span>
           <strong>
             {mine ? number(mine.verifiedReferrals) : "—"}
             <small>
               {" "}
-              {mine?.verifiedReferrals === 1 ? "referral" : "referrals"}
+              {tPr4("socialUi.referralNoun", {
+                count: mine?.verifiedReferrals ?? 0
+              })}
             </small>
           </strong>
           <p>
             {!mine
               ? error
-                ? "Your referral rank is currently unavailable."
-                : "Loading your referral rank…"
+                ? tPr4("socialUi.yourReferralRankIsCurrentlyUnavailable")
+                : tPr4("socialUi.loadingYourReferralRank")
               : !mine.isPublic
-                ? "Private profile · Your referral count is visible only to you."
+                ? tPr4("socialUi.privateProfileYourReferralCountIsVisible")
                 : mine.position
-                  ? `Rank #${number(mine.position)} among ${number(data!.rankedPlayers)} public referrers`
-                  : "Your first verified referral puts you on the leaderboard."}
+                  ? tPr4("socialUi.referralRank", {
+                      position: mine.position,
+                      count: data!.rankedPlayers
+                    })
+                  : tPr4("socialUi.yourFirstVerifiedReferralPutsYouOn")}
           </p>
           <Link href="/settings#referrals">
             {mine && !mine.isPublic
-              ? "Manage profile privacy & referral link →"
-              : "Get your referral link →"}
+              ? tPr4("socialUi.manageProfilePrivacyReferralLink")
+              : tPr4("socialUi.getYourReferralLink")}
           </Link>
         </div>
       </section>
@@ -173,20 +177,20 @@ export function ReferralLeaderboardView({
           <div className="yk-leaderboard-section-heading">
             <Subheading id="referrers-title">
               {friendsOnly
-                ? "Friends referral leaderboard"
-                : "Top 100 referrers"}
+                ? tPr4("socialUi.friendsReferralLeaderboard")
+                : tPr4("socialUi.top100Referrers")}
             </Subheading>
-            <span>Verified referrals</span>
+            <span>{tPr4("socialUi.verifiedReferrals")}</span>
           </div>
           <p className="yk-leaderboard-note">
             {friendsOnly
-              ? "You and your friends, ordered by global rank. Only public, ranked referrers appear."
-              : "Most verified referrals first. Equal counts share the same rank."}
+              ? tPr4("socialUi.youAndYourFriendsOrderedByGlobal2")
+              : tPr4("socialUi.mostVerifiedReferralsFirstEqualCountsShare")}
           </p>
           <div
             className="yk-leaderboard-scopes"
             role="group"
-            aria-label="Leaderboard view"
+            aria-label={tPr4("socialUi.leaderboardView")}
           >
             <Button
               variant="secondary"
@@ -196,7 +200,7 @@ export function ReferralLeaderboardView({
                 void load({ offset: 0, query, friendsOnly: false });
               }}
             >
-              Top 100
+              {tPr4("socialUi.top100")}
             </Button>
             <Button
               variant="secondary"
@@ -206,7 +210,7 @@ export function ReferralLeaderboardView({
                 void load({ offset: 0, query, friendsOnly: true });
               }}
             >
-              Friends
+              {tPr4("catalogueUi.friends")}
             </Button>
           </div>
           <form
@@ -216,19 +220,21 @@ export function ReferralLeaderboardView({
               void load({ offset: 0, query, friendsOnly });
             }}
           >
-            <label htmlFor="referral-player-search">Find a referrer</label>
+            <label htmlFor="referral-player-search">
+              {tPr4("socialUi.findAReferrer")}
+            </label>
             <div>
               <input
                 id="referral-player-search"
                 type="search"
                 maxLength={64}
                 value={query}
-                placeholder="Search by username…"
+                placeholder={tPr4("socialUi.searchByUsername")}
                 aria-describedby="referral-search-help"
                 onChange={event => setQuery(event.target.value)}
               />
               <Button type="submit" variant="secondary">
-                Search
+                {tPr4("socialUi.search")}
               </Button>
               {(query || data?.query) && (
                 <Button
@@ -238,32 +244,32 @@ export function ReferralLeaderboardView({
                     void load({ offset: 0, query: "", friendsOnly });
                   }}
                 >
-                  Clear search
+                  {tPr4("profileUi.clearSearch")}
                 </Button>
               )}
             </div>
             <p id="referral-search-help">
               {friendsOnly
-                ? "Search your ranked friends by username."
-                : "Search all ranked referrers, including outside the top 100."}
+                ? tPr4("socialUi.searchYourRankedFriendsByUsername")
+                : tPr4("socialUi.searchAllRankedReferrersIncludingOutsideThe")}
             </p>
           </form>
           {error && (
             <div className="yk-leaderboard-message" role="alert">
-              <p>{error}</p>
+              <p>{tPr4(error)}</p>
               <Button
                 variant="secondary"
                 onClick={() => void load(lastRequest.current)}
                 disabled={loading}
               >
-                Try again
+                {tPr4("packs.tryAgain")}
               </Button>
             </div>
           )}
           {loading && (
             <>
               <p className="yk-leaderboard-loading" role="status">
-                Updating referral rankings…
+                {tPr4("socialUi.updatingReferralRankings")}
               </p>
               <div className="yk-leaderboard-skeleton" aria-hidden="true">
                 {[1, 2, 3, 4, 5].map(i => (
@@ -275,17 +281,19 @@ export function ReferralLeaderboardView({
           {data && !loading && !error && (
             <>
               <p className="yk-leaderboard-results" role="status">
-                {number(data.total)}{" "}
-                {data.total === 1 ? "referrer" : "referrers"}
-                {data.query
-                  ? ` found for “${data.query}”`
-                  : data.friendsOnly
-                    ? " in your friends view"
-                    : " in the top 100"}
+                {tPr4("socialUi.referralResults", {
+                  count: data.total,
+                  query: data.query,
+                  scope: data.query
+                    ? "search"
+                    : data.friendsOnly
+                      ? "friends"
+                      : "top"
+                })}
               </p>
               <ol
                 className="yk-leaderboard-list"
-                aria-label="Players ranked by verified referrals"
+                aria-label={tPr4("socialUi.playersRankedByVerifiedReferrals")}
               >
                 {data.entries.map(entry => (
                   <li
@@ -294,7 +302,9 @@ export function ReferralLeaderboardView({
                   >
                     <span
                       className="yk-leaderboard-position"
-                      aria-label={`Rank ${entry.position}`}
+                      aria-label={tPr4("socialUi.rank", {
+                        position: entry.position
+                      })}
                     >
                       #{number(entry.position)}
                     </span>
@@ -314,26 +324,28 @@ export function ReferralLeaderboardView({
                             name={entry.pseudo}
                             cosmetics={data.profileStyles?.[entry.userId]}
                           />
-                          {entry.userId === userId && <small> You</small>}
+                          {entry.userId === userId && (
+                            <small> {tPr4("homeLeaderboard.you")}</small>
+                          )}
                           {entry.isFriend && (
                             <small className="yk-leaderboard-friend">
-                              Friend
+                              {tPr4("socialUi.friend")}
                             </small>
                           )}
                         </strong>
                         <span className="yk-leaderboard-variants">
                           {entry.position <= 3
-                            ? "Top referrer"
-                            : "Community referrer"}
+                            ? tPr4("socialUi.topReferrer")
+                            : tPr4("socialUi.communityReferrer")}
                         </span>
                       </span>
                     </Link>
                     <span className="yk-leaderboard-points">
                       <strong>{number(entry.verifiedReferrals)}</strong>
                       <small>
-                        {entry.verifiedReferrals === 1
-                          ? "referral"
-                          : "referrals"}
+                        {tPr4("socialUi.referralNoun", {
+                          count: entry.verifiedReferrals
+                        })}
                       </small>
                     </span>
                   </li>
@@ -342,15 +354,15 @@ export function ReferralLeaderboardView({
               {!data.entries.length && (
                 <p className="yk-leaderboard-message">
                   {data.query
-                    ? "No ranked referrers found. Try another username."
+                    ? tPr4("socialUi.noRankedReferrersFoundTryAnotherUsername")
                     : data.friendsOnly
-                      ? "No ranked friends yet. Invite friends to get started."
-                      : "No ranked referrers yet. Share your link and invite your first friend."}
+                      ? tPr4("socialUi.noRankedFriendsYetInviteFriendsTo")
+                      : tPr4("socialUi.noRankedReferrersYetShareYourLink")}
                 </p>
               )}
               {data.total > data.limit && (
                 <nav
-                  aria-label="Leaderboard pages"
+                  aria-label={tPr4("socialUi.leaderboardPages")}
                   className="yk-leaderboard-pagination"
                 >
                   <Button
@@ -364,11 +376,13 @@ export function ReferralLeaderboardView({
                       })
                     }
                   >
-                    Previous
+                    {tPr4("settingsUi.previous")}
                   </Button>
                   <span>
-                    Page {number(Math.floor(data.offset / data.limit) + 1)} of{" "}
-                    {number(Math.ceil(data.total / data.limit))}
+                    {tPr4("socialUi.page", {
+                      page: Math.floor(data.offset / data.limit) + 1,
+                      total: Math.ceil(data.total / data.limit)
+                    })}
                   </span>
                   <Button
                     variant="secondary"
@@ -381,7 +395,7 @@ export function ReferralLeaderboardView({
                       })
                     }
                   >
-                    Next
+                    {tPr4("packs.next")}
                   </Button>
                 </nav>
               )}
@@ -394,48 +408,27 @@ export function ReferralLeaderboardView({
         >
           <div className="yk-leaderboard-section-heading">
             <Subheading id="referral-rules-title">
-              How referral ranking works
+              {tPr4("socialUi.howReferralRankingWorks")}
             </Subheading>
           </div>
-          <p>
-            One verified referral = one count. The more verified friends you
-            bring, the higher you rank.
-          </p>
+          <p>{tPr4("socialUi.oneVerifiedReferralOneCountTheMore")}</p>
           <details open>
-            <summary>What counts?</summary>
-            <p>
-              A friend must join through your referral link and verify their
-              email. The referral must be validated by the reward system.
-              Pending signups do not count.
-            </p>
-            <p>
-              Each friend counts once. Deleted and banned accounts do not count.
-              Cards, Karas, packs opened and Pro membership add no referral
-              points.
-            </p>
+            <summary>{tPr4("socialUi.whatCounts")}</summary>
+            <p>{tPr4("socialUi.aFriendMustJoinThroughYourReferral")}</p>
+            <p>{tPr4("socialUi.eachFriendCountsOnceDeletedAndBanned")}</p>
             {mine && (
               <p>
-                You currently have {referrals(mine.verifiedReferrals)} counted
-                in this leaderboard.
+                {tPr4("socialUi.countedReferrals", {
+                  count: mine.verifiedReferrals
+                })}
               </p>
             )}
           </details>
           <details open>
-            <summary>Ranks &amp; privacy</summary>
-            <p>
-              Equal counts share a rank: 1, 2, 2, 4. Friends and search keep
-              global positions within the public leaderboard.
-            </p>
-            <p>
-              Only public, active referrers are ranked. Private counts are
-              visible only to their owner. Blocked players are hidden without
-              changing global positions.
-            </p>
-            <p>
-              Only the total is public. Your referral link and the identities of
-              your referrals stay private. The rank in Settings covers all
-              active accounts; this leaderboard ranks eligible public profiles.
-            </p>
+            <summary>{tPr4("socialUi.ranksPrivacy")}</summary>
+            <p>{tPr4("socialUi.equalCountsShareARank12")}</p>
+            <p>{tPr4("socialUi.onlyPublicActiveReferrersAreRankedPrivate")}</p>
+            <p>{tPr4("socialUi.onlyTheTotalIsPublicYourReferral")}</p>
           </details>
         </aside>
       </div>

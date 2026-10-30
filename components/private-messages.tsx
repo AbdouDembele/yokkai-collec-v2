@@ -157,9 +157,10 @@ export function PrivateMessages({
       } catch (reason) {
         if (!active) return;
         setError(
-          reason instanceof Error
-            ? reason.message
-            : "Couldn't load messages. Please try again."
+          gameErrorKey(
+            reason,
+            gameErrorKey("Couldn't load messages. Please try again.")
+          )
         );
         if (reason instanceof PrivateMessagesError && reason.unavailable) {
           setPage(undefined);
@@ -271,9 +272,7 @@ export function PrivateMessages({
     } catch (reason) {
       if (!mounted.current) return;
       setError(
-        reason instanceof Error
-          ? reason.message
-          : "Couldn't load older messages."
+        gameErrorKey(reason, gameErrorKey("Couldn't load older messages."))
       );
       if (reason instanceof PrivateMessagesError && reason.unavailable) {
         setPage(undefined);
@@ -327,9 +326,10 @@ export function PrivateMessages({
     } catch (reason) {
       if (!mounted.current) return;
       setSendError(
-        reason instanceof Error
-          ? reason.message
-          : "Couldn't send the message. Your draft has been kept."
+        gameErrorKey(
+          reason,
+          gameErrorKey("Couldn't send the message. Your draft has been kept.")
+        )
       );
       if (reason instanceof PrivateMessagesError && reason.unavailable) {
         setPage(undefined);
