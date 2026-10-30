@@ -2653,6 +2653,7 @@
     "completedDetails": "{completed, number} / {total, number} {total, plural, one {licence terminée} other {licences terminées}}",
     "chooseCategory": "Choisir une catégorie",
     "allCategories": "Toutes les catégories",
-    "categoryFailed": "Impossible de charger les catégories. Réessaie."
+    "categoryFailed": "Impossible de charger les catégories. Réessaie.",
+    "powerRankingTab": "PowerRanking"
   }
 }

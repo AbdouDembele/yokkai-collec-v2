@@ -2653,6 +2653,7 @@
     "completedDetails": "{completed, number} / {total, number} {total, plural, one {license completed} other {licenses completed}}",
     "chooseCategory": "Choose a category",
     "allCategories": "All categories",
-    "categoryFailed": "Couldn't load categories. Please try again."
+    "categoryFailed": "Couldn't load categories. Please try again.",
+    "powerRankingTab": "PowerRanking"
   }
 }

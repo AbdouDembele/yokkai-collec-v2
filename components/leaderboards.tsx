@@ -29,14 +29,7 @@ export function LeaderboardsView({
         aria-pressed={kind === "collection"}
         onClick={() => setKind("collection")}
       >
-        {tPr4("collectionUi.collection")}
-      </Button>
-      <Button
-        variant="secondary"
-        aria-pressed={kind === "referrals"}
-        onClick={() => setKind("referrals")}
-      >
-        {tPr4("socialUi.referrals")}
+        {tPr4("communityRanking.powerRankingTab")}
       </Button>
       {(["likes", "licenses"] as const).map(option => (
         <Button
@@ -48,6 +41,13 @@ export function LeaderboardsView({
           {tPr4(`communityRanking.${option}Tab`)}
         </Button>
       ))}
+      <Button
+        variant="secondary"
+        aria-pressed={kind === "referrals"}
+        onClick={() => setKind("referrals")}
+      >
+        {tPr4("socialUi.referrals")}
+      </Button>
     </div>
   );
   if (kind === "likes" || kind === "licenses")
