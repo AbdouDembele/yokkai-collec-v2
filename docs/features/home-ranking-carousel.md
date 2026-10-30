@@ -15,3 +15,5 @@ Recette locale : cycle complet et hauteur adaptée au contenu, commandes, pauses
 Retouche : suppression du bouton pause ; rotation automatique toutes les cinq secondes. Le bloc conserve sa hauteur adaptative.
 
 Validation Walid obtenue pour remplacer uniquement la valeur attendue du test du carrousel : 5000 ms au lieu de 8000 ms. Toutes les autres assertions restent intactes. Cette adaptation doit figurer dans la description de la PR #15.
+
+Visual refresh (local): segmented ranking tabs with decorative icons and a dedicated accent per view; larger podium avatars, compact rank labels, gold/silver/bronze cards, and a single grouped list for the remaining players. Mobile puts the winner above the other two players. Existing profile cosmetics, texts, scores, readers and five-second rotation are preserved. No new SQL migration or test changes.

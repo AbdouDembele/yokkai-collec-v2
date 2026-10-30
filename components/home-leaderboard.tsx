@@ -86,7 +86,7 @@ export async function HomeLeaderboard({ userId }: { userId: string }) {
                     cosmetics={ranking.profileStyles?.[entry.userId]}
                     name={entry.pseudo}
                     image={entry.avatarUrl ?? undefined}
-                    size={48}
+                    size={64}
                   />
                 </span>
                 <span>

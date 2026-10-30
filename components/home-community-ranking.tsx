@@ -89,7 +89,7 @@ export function HomeCommunityRanking({
           cosmetics={data.profileStyles[entry.userId]}
           name={entry.pseudo}
           image={entry.avatarUrl ?? undefined}
-          size={podium ? 48 : 36}
+          size={podium ? 64 : 36}
         />
       </span>
       <span>
