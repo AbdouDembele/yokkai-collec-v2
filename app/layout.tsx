@@ -140,6 +140,7 @@ export default async function RootLayout({
       "communityRanking",
       "homeLeaderboard",
       "homeRankingCarousel",
+      "rankingProgress",
       "boosters",
       "packs",
       "collectionUi",

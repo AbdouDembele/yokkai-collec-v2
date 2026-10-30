@@ -521,3 +521,136 @@
     transition: none !important;
   }
 }
+/* A bounded reading area keeps the following Home sections stationary. */
+.yk-home-ranking-slide {
+  height: var(--home-ranking-height, 420px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+  scrollbar-width: thin;
+  scrollbar-color: #536786 transparent;
+}
+.yk-home-ranking-slide > .yk-home-ranking {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+.yk-home-ranking-slide .yk-home-ranking-podium,
+.yk-home-ranking-slide .yk-home-ranking-list {
+  flex-shrink: 0;
+}
+.yk-home-ranking-slide .yk-home-ranking-mine {
+  margin-top: auto;
+  padding-bottom: 6px;
+}
+.yk-home-ranking-empty {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  min-height: 290px;
+  padding: 24px 16px;
+  border: 1px dashed #ffffff15;
+  border-radius: 14px;
+  background: radial-gradient(ellipse at center, #f3a5c60a, transparent 75%);
+  text-align: center;
+}
+.yk-home-ranking-empty > svg {
+  width: 60px;
+  height: 60px;
+  padding: 12px;
+  border: 1px solid #f3a5c630;
+  border-radius: 18px;
+  color: #f3a5c6;
+  background: #f3a5c608;
+}
+.yk-home-ranking-empty > p {
+  max-width: 360px;
+  color: #c3cce0;
+  font-size: 14px;
+  line-height: 1.8;
+}
+.yk-home-ranking-state {
+  min-height: 100%;
+}
+@media (min-width: 960px) {
+  .yk-home-ranking-slide > .yk-home-ranking {
+    display: grid;
+    grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+    grid-template-rows: auto 1fr auto;
+    gap: 12px 16px;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-intro {
+    grid-column: 1 / -1;
+    margin: 0;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-podium {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-list {
+    grid-column: 2;
+    grid-row: 2;
+    grid-template-rows: repeat(3, 1fr);
+    margin: 0;
+    padding: 0 12px;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-mine {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin: 0;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-empty {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-height: 0;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-podium {
+    gap: 8px;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-podium > li {
+    padding-left: 7px;
+    padding-right: 7px;
+  }
+  .yk-home-ranking-slide
+    .yk-home-ranking-podium
+    .yk-home-ranking-player
+    strong {
+    font-size: 12px;
+  }
+  .yk-home-ranking-slide
+    .yk-home-ranking-podium
+    .yk-home-ranking-license-metrics {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .yk-home-ranking-slide
+    .yk-home-ranking-podium
+    .yk-home-ranking-license-metrics
+    dd {
+    font-size: 12px;
+  }
+  .yk-home-ranking-slide
+    .yk-home-ranking-list
+    .yk-home-ranking-license-metrics {
+    grid-column: 3;
+    grid-template-columns: 1fr;
+    gap: 4px;
+    text-align: right;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-list .yk-home-ranking-player {
+    grid-column: 2;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-list .yk-home-ranking-points {
+    grid-column: 3;
+    max-width: 110px;
+    justify-content: flex-end;
+    text-align: right;
+    padding-left: 0;
+  }
+  .yk-home-ranking-slide .yk-home-ranking-list .yk-home-ranking-points small {
+    width: 100%;
+  }
+}

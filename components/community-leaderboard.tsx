@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { RankingGoal, RankingTrend } from "@/components/ranking-progress";
+import { useRankingPlayerPreview } from "@/components/ranking-player-preview";
+import { getRankingLicenseChoices } from "@/lib/leaderboard/choices";
 import { RankingIcon } from "@/components/ranking-icon";
 import { useEffect, useState, type ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
@@ -10,11 +13,7 @@ import { RankingChoice } from "@/components/ranking-choice";
 import { LicenseRankingChoice } from "@/components/license-ranking-choice";
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
-import {
-  getGameInfo,
-  getPaniniAlbumsPage,
-  type PaniniAlbumProgress
-} from "@/lib/data/cards";
+import { getGameInfo, type PaniniAlbumProgress } from "@/lib/data/cards";
 import { stableBindersEnabled } from "@/lib/data/binders";
 import { binderIdentity } from "@/lib/ui/binder-identity";
 import {
@@ -38,6 +37,7 @@ export function CommunityLeaderboardView({
   embedded?: boolean;
   navigation?: ReactNode;
 }) {
+  const playerPreview = useRankingPlayerPreview();
   const t = useTranslations("communityRanking"),
     common = useTranslations(),
     fmt = useFormatter();
@@ -97,7 +97,7 @@ export function CommunityLeaderboardView({
     if (kind !== "licenses" || licenseView !== "license") return;
     let active = true;
     const timer = setTimeout(() => {
-      void getPaniniAlbumsPage({
+      void getRankingLicenseChoices({
         query: licenseQuery,
         category: licenseCategory,
         page: licensePage,
@@ -199,6 +199,7 @@ export function CommunityLeaderboardView({
     Heading = embedded ? "h2" : "h1";
   return (
     <Root
+      onClickCapture={playerPreview.onClickCapture}
       id={embedded ? undefined : "main-content"}
       className={`yk-leaderboard yk-community-ranking${embedded ? " yk-leaderboard-social" : ""}`}
       aria-labelledby="community-ranking-title"
@@ -427,6 +428,18 @@ export function CommunityLeaderboardView({
             </div>
           </section>
 
+          {!loading && data && (
+            <>
+              <RankingTrend history={data.history?.[userId]} />
+              <RankingGoal
+                kind={kind}
+                userId={userId}
+                mine={data.mine ?? undefined}
+                entries={data.entries}
+                binder={data.binder}
+              />
+            </>
+          )}
           <div className="yk-leaderboard-layout">
             <section
               className="yk-leaderboard-board"
@@ -560,6 +573,10 @@ export function CommunityLeaderboardView({
                                 name={entry.pseudo}
                                 cosmetics={data.profileStyles[entry.userId]}
                               />
+                              <RankingTrend
+                                compact
+                                history={data.history?.[entry.userId]}
+                              />
                               {entry.userId === userId && (
                                 <small>{common("homeLeaderboard.you")}</small>
                               )}
@@ -687,6 +704,7 @@ export function CommunityLeaderboardView({
           </div>
         </>
       )}
+      {playerPreview.preview}
     </Root>
   );
 }

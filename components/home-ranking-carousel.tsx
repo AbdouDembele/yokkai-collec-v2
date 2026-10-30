@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRankingPlayerPreview } from "@/components/ranking-player-preview";
 import { RankingIcon } from "@/components/ranking-icon";
 import {
   useEffect,
@@ -44,6 +45,7 @@ export function HomeRankingCarousel({
   userId: string;
   powerRanking: ReactNode;
 }) {
+  const playerPreview = useRankingPlayerPreview();
   const t = useTranslations("homeRankingCarousel"),
     names = useTranslations("communityRanking");
   const [index, setIndex] = useState(0);
@@ -114,13 +116,29 @@ export function HomeRankingCarousel({
     };
   }, [visible, userId]);
   useEffect(() => {
-    if (isPaused || hovered || focused || !visible || hidden) return;
+    if (
+      isPaused ||
+      hovered ||
+      focused ||
+      !visible ||
+      hidden ||
+      playerPreview.opened
+    )
+      return;
     const timer = window.setInterval(
       () => setIndex(current => (current + 1) % HOME_RANKING_KINDS.length),
       HOME_RANKING_INTERVAL_MS
     );
     return () => window.clearInterval(timer);
-  }, [isPaused, hovered, focused, visible, hidden, index]);
+  }, [
+    isPaused,
+    hovered,
+    focused,
+    visible,
+    hidden,
+    index,
+    playerPreview.opened
+  ]);
   const retry = (next: CommunityRankingKind) => {
     setPages(current => ({ ...current, [next]: { status: "loading" } }));
     const request = getHomeCommunityRanking(next);
@@ -134,23 +152,32 @@ export function HomeRankingCarousel({
       );
   };
   useEffect(() => {
-    const panel = root.current?.querySelector<HTMLElement>(
-      `#home-ranking-slide-${kind}`
-    );
-    if (!panel) return;
-    const observer = new ResizeObserver(() =>
-      setActiveHeight(Math.ceil(panel.getBoundingClientRect().height))
-    );
-    observer.observe(panel);
-    return () => observer.disconnect();
-  }, [kind]);
+    const resize = () =>
+      setActiveHeight(
+        Math.min(
+          window.innerWidth < 600 ? 560 : 420,
+          Math.max(320, window.innerHeight - 260)
+        )
+      );
+    resize();
+    window.addEventListener("resize", resize);
+    return () => window.removeEventListener("resize", resize);
+  }, []);
   return (
     <div
+      onClickCapture={playerPreview.onClickCapture}
       className="yk-home-ranking-carousel"
       ref={root}
       role="region"
       aria-roledescription={t("carouselRole")}
       aria-label={t("label")}
+      style={
+        {
+          "--home-ranking-height": activeHeight
+            ? activeHeight + "px"
+            : undefined
+        } as CSSProperties
+      }
       data-active-ranking={kind}
       data-paused={isPaused}
       onMouseEnter={() => setHovered(true)}
@@ -205,6 +232,7 @@ export function HomeRankingCarousel({
               key={value}
               id={`home-ranking-slide-${value}`}
               className="yk-home-ranking-slide"
+              tabIndex={kind === value ? 0 : -1}
               role="group"
               aria-roledescription={t("slideRole")}
               aria-label={label(value)}
@@ -245,6 +273,7 @@ export function HomeRankingCarousel({
           ))}
         </div>
       </div>
+      {playerPreview.preview}
     </div>
   );
 }

@@ -2683,5 +2683,27 @@
     "retry": "Réessayer",
     "emptyLikes": "Aucun profil n’a encore reçu de J’aime.",
     "emptyLicenses": "Aucun collectionneur classé pour le moment. Commence ta collection !"
+  },
+  "rankingProgress": {
+    "goal": "Ton prochain objectif",
+    "pointsTarget": "Encore {count, number} points pour dépasser {player}.",
+    "likesTarget": "{count, plural, one {Encore # J’aime} other {Encore # J’aime}} pour dépasser {player}.",
+    "firstLike": "Reçois ton premier J’aime sur ton profil pour entrer dans le classement.",
+    "leader": "Tu es en tête de ce classement. Continue comme ça !",
+    "startCollection": "Ouvre un pack pour construire ta collection et progresser dans le classement.",
+    "finishLicense": "{count, plural, one {Encore # carte} other {Encore # cartes}} pour terminer {license}.",
+    "completed": "Tu as terminé {license}. Choisis ton prochain classeur !",
+    "pickBinder": "Choisis un classeur pour suivre ton prochain objectif de collection.",
+    "openBinders": "Voir mes classeurs",
+    "takeAction": "Continuer",
+    "trackingStarts": "Le suivi de ton rang commence aujourd’hui",
+    "unchanged": "Rang inchangé",
+    "up": "{count, plural, one {# place gagnée} other {# places gagnées}}",
+    "down": "{count, plural, one {# place perdue} other {# places perdues}}",
+    "since": "Depuis le {date}",
+    "history": "Voir les rangs observés",
+    "rank": "Rang n° {position, number}",
+    "discoverCommunity": "Découvrir la communauté",
+    "keepGrowing": "Continue à développer ta collection et ton profil pour progresser."
   }
 }

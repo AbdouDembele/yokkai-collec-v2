@@ -2,10 +2,8 @@
 import { useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { RankingChoice } from "@/components/ranking-choice";
-import {
-  getPaniniAlbumsPage,
-  type PaniniAlbumProgress
-} from "@/lib/data/cards";
+import { type PaniniAlbumProgress } from "@/lib/data/cards";
+import { getRankingLicenseChoices } from "@/lib/leaderboard/choices";
 import { binderIdentity } from "@/lib/ui/binder-identity";
 import { normalizeChoiceLabel } from "@/lib/ui/select-typeahead";
 const licenseLabel = (item: PaniniAlbumProgress) => item.license;
@@ -34,8 +32,9 @@ export function LicenseRankingChoice({
       // Search the same category/filter with bounded pages, without changing the
       // visible search field or loading the whole catalogue just to open a menu.
       for (let page = 1; !signal.aborted; page++) {
-        const next = await getPaniniAlbumsPage({
-          query: query || prefix,
+        const next = await getRankingLicenseChoices({
+          query,
+          prefix,
           category,
           page,
           pageSize: 72
@@ -55,6 +54,7 @@ export function LicenseRankingChoice({
     <RankingChoice
       id="ranking-license-select"
       labelId="ranking-license-label"
+      sortByLabel
       items={items}
       selected={selected}
       getKey={binderIdentity}

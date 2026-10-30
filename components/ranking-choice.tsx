@@ -30,8 +30,10 @@ export function RankingChoice<T>({
   errorLabel,
   onLoadMore,
   onSelect,
-  findMatch
+  findMatch,
+  sortByLabel = false
 }: {
+  sortByLabel?: boolean;
   id: string;
   labelId: string;
   className?: string;
@@ -67,6 +69,17 @@ export function RankingChoice<T>({
       ).values()
     ],
     [items, found, getKey]
+  );
+  const orderedOptions = useMemo(
+    () =>
+      sortByLabel
+        ? [...options].sort((a, b) =>
+            getLabel(a).localeCompare(getLabel(b), undefined, {
+              sensitivity: "base"
+            })
+          )
+        : options,
+    [options, sortByLabel, getLabel]
   );
   const focusOption = useCallback((key: string) => {
     const option = [
@@ -158,12 +171,12 @@ export function RankingChoice<T>({
   const typeLetter = (key: string) => {
     buffer.current = advanceTypeahead(buffer.current, key, Date.now());
     if (!buffer.current.text) return;
-    const current = options.findIndex(
+    const current = orderedOptions.findIndex(
       item =>
         getKey(item) === document.activeElement?.getAttribute("data-choice-key")
     );
     const match = typeaheadMatchIndex(
-      options.map(getLabel),
+      orderedOptions.map(getLabel),
       buffer.current.text,
       current
     );
@@ -171,8 +184,8 @@ export function RankingChoice<T>({
     if (match >= 0) {
       setPendingPrefix("");
       setFinding(false);
-      setTargetKey(getKey(options[match]));
-      focusOption(getKey(options[match]));
+      setTargetKey(getKey(orderedOptions[match]));
+      focusOption(getKey(orderedOptions[match]));
     } else if (findMatch) {
       setPendingPrefix(buffer.current.text);
       setFinding(true);
@@ -271,7 +284,7 @@ export function RankingChoice<T>({
             nodes[next]?.focus();
           }}
         >
-          {options.map(item => (
+          {orderedOptions.map(item => (
             <button
               key={getKey(item)}
               type="button"

@@ -1,5 +1,6 @@
 // Exact overloads and roles only. Every addition requires an access justification.
 export const ownerOnly = [
+  "public.with_leaderboard_history(jsonb, text)", // Internal enrichment of already-authorized results only; no direct API execution.
   "public.guard_trade_offer_submission()", // Trigger-only transactional anti-spam admission; no API or service-role execution.
   "public.leaderboard_collection_without_styles(integer, integer, text, boolean)", // Internal score/visibility projection; only the public entitlement-aware leaderboard wrapper can execute it.
   "public.leaderboard_referrals_without_styles(integer, integer, text, boolean)", // Internal referral projection; no direct API access, cosmetics appended only after the wrapper's authorized page is known.
@@ -33,6 +34,8 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.get_ranking_license_choices(text, text, text, boolean, integer, integer)":
+    ["authenticated"], // A-Z catalogue metadata only; auth and ban guards. Walid approved.
   "public.get_profile_likes_leaderboard(integer, integer, text, boolean)": [
     "authenticated"
   ], // Public active profiles, bilateral blocks, aggregate counts only; own private count. Walid approved this addition.

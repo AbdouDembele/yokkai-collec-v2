@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { RankingIcon } from "@/components/ranking-icon";
 import { useFormatter, useTranslations } from "next-intl";
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
@@ -63,7 +64,8 @@ export function HomeCommunityRanking({
 }) {
   const t = useTranslations("homeRankingCarousel"),
     common = useTranslations("homeLeaderboard"),
-    fmt = useFormatter();
+    fmt = useFormatter(),
+    progress = useTranslations("rankingProgress");
   const player = (
     entry: CommunityRanking["entries"][number],
     podium: boolean
@@ -135,9 +137,13 @@ export function HomeCommunityRanking({
           ))}
         </ol>
       ) : (
-        <p className="yk-home-empty">
-          {t(kind === "likes" ? "emptyLikes" : "emptyLicenses")}
-        </p>
+        <div className="yk-home-ranking-empty">
+          <RankingIcon kind={kind} />
+          <p>{t(kind === "likes" ? "emptyLikes" : "emptyLicenses")}</p>
+          <Link className="yk-button yk-button-secondary" href="/social">
+            {progress("discoverCommunity")}
+          </Link>
+        </div>
       )}
       {data.entries.length > 3 && (
         <ol

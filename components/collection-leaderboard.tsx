@@ -3,6 +3,8 @@ import { useTranslations, useFormatter } from "next-intl";
 
 import { socialErrorKey as gameErrorKey } from "@/i18n/social-messages";
 import Link from "next/link";
+import { RankingGoal, RankingTrend } from "@/components/ranking-progress";
+import { useRankingPlayerPreview } from "@/components/ranking-player-preview";
 import {
   useCallback,
   useEffect,
@@ -53,6 +55,7 @@ export function CollectionLeaderboardView({
   embedded?: boolean;
   navigation?: ReactNode;
 }) {
+  const playerPreview = useRankingPlayerPreview();
   const tPr4 = useTranslations();
   const fmt = useFormatter();
   const number = fmt.number;
@@ -127,6 +130,7 @@ export function CollectionLeaderboardView({
   const Subheading = embedded ? "h3" : "h2";
   return (
     <Root
+      onClickCapture={playerPreview.onClickCapture}
       id={embedded ? undefined : "main-content"}
       className={`yk-leaderboard${embedded ? " yk-leaderboard-social" : ""}`}
       aria-labelledby="leaderboard-title"
@@ -214,6 +218,17 @@ export function CollectionLeaderboardView({
         )}
       </section>
 
+      {!loading && data && (
+        <>
+          <RankingTrend history={data.history?.[userId]} />
+          <RankingGoal
+            kind="collection"
+            userId={userId}
+            mine={data.mine}
+            entries={data.entries}
+          />
+        </>
+      )}
       <div className="yk-leaderboard-layout">
         <section
           className="yk-leaderboard-board"
@@ -370,6 +385,10 @@ export function CollectionLeaderboardView({
                             name={entry.pseudo}
                             cosmetics={data.profileStyles?.[entry.userId]}
                           />
+                          <RankingTrend
+                            compact
+                            history={data.history?.[entry.userId]}
+                          />
                           {entry.userId === userId && (
                             <small> {tPr4("homeLeaderboard.you")}</small>
                           )}
@@ -516,6 +535,7 @@ export function CollectionLeaderboardView({
           )}
         </aside>
       </div>
+      {playerPreview.preview}
     </Root>
   );
 }

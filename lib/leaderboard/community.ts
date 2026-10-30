@@ -9,6 +9,7 @@ export type CommunityRankingRequest = {
   friendsOnly: boolean;
 };
 export type CommunityRanking = CommunityRankingRequest & {
+  history?: import("./progress").RankHistory;
   limit: number;
   total: number;
   rankedPlayers: number;

@@ -870,3 +870,99 @@
     grid-row: 2;
   }
 }
+.yk-ranking-goal {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  border: 1px solid #a8bfff25;
+  border-radius: 14px;
+  background: #a8bfff07;
+}
+.yk-ranking-goal-icon {
+  color: #afc6ff;
+  font-size: 26px;
+  line-height: 1.2;
+}
+.yk-ranking-goal strong {
+  font-size: 12px;
+  color: #afc6ff;
+}
+.yk-ranking-goal p {
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.yk-ranking-goal a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: #efcd7a;
+  font-size: 12px;
+}
+.yk-ranking-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: #ffffff06;
+  color: #adb9ce;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.yk-ranking-trend[data-direction="up"] {
+  background: #66d7a412;
+  color: #8bdfb5;
+}
+.yk-ranking-trend[data-direction="down"] {
+  background: #ee9da312;
+  color: #f2a7b0;
+}
+.yk-ranking-history {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 12px;
+  color: #a6afc3;
+  font-size: 12px;
+}
+.yk-ranking-history details {
+  flex-basis: 100%;
+  max-width: 420px;
+}
+.yk-ranking-history summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  color: #c3cce0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.yk-ranking-history ol {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  padding: 10px 14px;
+  border: 1px solid #ffffff0d;
+  border-radius: 10px;
+  background: #070c16;
+}
+.yk-ranking-history li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 30px;
+}
+.yk-leaderboard-player .yk-ranking-trend {
+  margin: 3px 5px;
+  vertical-align: middle;
+}

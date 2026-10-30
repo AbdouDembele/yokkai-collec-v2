@@ -46,6 +46,7 @@ export type ReferralLeaderboard = {
 };
 
 export type CollectionLeaderboard = {
+  history?: import("./progress").RankHistory;
   cardCounts?: Record<string, LeaderboardCardCounts>;
   profileStyles?: Record<string, PlayerCosmetics>;
   rulesVersion: number;
