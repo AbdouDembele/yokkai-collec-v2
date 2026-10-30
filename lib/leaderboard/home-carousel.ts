@@ -6,7 +6,7 @@ import type {
 } from "@/lib/leaderboard/community";
 import { stableBindersEnabled } from "@/lib/data/binders";
 
-export const HOME_RANKING_INTERVAL_MS = 8000;
+export const HOME_RANKING_INTERVAL_MS = 5000;
 export type HomeRankingKind = "collection" | "likes" | "licenses";
 export const HOME_RANKING_KINDS = ["collection", "likes", "licenses"] as const;
 export const homeRankingHref = (kind: HomeRankingKind) =>

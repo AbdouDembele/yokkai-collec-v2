@@ -45,8 +45,7 @@ export function HomeRankingCarousel({
 }) {
   const t = useTranslations("homeRankingCarousel"),
     names = useTranslations("communityRanking");
-  const [index, setIndex] = useState(0),
-    [paused, setPaused] = useState<boolean | null>(null);
+  const [index, setIndex] = useState(0);
   const [activeHeight, setActiveHeight] = useState<number>();
   const [hovered, setHovered] = useState(false),
     [focused, setFocused] = useState(false);
@@ -65,7 +64,7 @@ export function HomeRankingCarousel({
     reducedSnapshot,
     serverSnapshot
   );
-  const isPaused = paused ?? reduced,
+  const isPaused = reduced,
     kind = HOME_RANKING_KINDS[index];
   const label = (value: typeof kind) =>
     names(
@@ -180,21 +179,6 @@ export function HomeRankingCarousel({
           ))}
         </div>
         <div className="yk-home-ranking-actions">
-          <button
-            className="yk-home-ranking-pause"
-            type="button"
-            aria-pressed={isPaused}
-            onClick={() => setPaused(!isPaused)}
-            aria-label={t(isPaused ? "play" : "pause")}
-          >
-            <svg viewBox="0 0 20 20" aria-hidden="true">
-              {isPaused ? (
-                <path d="m6 3 10 7-10 7Z" />
-              ) : (
-                <path d="M5 3h3v14H5zM12 3h3v14h-3z" />
-              )}
-            </svg>
-          </button>
           <Link
             href={homeRankingHref(kind)}
             className="yk-button yk-button-primary yk-home-panel-action"

@@ -83,7 +83,7 @@ test("Home carousel uses six-row protected readers, exact global mode and no pol
     [...exports.HOME_RANKING_KINDS],
     ["collection", "likes", "licenses"]
   );
-  assert.equal(exports.HOME_RANKING_INTERVAL_MS, 8000);
+  assert.equal(exports.HOME_RANKING_INTERVAL_MS, 5000);
   reply = { data: null, error: { message: "backend private detail" } };
   await assert.rejects(
     exports.getHomeCommunityRanking("likes"),

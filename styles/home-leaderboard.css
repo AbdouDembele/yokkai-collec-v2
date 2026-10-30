@@ -474,8 +474,7 @@
   gap: 6px;
   min-width: 0;
 }
-.yk-home-ranking-choices button,
-.yk-home-ranking-pause {
+.yk-home-ranking-choices button {
   min-height: 44px;
   padding: 9px 12px;
   border: 1px solid var(--color-veil);
@@ -508,19 +507,6 @@
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-}
-.yk-home-ranking-pause {
-  width: 44px;
-  height: 44px;
-  padding: 8px;
-  display: grid;
-  place-items: center;
-  font-size: 24px;
-}
-.yk-home-ranking-pause svg {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
 }
 .yk-home-ranking-state {
   min-height: 180px;
