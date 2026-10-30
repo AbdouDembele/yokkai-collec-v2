@@ -4,6 +4,7 @@ import Link from "next/link";
 import { RankingGoal, RankingTrend } from "@/components/ranking-progress";
 import { useRankingPlayerPreview } from "@/components/ranking-player-preview";
 import { getRankingLicenseChoices } from "@/lib/leaderboard/choices";
+import { RankingLicenseCover } from "@/components/ranking-license-cover";
 import { RankingIcon } from "@/components/ranking-icon";
 import { useEffect, useState, type ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
@@ -347,7 +348,7 @@ export function CommunityLeaderboardView({
       {(!isSpecificLicense || selected) && (
         <>
           <section
-            className="yk-leaderboard-mine"
+            className={`yk-leaderboard-mine${isSpecificLicense ? " has-license-cover" : ""}`}
             aria-label={t(
               isGlobal
                 ? "yourGlobalProgress"
@@ -357,13 +358,20 @@ export function CommunityLeaderboardView({
             )}
             aria-busy={loading}
           >
-            <div
-              className="yk-leaderboard-emblem"
-              data-ranking={kind}
-              aria-hidden="true"
-            >
-              <RankingIcon kind={kind} />
-            </div>
+            {isSpecificLicense && selected ? (
+              <RankingLicenseCover
+                key={binderIdentity(selected)}
+                binder={selected}
+              />
+            ) : (
+              <div
+                className="yk-leaderboard-emblem"
+                data-ranking={kind}
+                aria-hidden="true"
+              >
+                <RankingIcon kind={kind} />
+              </div>
+            )}
             <div className="yk-leaderboard-personal">
               <span className="eyebrow">
                 {t(
