@@ -47,6 +47,7 @@ export function HomeRankingCarousel({
     names = useTranslations("communityRanking");
   const [index, setIndex] = useState(0),
     [paused, setPaused] = useState<boolean | null>(null);
+  const [activeHeight, setActiveHeight] = useState<number>();
   const [hovered, setHovered] = useState(false),
     [focused, setFocused] = useState(false);
   const [visible, setVisible] = useState(false),
@@ -132,12 +133,17 @@ export function HomeRankingCarousel({
         setPages(current => ({ ...current, [next]: { status: "error" } }))
       );
   };
-  const move = (direction: number) =>
-    setIndex(
-      current =>
-        (current + direction + HOME_RANKING_KINDS.length) %
-        HOME_RANKING_KINDS.length
+  useEffect(() => {
+    const panel = root.current?.querySelector<HTMLElement>(
+      `#home-ranking-slide-${kind}`
     );
+    if (!panel) return;
+    const observer = new ResizeObserver(() =>
+      setActiveHeight(Math.ceil(panel.getBoundingClientRect().height))
+    );
+    observer.observe(panel);
+    return () => observer.disconnect();
+  }, [kind]);
   return (
     <div
       className="yk-home-ranking-carousel"
@@ -173,14 +179,34 @@ export function HomeRankingCarousel({
             </button>
           ))}
         </div>
-        <Link
-          href={homeRankingHref(kind)}
-          className="yk-button yk-button-primary yk-home-panel-action"
-        >
-          {t("viewRanking")} <span aria-hidden="true">↗</span>
-        </Link>
+        <div className="yk-home-ranking-actions">
+          <button
+            className="yk-home-ranking-pause"
+            type="button"
+            aria-pressed={isPaused}
+            onClick={() => setPaused(!isPaused)}
+            aria-label={t(isPaused ? "play" : "pause")}
+          >
+            <svg viewBox="0 0 20 20" aria-hidden="true">
+              {isPaused ? (
+                <path d="m6 3 10 7-10 7Z" />
+              ) : (
+                <path d="M5 3h3v14H5zM12 3h3v14h-3z" />
+              )}
+            </svg>
+          </button>
+          <Link
+            href={homeRankingHref(kind)}
+            className="yk-button yk-button-primary yk-home-panel-action"
+          >
+            {t("viewRanking")} <span aria-hidden="true">↗</span>
+          </Link>
+        </div>
       </div>
-      <div className="yk-home-ranking-viewport">
+      <div
+        className="yk-home-ranking-viewport"
+        style={{ height: activeHeight }}
+      >
         <div
           className="yk-home-ranking-track"
           style={
@@ -232,36 +258,6 @@ export function HomeRankingCarousel({
             </div>
           ))}
         </div>
-      </div>
-      <div
-        className="yk-home-ranking-controls"
-        role="group"
-        aria-label={t("controls")}
-      >
-        <button
-          type="button"
-          onClick={() => move(-1)}
-          aria-label={t("previous")}
-        >
-          <span aria-hidden="true">‹</span>
-        </button>
-        <button
-          type="button"
-          aria-pressed={isPaused}
-          onClick={() => setPaused(!isPaused)}
-          aria-label={t(isPaused ? "play" : "pause")}
-        >
-          <svg viewBox="0 0 20 20" aria-hidden="true">
-            {isPaused ? (
-              <path d="m6 3 10 7-10 7Z" />
-            ) : (
-              <path d="M5 3h3v14H5zM12 3h3v14h-3z" />
-            )}
-          </svg>
-        </button>
-        <button type="button" onClick={() => move(1)} aria-label={t("next")}>
-          <span aria-hidden="true">›</span>
-        </button>
       </div>
     </div>
   );

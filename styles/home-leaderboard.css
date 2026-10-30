@@ -475,7 +475,7 @@
   min-width: 0;
 }
 .yk-home-ranking-choices button,
-.yk-home-ranking-controls button {
+.yk-home-ranking-pause {
   min-height: 44px;
   padding: 9px 12px;
   border: 1px solid var(--color-veil);
@@ -491,25 +491,25 @@
 }
 .yk-home-ranking-viewport {
   overflow: hidden;
+  transition: height 220ms ease;
 }
 .yk-home-ranking-track {
   display: grid;
   grid-template-columns: repeat(3, 100%);
-  align-items: stretch;
+  align-items: start;
   transform: translateX(var(--home-ranking-offset));
   transition: transform 500ms ease;
 }
 .yk-home-ranking-slide {
   min-width: 0;
 }
-.yk-home-ranking-controls {
+.yk-home-ranking-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
+  flex-wrap: wrap;
   gap: 8px;
-  margin-top: 16px;
 }
-.yk-home-ranking-controls button {
+.yk-home-ranking-pause {
   width: 44px;
   height: 44px;
   padding: 8px;
@@ -517,7 +517,7 @@
   place-items: center;
   font-size: 24px;
 }
-.yk-home-ranking-controls svg {
+.yk-home-ranking-pause svg {
   width: 16px;
   height: 16px;
   fill: currentColor;
@@ -590,6 +590,12 @@
   .yk-home-ranking-track {
     /* Translation selects the visible view, even when global motion rules disable transforms. */
     transform: translateX(var(--home-ranking-offset)) !important;
+    transition: none !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .yk-home-ranking-viewport {
     transition: none !important;
   }
 }
