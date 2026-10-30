@@ -148,8 +148,6 @@ export function RankingGoal({
                   player: goal.pseudo
                 })
               : t("startCollection");
-    if (goal.type === "firstLike") href = "/social";
-    if (goal.type === "start") href = "/boosters";
   }
   return (
     <div className="yk-ranking-goal">
@@ -161,8 +159,7 @@ export function RankingGoal({
         <p>{text}</p>
         {href && (
           <Link href={href}>
-            {t(kind === "licenses" ? "openBinders" : "takeAction")}{" "}
-            <span aria-hidden="true">↗</span>
+            {t("openBinders")} <span aria-hidden="true">↗</span>
           </Link>
         )}
       </div>
