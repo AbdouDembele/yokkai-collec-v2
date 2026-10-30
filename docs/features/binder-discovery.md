@@ -41,3 +41,7 @@ Les pages de classeurs renvoient une image représentative de leur propre catalo
 La Collection et l'accueil utilisent cette couverture, avec le repli préexistant si un ancien serveur ne renvoie pas le champ. Aucun ordre, compteur de progression, favori, droit ou contrôle de confidentialité n'est modifié.
 
 Migration supplémentaire : 20261030200000_binder_cover_images.sql, appliquée uniquement à Kara pour cette reprise locale, pas au VPS. Elle remplace les deux lecteurs existants sans changer leur signature ni leurs privilèges. Les tests ajoutés vérifient les cartes non possédées, catégories homonymes, licences secondaires, URL vides, pagination et accès privés. Les tests existants restent inchangés.
+
+## Présentation des titres et compteurs
+
+Les cartes de classeurs offrent davantage de largeur et alignent leurs progressions. L'étoile reste en haut à droite. Les titres courts sont centrés dans leur espace ; au-delà de 32 caractères, ils restent alignés à gauche et entièrement visibles. Sur les cartes étroites, le nom passe sous la couverture. Le compteur possédées / total forme une pastille avec chiffres alignés sur la même ligne ; le pourcentage est à droite et la progression dessous. Les traductions et le nom complet accessible du bouton restent conservés.

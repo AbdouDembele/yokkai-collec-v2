@@ -1868,18 +1868,28 @@ export function CollectionView({
                                   license={item.license}
                                 />
                                 <span className="yk-panini-details">
-                                  <strong>{item.license}</strong>
+                                  <strong
+                                    data-long-title={
+                                      Array.from(item.license).length > 32
+                                    }
+                                  >
+                                    {item.license}
+                                  </strong>
                                   <span className="yk-panini-count">
-                                    <b>{format.number(item.owned)}</b> /{" "}
-                                    {format.number(item.total)}{" "}
-                                    {item.total === 1
-                                      ? tc("countPluralOneCardOtherCards", {
-                                          count: item.total
-                                        })
-                                      : tc("countPluralOneCardOtherCards", {
-                                          count: item.total
-                                        })}
+                                    <span className="yk-panini-count-values">
+                                      <b>{format.number(item.owned)}</b>
+                                      <span className="yk-panini-count-separator">
+                                        /
+                                      </span>
+                                      <span>{format.number(item.total)}</span>
+                                    </span>
+                                    <span className="yk-panini-count-label">
+                                      {tc("countPluralOneCardOtherCards", {
+                                        count: item.total
+                                      })}
+                                    </span>
                                   </span>
+
                                   <span className="yk-panini-progress">
                                     <i style={{ width: `${item.percent}%` }} />
                                   </span>
