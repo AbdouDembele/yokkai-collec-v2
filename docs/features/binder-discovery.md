@@ -44,4 +44,4 @@ Migration supplémentaire : 20261030200000_binder_cover_images.sql, appliquée u
 
 ## Présentation des titres et compteurs
 
-Les cartes de classeurs offrent davantage de largeur et alignent leurs progressions. L'étoile reste en haut à droite. Les titres courts sont centrés dans leur espace ; au-delà de 32 caractères, ils restent alignés à gauche et entièrement visibles. Sur les cartes étroites, le nom passe sous la couverture. Le compteur possédées / total forme une pastille avec chiffres alignés sur la même ligne ; le pourcentage est à droite et la progression dessous. Les traductions et le nom complet accessible du bouton restent conservés.
+Le titre occupe l'en-tête de chaque classeur, centré s'il est court et aligné à gauche au-delà de 32 caractères, sans troncature. L'étoile reste en haut à droite. La couverture garde sa taille validée : 120 px de largeur, 108 px sur les cartes étroites. Le compteur est à droite de la couverture, avec le total et le libellé traduits ; le pourcentage et sa barre sont regroupés en dessous. La page conserve ses alignements par rangée et les commandes restent accessibles au clavier.
