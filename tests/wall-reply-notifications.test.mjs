@@ -1,3 +1,4 @@
+import { intl } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -228,18 +229,24 @@ test("wall reply notification opens the player's wall without leaking content", 
     cardName: null,
     achievementName: null
   };
-  const item = exports.notificationItem(input);
+  const item = exports.notificationItem(input, intl.useTranslations("topbar"));
   assert.equal(item.title, "New reply to your post");
   assert.equal(item.text, "Kitsune replied to your post.");
   assert.equal(item.href, "/profile?tab=wall");
   assert.equal(item.kind, "reply");
   assert.equal(item.read, false);
   assert.equal(
-    exports.notificationItem({ ...input, readAt: input.createdAt }).read,
+    exports.notificationItem(
+      { ...input, readAt: input.createdAt },
+      intl.useTranslations("topbar")
+    ).read,
     true
   );
   assert.equal(
-    exports.notificationItem({ ...input, actorPseudo: null }).text,
+    exports.notificationItem(
+      { ...input, actorPseudo: null },
+      intl.useTranslations("topbar")
+    ).text,
     "A friend replied to your post."
   );
 });

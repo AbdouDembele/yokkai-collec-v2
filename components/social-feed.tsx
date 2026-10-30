@@ -1,5 +1,7 @@
 "use client";
+import { useTranslations } from "next-intl";
 
+import { gameErrorKey } from "@/i18n/game-messages";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense, useEffect, useState, useSyncExternalStore } from "react";
@@ -17,6 +19,7 @@ export function SocialFeed({
 }: {
   source?: "friends" | "public";
 }) {
+  const tPr4 = useTranslations();
   const store = useSocialFeeds()[source];
   const everyone = source === "public";
   const state = useSyncExternalStore(
@@ -34,10 +37,7 @@ export function SocialFeed({
           if (active) setViewer(profile);
         },
         () => {
-          if (active)
-            setProfileError(
-              "Couldn't load your profile. Refresh to publish a post."
-            );
+          if (active) setProfileError("socialUi.feedProfileFailed");
         }
       );
     };
@@ -63,7 +63,11 @@ export function SocialFeed({
   return (
     <section
       className="yk-social-stack"
-      aria-label={everyone ? "Everyone feed" : "Friend feed"}
+      aria-label={
+        everyone
+          ? tPr4("socialUi.everyoneFeed")
+          : tPr4("homeFriendFeed.friendFeed")
+      }
     >
       {everyone && (
         <Suspense fallback={null}>
@@ -72,12 +76,9 @@ export function SocialFeed({
       )}
       {everyone && viewer && !viewer.isPublic && (
         <div className="yk-profile-notice">
-          <p>
-            Your profile is private: your posts are only visible to your friends
-            and won&apos;t appear in Everyone.
-          </p>
+          <p>{tPr4("socialUi.yourProfileIsPrivateYourPostsAre")}</p>
           <Link className="underline" href="/settings">
-            Privacy settings
+            {tPr4("socialUi.privacySettings")}
           </Link>
         </div>
       )}
@@ -106,7 +107,7 @@ export function SocialFeed({
           }}
         />
       )}
-      {profileError && <p role="alert">{profileError}</p>}
+      {profileError && <p role="alert">{tPr4(profileError)}</p>}
       {!!state.pending.length && (
         <Button
           disabled={state.loadingMore}
@@ -115,18 +116,18 @@ export function SocialFeed({
             window.scrollTo({ top: 0, behavior: "instant" });
           }}
         >
-          New posts
+          {tPr4("socialUi.newPosts")}
         </Button>
       )}
       {state.loading && (
         <Skeleton
-          label="Loading your feed"
+          label={tPr4("socialUi.loadingYourFeed")}
           className="h-48 w-full rounded-panel"
         />
       )}
       {state.error && (
         <div role="alert" className="yk-profile-notice">
-          <p>{state.error}</p>
+          <p>{tPr4(gameErrorKey(state.error, "socialUi.feedFailed"))}</p>
           <Button
             variant="secondary"
             onClick={() => {
@@ -134,7 +135,7 @@ export function SocialFeed({
               void store.refresh();
             }}
           >
-            Refresh feed
+            {tPr4("socialUi.refreshFeed")}
           </Button>
         </div>
       )}
@@ -142,21 +143,21 @@ export function SocialFeed({
         <div className="yk-profile-surface yk-wall-empty">
           <h2>
             {everyone
-              ? "No public posts yet"
+              ? tPr4("socialUi.noPublicPostsYet")
               : viewer?.friends.length
-                ? "Share the first story"
-                : "Your circle starts here"}
+                ? tPr4("socialUi.shareTheFirstStory")
+                : tPr4("socialUi.yourCircleStartsHere")}
           </h2>
           <p>
             {everyone
-              ? "Publish a post on your public wall to start the conversation."
+              ? tPr4("socialUi.publishAPostOnYourPublicWall")
               : viewer?.friends.length
-                ? "Publish a post on your wall to start the conversation."
-                : "Find friends or publish your first post to start your feed."}
+                ? tPr4("socialUi.publishAPostOnYourWallTo")
+                : tPr4("socialUi.findFriendsOrPublishYourFirstPost")}
           </p>
           {!everyone && !viewer?.friends.length && (
             <Link className="yk-button" href="/social/friends">
-              Find friends
+              {tPr4("socialUi.findFriends")}
             </Link>
           )}
         </div>
@@ -207,12 +208,14 @@ export function SocialFeed({
           disabled={state.loadingMore}
           onClick={() => void store.more()}
         >
-          {state.loadingMore ? "Loading…" : "Load more"}
+          {state.loadingMore
+            ? tPr4("packs.loading")
+            : tPr4("profileUi.loadMore")}
         </Button>
       )}
       {state.loaded && state.items.length > 0 && !state.next && (
         <p role="status" className="yk-profile-muted">
-          You&apos;re all caught up.
+          {tPr4("homeFriendFeed.youReAllCaughtUp")}
         </p>
       )}
     </section>

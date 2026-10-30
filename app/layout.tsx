@@ -158,6 +158,7 @@ export default async function RootLayout({
       "error",
       "adminReportedCard",
       "profileUi",
+      "socialUi",
       "settingsUi",
       "gifPicker"
     ].map(namespace => [namespace, messages[namespace]])

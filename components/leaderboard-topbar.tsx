@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useEffect, useState, type ReactNode } from "react";
 import { Topbar } from "@/components/topbar";
@@ -6,6 +7,7 @@ import { getGameInfo } from "@/lib/data/cards";
 import { subscribePlayerSnapshotInvalidation } from "@/lib/data/player-state";
 
 export function LeaderboardTopbar({ account }: { account?: ReactNode }) {
+  const t = useTranslations("socialUi");
   const [karas, setKaras] = useState<number>();
   const [error, setError] = useState<string>();
   const [attempt, setAttempt] = useState(0);
@@ -22,8 +24,7 @@ export function LeaderboardTopbar({ account }: { account?: ReactNode }) {
           setError(undefined);
         }
       } catch {
-        if (active && current === request)
-          setError("Couldn't load your balance. Please try again.");
+        if (active && current === request) setError("balanceFailed");
       }
     };
     void refresh();
@@ -41,7 +42,7 @@ export function LeaderboardTopbar({ account }: { account?: ReactNode }) {
       view="leaderboard"
       account={account}
       karas={karas}
-      infoError={error}
+      infoError={error ? t(error) : undefined}
       onRetryInfo={() => {
         setError(undefined);
         setAttempt(value => value + 1);

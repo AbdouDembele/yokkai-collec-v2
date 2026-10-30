@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Topbar,
@@ -93,6 +94,7 @@ function readMessages(): PrivateMessage[] {
 }
 
 export function PrivateMessagesPreview() {
+  const tNotifications = useTranslations("topbar");
   const [playerId, setPlayerId] = useState(players[0].id);
   const [failure, setFailure] = useState(false);
   const [version, setVersion] = useState(0);
@@ -143,24 +145,27 @@ export function PrivateMessagesPreview() {
         latest.set(message.senderId, message);
       setNotifications(
         [...latest.values()].reverse().map(message =>
-          notificationItem({
-            id: message.id,
-            type: "private_message_received",
-            referenceId: message.senderId,
-            readAt: read.current.has(message.id) ? message.createdAt : null,
-            createdAt: message.createdAt,
-            cardName: null,
-            achievementName: null,
-            actorPseudo:
-              players.find(player => player.id === message.senderId)?.pseudo ??
-              null
-          })
+          notificationItem(
+            {
+              id: message.id,
+              type: "private_message_received",
+              referenceId: message.senderId,
+              readAt: read.current.has(message.id) ? message.createdAt : null,
+              createdAt: message.createdAt,
+              cardName: null,
+              achievementName: null,
+              actorPseudo:
+                players.find(player => player.id === message.senderId)
+                  ?.pseudo ?? null
+            },
+            tNotifications
+          )
         )
       );
     } catch {
       setError("Couldn't load local test notifications.");
     }
-  }, [playerId]);
+  }, [playerId, tNotifications]);
   useEffect(() => {
     refreshNotifications();
     const timer = window.setInterval(refreshNotifications, 1000);

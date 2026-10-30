@@ -1,5 +1,7 @@
 "use client";
+import { useTranslations, useFormatter } from "next-intl";
 
+import { gameErrorKey } from "@/i18n/game-messages";
 import Link from "next/link";
 import {
   useCallback,
@@ -22,9 +24,6 @@ import {
   type CollectionLeaderboard
 } from "@/lib/leaderboard/shared";
 
-const number = (value: number) => value.toLocaleString("en-US");
-const quantity = (value: number, singular: string, plural = singular + "s") =>
-  `${number(value)} ${value === 1 ? singular : plural}`;
 type LeaderboardRequest = {
   offset: number;
   query: string;
@@ -54,6 +53,9 @@ export function CollectionLeaderboardView({
   embedded?: boolean;
   navigation?: ReactNode;
 }) {
+  const tPr4 = useTranslations();
+  const fmt = useFormatter();
+  const number = fmt.number;
   const [data, setData] = useState<CollectionLeaderboard | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -92,11 +94,7 @@ export function CollectionLeaderboardView({
       if (current === request.current) setData(next);
     } catch (reason) {
       if (current === request.current)
-        setError(
-          reason instanceof Error
-            ? reason.message
-            : "Couldn't load the leaderboard."
-        );
+        setError(gameErrorKey(reason, "socialUi.leaderboardFailed"));
     } finally {
       if (current === request.current) setLoading(false);
     }
@@ -112,11 +110,7 @@ export function CollectionLeaderboardView({
       })
       .catch(reason => {
         if (active && current === request.current)
-          setError(
-            reason instanceof Error
-              ? reason.message
-              : "Couldn't load the leaderboard."
-          );
+          setError(gameErrorKey(reason, "socialUi.leaderboardFailed"));
       })
       .finally(() => {
         if (active && current === request.current) setLoading(false);
@@ -139,18 +133,18 @@ export function CollectionLeaderboardView({
     >
       <header className="yk-leaderboard-heading">
         <div>
-          <p className="eyebrow">Every rare find counts</p>
+          <p className="eyebrow">{tPr4("socialUi.everyRareFindCounts")}</p>
           <Heading className="yk-title" id="leaderboard-title">
-            Collection leaderboard
+            {tPr4("socialUi.collectionLeaderboard")}
           </Heading>
-          <p>Build a collection worth climbing for.</p>
+          <p>{tPr4("socialUi.buildACollectionWorthClimbingFor")}</p>
         </div>
         <Button
           variant="secondary"
           onClick={() => void load(lastRequest.current)}
           disabled={loading}
         >
-          Refresh scores
+          {tPr4("socialUi.refreshScores")}
         </Button>
       </header>
 
@@ -158,30 +152,37 @@ export function CollectionLeaderboardView({
 
       <section
         className="yk-leaderboard-mine"
-        aria-label="Your collection score"
+        aria-label={tPr4("socialUi.yourCollectionScore")}
       >
         <div className="yk-leaderboard-emblem">
           <Trophy />
         </div>
         <div className="yk-leaderboard-personal">
-          <span className="eyebrow">Your collection score</span>
+          <span className="eyebrow">
+            {tPr4("socialUi.yourCollectionScore")}
+          </span>
           <strong>
             {mine ? number(mine.score) : "—"}
-            <small> points</small>
+            <small> {tPr4("socialUi.points")}</small>
           </strong>
           <p>
             {!mine
               ? error
-                ? "Your score is currently unavailable."
-                : "Loading your collection score…"
+                ? tPr4("socialUi.yourScoreIsCurrentlyUnavailable")
+                : tPr4("socialUi.loadingYourCollectionScore")
               : !mine.isPublic
-                ? "Private profile · Your score is visible only to you."
+                ? tPr4("socialUi.privateProfileYourScoreIsVisibleOnly")
                 : mine.position
-                  ? `Rank #${number(mine.position)} among ${number(data!.rankedPlayers)} collectors`
-                  : "Collect your first card to enter the rankings."}
+                  ? tPr4("socialUi.collectionRank", {
+                      position: mine.position,
+                      count: data!.rankedPlayers
+                    })
+                  : tPr4("socialUi.collectYourFirstCardToEnterThe")}
           </p>
           {mine && !mine.isPublic && (
-            <Link href="/settings">Manage profile privacy →</Link>
+            <Link href="/settings">
+              {tPr4("socialUi.manageProfilePrivacy")}
+            </Link>
           )}
         </div>
         {mine && (
@@ -190,7 +191,7 @@ export function CollectionLeaderboardView({
               <div key={rarity} data-stat={rarity}>
                 <dt>
                   <LeaderboardRarityBadge rarity={rarity.toUpperCase()} />
-                  <span className="sr-only"> cards</span>
+                  <span className="sr-only"> {tPr4("socialUi.cards")}</span>
                 </dt>
                 <dd>{myCounts ? number(myCounts[rarity]) : "—"}</dd>
               </div>
@@ -221,19 +222,21 @@ export function CollectionLeaderboardView({
         >
           <div className="yk-leaderboard-section-heading">
             <Subheading id="collectors-title">
-              {friendsOnly ? "Friends leaderboard" : "Top 100 collectors"}
+              {friendsOnly
+                ? tPr4("socialUi.friendsLeaderboard")
+                : tPr4("socialUi.top100Collectors")}
             </Subheading>
-            <span>Current collection · Score v1</span>
+            <span>{tPr4("socialUi.currentCollectionScoreV1")}</span>
           </div>
           <p className="yk-leaderboard-note">
             {friendsOnly
-              ? "You and your friends, ordered by global rank. Only public, ranked collections appear."
-              : "Public profiles only. Equal scores share the same rank."}
+              ? tPr4("socialUi.youAndYourFriendsOrderedByGlobal")
+              : tPr4("socialUi.publicProfilesOnlyEqualScoresShareThe")}
           </p>
           <div
             className="yk-leaderboard-scopes"
             role="group"
-            aria-label="Leaderboard view"
+            aria-label={tPr4("socialUi.leaderboardView")}
           >
             <Button
               variant="secondary"
@@ -243,7 +246,7 @@ export function CollectionLeaderboardView({
                 void load({ offset: 0, query, friendsOnly: false });
               }}
             >
-              Top 100
+              {tPr4("socialUi.top100")}
             </Button>
             <Button
               variant="secondary"
@@ -253,7 +256,7 @@ export function CollectionLeaderboardView({
                 void load({ offset: 0, query, friendsOnly: true });
               }}
             >
-              Friends
+              {tPr4("catalogueUi.friends")}
             </Button>
           </div>
           <form
@@ -263,19 +266,21 @@ export function CollectionLeaderboardView({
               void load({ offset: 0, query, friendsOnly });
             }}
           >
-            <label htmlFor="leaderboard-player-search">Find a player</label>
+            <label htmlFor="leaderboard-player-search">
+              {tPr4("socialUi.findAPlayer")}
+            </label>
             <div>
               <input
                 id="leaderboard-player-search"
                 type="search"
                 maxLength={64}
                 value={query}
-                placeholder="Search by username…"
+                placeholder={tPr4("socialUi.searchByUsername")}
                 aria-describedby="leaderboard-search-help"
                 onChange={event => setQuery(event.target.value)}
               />
               <Button type="submit" variant="secondary">
-                Search
+                {tPr4("socialUi.search")}
               </Button>
               {(query || data?.query) && (
                 <Button
@@ -285,31 +290,31 @@ export function CollectionLeaderboardView({
                     void load({ offset: 0, query: "", friendsOnly });
                   }}
                 >
-                  Clear search
+                  {tPr4("profileUi.clearSearch")}
                 </Button>
               )}
             </div>
             <p id="leaderboard-search-help">
               {friendsOnly
-                ? "Search your ranked friends by username."
-                : "Search all ranked players, including outside the top 100."}
+                ? tPr4("socialUi.searchYourRankedFriendsByUsername")
+                : tPr4("socialUi.searchAllRankedPlayersIncludingOutsideThe")}
             </p>
           </form>
           {error && (
             <div className="yk-leaderboard-message" role="alert">
-              <p>{error}</p>
+              <p>{tPr4(error)}</p>
               <Button
                 variant="secondary"
                 onClick={() => void load(lastRequest.current)}
                 disabled={loading}
               >
-                Try again
+                {tPr4("packs.tryAgain")}
               </Button>
             </div>
           )}
           {loading && (
             <p className="yk-leaderboard-loading" role="status">
-              Updating collection scores…
+              {tPr4("socialUi.updatingCollectionScores")}
             </p>
           )}
           {loading && (
@@ -322,13 +327,19 @@ export function CollectionLeaderboardView({
           {data && !loading && !error && (
             <>
               <p className="yk-leaderboard-results" role="status">
-                {data.query
-                  ? `${quantity(data.total, "player")} found for “${data.query}”`
-                  : `${quantity(data.total, "collector")} ${data.friendsOnly ? "in your friends view" : "in the top 100"}`}
+                {tPr4("socialUi.collectionResults", {
+                  count: data.total,
+                  query: data.query,
+                  scope: data.query
+                    ? "search"
+                    : data.friendsOnly
+                      ? "friends"
+                      : "top"
+                })}
               </p>
               <ol
                 className="yk-leaderboard-list"
-                aria-label="Collectors ranked by score"
+                aria-label={tPr4("socialUi.collectorsRankedByScore")}
               >
                 {data.entries.map(entry => (
                   <li
@@ -337,7 +348,9 @@ export function CollectionLeaderboardView({
                   >
                     <span
                       className="yk-leaderboard-position"
-                      aria-label={`Rank ${entry.position}`}
+                      aria-label={tPr4("socialUi.rank", {
+                        position: entry.position
+                      })}
                     >
                       #{number(entry.position)}
                     </span>
@@ -357,10 +370,12 @@ export function CollectionLeaderboardView({
                             name={entry.pseudo}
                             cosmetics={data.profileStyles?.[entry.userId]}
                           />
-                          {entry.userId === userId && <small> You</small>}
+                          {entry.userId === userId && (
+                            <small> {tPr4("homeLeaderboard.you")}</small>
+                          )}
                           {entry.isFriend && (
                             <small className="yk-leaderboard-friend">
-                              Friend
+                              {tPr4("socialUi.friend")}
                             </small>
                           )}
                         </strong>
@@ -371,7 +386,7 @@ export function CollectionLeaderboardView({
                     </Link>
                     <span className="yk-leaderboard-points">
                       <strong>{number(entry.score)}</strong>
-                      <small>points</small>
+                      <small>{tPr4("socialUi.points")}</small>
                     </span>
                   </li>
                 ))}
@@ -379,15 +394,15 @@ export function CollectionLeaderboardView({
               {!data.entries.length && !loading && !error && (
                 <p className="yk-leaderboard-message">
                   {data.query
-                    ? "No ranked players found. Try another username."
+                    ? tPr4("socialUi.noRankedPlayersFoundTryAnotherUsername")
                     : data.friendsOnly
-                      ? "No ranked friends yet. Friends with public collections will appear here."
-                      : "No ranked collections yet. Collect a card and make your profile public to join."}
+                      ? tPr4("socialUi.noRankedFriendsYetFriendsWithPublic")
+                      : tPr4("socialUi.noRankedCollectionsYetCollectACard")}
                 </p>
               )}
               {data.total > data.limit && (
                 <nav
-                  aria-label="Leaderboard pages"
+                  aria-label={tPr4("socialUi.leaderboardPages")}
                   className="yk-leaderboard-pagination"
                 >
                   <Button
@@ -401,11 +416,13 @@ export function CollectionLeaderboardView({
                       })
                     }
                   >
-                    Previous
+                    {tPr4("settingsUi.previous")}
                   </Button>
                   <span>
-                    Page {number(Math.floor(data.offset / data.limit) + 1)} of{" "}
-                    {number(Math.ceil(data.total / data.limit))}
+                    {tPr4("socialUi.page", {
+                      page: Math.floor(data.offset / data.limit) + 1,
+                      total: Math.ceil(data.total / data.limit)
+                    })}
                   </span>
                   <Button
                     variant="secondary"
@@ -418,7 +435,7 @@ export function CollectionLeaderboardView({
                       })
                     }
                   >
-                    Next
+                    {tPr4("packs.next")}
                   </Button>
                 </nav>
               )}
@@ -428,9 +445,11 @@ export function CollectionLeaderboardView({
 
         <aside className="yk-leaderboard-rules" aria-labelledby="score-title">
           <div className="yk-leaderboard-section-heading">
-            <Subheading id="score-title">How scoring works</Subheading>
+            <Subheading id="score-title">
+              {tPr4("socialUi.howScoringWorks")}
+            </Subheading>
           </div>
-          <p>Points for the first copy of each card and variant.</p>
+          <p>{tPr4("socialUi.pointsForTheFirstCopyOfEach")}</p>
           <dl className="yk-leaderboard-values">
             {COLLECTION_SCORE_RULES.map(rule => (
               <div key={rule.label} data-kind={rule.kind}>
@@ -450,45 +469,21 @@ export function CollectionLeaderboardView({
             ))}
           </dl>
           <details open>
-            <summary>Duplicates &amp; evolution</summary>
-            <p>
-              SR, SSR and LR totals include every owned copy. Infinity and Shiny
-              counts are included in their base rarity totals.
-            </p>
-            <p>
-              First copy: 100%. Copies 2–5: 20% each. Further identical copies:
-              0 points. Different cards and variants count separately.
-            </p>
-            <p>
-              Infinity values reflect the fusion cost plus 20%: 5 SSR or 3 LR. A
-              natural LR Shiny is worth 10× a standard LR.
-            </p>
-            <p>
-              For example, five copies of the same LR earn 9,000 points. Two
-              different LR cards earn 10,000 points.
-            </p>
+            <summary>{tPr4("socialUi.duplicatesEvolution")}</summary>
+            <p>{tPr4("socialUi.sRSSRAndLRTotalsIncludeEvery")}</p>
+            <p>{tPr4("socialUi.firstCopy100Copies2520")}</p>
+            <p>{tPr4("socialUi.infinityValuesReflectTheFusionCostPlus")}</p>
+            <p>{tPr4("socialUi.forExampleFiveCopiesOfTheSame")}</p>
           </details>
           <details>
-            <summary>Fair play &amp; privacy</summary>
-            <p>
-              Only cards currently owned count. Trades and sales move points
-              with the cards. Locked and auction-listed cards count until
-              ownership changes. Pending Decision Pack choices do not count.
-            </p>
-            <p>
-              No bonuses for Karas, account age, custom art or Pro membership.
-              Private, deleted and banned profiles are not ranked. Blocked
-              players are hidden; global rank numbers stay unchanged.
-            </p>
-            <p>
-              Evolving into a variant you already own is subject to the same
-              duplicate cap. This can lower your score when consumed variants
-              disappear.
-            </p>
+            <summary>{tPr4("socialUi.fairPlayPrivacy")}</summary>
+            <p>{tPr4("socialUi.onlyCardsCurrentlyOwnedCountTradesAnd")}</p>
+            <p>{tPr4("socialUi.noBonusesForKarasAccountAgeCustom")}</p>
+            <p>{tPr4("socialUi.evolvingIntoAVariantYouAlreadyOwn")}</p>
           </details>
           {mine && (
             <details>
-              <summary>Your score breakdown</summary>
+              <summary>{tPr4("socialUi.yourScoreBreakdown")}</summary>
               {mine.breakdown.length ? (
                 <dl className="yk-leaderboard-values">
                   {mine.breakdown.map(row => (
@@ -501,9 +496,13 @@ export function CollectionLeaderboardView({
                             ? " Infinity"
                             : " Shiny"}
                         <small>
-                          {quantity(row.uniqueVariants, "variant")} ·{" "}
-                          {quantity(row.copies, "copy", "copies")} ·{" "}
-                          {quantity(row.duplicatePoints, "duplicate point")}
+                          {tPr4("socialUi.variants", {
+                            count: row.uniqueVariants
+                          })}{" "}
+                          · {tPr4("socialUi.copies", { count: row.copies })} ·{" "}
+                          {tPr4("socialUi.duplicatePoints", {
+                            count: row.duplicatePoints
+                          })}
                         </small>
                       </dt>
                       <dd>{number(row.points)}</dd>
@@ -511,9 +510,7 @@ export function CollectionLeaderboardView({
                   ))}
                 </dl>
               ) : (
-                <p>
-                  Your score breakdown will appear after you collect a card.
-                </p>
+                <p>{tPr4("socialUi.yourScoreBreakdownWillAppearAfterYou")}</p>
               )}
             </details>
           )}

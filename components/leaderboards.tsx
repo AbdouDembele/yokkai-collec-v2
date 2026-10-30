@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useState } from "react";
 import { Button } from "@/components/ui";
@@ -12,26 +13,27 @@ export function LeaderboardsView({
   userId: string;
   embedded?: boolean;
 }) {
+  const tPr4 = useTranslations();
   const [kind, setKind] = useState<"collection" | "referrals">("collection");
   const navigation = (
     <div
       className="yk-leaderboard-kinds"
       role="group"
-      aria-label="Leaderboard category"
+      aria-label={tPr4("socialUi.leaderboardCategory")}
     >
       <Button
         variant="secondary"
         aria-pressed={kind === "collection"}
         onClick={() => setKind("collection")}
       >
-        Collection
+        {tPr4("collectionUi.collection")}
       </Button>
       <Button
         variant="secondary"
         aria-pressed={kind === "referrals"}
         onClick={() => setKind("referrals")}
       >
-        Referrals
+        {tPr4("socialUi.referrals")}
       </Button>
     </div>
   );

@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { notificationItem, Topbar } from "@/components/topbar";
 import { useNotificationFeed } from "@/hooks/use-notification-feed";
@@ -33,6 +34,7 @@ const wait = (ms: number) =>
 
 // Mounts the real Topbar and the real notification hook with a loader that counts calls instead of calling list_notifications.
 export function NotificationRefreshProof() {
+  const tNotifications = useTranslations("topbar");
   const server = useRef({ items: initial, calls: 0, delay: 20 });
   const [checks, setChecks] = useState<{ label: string; ok: boolean }[]>([]);
   const started = useRef(false);
@@ -133,7 +135,9 @@ export function NotificationRefreshProof() {
         view="wishlist"
         name="Kitsune"
         karas={4920}
-        notifications={(feed.notifications ?? []).map(notificationItem)}
+        notifications={(feed.notifications ?? []).map(item =>
+          notificationItem(item, tNotifications)
+        )}
         notificationError={feed.error || undefined}
         onRetryNotifications={feed.retry}
         onRefreshNotifications={() => void feed.refresh()}

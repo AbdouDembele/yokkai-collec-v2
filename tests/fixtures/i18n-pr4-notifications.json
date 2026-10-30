@@ -1,0 +1,663 @@
+{
+  "source": "4fb38da759d1c6189cbf635d2c89c8fd85c4608b",
+  "cases": [
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "wall_post_reply",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New reply to your post",
+        "text": "Kitsune {FR} replied to your post.",
+        "href": "/profile?tab=wall",
+        "kind": "reply"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "wall_post_reply",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New reply to your post",
+        "text": "A friend replied to your post.",
+        "href": "/profile?tab=wall",
+        "kind": "reply"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "private_message_received",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New private message",
+        "text": "Kitsune {FR} sent you a message.",
+        "href": "/social/friends?message=player%2B123",
+        "kind": "message"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "private_message_received",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New private message",
+        "text": "A friend sent you a message.",
+        "href": "/social/friends?message=player%2B123",
+        "kind": "message"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "friend_request",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New friend request",
+        "text": "Kitsune {FR} sent you a friend request.",
+        "href": "/social/friends",
+        "kind": "friend"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "friend_request",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New friend request",
+        "text": "Deleted player sent you a friend request.",
+        "href": "/social/friends",
+        "kind": "friend"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "outbid",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "You've been outbid",
+        "text": "You've been outbid on SATORU GOJO.",
+        "href": "/market/player+123",
+        "kind": "outbid"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "outbid",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "You've been outbid",
+        "text": "You've been outbid on a card.",
+        "href": "/market/player+123",
+        "kind": "outbid"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_offer_received",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New trade offer",
+        "text": "Kitsune {FR} sent you a trade offer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_offer_received",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New trade offer",
+        "text": "Deleted player sent you a trade offer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_counter_offer_received",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New counteroffer",
+        "text": "Kitsune {FR} sent you a counteroffer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade-counter"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_counter_offer_received",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New counteroffer",
+        "text": "Deleted player sent you a counteroffer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade-counter"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_offer_accepted",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Offer accepted",
+        "text": "Kitsune {FR} accepted your trade offer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade-accepted"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_offer_accepted",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Offer accepted",
+        "text": "Deleted player accepted your trade offer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade-accepted"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_offer_declined",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Offer declined",
+        "text": "Kitsune {FR} declined your trade offer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade-declined"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_offer_declined",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Offer declined",
+        "text": "Deleted player declined your trade offer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade-declined"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_offer_cancelled",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Offer canceled",
+        "text": "Kitsune {FR} canceled their trade offer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade-cancelled"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "trade_offer_cancelled",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Offer canceled",
+        "text": "Deleted player canceled their trade offer.",
+        "href": "/trades?offre=player+123",
+        "kind": "trade-cancelled"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "auction_won",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Auction won",
+        "text": "You won SATORU GOJO!",
+        "href": "/market/player+123",
+        "kind": "won"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "auction_won",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Auction won",
+        "text": "You won a card!",
+        "href": "/market/player+123",
+        "kind": "won"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "auction_sold",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Card sold",
+        "text": "You sold SATORU GOJO for 1,234 Karas.",
+        "href": "/market/player+123",
+        "kind": "sold"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "auction_sold",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Card sold",
+        "text": "You sold a character for 1,234 Karas.",
+        "href": "/market/player+123",
+        "kind": "sold"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "auction_chat_mention",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Auction mention",
+        "text": "Kitsune {FR} mentioned you in the chat for SATORU GOJO.",
+        "href": "/market/player+123#chat-enchere",
+        "kind": "mention"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "auction_chat_mention",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Auction mention",
+        "text": "Deleted player mentioned you in the chat for an auction.",
+        "href": "/market/player+123#chat-enchere",
+        "kind": "mention"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "achievement_completed",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Achievement unlocked",
+        "text": "New achievement: Collector.",
+        "href": "/achievements#player+123",
+        "kind": "mission"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "achievement_completed",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Achievement unlocked",
+        "text": "New achievement: an achievement.",
+        "href": "/achievements#player+123",
+        "kind": "mission"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "wishlist_card_on_auction",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Wishlist card up for auction",
+        "text": "SATORU GOJO on your wishlist is now up for auction. Take a look!",
+        "href": "/market/player+123",
+        "kind": "wishlist"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "wishlist_card_on_auction",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "Wishlist card up for auction",
+        "text": "A card on your wishlist is now up for auction. Take a look!",
+        "href": "/market/player+123",
+        "kind": "wishlist"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "future_type",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": "Kitsune {FR}",
+        "cardName": "SATORU GOJO",
+        "karaAmount": 1234,
+        "achievementName": "Collector"
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New activity",
+        "text": "New activity is available.",
+        "kind": "mission"
+      }
+    },
+    {
+      "input": {
+        "id": "note",
+        "referenceId": "player+123",
+        "type": "future_type",
+        "createdAt": "2026-10-28T10:00:00Z",
+        "readAt": null,
+        "actorPseudo": null,
+        "cardName": null,
+        "karaAmount": 1234,
+        "achievementName": null
+      },
+      "expected": {
+        "id": "note",
+        "time": "fixed",
+        "read": false,
+        "title": "New activity",
+        "text": "New activity is available.",
+        "kind": "mission"
+      }
+    }
+  ]
+}

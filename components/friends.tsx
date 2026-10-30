@@ -222,22 +222,33 @@ export function FriendAction({
 
 export function friendPresenceLabel(
   person: Pick<FriendUser, "isOnline" | "lastSeenAt">,
-  now = Date.now()
+  now = Date.now(),
+  t?: ReturnType<typeof useTranslations>,
+  formattedDate?: string
 ) {
-  if (person.isOnline) return "Online";
-  if (!person.lastSeenAt) return "Not seen online yet";
+  if (person.isOnline) return t ? t("socialUi.online") : "Online";
+  if (!person.lastSeenAt)
+    return t ? t("socialUi.unseen") : "Not seen online yet";
   const elapsed = Math.max(0, now - new Date(person.lastSeenAt).getTime());
   const minutes = Math.floor(elapsed / 60_000);
-  if (minutes < 1) return "Seen just now";
+  if (minutes < 1) return t ? t("socialUi.seenNow") : "Seen just now";
   if (minutes < 60)
-    return `Last seen ${minutes.toLocaleString("en-US")} ${minutes === 1 ? "minute" : "minutes"} ago`;
+    return t
+      ? t("socialUi.seenMinutes", { count: minutes })
+      : `Last seen ${minutes.toLocaleString("en-US")} ${minutes === 1 ? "minute" : "minutes"} ago`;
   const hours = Math.floor(minutes / 60);
   if (hours < 24)
-    return `Last seen ${hours.toLocaleString("en-US")} ${hours === 1 ? "hour" : "hours"} ago`;
+    return t
+      ? t("socialUi.seenHours", { count: hours })
+      : `Last seen ${hours.toLocaleString("en-US")} ${hours === 1 ? "hour" : "hours"} ago`;
   const days = Math.floor(hours / 24);
   if (days < 7)
-    return `Last seen ${days.toLocaleString("en-US")} ${days === 1 ? "day" : "days"} ago`;
-  return `Last seen ${new Intl.DateTimeFormat("en-US", { dateStyle: "short", timeStyle: "short" }).format(new Date(person.lastSeenAt))}`;
+    return t
+      ? t("socialUi.seenDays", { count: days })
+      : `Last seen ${days.toLocaleString("en-US")} ${days === 1 ? "day" : "days"} ago`;
+  return t
+    ? t("socialUi.seenDate", { date: formattedDate ?? "—" })
+    : `Last seen ${new Intl.DateTimeFormat("en-US", { dateStyle: "short", timeStyle: "short" }).format(new Date(person.lastSeenAt))}`;
 }
 
 function localizedPresence(
@@ -452,9 +463,10 @@ export function FriendsPanel({
       setData(await readFriends(true));
     } catch (e) {
       setError(
-        e instanceof Error
-          ? e.message
-          : "Couldn't load more friends. Please try again."
+        gameErrorKey(
+          e,
+          gameErrorKey("Couldn't load more friends. Please try again.")
+        )
       );
     } finally {
       setLoadingMore(false);
@@ -504,7 +516,7 @@ export function FriendsPanel({
       },
       e => {
         if (active)
-          setError(e instanceof Error ? e.message : "Couldn't load friends.");
+          setError(gameErrorKey(e, gameErrorKey("Couldn't load friends.")));
       }
     );
     return () => {
@@ -518,9 +530,7 @@ export function FriendsPanel({
       setBlocked(current => current.filter(person => person.id !== id));
       await load();
     } catch (e) {
-      setError(
-        e instanceof Error ? e.message : "Couldn't complete this action."
-      );
+      setError(gameErrorKey(e, gameErrorKey("Couldn't complete this action.")));
     }
   }
   async function load() {
@@ -528,7 +538,7 @@ export function FriendsPanel({
       setData(await readFriends());
       invalidateSocialUnread();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Couldn't load friends.");
+      setError(gameErrorKey(e, gameErrorKey("Couldn't load friends.")));
     }
   }
   useEffect(() => {
@@ -546,7 +556,7 @@ export function FriendsPanel({
         }
       } catch (e) {
         if (active)
-          setError(e instanceof Error ? e.message : "Couldn't load friends.");
+          setError(gameErrorKey(e, gameErrorKey("Couldn't load friends.")));
       } finally {
         loading = false;
       }
@@ -577,7 +587,7 @@ export function FriendsPanel({
           },
           e => {
             if (active)
-              setError(e instanceof Error ? e.message : "Couldn't search.");
+              setError(gameErrorKey(e, gameErrorKey("Couldn't search.")));
           }
         )
         .finally(() => {
@@ -596,9 +606,7 @@ export function FriendsPanel({
       setRefusal(undefined);
       await load();
     } catch (e) {
-      setError(
-        e instanceof Error ? e.message : "Couldn't complete this action."
-      );
+      setError(gameErrorKey(e, gameErrorKey("Couldn't complete this action.")));
     }
   }
   async function remove() {
@@ -610,7 +618,7 @@ export function FriendsPanel({
       setRemoval(undefined);
       await load();
     } catch (e) {
-      setError(e instanceof Error ? e.message : "Couldn't remove this friend.");
+      setError(gameErrorKey(e, gameErrorKey("Couldn't remove this friend.")));
     } finally {
       setRemoving(false);
     }
