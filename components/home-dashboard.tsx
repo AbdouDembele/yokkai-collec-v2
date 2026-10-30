@@ -11,6 +11,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
 import { HomeBinders } from "@/components/home-binders";
 import { HomeFriendFeed } from "@/components/home-friend-feed";
+import { HomeRankingCarousel } from "@/components/home-ranking-carousel";
 import { HomeLeaderboard } from "@/components/home-leaderboard";
 import type { FriendFeedPage } from "@/lib/data/friend-feed";
 import {
@@ -282,14 +283,13 @@ export function HomeDashboard({ userId }: { userId: string }) {
             <PanelData load={market} />
           </Suspense>
         </HomePanel>
-        <HomePanel
-          id="home-leaderboard"
-          title={t("leaderboard")}
-          href="/leaderboard"
-          link={t("viewLeaderboard")}
-        >
+        <HomePanel id="home-leaderboard" title={t("leaderboard")}>
           <Suspense fallback={<HomeSkeleton />}>
-            <HomeLeaderboard userId={userId} />
+            <HomeRankingCarousel
+              key={userId}
+              userId={userId}
+              powerRanking={<HomeLeaderboard userId={userId} />}
+            />
           </Suspense>
         </HomePanel>
         <HomeLinks discordEnabled={discordEnabled} />

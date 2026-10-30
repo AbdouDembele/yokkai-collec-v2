@@ -2659,5 +2659,29 @@
     "completedStat": "Licences terminées",
     "cardsStat": "Cartes distinctes",
     "ratio": "{owned, number} / {total, number}"
+  },
+  "homeRankingCarousel": {
+    "label": "Classements des joueurs",
+    "carouselRole": "carrousel",
+    "slideRole": "diapositive",
+    "chooseRanking": "Choisir un classement",
+    "controls": "Commandes de défilement des classements",
+    "viewRanking": "Voir le classement",
+    "previous": "Classement précédent",
+    "next": "Classement suivant",
+    "play": "Lancer le défilement automatique",
+    "pause": "Mettre le défilement automatique en pause",
+    "likesIntro": "Les profils les plus appréciés des joueurs",
+    "licensesIntro": "Les licences terminées d’abord, puis les cartes distinctes pour départager les joueurs",
+    "podium": "Joueurs en tête",
+    "morePlayers": "Autres joueurs en tête",
+    "yourLikes": "Les J’aime sur ton profil",
+    "yourLicenses": "Ta progression globale",
+    "notRanked": "Pas encore classé publiquement",
+    "loading": "Chargement de ce classement…",
+    "unavailable": "Ce classement est temporairement indisponible.",
+    "retry": "Réessayer",
+    "emptyLikes": "Aucun profil n’a encore reçu de J’aime.",
+    "emptyLicenses": "Aucun collectionneur classé pour le moment. Commence ta collection !"
   }
 }

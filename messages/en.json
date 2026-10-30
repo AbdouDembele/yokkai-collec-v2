@@ -2659,5 +2659,29 @@
     "completedStat": "Completed licenses",
     "cardsStat": "Distinct cards",
     "ratio": "{owned, number} / {total, number}"
+  },
+  "homeRankingCarousel": {
+    "label": "Player leaderboards",
+    "carouselRole": "carousel",
+    "slideRole": "slide",
+    "chooseRanking": "Choose a leaderboard",
+    "controls": "Leaderboard slideshow controls",
+    "viewRanking": "View leaderboard",
+    "previous": "Previous leaderboard",
+    "next": "Next leaderboard",
+    "play": "Start automatic rotation",
+    "pause": "Pause automatic rotation",
+    "likesIntro": "The profiles players love most",
+    "licensesIntro": "Completed licenses first, then distinct cards to break ties",
+    "podium": "Leading players",
+    "morePlayers": "More leading players",
+    "yourLikes": "Your profile likes",
+    "yourLicenses": "Your overall progress",
+    "notRanked": "Not publicly ranked yet",
+    "loading": "Loading this leaderboard…",
+    "unavailable": "This leaderboard is temporarily unavailable.",
+    "retry": "Try again",
+    "emptyLikes": "No profiles have received likes yet.",
+    "emptyLicenses": "No ranked collectors yet. Start your collection!"
   }
 }

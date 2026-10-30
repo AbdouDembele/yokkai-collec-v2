@@ -18,13 +18,26 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default async function LeaderboardPage() {
+export default async function LeaderboardPage({
+  searchParams
+}: {
+  searchParams: Promise<{ ranking?: string | string[] }>;
+}) {
+  const query = await searchParams;
+  const initialKind =
+    query.ranking === "likes" || query.ranking === "licenses"
+      ? query.ranking
+      : "collection";
   const user = await getCurrentUser();
   if (!user) redirect("/login");
   return (
     <div className="flex min-h-dvh w-full flex-col">
       <LeaderboardTopbar key={`topbar-${user.id}`} account={<AccountMenu />} />
-      <LeaderboardsView key={`rankings-${user.id}`} userId={user.id} />
+      <LeaderboardsView
+        key={`rankings-${user.id}-${initialKind}`}
+        userId={user.id}
+        initialKind={initialKind}
+      />
       <SiteFooter discordEnabled={Boolean(getDiscordInviteUrl())} />
     </div>
   );

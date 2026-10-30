@@ -9,15 +9,17 @@ import { ReferralLeaderboardView } from "@/components/referral-leaderboard";
 
 export function LeaderboardsView({
   userId,
-  embedded = false
+  embedded = false,
+  initialKind = "collection"
 }: {
   userId: string;
   embedded?: boolean;
+  initialKind?: "collection" | "referrals" | "likes" | "licenses";
 }) {
   const tPr4 = useTranslations();
   const [kind, setKind] = useState<
     "collection" | "referrals" | "likes" | "licenses"
-  >("collection");
+  >(initialKind);
   const navigation = (
     <div
       className="yk-leaderboard-kinds"
