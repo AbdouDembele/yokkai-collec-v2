@@ -228,6 +228,35 @@ export function notificationItem(
     kind: "mission"
   };
 }
+export function useNotificationItems(notifications?: AppNotification[]) {
+  const t = useTranslations("topbar");
+  const fmt = useFormatter();
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false
+  );
+  return notifications?.map(item =>
+    notificationItem(
+      item,
+      t,
+      i18nEnabled()
+        ? hydrated
+          ? fmt.dateTime(new Date(item.createdAt), {
+              year: "numeric",
+              month: "numeric",
+              day: "numeric",
+              hour: "numeric",
+              minute: "numeric",
+              second: "numeric",
+              timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
+            })
+          : "—"
+        : undefined
+    )
+  );
+}
+
 export function Topbar({
   view,
   account,
@@ -286,31 +315,7 @@ export function Topbar({
     socialUnread,
     secondaryReady && (!!socialUnread || !notifications)
   );
-  const fmt = useFormatter();
-  const hydrated = useSyncExternalStore(
-    subscribeToHydration,
-    () => true,
-    () => false
-  );
-  const loaded = feed.notifications?.map(item =>
-    notificationItem(
-      item,
-      t,
-      i18nEnabled()
-        ? hydrated
-          ? fmt.dateTime(new Date(item.createdAt), {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-              second: "numeric",
-              timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-            })
-          : "—"
-        : undefined
-    )
-  );
+  const loaded = useNotificationItems(feed.notifications);
   const shown = notifications ?? loaded;
   const visibleNotificationError = externalNotificationError ?? feed.error;
   const unread = shown?.filter(n => !n.read).length;

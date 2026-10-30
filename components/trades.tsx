@@ -2,7 +2,7 @@
 import { useSyncExternalStore } from "react";
 import { i18nEnabled } from "@/i18n/locale";
 const subscribeToHydration = () => () => {};
-import { gameErrorKey } from "@/i18n/game-messages";
+import { socialErrorKey as gameErrorKey } from "@/i18n/social-messages";
 import { useTranslations, useFormatter } from "next-intl";
 
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";

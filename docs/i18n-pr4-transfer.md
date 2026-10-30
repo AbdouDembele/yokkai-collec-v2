@@ -16,6 +16,8 @@ L'intégration part de `origin/master` du nouveau dépôt, commit `4fb38da759d1c
 
 Les états d'erreur des messages et échanges conservent une clé stable. La liste des clés autorisées est construite après l'enregistrement de tous les messages de compatibilité, pour éviter un retour au message générique au rendu suivant. Les erreurs inconnues restent filtrées.
 
+Les descripteurs spécifiques au Social sont isolés dans `i18n/social-messages.ts` ; les autres écrans gardent le registre commun. Le formatage des notifications est partagé par le Topbar et les vues communautaires. Le garde-fou historique du profil reste inchangé et un contrôle propre à PR 4 compte aussi le nouveau module Social dans son estimation gzip.
+
 Les traductions déjà présentes dans les espaces `market`, `socialFriends`, `socialTrades`, `privateMessages` et `conversationTrade` sont conservées. Les conversations ancrées, styles d'avatar/pseudo, boutons emoji/GIF, profil depuis une mention, pagination, sauvegarde de tri, modal d'échange et redirection `/trades` vers Social restent ceux du dépôt actuel.
 
 Les données de joueurs, cartes, licences, images et contenus de messages ne sont pas traduits. Aucun provider, package, sélecteur, flag, migration ou paramètre de production ajouté. Aucune modification des règles d'échange, de permissions ou des RPC.
@@ -29,6 +31,8 @@ Les vérifications des textes de notifications et d'annulation visent les catalo
 Un nouveau test fige 30 sorties de notifications produites par le master de référence, avec et sans données optionnelles. Il vérifie l'égalité exacte du titre, du corps, de la destination, du type et de l'état de lecture en anglais. Les signatures intégrales du JSX des cartes et des appels RPC restent identiques à celles du transfert historique, sans réenregistrement des empreintes.
 
 Les adaptations de tests liés au produit sont explicitement signalées dans la PR pour validation de Walid. La relecture française par Walid reste requise.
+
+Les harnais `market-polling-runtime`, `social-everyone` et `trade-paths` conservent toutes leurs assertions et utilisent également le vrai traducteur, avec une identité stable par namespace comme le hook réel. L'attente de titre d'Everyone vérifie désormais `generateMetadata()` et conserve la valeur anglaise exacte.
 
 ## Recette et limites
 

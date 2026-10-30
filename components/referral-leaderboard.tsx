@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations, useFormatter } from "next-intl";
 
-import { gameErrorKey } from "@/i18n/game-messages";
+import { socialErrorKey as gameErrorKey } from "@/i18n/social-messages";
 import Link from "next/link";
 import {
   useCallback,

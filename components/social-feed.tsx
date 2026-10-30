@@ -1,7 +1,7 @@
 "use client";
 import { useTranslations } from "next-intl";
 
-import { gameErrorKey } from "@/i18n/game-messages";
+import { socialErrorKey as gameErrorKey } from "@/i18n/social-messages";
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { Suspense, useEffect, useState, useSyncExternalStore } from "react";

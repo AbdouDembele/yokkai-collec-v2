@@ -1,4 +1,9 @@
-import { intl, gameMessages, loadLocaleModule } from "./helpers/i18n.mjs";
+import {
+  intl,
+  gameMessages,
+  socialMessages,
+  loadLocaleModule
+} from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -26,11 +31,13 @@ function load(file, mocks = {}) {
         ? intl
         : name === "@/i18n/game-messages"
           ? gameMessages
-          : name === "@/i18n/locale"
-            ? loadLocaleModule()
-            : name in mocks
-              ? mocks[name]
-              : require(name)
+          : name === "@/i18n/social-messages"
+            ? socialMessages
+            : name === "@/i18n/locale"
+              ? loadLocaleModule()
+              : name in mocks
+                ? mocks[name]
+                : require(name)
   });
   return exports;
 }

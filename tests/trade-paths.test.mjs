@@ -5,7 +5,12 @@ import { createRequire } from "node:module";
 import vm from "node:vm";
 import ts from "typescript";
 import { readRpcPages } from "../lib/data/rpc-pages.mjs";
-import { intl } from "./helpers/i18n.mjs";
+import {
+  intl,
+  gameMessages,
+  socialMessages,
+  loadLocaleModule
+} from "./helpers/i18n.mjs";
 const require = createRequire(import.meta.url);
 const friend = "f9100000-0000-4000-8000-000000000001";
 function load(file, mocks) {
@@ -172,11 +177,22 @@ function componentHarness(adapter, props = {}) {
   );
   const { api } = apiHarness();
   const { createDemandPager } = load("lib/data/demand-pages.ts", () => ({}));
-  const translate = intl.useTranslations("socialTrades");
+  const translators = new Map();
+  const scopedIntl = {
+    ...intl,
+    useTranslations(namespace) {
+      if (!translators.has(namespace))
+        translators.set(namespace, intl.useTranslations(namespace));
+      return translators.get(namespace);
+    }
+  };
   const { TradesPanel } = load("components/trades.tsx", name => {
     if (name === "react") return hooks;
     if (name === "react/jsx-runtime") return require(name);
-    if (name === "next-intl") return { useTranslations: () => translate };
+    if (name === "next-intl") return scopedIntl;
+    if (name === "@/i18n/game-messages") return gameMessages;
+    if (name === "@/i18n/social-messages") return socialMessages;
+    if (name === "@/i18n/locale") return loadLocaleModule();
     if (name === "@/components/ui") return ui;
     if (name === "@/lib/data/trades") return api;
     if (name === "@/lib/data/demand-pages") return { createDemandPager };

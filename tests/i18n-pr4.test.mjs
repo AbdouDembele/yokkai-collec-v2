@@ -5,7 +5,8 @@ import vm from "node:vm";
 import ts from "typescript";
 import { createTranslator } from "next-intl";
 import { createHash } from "node:crypto";
-import { gameMessages } from "./helpers/i18n.mjs";
+import { gzipSync } from "node:zlib";
+import { gameMessages, socialMessages } from "./helpers/i18n.mjs";
 
 const catalogues = Object.fromEntries(
   ["en", "fr"].map(locale => [
@@ -163,7 +164,7 @@ const valueAt = (object, key) =>
   key.split(".").reduce((value, part) => value?.[part], object);
 
 test("social errors use stable descriptors and never match translated error prose", () => {
-  const { gameErrorKey } = gameMessages;
+  const gameErrorKey = socialMessages.socialErrorKey;
   for (const [code, key] of [
     ["TRADE_OFFER_RATE_LIMITED", "socialUi.tradeRateLimit"],
     ["TRADE_PENDING_LIMIT", "socialUi.tradePendingLimit"],
@@ -187,7 +188,7 @@ test("social errors use stable descriptors and never match translated error pros
 });
 
 test("stored DM and trade error keys survive a rerender and a locale change", () => {
-  const { gameErrorKey } = gameMessages;
+  const gameErrorKey = socialMessages.socialErrorKey;
   for (const [message, key] of [
     [
       "Couldn't load messages. Please try again.",
@@ -206,6 +207,8 @@ test("stored DM and trade error keys survive a rerender and a locale change", ()
     const stored = gameErrorKey(message);
     assert.equal(stored, key);
     assert.equal(gameErrorKey(stored), key);
+    if (key.startsWith("privateMessages."))
+      assert.equal(gameMessages.gameErrorKey(stored), key);
     for (const locale of ["en", "fr"]) {
       const t = createTranslator({
         locale,
@@ -316,6 +319,46 @@ test("PR4 retains exact card markup, RPC names and RPC arguments", () => {
     );
   }
 });
+test("Social transpiled-source gzip growth stays below 5 KiB including its domain error registry", () => {
+  // Production master 4fb38da; the new domain registry is included, not hidden
+  // outside the original profile/settings guard's fixed historical file list.
+  const sourceFiles = [
+    "components/collection-leaderboard.tsx",
+    "components/community-views.tsx",
+    "components/conversation-trade.tsx",
+    "components/friends.tsx",
+    "components/leaderboard-stats.tsx",
+    "components/leaderboard-topbar.tsx",
+    "components/leaderboards.tsx",
+    "components/notification-refresh-proof.tsx",
+    "components/phase-eight-preview.tsx",
+    "components/private-messages-preview.tsx",
+    "components/private-messages.tsx",
+    "components/referral-leaderboard.tsx",
+    "components/social-feed.tsx",
+    "components/social-tabs.tsx",
+    "components/topbar.tsx",
+    "components/trades.tsx",
+    "i18n/game-messages.ts",
+    "lib/data/trades.ts",
+    "i18n/social-messages.ts"
+  ];
+  const output = sourceFiles
+    .map(
+      file =>
+        ts.transpileModule(read(file), {
+          compilerOptions: {
+            target: ts.ScriptTarget.Latest,
+            module: ts.ModuleKind.ESNext,
+            jsx: ts.JsxEmit.ReactJSX,
+            removeComments: true
+          }
+        }).outputText
+    )
+    .join("\n");
+  assert.ok(gzipSync(output).length - 65700 < 5 * 1024);
+});
+
 test("PR4 static translations resolve in both catalogues within their lexical namespace", () => {
   for (const file of files) {
     const ast = ts.createSourceFile(

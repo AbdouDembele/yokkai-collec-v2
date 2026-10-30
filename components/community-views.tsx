@@ -7,7 +7,6 @@ import type { PlayerPreviewAdapter } from "@/components/player-profile-preview";
 import { AuctionMessageText } from "@/components/auction-message-text";
 import { gameErrorKey } from "@/i18n/game-messages";
 import { useTranslations, useFormatter, useLocale } from "next-intl";
-import { i18nEnabled } from "@/i18n/locale";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import {
@@ -16,7 +15,6 @@ import {
   useMemo,
   useRef,
   useState,
-  useSyncExternalStore,
   type ReactNode
 } from "react";
 import { animation } from "@/lib/ui/animations";
@@ -29,7 +27,7 @@ import {
   type CollectedCard,
   type Rarity
 } from "@/lib/data/cards";
-import { notificationItem, Topbar } from "@/components/topbar";
+import { useNotificationItems, Topbar } from "@/components/topbar";
 import {
   Avatar,
   Button,
@@ -87,8 +85,6 @@ import {
   FilterSection as CatalogueFilterSection,
   RarityChips
 } from "@/components/collection-filters";
-
-const subscribeToHydration = () => () => {};
 
 const ProfileExperience = dynamic(
   () => import("@/components/profile").then(module => module.ProfileExperience),
@@ -2833,13 +2829,6 @@ export function CommunityView({
   auctionId?: string;
 }) {
   const tError = useTranslations();
-  const tNotifications = useTranslations("topbar");
-  const fmtNotifications = useFormatter();
-  const hydrated = useSyncExternalStore(
-    subscribeToHydration,
-    () => true,
-    () => false
-  );
   const tv = useTranslations("catalogueUi");
   const router = useRouter();
   const [collection, setCollection] = useState<CollectedCard[]>();
@@ -3097,25 +3086,7 @@ export function CommunityView({
                   tError("market.auctionTitle")
                 ]
               : headings[screen];
-  const notificationItems = (feed.notifications ?? []).map(item =>
-    notificationItem(
-      item,
-      tNotifications,
-      i18nEnabled()
-        ? hydrated
-          ? fmtNotifications.dateTime(new Date(item.createdAt), {
-              year: "numeric",
-              month: "numeric",
-              day: "numeric",
-              hour: "numeric",
-              minute: "numeric",
-              second: "numeric",
-              timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
-            })
-          : "—"
-        : undefined
-    )
-  );
+  const notificationItems = useNotificationItems(feed.notifications ?? []);
   return (
     <>
       <Topbar

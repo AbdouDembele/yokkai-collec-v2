@@ -56,3 +56,31 @@ function loadGameMessages() {
   return context.exports;
 }
 export const gameMessages = loadGameMessages();
+
+function loadSocialMessages() {
+  const context = {
+    exports: {},
+    require: name => {
+      if (name === "@/i18n/game-messages") return gameMessages;
+      throw new Error(`Unexpected Social error dependency: ${name}`);
+    }
+  };
+  vm.runInNewContext(
+    ts.transpileModule(
+      readFileSync(
+        new URL("../../i18n/social-messages.ts", import.meta.url),
+        "utf8"
+      ),
+      {
+        compilerOptions: {
+          module: ts.ModuleKind.CommonJS,
+          target: ts.ScriptTarget.ES2022
+        }
+      }
+    ).outputText,
+    context
+  );
+  return context.exports;
+}
+
+export const socialMessages = loadSocialMessages();
