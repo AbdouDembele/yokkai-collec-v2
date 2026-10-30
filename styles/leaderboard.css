@@ -668,7 +668,7 @@
     grid-column: 2;
     grid-row: 3;
   }
-  .yk-ranking-license-picker #ranking-license-select {
+  .yk-ranking-license-picker > .yk-ranking-choice {
     grid-column: 2;
     grid-row: 4;
   }
@@ -700,7 +700,7 @@
     grid-column: 3;
     grid-row: 1;
   }
-  .yk-ranking-license-picker #ranking-license-select {
+  .yk-ranking-license-picker > .yk-ranking-choice {
     grid-column: 3;
     grid-row: 2;
   }
@@ -708,4 +708,85 @@
 
 .yk-ranking-modes {
   margin: 0 0 20px;
+}
+
+.yk-ranking-license-picker > .yk-ranking-choice {
+  position: relative;
+  grid-column: auto;
+  min-width: 0;
+}
+.yk-ranking-choice > button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--color-veil);
+  border-radius: 8px;
+  background: #050911;
+  color: var(--color-ink);
+  font-size: 14px;
+  text-align: left;
+}
+.yk-ranking-choice > button > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.yk-ranking-choice svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+}
+.yk-ranking-choice [role="listbox"] {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  max-height: min(300px, 50dvh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 5px;
+  border: 1px solid #8fa4ca70;
+  border-radius: 10px;
+  background: #0c1320;
+  box-shadow: 0 12px 30px #0009;
+}
+.yk-ranking-choice [role="option"] {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-ink);
+  text-align: left;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.yk-ranking-choice [role="option"][aria-selected="true"],
+.yk-ranking-choice [role="option"]:hover {
+  background: #203149;
+}
+.yk-ranking-choice [role="option"]:focus-visible {
+  outline-offset: -2px;
+  background: #203149;
+}
+@media (min-width: 768px) {
+  .yk-ranking-license-picker > .yk-ranking-choice {
+    grid-column: 2;
+    grid-row: 4;
+  }
+}
+@media (min-width: 1100px) {
+  .yk-ranking-license-picker > .yk-ranking-choice {
+    grid-column: 3;
+    grid-row: 2;
+  }
 }

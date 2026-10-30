@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState, type ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
+import { LicenseRankingChoice } from "@/components/license-ranking-choice";
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
 import {
@@ -95,11 +96,25 @@ export function CommunityLeaderboardView({
         query: licenseQuery,
         category: licenseCategory,
         page: licensePage,
-        pageSize: 24
+        pageSize: 72
       })
         .then(next => {
           if (!active) return;
-          setChoices(next);
+          setChoices(current =>
+            licensePage === 1
+              ? next
+              : {
+                  items: [
+                    ...new Map(
+                      [...current.items, ...next.items].map(item => [
+                        binderIdentity(item),
+                        item
+                      ])
+                    ).values()
+                  ],
+                  total: next.total
+                }
+          );
           setSelected(current => current ?? next.items[0] ?? null);
           setLicensesError(false);
           setLicensesLoading(false);
@@ -200,11 +215,6 @@ export function CommunityLeaderboardView({
     });
   const Root = embedded ? "section" : "main",
     Heading = embedded ? "h2" : "h1";
-  const chosenInPage =
-    selected &&
-    choices.items.some(
-      item => binderIdentity(item) === binderIdentity(selected)
-    );
   return (
     <Root
       id={embedded ? undefined : "main-content"}
@@ -313,34 +323,25 @@ export function CommunityLeaderboardView({
               </Button>
             </div>
           )}
-          <label htmlFor="ranking-license-select">{t("chooseLicense")}</label>
-          <select
-            id="ranking-license-select"
-            value={selected ? binderIdentity(selected) : ""}
-            disabled={!choices.items.length && !selected}
-            onChange={event => {
-              const next = choices.items.find(
-                item => binderIdentity(item) === event.target.value
-              );
-              if (next) {
-                setSelected(next);
-                setData(null);
-                reload({ ...options, offset: 0 });
-              }
+          <label id="ranking-license-label" htmlFor="ranking-license-select">
+            {t("chooseLicense")}
+          </label>
+          <LicenseRankingChoice
+            items={choices.items}
+            selected={selected}
+            loading={licensesLoading}
+            hasMore={choices.items.length < choices.total}
+            onLoadMore={() => {
+              setLicensesLoading(true);
+              if (licensesError) setLicenseRetry(value => value + 1);
+              else setLicensePage(value => value + 1);
             }}
-          >
-            {!selected && <option value="">{t("chooseLicense")}</option>}
-            {selected && !chosenInPage && (
-              <option value={binderIdentity(selected)}>
-                {selected.license}
-              </option>
-            )}
-            {choices.items.map(item => (
-              <option key={binderIdentity(item)} value={binderIdentity(item)}>
-                {item.license}
-              </option>
-            ))}
-          </select>
+            onSelect={next => {
+              setSelected(next);
+              setData(null);
+              reload({ ...options, offset: 0 });
+            }}
+          />
           {licensesLoading && <p role="status">{t("selectionLoading")}</p>}
           {licensesError && (
             <div role="alert">
@@ -358,39 +359,6 @@ export function CommunityLeaderboardView({
           )}
           {!licensesLoading && !licensesError && !choices.items.length && (
             <p role="status">{t("noLicenses")}</p>
-          )}
-          {choices.total > 24 && (
-            <nav
-              className="yk-leaderboard-pagination"
-              aria-label={t("licensePages")}
-            >
-              <Button
-                variant="secondary"
-                disabled={licensesLoading || licensePage === 1}
-                onClick={() => {
-                  setLicensesLoading(true);
-                  setLicensePage(value => value - 1);
-                }}
-              >
-                {common("settingsUi.previous")}
-              </Button>
-              <span>
-                {common("socialUi.page", {
-                  page: licensePage,
-                  total: Math.ceil(choices.total / 24)
-                })}
-              </span>
-              <Button
-                variant="secondary"
-                disabled={licensesLoading || licensePage * 24 >= choices.total}
-                onClick={() => {
-                  setLicensesLoading(true);
-                  setLicensePage(value => value + 1);
-                }}
-              >
-                {common("packs.next")}
-              </Button>
-            </nav>
           )}
         </section>
       )}
