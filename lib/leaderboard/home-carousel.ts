@@ -28,7 +28,8 @@ export async function getHomeCommunityRanking(
           ...(kind === "licenses"
             ? {
                 p_binder_key:
-                  "global:overall" + (stableBindersEnabled() ? "" : ":legacy")
+                  "global:completion-score" +
+                  (stableBindersEnabled() ? "" : ":legacy")
               }
             : {})
         }

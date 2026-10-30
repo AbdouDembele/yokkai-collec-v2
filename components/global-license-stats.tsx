@@ -2,12 +2,14 @@
 import { useTranslations } from "next-intl";
 
 export function GlobalLicenseStats({
+  completionScore,
   completed,
   cards,
   totalLicenses,
   totalCards,
   compact = false
 }: {
+  completionScore?: number;
   completed: number;
   cards: number;
   totalLicenses: number;
@@ -15,6 +17,24 @@ export function GlobalLicenseStats({
   compact?: boolean;
 }) {
   const t = useTranslations("communityRanking");
+  if (completionScore !== undefined)
+    return (
+      <dl className={`yk-ranking-global-stats${compact ? " is-compact" : ""}`}>
+        <div data-global-stat="score">
+          <dt>{t("completionScore")}</dt>
+          <dd>{t("completionPoints", { count: completionScore })}</dd>
+        </div>
+        <div data-global-stat="completed">
+          <dt>{t("completedStat")}</dt>
+          <dd>{t("ratio", { owned: completed, total: totalLicenses })}</dd>
+          <progress
+            value={completed}
+            max={totalLicenses || 1}
+            aria-label={t("completedStat")}
+          />
+        </div>
+      </dl>
+    );
   return (
     <dl className={`yk-ranking-global-stats${compact ? " is-compact" : ""}`}>
       {(

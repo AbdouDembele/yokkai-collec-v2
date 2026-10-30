@@ -966,3 +966,29 @@
   margin: 3px 5px;
   vertical-align: middle;
 }
+
+.yk-completion-weights {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin: 14px 0;
+}
+.yk-completion-weights > div {
+  padding: 10px 4px;
+  border: 1px solid #ffffff12;
+  border-radius: 8px;
+  text-align: center;
+}
+.yk-completion-weights dt {
+  color: #a6afc3;
+  font-size: 11px;
+}
+.yk-completion-weights dd {
+  margin-top: 5px;
+  color: #efcd7a;
+  font-size: 16px;
+  font-weight: 650;
+}
+.yk-ranking-global-stats [data-global-stat="score"] dd {
+  color: #efcd7a;
+}

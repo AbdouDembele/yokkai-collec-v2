@@ -30,6 +30,22 @@ function Metrics({
       <strong>{fmt.number(value)}</strong>
       <small>{t("likesNoun", { count: value })}</small>
     </span>
+  ) : data.metric === "completion-score" ? (
+    <dl className="yk-home-ranking-license-metrics">
+      <div data-global-stat="score">
+        <dt>{t("completionScore")}</dt>
+        <dd>{t("completionPoints", { count: value })}</dd>
+      </div>
+      <div data-global-stat="completed">
+        <dt>{t("completedStat")}</dt>
+        <dd>
+          {t("ratio", {
+            owned: completed ?? 0,
+            total: data.catalogue?.totalLicenses ?? 0
+          })}
+        </dd>
+      </div>
+    </dl>
   ) : (
     <dl className="yk-home-ranking-license-metrics">
       <div>

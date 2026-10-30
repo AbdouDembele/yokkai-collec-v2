@@ -15,13 +15,16 @@ export type CommunityRanking = CommunityRankingRequest & {
   rankedPlayers: number;
   binder: { key: string; license: string; total: number } | null;
   catalogue?: { totalCards: number; totalLicenses: number };
-  metric?: "overall" | "completed" | "cards";
+  metric?: "overall" | "completed" | "cards" | "completion-score";
+  scoreVersion?: number;
+  completionWeights?: Record<string, number>;
   entries: {
     userId: string;
     pseudo: string;
     avatarUrl: string | null;
     position: number;
     value: number;
+    completionScore?: number;
     completedLicenses?: number;
     distinctCards?: number;
     isFriend: boolean;
@@ -30,6 +33,7 @@ export type CommunityRanking = CommunityRankingRequest & {
     value: number;
     isPublic: boolean;
     position: number | null;
+    completionScore?: number;
     completedLicenses?: number;
     distinctCards?: number;
   } | null;

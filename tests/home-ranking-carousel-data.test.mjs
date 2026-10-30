@@ -59,7 +59,7 @@ test("Home carousel uses six-row protected readers, exact global mode and no pol
         p_limit: 6,
         p_query: "",
         p_friends_only: false,
-        p_binder_key: "global:overall"
+        p_binder_key: "global:completion-score"
       }
     },
     {
@@ -69,7 +69,7 @@ test("Home carousel uses six-row protected readers, exact global mode and no pol
         p_limit: 6,
         p_query: "",
         p_friends_only: false,
-        p_binder_key: "global:overall:legacy"
+        p_binder_key: "global:completion-score:legacy"
       }
     }
   ]);

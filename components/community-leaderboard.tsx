@@ -156,7 +156,7 @@ export function CommunityLeaderboardView({
         ? selected
           ? binderIdentity(selected)
           : ""
-        : "global:" + licenseView + (stableBindersEnabled() ? "" : ":legacy");
+        : "global:completion-score" + (stableBindersEnabled() ? "" : ":legacy");
   useEffect(() => {
     if (isSpecificLicense && !rankingKey) return;
     let active = true;
@@ -383,6 +383,11 @@ export function CommunityLeaderboardView({
                 !loading &&
                 mine && (
                   <GlobalLicenseStats
+                    completionScore={
+                      data?.metric === "completion-score"
+                        ? mine.completionScore
+                        : undefined
+                    }
                     completed={mine.completedLicenses ?? 0}
                     cards={mine.distinctCards ?? 0}
                     totalLicenses={data?.catalogue?.totalLicenses ?? 0}
@@ -590,6 +595,11 @@ export function CommunityLeaderboardView({
                         </Link>
                         {isGlobal ? (
                           <GlobalLicenseStats
+                            completionScore={
+                              data.metric === "completion-score"
+                                ? entry.completionScore
+                                : undefined
+                            }
                             completed={entry.completedLicenses ?? 0}
                             cards={entry.distinctCards ?? 0}
                             totalLicenses={data?.catalogue?.totalLicenses ?? 0}
@@ -698,6 +708,20 @@ export function CommunityLeaderboardView({
                       : "likesRules"
                 )}
               </p>
+              {isGlobal && data?.completionWeights && (
+                <>
+                  <h3>{t("completionWeightsTitle")}</h3>
+                  <dl className="yk-completion-weights">
+                    {(["C", "R", "SR", "SSR", "LR"] as const).map(rarity => (
+                      <div key={rarity}>
+                        <dt>{rarity}</dt>
+                        <dd>{data.completionWeights?.[rarity]}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p>{t("completionScoredCards")}</p>
+                </>
+              )}
               <p>{t("privacyRules")}</p>
               {isLicense && <p>{t("currentRules")}</p>}
             </aside>
