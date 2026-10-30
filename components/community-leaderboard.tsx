@@ -264,6 +264,21 @@ export function CommunityLeaderboardView({
           aria-label={t("chooseLicense")}
           aria-busy={licensesLoading}
         >
+          <label htmlFor="ranking-license-search">
+            {t("licenseSearchLabel")}
+          </label>
+          <input
+            id="ranking-license-search"
+            type="search"
+            value={licenseQuery}
+            maxLength={120}
+            placeholder={t("licenseSearch")}
+            onChange={event => {
+              setLicenseQuery(event.target.value);
+              setLicensePage(1);
+              setLicensesLoading(true);
+            }}
+          />
           <label htmlFor="ranking-category-select">{t("chooseCategory")}</label>
           <select
             id="ranking-category-select"
@@ -298,21 +313,6 @@ export function CommunityLeaderboardView({
               </Button>
             </div>
           )}
-          <label htmlFor="ranking-license-search">
-            {t("licenseSearchLabel")}
-          </label>
-          <input
-            id="ranking-license-search"
-            type="search"
-            value={licenseQuery}
-            maxLength={120}
-            placeholder={t("licenseSearch")}
-            onChange={event => {
-              setLicenseQuery(event.target.value);
-              setLicensePage(1);
-              setLicensesLoading(true);
-            }}
-          />
           <label htmlFor="ranking-license-select">{t("chooseLicense")}</label>
           <select
             id="ranking-license-select"
