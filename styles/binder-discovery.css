@@ -6,28 +6,17 @@
   width: 76px;
   aspect-ratio: 3/4;
   overflow: hidden;
-  border: 1px solid #8091bc66;
-  border-radius: 5px 12px 12px 5px;
-  background: linear-gradient(135deg, #3a4c76, #191b36 60%, #36264e);
-  box-shadow:
-    inset 5px 0 0 #141a2b,
-    0 8px 20px #0004;
+  border: 0;
+  border-radius: 8px;
+  background: #121b2a;
+  box-shadow: none;
   color: #ecebff;
 }
 .yk-binder-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.8;
-}
-.yk-binder-cover:after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(90deg, #0007, transparent 25%),
-    linear-gradient(0deg, #090f2b 0%, transparent 65%);
-  pointer-events: none;
+  opacity: 1;
 }
 .yk-binder-cover-letter {
   display: grid;
@@ -36,19 +25,6 @@
   font-size: 36px;
   font-family: var(--font-display);
   opacity: 0.65;
-}
-.yk-binder-spine {
-  position: absolute;
-  inset: 0 auto 0 6px;
-  width: 2px;
-  background: #f8edff55;
-  z-index: 1;
-}
-.yk-binder-cover svg {
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  z-index: 1;
 }
 .yk-collection-tabs {
   display: flex;
@@ -204,20 +180,11 @@
   align-self: start;
   width: 120px;
   border-radius: 8px;
-  border-color: #a9b9da44;
-  box-shadow: 0 8px 18px #0005;
+  border: 0;
+  box-shadow: none;
 }
 .yk-collection .yk-panini-album-open > .yk-binder-cover img {
   opacity: 1;
-}
-.yk-collection .yk-panini-album-open > .yk-binder-cover:after {
-  background: linear-gradient(90deg, #0004, transparent 14%);
-}
-.yk-collection .yk-panini-album-open > .yk-binder-cover svg {
-  display: none;
-}
-.yk-collection .yk-panini-album-open > .yk-binder-cover .yk-binder-spine {
-  opacity: 0.35;
 }
 .yk-collection .yk-panini-album-open .yk-panini-details {
   display: contents;
@@ -348,23 +315,28 @@
     gap: 12px;
   }
   .yk-collection .yk-panini-album-open {
+    position: relative;
     grid-template-columns: 84px minmax(0, 1fr);
-    grid-template-rows: minmax(38px, auto) minmax(112px, 1fr);
-    gap: 10px 12px;
+    grid-template-rows: minmax(68px, 1fr) auto auto 4px;
+    gap: 8px 12px;
     min-height: 176px;
-    padding: 12px;
+    padding: 12px 12px 12px 0;
     border-radius: 12px;
   }
   .yk-collection .yk-panini-album-open > .yk-binder-cover {
-    grid-column: 1;
-    grid-row: 2;
-    justify-self: start;
+    position: absolute;
+    grid-column: auto;
+    grid-row: auto;
+    inset: 0 auto 0 0;
     width: 84px;
+    height: 100%;
+    aspect-ratio: auto;
+    border-radius: 0;
   }
   .yk-collection .yk-panini-album-open .yk-panini-details > strong {
-    grid-column: 1 / -1;
+    grid-column: 2;
     grid-row: 1;
-    margin: 0 40px 0 0;
+    margin: 40px 0 0;
     font-size: 13px;
     line-height: 1.4;
   }
@@ -374,7 +346,7 @@
     align-self: center;
     flex-wrap: wrap;
     gap: 4px 6px;
-    margin: 0 0 28px;
+    margin: 0;
     font-size: 11px;
   }
   .yk-collection .yk-panini-count-values {
@@ -389,15 +361,15 @@
   }
   .yk-collection .yk-panini-album-open .yk-panini-details > small {
     grid-column: 2;
-    grid-row: 2;
-    align-self: end;
+    grid-row: 3;
+    align-self: center;
     justify-self: start;
-    margin-bottom: 13px;
+    margin: 0;
     font-size: 10px;
   }
   .yk-collection .yk-panini-album-open .yk-panini-progress {
     grid-column: 2;
-    grid-row: 2;
+    grid-row: 4;
   }
   .yk-collection .yk-panini-album-item > .yk-panini-favorite {
     top: 8px;
