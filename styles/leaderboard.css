@@ -569,3 +569,104 @@
 .yk-leaderboard-player > .yk-styled-player-avatar {
   margin-block: 8px;
 }
+
+.yk-ranking-license-picker {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  margin-bottom: 20px;
+  padding: 18px;
+  border: 1px solid var(--color-veil);
+  border-radius: 16px;
+  background: #080c15;
+}
+.yk-ranking-license-picker label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.yk-ranking-license-picker input,
+.yk-ranking-license-picker select {
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--color-veil);
+  border-radius: 8px;
+  background: #050911;
+  color: var(--color-ink);
+  font-size: 14px;
+}
+.yk-ranking-license-picker p {
+  font-size: 12px;
+  color: var(--color-ink-2);
+}
+.yk-ranking-license-name {
+  margin-top: 12px;
+  overflow-wrap: anywhere;
+  font-size: 18px;
+}
+.yk-ranking-completion {
+  display: grid;
+  gap: 6px;
+  grid-column: 2 / -1;
+  min-width: 0;
+}
+.yk-ranking-completion progress {
+  width: 100%;
+  height: 5px;
+  appearance: none;
+  border: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #172335;
+}
+.yk-ranking-completion progress::-webkit-progress-bar {
+  background: #172335;
+}
+.yk-ranking-completion progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #9cb6ff, #efcd7a);
+}
+.yk-ranking-completion progress::-moz-progress-bar {
+  background: #efcd7a;
+}
+.yk-ranking-completion span {
+  color: var(--color-ink-2);
+  font-size: 11px;
+}
+.yk-ranking-completion .is-completed {
+  color: #92dfb6;
+}
+.yk-community-ranking .yk-leaderboard-rules h2 {
+  font-size: 17px;
+  line-height: 1.5;
+}
+.yk-community-ranking .yk-leaderboard-scopes {
+  margin-top: 0;
+}
+@media (min-width: 768px) {
+  .yk-ranking-license-picker {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px 20px;
+  }
+  .yk-ranking-license-picker label[for="ranking-license-search"] {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .yk-ranking-license-picker input {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .yk-ranking-license-picker label[for="ranking-license-select"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .yk-ranking-license-picker select {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .yk-ranking-license-picker > nav,
+  .yk-ranking-license-picker > p,
+  .yk-ranking-license-picker > div {
+    grid-column: 1 / -1;
+  }
+}

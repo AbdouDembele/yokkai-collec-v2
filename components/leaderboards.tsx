@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Button } from "@/components/ui";
 import { CollectionLeaderboardView } from "@/components/collection-leaderboard";
+import { CommunityLeaderboardView } from "@/components/community-leaderboard";
 import { ReferralLeaderboardView } from "@/components/referral-leaderboard";
 
 export function LeaderboardsView({
@@ -14,7 +15,9 @@ export function LeaderboardsView({
   embedded?: boolean;
 }) {
   const tPr4 = useTranslations();
-  const [kind, setKind] = useState<"collection" | "referrals">("collection");
+  const [kind, setKind] = useState<
+    "collection" | "referrals" | "likes" | "licenses"
+  >("collection");
   const navigation = (
     <div
       className="yk-leaderboard-kinds"
@@ -35,8 +38,28 @@ export function LeaderboardsView({
       >
         {tPr4("socialUi.referrals")}
       </Button>
+      {(["likes", "licenses"] as const).map(option => (
+        <Button
+          key={option}
+          variant="secondary"
+          aria-pressed={kind === option}
+          onClick={() => setKind(option)}
+        >
+          {tPr4(`communityRanking.${option}Tab`)}
+        </Button>
+      ))}
     </div>
   );
+  if (kind === "likes" || kind === "licenses")
+    return (
+      <CommunityLeaderboardView
+        key={kind}
+        kind={kind}
+        userId={userId}
+        embedded={embedded}
+        navigation={navigation}
+      />
+    );
   return kind === "collection" ? (
     <CollectionLeaderboardView
       userId={userId}

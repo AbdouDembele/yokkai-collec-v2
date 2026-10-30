@@ -23,8 +23,8 @@ export default async function LeaderboardPage() {
   if (!user) redirect("/login");
   return (
     <div className="flex min-h-dvh w-full flex-col">
-      <LeaderboardTopbar key={user.id} account={<AccountMenu />} />
-      <LeaderboardsView key={user.id} userId={user.id} />
+      <LeaderboardTopbar key={`topbar-${user.id}`} account={<AccountMenu />} />
+      <LeaderboardsView key={`rankings-${user.id}`} userId={user.id} />
       <SiteFooter discordEnabled={Boolean(getDiscordInviteUrl())} />
     </div>
   );

@@ -33,6 +33,12 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.get_profile_likes_leaderboard(integer, integer, text, boolean)": [
+    "authenticated"
+  ], // Public active profiles, bilateral blocks, aggregate counts only; own private count. Walid approved this addition.
+  "public.get_license_leaderboard(text, integer, integer, text, boolean)": [
+    "authenticated"
+  ], // Same visibility fence, distinct current cards for one exact binder, bounded pages; no private holdings. Walid approved this addition.
   "public.binder_popularity_counts(text)": ["authenticated"], // Authenticated aggregate of distinct effective favorites per binder; no player identity or individual preference rows. Walid approved this addition.
   "public.get_my_locale()": ["authenticated"], // Only the JWT owner's nullable locale; no target identifier.
   "public.set_my_locale(text)": ["authenticated"], // Validated en/fr/NULL update on auth.uid() only.

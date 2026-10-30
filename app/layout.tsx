@@ -137,6 +137,8 @@ export default async function RootLayout({
       "homeContent",
       "homeDashboard",
       "binderDiscovery",
+      "communityRanking",
+      "homeLeaderboard",
       "boosters",
       "packs",
       "collectionUi",
