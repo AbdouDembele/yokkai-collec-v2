@@ -7,6 +7,7 @@ import { Button } from "@/components/ui";
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
 import {
+  getGameInfo,
   getPaniniAlbumsPage,
   type PaniniAlbumProgress
 } from "@/lib/data/cards";
@@ -46,6 +47,10 @@ export function CommunityLeaderboardView({
   const [licenseView, setLicenseView] = useState<
     "completed" | "cards" | "license"
   >("completed");
+  const [licenseCategory, setLicenseCategory] = useState("");
+  const [categories, setCategories] = useState<string[]>([]);
+  const [categoryError, setCategoryError] = useState(false);
+  const [categoryRetry, setCategoryRetry] = useState(0);
   const [selected, setSelected] = useState<PaniniAlbumProgress | null>(null);
   const [licenseQuery, setLicenseQuery] = useState(""),
     [licensePage, setLicensePage] = useState(1);
@@ -65,9 +70,30 @@ export function CommunityLeaderboardView({
   useEffect(() => {
     if (kind !== "licenses" || licenseView !== "license") return;
     let active = true;
+    void getGameInfo()
+      .then(info => {
+        if (active) {
+          setCategories(
+            [...new Set(info.categories)].sort((a, b) => a.localeCompare(b))
+          );
+          setCategoryError(false);
+        }
+      })
+      .catch(() => {
+        if (active) setCategoryError(true);
+      });
+    return () => {
+      active = false;
+    };
+  }, [kind, licenseView, categoryRetry, userId]);
+
+  useEffect(() => {
+    if (kind !== "licenses" || licenseView !== "license") return;
+    let active = true;
     const timer = setTimeout(() => {
       void getPaniniAlbumsPage({
         query: licenseQuery,
+        category: licenseCategory,
         page: licensePage,
         pageSize: 24
       })
@@ -91,7 +117,15 @@ export function CommunityLeaderboardView({
       active = false;
       clearTimeout(timer);
     };
-  }, [kind, licenseView, licenseQuery, licensePage, licenseRetry, userId]);
+  }, [
+    kind,
+    licenseView,
+    licenseCategory,
+    licenseQuery,
+    licensePage,
+    licenseRetry,
+    userId
+  ]);
 
   const isSpecificLicense = kind === "licenses" && licenseView === "license";
   const isGlobal = kind === "licenses" && !isSpecificLicense;
@@ -230,6 +264,40 @@ export function CommunityLeaderboardView({
           aria-label={t("chooseLicense")}
           aria-busy={licensesLoading}
         >
+          <label htmlFor="ranking-category-select">{t("chooseCategory")}</label>
+          <select
+            id="ranking-category-select"
+            value={licenseCategory}
+            onChange={event => {
+              setLicenseCategory(event.target.value);
+              setLicensePage(1);
+              setLicenseQuery("");
+              setSelected(null);
+              setChoices({ items: [], total: 0 });
+              setData(null);
+              setLicensesLoading(true);
+              setLicensesError(false);
+              reload({ ...options, offset: 0 });
+            }}
+          >
+            <option value="">{t("allCategories")}</option>
+            {categories.map(category => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+          {categoryError && (
+            <div role="alert">
+              <p>{t("categoryFailed")}</p>
+              <Button
+                variant="secondary"
+                onClick={() => setCategoryRetry(value => value + 1)}
+              >
+                {common("packs.tryAgain")}
+              </Button>
+            </div>
+          )}
           <label htmlFor="ranking-license-search">
             {t("licenseSearchLabel")}
           </label>

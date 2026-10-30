@@ -2650,6 +2650,9 @@
     "globalDetails": "{completed, plural, one {# license completed} other {# licenses completed}} · {owned} / {total} catalogue cards",
     "globalProgressLabel": "{name}: {value} of {total} {metric, select, completed {licenses completed} other {distinct catalogue cards}}",
     "globalRules": "Across the whole current catalogue, compare the number of licenses completed or the number of distinct cards owned. Each card identity counts once, regardless of copies or variants. A license is complete only while you own all of its cards. Equal totals share the same rank; distinct card counts then names determine display order.",
-    "completedDetails": "{completed, number} / {total, number} {total, plural, one {license completed} other {licenses completed}}"
+    "completedDetails": "{completed, number} / {total, number} {total, plural, one {license completed} other {licenses completed}}",
+    "chooseCategory": "Choose a category",
+    "allCategories": "All categories",
+    "categoryFailed": "Couldn't load categories. Please try again."
   }
 }

@@ -44,3 +44,5 @@ Mise en page FR/EN contrôlée à 320, 375, 600, 768, 1024, 1280 et 1440 px. La 
 Recette globale additionnelle : vrais compteurs locaux, passage entre les deux tris et une licence, conservation du choix, recherche de joueur, filtre Amis et vue Social, en EN/FR de 320 à 1440 px. Le zoom natif à 200 % reste non vérifié.
 
 Dans la vue Licences terminées, le résumé personnel et chaque ligne indiquent le nombre de licences terminées sur le total des licences du site. Le compteur de cartes reste réservé à la vue Cartes distinctes. Aucun calcul SQL ne change.
+
+La vue Par licence propose une catégorie avant la recherche et le choix de licence. Les catégories viennent des métadonnées du catalogue existant ; le filtrage est effectué par le lecteur borné de classeurs, avant pagination. Un changement de catégorie remet la recherche et la page à zéro et efface la sélection précédente ; seules les licences de la nouvelle catégorie sont proposées. Les vues globales restent sur tout le site. Aucune migration supplémentaire.

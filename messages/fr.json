@@ -2650,6 +2650,9 @@
     "globalDetails": "{completed, plural, one {# licence terminée} other {# licences terminées}} · {owned} / {total} cartes du catalogue",
     "globalProgressLabel": "{name} : {value} sur {total} {metric, select, completed {licences terminées} other {cartes distinctes du catalogue}}",
     "globalRules": "Sur tout le catalogue actuel, compare le nombre de licences terminées ou de cartes distinctes possédées. Chaque carte compte une seule fois, quels que soient ses doublons ou variantes. Une licence n’est terminée que si tu possèdes encore toutes ses cartes. Les totaux égaux partagent le même rang ; le nombre de cartes distinctes puis le pseudo déterminent l’ordre d’affichage.",
-    "completedDetails": "{completed, number} / {total, number} {total, plural, one {licence terminée} other {licences terminées}}"
+    "completedDetails": "{completed, number} / {total, number} {total, plural, one {licence terminée} other {licences terminées}}",
+    "chooseCategory": "Choisir une catégorie",
+    "allCategories": "Toutes les catégories",
+    "categoryFailed": "Impossible de charger les catégories. Réessaie."
   }
 }
