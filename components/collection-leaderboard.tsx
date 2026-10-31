@@ -185,7 +185,17 @@ export function CollectionLeaderboardView({
                     : tPr4("socialUi.collectYourFirstCardToEnterThe")}
             </p>
             {!loading && data && (
-              <RankingTrend inCard history={data.history?.[userId]} />
+              <RankingTrend
+                inCard
+                initialState={
+                  mine?.isPublic === false
+                    ? "private"
+                    : mine?.position
+                      ? "pending"
+                      : "unranked"
+                }
+                history={data.history?.[userId]}
+              />
             )}
           </div>
           {mine && !mine.isPublic && (
@@ -379,10 +389,13 @@ export function CollectionLeaderboardView({
                             name={entry.pseudo}
                             cosmetics={data.profileStyles?.[entry.userId]}
                           />
-                          <RankingTrend
-                            compact
-                            history={data.history?.[entry.userId]}
-                          />
+                          {entry.userId === userId && (
+                            <RankingTrend
+                              compact
+                              initialState="pending"
+                              history={data.history?.[entry.userId]}
+                            />
+                          )}
                           {entry.userId === userId && (
                             <small> {tPr4("homeLeaderboard.you")}</small>
                           )}

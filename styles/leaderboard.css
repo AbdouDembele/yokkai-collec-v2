@@ -1384,3 +1384,51 @@
     grid-row: 3;
   }
 }
+
+/* The selected license now scopes the main ranking, without a second results panel. */
+.yk-community-progress:has(.yk-ranking-license-name) .yk-ranking-license-cover {
+  width: 60px;
+  height: 80px;
+  flex: 0 0 60px;
+}
+.yk-community-progress .yk-ranking-license-name {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+@media (min-width: 600px) {
+  .yk-community-progress .yk-ranking-license-name {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .yk-community-progress .yk-ranking-license-name + strong {
+    grid-row: 3;
+    font-size: 26px;
+  }
+  .yk-community-progress:has(.yk-ranking-license-name) .yk-personal-rank {
+    grid-row: 1 / span 3;
+  }
+}
+@media (max-width: 599px) {
+  .yk-community-progress:has(.yk-ranking-license-name) {
+    grid-template-columns: 60px minmax(0, 1fr);
+  }
+  .yk-community-progress:has(.yk-ranking-license-name)
+    .yk-ranking-license-cover {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+  }
+  .yk-community-progress .yk-ranking-license-name {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .yk-community-progress .yk-ranking-license-name + strong {
+    grid-column: 2;
+    grid-row: 3;
+    font-size: 26px;
+  }
+  .yk-community-progress:has(.yk-ranking-license-name) .yk-personal-rank {
+    grid-row: 4;
+  }
+}

@@ -1,31 +1,26 @@
 "use client";
 
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import { useFormatter, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui";
 import { RankingChoice } from "@/components/ranking-choice";
 import { LicenseRankingChoice } from "@/components/license-ranking-choice";
-import { RankingLicenseCover } from "@/components/ranking-license-cover";
-import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
-import { StyledPlayerName } from "@/components/styled-player-name";
 import { getGameInfo, type PaniniAlbumProgress } from "@/lib/data/cards";
 import { binderIdentity } from "@/lib/ui/binder-identity";
 import { getRankingLicenseChoices } from "@/lib/leaderboard/choices";
-import {
-  completionRatio,
-  getLicenseLeaders,
-  type CommunityRanking
-} from "@/lib/leaderboard/community";
 
 const categoryKey = (category: string) => category;
 
 export function RankingLicenseExplorer({
   userId,
-  revision = 0
+  revision = 0,
+  selected,
+  onSelect
 }: {
   userId: string;
   revision?: number;
+  selected: PaniniAlbumProgress | null;
+  onSelect: (binder: PaniniAlbumProgress | null) => void;
 }) {
   const t = useTranslations("communityRanking"),
     common = useTranslations();
@@ -42,7 +37,6 @@ export function RankingLicenseExplorer({
   const [choicesLoading, setChoicesLoading] = useState(true);
   const [choicesError, setChoicesError] = useState(false);
   const [choicesRetry, setChoicesRetry] = useState(0);
-  const [selected, setSelected] = useState<PaniniAlbumProgress | null>(null);
 
   useEffect(() => {
     let active = true;
@@ -106,7 +100,7 @@ export function RankingLicenseExplorer({
       clearTimeout(timer);
       controller.abort();
     };
-  }, [query, category, page, choicesRetry, userId]);
+  }, [query, category, page, choicesRetry, userId, revision]);
 
   return (
     <div className="yk-license-explorer">
@@ -147,7 +141,7 @@ export function RankingLicenseExplorer({
             setCategory(next);
             setPage(1);
             setQuery("");
-            setSelected(null);
+            onSelect(null);
             setChoices({ items: [], total: 0 });
             setChoicesLoading(true);
             setChoicesError(false);
@@ -180,7 +174,7 @@ export function RankingLicenseExplorer({
             if (choicesError) setChoicesRetry(value => value + 1);
             else setPage(value => value + 1);
           }}
-          onSelect={setSelected}
+          onSelect={onSelect}
         />
         {choicesLoading && <p role="status">{t("selectionLoading")}</p>}
         {choicesError && (
@@ -202,164 +196,10 @@ export function RankingLicenseExplorer({
         )}
       </section>
       {selected && (
-        <LicenseLeaders
-          key={binderIdentity(selected)}
-          binder={selected}
-          userId={userId}
-          revision={revision}
-          onClose={() => {
-            setSelected(null);
-            document.getElementById("ranking-license-select")?.focus();
-          }}
-        />
+        <Button variant="secondary" onClick={() => onSelect(null)}>
+          {t("showAllLicenses")}
+        </Button>
       )}
     </div>
-  );
-}
-
-function LicenseLeaders({
-  binder,
-  userId,
-  revision,
-  onClose
-}: {
-  binder: PaniniAlbumProgress;
-  userId: string;
-  revision: number;
-  onClose: () => void;
-}) {
-  const t = useTranslations("communityRanking"),
-    common = useTranslations(),
-    fmt = useFormatter();
-  const [data, setData] = useState<CommunityRanking | null>(null);
-  const [loading, setLoading] = useState(true),
-    [error, setError] = useState(false);
-  const [retry, setRetry] = useState(0);
-  const key = binderIdentity(binder);
-  useEffect(() => {
-    const controller = new AbortController();
-    void getLicenseLeaders(key, controller.signal)
-      .then(next => {
-        if (!controller.signal.aborted) {
-          setData(next);
-          setLoading(false);
-          setError(false);
-        }
-      })
-      .catch(() => {
-        if (!controller.signal.aborted) {
-          setError(true);
-          setLoading(false);
-        }
-      });
-    return () => controller.abort();
-  }, [key, userId, revision, retry]);
-  const total = data?.binder?.total ?? binder.total;
-  const leaders = data?.entries ?? [];
-  const value = leaders[0]?.value ?? 0;
-  return (
-    <section
-      className="yk-license-leaders"
-      aria-labelledby="license-leaders-title"
-      aria-busy={loading}
-    >
-      <div className="yk-license-leaders-header">
-        <RankingLicenseCover binder={binder} />
-        <div className="yk-license-leaders-summary">
-          <p className="eyebrow">{t("licenseLeaders")}</p>
-          <h2 id="license-leaders-title">{binder.license}</h2>
-          {!loading && !error && leaders.length > 0 && (
-            <p className="yk-license-leaders-value">
-              <strong>
-                {fmt.number(completionRatio(value, total), {
-                  style: "percent",
-                  maximumFractionDigits: 1
-                })}
-              </strong>
-              <span>{t("licenseLeaderCards", { owned: value, total })}</span>
-            </p>
-          )}
-          <Button
-            variant="secondary"
-            className="yk-license-leaders-close"
-            onClick={onClose}
-          >
-            {t("closeLicense")}
-          </Button>
-        </div>
-      </div>
-      <div className="yk-license-leaders-results">
-        {loading && <p role="status">{t("loading")}</p>}
-        {!loading && error && (
-          <div role="alert">
-            <p>{t("failed")}</p>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setLoading(true);
-                setError(false);
-                setRetry(value => value + 1);
-              }}
-            >
-              {common("packs.tryAgain")}
-            </Button>
-          </div>
-        )}
-        {!loading && !error && data && (
-          <>
-            {leaders.length > 0 ? (
-              <>
-                <p className="yk-license-leaders-caption">
-                  {t("leadersShown", { count: leaders.length })}
-                </p>
-                <ul
-                  className="yk-license-leaders-list"
-                  tabIndex={0}
-                  aria-label={t("licenseLeadersList", {
-                    license: binder.license
-                  })}
-                >
-                  {leaders.map(entry => (
-                    <li key={entry.userId}>
-                      <Link
-                        href={`/profile/${encodeURIComponent(entry.pseudo)}`}
-                        className="yk-license-leader-player"
-                      >
-                        <StyledPlayerAvatar
-                          cosmetics={data.profileStyles[entry.userId]}
-                          name={entry.pseudo}
-                          image={entry.avatarUrl ?? undefined}
-                          size={42}
-                        />
-                        <span>
-                          <StyledPlayerName
-                            name={entry.pseudo}
-                            cosmetics={data.profileStyles[entry.userId]}
-                          />
-                          {entry.userId === userId && (
-                            <small>{common("homeLeaderboard.you")}</small>
-                          )}
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </>
-            ) : (
-              <p role="status">{t("licenseLeadersEmpty")}</p>
-            )}
-          </>
-        )}
-      </div>
-      {!loading && !error && data && (
-        <>
-          {data.mine && (
-            <p className="yk-license-leaders-mine">
-              {t("licenseYourCards", { owned: data.mine.value, total })}
-            </p>
-          )}
-        </>
-      )}
-    </section>
   );
 }

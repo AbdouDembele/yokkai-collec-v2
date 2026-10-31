@@ -22,11 +22,13 @@ function historyOffset(node: HTMLDetailsElement) {
 export function RankingTrend({
   history,
   compact = false,
-  inCard = false
+  inCard = false,
+  initialState
 }: {
   history?: RankObservation;
   compact?: boolean;
   inCard?: boolean;
+  initialState?: "pending" | "unranked" | "private";
 }) {
   const t = useTranslations("rankingProgress"),
     fmt = useFormatter();
@@ -41,7 +43,24 @@ export function RankingTrend({
     window.addEventListener("resize", reposition);
     return () => window.removeEventListener("resize", reposition);
   }, [inCard]);
-  if (!history) return null;
+  if (!history) {
+    if (!initialState) return null;
+    return (
+      <span
+        className="yk-ranking-trend"
+        data-direction={initialState === "pending" ? "new" : initialState}
+      >
+        <span aria-hidden="true">·</span>
+        {t(
+          initialState === "unranked"
+            ? "notRanked"
+            : initialState === "private"
+              ? "privateRank"
+              : "initialRank"
+        )}
+      </span>
+    );
+  }
   const date = (day: string) =>
     fmt.dateTime(new Date(day + "T12:00:00Z"), {
       day: "numeric",
@@ -50,7 +69,7 @@ export function RankingTrend({
     });
   const label =
     history.delta === null
-      ? t("trackingStarts")
+      ? t(initialState ? "initialRank" : "trackingStarts")
       : history.delta === 0
         ? t("unchanged")
         : t(history.delta > 0 ? "up" : "down", {
@@ -110,7 +129,7 @@ export function RankingTrend({
       </details>
     );
   }
-  if (compact) return history.delta === null ? null : badge;
+  if (compact) return history.delta === null && !initialState ? null : badge;
   return (
     <div className="yk-ranking-history">
       {badge}

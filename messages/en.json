@@ -2669,7 +2669,8 @@
     "licenseLeadersList": "Leading collectors for {license}",
     "licenseLeadersEmpty": "No visible public collector owns a card from this license yet.",
     "licenseYourCards": "Your progress: {owned, number} / {total, number} {total, plural, one {card} other {cards}}",
-    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {card} other {cards}}"
+    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {card} other {cards}}",
+    "showAllLicenses": "All licenses"
   },
   "homeRankingCarousel": {
     "label": "Player leaderboards",
@@ -2716,6 +2717,9 @@
     "rank": "Rank #{position, number}",
     "discoverCommunity": "Discover the community",
     "keepGrowing": "Keep growing your collection and profile to climb the ranking.",
-    "historyAction": "{change} — view rank history"
+    "historyAction": "{change} — view rank history",
+    "initialRank": "First rank observation",
+    "notRanked": "Not ranked yet",
+    "privateRank": "Private profile"
   }
 }

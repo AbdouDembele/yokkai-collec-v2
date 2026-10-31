@@ -4,6 +4,9 @@ import Link from "next/link";
 import { RankingGoal, RankingTrend } from "@/components/ranking-progress";
 import { useRankingPlayerPreview } from "@/components/ranking-player-preview";
 import { RankingLicenseExplorer } from "@/components/ranking-license-explorer";
+import { RankingLicenseCover } from "@/components/ranking-license-cover";
+import type { PaniniAlbumProgress } from "@/lib/data/cards";
+import { binderIdentity } from "@/lib/ui/binder-identity";
 import { RankingIcon } from "@/components/ranking-icon";
 import { useEffect, useState, type ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
@@ -14,6 +17,7 @@ import { StyledPlayerName } from "@/components/styled-player-name";
 import { stableBindersEnabled } from "@/lib/data/binders";
 import {
   getCommunityRanking,
+  completionRatio,
   type CommunityRanking,
   type CommunityRankingKind,
   type CommunityRankingRequest
@@ -43,6 +47,8 @@ export function CommunityLeaderboardView({
     query: "",
     friendsOnly: embedded
   });
+  const [selectedLicense, setSelectedLicense] =
+    useState<PaniniAlbumProgress | null>(null);
   const [licenseRevision, setLicenseRevision] = useState(0);
   const reload = (next = options) => {
     setLoading(true);
@@ -50,10 +56,12 @@ export function CommunityLeaderboardView({
     setOptions({ ...next });
   };
 
-  const isGlobal = kind === "licenses";
+  const isGlobal = kind === "licenses" && !selectedLicense;
   const rankingKey = isGlobal
     ? "global:progress-score" + (stableBindersEnabled() ? "" : ":legacy")
-    : "";
+    : kind === "licenses" && selectedLicense
+      ? binderIdentity(selectedLicense)
+      : "";
   useEffect(() => {
     let active = true;
     const run = async () => {
@@ -122,26 +130,56 @@ export function CommunityLeaderboardView({
           key={userId}
           userId={userId}
           revision={licenseRevision}
+          selected={selectedLicense}
+          onSelect={binder => {
+            setSelectedLicense(binder);
+            setQuery("");
+            reload({ ...options, offset: 0, query: "" });
+          }}
         />
       )}
 
       <>
         <section
           className="yk-leaderboard-mine yk-community-progress"
-          aria-label={t(isGlobal ? "yourGlobalProgress" : "yourLikes")}
+          aria-label={t(
+            isLicense
+              ? isGlobal
+                ? "yourGlobalProgress"
+                : "yourProgress"
+              : "yourLikes"
+          )}
           aria-busy={loading}
         >
-          <div
-            className="yk-leaderboard-emblem"
-            data-ranking={kind}
-            aria-hidden="true"
-          >
-            <RankingIcon kind={kind} />
-          </div>
+          {isLicense && selectedLicense ? (
+            <RankingLicenseCover
+              key={binderIdentity(selectedLicense)}
+              binder={selectedLicense}
+            />
+          ) : (
+            <div
+              className="yk-leaderboard-emblem"
+              data-ranking={kind}
+              aria-hidden="true"
+            >
+              <RankingIcon kind={kind} />
+            </div>
+          )}
           <div className="yk-leaderboard-personal">
             <span className="eyebrow">
-              {t(isGlobal ? "yourGlobalProgress" : "yourLikes")}
+              {t(
+                isLicense
+                  ? isGlobal
+                    ? "yourGlobalProgress"
+                    : "yourProgress"
+                  : "yourLikes"
+              )}
             </span>
+            {isLicense && selectedLicense && (
+              <h2 className="yk-ranking-license-name">
+                {selectedLicense.license}
+              </h2>
+            )}
             {isGlobal ? (
               !loading &&
               mine && (
@@ -157,10 +195,30 @@ export function CommunityLeaderboardView({
                   totalCards={totalCards}
                 />
               )
+            ) : isLicense ? (
+              <strong>
+                {loading || !mine
+                  ? "—"
+                  : fmt.number(
+                      completionRatio(
+                        mine.value,
+                        data?.binder?.total ?? selectedLicense?.total ?? 0
+                      ),
+                      { style: "percent", maximumFractionDigits: 1 }
+                    )}
+              </strong>
             ) : (
               <strong>{loading || !mine ? "—" : fmt.number(mine.value)}</strong>
             )}
             <div className="yk-personal-rank">
+              {isLicense && !isGlobal && !loading && mine && (
+                <p>
+                  {t("licenseYourCards", {
+                    owned: mine.value,
+                    total: data?.binder?.total ?? selectedLicense?.total ?? 0
+                  })}
+                </p>
+              )}
               <p>
                 {loading
                   ? t("loading")
@@ -176,7 +234,17 @@ export function CommunityLeaderboardView({
                         : t(isLicense ? "noCards" : "notRanked")}
               </p>
               {!loading && data && (
-                <RankingTrend inCard history={data.history?.[userId]} />
+                <RankingTrend
+                  inCard
+                  initialState={
+                    mine?.isPublic === false
+                      ? "private"
+                      : mine?.position
+                        ? "pending"
+                        : "unranked"
+                  }
+                  history={data.history?.[userId]}
+                />
               )}
             </div>
             {mine && !mine.isPublic && (
@@ -320,10 +388,13 @@ export function CommunityLeaderboardView({
                               name={entry.pseudo}
                               cosmetics={data.profileStyles[entry.userId]}
                             />
-                            <RankingTrend
-                              compact
-                              history={data.history?.[entry.userId]}
-                            />
+                            {entry.userId === userId && (
+                              <RankingTrend
+                                compact
+                                initialState="pending"
+                                history={data.history?.[entry.userId]}
+                              />
+                            )}
                             {entry.userId === userId && (
                               <small>{common("homeLeaderboard.you")}</small>
                             )}
@@ -348,6 +419,24 @@ export function CommunityLeaderboardView({
                           totalCards={totalCards}
                           compact
                         />
+                      ) : isLicense ? (
+                        <span className="yk-leaderboard-points">
+                          <strong>
+                            {fmt.number(
+                              completionRatio(
+                                entry.value,
+                                data.binder?.total ?? 0
+                              ),
+                              { style: "percent", maximumFractionDigits: 1 }
+                            )}
+                          </strong>
+                          <small>
+                            {t("licenseLeaderCards", {
+                              owned: entry.value,
+                              total: data.binder?.total ?? 0
+                            })}
+                          </small>
+                        </span>
                       ) : (
                         <>
                           <span className="yk-leaderboard-points">
@@ -416,7 +505,15 @@ export function CommunityLeaderboardView({
             )}
             <section className="yk-leaderboard-rules">
               <h2>{t("rules")}</h2>
-              <p>{t(isGlobal ? "globalRules" : "likesRules")}</p>
+              <p>
+                {t(
+                  isLicense
+                    ? isGlobal
+                      ? "globalRules"
+                      : "licenseRules"
+                    : "likesRules"
+                )}
+              </p>
               {isGlobal && data?.completionWeights && (
                 <>
                   <h3>{t("completionWeightsTitle")}</h3>

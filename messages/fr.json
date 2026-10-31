@@ -2669,7 +2669,8 @@
     "licenseLeadersList": "Joueurs en tête de {license}",
     "licenseLeadersEmpty": "Aucun collectionneur public visible ne possède encore de carte de cette licence.",
     "licenseYourCards": "Ta progression : {owned, number} / {total, number} {total, plural, one {carte} other {cartes}}",
-    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {carte} other {cartes}}"
+    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {carte} other {cartes}}",
+    "showAllLicenses": "Toutes les licences"
   },
   "homeRankingCarousel": {
     "label": "Classements des joueurs",
@@ -2716,6 +2717,9 @@
     "rank": "Rang n° {position, number}",
     "discoverCommunity": "Découvrir la communauté",
     "keepGrowing": "Continue à développer ta collection et ton profil pour progresser.",
-    "historyAction": "{change} — voir l’historique des rangs"
+    "historyAction": "{change} — voir l’historique des rangs",
+    "initialRank": "Premier relevé du rang",
+    "notRanked": "Pas encore classé",
+    "privateRank": "Profil privé"
   }
 }
