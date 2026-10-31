@@ -1545,3 +1545,62 @@
     border-left: 1px solid var(--color-veil);
   }
 }
+
+/* Match the card rarities in the license scoring legend. */
+.yk-completion-weights > div {
+  --completion-rarity-color: #a6afc3;
+  border-color: color-mix(
+    in srgb,
+    var(--completion-rarity-color) 30%,
+    transparent
+  );
+  background: color-mix(
+    in srgb,
+    var(--completion-rarity-color) 7%,
+    transparent
+  );
+}
+.yk-completion-weights > div[data-rarity="R"] {
+  --completion-rarity-color: #dde3ed;
+}
+.yk-completion-weights > div[data-rarity="SR"] {
+  --completion-rarity-color: #d3b4ec;
+}
+.yk-completion-weights > div[data-rarity="SSR"] {
+  --completion-rarity-color: #ff7eba;
+}
+.yk-completion-weights > div[data-rarity="LR"] {
+  --completion-rarity-color: #e9bf65;
+}
+.yk-completion-weights dt,
+.yk-completion-weights dd {
+  color: var(--completion-rarity-color);
+}
+
+/* Give the three collection/likes/license progress overviews more breathing room. */
+.yk-community-progress:not(.yk-ranking-summary-referrals) {
+  min-height: 132px;
+  padding: 20px;
+  gap: 18px;
+}
+.yk-community-progress:not(.yk-ranking-summary-referrals)
+  .yk-leaderboard-personal
+  > strong {
+  font-size: 32px;
+}
+.yk-community-progress:not(.yk-ranking-summary-referrals)
+  .yk-ranking-global-stats
+  dd {
+  font-size: 28px;
+}
+.yk-community-progress:not(.yk-ranking-summary-referrals)
+  .yk-ranking-global-stats
+  dt {
+  font-size: 12px;
+}
+@media (max-width: 599px) {
+  .yk-community-progress:not(.yk-ranking-summary-referrals) {
+    padding: 18px 16px;
+    gap: 12px;
+  }
+}

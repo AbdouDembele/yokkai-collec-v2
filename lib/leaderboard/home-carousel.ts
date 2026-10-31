@@ -8,7 +8,7 @@ import { stableBindersEnabled } from "@/lib/data/binders";
 
 export const HOME_RANKING_INTERVAL_MS = 5000;
 export type HomeRankingKind = "collection" | "likes" | "licenses";
-export const HOME_RANKING_KINDS = ["collection", "likes", "licenses"] as const;
+export const HOME_RANKING_KINDS = ["collection", "licenses", "likes"] as const;
 export const homeRankingHref = (kind: HomeRankingKind) =>
   kind === "collection" ? "/leaderboard" : `/leaderboard?ranking=${kind}`;
 export async function getHomeCommunityRanking(
