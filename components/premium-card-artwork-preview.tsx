@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useState, useSyncExternalStore } from "react";
 import { YokaiCard } from "@/components/yokai-card";
@@ -14,6 +15,7 @@ const prefersReducedMotion = () =>
 const serverMotionPreference = () => true;
 
 export function PremiumCardArtworkPreview() {
+  const tPr5 = useTranslations("premiumUi");
   const reducedMotion = useSyncExternalStore(
     subscribeMotionPreference,
     prefersReducedMotion,
@@ -29,28 +31,25 @@ export function PremiumCardArtworkPreview() {
       aria-labelledby="artwork-preview-title"
     >
       <div className="yk-pro-banner-copy">
-        <p className="eyebrow">Custom card artwork</p>
+        <p className="eyebrow">{tPr5("customCardArtwork")}</p>
         <h2 id="artwork-preview-title">
-          Your cards.
-          <br />
-          <em>Your own artwork.</em>
+          {tPr5.rich("yourCardsYourOwnArtwork", {
+            br0: () => <br />,
+            em1: chunks => <em>{chunks}</em>
+          })}
         </h2>
-        <p>
-          Same character. Same rarity. A different look. Give your favorite card
-          a personal touch with an image or animated GIF.
-        </p>
+        <p>{tPr5("sameCharacterSameRarityADifferentLook")}</p>
         <div className="yk-pro-banner-caption">
-          <span aria-hidden="true">✦</span> Your collection, reimagined
+          <span aria-hidden="true">✦</span> {tPr5("yourCollectionReimagined")}
         </div>
         <p className="yk-pro-banner-disclaimer">
-          Express your style with a new illustration while keeping your card’s
-          identity and rarity.
+          {tPr5("expressYourStyleWithANewIllustration")}
         </p>
       </div>
       <div className="yk-pro-artwork-preview">
         <div className="yk-pro-artwork-pair">
           <figure className="yk-pro-artwork-original">
-            <figcaption>Original artwork</figcaption>
+            <figcaption>{tPr5("originalArtwork")}</figcaption>
             <YokaiCard {...example.card} animated={false} />
           </figure>
           <span className="yk-pro-artwork-arrow" aria-hidden="true">
@@ -58,12 +57,17 @@ export function PremiumCardArtworkPreview() {
           </span>
           <figure className="yk-pro-artwork-custom">
             <figcaption>
-              Custom artwork <span>GIF</span>
+              {tPr5.rich("customArtworkGIF", {
+                span0: chunks => <span>{chunks}</span>
+              })}
             </figcaption>
             <button
               type="button"
               className="yk-pro-custom-card-toggle"
-              aria-label={`${playing ? "Pause" : "Play"} Satoru Gojo's custom artwork animation`}
+              aria-label={tPr5("artworkPlayback", {
+                action: playing ? "pause" : "play",
+                name: "Satoru Gojo"
+              })}
               aria-pressed={playing}
               onClick={() => setPlaybackOverride(!playing)}
             >
@@ -77,7 +81,7 @@ export function PremiumCardArtworkPreview() {
           </figure>
         </div>
         <p className="yk-pro-artwork-caption">
-          Same LR card. Only the illustration changes.
+          {tPr5("sameLRCardOnlyTheIllustrationChanges")}
         </p>
       </div>
     </section>

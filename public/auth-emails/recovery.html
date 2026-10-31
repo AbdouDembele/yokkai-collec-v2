@@ -1,198 +1,25 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="color-scheme" content="dark" />
-    <meta name="supported-color-schemes" content="dark" />
-    <title>Reset your Yokkai Collec’ password</title>
-    <style>
-      @media (max-width: 480px) {
-        .yk-card {
-          padding: 28px 20px !important;
-        }
-        .yk-title {
-          font-size: 24px !important;
-        }
-      }
-    </style>
-  </head>
-  <body
-    style="
-      margin: 0;
-      padding: 0;
-      background: #04070f;
-      color: #f2f0ff;
-      font-family: Inter, 'Segoe UI', Arial, sans-serif;
-    "
-  >
-    <div style="display: none; max-height: 0; overflow: hidden">
-      Choose a new password for your Yokkai Collec’ account.
-    </div>
-    <table
-      role="presentation"
-      width="100%"
-      cellpadding="0"
-      cellspacing="0"
-      border="0"
-      bgcolor="#04070f"
-      style="background: #04070f"
-    >
-      <tr>
-        <td align="center" style="padding: 32px 12px">
-          <table
-            role="presentation"
-            width="100%"
-            cellpadding="0"
-            cellspacing="0"
-            border="0"
-            style="max-width: 560px"
-          >
-            <tr>
-              <td
-                align="center"
-                style="
-                  padding: 0 0 20px;
-                  font-size: 22px;
-                  font-weight: 800;
-                  letter-spacing: 0.5px;
-                  color: #f2f0ff;
-                "
-              >
-                Yokkai <span style="color: #ffd47d">Collec’</span>
-              </td>
-            </tr>
-            <tr>
-              <td
-                class="yk-card"
-                bgcolor="#080d19"
-                style="
-                  padding: 40px 36px;
-                  background: #080d19;
-                  border: 1px solid #1c2c46;
-                  border-radius: 14px;
-                "
-              >
-                <p
-                  style="
-                    margin: 0 0 12px;
-                    font-size: 12px;
-                    font-weight: 600;
-                    letter-spacing: 2.8px;
-                    text-transform: uppercase;
-                    color: #ffd47d;
-                  "
-                >
-                  Account security
-                </p>
-                <h1
-                  class="yk-title"
-                  style="
-                    margin: 0 0 16px;
-                    font-size: 28px;
-                    line-height: 1.25;
-                    font-weight: 800;
-                    color: #f2f0ff;
-                  "
-                >
-                  Reset your password
-                </h1>
-                <p
-                  style="
-                    margin: 0 0 28px;
-                    font-size: 16px;
-                    line-height: 1.6;
-                    color: #a4b1c9;
-                  "
-                >
-                  We received a request to reset the password for your Yokkai
-                  Collec’ account. Choose a new one below.
-                </p>
-                <table
-                  role="presentation"
-                  cellpadding="0"
-                  cellspacing="0"
-                  border="0"
-                >
-                  <tr>
-                    <td
-                      align="center"
-                      bgcolor="#ffd47d"
-                      style="border-radius: 10px; background: #ffd47d"
-                    >
-                      <a
-                        href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=recovery"
-                        style="
-                          display: inline-block;
-                          padding: 14px 28px;
-                          font-size: 16px;
-                          font-weight: 700;
-                          color: #05060a;
-                          text-decoration: none;
-                          border-radius: 10px;
-                        "
-                        >Choose a new password</a
-                      >
-                    </td>
-                  </tr>
-                </table>
-                <p
-                  style="
-                    margin: 28px 0 6px;
-                    font-size: 13px;
-                    line-height: 1.6;
-                    color: #a4b1c9;
-                  "
-                >
-                  Button not working? Copy and paste this link into your
-                  browser:
-                </p>
-                <p
-                  style="
-                    margin: 0;
-                    font-size: 13px;
-                    line-height: 1.5;
-                    word-break: break-all;
-                  "
-                >
-                  <a
-                    href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=recovery"
-                    style="color: #ffd47d; text-decoration: underline"
-                    >{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=recovery</a>
-                </p>
-                <p
-                  style="
-                    margin: 28px 0 0;
-                    padding-top: 20px;
-                    border-top: 1px solid #1c2c46;
-                    font-size: 13px;
-                    line-height: 1.6;
-                    color: #a4b1c9;
-                  "
-                >
-                  This link is personal, works once and expires soon. If it has
-                  expired, request a new one from the Forgot password page.
-                </p>
-              </td>
-            </tr>
-            <tr>
-              <td
-                align="center"
-                style="
-                  padding: 20px 8px 0;
-                  font-size: 12px;
-                  line-height: 1.6;
-                  color: #6f7c95;
-                "
-              >
-                Didn’t ask for this? You can safely ignore this email: your
-                password won’t change. We’ll never ask for your password by
-                email.
-              </td>
-            </tr>
-          </table>
-        </td>
-      </tr>
-    </table>
-  </body>
-</html>
+<html lang="en"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><meta name="color-scheme" content="dark"/><meta name="supported-color-schemes" content="dark"/><title>Reset your password / Réinitialise ton mot de passe — Yokkai Collec’</title>
+<style>@media(max-width:480px){.yk-card{padding:28px 20px!important}.yk-title{font-size:24px!important}}</style></head>
+<body style="margin:0;padding:0;background:#04070f;color:#f2f0ff;font-family:Inter,'Segoe UI',Arial,sans-serif">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#04070f"><tr><td align="center" style="padding:32px 12px">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:560px"><tr><td align="center" style="padding:0 0 20px;font-size:22px;font-weight:800;color:#f2f0ff">Yokkai <span style="color:#ffd47d">Collec’</span></td></tr>
+<tr><td class="yk-card" bgcolor="#080d19" style="padding:40px 36px;background:#080d19;border:1px solid #1c2c46;border-radius:14px">
+<div lang="en" style="margin-bottom:28px">
+<p style="margin:0 0 12px;font-size:12px;letter-spacing:2.8px;text-transform:uppercase;color:#ffd47d">Account security</p>
+<h1 class="yk-title" style="margin:0 0 16px;font-size:28px;line-height:1.25;color:#f2f0ff">Reset your password</h1>
+<p style="font-size:16px;line-height:1.6;color:#a4b1c9">We received a request to reset the password for your Yokkai Collec’ account. Choose a new one below.</p>
+<p style="font-size:13px;line-height:1.6;color:#a4b1c9">This link is personal, works once and expires soon. If it has expired, request a new one from the Forgot password page.</p>
+<p style="font-size:12px;line-height:1.6;color:#6f7c95">Didn’t ask for this? You can safely ignore this email: your password won’t change. We’ll never ask for your password by email.</p>
+</div>
+<div lang="fr" style="margin-bottom:28px">
+<p style="margin:0 0 12px;font-size:12px;letter-spacing:2.8px;text-transform:uppercase;color:#ffd47d">Sécurité du compte</p>
+<h2 class="yk-title" style="margin:0 0 16px;font-size:28px;line-height:1.25;color:#f2f0ff">Réinitialise ton mot de passe</h2>
+<p style="font-size:16px;line-height:1.6;color:#a4b1c9">Nous avons reçu une demande de réinitialisation du mot de passe de ton compte Yokkai Collec’. Choisis-en un nouveau ci-dessous.</p>
+<p style="font-size:13px;line-height:1.6;color:#a4b1c9">Ce lien est personnel, ne fonctionne qu’une fois et expire bientôt. S’il a expiré, demande un nouveau lien depuis la page Mot de passe oublié.</p>
+<p style="font-size:12px;line-height:1.6;color:#6f7c95">Tu n’as pas fait cette demande ? Tu peux ignorer cet e-mail en toute sécurité : ton mot de passe ne changera pas. Nous ne te demanderons jamais ton mot de passe par e-mail.</p>
+</div>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%"><tr><td align="center" bgcolor="#ffd47d" style="border-radius:10px;background:#ffd47d">
+<a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=recovery" style="display:block;padding:14px 20px;font-size:16px;line-height:1.6;font-weight:700;color:#05060a;text-decoration:none;border-radius:10px"><span lang="en">Choose a new password</span><br/><span lang="fr">Choisir un nouveau mot de passe</span></a>
+</td></tr></table>
+</td></tr></table></td></tr></table></body></html>

@@ -1,3 +1,4 @@
+import { englishMessages } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -7,10 +8,18 @@ test("the profile sidebar fills its lower area with genuine customization detail
   const details = source.indexOf('className="yk-pro-native-signature"');
   assert.ok(details > source.indexOf('href="/profile/BBDOU"'));
   assert.ok(details < source.indexOf("</aside>"));
-  assert.match(source, /Made personal with Pro/);
+  assert.match(source, /tPr5\("madePersonalWithPro"\)/);
+  assert.match(
+    englishMessages.premiumUi.madePersonalWithPro,
+    /Made personal with Pro/
+  );
   assert.match(source, /backgroundColor: style\.color/);
   assert.match(source, /backgroundColor: style\.secondary/);
-  assert.match(source, /Avatar frames and decorative badges/);
+  assert.match(source, /tPr5\("avatarFramesAndDecorativeBadges"\)/);
+  assert.match(
+    englishMessages.premiumUi.avatarFramesAndDecorativeBadges,
+    /Avatar frames and decorative badges/
+  );
   assert.match(source, /\{profile\.cards\.length\}/);
 });
 

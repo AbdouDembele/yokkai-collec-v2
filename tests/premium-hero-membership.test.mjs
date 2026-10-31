@@ -1,3 +1,4 @@
+import { englishMessages, intl } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -16,10 +17,16 @@ test("the real subscription card lives once in the left hero column", () => {
     /yk-pro-membership-section|yk-pro-showcase-chrome/
   );
   const card = readFileSync("components/premium-checkout.tsx", "utf8");
-  assert.match(card, /€4\.99/);
+  assert.match(card, /fmt\.number\(4\.99/);
+  assert.match(card, /currency: "EUR"/);
+  assert.equal(
+    intl.useFormatter().number(4.99, { style: "currency", currency: "EUR" }),
+    "€4.99"
+  );
   assert.match(card, /\/settings#subscription/);
   assert.match(card, /billing\?\.checkoutEnabled/);
-  assert.match(card, />\s*GET PRO\s*</);
+  assert.match(card, /tPr5\("getPro"\)/);
+  assert.equal(englishMessages.premiumUi.getPro, "GET PRO");
   assert.match(card, /fetch\("\/api\/billing\/checkout"/);
   assert.match(card, /https:\/\/checkout\.stripe\.com/);
   assert.match(card, /pending\.current/);

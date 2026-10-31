@@ -34,13 +34,50 @@ test("public guide pages have English metadata and useful content", () => {
     assert.match(rarities, new RegExp(rate.replace(".", "\\.")));
   assert.match(rarities, /LR SHINY/);
   assert.match(rarities, /0\.001%/);
-  assert.match(rarities, /1 in 100,000 pull per card/);
-  assert.match(rarities, /independent 1% chance/);
-  assert.match(rarities, /0\.005% chance per revealed card \(1 in 20,000\)/);
-  assert.match(rules, /Do not automate pack openings/);
-  assert.match(rules, /Do not create accounts to farm referrals/);
-  assert.match(info, /unofficial fan project/i);
-  assert.match(info, /respective rights holders/);
+  assert.match(
+    rarities,
+    /t(?:\.rich)?\("theFirstFivePercentagesAreTheCurrent"/
+  );
+  assert.match(
+    englishMessages.legalUi.theFirstFivePercentagesAreTheCurrent,
+    /1 in 100,000 pull per card/
+  );
+  assert.match(
+    rarities,
+    /t(?:\.rich)?\("theFirstFivePercentagesAreTheCurrent"/
+  );
+  assert.match(
+    englishMessages.legalUi.theFirstFivePercentagesAreTheCurrent,
+    /independent 1% chance/
+  );
+  assert.match(
+    rarities,
+    /t(?:\.rich)?\("decisionPacksOnlyContainHighRarityChoices"/
+  );
+  assert.match(
+    englishMessages.legalUi.decisionPacksOnlyContainHighRarityChoices,
+    /0\.005% chance per revealed card \(1 in 20,000\)/
+  );
+  assert.match(rules, /t(?:\.rich)?\("doNotAutomatePackOpeningsOrOther"/);
+  assert.match(
+    englishMessages.legalUi.doNotAutomatePackOpeningsOrOther,
+    /Do not automate pack openings/
+  );
+  assert.match(rules, /t(?:\.rich)?\("doNotCreateAccountsToFarmReferrals"/);
+  assert.match(
+    englishMessages.legalUi.doNotCreateAccountsToFarmReferrals,
+    /Do not create accounts to farm referrals/
+  );
+  assert.match(info, /t(?:\.rich)?\("anUnofficialFanProject"/);
+  assert.match(
+    englishMessages.legalUi.anUnofficialFanProject,
+    /unofficial fan project/i
+  );
+  assert.match(info, /t(?:\.rich)?\("yokkaiCollecIsNotAffiliatedWithOr"/);
+  assert.match(
+    englishMessages.legalUi.yokkaiCollecIsNotAffiliatedWithOr,
+    /respective rights holders/
+  );
 });
 
 test("the LR Shiny guide entry is distinctive and stays readable on mobile", () => {
@@ -48,7 +85,11 @@ test("the LR Shiny guide entry is distinctive and stays readable on mobile", () 
   const styles = read("styles/info-pages.css");
 
   assert.match(rarities, /data-rarity="LR-SHINY"/);
-  assert.match(rarities, /Directly pulled Shiny cards are LR cards/);
+  assert.match(rarities, /t(?:\.rich)?\("directlyPulledShinyCardsAreLRCards"/);
+  assert.match(
+    englishMessages.legalUi.directlyPulledShinyCardsAreLRCards,
+    /Directly pulled Shiny cards are LR cards/
+  );
   assert.match(styles, /\.yk-rarity-row\[data-rarity="LR-SHINY"\]/);
   assert.match(styles, /background-clip: text/);
   assert.match(

@@ -88,7 +88,12 @@ import {
 
 const ProfileExperience = dynamic(
   () => import("@/components/profile").then(module => module.ProfileExperience),
-  { loading: () => <p role="status">Loading profile…</p> }
+  {
+    loading: function ProfileLoading() {
+      const tLoading = useTranslations("profileUi");
+      return <p role="status">{tLoading("loadingProfile")}</p>;
+    }
+  }
 );
 
 export type CommunityScreen =
