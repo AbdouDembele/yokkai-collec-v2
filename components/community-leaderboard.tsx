@@ -125,20 +125,6 @@ export function CommunityLeaderboardView({
       </header>
       {navigation}
 
-      {isLicense && (
-        <RankingLicenseExplorer
-          key={userId}
-          userId={userId}
-          revision={licenseRevision}
-          selected={selectedLicense}
-          onSelect={binder => {
-            setSelectedLicense(binder);
-            setQuery("");
-            reload({ ...options, offset: 0, query: "" });
-          }}
-        />
-      )}
-
       <>
         <section
           className="yk-leaderboard-mine yk-community-progress"
@@ -254,6 +240,20 @@ export function CommunityLeaderboardView({
             )}
           </div>
         </section>
+
+        {isLicense && (
+          <RankingLicenseExplorer
+            key={userId}
+            userId={userId}
+            revision={licenseRevision}
+            selected={selectedLicense}
+            onSelect={binder => {
+              setSelectedLicense(binder);
+              setQuery("");
+              reload({ ...options, offset: 0, query: "" });
+            }}
+          />
+        )}
 
         <div className="yk-leaderboard-layout">
           <section
