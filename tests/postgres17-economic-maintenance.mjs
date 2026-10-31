@@ -26,6 +26,8 @@ function session(sql, { user = "postgres", db = database } = {}) {
       "-X",
       "-w",
       "-qAt",
+      "-h",
+      "127.0.0.1",
       "-U",
       user,
       "-d",
@@ -63,6 +65,14 @@ async function until(fn) {
   }
   throw new Error("Gate concurrency timeout");
 }
+async function ready(s, marker) {
+  await Promise.race([
+    until(() => s.output().includes(marker)),
+    s.done.then(() => {
+      throw new Error(`Session exited before ${marker}: ${s.output()}`);
+    })
+  ]);
+}
 await query(
   `create database ${database} owner postgres;create role economic_gate_client login noinherit;grant authenticated,service_role to economic_gate_client;`,
   { user: "supabase_admin", db: "postgres" }
@@ -83,11 +93,11 @@ const old = session(
   "set role authenticated;begin isolation level repeatable read;select active from public.economic_maintenance_state;select 'SNAPSHOT_READY';",
   { user: "economic_gate_client" }
 );
-await until(() => old.output().includes("SNAPSHOT_READY"));
+await ready(old, "SNAPSHOT_READY");
 const writer = session(
   "begin;select public.ci_economic_write();select 'WRITER_ADMITTED';"
 );
-await until(() => writer.output().includes("WRITER_ADMITTED"));
+await ready(writer, "WRITER_ADMITTED");
 await query(
   "update public.economic_maintenance_state set active=true,started_at=clock_timestamp(),version='CI',operator='CI',reason='CONTROLLED_ECONOMIC_MAINTENANCE_FOR_ADMIN_OPERATION';"
 );
@@ -115,7 +125,7 @@ await assert.rejects(
 );
 writer.child.stdin.end("commit;\n");
 await writer.done;
-await until(() => gate.output().includes("DRAINED"));
+await ready(gate, "DRAINED");
 old.child.stdin.end("select public.ci_economic_write();\n");
 await assert.rejects(old.done, /ECONOMIC_MAINTENANCE/);
 for (const role of ["authenticated", "service_role"]) {
@@ -190,7 +200,8 @@ await query(`alter table auth.users add column if not exists email text,add colu
  insert into public.referrals(id,code_id,referrer_id,referred_id)values ${secondary.map((id, n) => `('${id}',(select id from public.referral_codes where user_id='${ids[n < 21 ? 0 : 1]}'),'${ids[n < 21 ? 0 : 1]}','${id}')`).join(",")};
  insert into auth.sessions(id,user_id)values ${secondary.map(id => `('${id}','${id}')`).join(",")};
  insert into auth.refresh_tokens(id,user_id,session_id)values ${secondary.map((id, n) => `(${n + 1},'${id}','${id}')`).join(",")};
- insert into public.user_cards(id,user_id,card_id)values ${copies.map((id, n) => `('${id}','${ids[n < 75 ? 0 : n === 75 ? 1 : n === 76 ? 2 : 3]}',(select id from public.cards limit 1))`).join(",")};
+ insert into public.cards(source_id,nom,categorie,franchise,rarete_base,image_url,source)values('economic-gate-fixture','Fixture','Fixture','Fixture','C','https://example.test/fixture.png','test');
+ insert into public.user_cards(id,user_id,card_id,rarity)values ${copies.map((id, n) => `('${id}','${ids[n < 75 ? 0 : n === 75 ? 1 : n === 76 ? 2 : 3]}',(select id from public.cards limit 1),'C')`).join(",")};
  update public.user_profiles set karas_balance=case user_id when '${ids[0]}'then 580 when '${ids[1]}'then 661 when '${ids[2]}'then 1512 else karas_balance end;
  update public.economic_maintenance_state set active=true;`);
 const inputs = `create temp table sanction_scope(user_id uuid,operation_id text,sanction_type text,expected_pseudo text,remove_cards boolean,penalize boolean);
@@ -201,7 +212,7 @@ insert into sanction_scope values ${ids
   .slice(0, 3)
   .map(
     (id, n) =>
-      `('${id}','ci-batch-${n}','${["AFFILIATE_ABUSE_SANCTION", "AFFILIATE_ABUSE_WARNING_WITH_PENALTY", "AFFILIATE_ABUSE_WARNING"][n]}','BatchFixture${n}',${n === 0},${n < 2})`
+      `('${id}','ci-maintenance-batch-${n}','${["AFFILIATE_ABUSE_SANCTION", "AFFILIATE_ABUSE_WARNING_WITH_PENALTY", "AFFILIATE_ABUSE_WARNING"][n]}','BatchFixture${n}',${n === 0},${n < 2})`
   )
   .join(",")};
 insert into sanction_targets values ${copies

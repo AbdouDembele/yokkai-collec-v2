@@ -1,5 +1,4 @@
 import { createClient } from "@/utils/supabase/client";
-import { economicMaintenanceError } from "@/lib/data/economic-maintenance";
 import { readRpcPages } from "@/lib/data/rpc-pages.mjs";
 import {
   invalidatePlayerSnapshots,
@@ -91,8 +90,7 @@ async function call<T>(
     : await db().rpc(name, args);
   const { data, error } = result;
   if (error) {
-    const maintenance = economicMaintenanceError(error.message);
-    if (maintenance) throw maintenance;
+    if (error.message === "ECONOMIC_MAINTENANCE") throw new Error(error.message, { cause: { i18nKey: "cardErrors.economicMaintenance" } });
     const details = "details" in error ? error.details : undefined;
     if (error.message === "AUCTION_LIMIT_REACHED")
       throw new Error(
