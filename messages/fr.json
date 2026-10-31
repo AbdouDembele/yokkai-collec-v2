@@ -3135,27 +3135,27 @@
     "karaRemoved": "Kara retirés",
     "acknowledge": "J’ai compris",
     "saving": "Enregistrement…",
-    "saveError": "Votre confirmation n’a pas pu être enregistrée. Veuillez réessayer.",
+    "saveError": "Ta confirmation n’a pas pu être enregistrée. Réessaie.",
     "sanction": {
       "title": "Sanction pour exploitation du système d’affiliation",
       "intro": "Nous avons détecté une utilisation abusive du système d’affiliation de Yokkai impliquant la création de comptes avec des adresses e-mail temporaires ou jetables afin d’obtenir artificiellement des récompenses.",
-      "decision": "Une sanction a été appliquée à votre compte.",
-      "explanation": "Les cartes identifiées comme provenant des récompenses concernées ont été retirées et une pénalité en Kara a été appliquée à votre compte.",
+      "decision": "Une sanction a été appliquée à ton compte.",
+      "explanation": "Les cartes identifiées comme provenant des récompenses concernées ont été retirées et une pénalité en Kara a été appliquée à ton compte.",
       "rules": "L’exploitation de mécanismes permettant d’obtenir artificiellement des récompenses est contraire aux règles de Yokkai.",
       "future": "En cas de récidive ou de nouvelle tentative de contournement, des sanctions supplémentaires pouvant aller jusqu’à la suspension définitive du compte pourront être appliquées."
     },
     "penalty": {
       "title": "Avertissement — utilisation abusive du système d’affiliation",
-      "intro": "Une activité abusive liée au système d’affiliation et à l’utilisation de comptes avec des adresses e-mail temporaires ou jetables a été identifiée sur votre compte.",
-      "decision": "À titre de sanction, une pénalité correspondant à 50 % de votre solde Kara a été appliquée.",
+      "intro": "Une activité abusive liée au système d’affiliation et à l’utilisation de comptes avec des adresses e-mail temporaires ou jetables a été identifiée sur ton compte.",
+      "decision": "À titre de sanction, une pénalité correspondant à 50 % de ton solde Kara a été appliquée.",
       "explanation": "Aucune carte n’a été retirée dans le cadre de cette sanction.",
       "rules": "La création ou l’utilisation artificielle de comptes dans le but d’obtenir des récompenses d’affiliation n’est pas autorisée.",
       "future": "Toute récidive ou nouvelle tentative de contournement pourra entraîner des sanctions supplémentaires pouvant aller jusqu’à la suspension définitive du compte."
     },
     "warning": {
       "title": "Avertissement concernant le système d’affiliation",
-      "intro": "Une activité liée au système d’affiliation de votre compte a été associée à l’utilisation d’une adresse e-mail temporaire ou jetable.",
-      "rules": "Aucune carte ni aucun Kara n’a été retiré de votre compte. Nous vous rappelons que la création ou l’utilisation artificielle de comptes dans le but d’obtenir des récompenses d’affiliation n’est pas autorisée.",
+      "intro": "Une activité liée au système d’affiliation de ton compte a été associée à l’utilisation d’une adresse e-mail temporaire ou jetable.",
+      "rules": "Aucune carte ni aucun Kara n’a été retiré de ton compte. Nous te rappelons que la création ou l’utilisation artificielle de comptes dans le but d’obtenir des récompenses d’affiliation n’est pas autorisée.",
       "future": "Toute utilisation abusive future du système d’affiliation pourra entraîner le retrait des récompenses concernées ou la suspension du compte."
     }
   }

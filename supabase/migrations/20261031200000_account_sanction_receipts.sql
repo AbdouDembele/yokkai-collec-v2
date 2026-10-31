@@ -49,6 +49,7 @@ grant execute on function public.get_my_pending_sanctions() to authenticated;
 create function public.acknowledge_my_sanction(p_sanction_id uuid) returns boolean
 language plpgsql security definer set search_path='' as $$
 begin
+  perform public.assert_player_not_banned();
   if auth.uid() is null then raise exception 'AUTH_REQUIRED'; end if;
   update public.account_sanctions set notification_seen_at=coalesce(notification_seen_at,clock_timestamp())
     where id=p_sanction_id and user_id=auth.uid() and status='APPLIED' and published_at is not null;
