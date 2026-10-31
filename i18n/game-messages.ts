@@ -2,6 +2,7 @@
 // Each compatibility message is registered once; unknown provider errors keep a safe fallback.
 const codes = new Map<string, string>(
   Object.entries({
+    ECONOMIC_MAINTENANCE: "cardErrors.economicMaintenance",
     "42501": "cardErrors.yourDataIsTemporarilyUnavailableRefreshThePage",
     AUTH_REQUIRED: "cardErrors.authRequired",
     PROFILE_MISSING: "cardErrors.profileMissing",
@@ -317,4 +318,9 @@ export function gameErrorKey(
   }
   return fallback;
 }
+for (const message of [
+  "Temporary maintenance: pack, trade and market operations are unavailable for a moment. Please try again shortly.",
+  "Maintenance temporaire : les opérations sur les packs, les échanges et le marché sont momentanément indisponibles. Réessaie dans quelques instants."
+])
+  englishMessages.set(message, "cardErrors.economicMaintenance");
 const keys = new Set([...codes.values(), ...englishMessages.values()]);

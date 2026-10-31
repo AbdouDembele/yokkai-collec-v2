@@ -63,6 +63,10 @@ jobs:
         env:
           TEST_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}
         run: node tests/postgres17-collection-order.mjs
+      - name: Economic maintenance admission and natural drain (production PostgreSQL image)
+        env:
+          TEST_POSTGRES_CONTAINER: ${{ job.services.postgres.id }}
+        run: node tests/postgres17-economic-maintenance.mjs
 
   migration-security:
     runs-on: ubuntu-latest

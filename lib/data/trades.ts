@@ -1,5 +1,6 @@
 import type { PageCursor, RpcPage } from "@/lib/data/demand-pages";
 import { createClient } from "@/utils/supabase/client";
+import { economicMaintenanceError } from "@/lib/data/economic-maintenance";
 import { readRpcPages } from "@/lib/data/rpc-pages.mjs";
 import tradeLimitsEnglish from "@/messages/trade-limits/en.json";
 import tradeLimitsFrench from "@/messages/trade-limits/fr.json";
@@ -166,6 +167,8 @@ export function resolveTradeReview(
   return id ? offers.find(offer => offer.id === id) : undefined;
 }
 export function tradeErrorMessage(code: string) {
+  const maintenance = economicMaintenanceError(code);
+  if (maintenance) return maintenance.message;
   if (Object.prototype.hasOwnProperty.call(tradeLimitsEnglish, code)) {
     // Errors arise after a client action; the document locale is already fixed
     // by the existing locale/feature flag. No new locale state or flag is added.
