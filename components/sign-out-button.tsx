@@ -5,13 +5,21 @@ import { useTranslations } from "next-intl";
 import { useActionState } from "react";
 import { signOut } from "@/app/auth/actions";
 import type { AuthState } from "@/lib/auth/forms";
+import { disablePushSubscription } from "@/lib/data/push-subscriptions";
 
 export function SignOutButton() {
   const authT = useTranslations("authErrors");
 
   const t = useTranslations("signOutButton");
   const [state, action, pending] = useActionState<AuthState, FormData>(
-    signOut,
+    async () => {
+      try {
+        await disablePushSubscription();
+      } catch {
+        return { error: "Couldn't sign out. Please try again." };
+      }
+      return signOut();
+    },
     {}
   );
   return (

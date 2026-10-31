@@ -386,7 +386,7 @@ test("Premium English HTML only changes the approved fixed-time footnote", async
 test("Achievement notifications reuse the SQL-ID catalogue and preserve unknown names", () => {
   const mod = { exports: {} };
   vm.runInNewContext(
-    ts.transpileModule(read("components/topbar.tsx"), {
+    ts.transpileModule(read("lib/notification-item.ts"), {
       compilerOptions: {
         module: ts.ModuleKind.CommonJS,
         target: ts.ScriptTarget.ES2022,

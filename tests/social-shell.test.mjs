@@ -113,7 +113,7 @@ test("legacy Friends redirects preserve messages, repeated parameters and encode
 
 test("friend and private message notifications open Social Friends", () => {
   const { notificationItem } = load(
-    "components/topbar.tsx",
+    "lib/notification-item.ts",
     new Proxy(
       {},
       {

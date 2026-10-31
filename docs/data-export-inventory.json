@@ -1,17 +1,23 @@
 {
-  "auth.users": {
-    "sections": ["account"],
-    "note": "Own allowlisted account fields only; no passwords, tokens or raw metadata."
-  },
   "auth.identities": {
     "sections": ["login_providers"],
     "note": "Own provider names and dates; no provider identifiers or identity JSON."
+  },
+  "auth.users": {
+    "sections": ["account"],
+    "note": "Own allowlisted account fields only; no passwords, tokens or raw metadata."
   },
   "public.account_deletion_log": {
     "excluded": "Deletion fence and security retention record; manual privacy review, not a self-service payload."
   },
   "public.achievements": {
     "excluded": "Global achievement definitions; own completion history comes from user_achievements."
+  },
+  "public.active_binder_aliases": {
+    "excluded": "Private catalogue-only alias projection; no player records."
+  },
+  "public.active_binder_aliases_unmerged": {
+    "excluded": "Private catalogue-only aliases before editorial grouping; contains no player records or preferences."
   },
   "public.admin_audit_logs": {
     "excluded": "Security audit with third-party snapshots; requires separate manual privacy review."
@@ -23,26 +29,20 @@
   "public.anilist_import_review": {
     "excluded": "Global catalogue import review queue keyed by catalogue card, not by player; contains no account preferences."
   },
-  "public.anime_license_binders": {
-    "excluded": "Global confirmed-license binder identities; no player records."
-  },
-  "public.anime_license_source_rules": {
-    "excluded": "Global confirmed source-license routing; no player records."
-  },
-  "public.anime_license_media_rules": {
-    "excluded": "Global verified media routing and explicit editorial exceptions; no player records."
-  },
   "public.anime_license_aliases": {
     "excluded": "Global verified license search aliases; no player records."
+  },
+  "public.anime_license_binders": {
+    "excluded": "Global confirmed-license binder identities; no player records."
   },
   "public.anime_license_key_redirects": {
     "excluded": "Global redirects of historical binder keys; no player records."
   },
-  "public.active_binder_aliases": {
-    "excluded": "Private catalogue-only alias projection; no player records."
+  "public.anime_license_media_rules": {
+    "excluded": "Global verified media routing and explicit editorial exceptions; no player records."
   },
-  "public.active_binder_aliases_unmerged": {
-    "excluded": "Private catalogue-only aliases before editorial grouping; contains no player records or preferences."
+  "public.anime_license_source_rules": {
+    "excluded": "Global confirmed source-license routing; no player records."
   },
   "public.anime_series_aliases": {
     "excluded": "Verified global catalogue search aliases; not an individual player record."
@@ -69,12 +69,16 @@
     "sections": ["messages"],
     "note": "Only messages authored by the requesting player."
   },
-  "public.auction_watchers": { "sections": ["watched_auctions"] },
+  "public.auction_watchers": {
+    "sections": ["watched_auctions"]
+  },
   "public.auctions": {
     "sections": ["auctions"],
     "note": "Own involvement only; counterparties reduced to existing public presentation."
   },
-  "public.bids": { "sections": ["bids"] },
+  "public.bids": {
+    "sections": ["bids"]
+  },
   "public.billing_accounts": {
     "excluded": "Provider linkage, anti-fraud holds and operational leases require manual privacy review; never export nonces or lease tokens."
   },
@@ -93,8 +97,12 @@
   "public.binder_legacy_favorite_resolutions": {
     "sections": ["binder_legacy_favorite_resolutions"]
   },
-  "public.binder_profile_widgets": { "sections": ["binder_profile_widgets"] },
-  "public.card_categories": { "excluded": "Global catalogue configuration." },
+  "public.binder_profile_widgets": {
+    "sections": ["binder_profile_widgets"]
+  },
+  "public.card_categories": {
+    "excluded": "Global catalogue configuration."
+  },
   "public.card_franchises": {
     "sections": ["catalogue_cards"],
     "note": "Only catalogue references associated with the requesting player."
@@ -110,36 +118,44 @@
     "sections": ["card_shares"],
     "note": "Own projection; link tokens and share URLs excluded."
   },
+  "public.cards": {
+    "sections": ["catalogue_cards"],
+    "note": "Referenced cards only, not a dump of the global catalogue."
+  },
+  "public.catalogue_binder_group_merges": {
+    "excluded": "Global redirects and indexed catalogue source metadata for editorial binder merges; no player records or preferences."
+  },
+  "public.catalogue_binder_groups": {
+    "excluded": "Global editorial binder identities and activation flags; contains no player records or preferences."
+  },
   "public.catalogue_binder_links": {
     "excluded": "Private computed catalogue membership view; contains no player identity, ownership or preferences."
   },
   "public.catalogue_binder_links_unmerged": {
     "excluded": "Private source/provenance catalogue projection before editorial grouping; no player identity, ownership or preferences."
   },
-  "public.catalogue_binder_groups": {
-    "excluded": "Global editorial binder identities and activation flags; contains no player records or preferences."
-  },
   "public.catalogue_binder_source_merges": {
     "excluded": "Global exact category/source-license editorial mapping; no player records or preferences."
-  },
-  "public.catalogue_binder_group_merges": {
-    "excluded": "Global redirects and indexed catalogue source metadata for editorial binder merges; no player records or preferences."
-  },
-  "public.cards": {
-    "sections": ["catalogue_cards"],
-    "note": "Referenced cards only, not a dump of the global catalogue."
   },
   "public.data_export_state": {
     "excluded": "Transient export reservation and receipt state; never expose request capabilities."
   },
-  "public.decision_pack_choices": { "sections": ["decision_pack_choices"] },
-  "public.decision_packs": { "sections": ["decision_packs"] },
-  "public.folders": { "sections": ["folders"] },
+  "public.decision_pack_choices": {
+    "sections": ["decision_pack_choices"]
+  },
+  "public.decision_packs": {
+    "sections": ["decision_packs"]
+  },
+  "public.folders": {
+    "sections": ["folders"]
+  },
   "public.friend_request_events": {
     "sections": ["friend_request_events"],
     "note": "Only the requesting sender's recent sent/closed events, dates and recipient pseudo; no third-party UUIDs or another sender's received-request trace. Private TTL abuse controls; cascades on profile preparation/Auth deletion."
   },
-  "public.friendships": { "sections": ["friendships"] },
+  "public.friendships": {
+    "sections": ["friendships"]
+  },
   "public.gif_verification_limits": {
     "excluded": "Internal anti-abuse counters (window starts and counts) for GIF verification, not authored content; rows cascade on Auth deletion."
   },
@@ -149,11 +165,15 @@
   "public.leaderboard_rank_observations": {
     "excluded": "Internal derived daily public-rank observations, retained for 35 days and readable only through permission-checked ranking responses. Not authored content or received correspondence. No direct API table access; rows cascade on account deletion."
   },
-  "public.notifications": { "sections": ["notifications"] },
+  "public.notifications": {
+    "sections": ["notifications"]
+  },
   "public.oauth_pseudo_pending": {
     "excluded": "Transient OAuth onboarding marker deleted when the username is chosen; the username itself is exported in profile."
   },
-  "public.panini_album_favorites": { "sections": ["album_favorites"] },
+  "public.panini_album_favorites": {
+    "sections": ["album_favorites"]
+  },
   "public.private_message_reads": {
     "excluded": "Private read receipts contain counterpart identifiers; manual privacy review, no received correspondence export."
   },
@@ -164,7 +184,9 @@
   "public.pro_access_grants": {
     "excluded": "Operator attribution and free-text notes require manual privacy review; never expose another account's operator data."
   },
-  "public.profile_customizations": { "sections": ["profile_customizations"] },
+  "public.profile_customizations": {
+    "sections": ["profile_customizations"]
+  },
   "public.profile_likes": {
     "sections": ["profile_likes_sent", "profile_engagement"]
   },
@@ -176,7 +198,15 @@
     "sections": ["profile_visits", "profile_engagement"],
     "note": "Retained own legacy history; retired feature does not erase exportable history."
   },
-  "public.profile_wall_posts": { "sections": ["wall_posts"] },
+  "public.profile_wall_posts": {
+    "sections": ["wall_posts"]
+  },
+  "public.push_dispatch_config": {
+    "excluded": "Internal global webhook configuration containing a server authentication secret. Not an individual account record; no API access or self-service secret export."
+  },
+  "public.push_subscriptions": {
+    "excluded": "Browser push delivery endpoints and encryption/authentication capability material are excluded from automatic downloads, like session credentials. Own device subscriptions can be revoked in settings and cascade on account deletion. Requests concerning these operational records require manual privacy review; this is not a legal exemption."
+  },
   "public.referral_codes": {
     "sections": ["referral_codes"],
     "note": "Only the requesting player's invitation code and creation date."
@@ -188,33 +218,49 @@
   "public.trade_offer_submission_limits": {
     "excluded": "Current anti-abuse admission count/window only; manual security/privacy review, with deletion cascading from the account. No message contents or asset records."
   },
-  "public.trade_offers": { "sections": ["trades"] },
-  "public.user_achievement_stats": { "sections": ["progress"] },
-  "public.user_achievements": { "sections": ["achievements"] },
+  "public.trade_offers": {
+    "sections": ["trades"]
+  },
+  "public.user_achievement_stats": {
+    "sections": ["progress"]
+  },
+  "public.user_achievements": {
+    "sections": ["achievements"]
+  },
   "public.user_blocks": {
     "sections": ["blocks"],
     "note": "Own outgoing blocks only."
   },
-  "public.user_cards": { "sections": ["collection"] },
-  "public.user_profiles": { "sections": ["profile"] },
+  "public.user_cards": {
+    "sections": ["collection"]
+  },
+  "public.user_profiles": {
+    "sections": ["profile"]
+  },
   "public.user_reports": {
     "sections": ["submitted_reports"],
     "note": "Own submissions only; received reports, free text and snapshots excluded."
   },
-  "public.wall_post_likes": { "sections": ["wall_post_likes"] },
-  "public.wall_post_reactions": { "sections": ["wall_post_reactions"] },
-  "public.wall_reply_media_cleanup": {
-    "excluded": "Internal exact-object cleanup authorization and single-use path fence, not authored content. No API table access; player receipts cascade on Auth deletion. Operator orphan claims have no player identity. Storage paths and capabilities are never exported."
+  "public.wall_post_likes": {
+    "sections": ["wall_post_likes"]
+  },
+  "public.wall_post_reactions": {
+    "sections": ["wall_post_reactions"]
   },
   "public.wall_post_replies": {
     "sections": ["wall_post_replies"],
     "note": "Own replies only, including GIF and attachment-presence metadata."
   },
+  "public.wall_reply_media_cleanup": {
+    "excluded": "Internal exact-object cleanup authorization and single-use path fence, not authored content. No API table access; player receipts cascade on Auth deletion. Operator orphan claims have no player identity. Storage paths and capabilities are never exported."
+  },
   "public.wishlist": {
     "sections": ["wishlist"],
     "note": "Compatibility view of wishlists, not duplicated in the file."
   },
-  "public.wishlists": { "sections": ["wishlist"] },
+  "public.wishlists": {
+    "sections": ["wishlist"]
+  },
   "storage.buckets": {
     "excluded": "Global storage configuration, not an individual account record."
   },

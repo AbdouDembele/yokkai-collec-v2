@@ -1960,7 +1960,18 @@
     "exportCountdown": "Tu pourras à nouveau télécharger tes données dans {time}.",
     "manageWithStripe": "Gère ton abonnement, ton moyen de paiement et tes factures en toute sécurité avec Stripe. Consulte notre <privacy>politique de confidentialité</privacy>.",
     "deletionIncomplete": "La suppression de ton compte n’a pas pu être terminée. N’envoie pas de nouvelle demande. Contacte l’équipe pour vérifier son état.{hasContact, select, yes { Contact : {contact}.} other {}}",
-    "referralRankLabel": "Top {value}"
+    "referralRankLabel": "Top {value}",
+    "pushTitle": "Notifications push",
+    "pushDescription": "Reçois tes notifications de jeu sur cet appareil, même quand le site est fermé. Te déconnecter les désactive sur cet appareil.",
+    "pushLoading": "Vérification des notifications…",
+    "pushIos": "Sur iPhone ou iPad (iOS 16.4 ou plus récent), ajoute Yokkai à ton écran d’accueil depuis le menu Partager, puis ouvre-le depuis cet écran pour activer les notifications.",
+    "pushUnsupported": "Ce navigateur ne prend pas en charge les notifications push.",
+    "pushUnavailable": "Les notifications push ne sont pas encore disponibles.",
+    "pushDenied": "Les notifications sont bloquées. Autorise-les dans les réglages de ton navigateur ou de ton appareil, puis recharge cette page.",
+    "pushDismissed": "L’autorisation n’a pas été accordée. Appuie sur le bouton pour réessayer.",
+    "pushError": "Impossible de modifier les notifications push. Recharge cette page et réessaie.",
+    "pushEnabled": "Activées",
+    "pushDisabled": "Désactivées"
   },
   "regularPackRules": {
     "proIntro": "Stocke deux fois plus de Regular Packs. Choisis parmi deux Decision Packs par jour. Agrandis ta collection, puis personnalise tes favoris.",

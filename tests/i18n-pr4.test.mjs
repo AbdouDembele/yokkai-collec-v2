@@ -16,7 +16,7 @@ const catalogues = Object.fromEntries(
 );
 const exports = {};
 vm.runInNewContext(
-  ts.transpileModule(readFileSync("components/topbar.tsx", "utf8"), {
+  ts.transpileModule(readFileSync("lib/notification-item.ts", "utf8"), {
     compilerOptions: {
       module: ts.ModuleKind.CommonJS,
       target: ts.ScriptTarget.ES2022,
