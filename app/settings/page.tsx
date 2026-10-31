@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { Topbar } from "@/components/topbar";
 import { AccountMenu } from "@/components/account-menu";
 import { SettingsPanel } from "@/components/settings";
+import { PushSettings } from "@/components/push-settings";
 import { DataExportForm } from "@/components/data-export-form";
 import { AccountDeletionForm } from "@/components/account-deletion-form";
 import { SubscriptionSettings } from "@/components/subscription-settings";
@@ -58,6 +59,7 @@ export default async function SettingsPage() {
           <SubscriptionSettings billing={billing} />
           <ReferralPanel initialStatus={referral} siteOrigin={siteOrigin} />
           <SettingsPanel />
+          <PushSettings userId={user.id} />
           <DataExportForm />
           {name && (
             <div className="mt-6">

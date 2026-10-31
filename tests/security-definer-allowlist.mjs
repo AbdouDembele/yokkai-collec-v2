@@ -1,6 +1,7 @@
 // Exact overloads and roles only. Every addition requires an access justification.
 export const ownerOnly = [
   "public.with_leaderboard_history(jsonb, text)", // Internal enrichment of already-authorized results only; no direct API execution.
+  "public.dispatch_notification_push()", // Trigger-only dispatch of committed notification events; no API execution.
   "public.guard_trade_offer_submission()", // Trigger-only transactional anti-spam admission; no API or service-role execution.
   "public.leaderboard_collection_without_styles(integer, integer, text, boolean)", // Internal score/visibility projection; only the public entitlement-aware leaderboard wrapper can execute it.
   "public.leaderboard_referrals_without_styles(integer, integer, text, boolean)", // Internal referral projection; no direct API access, cosmetics appended only after the wrapper's authorized page is known.
@@ -29,6 +30,9 @@ export const ownerOnly = [
 ]; // Internal helpers: owning SECURITY DEFINER wrappers/triggers only, never service_role or players.
 
 export const serverOnly = {
+  "public.get_push_notification(uuid, timestamp with time zone)": [
+    "service_role"
+  ], // Exact notification/version, same live ACL as the in-app reader, trusted push route only.
   "public.record_giphy_gif_rating(text, text)": ["service_role"], // Trusted GIF verification route only: records the rating GIPHY returned for a validated id; no browser access.
   "public.get_orphan_wall_media(text, boolean)": ["service_role"] // Operator inventory/claim only, 24h grace, exact-object fences; no browser access.
 };

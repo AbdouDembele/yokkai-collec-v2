@@ -30,7 +30,8 @@
     "next-intl": "4.14.9",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "stripe": "^23.0.0"
+    "stripe": "^23.0.0",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@electric-sql/pglite": "^0.5.8",

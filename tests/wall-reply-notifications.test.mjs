@@ -205,7 +205,7 @@ test("wall reply notification opens the player's wall without leaking content", 
   const require = createRequire(import.meta.url);
   const exports = {};
   const source = ts.transpileModule(
-    readFileSync("components/topbar.tsx", "utf8"),
+    readFileSync("lib/notification-item.ts", "utf8"),
     {
       compilerOptions: {
         module: ts.ModuleKind.CommonJS,
