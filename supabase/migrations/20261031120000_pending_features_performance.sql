@@ -202,8 +202,8 @@ declare
   friends_only boolean:=coalesce(p_friends_only,false);
   chosen text:=public.canonical_binder_key(left(btrim(coalesce(p_binder_key,'')),500));
 begin
-  if viewer is null then raise exception 'AUTH_REQUIRED' using errcode='P0001'; end if;
   perform public.assert_player_not_banned();
+  if viewer is null then raise exception 'AUTH_REQUIRED' using errcode='P0001'; end if;
   if not exists(select 1 from public.user_profiles where user_id=viewer)
     or exists(select 1 from public.account_deletion_log where user_id=viewer)
     then raise exception 'PROFILE_MISSING' using errcode='P0001'; end if;

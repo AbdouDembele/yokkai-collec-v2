@@ -55,6 +55,7 @@ test("les albums Panini sont paginés et leurs cartes chargées à la demande", 
   assert.equal(first.total, 78);
   assert.deepEqual(first.items[0], {
     license: "Licence 075",
+    image: "https://example.test/75.png",
     total: 1,
     owned: 0,
     percent: 0,
@@ -62,6 +63,7 @@ test("les albums Panini sont paginés et leurs cartes chargées à la demande", 
   });
   assert.deepEqual(first.items[1], {
     license: "Licence 001",
+    image: "https://example.test/1.png",
     total: 1,
     owned: 1,
     percent: 100,
@@ -99,7 +101,14 @@ test("les albums Panini sont paginés et leurs cartes chargées à la demande", 
     )
   ).rows[0].value;
   assert.deepEqual(film.items, [
-    { license: "FILM", total: 2, owned: 0, percent: 0, favorite: false }
+    {
+      license: "FILM",
+      image: "https://example.test/film-b.png",
+      total: 2,
+      owned: 0,
+      percent: 0,
+      favorite: false
+    }
   ]);
 
   const cards = (

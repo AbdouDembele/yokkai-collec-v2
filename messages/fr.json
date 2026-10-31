@@ -2641,7 +2641,7 @@
     "listLabel": "Joueurs classés par {kind, select, likes {J’aime sur leur profil} global {progression globale de collection} other {progression de licence}}",
     "selectionLoading": "Chargement des licences…",
     "selectionFailed": "Impossible de charger les licences. Réessaie.",
-    "likesNoun": "J’aime",
+    "likesNoun": "{count, plural, one {J’aime} other {J’aime}}",
     "licenseScope": "Classement des licences",
     "globalCompleted": "Licences terminées",
     "globalCards": "Cartes distinctes",

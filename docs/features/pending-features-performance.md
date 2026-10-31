@@ -44,3 +44,9 @@ Limites : ces mesures portent sur PostgreSQL local, avec des lectures séquentie
 - Vérification des débordements de 320 à 1440 px et à zoom CSS 200 %. Zoom natif du navigateur à 200 % non vérifié. Aucune ouverture de pack ni message envoyé dans ces parcours.
 
 La CI complète reste exclusivement exécutée par GitHub Actions au prochain push. Ces contrôles locaux ne la remplacent pas. Aucune affirmation d’absence absolue de latence en production.
+
+## Corrections de compatibilité relevées par la CI
+
+La CI complète a révélé des intégrations non couvertes par le sous-ensemble ciblé : les deux nouveaux lecteurs volatils de classement appellent désormais le garde de bannissement en premier ; le catalogue FR conserve le même paramètre pluriel ICU que l'anglais ; l'inventaire d'export documente la rétention et l'exclusion de la table interne des observations de rang.
+
+Walid a validé l'ajout des URL d'images exactes aux comparaisons strictes des tests panini-pagination-db et franchise-normalization-db, sans retirer de champ ni d'assertion. Il a aussi validé la sélection de l'association exacte dans discord-license-merges-db : le test cherchait auparavant la première ligne d'une carte ayant plusieurs licences, sans ordre SQL garanti. Le groupe attendu, les contrôles de licences secondaires et les autres assertions restent conservés. Le diagnostic confirme que les associations fusionnées et non fusionnées sont correctes ; aucune modification des règles de fusion n'est nécessaire.

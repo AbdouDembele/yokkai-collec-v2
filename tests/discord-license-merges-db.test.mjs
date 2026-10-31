@@ -235,7 +235,9 @@ test("all reviewed merges preserve source cards, secondary memberships, proofs a
       )
     );
     assert.equal(
-      links.find(l => l.card_id === id(i + 1)).binder_key,
+      links.find(
+        l => l.card_id === id(i + 1) && l.source_license === sources[i].license
+      ).binder_key,
       "series:" + g.group_id,
       sources[i].license
     );
