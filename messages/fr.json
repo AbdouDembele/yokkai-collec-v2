@@ -1006,7 +1006,8 @@
     "emailCooldown": "Trop de tentatives. Réessaie dans {seconds, plural, one {# seconde} other {# secondes}}.",
     "emailDomainMissing": "Ce domaine d’adresse e-mail est introuvable. Vérifie ta saisie.",
     "providerUnavailable": "La connexion avec {provider} n’est pas encore disponible. Utilise ton adresse e-mail et ton mot de passe pour le moment.",
-    "usernameSaveFailed": "Impossible d’enregistrer ton pseudo. Réessaie."
+    "usernameSaveFailed": "Impossible d’enregistrer ton pseudo. Réessaie.",
+    "disposableEmail": "Les adresses e-mail temporaires ou jetables ne sont pas autorisées. Utilise une adresse e-mail permanente."
   },
   "metadata": {
     "openPacksCollectYourFavoriteCharactersAndTrade": "Ouvre des packs, collectionne tes personnages préférés et échange avec les autres joueurs.",

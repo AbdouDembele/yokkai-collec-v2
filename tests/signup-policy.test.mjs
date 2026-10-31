@@ -3,6 +3,8 @@ import { readFileSync } from "node:fs";
 import test from "node:test";
 import vm from "node:vm";
 import ts from "typescript";
+import { loadDisposableEmail } from "./helpers/disposable-email.mjs";
+const disposableEmail = loadDisposableEmail();
 
 function load(path, imports = {}, globals = {}) {
   const code = ts.transpileModule(readFileSync(path, "utf8"), {
@@ -16,6 +18,7 @@ function load(path, imports = {}, globals = {}) {
     URL,
     ...globals,
     require(name) {
+      if (name === "@/lib/server/disposable-email") return disposableEmail;
       if (name in imports) return imports[name];
       if (name === "@/messages/en.json")
         return {

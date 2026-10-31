@@ -45,6 +45,7 @@
     "prettier": "3.9.10",
     "supabase": "^2.117.0",
     "tailwindcss": "^4",
+    "tldts": "^7.4.19",
     "typescript": "^5"
   },
   "engines": {

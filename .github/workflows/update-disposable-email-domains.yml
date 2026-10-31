@@ -1,0 +1,54 @@
+name: Refresh disposable email domains
+
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+concurrency:
+  group: disposable-email-domain-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  actions: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: master
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Prepare reviewed update
+        shell: bash
+        run: |
+          set -euo pipefail
+          branch="ad/disposable-email-domains-${GITHUB_RUN_ID}"
+          if [[ "$(gh pr list --state open --json headRefName --jq '[.[] | select(.headRefName | startswith("ad/disposable-email-domains-"))] | length')" != 0 ]]; then
+            echo 'A domain update PR already awaits review; last valid production list stays active.'
+            exit 0
+          fi
+          git switch -c "$branch"
+          node scripts/update-disposable-email-domains.mjs
+          if git diff --quiet && [[ -z "$(git ls-files --others --exclude-standard)" ]]; then exit 0; fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add data/disposable-email-domains.json supabase/migrations
+          npm run format
+          git add data/disposable-email-domains.json supabase/migrations
+          git commit -m 'Actualise la liste officielle des domaines jetables'
+          git push origin "$branch"
+          printf '%s\n' 'Actualise le snapshot local depuis la source officielle épinglée. Les échecs de récupération laissent la dernière liste valide active.' '' 'Migrations : migration refresh_disposable_email_domains générée dans cette PR, non appliquée sur le VPS. Revue et CI verte requises ; pas de déploiement automatique de SQL.' '' 'Validation : contrôles GitHub en attente.' > /tmp/disposable-email-pr.md
+          gh pr create --draft --base master --head "$branch" --title 'Actualise les domaines e-mail jetables' --body-file /tmp/disposable-email-pr.md
+          # GITHUB_TOKEN PRs do not trigger pull_request workflows automatically.
+          gh workflow run ci.yml --ref "$branch"

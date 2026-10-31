@@ -215,6 +215,9 @@
     "sections": ["referrals"],
     "note": "Own sent/received referral events and reward dates; no counterparty UUID, email, code or profile."
   },
+  "public.signup_email_domain_rules": {
+    "excluded": "Global domain-level allow/block policy copied from a public source. Contains no email addresses, account identifiers or player records. Owner-only data, not an individual account export."
+  },
   "public.trade_offer_submission_limits": {
     "excluded": "Current anti-abuse admission count/window only; manual security/privacy review, with deletion cascading from the account. No message contents or asset records."
   },
