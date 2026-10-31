@@ -3430,7 +3430,9 @@ test("l’inscription vérifie le pseudo après debounce sans remplacer la valid
 });
 
 test("les notifications connues ont un texte et une redirection, les inconnues un repli sûr", () => {
-  const source = readFileSync(path.join(root, "components/topbar.tsx"), "utf8");
+  const source =
+    readFileSync(path.join(root, "components/topbar.tsx"), "utf8") +
+    readFileSync(path.join(root, "lib/notification-item.ts"), "utf8");
   const model = readFileSync(
     path.join(root, "lib/data/notifications.ts"),
     "utf8"
@@ -3494,7 +3496,7 @@ test("les notifications connues ont un texte et une redirection, les inconnues u
   ]) {
     assert.match(source, new RegExp(href.replace("?", "\\?")));
   }
-  const { notificationItem } = load("components/topbar.tsx");
+  const { notificationItem } = load("lib/notification-item.ts");
   const unknown = notificationItem(
     {
       id: "unknown",

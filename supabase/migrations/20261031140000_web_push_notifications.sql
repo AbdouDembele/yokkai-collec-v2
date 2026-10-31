@@ -14,6 +14,13 @@ grant select,insert,update,delete on public.push_subscriptions to authenticated;
 grant select,delete on public.push_subscriptions to service_role;
 create policy push_subscriptions_own on public.push_subscriptions for all to authenticated
   using (user_id=(select auth.uid())) with check (user_id=(select auth.uid()));
+create policy push_subscriptions_require_unbanned_insert on public.push_subscriptions as restrictive
+  for insert to authenticated with check ((select public.assert_player_not_banned()));
+create policy push_subscriptions_require_unbanned_update on public.push_subscriptions as restrictive
+  for update to authenticated using ((select public.assert_player_not_banned()))
+  with check ((select public.assert_player_not_banned()));
+create policy push_subscriptions_require_unbanned_delete on public.push_subscriptions as restrictive
+  for delete to authenticated using ((select public.assert_player_not_banned()));
 
 -- Provisioned separately by the operator: never put secrets in a migration.
 -- RLS plus no API grants keeps this singleton inaccessible to players and service_role.

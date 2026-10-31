@@ -129,3 +129,31 @@ test("push trigger covers inserts and coalesced events; RPC applies recipient vi
     "blocked interactions cannot leak through push"
   );
 });
+
+test("banned tokens cannot create, update or delete push subscriptions", async t => {
+  const { db } = await replayMigrations();
+  t.after(() => db.close());
+  const player = "71000000-0000-4000-8000-000000000099";
+  await db.exec("alter table auth.users add column banned_until timestamptz");
+  await db.query(
+    "insert into auth.users(id,raw_user_meta_data) values($1,$2)",
+    [player, JSON.stringify({ pseudo: "BannedPush" })]
+  );
+  await db.query(
+    "insert into public.push_subscriptions(user_id,endpoint,p256dh,auth) values($1,'https://fcm.googleapis.com/send/ban-proof',repeat('a',87),repeat('b',22))",
+    [player]
+  );
+  await db.query("update auth.users set banned_until='infinity' where id=$1", [
+    player
+  ]);
+  await db.exec("set role authenticated");
+  await db.query("select set_config('request.jwt.claim.sub',$1,false)", [
+    player
+  ]);
+  for (const query of [
+    "insert into public.push_subscriptions(user_id,endpoint,p256dh,auth) values(auth.uid(),'https://fcm.googleapis.com/send/ban-new',repeat('a',87),repeat('b',22))",
+    "update public.push_subscriptions set auth=repeat('c',22)",
+    "delete from public.push_subscriptions"
+  ])
+    await assert.rejects(db.exec(query), /ACCOUNT_BANNED/);
+});
