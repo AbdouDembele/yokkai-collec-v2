@@ -1,50 +1,39 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { InfoSection, PublicInfoPage } from "@/components/public-info-page";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
 
-export const metadata: Metadata = {
-  title: "About",
-  description: "Learn about Yokkai Collec' and how the game works."
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("legalUi");
+  return {
+    title: t("about"),
+    description: t("learnAboutYokkaiCollecAndHowThe")
+  };
+}
 
-export default function InfoPage() {
+export default async function InfoPage() {
+  const t = await getTranslations("legalUi");
   return (
     <PublicInfoPage
-      eyebrow="About the project"
-      title="What is Yokkai?"
-      intro="Yokkai Collec' is a fan-made online card collection game where players open packs, discover characters, and trade with friends."
+      eyebrow={t("aboutTheProject")}
+      title={t("whatIsYokkai")}
+      intro={t("yokkaiCollecIsAFanMadeOnline")}
       discordEnabled={Boolean(getDiscordInviteUrl())}
     >
-      <InfoSection number="01" title="Collect">
-        <p>
-          Open Regular and Decision Packs, discover cards across many
-          franchises, and organize your personal collection.
-        </p>
+      <InfoSection number="01" title={t("collect")}>
+        <p>{t("openRegularAndDecisionPacksDiscoverCards")}</p>
       </InfoSection>
-      <InfoSection number="02" title="Connect">
-        <p>
-          Add friends, exchange private messages, build trade offers, and follow
-          auctions through the community market.
-        </p>
+      <InfoSection number="02" title={t("connect")}>
+        <p>{t("addFriendsExchangePrivateMessagesBuildTrade")}</p>
       </InfoSection>
-      <InfoSection number="03" title="Build your identity">
-        <p>
-          Customize your public profile, showcase favorite cards, complete
-          achievements, and make your collector identity your own.
-        </p>
+      <InfoSection number="03" title={t("buildYourIdentity")}>
+        <p>{t("customizeYourPublicProfileShowcaseFavoriteCards")}</p>
       </InfoSection>
-      <InfoSection number="04" title="An unofficial fan project">
-        <p>
-          Yokkai Collec&apos; is not affiliated with or endorsed by the owners
-          of the characters and franchises represented in the collection. Those
-          properties remain the property of their respective rights holders.
-        </p>
+      <InfoSection number="04" title={t("anUnofficialFanProject")}>
+        <p>{t("yokkaiCollecIsNotAffiliatedWithOr")}</p>
       </InfoSection>
-      <InfoSection number="05" title="Stay connected">
-        <p>
-          Join the Yokkai Discord from the icon below to meet collectors, share
-          feedback, and follow project updates.
-        </p>
+      <InfoSection number="05" title={t("stayConnected")}>
+        <p>{t("joinTheYokkaiDiscordFromTheIcon")}</p>
       </InfoSection>
     </PublicInfoPage>
   );

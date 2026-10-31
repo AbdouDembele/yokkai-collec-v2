@@ -1,3 +1,4 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
@@ -8,16 +9,20 @@ import { PremiumProfileEmbed } from "@/components/premium-profile-embed";
 import "@/styles/profile-style.css";
 import "@/styles/premium.css";
 
-export const metadata: Metadata = { title: "Premium" };
+export async function generateMetadata(): Promise<Metadata> {
+  const tPr5 = await getTranslations("premiumUi");
+  return { title: tPr5("premium") };
+}
 export const dynamic = "force-dynamic";
 
 export default async function PremiumPage() {
+  const tPr5 = await getTranslations("premiumUi");
   const user = await getCurrentUser();
   const billing = user ? await getBillingSettings(user.id) : null;
   return (
     <div className="yk-premium-page">
       <header className="yk-premium-nav">
-        <Link href="/boosters" aria-label="Yokkai Collec’, home">
+        <Link href="/boosters" aria-label={tPr5("yokkaiCollecHome")}>
           <Image
             src="/assets/brand-logo-ice-retro.png"
             alt=""
@@ -28,7 +33,7 @@ export default async function PremiumPage() {
         </Link>
         <span>YOKKAI PRO</span>
         <Link href={user ? "/settings#subscription" : "/login"}>
-          {user ? "Manage membership ↗" : "Sign in ↗"}
+          {user ? tPr5("manageMembership") : tPr5("signInArrow")}
         </Link>
       </header>
       <main className="yk-premium-main">
@@ -39,7 +44,7 @@ export default async function PremiumPage() {
         />
       </main>
       <footer className="yk-premium-footer">
-        Your collection. Your style.
+        {tPr5("yourCollectionYourStyle")}
       </footer>
     </div>
   );

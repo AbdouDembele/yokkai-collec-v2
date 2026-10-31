@@ -71,7 +71,7 @@ export function billingService(
     };
   }
   return {
-    async checkout(userId: string) {
+    async checkout(userId: string, locale: "en" | "fr" = "en") {
       if (!config.checkoutEnabled)
         throw new BillingError("BILLING_CHECKOUT_CLOSED");
       await verifyAccount();
@@ -139,6 +139,7 @@ export function billingService(
         const session = await stripe.checkout.sessions.create(
           {
             mode: "subscription",
+            locale,
             customer: account.stripe_customer_id,
             client_reference_id: userId,
             line_items: [{ price: config.price, quantity: 1 }],

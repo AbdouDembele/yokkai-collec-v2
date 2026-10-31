@@ -1,3 +1,4 @@
+import { intl } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -32,6 +33,7 @@ function loadPremiumCheckout(react = React, globals = {}) {
       URL,
       ...globals,
       require: name => {
+        if (name === "next-intl") return intl;
         if (name === "react") return react;
         if (name === "react/jsx-runtime") return require(name);
         if (name === "next/link")

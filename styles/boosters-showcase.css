@@ -49,7 +49,7 @@
 .yk-pack-aura {
   position: absolute;
   z-index: -1;
-  inset: -8% -4%;
+  inset: -8% 0;
   background: radial-gradient(
     ellipse,
     color-mix(in srgb, var(--color-accent-neon) 18%, transparent),

@@ -1,49 +1,44 @@
+import { getTranslations } from "next-intl/server";
 import type { Metadata } from "next";
 import { InfoSection, PublicInfoPage } from "@/components/public-info-page";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
 
-export const metadata: Metadata = {
-  title: "Community rules",
-  description: "The fair-play and community rules for Yokkai Collec'."
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("legalUi");
+  return {
+    title: t("communityRules"),
+    description: t("theFairPlayAndCommunityRulesFor")
+  };
+}
 
-export default function RulesPage() {
+export default async function RulesPage() {
+  const t = await getTranslations("legalUi");
   return (
     <PublicInfoPage
-      eyebrow="Play fair"
-      title="Community rules"
-      intro="Yokkai is built around collecting, trading, and sharing. These rules keep those experiences fair and welcoming for everyone."
+      eyebrow={t("playFair")}
+      title={t("communityRules")}
+      intro={t("yokkaiIsBuiltAroundCollectingTradingAnd")}
       discordEnabled={Boolean(getDiscordInviteUrl())}
     >
-      <InfoSection number="01" title="Respect other collectors">
+      <InfoSection number="01" title={t("respectOtherCollectors")}>
         <ul>
-          <li>No harassment, hate speech, threats, or targeted abuse.</li>
-          <li>No spam, impersonation, scams, or misleading trade messages.</li>
-          <li>Keep profiles, messages, and shared content appropriate.</li>
+          <li>{t("noHarassmentHateSpeechThreatsOrTargeted")}</li>
+          <li>{t("noSpamImpersonationScamsOrMisleadingTrade")}</li>
+          <li>{t("keepProfilesMessagesAndSharedContentAppropriate")}</li>
         </ul>
       </InfoSection>
-      <InfoSection number="02" title="Keep the game fair">
+      <InfoSection number="02" title={t("keepTheGameFair")}>
         <ul>
-          <li>Do not automate pack openings or other player actions.</li>
-          <li>Do not exploit bugs, manipulate requests, or bypass limits.</li>
-          <li>
-            Do not create accounts to farm referrals, rewards, or daily packs.
-          </li>
+          <li>{t("doNotAutomatePackOpeningsOrOther")}</li>
+          <li>{t("doNotExploitBugsManipulateRequestsOr")}</li>
+          <li>{t("doNotCreateAccountsToFarmReferrals")}</li>
         </ul>
       </InfoSection>
-      <InfoSection number="03" title="Trade carefully">
-        <p>
-          Review every card and Kara amount before accepting. Card ownership is
-          checked again by the server when a trade is completed, and completed
-          trades should be treated as final.
-        </p>
+      <InfoSection number="03" title={t("tradeCarefully")}>
+        <p>{t("reviewEveryCardAndKaraAmountBefore", { unit: "Kara" })}</p>
       </InfoSection>
-      <InfoSection number="04" title="Reports and moderation">
-        <p>
-          Use the in-app report tools when something looks wrong. Serious or
-          repeated violations may lead to content removal, feature restrictions,
-          or account suspension.
-        </p>
+      <InfoSection number="04" title={t("reportsAndModeration")}>
+        <p>{t("useTheInAppReportToolsWhen")}</p>
       </InfoSection>
     </PublicInfoPage>
   );

@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
@@ -18,13 +19,14 @@ export function PublicInfoPage({
   discordEnabled: boolean;
   tone?: "navy";
 }) {
+  const tPr5 = useTranslations("premiumUi");
   return (
     <div className="yk-info-page" data-tone={tone}>
       <header className="yk-info-header">
         <Link
           href="/"
           className="yk-info-brand"
-          aria-label="Yokkai Collec', home"
+          aria-label={tPr5("yokkaiCollecHome2")}
         >
           <Image
             src="/assets/brand-logo-ice-retro.png"
@@ -35,7 +37,7 @@ export function PublicInfoPage({
           />
         </Link>
         <Link href="/boosters" className="yk-info-play-link">
-          Play Yokkai
+          {tPr5("playYokkai")}
         </Link>
       </header>
       <main id="main-content" className="yk-info-main">

@@ -1,3 +1,4 @@
+import { getTranslations, getLocale } from "next-intl/server";
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -33,8 +34,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const card = await getSharedCard(id);
   if (!card) notFound();
-  const owner = card.pseudo ? ` by ${card.pseudo}` : "";
-  const description = `${card.cardName}, a ${cardRarityLabel(card.rarity, card.shiny, card.isEvolved)} card${card.franchise ? ` from ${card.franchise}` : ""}, shared${owner} on Yokkai Collec'.`;
+  const t = await getTranslations("shareUi");
+  const locale = await getLocale();
+  const description = t("description", {
+    name: card.cardName,
+    rarity: cardRarityLabel(card.rarity, card.shiny, card.isEvolved),
+    franchisePresent: card.franchise ? "yes" : "no",
+    franchise: card.franchise ?? "",
+    ownerPresent: card.pseudo ? "yes" : "no",
+    owner: card.pseudo ?? ""
+  });
   const url = `${siteOrigin()}/share/${id}`;
   const image = `${url}/image/og`;
   return {
@@ -44,7 +53,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: { canonical: url },
     openGraph: {
       url,
-      locale: "en_US",
+      locale: locale === "fr" ? "fr_FR" : "en_US",
       title: `${card.cardName} · Yokkai Collec'`,
       description,
       images: [{ url: image, width: 1200, height: 630, alt: card.cardName }]
@@ -59,6 +68,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function SharedCardPage({ params }: Props) {
+  const t = await getTranslations("shareUi");
   const { id } = await params;
   const card = await getSharedCard(id);
   if (!card) notFound();
@@ -66,11 +76,7 @@ export default async function SharedCardPage({ params }: Props) {
   return (
     <div className="yk-info-page" data-tone="navy">
       <header className="yk-info-header">
-        <Link
-          href="/"
-          className="yk-info-brand"
-          aria-label="Yokkai Collec', home"
-        >
+        <Link href="/" className="yk-info-brand" aria-label={t("home")}>
           <Image
             src="/assets/brand-logo-ice-retro.png"
             alt=""
@@ -80,7 +86,7 @@ export default async function SharedCardPage({ params }: Props) {
           />
         </Link>
         <Link href="/login" className="yk-info-play-link">
-          Sign in
+          {t("signIn")}
         </Link>
       </header>
       <main id="main-content" className="yk-share-main">
@@ -102,7 +108,7 @@ export default async function SharedCardPage({ params }: Props) {
           </CardShell>
         </div>
         <div className="yk-share-copy">
-          <p className="eyebrow">Shared card</p>
+          <p className="eyebrow">{t("sharedCard")}</p>
           <h1>{card.cardName}</h1>
           <p className="yk-share-meta">
             <span className={rarityText[card.rarity]}>{label}</span>
@@ -110,19 +116,19 @@ export default async function SharedCardPage({ params }: Props) {
           </p>
           {card.pseudo && (
             <p className="yk-share-owner">
-              Shared by <strong>{card.pseudo}</strong>
+              {t.rich("sharedBy", {
+                name: card.pseudo,
+                strong: chunks => <strong>{chunks}</strong>
+              })}
             </p>
           )}
-          <p className="yk-share-pitch">
-            Open packs, collect characters from your favorite series and trade
-            with friends.
-          </p>
+          <p className="yk-share-pitch">{t("pitch")}</p>
           <div className="yk-share-actions">
             <Link className="yk-button yk-button-primary" href="/signup">
-              Join Yokkai Collec&apos;
+              {t("join")}
             </Link>
             <Link className="yk-button yk-button-secondary" href="/login">
-              Sign in
+              {t("signIn")}
             </Link>
           </div>
         </div>

@@ -1,4 +1,9 @@
-import { englishMessages, intl, loadLocaleModule } from "./helpers/i18n.mjs";
+import {
+  englishMessages,
+  intl,
+  intlServer,
+  loadLocaleModule
+} from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -34,6 +39,7 @@ function load(path, imports = {}, globals = {}) {
       require(name) {
         if (name in imports) return imports[name];
         if (name === "next-intl") return intl;
+        if (name === "next-intl/server") return intlServer;
         if (name === "@/i18n/locale")
           return loadLocaleModule(globals.process?.env ?? {});
         if (name.startsWith("@/messages/"))
@@ -46,7 +52,7 @@ function load(path, imports = {}, globals = {}) {
   return loaded.exports;
 }
 
-function renderPrivacy(constants = load("lib/legal/privacy.ts")) {
+async function renderPrivacy(constants = load("lib/legal/privacy.ts")) {
   const h = React.createElement;
   const page = load("app/privacy/page.tsx", {
     "next/link": {
@@ -67,13 +73,14 @@ function renderPrivacy(constants = load("lib/legal/privacy.ts")) {
         )
     }
   });
-  return { page, html: renderToStaticMarkup(h(page.default)) };
+  return { page, html: renderToStaticMarkup(await page.default()) };
 }
 
-test("the privacy page renders one h1, every required section, and English metadata", () => {
-  const { page, html } = renderPrivacy();
-  assert.equal(page.metadata.title, "Privacy Policy");
-  assert.match(page.metadata.description, /personal data/);
+test("the privacy page renders one h1, every required section, and English metadata", async () => {
+  const { page, html } = await renderPrivacy();
+  const metadata = await page.generateMetadata();
+  assert.equal(metadata.title, "Privacy Policy");
+  assert.match(metadata.description, /personal data/);
   assert.equal((html.match(/<h1>/g) ?? []).length, 1);
   assert.match(html, /<h1>Privacy Policy<\/h1>/);
   const sections = [...html.matchAll(/<h2>([^<]+)<\/h2>/g)].map(m => m[1]);
@@ -103,12 +110,12 @@ test("the privacy page renders one h1, every required section, and English metad
   assert.doesNotMatch(html, /Walid|Joueur|supprim|données|compte/i);
 });
 
-test("contact email, controller, and minimum age come from the shared constants", () => {
+test("contact email, controller, and minimum age come from the shared constants", async () => {
   const defaults = load("lib/legal/privacy.ts");
   assert.equal(defaults.PRIVACY_CONTACT_EMAIL, "yokkaicollec@gmail.com");
   assert.equal(defaults.PRIVACY_MINIMUM_AGE, 16);
   assert.equal(defaults.PRIVACY_CONTROLLER, "Yokkai Collec'");
-  const { html } = renderPrivacy({
+  const { html } = await renderPrivacy({
     ...defaults,
     PRIVACY_CONTACT_EMAIL: "privacy@example.test",
     PRIVACY_CONTROLLER: "Example Controller",

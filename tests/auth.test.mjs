@@ -1168,7 +1168,7 @@ test("connexion : un compte non confirmé ouvre le renvoi du lien", async () => 
   );
 });
 
-test("e-mails Auth : modèles anglais, lien token_hash, servis hors text/html", () => {
+test("e-mails Auth : modèles bilingues, lien token_hash unique, servis hors text/html", () => {
   for (const [name, type] of [
     ["confirmation", "signup"],
     ["recovery", "recovery"]
@@ -1178,8 +1178,10 @@ test("e-mails Auth : modèles anglais, lien token_hash, servis hors text/html", 
       "utf8"
     );
     const link = `{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&amp;type=${type}`;
-    // Button plus copyable fallback link, both intact Go template actions.
-    assert.equal(html.split(link).length - 1, 3);
+    // One bilingual button retains the exact Go template link and token.
+    assert.equal(html.split(link).length - 1, 1);
+    assert.equal((html.match(/<a\b/g) ?? []).length, 1);
+    assert.ok(html.indexOf('lang="en"') < html.indexOf('lang="fr"'));
     assert.doesNotMatch(html, /<script|<img|https?:\/\/(?!yokkai)/i);
     assert.match(html, /<html lang="en">/);
   }

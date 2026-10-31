@@ -1,0 +1,24 @@
+{
+  "method": "Conservative concatenated transpiled client sources, ESNext/ReactJSX, comments removed, gzip level 9, catalogues excluded; not production bundle measurement",
+  "files": [
+    "components/achievements.tsx",
+    "components/auth-decision-preview.tsx",
+    "components/card-sharing.tsx",
+    "components/community-views.tsx",
+    "components/lr-card-reveal.tsx",
+    "components/premium-banner-preview.tsx",
+    "components/premium-card-artwork-preview.tsx",
+    "components/premium-checkout.tsx",
+    "components/premium-offer.tsx",
+    "components/premium-profile-embed.tsx",
+    "components/public-info-page.tsx",
+    "components/topbar.tsx",
+    "i18n/game-messages.ts",
+    "lib/data/achievements.ts",
+    "lib/data/card-shares.ts",
+    "lib/premium/offer.ts"
+  ],
+  "base": 45981,
+  "new": 45965,
+  "delta": -16
+}
