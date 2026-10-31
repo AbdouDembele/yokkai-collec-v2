@@ -33,7 +33,7 @@ export function LeaderboardsView({
       >
         {tPr4("communityRanking.powerRankingTab")}
       </Button>
-      {(["likes", "licenses"] as const).map(option => (
+      {(["licenses", "likes"] as const).map(option => (
         <Button
           key={option}
           variant="secondary"

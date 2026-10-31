@@ -528,7 +528,7 @@ export function CommunityLeaderboardView({
                   <h3>{t("completionWeightsTitle")}</h3>
                   <dl className="yk-completion-weights">
                     {(["C", "R", "SR", "SSR", "LR"] as const).map(rarity => (
-                      <div key={rarity}>
+                      <div key={rarity} data-rarity={rarity}>
                         <dt>{rarity}</dt>
                         <dd>{data.completionWeights?.[rarity]}</dd>
                       </div>
