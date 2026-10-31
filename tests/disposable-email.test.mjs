@@ -69,9 +69,11 @@ test("official blocked domains cannot be evaded by case, spaces, subdomains or l
 test("explicit allowlist takes priority even if upstream accidentally includes a legitimate provider", () => {
   const api = loadDisposableEmail({
     ...snapshot,
-    domains: [...snapshot.domains, "gmail.com", "com"]
+    domains: [...snapshot.domains, "gmail.com", "temporary.gmail.com", "com"]
   });
   assert.equal(api.isDisposableEmail("test@gmail.com"), false);
+  assert.equal(api.isDisposableEmail("test@sub.gmail.com"), false);
+  assert.equal(api.isDisposableEmail("test@temporary.gmail.com"), true);
   assert.equal(
     api.isDisposableEmail("test@evilgmail.com"),
     false,

@@ -69,7 +69,10 @@ export function domainRules(snapshot) {
     rules.set(domain, false);
     rules.set(domainToUnicode(domain).normalize("NFKC").toLowerCase(), false);
   }
-  for (const domain of snapshot.allowlist) rules.set(domain, true);
+  for (const domain of snapshot.allowlist) {
+    rules.set(domain, true);
+    rules.set(domainToUnicode(domain).normalize("NFKC").toLowerCase(), true);
+  }
   return [...rules.entries()].sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0));
 }
 const quote = value => "'" + value.replaceAll("'", "''") + "'";

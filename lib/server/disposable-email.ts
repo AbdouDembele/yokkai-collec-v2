@@ -3,7 +3,9 @@ import { domainToASCII } from "node:url";
 import snapshot from "@/data/disposable-email-domains.json";
 
 const allowed = new Set(snapshot.allowlist);
-const blocked = new Set(snapshot.domains);
+const blocked = new Set(
+  snapshot.domains.filter(domain => !allowed.has(domain))
+);
 
 /** Returns a normalized DNS domain, never a full address or an exception. */
 export function signupEmailDomain(email: unknown): string | undefined {

@@ -20,6 +20,8 @@ En SQL, les règles sont dans `public.signup_email_domain_rules`, avec une clé 
 
 La priorité est : **allowlist exacte, puis blocklist et ses sous-domaines**. `data/disposable-email-allowlist.json` protège Gmail, Googlemail, Outlook, Hotmail, Live, iCloud, Proton et Yahoo. Modifier ce petit fichier puis lancer le script de mise à jour prépare les règles SQL correspondantes.
 
+Une entrée autorisée remplace la classification upstream de ce domaine dans la politique effective, dans Next.js comme en SQL, y compris ses graphies IDNA. Ses sous-domaines ne sont donc pas bloqués du seul fait de cette entrée ; une règle distincte visant explicitement un sous-domaine reste applicable.
+
 Ni la table ni les fonctions de contrôle n’accordent d’accès aux rôles `anon`, `authenticated` ou `service_role`. Le trigger et son checker sont des fonctions SECURITY DEFINER avec `search_path` vide et droits réservés au propriétaire. Aucun secret ou nouveau droit Auth d’administration n’est nécessaire dans Next.js.
 
 ## Performances et journaux
