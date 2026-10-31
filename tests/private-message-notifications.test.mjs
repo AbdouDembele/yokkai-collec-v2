@@ -169,7 +169,7 @@ function loadTs(file, require, globals = {}) {
 }
 test("private notification opens the sender's conversation and never contains a private preview", () => {
   const require = createRequire(import.meta.url);
-  const api = loadTs("components/topbar.tsx", name =>
+  const api = loadTs("lib/notification-item.ts", name =>
     name === "react" || name === "react/jsx-runtime" ? require(name) : {}
   );
   const item = api.notificationItem(
