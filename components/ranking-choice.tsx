@@ -30,7 +30,7 @@ export function RankingChoice<T>({
   errorLabel,
   onLoadMore,
   onSelect,
-  findMatch,
+  findMatches,
   sortByLabel = false
 }: {
   sortByLabel?: boolean;
@@ -49,7 +49,7 @@ export function RankingChoice<T>({
   errorLabel?: string;
   onLoadMore?: () => void;
   onSelect: (item: T) => void;
-  findMatch?: (prefix: string, signal: AbortSignal) => Promise<T | null>;
+  findMatches?: (prefix: string, signal: AbortSignal) => Promise<T[]>;
 }) {
   const [open, setOpen] = useState(false);
   const [found, setFound] = useState<T[]>([]);
@@ -102,7 +102,7 @@ export function RankingChoice<T>({
     resetTyping();
   }, [resetTyping]);
   const requestMore = () => {
-    if (!loading && hasMore && !moreRequested.current) {
+    if (!loading && !buffer.current.text && hasMore && !moreRequested.current) {
       moreRequested.current = true;
       onLoadMore?.();
     }
@@ -132,42 +132,35 @@ export function RankingChoice<T>({
     if (open && targetKey !== null) focusOption(targetKey);
   }, [open, targetKey, options, focusOption]);
   useEffect(() => {
-    if (!open || !pendingPrefix || !findMatch) return;
+    if (!open || !pendingPrefix || !findMatches) return;
     const controller = new AbortController();
-    const timer = window.setTimeout(() => {
-      void findMatch(pendingPrefix, controller.signal)
-        .then(item => {
-          if (
-            controller.signal.aborted ||
-            buffer.current.text !== pendingPrefix
-          )
-            return;
+    void findMatches(pendingPrefix, controller.signal)
+      .then(matches => {
+        if (controller.signal.aborted || buffer.current.text !== pendingPrefix)
+          return;
+        setFinding(false);
+        setPendingPrefix("");
+        if (matches.length) {
+          setFound(current => [
+            ...new Map(
+              [...current, ...matches].map(item => [getKey(item), item])
+            ).values()
+          ]);
+          setTargetKey(getKey(matches[0]));
+        }
+      })
+      .catch(() => {
+        if (
+          !controller.signal.aborted &&
+          buffer.current.text === pendingPrefix
+        ) {
           setFinding(false);
           setPendingPrefix("");
-          if (item !== null) {
-            setFound(current => [
-              ...current.filter(value => getKey(value) !== getKey(item)),
-              item
-            ]);
-            setTargetKey(getKey(item));
-          }
-        })
-        .catch(() => {
-          if (
-            !controller.signal.aborted &&
-            buffer.current.text === pendingPrefix
-          ) {
-            setFinding(false);
-            setPendingPrefix("");
-            setFailed(true);
-          }
-        });
-    }, 180);
-    return () => {
-      window.clearTimeout(timer);
-      controller.abort();
-    };
-  }, [open, pendingPrefix, findMatch, getKey]);
+          setFailed(true);
+        }
+      });
+    return () => controller.abort();
+  }, [open, pendingPrefix, findMatches, getKey]);
   const typeLetter = (key: string) => {
     buffer.current = advanceTypeahead(buffer.current, key, Date.now());
     if (!buffer.current.text) return;
@@ -186,7 +179,7 @@ export function RankingChoice<T>({
       setFinding(false);
       setTargetKey(getKey(orderedOptions[match]));
       focusOption(getKey(orderedOptions[match]));
-    } else if (findMatch) {
+    } else if (findMatches) {
       setPendingPrefix(buffer.current.text);
       setFinding(true);
     }
@@ -239,6 +232,8 @@ export function RankingChoice<T>({
           tabIndex={-1}
           aria-labelledby={labelId}
           aria-busy={loading || finding}
+          onWheel={resetTyping}
+          onPointerDown={resetTyping}
           onScroll={event => {
             const node = event.currentTarget;
             if (node.scrollHeight - node.scrollTop - node.clientHeight < 80)

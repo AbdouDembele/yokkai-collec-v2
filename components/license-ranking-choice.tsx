@@ -27,26 +27,21 @@ export function LicenseRankingChoice({
   query?: string;
 }) {
   const t = useTranslations("communityRanking");
-  const findMatch = useCallback(
+  const findMatches = useCallback(
     async (prefix: string, signal: AbortSignal) => {
-      // Search the same category/filter with bounded pages, without changing the
-      // visible search field or loading the whole catalogue just to open a menu.
-      for (let page = 1; !signal.aborted; page++) {
-        const next = await getRankingLicenseChoices({
-          query,
-          prefix,
-          category,
-          page,
-          pageSize: 72
-        });
-        if (signal.aborted) return null;
-        const match = next.items.find(item =>
-          normalizeChoiceLabel(item.license).startsWith(prefix)
-        );
-        if (match) return match;
-        if (!next.items.length || page * 72 >= next.total) return null;
-      }
-      return null;
+      // Keep a bounded group of matches locally, so subsequent letters and
+      // repeated-letter cycling do not need another round trip.
+      const next = await getRankingLicenseChoices({
+        query,
+        prefix,
+        category,
+        pageSize: 72,
+        signal
+      });
+      if (signal.aborted) return [];
+      return next.items.filter(item =>
+        normalizeChoiceLabel(item.license).startsWith(prefix)
+      );
     },
     [category, query]
   );
@@ -64,7 +59,7 @@ export function LicenseRankingChoice({
       hasMore={hasMore}
       onLoadMore={onLoadMore}
       onSelect={onSelect}
-      findMatch={hasMore ? findMatch : undefined}
+      findMatches={hasMore ? findMatches : undefined}
       loadingLabel={t("selectionLoading")}
       emptyLabel={t("noLicenses")}
       errorLabel={t("selectionFailed")}

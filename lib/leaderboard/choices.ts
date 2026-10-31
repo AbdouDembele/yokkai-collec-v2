@@ -7,16 +7,18 @@ export async function getRankingLicenseChoices({
   category = "",
   prefix = "",
   page = 1,
-  pageSize = 72
+  pageSize = 72,
+  signal
 }: {
   query?: string;
   category?: string;
   prefix?: string;
   page?: number;
   pageSize?: number;
+  signal?: AbortSignal;
 } = {}): Promise<PaniniAlbumPage> {
   const size = Math.min(72, Math.max(1, Math.trunc(pageSize)));
-  const { data, error } = await readRequest(signal =>
+  const { data, error } = await readRequest(timeoutSignal =>
     createClient()
       .rpc("get_ranking_license_choices", {
         p_query: query,
@@ -26,7 +28,9 @@ export async function getRankingLicenseChoices({
         p_offset: (Math.max(1, Math.trunc(page)) - 1) * size,
         p_limit: size
       })
-      .abortSignal(signal)
+      .abortSignal(
+        signal ? AbortSignal.any([signal, timeoutSignal]) : timeoutSignal
+      )
   );
   if (error || !data) throw new Error("LICENSE_CHOICES_UNAVAILABLE");
   return data as PaniniAlbumPage;
