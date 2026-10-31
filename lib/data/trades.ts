@@ -166,6 +166,7 @@ export function resolveTradeReview(
   return id ? offers.find(offer => offer.id === id) : undefined;
 }
 export function tradeErrorMessage(code: string) {
+  if (code === "ECONOMIC_MAINTENANCE") return code;
   if (Object.prototype.hasOwnProperty.call(tradeLimitsEnglish, code)) {
     // Errors arise after a client action; the document locale is already fixed
     // by the existing locale/feature flag. No new locale state or flag is added.

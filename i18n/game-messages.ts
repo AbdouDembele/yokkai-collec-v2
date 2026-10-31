@@ -2,6 +2,7 @@
 // Each compatibility message is registered once; unknown provider errors keep a safe fallback.
 const codes = new Map<string, string>(
   Object.entries({
+    ECONOMIC_MAINTENANCE: "cardErrors.economicMaintenance",
     "42501": "cardErrors.yourDataIsTemporarilyUnavailableRefreshThePage",
     AUTH_REQUIRED: "cardErrors.authRequired",
     PROFILE_MISSING: "cardErrors.profileMissing",
@@ -29,23 +30,17 @@ const codes = new Map<string, string>(
     INVALID_CARD_SELECTION: "cardErrors.invalidCardSelection",
     FOLDER_NAME_TAKEN: "cardErrors.folderNameTaken",
     FOLDER_NOT_FOUND: "cardErrors.folderNotFound",
-    PGRST301: "cardErrors.authRequired"
+    PGRST301: "cardErrors.authRequired",
+    PRO_REQUIRED: "cardErrors.thisFeatureIsAvailableToProMembersOnly",
+    INVALID_IMGUR_URL: "cardErrors.enterAValidImgurLinkStartingWithHttps",
+    PROFILE_NOT_FOUND: "profileUi.thisProfileCouldntBeFound",
+    BIO_TOO_LONG: "profileUi.bioLengthLimit",
+    AVATAR_URL_INVALID: "profileUi.avatarUrlInvalid",
+    FEATURED_CARDS_INVALID: "profileUi.showcaseLimitExceeded",
+    FRIENDS_ONLY: "profileUi.collectionFriendsOnly",
+    PROFILE_PRIVATE: "profileUi.privateProfileCollection"
   })
 );
-codes.set("PRO_REQUIRED", "cardErrors.thisFeatureIsAvailableToProMembersOnly");
-codes.set(
-  "INVALID_IMGUR_URL",
-  "cardErrors.enterAValidImgurLinkStartingWithHttps"
-);
-for (const [code, key] of Object.entries({
-  PROFILE_NOT_FOUND: "profileUi.thisProfileCouldntBeFound",
-  BIO_TOO_LONG: "profileUi.bioLengthLimit",
-  AVATAR_URL_INVALID: "profileUi.avatarUrlInvalid",
-  FEATURED_CARDS_INVALID: "profileUi.showcaseLimitExceeded",
-  FRIENDS_ONLY: "profileUi.collectionFriendsOnly",
-  PROFILE_PRIVATE: "profileUi.privateProfileCollection"
-}))
-  if (!codes.has(code)) codes.set(code, key);
 // Tab-separated canonical message/key pairs, registered once.
 const englishMessages = new Map<string, string>(
   `A folder with this name already exists.	cardErrors.folderNameTaken

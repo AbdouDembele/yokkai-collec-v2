@@ -90,6 +90,7 @@ async function call<T>(
     : await db().rpc(name, args);
   const { data, error } = result;
   if (error) {
+    if (error.message === "ECONOMIC_MAINTENANCE") throw new Error(error.message, { cause: { i18nKey: "cardErrors.economicMaintenance" } });
     const details = "details" in error ? error.details : undefined;
     if (error.message === "AUCTION_LIMIT_REACHED")
       throw new Error(

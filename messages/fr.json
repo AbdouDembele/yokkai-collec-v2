@@ -512,7 +512,8 @@
     "cardReportsReportLimit": "Tu as atteint la limite de signalements du jour.",
     "cardReportsReportInvalid": "Ce signalement est invalide.",
     "cardReportsAuthRequired": "Connecte-toi pour signaler cette carte.",
-    "wishlistUnavailable": "La liste de souhaits est temporairement indisponible."
+    "wishlistUnavailable": "La liste de souhaits est temporairement indisponible.",
+    "economicMaintenance": "Maintenance temporaire : les opérations sur les packs, les échanges et le marché sont momentanément indisponibles. Réessaie dans quelques instants."
   },
   "openingErrors": {
     "invalidRequest": "Demande d’ouverture invalide.",

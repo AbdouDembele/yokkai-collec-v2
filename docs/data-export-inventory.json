@@ -7,6 +7,9 @@
     "sections": ["account"],
     "note": "Own allowlisted account fields only; no passwords, tokens or raw metadata."
   },
+  "public.economic_maintenance_state": {
+    "excluded": "Global operational maintenance singleton. Only the active boolean is public; operator, version, reason and maintenance timestamps are private operational evidence, not player data."
+  },
   "public.account_deletion_log": {
     "excluded": "Deletion fence and security retention record; manual privacy review, not a self-service payload."
   },

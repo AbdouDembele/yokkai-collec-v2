@@ -512,7 +512,8 @@
     "cardReportsReportLimit": "You've reached today's report limit.",
     "cardReportsReportInvalid": "This report is invalid.",
     "cardReportsAuthRequired": "Sign in to report this card.",
-    "wishlistUnavailable": "The wishlist is temporarily unavailable."
+    "wishlistUnavailable": "The wishlist is temporarily unavailable.",
+    "economicMaintenance": "Temporary maintenance: pack, trade and market operations are unavailable for a moment. Please try again shortly."
   },
   "openingErrors": {
     "invalidRequest": "Invalid opening request.",
