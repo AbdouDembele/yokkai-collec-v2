@@ -1,3 +1,4 @@
+import { getTranslations, getFormatter } from "next-intl/server";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { InfoSection, PublicInfoPage } from "@/components/public-info-page";
@@ -14,45 +15,26 @@ import {
   SERVER_LOG_RETENTION_DAYS
 } from "@/lib/legal/privacy";
 
-export const metadata: Metadata = {
-  title: "Privacy Policy",
-  description:
-    "How Yokkai Collec' collects, uses, shares, and protects your personal data, and how to exercise your privacy rights.",
-  robots: { index: true, follow: true }
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("legalUi");
+  return {
+    title: t("privacyPolicy"),
+    description: t("howYokkaiCollecCollectsUsesSharesAnd"),
+    robots: { index: true, follow: true }
+  };
+}
 
 const linkClass = "underline underline-offset-4 hover:text-ink";
 
-const lastUpdated = new Date(
-  `${PRIVACY_LAST_UPDATED}T00:00:00Z`
-).toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  timeZone: "UTC"
-});
-
 const browserStorage = [
-  ["Sign-in cookie (sb-…-auth-token)", "Keeps you signed in. Required."],
-  ["yokkai:collection-sort", "Remembers how you sort your collection."],
-  ["yokkai:filters-open:v1", "Remembers which filter panels are open."],
-  ["yokkai-sound-enabled", "Remembers whether game sounds are on."],
-  [
-    "yokkai:pro-promotion:v1:dismissed-at",
-    "Remembers when you closed the Pro promotion."
-  ],
-  [
-    "yokkai-discord-promo-dismissed:<account ID>",
-    "Remembers that you closed the Discord reminder."
-  ],
-  [
-    "yokkai-referral-reminder-dismissed:<account ID>",
-    "Remembers that you closed the referral reminder."
-  ],
-  [
-    "yokkai:social-unread-invalidation",
-    "A random value that keeps unread counters in sync across your tabs."
-  ]
+  ["signInCookie", "sessionPurpose"],
+  ["yokkai:collection-sort", "sortPurpose"],
+  ["yokkai:filters-open:v1", "filtersPurpose"],
+  ["yokkai-sound-enabled", "soundPurpose"],
+  ["yokkai:pro-promotion:v1:dismissed-at", "proPurpose"],
+  ["yokkai-discord-promo-dismissed:<account ID>", "discordPurpose"],
+  ["yokkai-referral-reminder-dismissed:<account ID>", "referralPurpose"],
+  ["yokkai:social-unread-invalidation", "unreadPurpose"]
 ];
 
 function Email() {
@@ -66,318 +48,277 @@ function Email() {
   );
 }
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const t = await getTranslations("legalUi");
+  const fmt = await getFormatter();
+  const lastUpdated = fmt.dateTime(
+    new Date(`${PRIVACY_LAST_UPDATED}T00:00:00Z`),
+    { year: "numeric", month: "long", day: "numeric", timeZone: "UTC" }
+  );
   return (
     <PublicInfoPage
-      eyebrow="Your data"
-      title="Privacy Policy"
-      intro="What we collect when you play Yokkai, why we need it, who can see it, and how you stay in control."
+      eyebrow={t("yourData")}
+      title={t("privacyPolicy")}
+      intro={t("whatWeCollectWhenYouPlayYokkai")}
       discordEnabled={Boolean(getDiscordInviteUrl())}
       tone="navy"
     >
       <p className="mb-8 text-sm leading-7 text-ink-2">
-        Last updated: <time dateTime={PRIVACY_LAST_UPDATED}>{lastUpdated}</time>
-        .
+        {t.rich("lastUpdatedDate", {
+          date: lastUpdated,
+          time0: chunks => <time dateTime={PRIVACY_LAST_UPDATED}>{chunks}</time>
+        })}
       </p>
 
-      <InfoSection number="01" title="Who we are and how to contact us">
+      <InfoSection number="01" title={t("whoWeAreAndHowToContact")}>
         <p>
-          {PRIVACY_CONTROLLER} is the data controller for the personal data
-          processed through this website. For any question or request about your
-          data, email <Email />. Never send your password or sign-in codes by
-          email.
+          {t.rich("controllerIsTheDataControllerForThe", {
+            controller: PRIVACY_CONTROLLER,
+            email0: () => <Email />
+          })}
         </p>
       </InfoSection>
 
-      <InfoSection number="02" title="What data we collect">
+      <InfoSection number="02" title={t("whatDataWeCollect")}>
         <ul>
           <li>
-            <strong>Account:</strong> your email address, password, and
-            username. Your password is handled by our authentication system and
-            stored only in hashed form. We also record the version and time of
-            the policies you accepted at sign-up, and the referral code you
-            used, if any. Confirmation and password-reset emails are sent
-            through our email provider.
+            {t.rich("accountYourEmailAddressPasswordAndUsername", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Security checks:</strong> sign-in, sign-up, and password
-            forms use a Cloudflare Turnstile challenge to block bots. Your IP
-            address may be used to protect sign-in against abuse.
+            {t.rich("securityChecksSignInSignUpAnd", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Profile:</strong> avatar, banner, background and card-back
-            images you upload, bio, interests, showcase cards, profile layout
-            and Pro styling, your profile privacy setting, and when you were
-            last active.
+            {t.rich("profileAvatarBannerBackgroundAndCardBack", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Game data:</strong> cards and collection, custom card images
-            (links you provide), folders and binders, Karas balance, packs and
-            pack timers, achievements and stats, wishlist, favorites, and
-            notifications.
+            {t.rich("gameDataCardsAndCollectionCustomCard", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Social activity:</strong> friends and friend requests,
-            trades, auctions and bids, auction chat messages and mentions,
-            private messages, profile wall posts, replies, likes and reactions,
-            GIFs you share, blocks, reports you send or receive, and referrals.
+            {t.rich("socialActivityFriendsAndFriendRequestsTrades", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Sharing:</strong> the card share links you create, including
-            whether you chose to show your username.
+            {t.rich("sharingTheCardShareLinksYouCreate", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Subscription:</strong> your Stripe customer ID, checkout
-            session ID, subscription status, current period end date, and
-            whether cancellation is scheduled. See Payments below.
+            {t.rich("subscriptionYourStripeCustomerIDCheckoutSession", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Technical data:</strong> server and database logs needed to
-            run and secure the service.
+            {t.rich("technicalDataServerAndDatabaseLogsNeeded", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
         </ul>
       </InfoSection>
 
-      <InfoSection number="03" title="Why we use it and legal basis">
+      <InfoSection number="03" title={t("whyWeUseItAndLegalBasis")}>
         <ul>
           <li>
-            <strong>To provide the game and your subscription</strong>{" "}
-            (performance of our contract with you): your account, collection,
-            social features, and Pro benefits.
+            {t.rich("toProvideTheGameAndYourSubscription", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>To meet billing and accounting requirements</strong> (legal
-            obligation): records related to payments.
+            {t.rich("toMeetBillingAndAccountingRequirementsLegal", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>To keep Yokkai safe and fair</strong> (legitimate interest):
-            security, bot protection, anti-cheat checks, rate limits, reports,
-            and moderation.
+            {t.rich("toKeepYokkaiSafeAndFairLegitimate", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
         </ul>
-        <p>We do not sell your personal data or use it for advertising.</p>
+        <p>{t("weDoNotSellYourPersonalData")}</p>
       </InfoSection>
 
-      <InfoSection number="04" title="What other players can see">
+      <InfoSection number="04" title={t("whatOtherPlayersCanSee")}>
         <ul>
-          <li>
-            Signed-in players can see your username, avatar, banner, bio,
-            showcase, profile wall, and your activity in trades, auctions, and
-            auction chat.
-          </li>
-          <li>
-            Your collection is visible to signed-in players when your profile is
-            public. Set your profile to private in Settings to limit it to your
-            friends.
-          </li>
-          <li>
-            Your friends can see whether you are online and when you were last
-            active. Private messages are visible only to you and the recipient.
-          </li>
-          <li>
-            Visitors who are not signed in can only see the card share links you
-            create: the card, its artwork, and your username only if you chose
-            to show it. Uploaded avatar and banner images are served from public
-            links.
-          </li>
-          <li>
-            Yokkai administrators can access account data, including your email
-            address, to support players, moderate content, and secure the
-            service.
-          </li>
+          <li>{t("signedInPlayersCanSeeYourUsername")}</li>
+          <li>{t("yourCollectionIsVisibleToSignedIn")}</li>
+          <li>{t("yourFriendsCanSeeWhetherYouAre")}</li>
+          <li>{t("visitorsWhoAreNotSignedInCan")}</li>
+          <li>{t("yokkaiAdministratorsCanAccessAccountDataIncluding")}</li>
         </ul>
       </InfoSection>
 
-      <InfoSection number="05" title="Payments">
+      <InfoSection number="05" title={t("payments")}>
+        <p>{t("proSubscriptionsAreProcessedByStripeThrough")}</p>
         <p>
-          Pro subscriptions are processed by Stripe through its hosted Checkout
-          and Customer Portal pages. You enter your payment details directly on
-          Stripe. We never see or store your card number or other payment card
-          details.
-        </p>
-        <p>
-          We send Stripe only your Yokkai account ID and the selected plan.
-          Stripe sends us back the subscription status and dates. Stripe
-          processes your payment details and billing information under its own{" "}
-          <a
-            href="https://stripe.com/privacy"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={linkClass}
-          >
-            Privacy Policy
-          </a>
-          .
+          {t.rich("weSendStripeOnlyYourYokkaiAccount", {
+            link1: chunks => (
+              <a
+                href="https://stripe.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={linkClass}
+              >
+                {chunks}
+              </a>
+            )
+          })}
         </p>
       </InfoSection>
 
       <InfoSection
         number="06"
-        title="Third-party services and international transfers"
+        title={t("thirdPartyServicesAndInternationalTransfers")}
       >
         <ul>
           <li>
-            <strong>Hosting:</strong> the website, database, and uploaded images
-            are hosted on a server in France (OVHcloud, managed with Coolify).
-            Authentication emails are sent through OVHcloud.
+            {t.rich("hostingTheWebsiteDatabaseAndUploadedImages", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Cloudflare:</strong> domain, network protection, and
-            Turnstile bot checks.
+            {t.rich("cloudflareDomainNetworkProtectionAndTurnstileBot", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Stripe:</strong> payments and subscriptions.
+            {t.rich("stripePaymentsAndSubscriptions", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>GIPHY:</strong> when you open the GIF picker, your browser
-            sends your search terms to GIPHY. Shared GIFs are loaded from GIPHY
-            by everyone who views them.
+            {t.rich("gIPHYWhenYouOpenTheGIFPicker", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Image hosts:</strong> custom card images are loaded from the
-            hosts their links point to, such as imgur.
+            {t.rich("imageHostsCustomCardImagesAreLoaded", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Discord:</strong> the Discord link only opens our community
-            server. We do not share your data with Discord.
+            {t.rich("discordTheDiscordLinkOnlyOpensOur", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
         </ul>
-        <p>
-          When your browser loads content from these services, they receive your
-          IP address and browser information. Stripe, Cloudflare, and GIPHY are
-          among the services based in the United States, so your data may be
-          transferred outside your country. These providers rely on legal
-          safeguards for such transfers, such as standard contractual clauses or
-          certification frameworks.
-        </p>
+        <p>{t("whenYourBrowserLoadsContentFromThese")}</p>
       </InfoSection>
 
-      <InfoSection number="07" title="Cookies and local storage">
-        <p>
-          We use one cookie, to keep you signed in. We do not use advertising
-          cookies, and our website does not include analytics or tracking tools.
-          Stripe sets its own cookies only on its own payment pages. Cloudflare
-          may use cookies or similar technologies to run security checks. Your
-          browser also stores these preferences on your device:
-        </p>
+      <InfoSection number="07" title={t("cookiesAndLocalStorage")}>
+        <p>{t("weUseOneCookieToKeepYou")}</p>
         <ul>
           {browserStorage.map(([name, purpose]) => (
             <li key={name}>
-              <code className="break-all text-ink">{name}</code>: {purpose}
+              <code className="break-all text-ink">
+                {name === "signInCookie" ? t(name) : name}
+              </code>
+              : {t(purpose)}
             </li>
           ))}
         </ul>
       </InfoSection>
 
-      <InfoSection number="08" title="How long we keep data">
+      <InfoSection number="08" title={t("howLongWeKeepData")}>
         <ul>
-          <li>Account and game data: until you delete your account.</li>
+          <li>{t("accountAndGameDataUntilYouDelete")}</li>
           <li>
-            Database backups: up to {BACKUP_RETENTION_DAYS} days, after which
-            older backups are removed automatically.
+            {t("databaseBackupsUpToDaysDaysAfter", {
+              days: BACKUP_RETENTION_DAYS
+            })}
           </li>
           <li>
-            Server logs and scheduled job history: about{" "}
-            {SERVER_LOG_RETENTION_DAYS} days.
+            {t("serverLogsAndScheduledJobHistoryAbout", {
+              days: SERVER_LOG_RETENTION_DAYS
+            })}
           </li>
           <li>
-            Authentication logs:{" "}
-            {AUTH_LOG_RETENTION ?? "kept only as long as needed for security"}.
+            {t("authenticationLogsDuration", {
+              duration: AUTH_LOG_RETENTION ?? t("authRetention")
+            })}
           </li>
           <li>
-            Billing records:{" "}
-            {BILLING_RECORD_RETENTION ??
-              "kept as long as required by accounting and tax law"}
-            .
+            {t("billingRecordsDuration", {
+              duration: BILLING_RECORD_RETENTION ?? t("billingRetention")
+            })}
           </li>
           <li>
-            Deletion log (account ID and date only):{" "}
-            {DELETION_LOG_RETENTION ??
-              "kept so that a deletion can be applied again if a backup is restored"}
-            .
+            {t("deletionLogAccountIDAndDateOnly", {
+              duration: DELETION_LOG_RETENTION ?? t("deletionRetention")
+            })}
           </li>
         </ul>
       </InfoSection>
 
-      <InfoSection number="09" title="Account deletion">
-        <p>
-          You can delete your account at any time from Settings. Deletion is
-          immediate and cannot be undone. Before deleting, you can download a
-          copy of your data from Settings.
-        </p>
+      <InfoSection number="09" title={t("accountDeletion")}>
+        <p>{t("youCanDeleteYourAccountAtAny")}</p>
         <ul>
           <li>
-            <strong>Deleted:</strong> your sign-in identity, profile, uploaded
-            images, cards, folders, wishlist, achievements, notifications,
-            auction chat messages, private messages, profile wall posts,
-            friendships, blocks, and share links. Your active auctions and
-            pending trades are canceled, and bids are refunded.
+            {t.rich("deletedYourSignInIdentityProfileUploaded", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Subscription:</strong> an active Pro subscription is
-            canceled immediately, without a new invoice. Stripe keeps the
-            payment records it must retain for its own legal and accounting
-            obligations.
+            {t.rich("subscriptionAnActiveProSubscriptionIsCanceled", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Anonymized:</strong> past auctions, bids, trades, and
-            reports stay in other players&apos; history without any link to you
-            and show &ldquo;Deleted player&rdquo;.
+            {t.rich("anonymizedPastAuctionsBidsTradesAndReports", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
           <li>
-            <strong>Kept:</strong> a log containing only your account ID and the
-            deletion date, used to apply your deletion again if a backup is ever
-            restored. Your data may remain in backups until they are removed.
+            {t.rich("keptALogContainingOnlyYourAccount", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
           </li>
         </ul>
       </InfoSection>
 
-      <InfoSection number="10" title="Your rights">
+      <InfoSection number="10" title={t("yourRights")}>
         <p>
-          You have the right to access, correct, delete, and receive a portable
-          copy of your data, to object to its processing, and to ask us to
-          restrict it. Many of these controls are in Settings. For any other
-          request, email <Email /> from your account email address.
+          {t.rich("youHaveTheRightToAccessCorrect", {
+            email0: () => <Email />
+          })}
         </p>
+        <p>{t("youCanAlsoFileAComplaintWith")}</p>
+      </InfoSection>
+
+      <InfoSection number="11" title={t("children")}>
         <p>
-          You can also file a complaint with the data protection authority in
-          your country of residence, such as the CNIL in France or the CNDP in
-          Morocco.
+          {t.rich("yokkaiIsNotIntendedForChildrenUnder", {
+            minimumAge: PRIVACY_MINIMUM_AGE,
+            email0: () => <Email />
+          })}
         </p>
       </InfoSection>
 
-      <InfoSection number="11" title="Children">
-        <p>
-          Yokkai is not intended for children under {PRIVACY_MINIMUM_AGE}. You
-          must be at least {PRIVACY_MINIMUM_AGE} years old to create an account.
-          If an account belongs to a child under {PRIVACY_MINIMUM_AGE}, it will
-          be deleted on request sent to <Email />.
-        </p>
+      <InfoSection number="12" title={t("security")}>
+        <p>{t("weUseEncryptedConnectionsHashedPasswordsBot")}</p>
       </InfoSection>
 
-      <InfoSection number="12" title="Security">
+      <InfoSection number="13" title={t("changesToThisPolicy")}>
         <p>
-          We use encrypted connections, hashed passwords, bot checks, rate
-          limits, and access rules that limit each player to their own private
-          data. No system is perfectly secure: keep your password private and
-          contact us if you think your account has been accessed without
-          permission.
-        </p>
-      </InfoSection>
-
-      <InfoSection number="13" title="Changes to this policy">
-        <p>
-          We may update this policy when Yokkai changes. The date at the top of
-          this page shows the latest version, and material changes will be
-          announced in the game. Read our{" "}
-          <Link href="/terms" className={linkClass}>
-            Terms of Use
-          </Link>{" "}
-          and{" "}
-          <Link href="/rules" className={linkClass}>
-            community rules
-          </Link>{" "}
-          too.
+          {t.rich("weMayUpdateThisPolicyWhenYokkai", {
+            link1: chunks => (
+              <Link href="/terms" className={linkClass}>
+                {chunks}
+              </Link>
+            ),
+            link2: chunks => (
+              <Link href="/rules" className={linkClass}>
+                {chunks}
+              </Link>
+            )
+          })}
         </p>
       </InfoSection>
     </PublicInfoPage>

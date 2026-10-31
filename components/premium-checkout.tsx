@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations, useFormatter } from "next-intl";
 
 import Link from "next/link";
 import { useRef, useState } from "react";
@@ -11,6 +12,8 @@ export function PremiumCheckout({
   signedIn: boolean;
   billing: BillingSettings | null;
 }) {
+  const tPr5 = useTranslations("premiumUi");
+  const fmt = useFormatter();
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const pending = useRef(false);
@@ -44,8 +47,8 @@ export function PremiumCheckout({
       if (!response.ok) {
         setError(
           result.code === "BILLING_USE_PORTAL"
-            ? "A subscription already exists. Manage it from your account settings."
-            : "Billing is temporarily unavailable. Please try again."
+            ? "alreadyHasSubscription"
+            : "billingUnavailable"
         );
         return;
       }
@@ -58,7 +61,7 @@ export function PremiumCheckout({
         throw Error("Invalid destination");
       window.location.assign(url.href);
     } catch {
-      setError("Billing is temporarily unavailable. Please try again.");
+      setError("billingUnavailable");
     } finally {
       pending.current = false;
       setBusy(false);
@@ -67,27 +70,30 @@ export function PremiumCheckout({
 
   return (
     <aside id="membership" className="yk-premium-price-card" aria-busy={busy}>
-      <p className="eyebrow">Your membership</p>
+      <p className="eyebrow">{tPr5("yourMembership")}</p>
       <h2>Yokkai Pro</h2>
       <p className="yk-premium-price">
-        €4.99 <small>/ month</small>
+        {tPr5.rich("priceMonth", {
+          price: fmt.number(4.99, { style: "currency", currency: "EUR" }),
+          small0: chunks => <small>{chunks}</small>
+        })}
       </p>
-      <p>Monthly subscription. Cancel from your account settings.</p>
+      <p>{tPr5("monthlySubscriptionCancelFromYourAccountSettings")}</p>
       {active && (
         <p className="text-success" role="status">
-          Pro active
+          {tPr5("proActive")}
         </p>
       )}
-      {billing?.sandbox && <p role="status">Test mode · No real payment.</p>}
+      {billing?.sandbox && <p role="status">{tPr5("testModeNoRealPayment")}</p>}
       {signedIn && !billing?.checkoutEnabled && !active && (
-        <p>Subscriptions are not available yet.</p>
+        <p>{tPr5("subscriptionsAreNotAvailableYet")}</p>
       )}
       {signedIn && billing?.unavailable && (
-        <p role="alert">Unable to verify your subscription right now.</p>
+        <p role="alert">{tPr5("unableToVerifyYourSubscriptionRightNow")}</p>
       )}
       {error && (
         <p className="text-danger" role="alert">
-          {error}
+          {tPr5(error)}
         </p>
       )}
       {manageSubscription ? (
@@ -95,7 +101,7 @@ export function PremiumCheckout({
           className="yk-button yk-button-primary"
           href="/settings#subscription"
         >
-          Manage subscription
+          {tPr5("manageSubscription")}
         </Link>
       ) : signedIn ? (
         <button
@@ -105,22 +111,24 @@ export function PremiumCheckout({
           aria-busy={busy}
           onClick={() => void openCheckout()}
         >
-          {busy ? "OPENING STRIPE…" : "GET PRO"}
+          {busy ? tPr5("openingStripe") : tPr5("getPro")}
         </button>
       ) : (
         <Link
           className="yk-button yk-button-primary"
           href="/login?next=%2Fpremium"
         >
-          GET PRO
+          {tPr5("gETPRO")}
         </Link>
       )}
       <p className="yk-pro-offer-footnote">
-        Secure payments and invoices with Stripe. See our{" "}
-        <Link href="/privacy" className="underline underline-offset-4">
-          Privacy Policy
-        </Link>
-        .
+        {tPr5.rich("securePaymentsAndInvoicesWithStripeSee", {
+          link1: chunks => (
+            <Link href="/privacy" className="underline underline-offset-4">
+              {chunks}
+            </Link>
+          )
+        })}
       </p>
     </aside>
   );

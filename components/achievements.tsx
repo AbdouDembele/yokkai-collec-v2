@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations, useFormatter } from "next-intl";
+import { gameErrorKey } from "@/i18n/game-messages";
 import { useEffect, useState, type ReactNode } from "react";
 import { Topbar } from "@/components/topbar";
 import { Button, Karas, StatusPill, Toast } from "@/components/ui";
@@ -11,24 +13,6 @@ import {
 } from "@/lib/data/achievements";
 import { subscribePlayerSnapshotInvalidation } from "@/lib/data/player-state";
 
-function progressText(item: Achievement) {
-  const value = `${item.progressCurrent.toLocaleString("en-US")}/${item.progressTarget.toLocaleString("en-US")}`;
-  const plural = item.progressTarget === 1 ? "" : "s";
-  const suffix: Record<string, string> = {
-    regular_packs_opened: `pack${plural} opened`,
-    decision_packs_completed: `Decision Pack${plural} completed`,
-    unique_cards_collected: `different card${plural}`,
-    first_lr_card: `LR card${plural}`,
-    shiny_cards_collected: `Shiny card${plural}`,
-    auctions_won: `auction${plural} won`,
-    trades_completed: `trade${plural} completed`,
-    ssr_evolved_to_lr: `evolution${plural} completed`
-  };
-  if (item.conditionType === "cards_collected_category_percent")
-    return `${value} card${plural}${item.progressLabel ? ` · ${item.progressLabel}` : ""}`;
-  return `${value} ${suffix[item.conditionType] || ""}`.trim();
-}
-
 export function AchievementCard({
   item,
   busy = false,
@@ -38,6 +22,14 @@ export function AchievementCard({
   busy?: boolean;
   onClaim: (item: Achievement) => Promise<void> | void;
 }) {
+  const t = useTranslations("achievementUi");
+  const fmt = useFormatter();
+  const titleKey = `title${item.id.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}`;
+  const descriptionKey = `description${item.id.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}`;
+  const title = t.has(titleKey) ? t(titleKey) : item.title;
+  const description = t.has(descriptionKey)
+    ? t(descriptionKey)
+    : item.description;
   const state = item.claimedAt
     ? "claimed"
     : item.completedAt
@@ -55,7 +47,7 @@ export function AchievementCard({
         </span>
         <div>
           <div className="yk-achievement-title">
-            <h2>{item.title}</h2>
+            <h2>{title}</h2>
             <StatusPill
               tone={
                 state === "claimed"
@@ -66,24 +58,33 @@ export function AchievementCard({
               }
             >
               {state === "claimed"
-                ? "Claimed"
+                ? t("claimed")
                 : state === "completed"
-                  ? "Ready to claim"
-                  : "In progress"}
+                  ? t("ready")
+                  : t("progress")}
             </StatusPill>
           </div>
-          <p>{item.description}</p>
+          <p>{description}</p>
         </div>
       </header>
       <div className="yk-achievement-progress">
         <div>
-          <span>{progressText(item)}</span>
-          <strong>{Math.round(percent)}%</strong>
+          <span>
+            {t("progressText", {
+              current: fmt.number(item.progressCurrent),
+              target: fmt.number(item.progressTarget),
+              count: item.progressTarget,
+              kind: item.conditionType,
+              label: item.progressLabel ?? "",
+              hasLabel: item.progressLabel ? "yes" : "no"
+            })}
+          </span>
+          <strong>{fmt.number(Math.round(percent))}%</strong>
         </div>
         <div
           className="yk-achievement-track"
           role="progressbar"
-          aria-label={`Progress for ${item.title}`}
+          aria-label={t("progressFor", { title })}
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={Math.round(percent)}
@@ -97,23 +98,23 @@ export function AchievementCard({
       </div>
       <footer>
         <span>
-          Reward <Karas amount={item.karasReward} />
+          {t("reward")} <Karas amount={item.karasReward} />
         </span>
         {state === "completed" ? (
           <Button disabled={busy} onClick={() => void onClaim(item)}>
             {busy
-              ? "Claiming…"
-              : `Claim ${item.karasReward.toLocaleString("en-US")} Karas`}
+              ? t("claiming")
+              : t("claim", { amount: fmt.number(item.karasReward) })}
           </Button>
         ) : state === "claimed" ? (
-          <StatusPill tone="success">Claimed</StatusPill>
+          <StatusPill tone="success">{t("claimed")}</StatusPill>
         ) : (
           <span className="yk-achievement-pending">
-            Remaining:{" "}
-            {Math.max(
-              0,
-              item.progressTarget - item.progressCurrent
-            ).toLocaleString("en-US")}
+            {t("remaining", {
+              amount: fmt.number(
+                Math.max(0, item.progressTarget - item.progressCurrent)
+              )
+            })}
           </span>
         )}
       </footer>
@@ -130,18 +131,20 @@ export function AchievementsGallery({
   busyId?: string | null;
   onClaim: (item: Achievement) => Promise<void> | void;
 }) {
+  const t = useTranslations("achievementUi");
+  const fmt = useFormatter();
   const unlocked = items.filter(item => item.completedAt).length;
   const percent = items.length ? (unlocked / items.length) * 100 : 0;
   return (
     <>
       <section className="yk-achievement-summary">
         <div>
-          <p className="eyebrow">Overall progress</p>
+          <p className="eyebrow">{t("overall")}</p>
           <p>
             <strong>
-              {unlocked}/{items.length}
+              {fmt.number(unlocked)}/{fmt.number(items.length)}
             </strong>{" "}
-            achievements unlocked
+            {t("unlocked")}
           </p>
         </div>
         <div className="yk-achievement-global-track">
@@ -153,7 +156,7 @@ export function AchievementsGallery({
         </div>
         <span>{Math.round(percent)}%</span>
       </section>
-      <section aria-label="Achievements" className="yk-achievement-grid">
+      <section aria-label={t("achievements")} className="yk-achievement-grid">
         {items.map(item => (
           <AchievementCard
             key={item.id}
@@ -168,6 +171,9 @@ export function AchievementsGallery({
 }
 
 export function AchievementsPage({ account }: { account?: ReactNode }) {
+  const t = useTranslations("achievementUi");
+  const fmt = useFormatter();
+  const rootT = useTranslations();
   const [items, setItems] = useState<Achievement[]>([]);
   const [name, setName] = useState<string>();
   const [balance, setBalance] = useState<number>();
@@ -201,12 +207,7 @@ export function AchievementsPage({ account }: { account?: ReactNode }) {
         setError("");
       },
       reason => {
-        if (active)
-          setError(
-            reason instanceof Error
-              ? reason.message
-              : "Couldn't load achievements."
-          );
+        if (active) setError(gameErrorKey(reason, "achievementUi.loadError"));
       }
     );
     return () => {
@@ -227,13 +228,9 @@ export function AchievementsPage({ account }: { account?: ReactNode }) {
             : entry
         )
       );
-      setToast(
-        `Reward claimed: ${result.reward.toLocaleString("en-US")} Karas`
-      );
+      setToast(t("rewardClaimed", { amount: fmt.number(result.reward) }));
     } catch (reason) {
-      setError(
-        reason instanceof Error ? reason.message : "Couldn't claim this reward."
-      );
+      setError(gameErrorKey(reason, "achievementUi.claimError"));
     } finally {
       setBusy(null);
     }
@@ -247,19 +244,19 @@ export function AchievementsPage({ account }: { account?: ReactNode }) {
         karas={balance}
       />
       <main id="main-content" className="mx-auto w-full max-w-6xl px-6 py-10">
-        <p className="eyebrow">Your collecting journey</p>
-        <h1 className="yk-title mt-3">Achievements</h1>
+        <p className="eyebrow">{t("journey")}</p>
+        <h1 className="yk-title mt-3">{t("achievements")}</h1>
         <p className="mt-4 max-w-xl text-sm leading-6 text-ink-2">
-          Open, collect, and trade. Reach each milestone to unlock a reward.
+          {t("intro")}
         </p>
         {error && (
           <p role="alert" className="yk-social-alert mt-6">
-            {error}
+            {rootT(error)}
           </p>
         )}
         {!items.length && !error ? (
           <p role="status" className="mt-10 text-sm text-ink-2">
-            Loading achievements…
+            {t("loading")}
           </p>
         ) : (
           <AchievementsGallery items={items} busyId={busy} onClaim={claim} />

@@ -8,6 +8,7 @@ import { PremiumCheckout } from "@/components/premium-checkout";
 import { PROPOSED_PLAN_RULES as rules } from "@/lib/premium/offer";
 
 function PlanAvailability({ included }: { included: boolean }) {
+  const tPr5 = useTranslations("premiumUi");
   return (
     <span
       className={`yk-pro-plan-availability${included ? " is-included" : ""}`}
@@ -27,7 +28,9 @@ function PlanAvailability({ included }: { included: boolean }) {
           strokeLinejoin="round"
         />
       </svg>
-      <span className="sr-only">{included ? "Included" : "Not included"}</span>
+      <span className="sr-only">
+        {included ? tPr5("included") : tPr5("notIncluded")}
+      </span>
     </span>
   );
 }
@@ -44,6 +47,7 @@ export function PremiumOffer({
   profilePreview?: ReactNode;
 }) {
   const t = useTranslations("regularPackRules");
+  const tPr5 = useTranslations("premiumUi");
   return (
     <div
       className="yk-pro-offer"
@@ -53,27 +57,32 @@ export function PremiumOffer({
         <div className="yk-premium-copy">
           <p className="eyebrow">Yokkai Pro</p>
           <h1>
-            More style.
-            <br />
-            <em>More cards.</em>
+            {tPr5.rich("moreStyleMoreCards", {
+              br0: () => <br />,
+              em1: chunks => <em>{chunks}</em>
+            })}
           </h1>
           <p className="yk-premium-intro">{t("proIntro")}</p>
           <div className="yk-premium-hero-actions">
             <PremiumCheckout signedIn={signedIn} billing={billing} />
             <a href="#plan-comparison" className="yk-pro-compare-button">
-              Compare Basic and Pro <span aria-hidden="true">↓</span>
+              {tPr5("compareBasicAndPro")}
+              <span aria-hidden="true">↓</span>
             </a>
           </div>
         </div>
         <div
           className="yk-pro-hero-showcase"
-          aria-label="Preview of Pro pack benefits"
+          aria-label={tPr5("previewOfProPackBenefits")}
         >
           <div className="yk-pro-showcase-heading">
-            <p className="eyebrow">More chances. More favorites.</p>
-            <h2>Your next great pull.</h2>
+            <p className="eyebrow">{tPr5("moreChancesMoreFavorites")}</p>
+            <h2>{tPr5("yourNextGreatPull")}</h2>
           </div>
-          <div className="yk-pro-card-gains" aria-label="More packs with Pro">
+          <div
+            className="yk-pro-card-gains"
+            aria-label={tPr5("morePacksWithPro")}
+          >
             <div data-pack-kind="regular">
               <div className="yk-pro-pack-stack">
                 <Image
@@ -136,16 +145,17 @@ export function PremiumOffer({
               </div>
               <div className="yk-pro-pack-copy">
                 <strong>{rules.pro.decisionPacksPerDay}</strong>
-                <span>every day</span>
+                <span>{tPr5("everyDay")}</span>
                 <p>
-                  Decision Packs instead of {rules.basic.decisionPacksPerDay}.
+                  {tPr5("decisionPacksInsteadOfPacksNumber", {
+                    packs: rules.basic.decisionPacksPerDay
+                  })}
                 </p>
               </div>
             </div>
           </div>
           <p className="yk-pro-showcase-footnote">
-            Five cards in every Regular Pack. More favorites waiting to be
-            found.
+            {tPr5("fiveCardsInEveryRegularPackMore")}
           </p>
         </div>
       </section>
@@ -158,46 +168,45 @@ export function PremiumOffer({
         aria-labelledby="profile-customization-title"
       >
         <div className="yk-pro-profile-heading">
-          <p className="eyebrow">Profile customization</p>
+          <p className="eyebrow">{tPr5("profileCustomization")}</p>
           <h2 id="profile-customization-title">
-            Your profile.
-            <br />
-            <em>Your signature.</em>
+            {tPr5.rich("yourProfileYourSignature", {
+              br0: () => <br />,
+              em1: chunks => <em>{chunks}</em>
+            })}
           </h2>
-          <p>
-            Give your collection a home that feels like you. Bring your name,
-            avatar and favorite cards together in your own style.
-          </p>
+          <p>{tPr5("giveYourCollectionAHomeThatFeels")}</p>
         </div>
         <ul className="yk-pro-profile-details">
           <li>
             <span aria-hidden="true">Aa</span>
             <div>
-              <h3>A name that stands out</h3>
-              <p>Choose your name font, colors and effects.</p>
+              <h3>{tPr5("aNameThatStandsOut")}</h3>
+              <p>{tPr5("chooseYourNameFontColorsAndEffects")}</p>
             </div>
           </li>
           <li>
             <span aria-hidden="true">✦</span>
             <div>
-              <h3>The finishing touches</h3>
-              <p>Pair your avatar frame with decorative badges.</p>
+              <h3>{tPr5("theFinishingTouches")}</h3>
+              <p>{tPr5("pairYourAvatarFrameWithDecorativeBadges")}</p>
             </div>
           </li>
           <li>
             <span aria-hidden="true">◈</span>
             <div>
-              <h3>Set your own mood</h3>
-              <p>Pick a profile theme to match your style.</p>
+              <h3>{tPr5("setYourOwnMood")}</h3>
+              <p>{tPr5("pickAProfileThemeToMatchYour")}</p>
             </div>
           </li>
           <li>
             <span aria-hidden="true">10</span>
             <div>
-              <h3>More room for your favorites</h3>
+              <h3>{tPr5("moreRoomForYourFavorites")}</h3>
               <p>
-                Feature up to {rules.pro.showcaseSlots} cards and add showcase
-                effects.
+                {tPr5("featureUpToCountNumberCardsAnd", {
+                  count: rules.pro.showcaseSlots
+                })}
               </p>
             </div>
           </li>
@@ -207,16 +216,16 @@ export function PremiumOffer({
             <div className="yk-pro-profile-photo-crop">
               <Image
                 src="/assets/premium-examples/bbdou-profile.png"
-                alt="BBDOU's customized profile with an anime banner, glowing avatar, styled name, decorative badges and a ten-card showcase."
+                alt={tPr5("nameSCustomizedProfileWithAnAnime", {
+                  name: "BBDOU"
+                })}
                 width={1920}
                 height={1032}
                 sizes="(max-width: 600px) 138vw, (max-width: 1340px) 128vw, 1738px"
               />
               {profileMotion}
             </div>
-            <figcaption>
-              Your style, from the first impression to your favorite cards.
-            </figcaption>
+            <figcaption>{tPr5("yourStyleFromTheFirstImpressionTo")}</figcaption>
           </figure>
         )}
       </section>
@@ -226,38 +235,45 @@ export function PremiumOffer({
         aria-labelledby="comparison-title"
       >
         <div className="yk-pro-comparison-heading">
-          <p className="eyebrow">Basic vs Pro</p>
-          <h2 id="comparison-title">Your collection, upgraded.</h2>
-          <p>More cards to discover. More ways to make them yours.</p>
+          <p className="eyebrow">{tPr5("basicVsPro")}</p>
+          <h2 id="comparison-title">{tPr5("yourCollectionUpgraded")}</h2>
+          <p>{tPr5("moreCardsToDiscoverMoreWaysTo")}</p>
         </div>
         <div className="yk-pro-comparison-frame">
           <table>
             <caption className="sr-only">
-              Basic and Pro membership comparison
+              {tPr5("basicAndProMembershipComparison")}
             </caption>
             <thead>
               <tr>
-                <th scope="col">What’s included</th>
+                <th scope="col">{tPr5("whatSIncluded")}</th>
                 <th scope="col">
-                  <span className="yk-pro-plan-name">Basic</span>
-                  <span className="yk-pro-plan-description">
-                    Free to collect
-                  </span>
+                  {tPr5.rich("basicFreeToCollect", {
+                    span0: chunks => (
+                      <span className="yk-pro-plan-name">{chunks}</span>
+                    ),
+                    span1: chunks => (
+                      <span className="yk-pro-plan-description">{chunks}</span>
+                    )
+                  })}
                 </th>
                 <th scope="col">
-                  <span className="yk-pro-plan-name">
-                    Yokkai Pro <span aria-hidden="true">✦</span>
-                  </span>
-                  <span className="yk-pro-plan-description">
-                    More cards. More you.
-                  </span>
+                  {tPr5.rich("yokkaiProMoreCardsMoreYou", {
+                    span0: chunks => (
+                      <span className="yk-pro-plan-name">{chunks}</span>
+                    ),
+                    span1: chunks => <span aria-hidden="true">{chunks}</span>,
+                    span2: chunks => (
+                      <span className="yk-pro-plan-description">{chunks}</span>
+                    )
+                  })}
                 </th>
               </tr>
             </thead>
-            <tbody aria-label="More cards">
+            <tbody aria-label={tPr5("moreCards")}>
               <tr className="yk-pro-comparison-group">
                 <th colSpan={3} scope="rowgroup">
-                  More cards
+                  {tPr5("moreCards")}
                 </th>
               </tr>
               <tr>
@@ -280,32 +296,40 @@ export function PremiumOffer({
               </tr>
               <tr>
                 <th scope="row">Decision Pack</th>
-                <td>{rules.basic.decisionPacksPerDay} per day</td>
-                <td>{rules.pro.decisionPacksPerDay} per day</td>
+                <td>
+                  {tPr5("packsNumberPerDay", {
+                    packs: rules.basic.decisionPacksPerDay
+                  })}
+                </td>
+                <td>
+                  {tPr5("packsNumberPerDay", {
+                    packs: rules.pro.decisionPacksPerDay
+                  })}
+                </td>
               </tr>
               <tr>
-                <th scope="row">Rarity odds per card</th>
-                <td>Unchanged</td>
-                <td>Unchanged</td>
+                <th scope="row">{tPr5("rarityOddsPerCard")}</th>
+                <td>{tPr5("unchanged")}</td>
+                <td>{tPr5("unchanged")}</td>
               </tr>
             </tbody>
-            <tbody aria-label="Make it yours">
+            <tbody aria-label={tPr5("makeItYours")}>
               <tr className="yk-pro-comparison-group">
                 <th colSpan={3} scope="rowgroup">
-                  Make it yours
+                  {tPr5("makeItYours")}
                 </th>
               </tr>
               {[
-                "Custom card artwork & GIFs",
-                "Custom & animated banners",
-                "Animated profile pictures",
-                "Name colors & profile themes",
-                "Avatar frames & decorative badges",
-                "Showcase effects",
-                "Pro badge"
+                "customArtworkGifs",
+                "customBanners",
+                "animatedAvatars",
+                "nameThemes",
+                "framesBadges",
+                "showcaseEffects",
+                "proBadge"
               ].map(label => (
                 <tr key={label}>
-                  <th scope="row">{label}</th>
+                  <th scope="row">{tPr5(label)}</th>
                   <td>
                     <PlanAvailability included={false} />
                   </td>
@@ -315,24 +339,24 @@ export function PremiumOffer({
                 </tr>
               ))}
             </tbody>
-            <tbody aria-label="Collect and share">
+            <tbody aria-label={tPr5("collectAndShare")}>
               <tr className="yk-pro-comparison-group">
                 <th colSpan={3} scope="rowgroup">
-                  Collect & share
+                  {tPr5("collectShare")}
                 </th>
               </tr>
               <tr>
-                <th scope="row">Active auctions</th>
+                <th scope="row">{tPr5("activeAuctions")}</th>
                 <td>{rules.basic.concurrentAuctions}</td>
                 <td>{rules.pro.concurrentAuctions}</td>
               </tr>
               <tr>
-                <th scope="row">Showcase characters</th>
+                <th scope="row">{tPr5("showcaseCharacters")}</th>
                 <td>{rules.basic.showcaseSlots}</td>
                 <td>{rules.pro.showcaseSlots}</td>
               </tr>
               <tr>
-                <th scope="row">Binders & trading with friends</th>
+                <th scope="row">{tPr5("bindersTradingWithFriends")}</th>
                 <td>
                   <PlanAvailability included />
                 </td>
@@ -344,40 +368,28 @@ export function PremiumOffer({
           </table>
         </div>
         <p className="yk-pro-offer-footnote">
-          Decision Packs reset together every day at 8:00 PM Paris time,
-          adjusting for daylight saving time. Both Pro packs are available at
-          once. Unused packs do not carry over. Rarity odds per card stay the
-          same for everyone.
+          {tPr5("decisionPacksResetTogetherAtTheSame")}
         </p>
       </section>
       <section className="yk-premium-faq">
-        <h2>A few things worth knowing.</h2>
+        <h2>{tPr5("aFewThingsWorthKnowing")}</h2>
         <details>
-          <summary>Do rarity odds change with Pro?</summary>
-          <p>
-            No. Pro gives you faster Regular Packs and two daily Decision Packs
-            instead of one. The rarity odds of each card stay the same.
-          </p>
+          <summary>{tPr5("doRarityOddsChangeWithPro")}</summary>
+          <p>{tPr5("noProGivesYouFasterRegularPacks")}</p>
         </details>
         <details>
-          <summary>Can I cancel my subscription?</summary>
-          <p>
-            Yes. Use Manage subscription to open the Stripe customer portal.
-            Cancellation is set for the end of the current billing period.
-          </p>
+          <summary>{tPr5("canICancelMySubscription")}</summary>
+          <p>{tPr5("yesUseManageSubscriptionToOpenThe")}</p>
         </details>
         <details>
-          <summary>Where do I manage my membership?</summary>
-          <p>
-            Open your account settings to view your membership, subscribe when
-            payments are available, or manage an existing subscription.
-          </p>
+          <summary>{tPr5("whereDoIManageMyMembership")}</summary>
+          <p>{tPr5("openYourAccountSettingsToViewYour")}</p>
         </details>
       </section>
       <div className="yk-pro-offer-bottom">
-        <p>More cards to collect. A collection that feels like you.</p>
+        <p>{tPr5("moreCardsToCollectACollectionThat")}</p>
         <a href="#membership" className="yk-button yk-button-primary">
-          Get Yokkai Pro ↑
+          {tPr5("getYokkaiPro")}
         </a>
       </div>
     </div>

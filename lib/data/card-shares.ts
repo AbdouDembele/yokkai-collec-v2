@@ -10,21 +10,42 @@ export type CardShare = {
   createdAt: string;
 };
 
-async function call<T>(name: string, args: Record<string, unknown>): Promise<T> {
+async function call<T>(
+  name: string,
+  args: Record<string, unknown>
+): Promise<T> {
   const { data, error } = await createClient().rpc(name, args);
   if (error) {
     const messages: Record<string, string> = {
       AUTH_REQUIRED: "Sign in to manage your links.",
       CARD_NOT_OWNED: "You no longer own this card copy.",
-      CARD_SHARE_DAILY_LIMIT: "You've reached the limit of 10 new links per UTC day.",
+      CARD_SHARE_DAILY_LIMIT:
+        "You've reached the limit of 10 new links per UTC day."
     };
-    throw new Error(messages[error.message] ?? "Shared links are temporarily unavailable.");
+    throw new Error(
+      messages[error.message] ?? "Shared links are temporarily unavailable.",
+      {
+        cause: {
+          i18nKey:
+            (
+              {
+                AUTH_REQUIRED: "shareUi.authRequired",
+                CARD_NOT_OWNED: "shareUi.cardNotOwned",
+                CARD_SHARE_DAILY_LIMIT: "shareUi.dailyLimit"
+              } as Record<string, string>
+            )[error.message] ?? "shareUi.unavailable"
+        }
+      }
+    );
   }
   return data as T;
 }
 
 export const createCardShare = (instanceId: string, showPseudo: boolean) =>
-  call<string>("create_card_share", { p_instance_id: instanceId, p_show_pseudo: showPseudo });
+  call<string>("create_card_share", {
+    p_instance_id: instanceId,
+    p_show_pseudo: showPseudo
+  });
 export const deleteCardShare = (id: string) =>
   call<boolean>("delete_card_share", { p_share_id: id });
 export const listCardShares = (offset = 0) =>

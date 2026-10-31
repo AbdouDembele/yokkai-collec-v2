@@ -458,4 +458,48 @@ englishMessages.set(
 );
 
 // Include compatibility registrations made below the function declaration.
+englishMessages.set(
+  "Sign in to view your achievements.",
+  "achievementUi.authRequired"
+);
+englishMessages.set(
+  "Your profile couldn't be found.",
+  "achievementUi.profileMissing"
+);
+englishMessages.set(
+  "This achievement isn't complete yet.",
+  "achievementUi.locked"
+);
+englishMessages.set(
+  "This reward has already been claimed.",
+  "achievementUi.alreadyClaimed"
+);
+englishMessages.set(
+  "Couldn't load achievements. Please try again in a moment.",
+  "achievementUi.unavailable"
+);
+englishMessages.set("Action unavailable.", "shareUi.actionUnavailable");
+englishMessages.set("Suppression indisponible.", "shareUi.deleteUnavailable");
+englishMessages.set(
+  "The image is unavailable. Please try again in a moment.",
+  "shareUi.imageUnavailable"
+);
+englishMessages.set(
+  "Shared links are temporarily unavailable.",
+  "shareUi.unavailable"
+);
+englishMessages.set("Sign in to manage your links.", "shareUi.authRequired");
+englishMessages.set(
+  "You no longer own this card copy.",
+  "shareUi.cardNotOwned"
+);
+englishMessages.set(
+  "You've reached the limit of 10 new links per UTC day.",
+  "shareUi.dailyLimit"
+);
+englishMessages.set("Invalid share link.", "shareUi.invalidLink");
+englishMessages.set(
+  "The site's public address is unavailable.",
+  "shareUi.addressUnavailable"
+);
 const keys = new Set([...codes.values(), ...englishMessages.values()]);

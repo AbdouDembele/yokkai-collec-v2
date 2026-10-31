@@ -1,3 +1,4 @@
+import { intl } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -66,24 +67,26 @@ test("LR skips entrance and post-art bounce while preserving the complete card-e
         {
           exports,
           require: name =>
-            name === "react"
-              ? {
-                  ...React,
-                  useRef: initial => {
-                    const ref = { current: initial };
-                    refs.push(ref);
-                    return ref;
-                  },
-                  useEffect: fn => effects.push(fn),
-                  useState: initial => [initial, () => {}]
-                }
-              : name === "@/components/lr-shiny-scenery"
-                ? { LrShinyScenery: "ShinyScenery" }
-                : name === "@/components/yokai-card"
-                  ? { YokaiCard: "Card" }
-                  : name.endsWith(".css")
-                    ? {}
-                    : require(name),
+            name === "next-intl"
+              ? intl
+              : name === "react"
+                ? {
+                    ...React,
+                    useRef: initial => {
+                      const ref = { current: initial };
+                      refs.push(ref);
+                      return ref;
+                    },
+                    useEffect: fn => effects.push(fn),
+                    useState: initial => [initial, () => {}]
+                  }
+                : name === "@/components/lr-shiny-scenery"
+                  ? { LrShinyScenery: "ShinyScenery" }
+                  : name === "@/components/yokai-card"
+                    ? { YokaiCard: "Card" }
+                    : name.endsWith(".css")
+                      ? {}
+                      : require(name),
           window: {
             matchMedia: () => ({ matches: reduced }),
             setTimeout: (fn, delay) => {
@@ -376,24 +379,26 @@ test("artwork colors are sampled once and the canvas, handlers and timeout are r
       {
         exports,
         require: name =>
-          name === "react"
-            ? {
-                ...React,
-                useRef: initial => {
-                  const ref = { current: initial };
-                  refs.push(ref);
-                  return ref;
-                },
-                useEffect: fn => effects.push(fn),
-                useState: initial => [initial, () => {}]
-              }
-            : name === "@/components/lr-shiny-scenery"
-              ? { LrShinyScenery: "ShinyScenery" }
-              : name === "@/components/yokai-card"
-                ? { YokaiCard: "Card" }
-                : name.endsWith(".css")
-                  ? {}
-                  : require(name),
+          name === "next-intl"
+            ? intl
+            : name === "react"
+              ? {
+                  ...React,
+                  useRef: initial => {
+                    const ref = { current: initial };
+                    refs.push(ref);
+                    return ref;
+                  },
+                  useEffect: fn => effects.push(fn),
+                  useState: initial => [initial, () => {}]
+                }
+              : name === "@/components/lr-shiny-scenery"
+                ? { LrShinyScenery: "ShinyScenery" }
+                : name === "@/components/yokai-card"
+                  ? { YokaiCard: "Card" }
+                  : name.endsWith(".css")
+                    ? {}
+                    : require(name),
         document: {
           createElement: name => {
             assert.equal(name, "canvas");

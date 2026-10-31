@@ -20,7 +20,8 @@ export const intl = {
 };
 export const intlServer = {
   getTranslations: async namespace => translator(namespace),
-  getLocale: async () => "en"
+  getLocale: async () => "en",
+  getFormatter: async () => createFormatter({ locale: "en", timeZone: "UTC" })
 };
 
 export function loadLocaleModule(env = {}) {

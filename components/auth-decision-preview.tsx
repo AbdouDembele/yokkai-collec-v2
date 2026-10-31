@@ -8,7 +8,7 @@ export function AuthDecisionPreview({ cards }: { cards: YokaiCardProps[] }) {
       <div className="yk-auth-decision-heading">
         <div>
           <span className="yk-auth-feature-number">
-            THE DAILY DECISION PACK
+            {t("dailyDecisionPack")}
           </span>
           <h4>{t("whichOneWillYouChoose")}</h4>
           <p>{t("revealFiveCardsKeepOneTurnTheOthersIntoKaras")}</p>

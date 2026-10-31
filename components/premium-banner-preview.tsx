@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import Image from "next/image";
 import { useState, useSyncExternalStore } from "react";
@@ -15,6 +16,7 @@ const prefersReducedMotion = () =>
 const serverMotionPreference = () => true;
 
 export function PremiumBannerPreview() {
+  const tPr5 = useTranslations("premiumUi");
   const reducedMotion = useSyncExternalStore(
     subscribeMotionPreference,
     prefersReducedMotion,
@@ -32,22 +34,19 @@ export function PremiumBannerPreview() {
       aria-labelledby="banner-preview-title"
     >
       <div className="yk-pro-banner-copy">
-        <p className="eyebrow">Animated banners</p>
+        <p className="eyebrow">{tPr5("animatedBanners")}</p>
         <h2 id="banner-preview-title">
-          Your profile.
-          <br />
-          <em>With a little motion.</em>
+          {tPr5.rich("yourProfileWithALittleMotion", {
+            br0: () => <br />,
+            em1: chunks => <em>{chunks}</em>
+          })}
         </h2>
-        <p>
-          Your favorite moment, on repeat. Make your banner your own with an
-          image or an animated GIF.
-        </p>
+        <p>{tPr5("yourFavoriteMomentOnRepeatMakeYour")}</p>
         <div className="yk-pro-banner-caption">
-          <span aria-hidden="true">✦</span> A profile that feels like you
+          <span aria-hidden="true">✦</span> {tPr5("aProfileThatFeelsLikeYou")}
         </div>
         <p className="yk-pro-banner-disclaimer">
-          Set the mood with your favorite image or bring it to life with an
-          animated GIF.
+          {tPr5("setTheMoodWithYourFavoriteImage")}
         </p>
       </div>
       <div className="yk-pro-banner-example">
@@ -55,7 +54,10 @@ export function PremiumBannerPreview() {
           <button
             type="button"
             className="yk-pro-live-banner"
-            aria-label={`${playing ? "Pause GIF" : "Play GIF"}: ${example.name}'s profile banner`}
+            aria-label={tPr5("bannerPlayback", {
+              action: playing ? "pause" : "play",
+              name: example.name
+            })}
             aria-pressed={playing}
             onClick={() => setPlaybackOverride(!playing)}
           >
@@ -75,19 +77,19 @@ export function PremiumBannerPreview() {
             />
             {!failed && (
               <span className="yk-pro-gif-label" aria-hidden="true">
-                {playing ? "ANIMATED BANNER" : "STATIC IMAGE"}
+                {playing ? tPr5("animatedBanner") : tPr5("staticImage")}
               </span>
             )}
             {failed && (
               <span className="yk-pro-banner-error" role="status">
-                Banner preview unavailable.
+                {tPr5("bannerPreviewUnavailable")}
               </span>
             )}
           </button>
           <div className="yk-pro-banner-card-body">
             <Image
               src={example.avatar}
-              alt={`${example.name}'s avatar`}
+              alt={tPr5("avatar", { name: example.name })}
               width={78}
               height={78}
               className="yk-pro-banner-avatar"
@@ -96,11 +98,11 @@ export function PremiumBannerPreview() {
               <h3>{example.name}</h3>
               <span>YOKKAI PRO</span>
             </div>
-            <p>A banner that makes your profile feel alive.</p>
+            <p>{tPr5("aBannerThatMakesYourProfileFeel")}</p>
           </div>
         </div>
         <div className="yk-pro-banner-controls">
-          <span>Your profile. Your signature.</span>
+          <span>{tPr5("yourProfileYourSignature2")}</span>
         </div>
       </div>
     </section>

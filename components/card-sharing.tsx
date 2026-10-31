@@ -1,8 +1,12 @@
 "use client";
-import { useTranslations } from "next-intl";
+import { useTranslations, useFormatter } from "next-intl";
+
+import { gameErrorKey } from "@/i18n/game-messages";
+import { i18nEnabled } from "@/i18n/locale";
+const subscribeToHydration = () => () => {};
 
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { Button, Modal } from "@/components/ui";
 import {
   cardShareUrl,
@@ -11,9 +15,6 @@ import {
   listCardShares,
   type CardShare
 } from "@/lib/data/card-shares";
-
-const previewWarning =
-  "Previews already posted on Discord, WhatsApp, or X may remain visible after you delete the link.";
 
 export function CardShareButton({
   instanceId,
@@ -72,6 +73,8 @@ function ShareSheet({
   instanceId: string;
   name: string;
 }) {
+  const t = useTranslations("shareUi");
+  const rootT = useTranslations();
   const [showPseudo, setShowPseudo] = useState(false);
   const [url, setUrl] = useState("");
   const [busy, setBusy] = useState(false);
@@ -91,9 +94,7 @@ function ShareSheet({
       await action();
     } catch (reason) {
       if (!(reason instanceof DOMException && reason.name === "AbortError")) {
-        setError(
-          reason instanceof Error ? reason.message : "Action unavailable."
-        );
+        setError(gameErrorKey(reason, "shareUi.actionUnavailable"));
       }
     } finally {
       pending.current = false;
@@ -107,7 +108,8 @@ function ShareSheet({
     });
     if (!response.ok || response.headers.get("Content-Type") !== "image/png") {
       throw new Error(
-        "The image is unavailable. Please try again in a moment."
+        "The image is unavailable. Please try again in a moment.",
+        { cause: { i18nKey: "shareUi.imageUnavailable" } }
       );
     }
     const blobUrl = URL.createObjectURL(await response.blob());
@@ -122,11 +124,7 @@ function ShareSheet({
 
   return (
     <div className="space-y-5">
-      <p className="text-sm text-ink-2">
-        The image shown on your card will be published, including your custom
-        image if you have one. An existing link will be updated with this image.
-        You can create up to 10 new links per UTC day.
-      </p>
+      <p className="text-sm text-ink-2">{t("publishWarning")}</p>
       <label className="flex items-center gap-3 text-sm">
         <input
           type="checkbox"
@@ -138,7 +136,7 @@ function ShareSheet({
             setMessage("");
           }}
         />
-        Show my username
+        {t("showUsername")}
       </label>
       {!url ? (
         <Button
@@ -151,12 +149,12 @@ function ShareSheet({
             )
           }
         >
-          {busy ? "Creating…" : "Create link"}
+          {busy ? t("creating") : t("createLink")}
         </Button>
       ) : (
         <>
           <label className="block text-sm">
-            Public link
+            {t("publicLink")}
             <input
               className="auth-input mt-2"
               readOnly
@@ -170,11 +168,11 @@ function ShareSheet({
               onClick={() =>
                 void run(async () => {
                   await navigator.clipboard.writeText(url);
-                  setMessage("Link copied");
+                  setMessage(t("copied"));
                 })
               }
             >
-              Copy link
+              {t("copyLink")}
             </Button>
             {nativeShare && (
               <Button
@@ -186,7 +184,7 @@ function ShareSheet({
                   })
                 }
               >
-                Share link
+                {t("shareLink")}
               </Button>
             )}
             <Button
@@ -194,14 +192,14 @@ function ShareSheet({
               disabled={busy}
               onClick={() => void run(() => download("story"))}
             >
-              Download story
+              {t("downloadStory")}
             </Button>
             <Button
               variant="secondary"
               disabled={busy}
               onClick={() => void run(() => download("square"))}
             >
-              Download square image
+              {t("downloadSquare")}
             </Button>
           </div>
         </>
@@ -213,10 +211,10 @@ function ShareSheet({
       )}
       {error && (
         <p role="alert" className="text-sm text-danger">
-          {error}
+          {rootT(error)}
         </p>
       )}
-      <p className="text-xs text-ink-3">{previewWarning}</p>
+      <p className="text-xs text-ink-3">{t("previewWarning")}</p>
     </div>
   );
 }
@@ -241,6 +239,14 @@ export function MyCardShares() {
 }
 
 function ShareList() {
+  const t = useTranslations("shareUi");
+  const rootT = useTranslations();
+  const fmt = useFormatter();
+  const hydrated = useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false
+  );
   const [rows, setRows] = useState<CardShare[]>([]);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -260,7 +266,7 @@ function ShareList() {
       },
       reason => {
         if (active) {
-          setError(reason.message);
+          setError(gameErrorKey(reason, "shareUi.unavailable"));
           setLoading(false);
         }
       }
@@ -286,9 +292,7 @@ function ShareList() {
       setLoading(true);
       setRevision(value => value + 1);
     } catch (reason) {
-      setError(
-        reason instanceof Error ? reason.message : "Suppression indisponible."
-      );
+      setError(gameErrorKey(reason, "shareUi.deleteUnavailable"));
     } finally {
       lock.current = false;
       setDeleting(false);
@@ -296,14 +300,14 @@ function ShareList() {
   }
   return (
     <div className="space-y-5">
-      <p className="text-xs text-ink-3">{previewWarning}</p>
+      <p className="text-xs text-ink-3">{t("previewWarning")}</p>
       {error && (
         <p role="alert" className="text-sm text-danger">
-          {error}
+          {rootT(error)}
         </p>
       )}
       {loading ? (
-        <p role="status">Loading…</p>
+        <p role="status">{t("loading")}</p>
       ) : rows.length ? (
         <ul className="space-y-4">
           {rows.map(row => (
@@ -318,17 +322,27 @@ function ShareList() {
                 {cardRarityLabel(row.rarity, row.shiny, row.isEvolved)}
               </a>
               <p className="my-2 text-xs text-ink-3">
-                {row.showPseudo ? "Username shown" : "Sans pseudo"} ·{" "}
-                {new Date(row.createdAt).toLocaleDateString("en-US")}
+                {row.showPseudo ? t("usernameShown") : t("usernameHidden")} ·{" "}
+                {!i18nEnabled()
+                  ? new Date(row.createdAt).toLocaleDateString("en-US")
+                  : hydrated
+                    ? fmt.dateTime(new Date(row.createdAt), {
+                        year: "numeric",
+                        month: "numeric",
+                        day: "numeric",
+                        timeZone:
+                          Intl.DateTimeFormat().resolvedOptions().timeZone
+                      })
+                    : ""}
               </p>
               <Button variant="danger" onClick={() => setCandidate(row)}>
-                Remove
+                {t("remove")}
               </Button>
             </li>
           ))}
         </ul>
       ) : (
-        <p>No shared links on this page.</p>
+        <p>{t("empty")}</p>
       )}
       <div className="flex gap-3">
         <Button
@@ -336,14 +350,14 @@ function ShareList() {
           disabled={loading || offset === 0}
           onClick={() => page(Math.max(0, offset - 50))}
         >
-          Previous
+          {t("previous")}
         </Button>
         <Button
           variant="secondary"
           disabled={loading || rows.length < 50}
           onClick={() => page(offset + 50)}
         >
-          Next
+          {t("next")}
         </Button>
       </div>
       <Modal
@@ -351,15 +365,15 @@ function ShareList() {
         onClose={() => {
           if (!deleting) setCandidate(null);
         }}
-        title="Delete this link?"
+        title={t("deleteTitle")}
       >
         <p className="text-sm text-ink-2">
-          The link for {candidate?.cardName} will no longer be available.{" "}
-          {previewWarning}
+          {t("deleteBody", { name: candidate?.cardName ?? "" })}{" "}
+          {t("previewWarning")}
         </p>
         {error && (
           <p role="alert" className="mt-3 text-danger">
-            {error}
+            {rootT(error)}
           </p>
         )}
         <div className="mt-5 flex gap-3">
@@ -368,14 +382,14 @@ function ShareList() {
             disabled={deleting}
             onClick={() => setCandidate(null)}
           >
-            Cancel
+            {t("cancel")}
           </Button>
           <Button
             variant="danger"
             disabled={deleting}
             onClick={() => void remove()}
           >
-            {deleting ? "Suppression…" : "Confirm deletion"}
+            {deleting ? t("deleting") : t("confirmDelete")}
           </Button>
         </div>
       </Modal>

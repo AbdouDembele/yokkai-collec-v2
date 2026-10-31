@@ -1,4 +1,4 @@
-import { intl } from "./helpers/i18n.mjs";
+import { intl, intlServer, englishMessages } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -23,6 +23,7 @@ function load(file, globals = {}) {
   const context = { exports: {}, Response, Uint8Array, URL, ...globals };
   context.require = name => {
     if (name === "next-intl") return intl;
+    if (name === "next-intl/server") return intlServer;
     if (name === "@/lib/ui/card-rarity-label")
       return load("lib/ui/card-rarity-label.ts");
     if (globals.require) return globals.require(name);
@@ -167,7 +168,8 @@ test("la page et ses métadonnées restent strictement publiques", () => {
     new URL("../app/share/[id]/page.tsx", import.meta.url),
     "utf8"
   );
-  assert.match(page, /Join Yokkai Collec/);
+  assert.equal(englishMessages.shareUi.join, "Join Yokkai Collec'");
+  assert.match(page, /t\("join"\)/);
   assert.match(page, /href="\/signup"/);
   assert.match(page, /robots:\s*\{\s*index:\s*false,\s*follow:\s*false/);
   assert.match(page, /summary_large_image/);
