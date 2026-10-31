@@ -1,5 +1,7 @@
 // Exact overloads and roles only. Every addition requires an access justification.
 export const ownerOnly = [
+  "public.is_disposable_email(text)", // Indexed public-source signup policy; only the Auth INSERT trigger, never API roles. Walid approved.
+  "public.guard_disposable_signup()", // Auth INSERT-only trigger: rejects new disposable addresses without touching existing accounts. Walid approved.
   "public.with_leaderboard_history(jsonb, text)", // Internal enrichment of already-authorized results only; no direct API execution.
   "public.dispatch_notification_push()", // Trigger-only dispatch of committed notification events; no API execution.
   "public.guard_trade_offer_submission()", // Trigger-only transactional anti-spam admission; no API or service-role execution.

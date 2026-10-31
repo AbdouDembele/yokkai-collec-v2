@@ -5,6 +5,8 @@ import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { createClient } from "@/utils/supabase/server";
 import { syncProfileLocale } from "@/i18n/server";
+import { disposableEmailDomain } from "@/lib/server/disposable-email";
+import english from "@/messages/en.json";
 import {
   authError,
   authErrorDescriptor,
@@ -227,6 +229,13 @@ export async function signUp(
       },
       values
     };
+  }
+  const disposableDomain = disposableEmailDomain(input.email);
+  if (disposableDomain) {
+    console.warn("signup_rejected_disposable_email", {
+      domain: disposableDomain
+    });
+    return { fields: { email: english.authErrors.disposableEmail }, values };
   }
   const captcha = captchaOptions(
     form,

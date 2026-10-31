@@ -1006,7 +1006,8 @@
     "emailCooldown": "{seconds, plural, other {Too many attempts. Wait a few minutes before trying again.}}",
     "emailDomainMissing": "We couldn't find this email domain. Check your address for typos.",
     "providerUnavailable": "{provider} sign-in isn't available yet. Use your email and password for now.",
-    "usernameSaveFailed": "We couldn't save your username. Please try again."
+    "usernameSaveFailed": "We couldn't save your username. Please try again.",
+    "disposableEmail": "Temporary or disposable email addresses aren't allowed. Use a permanent email address."
   },
   "metadata": {
     "openPacksCollectYourFavoriteCharactersAndTrade": "Open packs, collect your favorite characters, and trade with other players.",

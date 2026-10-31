@@ -5,6 +5,8 @@ import vm from "node:vm";
 import ts from "typescript";
 import { intl } from "./helpers/i18n.mjs";
 import { NextRequest, NextResponse } from "next/server.js";
+import { loadDisposableEmail } from "./helpers/disposable-email.mjs";
+const disposableEmail = loadDisposableEmail();
 
 function loadModule(path, imports = {}, globals = {}) {
   const code = ts.transpileModule(
@@ -22,6 +24,7 @@ function loadModule(path, imports = {}, globals = {}) {
     URL,
     ...globals,
     require(name) {
+      if (name === "@/lib/server/disposable-email") return disposableEmail;
       if (name === "next-intl") return intl;
       if (name in imports) return imports[name];
       if (name === "@/messages/en.json")
