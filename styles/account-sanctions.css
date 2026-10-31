@@ -1,0 +1,64 @@
+.yk-sanction-notice {
+  width: min(38rem, calc(100% - 2rem));
+  max-height: calc(100% - 2rem);
+  margin: auto;
+  padding: clamp(1rem, 4vw, 2rem);
+  overflow: auto;
+  overscroll-behavior: contain;
+  overflow-wrap: anywhere;
+  border: 1px solid #8c6838;
+  border-radius: 1rem;
+  background: #0d1320;
+  color: #edf0fa;
+  box-shadow: 0 1rem 5rem #0009;
+}
+.yk-sanction-notice::backdrop {
+  background: #03060de8;
+}
+.yk-sanction-notice h2 {
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
+  line-height: 1.4;
+  margin: 0 0 1rem;
+}
+.yk-sanction-notice p {
+  margin: 1rem 0;
+  line-height: 1.65;
+}
+.yk-sanction-notice dl {
+  padding: 1rem;
+  border-radius: 0.65rem;
+  background: #ffffff08;
+}
+.yk-sanction-notice dl div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: space-between;
+}
+.yk-sanction-notice dd {
+  margin: 0;
+  font-weight: 700;
+  color: #f4c967;
+}
+.yk-sanction-notice button {
+  min-height: 44px;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #c5a052;
+  border-radius: 0.65rem;
+  background: #edc46d;
+  color: #15120d;
+  font-weight: 700;
+  cursor: pointer;
+}
+.yk-sanction-notice button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+.yk-sanction-notice button:focus-visible {
+  outline: 3px solid #b9d8ff;
+  outline-offset: 3px;
+}
+.yk-sanction-notice [role="alert"] {
+  color: #ffb3b3;
+}

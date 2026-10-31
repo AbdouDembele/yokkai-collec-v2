@@ -10,6 +10,9 @@
   "public.account_deletion_log": {
     "excluded": "Deletion fence and security retention record; manual privacy review, not a self-service payload."
   },
+  "public.account_sanctions": {
+    "excluded": "Private administrative evidence journal with third-party inventory snapshots; requires separate manual privacy review. Own published receipt summaries are available through the dedicated authenticated reader."
+  },
   "public.achievements": {
     "excluded": "Global achievement definitions; own completion history comes from user_achievements."
   },
