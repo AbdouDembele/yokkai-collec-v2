@@ -68,3 +68,32 @@ export async function getCommunityRanking(
 // A nearly complete binder must never be displayed as completed by rounding.
 export const completionRatio = (owned: number, total: number) =>
   total > 0 ? Math.min(1, Math.floor((owned * 1000) / total) / 1000) : 0;
+
+// One bounded protected read; co-leaders share one group instead of repeating #1.
+export function leadingLicenseEntries(entries: CommunityRanking["entries"]) {
+  if (!entries.length) return [];
+  const best = Math.max(...entries.map(entry => entry.value));
+  return entries.filter(entry => entry.value === best);
+}
+
+export async function getLicenseLeaders(
+  binderKey: string,
+  signal?: AbortSignal
+): Promise<CommunityRanking> {
+  const { data, error } = await readRequest(timeoutSignal =>
+    createClient()
+      .rpc("get_license_leaderboard", {
+        p_binder_key: binderKey,
+        p_offset: 0,
+        p_limit: 100,
+        p_query: "",
+        p_friends_only: false
+      })
+      .abortSignal(
+        signal ? AbortSignal.any([signal, timeoutSignal]) : timeoutSignal
+      )
+  );
+  if (error || !data) throw new Error("LEADERBOARD_UNAVAILABLE");
+  const ranking = data as CommunityRanking;
+  return { ...ranking, entries: leadingLicenseEntries(ranking.entries) };
+}

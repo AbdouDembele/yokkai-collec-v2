@@ -2662,7 +2662,14 @@
     "completionScore": "Completion score",
     "completionPoints": "{count, number} {count, plural, one {point} other {points}}",
     "completionWeightsTitle": "Points per catalogue card",
-    "completionScoredCards": "Only cards belonging to fully completed binders earn points. A card shared by several completed binders counts once. Copies, Shiny and Infinity variants add no extra points."
+    "completionScoredCards": "Only cards belonging to fully completed binders earn points. A card shared by several completed binders counts once. Copies, Shiny and Infinity variants add no extra points.",
+    "licenseLeaders": "Leading collectors for this license",
+    "closeLicense": "Close license preview",
+    "leadersShown": "{count, plural, one {# leading collector shown} other {# tied leading collectors shown}}",
+    "licenseLeadersList": "Leading collectors for {license}",
+    "licenseLeadersEmpty": "No visible public collector owns a card from this license yet.",
+    "licenseYourCards": "Your progress: {owned, number} / {total, number} {total, plural, one {card} other {cards}}",
+    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {card} other {cards}}"
   },
   "homeRankingCarousel": {
     "label": "Player leaderboards",

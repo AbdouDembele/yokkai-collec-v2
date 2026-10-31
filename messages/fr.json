@@ -2662,7 +2662,14 @@
     "completionScore": "Score de complétion",
     "completionPoints": "{count, number} {count, plural, one {point} other {points}}",
     "completionWeightsTitle": "Points par carte du catalogue",
-    "completionScoredCards": "Seules les cartes des classeurs entièrement terminés rapportent des points. Une carte partagée entre plusieurs classeurs terminés compte une seule fois. Les doublons et les variantes Shiny ou Infinity ne donnent aucun bonus."
+    "completionScoredCards": "Seules les cartes des classeurs entièrement terminés rapportent des points. Une carte partagée entre plusieurs classeurs terminés compte une seule fois. Les doublons et les variantes Shiny ou Infinity ne donnent aucun bonus.",
+    "licenseLeaders": "En tête de cette licence",
+    "closeLicense": "Fermer cet aperçu",
+    "leadersShown": "{count, plural, one {# joueur affiché en tête} other {# joueurs affichés en tête, ex æquo}}",
+    "licenseLeadersList": "Joueurs en tête de {license}",
+    "licenseLeadersEmpty": "Aucun collectionneur public visible ne possède encore de carte de cette licence.",
+    "licenseYourCards": "Ta progression : {owned, number} / {total, number} {total, plural, one {carte} other {cartes}}",
+    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {carte} other {cartes}}"
   },
   "homeRankingCarousel": {
     "label": "Classements des joueurs",
