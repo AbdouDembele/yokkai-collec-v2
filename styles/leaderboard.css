@@ -1177,221 +1177,116 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
-/* Reach the player list first; supporting information stays alongside it. */
-.yk-ranking-prioritized {
-  padding-top: 16px;
+
+/* Original page layout, with a smaller personal overview and the goal at right. */
+.yk-community-progress {
+  padding: 14px 16px;
+  gap: 14px;
 }
-.yk-ranking-prioritized > .yk-leaderboard-heading {
-  margin: 6px 0 16px;
-  gap: 12px;
+.yk-community-progress .yk-leaderboard-emblem {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
 }
-.yk-ranking-prioritized .yk-leaderboard-heading .yk-title {
-  margin: 0;
-  font-size: clamp(23px, 3vw, 30px);
+.yk-community-progress .yk-leaderboard-emblem svg {
+  width: 24px;
+  height: 24px;
 }
-.yk-ranking-prioritized > .yk-leaderboard-kinds {
-  margin: 0 0 16px;
-}
-.yk-ranking-prioritized > .yk-leaderboard-layout {
-  margin-top: 0;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 16px;
-}
-.yk-ranking-prioritized .yk-leaderboard-board {
-  padding: 14px;
-}
-.yk-ranking-board-tools {
-  display: grid;
-  gap: 10px 16px;
-  align-items: start;
-}
-.yk-ranking-board-tools .yk-leaderboard-scopes,
-.yk-ranking-board-tools .yk-leaderboard-search {
-  margin: 0;
-}
-.yk-ranking-board-tools .yk-leaderboard-search {
-  min-width: 0;
-}
-.yk-ranking-board-tools .yk-leaderboard-search > div {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-}
-.yk-ranking-board-tools .yk-leaderboard-search button:nth-of-type(2) {
-  grid-column: 1 / -1;
-}
-.yk-ranking-board-tools .yk-leaderboard-search input {
-  width: 100%;
-}
-.yk-ranking-prioritized .yk-ranking-visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
-}
-.yk-ranking-prioritized .yk-leaderboard-results {
-  margin: 10px 0 0;
-}
-.yk-ranking-prioritized .yk-leaderboard-list {
-  margin-top: 10px;
-}
-.yk-ranking-license-fold {
-  margin-top: 12px;
-  border-top: 1px solid #a8bfff20;
-}
-.yk-ranking-license-fold > summary,
-.yk-ranking-support-fold > summary {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  padding: 10px 2px;
-  list-style: none;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-}
-.yk-ranking-license-fold > summary {
-  color: #bacdf5;
-}
-.yk-ranking-license-fold > summary::-webkit-details-marker,
-.yk-ranking-support-fold > summary::-webkit-details-marker {
-  display: none;
-}
-.yk-ranking-license-fold > summary::after,
-.yk-ranking-support-fold > summary::after {
-  content: "›";
-  margin-left: auto;
-  font-size: 22px;
-  line-height: 1;
-  transition: transform 0.15s;
-}
-.yk-ranking-license-fold[open] > summary::after,
-.yk-ranking-support-fold[open] > summary::after {
-  transform: rotate(90deg);
-}
-.yk-ranking-license-fold > summary svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: currentColor;
-  stroke-width: 1.7;
-  flex-shrink: 0;
-}
-.yk-ranking-license-fold .yk-license-explorer {
-  margin: 8px 0 12px;
-}
-.yk-ranking-sidebar {
-  display: grid;
-  min-width: 0;
-  gap: 12px;
-}
-.yk-ranking-sidebar .yk-leaderboard-mine {
-  padding: 16px;
-  gap: 12px;
-  align-items: start;
-}
-.yk-ranking-sidebar .yk-leaderboard-emblem {
-  width: 38px;
-  height: 38px;
-  border-radius: 11px;
-}
-.yk-ranking-sidebar .yk-leaderboard-emblem svg {
-  width: 23px;
-  height: 23px;
-}
-.yk-ranking-sidebar .yk-leaderboard-personal > .eyebrow {
+.yk-community-progress .yk-leaderboard-personal > .eyebrow {
   font-size: 10px;
   letter-spacing: 0.12em;
 }
-.yk-ranking-sidebar .yk-ranking-global-stats {
-  grid-template-columns: minmax(0, 1fr);
+.yk-community-progress .yk-ranking-global-stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
-  margin: 12px 0;
+  margin: 8px 0;
 }
-.yk-ranking-sidebar .yk-ranking-global-stats dd {
-  font-size: 22px;
-}
-.yk-ranking-sidebar .yk-ranking-global-stats dt {
+.yk-community-progress .yk-ranking-global-stats dt {
   font-size: 11px;
+  margin-bottom: 3px;
 }
-.yk-ranking-sidebar .yk-leaderboard-personal > strong {
+.yk-community-progress .yk-ranking-global-stats dd {
+  font-size: 23px;
+}
+.yk-community-progress .yk-ranking-global-stats progress {
+  height: 3px;
+  margin-top: 6px;
+}
+.yk-community-progress .yk-leaderboard-personal > strong {
   font-size: 28px;
 }
-.yk-ranking-sidebar .yk-leaderboard-personal > p {
-  line-height: 1.6;
+.yk-community-progress .yk-leaderboard-personal > p {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
 }
-.yk-ranking-support-fold {
-  padding: 0 16px;
-  border: 1px solid var(--color-veil);
-  border-radius: 14px;
-  background: #080c15;
+.yk-ranking-side-column {
+  display: grid;
+  gap: 16px;
   min-width: 0;
 }
-.yk-ranking-support-fold > summary {
-  overflow-wrap: anywhere;
-}
-.yk-ranking-support-fold .yk-leaderboard-rules {
-  padding: 0 0 16px;
-  border: 0;
-  background: transparent;
-}
-.yk-ranking-support-content {
-  padding-bottom: 14px;
-}
-.yk-ranking-support-content .yk-ranking-history {
-  margin: 0 0 10px;
-}
-.yk-ranking-support-content .yk-ranking-goal {
+.yk-ranking-side-column > .yk-ranking-goal {
   margin: 0;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  gap: 8px;
+  padding: 18px 16px;
 }
-@media (min-width: 768px) {
-  .yk-ranking-board-tools {
-    grid-template-columns: auto minmax(0, 1fr);
+@media (min-width: 600px) {
+  .yk-community-progress .yk-leaderboard-personal {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 24px;
   }
-  .yk-ranking-prioritized .yk-leaderboard-board {
-    padding: 18px;
+  .yk-community-progress .yk-leaderboard-personal > .eyebrow {
+    grid-column: 1;
   }
-}
-@media (min-width: 1024px) {
-  .yk-ranking-prioritized > .yk-leaderboard-layout {
-    grid-template-columns: minmax(0, 1fr) 280px;
+  .yk-community-progress .yk-leaderboard-personal > .yk-ranking-global-stats,
+  .yk-community-progress .yk-leaderboard-personal > strong {
+    grid-column: 1;
+    grid-row: 2;
+    margin-bottom: 0;
   }
-}
-.yk-ranking-prioritized.yk-leaderboard-social > .yk-leaderboard-layout {
-  grid-template-columns: minmax(0, 1fr);
-}
-@container (min-width:900px) {
-  .yk-ranking-prioritized.yk-leaderboard-social > .yk-leaderboard-layout {
-    grid-template-columns: minmax(0, 1fr) 280px;
+  .yk-community-progress .yk-leaderboard-personal > p {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    max-width: 260px;
+  }
+  .yk-community-progress .yk-leaderboard-personal > a {
+    grid-column: 1 / -1;
   }
 }
 
-/* Keep ranking rows easy to scan without repeating tall score panels. */
-.yk-ranking-prioritized .yk-leaderboard-list .yk-ranking-global-stats {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-column: 1 / -1;
-  gap: 12px;
+.yk-community-progress .yk-ranking-global-stats dd {
+  line-height: 1.25;
 }
-@media (min-width: 768px) {
-  .yk-ranking-prioritized .yk-leaderboard-list > li {
-    padding: 12px;
-    gap: 12px;
+@media (max-width: 599px) {
+  .yk-community-progress {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 8px 12px;
   }
-  .yk-ranking-prioritized .yk-leaderboard-list .yk-ranking-global-stats {
-    grid-column: 3;
+  .yk-community-progress .yk-leaderboard-emblem {
+    grid-column: 1;
     grid-row: 1;
-    width: 220px;
+  }
+  .yk-community-progress .yk-leaderboard-personal {
+    display: contents;
+  }
+  .yk-community-progress .yk-leaderboard-personal > .eyebrow {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .yk-community-progress .yk-leaderboard-personal > .yk-ranking-global-stats,
+  .yk-community-progress .yk-leaderboard-personal > strong {
+    grid-column: 1 / -1;
+    grid-row: 2;
     margin: 0;
-    gap: 16px;
+  }
+  .yk-community-progress .yk-leaderboard-personal > p {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+  .yk-community-progress .yk-leaderboard-personal > a {
+    grid-column: 1 / -1;
+    grid-row: 4;
   }
 }

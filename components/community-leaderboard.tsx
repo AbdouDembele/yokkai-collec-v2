@@ -44,8 +44,6 @@ export function CommunityLeaderboardView({
     friendsOnly: embedded
   });
   const [licenseRevision, setLicenseRevision] = useState(0);
-  const [licenseToolsReady, setLicenseToolsReady] = useState(false);
-  const [personalDetailsReady, setPersonalDetailsReady] = useState(false);
   const reload = (next = options) => {
     setLoading(true);
     setError(false);
@@ -94,15 +92,17 @@ export function CommunityLeaderboardView({
     <Root
       onClickCapture={playerPreview.onClickCapture}
       id={embedded ? undefined : "main-content"}
-      className={`yk-leaderboard yk-community-ranking yk-ranking-prioritized${embedded ? " yk-leaderboard-social" : ""}`}
+      className={`yk-leaderboard yk-community-ranking${embedded ? " yk-leaderboard-social" : ""}`}
       aria-labelledby="community-ranking-title"
       data-ranking={kind}
     >
       <header className="yk-leaderboard-heading">
         <div>
+          <p className="eyebrow">{t("eyebrow")}</p>
           <Heading className="yk-title" id="community-ranking-title">
             {t(isLicense ? "licensesTitle" : "likesTitle")}
           </Heading>
+          <p>{t(isLicense ? "licensesIntro" : "likesIntro")}</p>
         </div>
         <Button
           variant="secondary"
@@ -116,14 +116,83 @@ export function CommunityLeaderboardView({
         </Button>
       </header>
       {navigation}
-      <div className="yk-leaderboard-layout">
+
+      {isLicense && (
+        <RankingLicenseExplorer
+          key={userId}
+          userId={userId}
+          revision={licenseRevision}
+        />
+      )}
+
+      <>
         <section
-          className="yk-leaderboard-board"
-          aria-label={t("listLabel", { kind: isGlobal ? "global" : kind })}
+          className="yk-leaderboard-mine yk-community-progress"
+          aria-label={t(isGlobal ? "yourGlobalProgress" : "yourLikes")}
           aria-busy={loading}
         >
-          <div className="yk-ranking-board-tools">
-            {" "}
+          <div
+            className="yk-leaderboard-emblem"
+            data-ranking={kind}
+            aria-hidden="true"
+          >
+            <RankingIcon kind={kind} />
+          </div>
+          <div className="yk-leaderboard-personal">
+            <span className="eyebrow">
+              {t(isGlobal ? "yourGlobalProgress" : "yourLikes")}
+            </span>
+            {isGlobal ? (
+              !loading &&
+              mine && (
+                <GlobalLicenseStats
+                  completionScore={
+                    data?.metric === "completion-score"
+                      ? mine.completionScore
+                      : undefined
+                  }
+                  completed={mine.completedLicenses ?? 0}
+                  cards={mine.distinctCards ?? 0}
+                  totalLicenses={data?.catalogue?.totalLicenses ?? 0}
+                  totalCards={totalCards}
+                />
+              )
+            ) : (
+              <strong>{loading || !mine ? "—" : fmt.number(mine.value)}</strong>
+            )}
+            <p>
+              {loading
+                ? t("loading")
+                : !mine
+                  ? t("unavailable")
+                  : !mine.isPublic
+                    ? t("private")
+                    : mine.position
+                      ? t("rank", {
+                          position: mine.position,
+                          count: data!.rankedPlayers
+                        })
+                      : t(isLicense ? "noCards" : "notRanked")}
+            </p>
+            {mine && !mine.isPublic && (
+              <Link href="/settings">
+                {common("socialUi.manageProfilePrivacy")}
+              </Link>
+            )}
+          </div>
+        </section>
+
+        {!loading && data && (
+          <>
+            <RankingTrend history={data.history?.[userId]} />
+          </>
+        )}
+        <div className="yk-leaderboard-layout">
+          <section
+            className="yk-leaderboard-board"
+            aria-label={t("listLabel", { kind: isGlobal ? "global" : kind })}
+            aria-busy={loading}
+          >
             <div
               className="yk-leaderboard-scopes"
               role="group"
@@ -155,16 +224,12 @@ export function CommunityLeaderboardView({
                 reload({ ...options, query, offset: 0 });
               }}
             >
-              <label
-                className="yk-ranking-visually-hidden"
-                htmlFor="community-player-search"
-              >
+              <label htmlFor="community-player-search">
                 {common("socialUi.findAPlayer")}
               </label>
               <div>
                 <input
                   id="community-player-search"
-                  aria-describedby="community-player-search-help"
                   type="search"
                   maxLength={64}
                   value={query}
@@ -186,10 +251,7 @@ export function CommunityLeaderboardView({
                   </Button>
                 )}
               </div>
-              <p
-                id="community-player-search-help"
-                className="yk-ranking-visually-hidden"
-              >
+              <p>
                 {common(
                   options.friendsOnly
                     ? "socialUi.searchYourRankedFriendsByUsername"
@@ -197,254 +259,163 @@ export function CommunityLeaderboardView({
                 )}
               </p>
             </form>
-          </div>
-          {isLicense && (
-            <details
-              className="yk-ranking-license-fold"
-              onToggle={event => {
-                if (event.currentTarget.open) setLicenseToolsReady(true);
-              }}
-            >
-              <summary>
-                <RankingIcon kind="licenses" />
-                <span>{t("licenseLookup")}</span>
-              </summary>
-              {licenseToolsReady && (
-                <RankingLicenseExplorer
-                  key={userId}
-                  userId={userId}
-                  revision={licenseRevision}
-                />
-              )}
-            </details>
-          )}
-          {error && (
-            <div className="yk-leaderboard-message" role="alert">
-              <p>{t("failed")}</p>
-              <Button variant="secondary" onClick={() => reload()}>
-                {common("packs.tryAgain")}
-              </Button>
-            </div>
-          )}
-          {loading && (
-            <p className="yk-leaderboard-loading" role="status">
-              {t("loading")}
-            </p>
-          )}
-          {!loading && !error && data && (
-            <>
-              <p className="yk-leaderboard-results" role="status">
-                {common("socialUi.collectionResults", {
-                  count: data.total,
-                  query: data.query,
-                  scope: data.query
-                    ? "search"
-                    : data.friendsOnly
-                      ? "friends"
-                      : "top"
-                })}
-              </p>
-              <ol
-                className="yk-leaderboard-list"
-                aria-label={t("listLabel", {
-                  kind: isGlobal ? "global" : kind
-                })}
-              >
-                {data.entries.map(entry => (
-                  <li
-                    key={entry.userId}
-                    className={`${entry.userId === userId ? "is-you" : ""} ${entry.position <= 3 ? "is-podium" : ""}`}
-                  >
-                    <span
-                      className="yk-leaderboard-position"
-                      aria-label={common("socialUi.rank", {
-                        position: entry.position
-                      })}
-                    >
-                      #{fmt.number(entry.position)}
-                    </span>
-                    <Link
-                      href={`/profile/${encodeURIComponent(entry.pseudo)}`}
-                      className="yk-leaderboard-player"
-                    >
-                      <StyledPlayerAvatar
-                        cosmetics={data.profileStyles[entry.userId]}
-                        name={entry.pseudo}
-                        image={entry.avatarUrl ?? undefined}
-                        size={42}
-                      />
-                      <span>
-                        <strong>
-                          <StyledPlayerName
-                            name={entry.pseudo}
-                            cosmetics={data.profileStyles[entry.userId]}
-                          />
-                          <RankingTrend
-                            compact
-                            history={data.history?.[entry.userId]}
-                          />
-                          {entry.userId === userId && (
-                            <small>{common("homeLeaderboard.you")}</small>
-                          )}
-                          {entry.isFriend && (
-                            <small className="yk-leaderboard-friend">
-                              {common("socialUi.friend")}
-                            </small>
-                          )}
-                        </strong>
-                      </span>
-                    </Link>
-                    {isGlobal ? (
-                      <GlobalLicenseStats
-                        completionScore={
-                          data.metric === "completion-score"
-                            ? entry.completionScore
-                            : undefined
-                        }
-                        completed={entry.completedLicenses ?? 0}
-                        cards={entry.distinctCards ?? 0}
-                        totalLicenses={data?.catalogue?.totalLicenses ?? 0}
-                        totalCards={totalCards}
-                        compact
-                      />
-                    ) : (
-                      <>
-                        <span className="yk-leaderboard-points">
-                          <strong>{fmt.number(entry.value)}</strong>
-                          <small>
-                            {t("likesNoun", { count: entry.value })}
-                          </small>
-                        </span>
-                      </>
-                    )}
-                  </li>
-                ))}
-              </ol>
-              {!data.entries.length && (
-                <p className="yk-leaderboard-message">{t("empty")}</p>
-              )}
-              {data.total > data.limit && (
-                <nav
-                  aria-label={common("socialUi.leaderboardPages")}
-                  className="yk-leaderboard-pagination"
-                >
-                  <Button
-                    variant="secondary"
-                    disabled={data.offset === 0}
-                    onClick={() =>
-                      reload({
-                        ...options,
-                        offset: Math.max(0, data.offset - data.limit)
-                      })
-                    }
-                  >
-                    {common("settingsUi.previous")}
-                  </Button>
-                  <span>
-                    {common("socialUi.page", {
-                      page: Math.floor(data.offset / data.limit) + 1,
-                      total: Math.ceil(data.total / data.limit)
-                    })}
-                  </span>
-                  <Button
-                    variant="secondary"
-                    disabled={data.offset + data.limit >= data.total}
-                    onClick={() =>
-                      reload({
-                        ...options,
-                        offset: data.offset + data.limit
-                      })
-                    }
-                  >
-                    {common("packs.next")}
-                  </Button>
-                </nav>
-              )}
-            </>
-          )}
-        </section>
-        <aside className="yk-ranking-sidebar">
-          <section
-            className="yk-leaderboard-mine"
-            aria-label={t(isGlobal ? "yourGlobalProgress" : "yourLikes")}
-            aria-busy={loading}
-          >
-            <div
-              className="yk-leaderboard-emblem"
-              data-ranking={kind}
-              aria-hidden="true"
-            >
-              <RankingIcon kind={kind} />
-            </div>
-            <div className="yk-leaderboard-personal">
-              <span className="eyebrow">
-                {t(isGlobal ? "yourGlobalProgress" : "yourLikes")}
-              </span>
-              {isGlobal ? (
-                !loading &&
-                mine && (
-                  <GlobalLicenseStats
-                    compact
-                    completionScore={
-                      data?.metric === "completion-score"
-                        ? mine.completionScore
-                        : undefined
-                    }
-                    completed={mine.completedLicenses ?? 0}
-                    cards={mine.distinctCards ?? 0}
-                    totalLicenses={data?.catalogue?.totalLicenses ?? 0}
-                    totalCards={totalCards}
-                  />
-                )
-              ) : (
-                <strong>
-                  {loading || !mine ? "—" : fmt.number(mine.value)}
-                </strong>
-              )}
-              <p>
-                {loading
-                  ? t("loading")
-                  : !mine
-                    ? t("unavailable")
-                    : !mine.isPublic
-                      ? t("private")
-                      : mine.position
-                        ? t("rank", {
-                            position: mine.position,
-                            count: data!.rankedPlayers
-                          })
-                        : t(isLicense ? "noCards" : "notRanked")}
-              </p>
-              {mine && !mine.isPublic && (
-                <Link href="/settings">
-                  {common("socialUi.manageProfilePrivacy")}
-                </Link>
-              )}
-            </div>
-          </section>
-          <details
-            className="yk-ranking-support-fold"
-            onToggle={event => {
-              if (event.currentTarget.open) setPersonalDetailsReady(true);
-            }}
-          >
-            <summary>{t("personalDetails")}</summary>
-            {personalDetailsReady && !loading && data && (
-              <div className="yk-ranking-support-content">
-                <RankingTrend history={data.history?.[userId]} />
-                <RankingGoal
-                  kind={kind}
-                  userId={userId}
-                  mine={data.mine ?? undefined}
-                  entries={data.entries}
-                  binder={data.binder}
-                />
+            {error && (
+              <div className="yk-leaderboard-message" role="alert">
+                <p>{t("failed")}</p>
+                <Button variant="secondary" onClick={() => reload()}>
+                  {common("packs.tryAgain")}
+                </Button>
               </div>
             )}
-          </details>
-          <details className="yk-ranking-support-fold">
-            <summary>{t("rules")}</summary>
-            <div className="yk-leaderboard-rules">
+            {loading && (
+              <p className="yk-leaderboard-loading" role="status">
+                {t("loading")}
+              </p>
+            )}
+            {!loading && !error && data && (
+              <>
+                <p className="yk-leaderboard-results" role="status">
+                  {common("socialUi.collectionResults", {
+                    count: data.total,
+                    query: data.query,
+                    scope: data.query
+                      ? "search"
+                      : data.friendsOnly
+                        ? "friends"
+                        : "top"
+                  })}
+                </p>
+                <ol
+                  className="yk-leaderboard-list"
+                  aria-label={t("listLabel", {
+                    kind: isGlobal ? "global" : kind
+                  })}
+                >
+                  {data.entries.map(entry => (
+                    <li
+                      key={entry.userId}
+                      className={`${entry.userId === userId ? "is-you" : ""} ${entry.position <= 3 ? "is-podium" : ""}`}
+                    >
+                      <span
+                        className="yk-leaderboard-position"
+                        aria-label={common("socialUi.rank", {
+                          position: entry.position
+                        })}
+                      >
+                        #{fmt.number(entry.position)}
+                      </span>
+                      <Link
+                        href={`/profile/${encodeURIComponent(entry.pseudo)}`}
+                        className="yk-leaderboard-player"
+                      >
+                        <StyledPlayerAvatar
+                          cosmetics={data.profileStyles[entry.userId]}
+                          name={entry.pseudo}
+                          image={entry.avatarUrl ?? undefined}
+                          size={42}
+                        />
+                        <span>
+                          <strong>
+                            <StyledPlayerName
+                              name={entry.pseudo}
+                              cosmetics={data.profileStyles[entry.userId]}
+                            />
+                            <RankingTrend
+                              compact
+                              history={data.history?.[entry.userId]}
+                            />
+                            {entry.userId === userId && (
+                              <small>{common("homeLeaderboard.you")}</small>
+                            )}
+                            {entry.isFriend && (
+                              <small className="yk-leaderboard-friend">
+                                {common("socialUi.friend")}
+                              </small>
+                            )}
+                          </strong>
+                        </span>
+                      </Link>
+                      {isGlobal ? (
+                        <GlobalLicenseStats
+                          completionScore={
+                            data.metric === "completion-score"
+                              ? entry.completionScore
+                              : undefined
+                          }
+                          completed={entry.completedLicenses ?? 0}
+                          cards={entry.distinctCards ?? 0}
+                          totalLicenses={data?.catalogue?.totalLicenses ?? 0}
+                          totalCards={totalCards}
+                          compact
+                        />
+                      ) : (
+                        <>
+                          <span className="yk-leaderboard-points">
+                            <strong>{fmt.number(entry.value)}</strong>
+                            <small>
+                              {t("likesNoun", { count: entry.value })}
+                            </small>
+                          </span>
+                        </>
+                      )}
+                    </li>
+                  ))}
+                </ol>
+                {!data.entries.length && (
+                  <p className="yk-leaderboard-message">{t("empty")}</p>
+                )}
+                {data.total > data.limit && (
+                  <nav
+                    aria-label={common("socialUi.leaderboardPages")}
+                    className="yk-leaderboard-pagination"
+                  >
+                    <Button
+                      variant="secondary"
+                      disabled={data.offset === 0}
+                      onClick={() =>
+                        reload({
+                          ...options,
+                          offset: Math.max(0, data.offset - data.limit)
+                        })
+                      }
+                    >
+                      {common("settingsUi.previous")}
+                    </Button>
+                    <span>
+                      {common("socialUi.page", {
+                        page: Math.floor(data.offset / data.limit) + 1,
+                        total: Math.ceil(data.total / data.limit)
+                      })}
+                    </span>
+                    <Button
+                      variant="secondary"
+                      disabled={data.offset + data.limit >= data.total}
+                      onClick={() =>
+                        reload({
+                          ...options,
+                          offset: data.offset + data.limit
+                        })
+                      }
+                    >
+                      {common("packs.next")}
+                    </Button>
+                  </nav>
+                )}
+              </>
+            )}
+          </section>
+          <aside className="yk-ranking-side-column">
+            {!loading && data && (
+              <RankingGoal
+                kind={kind}
+                userId={userId}
+                mine={data.mine ?? undefined}
+                entries={data.entries}
+                binder={data.binder}
+              />
+            )}
+            <section className="yk-leaderboard-rules">
+              <h2>{t("rules")}</h2>
               <p>{t(isGlobal ? "globalRules" : "likesRules")}</p>
               {isGlobal && data?.completionWeights && (
                 <>
@@ -462,10 +433,10 @@ export function CommunityLeaderboardView({
               )}
               <p>{t("privacyRules")}</p>
               {isLicense && <p>{t("currentRules")}</p>}
-            </div>
-          </details>
-        </aside>
-      </div>
+            </section>
+          </aside>
+        </div>
+      </>
       {playerPreview.preview}
     </Root>
   );

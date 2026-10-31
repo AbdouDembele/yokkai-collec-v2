@@ -2669,9 +2669,7 @@
     "licenseLeadersList": "Leading collectors for {license}",
     "licenseLeadersEmpty": "No visible public collector owns a card from this license yet.",
     "licenseYourCards": "Your progress: {owned, number} / {total, number} {total, plural, one {card} other {cards}}",
-    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {card} other {cards}}",
-    "licenseLookup": "Find license leaders",
-    "personalDetails": "Your goal and rank history"
+    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {card} other {cards}}"
   },
   "homeRankingCarousel": {
     "label": "Player leaderboards",

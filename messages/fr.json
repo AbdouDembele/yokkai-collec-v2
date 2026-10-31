@@ -2669,9 +2669,7 @@
     "licenseLeadersList": "Joueurs en tête de {license}",
     "licenseLeadersEmpty": "Aucun collectionneur public visible ne possède encore de carte de cette licence.",
     "licenseYourCards": "Ta progression : {owned, number} / {total, number} {total, plural, one {carte} other {cartes}}",
-    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {carte} other {cartes}}",
-    "licenseLookup": "Trouver les premiers par licence",
-    "personalDetails": "Ton objectif et ton historique de rang"
+    "licenseLeaderCards": "{owned, number} / {total, number} {total, plural, one {carte} other {cartes}}"
   },
   "homeRankingCarousel": {
     "label": "Classements des joueurs",
