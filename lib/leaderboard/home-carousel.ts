@@ -28,7 +28,7 @@ export async function getHomeCommunityRanking(
           ...(kind === "licenses"
             ? {
                 p_binder_key:
-                  "global:completion-score" +
+                  "global:progress-score" +
                   (stableBindersEnabled() ? "" : ":legacy")
               }
             : {})

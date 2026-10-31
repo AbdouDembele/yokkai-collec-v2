@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import {
   getPaniniAlbumsPage,
@@ -10,15 +10,37 @@ import { binderHighlights, binderHref } from "@/lib/ui/binder-discovery";
 import type { RankObservation } from "@/lib/leaderboard/progress";
 import { personalRankGoal } from "@/lib/leaderboard/progress";
 
+function historyOffset(node: HTMLDetailsElement) {
+  const bounds = node.getBoundingClientRect();
+  const width = Math.min(300, window.innerWidth - 64);
+  return (
+    Math.max(16, Math.min(bounds.left, window.innerWidth - width - 16)) -
+    bounds.left
+  );
+}
+
 export function RankingTrend({
   history,
-  compact = false
+  compact = false,
+  inCard = false
 }: {
   history?: RankObservation;
   compact?: boolean;
+  inCard?: boolean;
 }) {
   const t = useTranslations("rankingProgress"),
     fmt = useFormatter();
+  const [offset, setOffset] = useState(0);
+  const historyControl = useRef<HTMLDetailsElement>(null);
+  useEffect(() => {
+    if (!inCard) return;
+    const reposition = () => {
+      if (historyControl.current?.open)
+        setOffset(historyOffset(historyControl.current));
+    };
+    window.addEventListener("resize", reposition);
+    return () => window.removeEventListener("resize", reposition);
+  }, [inCard]);
   if (!history) return null;
   const date = (day: string) =>
     fmt.dateTime(new Date(day + "T12:00:00Z"), {
@@ -48,11 +70,46 @@ export function RankingTrend({
   const badge = (
     <span className="yk-ranking-trend" data-direction={direction} title={title}>
       <span aria-hidden="true">
-        {direction === "up" ? "↗" : direction === "down" ? "↘" : "·"}
+        {direction === "up" ? "↑" : direction === "down" ? "↓" : "·"}
       </span>
       {label}
     </span>
   );
+  if (inCard) {
+    if (history.observations.length < 2) return badge;
+    return (
+      <details
+        className="yk-ranking-personal-trend"
+        ref={historyControl}
+        onToggle={event => {
+          if (event.currentTarget.open)
+            setOffset(historyOffset(event.currentTarget));
+        }}
+        onKeyDown={event => {
+          if (event.key === "Escape") {
+            event.currentTarget.open = false;
+            event.currentTarget.querySelector("summary")?.focus();
+            event.stopPropagation();
+          }
+        }}
+      >
+        <summary aria-label={t("historyAction", { change: label })}>
+          {badge}
+        </summary>
+        <div className="yk-ranking-personal-history" style={{ left: offset }}>
+          {history.since && <p>{title}</p>}
+          <ol>
+            {history.observations.map(point => (
+              <li key={point.day}>
+                <time dateTime={point.day}>{date(point.day)}</time>
+                <span>{t("rank", { position: point.position })}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </details>
+    );
+  }
   if (compact) return history.delta === null ? null : badge;
   return (
     <div className="yk-ranking-history">

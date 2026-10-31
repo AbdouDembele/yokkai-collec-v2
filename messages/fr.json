@@ -2649,7 +2649,7 @@
     "distinctNoun": "{count, plural, one {carte distincte} other {cartes distinctes}}",
     "globalDetails": "{completed, plural, one {# licence terminée} other {# licences terminées}} · {owned} / {total} cartes du catalogue",
     "globalProgressLabel": "{name} : {value} sur {total} {metric, select, completed {licences terminées} other {cartes distinctes du catalogue}}",
-    "globalRules": "Le classement global compare d’abord le score de complétion, puis le nombre de licences terminées. Chaque carte distincte de tes classeurs terminés rapporte des points selon sa rareté de base : C = 1, R = 2, SR = 4, SSR = 8, LR = 15. À score et nombre de licences terminées égaux, les joueurs partagent le même rang. Perdre une carte nécessaire peut rendre un classeur incomplet et retirer son score.",
+    "globalRules": "Le classement global compare la valeur pondérée de toutes les cartes distinctes du catalogue que tu possèdes, puis le nombre de licences terminées. Chaque carte rapporte des points, même si son classeur est incomplet : C = 1, R = 2, SR = 4, SSR = 8, LR = 15. À score et nombre de licences terminées égaux, les joueurs partagent le même rang. Perdre une carte retire uniquement les points de cette carte.",
     "completedDetails": "{completed, number} / {total, number} {total, plural, one {licence terminée} other {licences terminées}}",
     "chooseCategory": "Choisir une catégorie",
     "allCategories": "Toutes les catégories",
@@ -2662,7 +2662,7 @@
     "completionScore": "Score de complétion",
     "completionPoints": "{count, number} {count, plural, one {point} other {points}}",
     "completionWeightsTitle": "Points par carte du catalogue",
-    "completionScoredCards": "Seules les cartes des classeurs entièrement terminés rapportent des points. Une carte partagée entre plusieurs classeurs terminés compte une seule fois. Les doublons et les variantes Shiny ou Infinity ne donnent aucun bonus.",
+    "completionScoredCards": "Les cartes des classeurs terminés comme incomplets rapportent des points. Chaque carte du catalogue compte une seule fois, même si elle appartient à plusieurs licences. Les doublons et les variantes Shiny ou Infinity ne donnent aucun bonus.",
     "licenseLeaders": "En tête de cette licence",
     "closeLicense": "Fermer cet aperçu",
     "leadersShown": "{count, plural, one {# joueur affiché en tête} other {# joueurs affichés en tête, ex æquo}}",
@@ -2683,7 +2683,7 @@
     "play": "Lancer le défilement automatique",
     "pause": "Mettre le défilement automatique en pause",
     "likesIntro": "Les profils les plus appréciés des joueurs",
-    "licensesIntro": "Classeurs terminés pondérés par rareté, sans compter deux fois les cartes partagées",
+    "licensesIntro": "Chaque carte distincte compte, même dans un classeur incomplet",
     "podium": "Joueurs en tête",
     "morePlayers": "Autres joueurs en tête",
     "yourLikes": "Les J’aime sur ton profil",
@@ -2715,6 +2715,7 @@
     "history": "Voir les rangs observés",
     "rank": "Rang n° {position, number}",
     "discoverCommunity": "Découvrir la communauté",
-    "keepGrowing": "Continue à développer ta collection et ton profil pour progresser."
+    "keepGrowing": "Continue à développer ta collection et ton profil pour progresser.",
+    "historyAction": "{change} — voir l’historique des rangs"
   }
 }

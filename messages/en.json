@@ -2649,7 +2649,7 @@
     "distinctNoun": "{count, plural, one {distinct card} other {distinct cards}}",
     "globalDetails": "{completed, plural, one {# license completed} other {# licenses completed}} · {owned} / {total} catalogue cards",
     "globalProgressLabel": "{name}: {value} of {total} {metric, select, completed {licenses completed} other {distinct catalogue cards}}",
-    "globalRules": "Overall ranks compare completion score first, then the number of completed licenses. Each distinct card in your completed binders earns points based on its base rarity: C = 1, R = 2, SR = 4, SSR = 8, LR = 15. Players with equal scores and completed-license counts share the same rank. Losing a required card can make a binder incomplete and remove its score.",
+    "globalRules": "Overall ranks compare the weighted value of all distinct catalogue cards you currently own, then the number of completed licenses. Every collected card earns points, even if its binder is incomplete: C = 1, R = 2, SR = 4, SSR = 8, LR = 15. Equal scores and completed-license counts share the same rank. Losing a card removes only that card’s points.",
     "completedDetails": "{completed, number} / {total, number} {total, plural, one {license completed} other {licenses completed}}",
     "chooseCategory": "Choose a category",
     "allCategories": "All categories",
@@ -2662,7 +2662,7 @@
     "completionScore": "Completion score",
     "completionPoints": "{count, number} {count, plural, one {point} other {points}}",
     "completionWeightsTitle": "Points per catalogue card",
-    "completionScoredCards": "Only cards belonging to fully completed binders earn points. A card shared by several completed binders counts once. Copies, Shiny and Infinity variants add no extra points.",
+    "completionScoredCards": "Cards in both completed and incomplete binders earn points. Each catalogue card counts once, including when shared across licenses. Duplicate copies, Shiny and Infinity variants add no extra points.",
     "licenseLeaders": "Leading collectors for this license",
     "closeLicense": "Close license preview",
     "leadersShown": "{count, plural, one {# leading collector shown} other {# tied leading collectors shown}}",
@@ -2683,7 +2683,7 @@
     "play": "Start automatic rotation",
     "pause": "Pause automatic rotation",
     "likesIntro": "The profiles players love most",
-    "licensesIntro": "Completed binders weighted by rarity, with shared cards counted once",
+    "licensesIntro": "Every distinct card counts, including in incomplete binders",
     "podium": "Leading players",
     "morePlayers": "More leading players",
     "yourLikes": "Your profile likes",
@@ -2715,6 +2715,7 @@
     "history": "View observed ranks",
     "rank": "Rank #{position, number}",
     "discoverCommunity": "Discover the community",
-    "keepGrowing": "Keep growing your collection and profile to climb the ranking."
+    "keepGrowing": "Keep growing your collection and profile to climb the ranking.",
+    "historyAction": "{change} — view rank history"
   }
 }

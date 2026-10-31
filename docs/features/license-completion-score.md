@@ -1,6 +1,8 @@
-# Score de complétion des licences — local
+# Score de complétion des licences — contrat v1 conservé
 
-Le classement global Licences compare désormais :
+Ce mode historique reste disponible pour compatibilité. L’interface utilise désormais le [score de progression v2](license-progress-score.md), qui inclut aussi les classeurs incomplets.
+
+Le contrat v1 compare :
 
 1. Le score de complétion, décroissant.
 2. Le nombre de licences terminées, décroissant.

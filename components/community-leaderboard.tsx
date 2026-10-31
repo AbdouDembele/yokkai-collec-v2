@@ -52,7 +52,7 @@ export function CommunityLeaderboardView({
 
   const isGlobal = kind === "licenses";
   const rankingKey = isGlobal
-    ? "global:completion-score" + (stableBindersEnabled() ? "" : ":legacy")
+    ? "global:progress-score" + (stableBindersEnabled() ? "" : ":legacy")
     : "";
   useEffect(() => {
     let active = true;
@@ -160,20 +160,25 @@ export function CommunityLeaderboardView({
             ) : (
               <strong>{loading || !mine ? "—" : fmt.number(mine.value)}</strong>
             )}
-            <p>
-              {loading
-                ? t("loading")
-                : !mine
-                  ? t("unavailable")
-                  : !mine.isPublic
-                    ? t("private")
-                    : mine.position
-                      ? t("rank", {
-                          position: mine.position,
-                          count: data!.rankedPlayers
-                        })
-                      : t(isLicense ? "noCards" : "notRanked")}
-            </p>
+            <div className="yk-personal-rank">
+              <p>
+                {loading
+                  ? t("loading")
+                  : !mine
+                    ? t("unavailable")
+                    : !mine.isPublic
+                      ? t("private")
+                      : mine.position
+                        ? t("rank", {
+                            position: mine.position,
+                            count: data!.rankedPlayers
+                          })
+                        : t(isLicense ? "noCards" : "notRanked")}
+              </p>
+              {!loading && data && (
+                <RankingTrend inCard history={data.history?.[userId]} />
+              )}
+            </div>
             {mine && !mine.isPublic && (
               <Link href="/settings">
                 {common("socialUi.manageProfilePrivacy")}
@@ -182,11 +187,6 @@ export function CommunityLeaderboardView({
           </div>
         </section>
 
-        {!loading && data && (
-          <>
-            <RankingTrend history={data.history?.[userId]} />
-          </>
-        )}
         <div className="yk-leaderboard-layout">
           <section
             className="yk-leaderboard-board"

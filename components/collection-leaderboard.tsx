@@ -169,20 +169,25 @@ export function CollectionLeaderboardView({
             {mine ? number(mine.score) : "—"}
             <small> {tPr4("socialUi.points")}</small>
           </strong>
-          <p>
-            {!mine
-              ? error
-                ? tPr4("socialUi.yourScoreIsCurrentlyUnavailable")
-                : tPr4("socialUi.loadingYourCollectionScore")
-              : !mine.isPublic
-                ? tPr4("socialUi.privateProfileYourScoreIsVisibleOnly")
-                : mine.position
-                  ? tPr4("socialUi.collectionRank", {
-                      position: mine.position,
-                      count: data!.rankedPlayers
-                    })
-                  : tPr4("socialUi.collectYourFirstCardToEnterThe")}
-          </p>
+          <div className="yk-personal-rank">
+            <p>
+              {!mine
+                ? error
+                  ? tPr4("socialUi.yourScoreIsCurrentlyUnavailable")
+                  : tPr4("socialUi.loadingYourCollectionScore")
+                : !mine.isPublic
+                  ? tPr4("socialUi.privateProfileYourScoreIsVisibleOnly")
+                  : mine.position
+                    ? tPr4("socialUi.collectionRank", {
+                        position: mine.position,
+                        count: data!.rankedPlayers
+                      })
+                    : tPr4("socialUi.collectYourFirstCardToEnterThe")}
+            </p>
+            {!loading && data && (
+              <RankingTrend inCard history={data.history?.[userId]} />
+            )}
+          </div>
           {mine && !mine.isPublic && (
             <Link href="/settings">
               {tPr4("socialUi.manageProfilePrivacy")}
@@ -218,17 +223,6 @@ export function CollectionLeaderboardView({
         )}
       </section>
 
-      {!loading && data && (
-        <>
-          <RankingTrend history={data.history?.[userId]} />
-          <RankingGoal
-            kind="collection"
-            userId={userId}
-            mine={data.mine}
-            entries={data.entries}
-          />
-        </>
-      )}
       <div className="yk-leaderboard-layout">
         <section
           className="yk-leaderboard-board"
@@ -462,77 +456,90 @@ export function CollectionLeaderboardView({
           )}
         </section>
 
-        <aside className="yk-leaderboard-rules" aria-labelledby="score-title">
-          <div className="yk-leaderboard-section-heading">
-            <Subheading id="score-title">
-              {tPr4("socialUi.howScoringWorks")}
-            </Subheading>
-          </div>
-          <p>{tPr4("socialUi.pointsForTheFirstCopyOfEach")}</p>
-          <dl className="yk-leaderboard-values">
-            {COLLECTION_SCORE_RULES.map(rule => (
-              <div key={rule.label} data-kind={rule.kind}>
-                <dt className="yk-leaderboard-rarity-label">
-                  <LeaderboardRarityBadge rarity={rule.label.split(" ")[0]} />
-                  {(rule.kind === "infinity" || rule.kind === "shiny") && (
-                    <>
-                      <LeaderboardStatIcon kind={rule.kind} />
-                      <span>
-                        {rule.kind === "infinity" ? "Infinity" : "Shiny"}
-                      </span>
-                    </>
-                  )}
-                </dt>
-                <dd>{number(rule.points)}</dd>
-              </div>
-            ))}
-          </dl>
-          <details open>
-            <summary>{tPr4("socialUi.duplicatesEvolution")}</summary>
-            <p>{tPr4("socialUi.sRSSRAndLRTotalsIncludeEvery")}</p>
-            <p>{tPr4("socialUi.firstCopy100Copies2520")}</p>
-            <p>{tPr4("socialUi.infinityValuesReflectTheFusionCostPlus")}</p>
-            <p>{tPr4("socialUi.forExampleFiveCopiesOfTheSame")}</p>
-          </details>
-          <details>
-            <summary>{tPr4("socialUi.fairPlayPrivacy")}</summary>
-            <p>{tPr4("socialUi.onlyCardsCurrentlyOwnedCountTradesAnd")}</p>
-            <p>{tPr4("socialUi.noBonusesForKarasAccountAgeCustom")}</p>
-            <p>{tPr4("socialUi.evolvingIntoAVariantYouAlreadyOwn")}</p>
-          </details>
-          {mine && (
-            <details>
-              <summary>{tPr4("socialUi.yourScoreBreakdown")}</summary>
-              {mine.breakdown.length ? (
-                <dl className="yk-leaderboard-values">
-                  {mine.breakdown.map(row => (
-                    <div key={`${row.rarity}-${row.variant}`}>
-                      <dt>
-                        {row.rarity}
-                        {row.variant === "standard"
-                          ? ""
-                          : row.variant === "infinity"
-                            ? " Infinity"
-                            : " Shiny"}
-                        <small>
-                          {tPr4("socialUi.variants", {
-                            count: row.uniqueVariants
-                          })}{" "}
-                          · {tPr4("socialUi.copies", { count: row.copies })} ·{" "}
-                          {tPr4("socialUi.duplicatePoints", {
-                            count: row.duplicatePoints
-                          })}
-                        </small>
-                      </dt>
-                      <dd>{number(row.points)}</dd>
-                    </div>
-                  ))}
-                </dl>
-              ) : (
-                <p>{tPr4("socialUi.yourScoreBreakdownWillAppearAfterYou")}</p>
-              )}
-            </details>
+        <aside className="yk-ranking-side-column">
+          {!loading && data && (
+            <RankingGoal
+              kind="collection"
+              userId={userId}
+              mine={data.mine}
+              entries={data.entries}
+            />
           )}
+          <section
+            className="yk-leaderboard-rules"
+            aria-labelledby="score-title"
+          >
+            <div className="yk-leaderboard-section-heading">
+              <Subheading id="score-title">
+                {tPr4("socialUi.howScoringWorks")}
+              </Subheading>
+            </div>
+            <p>{tPr4("socialUi.pointsForTheFirstCopyOfEach")}</p>
+            <dl className="yk-leaderboard-values">
+              {COLLECTION_SCORE_RULES.map(rule => (
+                <div key={rule.label} data-kind={rule.kind}>
+                  <dt className="yk-leaderboard-rarity-label">
+                    <LeaderboardRarityBadge rarity={rule.label.split(" ")[0]} />
+                    {(rule.kind === "infinity" || rule.kind === "shiny") && (
+                      <>
+                        <LeaderboardStatIcon kind={rule.kind} />
+                        <span>
+                          {rule.kind === "infinity" ? "Infinity" : "Shiny"}
+                        </span>
+                      </>
+                    )}
+                  </dt>
+                  <dd>{number(rule.points)}</dd>
+                </div>
+              ))}
+            </dl>
+            <details open>
+              <summary>{tPr4("socialUi.duplicatesEvolution")}</summary>
+              <p>{tPr4("socialUi.sRSSRAndLRTotalsIncludeEvery")}</p>
+              <p>{tPr4("socialUi.firstCopy100Copies2520")}</p>
+              <p>{tPr4("socialUi.infinityValuesReflectTheFusionCostPlus")}</p>
+              <p>{tPr4("socialUi.forExampleFiveCopiesOfTheSame")}</p>
+            </details>
+            <details>
+              <summary>{tPr4("socialUi.fairPlayPrivacy")}</summary>
+              <p>{tPr4("socialUi.onlyCardsCurrentlyOwnedCountTradesAnd")}</p>
+              <p>{tPr4("socialUi.noBonusesForKarasAccountAgeCustom")}</p>
+              <p>{tPr4("socialUi.evolvingIntoAVariantYouAlreadyOwn")}</p>
+            </details>
+            {mine && (
+              <details>
+                <summary>{tPr4("socialUi.yourScoreBreakdown")}</summary>
+                {mine.breakdown.length ? (
+                  <dl className="yk-leaderboard-values">
+                    {mine.breakdown.map(row => (
+                      <div key={`${row.rarity}-${row.variant}`}>
+                        <dt>
+                          {row.rarity}
+                          {row.variant === "standard"
+                            ? ""
+                            : row.variant === "infinity"
+                              ? " Infinity"
+                              : " Shiny"}
+                          <small>
+                            {tPr4("socialUi.variants", {
+                              count: row.uniqueVariants
+                            })}{" "}
+                            · {tPr4("socialUi.copies", { count: row.copies })} ·{" "}
+                            {tPr4("socialUi.duplicatePoints", {
+                              count: row.duplicatePoints
+                            })}
+                          </small>
+                        </dt>
+                        <dd>{number(row.points)}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                ) : (
+                  <p>{tPr4("socialUi.yourScoreBreakdownWillAppearAfterYou")}</p>
+                )}
+              </details>
+            )}
+          </section>
         </aside>
       </div>
       {playerPreview.preview}
