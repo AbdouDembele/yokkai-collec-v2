@@ -120,7 +120,7 @@ export function ReferralLeaderboardView({
       </header>
       {navigation}
       <section
-        className="yk-leaderboard-mine"
+        className="yk-leaderboard-mine yk-community-progress yk-ranking-summary-referrals"
         aria-label={tPr4("socialUi.yourReferralRank")}
       >
         <div className="yk-leaderboard-emblem">

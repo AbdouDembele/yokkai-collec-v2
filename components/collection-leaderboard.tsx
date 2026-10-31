@@ -155,7 +155,7 @@ export function CollectionLeaderboardView({
       {navigation}
 
       <section
-        className="yk-leaderboard-mine"
+        className="yk-leaderboard-mine yk-community-progress yk-ranking-summary-power"
         aria-label={tPr4("socialUi.yourCollectionScore")}
       >
         <div className="yk-leaderboard-emblem">

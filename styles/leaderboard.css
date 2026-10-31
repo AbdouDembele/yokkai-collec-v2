@@ -1436,3 +1436,89 @@
 .yk-community-progress + .yk-license-explorer {
   margin-top: 24px;
 }
+
+/* All ranking overviews share compact spacing and a common desktop baseline. */
+.yk-community-progress {
+  min-height: 110px;
+}
+.yk-ranking-summary-power .yk-leaderboard-personal {
+  display: block;
+}
+.yk-ranking-summary-power .yk-leaderboard-personal > strong {
+  margin: 4px 0;
+  line-height: 1.1;
+}
+.yk-ranking-summary-power .yk-leaderboard-counts {
+  gap: 8px;
+  margin: 0;
+}
+.yk-ranking-summary-power .yk-leaderboard-counts > div {
+  padding: 8px 10px;
+}
+.yk-ranking-summary-power .yk-leaderboard-counts dt {
+  font-size: 11px;
+  gap: 5px;
+}
+.yk-ranking-summary-power .yk-leaderboard-counts dd {
+  font-size: 20px;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+@media (min-width: 600px) {
+  .yk-ranking-summary-power .yk-personal-rank {
+    justify-content: flex-start;
+    max-width: none;
+  }
+  .yk-ranking-summary-referrals .yk-leaderboard-personal > .yk-personal-rank {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .yk-ranking-summary-referrals .yk-leaderboard-personal > a {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    min-height: 32px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 599px) {
+  .yk-ranking-summary-power .yk-leaderboard-personal {
+    display: contents;
+  }
+  .yk-ranking-summary-power .yk-leaderboard-counts {
+    grid-column: 1 / -1;
+    grid-row: 5;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .yk-ranking-summary-power .yk-leaderboard-counts > div {
+    padding: 8px;
+  }
+  .yk-ranking-summary-referrals .yk-leaderboard-personal > a {
+    grid-column: 1 / -1;
+    grid-row: 4;
+  }
+}
+
+@media (min-width: 600px) {
+  .yk-community-progress.yk-ranking-summary-power
+    .yk-leaderboard-personal
+    > .yk-personal-rank {
+    max-width: none;
+    justify-content: flex-start;
+  }
+  .yk-community-progress.yk-ranking-summary-referrals
+    .yk-leaderboard-personal
+    > .yk-personal-rank {
+    max-width: none;
+  }
+}
+
+.yk-ranking-summary-power .yk-leaderboard-personal > .eyebrow {
+  display: block;
+  line-height: 15px;
+}
+.yk-ranking-summary-power .yk-leaderboard-personal > strong {
+  margin: 1px 0;
+}
