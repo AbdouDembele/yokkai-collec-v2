@@ -1,3 +1,4 @@
+import { fixture } from "./helpers/pr5-render.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -6,9 +7,10 @@ import { englishMessages } from "./helpers/i18n.mjs";
 const terms = readFileSync("app/terms/page.tsx", "utf8");
 
 test("terms are a public English information page linked from the shared footer", () => {
-  assert.match(terms, /title: "Terms of Use/);
+  assert.match(terms, /title: t\("termsOfUse"\)/);
+  assert.equal(englishMessages.legalUi.termsOfUse, "Terms of Use");
   assert.match(terms, /<PublicInfoPage/);
-  assert.match(terms, /title="Terms of Use"/);
+  assert.match(terms, /title=\{t\("termsOfUse"\)\}/);
   assert.match(terms, /getDiscordInviteUrl\(\)/);
   assert.doesNotMatch(terms, /getCurrentUser|requireAuth|redirect\(/);
   assert.match(
@@ -21,20 +23,30 @@ test("terms are a public English information page linked from the shared footer"
   }
 });
 
-test("published terms identify the supplied publisher and effective date without preview notices", () => {
+test("published terms identify the supplied publisher and effective date without preview notices", async () => {
+  const terms = await fixture("en").render("app/terms/page.tsx");
   assert.match(terms, /Publisher: Yokkai Collec/);
   assert.match(terms, /Effective date:/);
-  assert.match(terms, /dateTime="2026-10-20"/);
-  assert.match(terms, /robots: \{ index: true, follow: true \}/);
+  assert.match(terms, /dateTime="2026-10-20"|datetime="2026-10-20"/);
+  assert.match(
+    readFileSync("app/terms/page.tsx", "utf8"),
+    /robots: \{ index: true, follow: true \}/
+  );
   assert.doesNotMatch(
     terms,
     /draft|not yet in effect|still pending|preview only/i
   );
-  assert.equal((terms.match(/<InfoSection number=/g) ?? []).length, 10);
+  assert.equal(
+    (terms.match(/<section class="yk-info-section"/g) ?? []).length,
+    10
+  );
 });
 
-test("minors are not categorically excluded and mandatory consumer rights are preserved", () => {
-  const text = terms.replace(/\s+/g, " ");
+test("minors are not categorically excluded and mandatory consumer rights are preserved", async () => {
+  const text = (await fixture("en").render("app/terms/page.tsx")).replace(
+    /\s+/g,
+    " "
+  );
   assert.match(text, /Yokkai is not an adults-only service/);
   assert.match(text, /permission from a parent or legal guardian/);
   assert.match(
@@ -53,10 +65,11 @@ test("minors are not categorically excluded and mandatory consumer rights are pr
   );
 });
 
-test("the supplied contact is usable without invented legal or privacy details", () => {
+test("the supplied contact is usable without invented legal or privacy details", async () => {
+  const terms = await fixture("en").render("app/terms/page.tsx");
   assert.match(terms, /href="mailto:yokkaicollec@gmail\.com"/);
   assert.match(terms, />\s*yokkaicollec@gmail\.com\s*</);
-  assert.match(terms, /<Link href="\/privacy"/);
+  assert.match(terms, /<a href="\/privacy"/);
   assert.doesNotMatch(terms, /WikiMasters|wiki-masters\.com|CC-BY-SA/);
 });
 

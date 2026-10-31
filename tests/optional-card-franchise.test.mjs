@@ -1,3 +1,4 @@
+import { intlServer } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -61,6 +62,7 @@ test("public share lookup and page metadata accept NULL without blank labels", a
   });
   assert.equal((await sharing.getSharedCard("a".repeat(32))).franchise, null);
   const page = load("app/share/[id]/page.tsx", {
+    "next-intl/server": intlServer,
     "next/link": { default: "a", __esModule: true },
     "next/navigation": {
       notFound() {

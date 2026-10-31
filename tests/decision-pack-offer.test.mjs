@@ -94,8 +94,8 @@ test("the public Pro offer explains both daily packs, the shared reset and uncha
     html,
     /<th scope="row">Decision Pack<\/th><td>1 per day<\/td><td>2 per day<\/td>/
   );
-  assert.match(html, /8:00 PM Paris time/);
-  assert.match(html, /adjusting for daylight saving time/);
+  assert.match(html, /Decision Packs reset together at the same time each day/);
+  assert.doesNotMatch(html, /Paris time|8:00 PM/);
   assert.match(html, /Both Pro packs are available at once/);
   assert.match(html, /Unused packs do not carry over/);
   assert.match(html, /Rarity odds per card stay the same for everyone/);
