@@ -42,7 +42,7 @@ export function validateDomainList(text, previousCount = 0) {
         .some(label => !/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/.test(label))
     )
       throw new Error("Invalid blocklist domain");
-    const parsed = parse(domain, { allowPrivateDomains: false });
+    const parsed = parse(domain, { allowPrivateDomains: true });
     if (!parsed.domain || parsed.isIp || parsed.publicSuffix === domain)
       throw new Error("Blocklist contains an IP or public suffix");
     domains.add(domain);

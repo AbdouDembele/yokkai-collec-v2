@@ -137,6 +137,9 @@ test("updater rejects outages, malformed lists and public suffixes before replac
   for (const domain of [
     "com",
     "co.uk",
+    "github.io",
+    "pages.dev",
+    "workers.dev",
     "com.au",
     "127.0.0.1",
     "evil.test/path",
