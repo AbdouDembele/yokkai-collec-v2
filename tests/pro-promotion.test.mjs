@@ -292,7 +292,7 @@ test("dismissal persists, syncs between tabs, and stays closable when storage is
   blocked.render().props.onDismiss();
   assert.equal(blocked.render(), null);
 });
-test("integration reuses membership request, advertises on Home and keeps the Boosters screen free of the floating reminder", () => {
+test("integration reuses membership request, advertises on Home and mounts the inline pack choices only outside opening, revealing and local preview", () => {
   const source = readFileSync("components/pro-access.tsx", "utf8");
   assert.match(
     source,
@@ -311,7 +311,10 @@ test("integration reuses membership request, advertises on Home and keeps the Bo
     readFileSync("components/game.tsx", "utf8"),
     /<ProPromotion/
   );
-  assert.doesNotMatch(boosters, /<ReferralReminder(?:\s|\/|>)/);
+  assert.match(
+    boosters,
+    /!opening && !revealing && !localPreview && \(\s*<ReferralReminder packChoices \/>\s*\)/
+  );
   const topbar = readFileSync("components/topbar.tsx", "utf8");
   assert.match(
     topbar,

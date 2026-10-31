@@ -2,6 +2,7 @@
 import { gameErrorKey } from "@/i18n/game-messages";
 import { useTranslations, useFormatter } from "next-intl";
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
+import { ReferralReminder } from "@/components/referral-reminder";
 import { AmbientGlow } from "@/components/ambient-glow";
 import { packCopySnapshot, packCopyLabels, packRevealWindow, packRareRevealQueue } from "@/lib/ui/pack-opening";
 
@@ -1736,7 +1737,9 @@ export function Boosters({
           </article>
         </div>
       )}
-
+      {!opening && !revealing && !localPreview && (
+        <ReferralReminder packChoices />
+      )}
     </>
   );
 }

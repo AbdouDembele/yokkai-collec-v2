@@ -1090,6 +1090,8 @@
     "dismissDiscordInvitation": "Fermer l'invitation Discord"
   },
   "referralReminder": {
+    "compactReserve": "Réserve de packs ×{multiplier}",
+    "wantMorePacks": "Envie de plus de packs ?",
     "donTStopNow": "Continue sur ta lancée.",
     "seeOptions": "Voir les options ",
     "referralReward": "Récompense de parrainage",
