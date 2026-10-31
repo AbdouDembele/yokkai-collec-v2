@@ -22,25 +22,33 @@ export function HomeBinders({
     [retry, setRetry] = useState(0);
   useEffect(() => {
     let active = true,
-      generation = 0;
-    const refresh = () => {
-      const request = ++generation;
-      void load().then(
-        value => {
-          if (active && request === generation) {
+      running = false,
+      queued = false;
+    const refresh = async () => {
+      if (!active) return;
+      if (running) {
+        queued = true;
+        return;
+      }
+      running = true;
+      do {
+        queued = false;
+        try {
+          const value = await load();
+          if (active && !queued) {
             setAlbums(value);
             setError(false);
           }
-        },
-        () => {
-          if (active && request === generation) setError(true);
+        } catch {
+          if (active && !queued) setError(true);
         }
-      );
+      } while (active && queued);
+      running = false;
     };
-    refresh();
+    void refresh();
     const unsubscribe = subscribePlayerSnapshotInvalidation(scopes => {
       if (scopes.includes("collection") || scopes.includes("profile"))
-        refresh();
+        void refresh();
     });
     return () => {
       active = false;

@@ -43,9 +43,10 @@ export type CommunityRanking = CommunityRankingRequest & {
 export async function getCommunityRanking(
   kind: CommunityRankingKind,
   options: CommunityRankingRequest,
-  binderKey = ""
+  binderKey = "",
+  signal?: AbortSignal
 ): Promise<CommunityRanking> {
-  const { data, error } = await readRequest(signal =>
+  const { data, error } = await readRequest(timeoutSignal =>
     createClient()
       .rpc(
         kind === "likes"
@@ -59,7 +60,9 @@ export async function getCommunityRanking(
           ...(kind === "licenses" ? { p_binder_key: binderKey } : {})
         }
       )
-      .abortSignal(signal)
+      .abortSignal(
+        signal ? AbortSignal.any([signal, timeoutSignal]) : timeoutSignal
+      )
   );
   if (error || !data) throw new Error("LEADERBOARD_UNAVAILABLE");
   return data as CommunityRanking;

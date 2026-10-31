@@ -101,10 +101,14 @@ export function HomeRankingCarousel({
       void request
         .then(data => {
           if (active)
-            setPages(current => ({
-              ...current,
-              [next]: { status: "ready", data }
-            }));
+            setPages(current =>
+              current[next].status === "ready" && current[next].data === data
+                ? current
+                : {
+                    ...current,
+                    [next]: { status: "ready", data }
+                  }
+            );
         })
         .catch(() => {
           if (active)

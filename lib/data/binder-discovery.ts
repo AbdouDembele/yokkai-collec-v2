@@ -52,7 +52,11 @@ export async function getPackBinderGains(
 ): Promise<PackBinderGain[]> {
   const unique = [...new Map(cards.map(card => [card.id, card])).values()];
   if (!unique.length) return [];
-  const enriched = await adapter.enrich(unique);
+  // Opening already enriched these exact card identities. Keep fallback enrichment
+  // for old responses without metadata, without caching memberships across openings.
+  const enriched = adapter === liveBinderDiscovery && adapter.stable() &&
+    unique.every(card => card.binders !== undefined)
+    ? unique : await adapter.enrich(unique);
   const groups = new Map<
     string,
     { license: string; binderKey?: string; cardIds: string[] }

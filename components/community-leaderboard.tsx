@@ -64,14 +64,22 @@ export function CommunityLeaderboardView({
       : "";
   useEffect(() => {
     let active = true;
+    const controller =
+      typeof AbortController === "undefined" ? null : new AbortController();
     const run = async () => {
       try {
-        let next = await getCommunityRanking(kind, options, rankingKey);
+        let next = await getCommunityRanking(
+          kind,
+          options,
+          rankingKey,
+          controller?.signal
+        );
         if (options.offset > 0 && !next.entries.length && active)
           next = await getCommunityRanking(
             kind,
             { ...options, offset: 0 },
-            rankingKey
+            rankingKey,
+            controller?.signal
           );
         if (active) {
           setData(next);
@@ -88,6 +96,7 @@ export function CommunityLeaderboardView({
     void run();
     return () => {
       active = false;
+      controller?.abort();
     };
   }, [kind, options, rankingKey, userId]);
 
