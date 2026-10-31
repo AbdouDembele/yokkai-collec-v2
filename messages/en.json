@@ -3129,5 +3129,34 @@
     "locked": "This achievement isn't complete yet.",
     "alreadyClaimed": "This reward has already been claimed.",
     "unavailable": "Couldn't load achievements. Please try again in a moment."
+  },
+  "accountSanctions": {
+    "cardsRemoved": "Cards removed",
+    "karaRemoved": "Kara removed",
+    "acknowledge": "I understand",
+    "saving": "Saving…",
+    "saveError": "Your acknowledgement could not be saved. Please try again.",
+    "sanction": {
+      "title": "Sanction for exploiting the referral system",
+      "intro": "We detected misuse of Yokkai’s referral system involving accounts created with temporary or disposable email addresses to obtain rewards artificially.",
+      "decision": "A sanction has been applied to your account.",
+      "explanation": "Cards identified as originating from the rewards concerned have been removed, and a Kara penalty has been applied to your account.",
+      "rules": "Exploiting mechanisms to obtain rewards artificially violates Yokkai’s rules.",
+      "future": "Repeated abuse or further attempts to circumvent the rules may result in additional sanctions, including permanent account suspension."
+    },
+    "penalty": {
+      "title": "Warning — misuse of the referral system",
+      "intro": "Abusive activity involving the referral system and accounts using temporary or disposable email addresses was identified on your account.",
+      "decision": "As a disciplinary sanction, a penalty equal to 50% of your Kara balance has been applied.",
+      "explanation": "No cards have been removed as part of this sanction.",
+      "rules": "Creating or artificially using accounts to obtain referral rewards is not allowed.",
+      "future": "Repeated abuse or further attempts to circumvent the rules may result in additional sanctions, including permanent account suspension."
+    },
+    "warning": {
+      "title": "Warning regarding the referral system",
+      "intro": "Referral activity associated with your account was linked to the use of a temporary or disposable email address.",
+      "rules": "No cards or Kara have been removed from your account. Please remember that creating or artificially using accounts to obtain referral rewards is not allowed.",
+      "future": "Future misuse of the referral system may lead to removal of the rewards concerned or account suspension."
+    }
   }
 }

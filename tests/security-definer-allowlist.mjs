@@ -40,6 +40,8 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.get_my_pending_sanctions()": ["authenticated"], // Own committed/published pending receipts only; no private evidence. Walid approved.
+  "public.acknowledge_my_sanction(uuid)": ["authenticated"], // Own receipt only, server timestamp only; no sanction edits. Walid approved.
   "public.get_ranking_license_choices(text, text, text, boolean, integer, integer)":
     ["authenticated"], // A-Z catalogue metadata only; auth and ban guards. Walid approved.
   "public.get_profile_likes_leaderboard(integer, integer, text, boolean)": [

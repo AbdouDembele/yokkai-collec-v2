@@ -15,6 +15,7 @@ import { ReferralReminder } from "@/components/referral-reminder";
 import { DiscordPromo } from "@/components/discord-promo";
 import { FloatingMessenger } from "@/components/floating-messenger";
 import { LinkedAccountNotice } from "@/components/linked-account-notice";
+import { AccountSanctionNotice } from "@/components/account-sanction-notice";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
 import "./globals.css";
 import "../styles/ui.css";
@@ -142,6 +143,7 @@ export default async function RootLayout({
       "homeRankingCarousel",
       "rankingProgress",
       "productUpdates",
+      "accountSanctions",
       "boosters",
       "packs",
       "collectionUi",
@@ -202,6 +204,7 @@ export default async function RootLayout({
               <ProAccessProvider>
                 {children}
                 <LinkedAccountNotice />
+                <AccountSanctionNotice />
                 <ReferralReminder />
                 <DiscordPromo enabled={discordEnabled} />
               </ProAccessProvider>
