@@ -2020,7 +2020,7 @@ body:has(.yk-reveal-screen[data-reveal-state="revealing"]) {
   }
 }
 
-/* Keep the binder gains in one bounded strip rather than growing the results page. */
+/* Compact result cards: all five gains fit on desktop, with a bounded strip on small screens. */
 .yk-reveal-summary .yk-pack-binder-progress {
   width: 100%;
   max-width: none;
@@ -2031,11 +2031,12 @@ body:has(.yk-reveal-screen[data-reveal-state="revealing"]) {
 .yk-reveal-summary .yk-pack-binder-progress h3 {
   font-size: 12px;
   line-height: 1.4;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  color: #b9c9e3;
 }
 .yk-reveal-summary .yk-pack-binder-progress ul {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   overflow-x: auto;
   overscroll-behavior-x: contain;
   scroll-snap-type: x proximity;
@@ -2049,24 +2050,74 @@ body:has(.yk-reveal-screen[data-reveal-state="revealing"]) {
   scroll-snap-align: start;
 }
 .yk-reveal-summary .yk-pack-binder-progress a {
+  position: relative;
   height: 100%;
-  padding: 9px 10px;
-  gap: 5px 8px;
-  border-radius: 9px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: minmax(36px, 1fr) max-content 4px;
+  align-items: center;
+  padding: 11px 12px;
+  gap: 7px 8px;
+  border-radius: 11px;
+  background: linear-gradient(145deg, #18253b80, #0c142280);
+  border-color: #a9c8ff24;
+  transition:
+    border-color 160ms,
+    background 160ms;
 }
-.yk-reveal-summary .yk-pack-binder-progress strong {
+.yk-reveal-summary .yk-pack-binder-progress a:hover {
+  border-color: #a9c8ff70;
+  background: #17263c;
+}
+.yk-reveal-summary .yk-pack-binder-progress .yk-pack-binder-name {
   font-size: 12px;
-  line-height: 1.4;
+  line-height: 1.45;
+  font-weight: 650;
+  align-self: start;
 }
-.yk-reveal-summary .yk-pack-binder-progress small {
-  font-size: 10px;
-  line-height: 1.4;
+.yk-reveal-summary .yk-pack-binder-gain {
+  align-self: start;
+  color: #a6edd1;
+  background: #56c99c16;
+  border: 1px solid #72dbb52e;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: 650;
 }
 .yk-reveal-summary .yk-pack-binder-count {
-  font-size: 11px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px;
+  white-space: normal;
+}
+.yk-reveal-summary .yk-pack-binder-count b {
+  font-size: 18px;
+  line-height: 1.2;
+  color: #f4e0ab;
+}
+.yk-reveal-summary .yk-pack-binder-count > span {
+  font-size: 10px;
+  color: #acbad0;
+}
+.yk-reveal-summary .yk-pack-binder-percent {
+  font-size: 10px;
+  color: #bbc9dd;
 }
 .yk-reveal-summary .yk-pack-binder-progress progress {
   height: 4px;
+  background: #27354d;
+}
+@media (min-width: 900px) {
+  .yk-reveal-summary .yk-pack-binder-progress ul {
+    padding-bottom: 0;
+  }
+  .yk-reveal-summary .yk-pack-binder-progress li {
+    flex-basis: calc(
+      (100% - (var(--binder-columns) - 1) * 10px) / var(--binder-columns)
+    );
+  }
 }
 .yk-reveal-instant > .yk-reveal-summary > .yk-pack-binder-progress {
   flex: 1 0 100%;
@@ -2078,10 +2129,13 @@ body:has(.yk-reveal-screen[data-reveal-state="revealing"]) {
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 4px 16px;
-    max-width: min(100%, 960px);
+    max-width: min(100%, 1040px);
     margin: 12px auto 0;
     padding: 12px 16px;
     text-align: left;
+    background: linear-gradient(120deg, #111c2be8, #080d19f0);
+    border-color: #8eaacf30;
+    box-shadow: 0 16px 40px #00000024;
   }
   .yk-reveal-complete:not(.yk-reveal-batch) > .yk-reveal-summary > h2 {
     grid-column: 1;
@@ -2169,5 +2223,14 @@ body:has(.yk-reveal-screen) .yk-discord-promo {
   .yk-boosters-page:has(.yk-reveal-complete:not(.yk-reveal-batch))
     .yk-site-footer {
     display: none;
+  }
+}
+
+@media (min-width: 900px) and (max-height: 740px) {
+  .yk-reveal-complete:not(.yk-reveal-batch) > .yk-reveal-grid {
+    max-width: min(
+      var(--booster-reveal-max),
+      calc(5 * clamp(88px, 12.5dvh, 96px) + 56px)
+    );
   }
 }

@@ -2206,7 +2206,9 @@
     "retry": "Réessayer",
     "packTitle": "Tes classeurs progressent",
     "newForBinder": "{count, plural, one {# nouvelle carte dans ce classeur} other {# nouvelles cartes dans ce classeur}}",
-    "popularityOrder": "Tes favoris en premier, puis les licences les plus mises en favoris par les joueurs."
+    "popularityOrder": "Tes favoris en premier, puis les licences les plus mises en favoris par les joueurs.",
+    "gainBadge": "+{count, number}",
+    "countTotal": "/ {total, number} {total, plural, one {carte} other {cartes}}"
   },
   "socialUi": {
     "leaderboardCategory": "Catégorie de classement",

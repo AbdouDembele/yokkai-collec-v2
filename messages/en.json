@@ -2206,7 +2206,9 @@
     "retry": "Try again",
     "packTitle": "Your binders are growing",
     "newForBinder": "{count, plural, one {# new card in this binder} other {# new cards in this binder}}",
-    "popularityOrder": "Your favorites first, then the community’s most favorited licenses."
+    "popularityOrder": "Your favorites first, then the community’s most favorited licenses.",
+    "gainBadge": "+{count, number}",
+    "countTotal": "/ {total, number} {total, plural, one {card} other {cards}}"
   },
   "socialUi": {
     "leaderboardCategory": "Leaderboard category",

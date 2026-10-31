@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useEffect, useState, type CSSProperties } from "react";
+import { useFormatter, useTranslations } from "next-intl";
 import {
   getPackBinderGains,
   type PackBinderGain
@@ -18,6 +18,7 @@ export function PackBinderProgress({
   load?: typeof getPackBinderGains;
 }) {
   const t = useTranslations("binderDiscovery");
+  const format = useFormatter();
   const [progress, setProgress] = useState<{
     key: string;
     gains: PackBinderGain[];
@@ -49,29 +50,49 @@ export function PackBinderProgress({
       aria-labelledby="pack-binders-title"
     >
       <h3 id="pack-binders-title">{t("packTitle")}</h3>
-      <ul>
+      <ul
+        style={
+          { "--binder-columns": Math.min(gains.length, 5) } as CSSProperties
+        }
+      >
         {gains.map(gain => (
           <li key={binderIdentity(gain)}>
             <Link href={binderHref(gain)}>
-              <span>
-                <strong>{gain.license}</strong>
-                <small>{t("newForBinder", { count: gain.added })}</small>
+              <strong className="yk-pack-binder-name">{gain.license}</strong>
+              <span
+                className="yk-pack-binder-gain"
+                aria-label={t("newForBinder", { count: gain.added })}
+              >
+                {t("gainBadge", { count: gain.added })}
               </span>
-              <span className="yk-pack-binder-count">
-                {t("count", { owned: gain.owned, total: gain.total })}
-                <span aria-hidden="true"> ↗</span>
+              <span
+                className="yk-pack-binder-count"
+                aria-label={t("count", {
+                  owned: gain.owned,
+                  total: gain.total
+                })}
+              >
+                <b>{format.number(gain.owned)}</b>
+                <span>{t("countTotal", { total: gain.total })}</span>
+              </span>
+              <span className="yk-pack-binder-percent">
+                {format.number(
+                  Math.floor((gain.owned / Math.max(1, gain.total)) * 1000) /
+                    1000,
+                  { style: "percent", maximumFractionDigits: 1 }
+                )}
               </span>
               <progress
                 value={gain.owned}
                 max={gain.total}
                 aria-label={t("progressFor", { name: gain.license })}
               />
-              <small className="yk-pack-binder-cards">
+              <span className="sr-only">
                 {cards
                   .filter(card => gain.cardIds.includes(card.id))
                   .map(card => card.name)
                   .join(" · ")}
-              </small>
+              </span>
             </Link>
           </li>
         ))}

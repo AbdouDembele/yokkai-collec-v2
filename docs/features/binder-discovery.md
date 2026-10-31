@@ -49,3 +49,9 @@ Sur ordinateur, la grille affiche trois classeurs par ligne dès 1280 px et deux
 Le rendu téléphone conserve son agencement validé : couverture centrée au-dessus du titre sur les cartes étroites, compteur et pourcentage sur une même ligne puis progression. Hors ordinateur, la couverture reste de 120 × 160 px, ou 108 × 144 px sur les cartes étroites.
 
 Recette locale : largeurs 320, 375, 600, 768, 900, 1024, 1280, 1440 et 1920 px, EN/FR ; les noms, compteurs et favoris ne se chevauchent pas, les progressions d'une rangée sont alignées. Le zoom natif du navigateur à 200 % reste non vérifié ; la largeur de 720 px simule seulement la réduction de l'espace disponible.
+
+## Résultats de packs — présentation compacte
+
+Le panneau de résultat distingue le bilan et les actions de navigation, puis la progression des classeurs. Chaque tuile affiche le titre complet, un badge de nouvelles cartes (+1, +2…), un compteur et un pourcentage localisés. Les noms des cartes restent disponibles aux lecteurs d’écran. Jusqu’à cinq classeurs tiennent sur une ligne sur ordinateur ; au-delà, ou sur mobile/tablette, le défilement reste limité à la liste. Les faibles hauteurs d’écran conservent l’accès aux actions. Les règles de progression et les taux de drop restent inchangés.
+
+Recette locale EN/FR : 320, 375, 768, 1024, 1366, 1440 et 1920 px, jusqu’à 720 px de hauteur sur ordinateur, avec cinq gains dont un titre long, ainsi que le clavier et une mise en page à 200 %. Le zoom natif du navigateur à 200 % reste non vérifié. Aucun test existant modifié, aucune migration supplémentaire.
