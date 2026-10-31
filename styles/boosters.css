@@ -2019,3 +2019,155 @@ body:has(.yk-reveal-screen[data-reveal-state="revealing"]) {
     transform: rotate(6deg);
   }
 }
+
+/* Keep the binder gains in one bounded strip rather than growing the results page. */
+.yk-reveal-summary .yk-pack-binder-progress {
+  width: 100%;
+  max-width: none;
+  min-width: 0;
+  margin: 0;
+  text-align: left;
+}
+.yk-reveal-summary .yk-pack-binder-progress h3 {
+  font-size: 12px;
+  line-height: 1.4;
+  margin-bottom: 6px;
+}
+.yk-reveal-summary .yk-pack-binder-progress ul {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  padding: 3px 3px 7px;
+  scrollbar-width: thin;
+  scrollbar-color: #607499 transparent;
+}
+.yk-reveal-summary .yk-pack-binder-progress li {
+  flex: 1 0 min(220px, calc(100% - 16px));
+  min-width: 0;
+  scroll-snap-align: start;
+}
+.yk-reveal-summary .yk-pack-binder-progress a {
+  height: 100%;
+  padding: 9px 10px;
+  gap: 5px 8px;
+  border-radius: 9px;
+}
+.yk-reveal-summary .yk-pack-binder-progress strong {
+  font-size: 12px;
+  line-height: 1.4;
+}
+.yk-reveal-summary .yk-pack-binder-progress small {
+  font-size: 10px;
+  line-height: 1.4;
+}
+.yk-reveal-summary .yk-pack-binder-count {
+  font-size: 11px;
+}
+.yk-reveal-summary .yk-pack-binder-progress progress {
+  height: 4px;
+}
+.yk-reveal-instant > .yk-reveal-summary > .yk-pack-binder-progress {
+  flex: 1 0 100%;
+  order: 3;
+}
+@media (min-width: 700px) {
+  .yk-reveal-complete:not(.yk-reveal-batch) > .yk-reveal-summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 4px 16px;
+    max-width: min(100%, 960px);
+    margin: 12px auto 0;
+    padding: 12px 16px;
+    text-align: left;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) > .yk-reveal-summary > h2 {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 15px;
+    line-height: 1.4;
+    margin: 0;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) > .yk-reveal-summary > p {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: 12px;
+    margin: 0;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch)
+    > .yk-reveal-summary
+    > .yk-pack-binder-progress {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin-top: 8px;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch)
+    > .yk-reveal-summary
+    > .yk-reveal-navigation {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) .yk-reveal-navigation .yk-button {
+    min-height: 44px;
+    padding: 8px 12px;
+    font-size: 12px;
+  }
+}
+@media (min-width: 900px) {
+  .yk-game-main:has(.yk-reveal-complete:not(.yk-reveal-batch)) {
+    padding-block: 12px;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) > .yk-reveal-header {
+    padding-bottom: 10px;
+    gap: 4px 16px;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) .yk-reveal-copy {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 3px 14px;
+    align-items: center;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) .yk-reveal-copy > .eyebrow {
+    font-size: 10px;
+    margin: 0;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) .yk-reveal-copy > h2 {
+    font-size: 18px;
+    margin: 0;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) .yk-reveal-copy > p {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 12px;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) > .yk-reveal-grid {
+    max-width: min(
+      var(--booster-reveal-max),
+      calc(5 * clamp(100px, 15dvh, 150px) + 56px)
+    );
+    gap: 10px 14px;
+    margin-top: 8px;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) .yk-reveal-slot-label-space {
+    padding-top: 26px;
+  }
+  .yk-reveal-complete:not(.yk-reveal-batch) .yk-reveal-actions {
+    margin-top: 6px;
+  }
+}
+
+/* Avoid unrelated floating promos covering the result actions. */
+body:has(.yk-reveal-screen) .yk-referral-reminder,
+body:has(.yk-reveal-screen) .yk-discord-promo {
+  display: none;
+}
+@media (min-width: 900px) {
+  .yk-boosters-page:has(.yk-reveal-complete:not(.yk-reveal-batch))
+    .yk-site-footer {
+    display: none;
+  }
+}
