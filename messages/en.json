@@ -2721,5 +2721,22 @@
     "initialRank": "First rank observation",
     "notRanked": "Not ranked yet",
     "privateRank": "Private profile"
+  },
+  "productUpdates": {
+    "title": "What's new in Yokkai",
+    "release": "Binders & leaderboards",
+    "headline": "Your collection. A new adventure.",
+    "intro": "Rediscover your favorite licenses and find new ways to climb the rankings.",
+    "bindersTitle": "Your binders, front and center",
+    "bindersBody": "Find your licenses in Collection, save your favorites and follow your progress from Home and after opening packs.",
+    "bindersAction": "Explore my binders",
+    "rankingsTitle": "Three ways to reach the top",
+    "rankingsBody": "PowerRanking, profile likes and license progress: choose your challenge and discover the leading collectors for each license.",
+    "rankingsAction": "Discover the rankings",
+    "footer": "Your next goal is waiting.",
+    "done": "Let's go",
+    "previewTitle": "New features announcement",
+    "previewIntro": "Preview the announcement shown to players on Home.",
+    "reopen": "Show the announcement again"
   }
 }

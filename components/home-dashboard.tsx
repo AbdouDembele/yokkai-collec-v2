@@ -1,3 +1,4 @@
+import { ProductUpdates } from "@/components/product-updates";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { AmbientGlow } from "@/components/ambient-glow";
@@ -233,7 +234,13 @@ async function HomeTopbar() {
   );
 }
 
-export function HomeDashboard({ userId }: { userId: string }) {
+export function HomeDashboard({
+  userId,
+  seenRelease
+}: {
+  userId: string;
+  seenRelease?: string | null;
+}) {
   const t = useTranslations("homeDashboard");
   const discordEnabled = Boolean(getDiscordInviteUrl());
   return (
@@ -294,6 +301,7 @@ export function HomeDashboard({ userId }: { userId: string }) {
         </HomePanel>
         <HomeLinks discordEnabled={discordEnabled} />
       </main>
+      <ProductUpdates userId={userId} seenRelease={seenRelease} />
       <SiteFooter
         discordEnabled={discordEnabled}
         contactEmail={process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim()}
