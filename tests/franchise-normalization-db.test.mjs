@@ -106,6 +106,7 @@ test("les saisons, films, cours et parties numerotees partagent la meme licence"
   assert.equal(albums.items.length, 1);
   assert.deepEqual(albums.items[0], {
     license: "Kingdom",
+    image: "https://example.test/s4.png",
     total: 3,
     owned: 0,
     percent: 0,

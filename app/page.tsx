@@ -28,7 +28,17 @@ export default async function Home({
   searchParams: Promise<{ ref?: string | string[] }>;
 }) {
   const user = await getCurrentUser();
-  if (user) return <HomeDashboard userId={user.id} />;
+  if (user)
+    return (
+      <HomeDashboard
+        userId={user.id}
+        seenRelease={
+          typeof user.user_metadata?.yokkai_last_seen_update === "string"
+            ? user.user_metadata.yokkai_last_seen_update
+            : null
+        }
+      />
+    );
   return (
     <AuthLayout>
       <SignUpPage searchParams={searchParams} />

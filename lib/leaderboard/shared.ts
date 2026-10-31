@@ -22,6 +22,7 @@ export type ScoreBreakdown = {
 };
 
 export type ReferralLeaderboard = {
+  history?: import("./progress").RankHistory;
   profileStyles?: Record<string, PlayerCosmetics>;
   offset: number;
   limit: number;
@@ -46,6 +47,7 @@ export type ReferralLeaderboard = {
 };
 
 export type CollectionLeaderboard = {
+  history?: import("./progress").RankHistory;
   cardCounts?: Record<string, LeaderboardCardCounts>;
   profileStyles?: Record<string, PlayerCosmetics>;
   rulesVersion: number;

@@ -39,10 +39,21 @@
   place-items: center;
   width: 56px;
   height: 56px;
+  flex-shrink: 0;
   border: 1px solid #e9bf6540;
   border-radius: 16px;
   background: #e9bf650a;
   color: #e9bf65;
+}
+.yk-leaderboard-emblem[data-ranking="likes"] {
+  color: #f3a5c6;
+  border-color: #f3a5c640;
+  background: #f3a5c60a;
+}
+.yk-leaderboard-emblem[data-ranking="licenses"] {
+  color: #a8bfff;
+  border-color: #a8bfff40;
+  background: #a8bfff0a;
 }
 .yk-leaderboard-emblem svg {
   width: 30px;
@@ -568,4 +579,969 @@
 
 .yk-leaderboard-player > .yk-styled-player-avatar {
   margin-block: 8px;
+}
+
+.yk-ranking-license-picker {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+  margin-bottom: 20px;
+  padding: 18px;
+  border: 1px solid var(--color-veil);
+  border-radius: 16px;
+  background: #080c15;
+}
+.yk-ranking-license-picker label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.yk-ranking-license-picker input,
+.yk-ranking-license-picker select {
+  min-width: 0;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--color-veil);
+  border-radius: 8px;
+  background: #050911;
+  color: var(--color-ink);
+  font-size: 14px;
+}
+.yk-ranking-license-picker p {
+  font-size: 12px;
+  color: var(--color-ink-2);
+}
+.yk-ranking-license-name {
+  margin-top: 12px;
+  overflow-wrap: anywhere;
+  font-size: 18px;
+}
+.yk-ranking-completion {
+  display: grid;
+  gap: 6px;
+  grid-column: 2 / -1;
+  min-width: 0;
+}
+.yk-ranking-completion progress {
+  width: 100%;
+  height: 5px;
+  appearance: none;
+  border: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #172335;
+}
+.yk-ranking-completion progress::-webkit-progress-bar {
+  background: #172335;
+}
+.yk-ranking-completion progress::-webkit-progress-value {
+  background: linear-gradient(90deg, #9cb6ff, #efcd7a);
+}
+.yk-ranking-completion progress::-moz-progress-bar {
+  background: #efcd7a;
+}
+.yk-ranking-completion span {
+  color: var(--color-ink-2);
+  font-size: 11px;
+}
+.yk-ranking-completion .is-completed {
+  color: #92dfb6;
+}
+.yk-community-ranking .yk-leaderboard-rules h2 {
+  font-size: 17px;
+  line-height: 1.5;
+}
+.yk-community-ranking .yk-leaderboard-scopes {
+  margin-top: 0;
+}
+@media (min-width: 768px) {
+  .yk-ranking-license-picker {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 20px;
+  }
+  .yk-ranking-license-picker label[for="ranking-license-search"] {
+    grid-column: 1 / -1;
+    grid-row: 1;
+  }
+  .yk-ranking-license-picker input {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+  .yk-ranking-license-picker label[for="ranking-category-select"] {
+    grid-column: 1;
+    grid-row: 3;
+  }
+  .yk-ranking-license-picker #ranking-category-select {
+    grid-column: 1;
+    grid-row: 4;
+  }
+  .yk-ranking-license-picker label[for="ranking-license-select"] {
+    grid-column: 2;
+    grid-row: 3;
+  }
+  .yk-ranking-license-picker > .yk-ranking-choice {
+    grid-column: 2;
+    grid-row: 4;
+  }
+  .yk-ranking-license-picker > nav,
+  .yk-ranking-license-picker > p,
+  .yk-ranking-license-picker > div {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 1100px) {
+  .yk-ranking-license-picker {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .yk-ranking-license-picker label[for="ranking-license-search"] {
+    grid-column: 1;
+  }
+  .yk-ranking-license-picker input {
+    grid-column: 1;
+  }
+  .yk-ranking-license-picker label[for="ranking-category-select"] {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .yk-ranking-license-picker #ranking-category-select {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .yk-ranking-license-picker label[for="ranking-license-select"] {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .yk-ranking-license-picker > .yk-ranking-choice {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}
+
+.yk-ranking-modes {
+  margin: 0 0 20px;
+}
+
+.yk-ranking-license-picker > .yk-ranking-choice {
+  position: relative;
+  grid-column: auto;
+  min-width: 0;
+}
+.yk-ranking-choice > button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--color-veil);
+  border-radius: 8px;
+  background: #050911;
+  color: var(--color-ink);
+  font-size: 14px;
+  text-align: left;
+}
+.yk-ranking-choice > button > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.yk-ranking-choice svg {
+  width: 16px;
+  height: 16px;
+  flex: 0 0 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+}
+.yk-ranking-choice [role="listbox"] {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  max-height: min(300px, 50dvh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 5px;
+  border: 1px solid #8fa4ca70;
+  border-radius: 10px;
+  background: #0c1320;
+  box-shadow: 0 12px 30px #0009;
+}
+.yk-ranking-choice [role="option"] {
+  display: block;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--color-ink);
+  text-align: left;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+.yk-ranking-choice [role="option"][aria-selected="true"],
+.yk-ranking-choice [role="option"]:hover {
+  background: #203149;
+}
+.yk-ranking-choice [role="option"]:focus-visible {
+  outline-offset: -2px;
+  background: #203149;
+}
+@media (min-width: 768px) {
+  .yk-ranking-license-picker > .yk-ranking-choice {
+    grid-column: 2;
+    grid-row: 4;
+  }
+}
+@media (min-width: 1100px) {
+  .yk-ranking-license-picker > .yk-ranking-choice {
+    grid-column: 3;
+    grid-row: 2;
+  }
+}
+
+.yk-ranking-global-stats {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+  margin: 18px 0 8px;
+}
+.yk-ranking-global-stats > div {
+  min-width: 0;
+}
+.yk-ranking-global-stats dt {
+  font-size: 12px;
+  color: var(--color-ink-2);
+  margin-bottom: 6px;
+}
+.yk-ranking-global-stats dd {
+  margin: 0;
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
+.yk-ranking-global-stats progress {
+  display: block;
+  width: 100%;
+  height: 4px;
+  margin-top: 10px;
+  appearance: none;
+  border: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #172335;
+}
+.yk-ranking-global-stats progress::-webkit-progress-bar {
+  background: #172335;
+}
+.yk-ranking-global-stats progress::-webkit-progress-value {
+  background: #efcd7a;
+}
+.yk-ranking-global-stats progress::-moz-progress-bar {
+  background: #efcd7a;
+}
+.yk-ranking-global-stats.is-compact {
+  grid-column: 2 / -1;
+  margin: 4px 0 0;
+}
+.yk-ranking-global-stats.is-compact dd {
+  font-size: 16px;
+}
+@media (min-width: 440px) {
+  .yk-ranking-global-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+}
+
+/* Both custom choices retain the category/license columns at each breakpoint. */
+@media (min-width: 768px) {
+  .yk-ranking-license-picker > .yk-ranking-category-choice {
+    grid-column: 1;
+    grid-row: 4;
+  }
+}
+@media (min-width: 1100px) {
+  .yk-ranking-license-picker > .yk-ranking-category-choice {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}
+.yk-ranking-goal {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 18px;
+  margin-top: 14px;
+  border: 1px solid #a8bfff25;
+  border-radius: 14px;
+  background: #a8bfff07;
+}
+.yk-ranking-goal-icon {
+  color: #afc6ff;
+  font-size: 26px;
+  line-height: 1.2;
+}
+.yk-ranking-goal strong {
+  font-size: 12px;
+  color: #afc6ff;
+}
+.yk-ranking-goal p {
+  margin-top: 5px;
+  font-size: 13px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.yk-ranking-goal a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  color: #efcd7a;
+  font-size: 12px;
+}
+.yk-ranking-trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  max-width: 100%;
+  padding: 3px 7px;
+  border-radius: 6px;
+  background: #ffffff06;
+  color: #adb9ce;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+.yk-ranking-trend[data-direction="up"] {
+  background: #66d7a412;
+  color: #8bdfb5;
+}
+.yk-ranking-trend[data-direction="down"] {
+  background: #ee9da312;
+  color: #f2a7b0;
+}
+.yk-ranking-history {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  margin-top: 12px;
+  color: #a6afc3;
+  font-size: 12px;
+}
+.yk-ranking-history details {
+  flex-basis: 100%;
+  max-width: 420px;
+}
+.yk-ranking-history summary {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  cursor: pointer;
+  color: #c3cce0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.yk-ranking-history ol {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  padding: 10px 14px;
+  border: 1px solid #ffffff0d;
+  border-radius: 10px;
+  background: #070c16;
+}
+.yk-ranking-history li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 30px;
+}
+.yk-leaderboard-player .yk-ranking-trend {
+  margin: 3px 5px;
+  vertical-align: middle;
+}
+
+.yk-completion-weights {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 6px;
+  margin: 14px 0;
+}
+.yk-completion-weights > div {
+  padding: 10px 4px;
+  border: 1px solid #ffffff12;
+  border-radius: 8px;
+  text-align: center;
+}
+.yk-completion-weights dt {
+  color: #a6afc3;
+  font-size: 11px;
+}
+.yk-completion-weights dd {
+  margin-top: 5px;
+  color: #efcd7a;
+  font-size: 16px;
+  font-weight: 650;
+}
+.yk-ranking-global-stats [data-global-stat="score"] dd {
+  color: #efcd7a;
+}
+
+.yk-ranking-license-cover {
+  display: grid;
+  place-items: center;
+  flex: 0 0 96px;
+  width: 96px;
+  height: 128px;
+  overflow: hidden;
+  border: 1px solid #a8bfff30;
+  border-radius: 12px;
+  background: #111a2a;
+  color: #a8bfff;
+}
+.yk-ranking-license-cover img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.yk-ranking-license-cover > svg {
+  width: 32px;
+  height: 32px;
+}
+@media (min-width: 600px) {
+  .yk-ranking-license-cover {
+    flex-basis: 120px;
+    width: 120px;
+    height: 160px;
+  }
+}
+
+.yk-leaderboard-mine.has-license-cover {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+}
+@media (max-width: 399px) {
+  .yk-leaderboard-mine.has-license-cover {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 14px;
+    padding: 20px 14px;
+  }
+  .yk-ranking-license-cover {
+    width: 76px;
+    height: 102px;
+  }
+}
+@media (min-width: 600px) {
+  .yk-leaderboard-mine.has-license-cover {
+    grid-template-columns: 120px minmax(0, 1fr);
+  }
+}
+.yk-license-explorer {
+  margin-bottom: 24px;
+}
+.yk-license-explorer .yk-ranking-license-picker {
+  margin-bottom: 14px;
+}
+.yk-license-leaders {
+  display: grid;
+  gap: 16px;
+  padding: 20px 16px;
+  border: 1px solid #a8bfff50;
+  border-radius: 18px;
+  background:
+    radial-gradient(ellipse at 0 0, #a8bfff10, transparent 65%), #090d17;
+}
+.yk-license-leaders-header {
+  display: grid;
+  grid-template-columns: 96px minmax(0, 1fr);
+  align-items: center;
+  gap: 18px;
+}
+.yk-license-leaders-summary {
+  min-width: 0;
+}
+.yk-license-leaders-summary h2 {
+  margin: 10px 0;
+  font-size: clamp(17px, 2vw, 22px);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.yk-license-leaders-value {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 14px;
+  align-items: baseline;
+  margin: 10px 0;
+}
+.yk-license-leaders-value strong {
+  font-size: clamp(24px, 3vw, 34px);
+  font-variant-numeric: tabular-nums;
+}
+.yk-license-leaders-value span,
+.yk-license-leaders-caption,
+.yk-license-leaders-mine {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+.yk-license-leaders-close {
+  margin-top: 8px;
+  max-width: 100%;
+}
+.yk-license-leaders-caption {
+  margin: 0 0 10px;
+}
+.yk-license-leaders-list {
+  display: grid;
+  gap: 8px;
+  max-height: 250px;
+  padding: 4px;
+  margin: 0;
+  list-style: none;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.yk-license-leaders-list li {
+  min-width: 0;
+}
+.yk-license-leader-player {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  min-height: 66px;
+  padding: 8px 12px;
+  border: 1px solid #a8bfff20;
+  border-radius: 10px;
+  background: #a8bfff05;
+}
+.yk-license-leader-player:hover {
+  background: #a8bfff0e;
+}
+.yk-license-leader-player > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.yk-license-leader-player small {
+  display: block;
+  color: var(--color-ink-2);
+  font-size: 11px;
+  margin-top: 2px;
+}
+.yk-license-leaders-mine {
+  margin: 16px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid #a8bfff20;
+}
+@media (max-width: 399px) {
+  .yk-license-leaders-header {
+    grid-template-columns: 76px minmax(0, 1fr);
+    gap: 14px;
+  }
+}
+@media (min-width: 600px) {
+  .yk-license-leaders {
+    padding: 24px;
+  }
+  .yk-license-leaders-header {
+    grid-template-columns: 120px minmax(0, 1fr);
+    gap: 22px;
+  }
+}
+
+.yk-license-leaders-results {
+  min-width: 0;
+}
+.yk-license-leaders > .yk-license-leaders-mine {
+  grid-column: 1 / -1;
+}
+@media (min-width: 768px) {
+  .yk-license-leaders {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px 24px;
+  }
+  .yk-license-leaders > .yk-license-leaders-mine {
+    margin-top: 0;
+  }
+}
+@media (min-width: 1100px) {
+  .yk-license-leaders-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Original page layout, with a smaller personal overview and the goal at right. */
+.yk-community-progress {
+  padding: 14px 16px;
+  gap: 14px;
+}
+.yk-community-progress .yk-leaderboard-emblem {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+}
+.yk-community-progress .yk-leaderboard-emblem svg {
+  width: 24px;
+  height: 24px;
+}
+.yk-community-progress .yk-leaderboard-personal > .eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+.yk-community-progress .yk-ranking-global-stats {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin: 8px 0;
+}
+.yk-community-progress .yk-ranking-global-stats dt {
+  font-size: 11px;
+  margin-bottom: 3px;
+}
+.yk-community-progress .yk-ranking-global-stats dd {
+  font-size: 23px;
+}
+.yk-community-progress .yk-ranking-global-stats progress {
+  height: 3px;
+  margin-top: 6px;
+}
+.yk-community-progress .yk-leaderboard-personal > strong {
+  font-size: 28px;
+}
+.yk-community-progress .yk-leaderboard-personal > p {
+  font-size: 12px;
+  line-height: 1.5;
+  margin: 0;
+}
+.yk-ranking-side-column {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+}
+.yk-ranking-side-column > .yk-ranking-goal {
+  margin: 0;
+  padding: 18px 16px;
+}
+@media (min-width: 600px) {
+  .yk-community-progress .yk-leaderboard-personal {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: 24px;
+  }
+  .yk-community-progress .yk-leaderboard-personal > .eyebrow {
+    grid-column: 1;
+  }
+  .yk-community-progress .yk-leaderboard-personal > .yk-ranking-global-stats,
+  .yk-community-progress .yk-leaderboard-personal > strong {
+    grid-column: 1;
+    grid-row: 2;
+    margin-bottom: 0;
+  }
+  .yk-community-progress .yk-leaderboard-personal > p {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    max-width: 260px;
+  }
+  .yk-community-progress .yk-leaderboard-personal > a {
+    grid-column: 1 / -1;
+  }
+}
+
+.yk-community-progress .yk-ranking-global-stats dd {
+  line-height: 1.25;
+}
+@media (max-width: 599px) {
+  .yk-community-progress {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 8px 12px;
+  }
+  .yk-community-progress .yk-leaderboard-emblem {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .yk-community-progress .yk-leaderboard-personal {
+    display: contents;
+  }
+  .yk-community-progress .yk-leaderboard-personal > .eyebrow {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .yk-community-progress .yk-leaderboard-personal > .yk-ranking-global-stats,
+  .yk-community-progress .yk-leaderboard-personal > strong {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    margin: 0;
+  }
+  .yk-community-progress .yk-leaderboard-personal > p {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+  .yk-community-progress .yk-leaderboard-personal > a {
+    grid-column: 1 / -1;
+    grid-row: 4;
+  }
+}
+
+/* Rank movement belongs to the player's own score card. */
+.yk-personal-rank {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  min-width: 0;
+}
+.yk-personal-rank > p {
+  margin: 0;
+}
+.yk-community-progress .yk-personal-rank > p {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.yk-ranking-trend[data-direction="up"] {
+  background: #4ade8018;
+  color: #4ade80;
+}
+.yk-ranking-trend[data-direction="down"] {
+  background: #fb718518;
+  color: #ff7c89;
+}
+.yk-ranking-trend > span[aria-hidden="true"] {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1;
+}
+.yk-ranking-personal-trend {
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+}
+.yk-ranking-personal-trend > summary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 32px;
+  list-style: none;
+  cursor: pointer;
+}
+.yk-ranking-personal-trend > summary::-webkit-details-marker {
+  display: none;
+}
+.yk-ranking-personal-trend .yk-ranking-trend {
+  font-size: 11px;
+}
+.yk-ranking-personal-history {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 40;
+  width: min(300px, calc(100vw - 64px));
+  max-height: 250px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 12px 14px;
+  border: 1px solid #8fa4ca60;
+  border-radius: 12px;
+  background: #101725;
+  box-shadow: 0 12px 30px #0009;
+  color: #c3cce0;
+  font-size: 12px;
+}
+.yk-ranking-personal-history > p {
+  margin: 0 0 8px;
+}
+.yk-ranking-personal-history ol {
+  display: grid;
+  gap: 6px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.yk-ranking-personal-history li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 6px 12px;
+}
+@media (min-width: 600px) {
+  .yk-community-progress .yk-leaderboard-personal > .yk-personal-rank {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    justify-content: flex-end;
+    max-width: 300px;
+  }
+}
+@media (max-width: 599px) {
+  .yk-community-progress .yk-leaderboard-personal > .yk-personal-rank {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+}
+
+/* The selected license now scopes the main ranking, without a second results panel. */
+.yk-community-progress:has(.yk-ranking-license-name) .yk-ranking-license-cover {
+  width: 60px;
+  height: 80px;
+  flex: 0 0 60px;
+}
+.yk-community-progress .yk-ranking-license-name {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+@media (min-width: 600px) {
+  .yk-community-progress .yk-ranking-license-name {
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .yk-community-progress .yk-ranking-license-name + strong {
+    grid-row: 3;
+    font-size: 26px;
+  }
+  .yk-community-progress:has(.yk-ranking-license-name) .yk-personal-rank {
+    grid-row: 1 / span 3;
+  }
+}
+@media (max-width: 599px) {
+  .yk-community-progress:has(.yk-ranking-license-name) {
+    grid-template-columns: 60px minmax(0, 1fr);
+  }
+  .yk-community-progress:has(.yk-ranking-license-name)
+    .yk-ranking-license-cover {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+  }
+  .yk-community-progress .yk-ranking-license-name {
+    grid-column: 2;
+    grid-row: 2;
+  }
+  .yk-community-progress .yk-ranking-license-name + strong {
+    grid-column: 2;
+    grid-row: 3;
+    font-size: 26px;
+  }
+  .yk-community-progress:has(.yk-ranking-license-name) .yk-personal-rank {
+    grid-row: 4;
+  }
+}
+
+.yk-community-progress + .yk-license-explorer {
+  margin-top: 24px;
+}
+
+/* All ranking overviews share compact spacing and a common desktop baseline. */
+.yk-community-progress {
+  min-height: 110px;
+}
+.yk-ranking-summary-power .yk-leaderboard-personal {
+  display: block;
+}
+.yk-ranking-summary-power .yk-leaderboard-personal > strong {
+  margin: 4px 0;
+  line-height: 1.1;
+}
+.yk-ranking-summary-power .yk-leaderboard-counts {
+  gap: 8px;
+  margin: 0;
+}
+.yk-ranking-summary-power .yk-leaderboard-counts > div {
+  padding: 8px 10px;
+}
+.yk-ranking-summary-power .yk-leaderboard-counts dt {
+  font-size: 11px;
+  gap: 5px;
+}
+.yk-ranking-summary-power .yk-leaderboard-counts dd {
+  font-size: 20px;
+  line-height: 1.2;
+  margin-top: 4px;
+}
+@media (min-width: 600px) {
+  .yk-ranking-summary-power .yk-personal-rank {
+    justify-content: flex-start;
+    max-width: none;
+  }
+  .yk-ranking-summary-referrals .yk-leaderboard-personal > .yk-personal-rank {
+    grid-column: 2;
+    grid-row: 1;
+  }
+  .yk-ranking-summary-referrals .yk-leaderboard-personal > a {
+    grid-column: 2;
+    grid-row: 2;
+    justify-self: end;
+    min-height: 32px;
+    font-size: 12px;
+  }
+}
+@media (max-width: 599px) {
+  .yk-ranking-summary-power .yk-leaderboard-personal {
+    display: contents;
+  }
+  .yk-ranking-summary-power .yk-leaderboard-counts {
+    grid-column: 1 / -1;
+    grid-row: 5;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .yk-ranking-summary-power .yk-leaderboard-counts > div {
+    padding: 8px;
+  }
+  .yk-ranking-summary-referrals .yk-leaderboard-personal > a {
+    grid-column: 1 / -1;
+    grid-row: 4;
+  }
+}
+
+@media (min-width: 600px) {
+  .yk-community-progress.yk-ranking-summary-power
+    .yk-leaderboard-personal
+    > .yk-personal-rank {
+    max-width: none;
+    justify-content: flex-start;
+  }
+  .yk-community-progress.yk-ranking-summary-referrals
+    .yk-leaderboard-personal
+    > .yk-personal-rank {
+    max-width: none;
+  }
+}
+
+.yk-ranking-summary-power .yk-leaderboard-personal > .eyebrow {
+  display: block;
+  line-height: 15px;
+}
+.yk-ranking-summary-power .yk-leaderboard-personal > strong {
+  margin: 1px 0;
+}
+
+@media (min-width: 1024px) {
+  .yk-ranking-summary-power .yk-leaderboard-personal {
+    display: grid;
+    grid-template-columns: minmax(160px, 1fr) minmax(200px, auto);
+    column-gap: 24px;
+    align-items: center;
+  }
+  .yk-community-progress.yk-ranking-summary-power
+    .yk-leaderboard-personal
+    > .yk-personal-rank {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    justify-self: center;
+    gap: 4px;
+    min-height: 48px;
+    padding-left: 24px;
+    border-left: 1px solid var(--color-veil);
+  }
 }

@@ -146,6 +146,9 @@
   "public.giphy_gif_ratings": {
     "excluded": "GIPHY catalogue metadata (GIF id and its public rating), shared by every player and not tied to any account."
   },
+  "public.leaderboard_rank_observations": {
+    "excluded": "Internal derived daily public-rank observations, retained for 35 days and readable only through permission-checked ranking responses. Not authored content or received correspondence. No direct API table access; rows cascade on account deletion."
+  },
   "public.notifications": { "sections": ["notifications"] },
   "public.oauth_pseudo_pending": {
     "excluded": "Transient OAuth onboarding marker deleted when the username is chosen; the username itself is exported in profile."

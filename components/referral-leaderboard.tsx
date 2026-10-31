@@ -3,6 +3,7 @@ import { useTranslations, useFormatter } from "next-intl";
 
 import { socialErrorKey as gameErrorKey } from "@/i18n/social-messages";
 import Link from "next/link";
+import { RankingTrend } from "@/components/ranking-progress";
 import {
   useCallback,
   useEffect,
@@ -119,7 +120,7 @@ export function ReferralLeaderboardView({
       </header>
       {navigation}
       <section
-        className="yk-leaderboard-mine"
+        className="yk-leaderboard-mine yk-community-progress yk-ranking-summary-referrals"
         aria-label={tPr4("socialUi.yourReferralRank")}
       >
         <div className="yk-leaderboard-emblem">
@@ -147,20 +148,35 @@ export function ReferralLeaderboardView({
               })}
             </small>
           </strong>
-          <p>
-            {!mine
-              ? error
-                ? tPr4("socialUi.yourReferralRankIsCurrentlyUnavailable")
-                : tPr4("socialUi.loadingYourReferralRank")
-              : !mine.isPublic
-                ? tPr4("socialUi.privateProfileYourReferralCountIsVisible")
-                : mine.position
-                  ? tPr4("socialUi.referralRank", {
-                      position: mine.position,
-                      count: data!.rankedPlayers
-                    })
-                  : tPr4("socialUi.yourFirstVerifiedReferralPutsYouOn")}
-          </p>
+          <div className="yk-personal-rank">
+            <p>
+              {!mine
+                ? error
+                  ? tPr4("socialUi.yourReferralRankIsCurrentlyUnavailable")
+                  : tPr4("socialUi.loadingYourReferralRank")
+                : !mine.isPublic
+                  ? tPr4("socialUi.privateProfileYourReferralCountIsVisible")
+                  : mine.position
+                    ? tPr4("socialUi.referralRank", {
+                        position: mine.position,
+                        count: data!.rankedPlayers
+                      })
+                    : tPr4("socialUi.yourFirstVerifiedReferralPutsYouOn")}
+            </p>
+            {!loading && data && (
+              <RankingTrend
+                inCard
+                initialState={
+                  mine?.isPublic === false
+                    ? "private"
+                    : mine?.position
+                      ? "pending"
+                      : "unranked"
+                }
+                history={data.history?.[userId]}
+              />
+            )}
+          </div>
           <Link href="/settings#referrals">
             {mine && !mine.isPublic
               ? tPr4("socialUi.manageProfilePrivacyReferralLink")
@@ -324,6 +340,13 @@ export function ReferralLeaderboardView({
                             name={entry.pseudo}
                             cosmetics={data.profileStyles?.[entry.userId]}
                           />
+                          {entry.userId === userId && (
+                            <RankingTrend
+                              compact
+                              initialState="pending"
+                              history={data.history?.[entry.userId]}
+                            />
+                          )}
                           {entry.userId === userId && (
                             <small> {tPr4("homeLeaderboard.you")}</small>
                           )}

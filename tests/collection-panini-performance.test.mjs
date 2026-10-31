@@ -72,8 +72,11 @@ test("les données Panini ne sont chargées que lorsque ce mode est ouvert", () 
   );
 });
 
-test("le bouton Classeur revient à la collection normale au second clic", () => {
-  assert.match(collection, /<span>\{tc\("binder"\)\}<\/span>/);
+test("les onglets Cartes et Classeurs ouvrent leur vue explicite et permettent le retour aux cartes", () => {
+  assert.match(
+    collection,
+    /<nav className="yk-collection-tabs"[^]*aria-pressed={viewMode !== "panini"}[^]*setViewMode\("grid"\);\s*setSelectedLicense\(null\);[^]*{td\("cardsTab"\)}/
+  );
   assert.match(collection, /<h2>\{tc\("myLicenseBinders"\)\}<\/h2>/);
   assert.doesNotMatch(
     collection,
@@ -81,7 +84,7 @@ test("le bouton Classeur revient à la collection normale au second clic", () =>
   );
   assert.match(
     collection,
-    /setViewMode\(current =>\s*\(?current === "panini" \? "grid" : "panini"\)?\s*\)/
+    /className="yk-panini-mode"\s*aria-pressed={viewMode === "panini"}[^]*navigateBinder\(\);[^]*{td\("bindersTab"\)}/
   );
 });
 

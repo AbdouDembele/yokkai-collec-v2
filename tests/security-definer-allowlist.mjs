@@ -1,5 +1,6 @@
 // Exact overloads and roles only. Every addition requires an access justification.
 export const ownerOnly = [
+  "public.with_leaderboard_history(jsonb, text)", // Internal enrichment of already-authorized results only; no direct API execution.
   "public.guard_trade_offer_submission()", // Trigger-only transactional anti-spam admission; no API or service-role execution.
   "public.leaderboard_collection_without_styles(integer, integer, text, boolean)", // Internal score/visibility projection; only the public entitlement-aware leaderboard wrapper can execute it.
   "public.leaderboard_referrals_without_styles(integer, integer, text, boolean)", // Internal referral projection; no direct API access, cosmetics appended only after the wrapper's authorized page is known.
@@ -33,6 +34,15 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.get_ranking_license_choices(text, text, text, boolean, integer, integer)":
+    ["authenticated"], // A-Z catalogue metadata only; auth and ban guards. Walid approved.
+  "public.get_profile_likes_leaderboard(integer, integer, text, boolean)": [
+    "authenticated"
+  ], // Public active profiles, bilateral blocks, aggregate counts only; own private count. Walid approved this addition.
+  "public.get_license_leaderboard(text, integer, integer, text, boolean)": [
+    "authenticated"
+  ], // Same visibility fence, distinct current cards for one exact binder, bounded pages; no private holdings. Walid approved this addition.
+  "public.binder_popularity_counts(text)": ["authenticated"], // Authenticated aggregate of distinct effective favorites per binder; no player identity or individual preference rows. Walid approved this addition.
   "public.get_my_locale()": ["authenticated"], // Only the JWT owner's nullable locale; no target identifier.
   "public.set_my_locale(text)": ["authenticated"], // Validated en/fr/NULL update on auth.uid() only.
   "public.assert_player_not_banned()": ["authenticated"], // Reads only the caller's own auth.users ban state; raises ACCOUNT_BANNED. Needed by SECURITY INVOKER wrappers and Storage policies.

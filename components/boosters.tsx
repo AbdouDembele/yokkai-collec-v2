@@ -30,6 +30,11 @@ import type { SfxName } from "@/hooks/use-sfx";
 import { animation } from "@/lib/ui/animations";
 import { runFinalBoosterOpening } from "@/lib/ui/pack-opening";
 
+const PackBinderProgress = dynamic(
+  () => import("@/components/pack-binder-progress").then(module => module.PackBinderProgress),
+  { ssr: false }
+);
+
 const CollectionView = dynamic(
   () => import("@/components/collection").then(module => module.CollectionView),
   { loading: function LoadingCollection() { const tp = useTranslations("packs"); return <p role="status">{tp("loadingCollection")}</p>; } }
@@ -133,7 +138,8 @@ export function BoosterReveal({
   onSetCustomImage,
   onComplete,
   onSound,
-  onStopSound
+  onStopSound,
+  loadBinderGains
 }: {
   previewOnly?: boolean;
   packCount?: number;
@@ -165,6 +171,7 @@ export function BoosterReveal({
   onComplete?: () => void;
   onSound?: (sound: Sound) => void;
   onStopSound?: () => void;
+  loadBinderGains?: typeof import("@/lib/data/binder-discovery").getPackBinderGains;
 }) {
   const tError = useTranslations();
   const tp = useTranslations("packs");
@@ -850,6 +857,7 @@ export function BoosterReveal({
                 : tp("countPluralOneNewCardOtherNewCards", { count: keptCards.filter(c => c.isNew).length })}
             </p>
           )}
+          {(!localPreview || loadBinderGains) && !decision?.soldAll && <PackBinderProgress cards={keptCards.filter(card => card.isNew === true)} load={loadBinderGains} />}
           <div className="yk-reveal-navigation flex flex-wrap justify-center gap-3">
             {onNext && !overview && (
               <span className="yk-reveal-next">

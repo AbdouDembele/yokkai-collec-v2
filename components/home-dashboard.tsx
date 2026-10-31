@@ -1,3 +1,4 @@
+import { ProductUpdates } from "@/components/product-updates";
 import { useTranslations } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { AmbientGlow } from "@/components/ambient-glow";
@@ -9,7 +10,9 @@ import { AccountMenu } from "@/components/account-menu";
 import { Topbar } from "@/components/topbar";
 import { SiteFooter } from "@/components/site-footer";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
+import { HomeBinders } from "@/components/home-binders";
 import { HomeFriendFeed } from "@/components/home-friend-feed";
+import { HomeRankingCarousel } from "@/components/home-ranking-carousel";
 import { HomeLeaderboard } from "@/components/home-leaderboard";
 import type { FriendFeedPage } from "@/lib/data/friend-feed";
 import {
@@ -231,7 +234,13 @@ async function HomeTopbar() {
   );
 }
 
-export function HomeDashboard({ userId }: { userId: string }) {
+export function HomeDashboard({
+  userId,
+  seenRelease
+}: {
+  userId: string;
+  seenRelease?: string | null;
+}) {
   const t = useTranslations("homeDashboard");
   const discordEnabled = Boolean(getDiscordInviteUrl());
   return (
@@ -267,6 +276,7 @@ export function HomeDashboard({ userId }: { userId: string }) {
             <PanelData load={bigPulls} />
           </Suspense>
         </HomePanel>
+        <HomeBinders />
         <Suspense fallback={<HomeSkeleton />}>
           <PanelData load={() => communityFeed(userId)} />
         </Suspense>
@@ -280,18 +290,18 @@ export function HomeDashboard({ userId }: { userId: string }) {
             <PanelData load={market} />
           </Suspense>
         </HomePanel>
-        <HomePanel
-          id="home-leaderboard"
-          title={t("leaderboard")}
-          href="/leaderboard"
-          link={t("viewLeaderboard")}
-        >
+        <HomePanel id="home-leaderboard" title={t("leaderboard")}>
           <Suspense fallback={<HomeSkeleton />}>
-            <HomeLeaderboard userId={userId} />
+            <HomeRankingCarousel
+              key={userId}
+              userId={userId}
+              powerRanking={<HomeLeaderboard userId={userId} />}
+            />
           </Suspense>
         </HomePanel>
         <HomeLinks discordEnabled={discordEnabled} />
       </main>
+      <ProductUpdates userId={userId} seenRelease={seenRelease} />
       <SiteFooter
         discordEnabled={discordEnabled}
         contactEmail={process.env.NEXT_PUBLIC_CONTACT_EMAIL?.trim()}

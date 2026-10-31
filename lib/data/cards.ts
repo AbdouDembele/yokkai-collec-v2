@@ -18,6 +18,7 @@ export type CataloguePage = { cards: Card[]; total: number };
 type CatalogueSearchPage = { items: Card[]; total: number };
 export type LicenseCatalogueTotal = { license: string; total: number; binderKey?: string; origin?: "series" | "source" };
 export type PaniniAlbumProgress = LicenseCatalogueTotal & {
+  image?: string;
   owned: number;
   percent: number;
   favorite: boolean;

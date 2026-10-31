@@ -2,6 +2,9 @@
 import { gameErrorKey } from "@/i18n/game-messages";
 import { useTranslations, useFormatter } from "next-intl";
 
+import { BinderCover } from "@/components/binder-cover";
+import { binderCover, binderHref } from "@/lib/ui/binder-discovery";
+import "@/styles/binder-discovery.css";
 import { BinderFavoriteReview } from "@/components/binder-favorite-review";
 
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
@@ -306,6 +309,35 @@ export function CollectionView({
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [viewMode, setViewMode] = useState<"grid" | "list" | "panini">("grid");
   const [selectedLicense, setSelectedLicense] = useState<string | null>(null);
+  const [linkedBinderName, setLinkedBinderName] = useState("");
+  const td = useTranslations("binderDiscovery");
+  useEffect(() => {
+    if (readOnly) return;
+    const sync = (initial = false) => {
+      const p = new URLSearchParams(window.location.search);
+      if (p.get("view") === "binders") {
+        setViewMode("panini");
+        setSelectedLicense(p.get("binder"));
+        setLinkedBinderName(p.get("name") ?? "");
+      } else if (!initial) {
+        setViewMode(current => (current === "panini" ? "grid" : current));
+        setSelectedLicense(null);
+      }
+    };
+    sync(true);
+    const onBack = () => sync();
+    window.addEventListener("popstate", onBack);
+    return () => window.removeEventListener("popstate", onBack);
+  }, [readOnly]);
+  function navigateBinder(binder?: { binderKey?: string; license: string }) {
+    setViewMode("panini");
+    setSelectedLicense(binder ? (binder.binderKey ?? binder.license) : null);
+    setLinkedBinderName(binder?.license ?? "");
+    setSelecting(false);
+    setSelection(new Set());
+    if (!readOnly && !localPreview)
+      window.history.pushState(null, "", binderHref(binder));
+  }
   const [binderWishlist, setBinderWishlist] = useState<{
     busy?: boolean;
     message?: string;
@@ -468,6 +500,7 @@ export function CollectionView({
   );
   const selectedAlbumName =
     selectedAlbum?.license ??
+    (selectedLicense && linkedBinderName ? linkedBinderName : undefined) ??
     (selectedLicense?.match(/^(series|source):/)
       ? tc("binder")
       : selectedLicense);
@@ -1209,6 +1242,60 @@ export function CollectionView({
       )}
     </>
   );
+  const collectionTabs = (
+    <nav className="yk-collection-tabs" aria-label={td("views")}>
+      <button
+        type="button"
+        aria-pressed={viewMode !== "panini"}
+        onClick={() => {
+          setViewMode("grid");
+          setSelectedLicense(null);
+          setSelecting(false);
+          setSelection(new Set());
+          if (!readOnly && !localPreview)
+            window.history.pushState(null, "", "/collection");
+        }}
+      >
+        <svg
+          aria-hidden="true"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+        >
+          <rect x="4" y="5" width="12" height="16" rx="2" />
+          <path d="m9 3 10 1 1 14" />
+        </svg>
+        {td("cardsTab")}
+      </button>
+      <button
+        type="button"
+        className="yk-panini-mode"
+        aria-pressed={viewMode === "panini"}
+        onClick={() => {
+          setBinderWishlist({});
+          navigateBinder();
+        }}
+      >
+        {" "}
+        <svg
+          aria-hidden="true"
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+        >
+          <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" />
+          <path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5A2.5 2.5 0 0 1 20 22V5.5Z" />
+        </svg>
+        {td("bindersTab")}
+      </button>
+    </nav>
+  );
   const toolbar = (
     <div className="yk-collection-toolbar">
       <button
@@ -1243,9 +1330,7 @@ export function CollectionView({
         {!readOnly && <MyCardShares />}
         <label className="yk-sort-control">
           <span>{tc("sortBy")}</span>
-          <strong aria-hidden="true">
-            {COLLECTION_SORTS.find(option => option.value === sort)?.label}
-          </strong>
+          <strong aria-hidden="true">{tc("sortLabel", { sort })}</strong>
           <svg
             aria-hidden="true"
             width="13"
@@ -1284,31 +1369,6 @@ export function CollectionView({
             }}
           />
         )}
-        <Button
-          variant="secondary"
-          className="yk-panini-mode"
-          aria-pressed={viewMode === "panini"}
-          onClick={() => {
-            setViewMode(current => (current === "panini" ? "grid" : "panini"));
-            setSelectedLicense(null);
-            setSelecting(false);
-            setSelection(new Set());
-          }}
-        >
-          <svg
-            aria-hidden="true"
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-          >
-            <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H11v17H6.5A2.5 2.5 0 0 0 4 22V5.5Z" />
-            <path d="M20 5.5A2.5 2.5 0 0 0 17.5 3H13v17h4.5A2.5 2.5 0 0 1 20 22V5.5Z" />
-          </svg>
-          <span>{tc("binder")}</span>
-        </Button>
       </div>
       <button
         type="button"
@@ -1392,6 +1452,9 @@ export function CollectionView({
               {toolbar}
             </header>
           )}
+
+          {collectionTabs}
+
           <div className="yk-collection-layout">
             <aside
               id="collection-filters"
@@ -1424,7 +1487,7 @@ export function CollectionView({
                           type="button"
                           className="yk-panini-back"
                           onClick={() => {
-                            setSelectedLicense(null);
+                            navigateBinder();
                             setBinderWishlist({});
                             setQuery(albumSearchBeforeOpen);
                             setPaniniPage(1);
@@ -1660,6 +1723,11 @@ export function CollectionView({
                         <div>
                           <p className="yk-section-title">{tc("binder")}</p>
                           <h2>{tc("myLicenseBinders")}</h2>
+                          {!readOnly && (
+                            <p className="yk-binder-subtitle">
+                              {td("popularityOrder")}
+                            </p>
+                          )}
                         </div>
                         <p>
                           {format.number(paniniAlbums.total)}{" "}
@@ -1784,9 +1852,7 @@ export function CollectionView({
                                 onClick={() => {
                                   setAlbumSearchBeforeOpen(query);
                                   setBinderWishlist({});
-                                  setSelectedLicense(
-                                    item.binderKey ?? item.license
-                                  );
+                                  navigateBinder(item);
                                   setQuery("");
                                   setPaniniPage(1);
                                 }}
@@ -1797,19 +1863,33 @@ export function CollectionView({
                                   count: item.total
                                 })}
                               >
+                                <BinderCover
+                                  image={binderCover(item, cards)}
+                                  license={item.license}
+                                />
                                 <span className="yk-panini-details">
-                                  <strong>{item.license}</strong>
+                                  <strong
+                                    data-long-title={
+                                      Array.from(item.license).length > 32
+                                    }
+                                  >
+                                    {item.license}
+                                  </strong>
                                   <span className="yk-panini-count">
-                                    <b>{format.number(item.owned)}</b> /{" "}
-                                    {format.number(item.total)}{" "}
-                                    {item.total === 1
-                                      ? tc("countPluralOneCardOtherCards", {
-                                          count: item.total
-                                        })
-                                      : tc("countPluralOneCardOtherCards", {
-                                          count: item.total
-                                        })}
+                                    <span className="yk-panini-count-values">
+                                      <b>{format.number(item.owned)}</b>
+                                      <span className="yk-panini-count-separator">
+                                        /
+                                      </span>
+                                      <span>{format.number(item.total)}</span>
+                                    </span>
+                                    <span className="yk-panini-count-label">
+                                      {tc("countPluralOneCardOtherCards", {
+                                        count: item.total
+                                      })}
+                                    </span>
                                   </span>
+
                                   <span className="yk-panini-progress">
                                     <i style={{ width: `${item.percent}%` }} />
                                   </span>

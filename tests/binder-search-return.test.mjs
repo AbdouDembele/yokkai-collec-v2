@@ -45,6 +45,7 @@ function collection(readOnly = false) {
   const modules = new Map();
   const jsx = (type, props) => ({ type, props });
   const require = name => {
+    if (name.endsWith(".css")) return {};
     if (name === "next-intl") return intl;
     if (name === "@/i18n/game-messages") return gameMessages;
     if (name === "react")
@@ -74,7 +75,12 @@ function collection(readOnly = false) {
     const context = {
       exports: {},
       require,
+      URLSearchParams,
       window: {
+        location: { search: "" },
+        addEventListener() {},
+        removeEventListener() {},
+        history: { pushState() {} },
         setTimeout(callback) {
           const id = ++nextTimer;
           timers.set(id, callback);
