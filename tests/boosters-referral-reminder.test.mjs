@@ -34,7 +34,7 @@ function load(file, mocks = {}, globals = {}) {
   );
   return exports;
 }
-function reminder(pathname, dismissed = false, homeCard = false) {
+function reminder(pathname, dismissed = false, homeCard = false, options = {}) {
   const states = [],
     effects = [],
     writes = [],
@@ -92,22 +92,33 @@ function reminder(pathname, dismissed = false, homeCard = false) {
           },
           rpc: async name => {
             calls.push(name);
+            if (name === "create_referral_code")
+              return { data: "created code" };
             assert.equal(name, "get_referral_status");
-            return { data: { code: "my code" } };
+            return { data: options.status ?? { code: "my code" } };
           }
         })
       }
     },
     {
-      document: { body: {} },
+      document: {
+        body: { appendChild() {} },
+        createElement: () => ({ style: {}, select() {}, remove() {} }),
+        execCommand: () => {
+          calls.push("fallbackCopy");
+          return !options.fallbackFails;
+        }
+      },
       localStorage: {
         getItem: () => (dismissed ? "1" : null),
         setItem: (...args) => writes.push(args)
       },
       window: { location: { origin: "https://example.test" } },
       navigator: {
+        ...options.navigator,
         clipboard: {
           writeText: async value => {
+            if (options.copyFails) throw Error("denied");
             copied.push(value);
           }
         }
@@ -123,7 +134,7 @@ function reminder(pathname, dismissed = false, homeCard = false) {
         homeCard
       });
     },
-    start: () => effects[0](),
+    start: () => effects[1](),
     writes,
     copied,
     calls
@@ -139,14 +150,16 @@ test("Boosters reminder ignores old dismissals, has no close action, and keeps c
   const tree = s.render(),
     html = renderToStaticMarkup(tree);
   assert.match(html, /yk-referral-reminder--boosters/);
-  assert.match(html, /Want more boosters\?/);
-  assert.doesNotMatch(html, /Dismiss referral reminder/);
+  assert.match(html, /Want more packs\?/);
+  assert.doesNotMatch(html, /Dismiss referral reminder|<input|role="dialog"/);
   assert.equal((html.match(/<button/g) ?? []).length, 1);
-  const explore = tree.props.children[0].props.children.find(child =>
-    child?.props?.className?.includes("yk-referral-reminder-copy")
+  assert.match(html, /<strong>\+5<\/strong> packs/);
+  assert.doesNotMatch(
+    html,
+    /Regular Packs in reserve|Each friend who confirms/
   );
-  explore.props.onClick();
-  const modalTree = s.render();
+  assert.match(html, /href="\/premium"/);
+  assert.doesNotMatch(html, />Share</);
   const findCopy = node => {
     if (!node || typeof node !== "object") return;
     if (node.props?.children === "Copy link") return node;
@@ -155,19 +168,7 @@ test("Boosters reminder ignores old dismissals, has no close action, and keeps c
       if (found) return found;
     }
   };
-  const modalHtml = renderToStaticMarkup(modalTree);
-  assert.match(modalHtml, /<strong>\+5<\/strong> packs/);
-  assert.match(
-    modalHtml,
-    /value="https:\/\/example\.test\/signup\?ref=my%20code"/
-  );
-  assert.match(
-    modalHtml,
-    /Save 10 Regular Packs instead of 5\. One pack every 5 min for everyone\./
-  );
-  assert.match(modalHtml, /2 Decision Packs per day instead\s+of 1/);
-  assert.doesNotMatch(modalHtml, />Share</);
-  const copy = findCopy(modalTree);
+  const copy = findCopy(tree);
   assert.ok(copy);
   copy.props.onClick();
   await flush();
@@ -175,6 +176,63 @@ test("Boosters reminder ignores old dismissals, has no close action, and keeps c
   assert.deepEqual(s.writes, []);
   assert.deepEqual(s.calls, ["auth", "get_referral_status"]);
   assert.match(renderToStaticMarkup(s.render()), /Copied/);
+});
+
+function findAction(node, label) {
+  if (!node || typeof node !== "object") return;
+  if (node.props?.children === label) return node;
+  for (const child of React.Children.toArray(node.props?.children)) {
+    const found = findAction(child, label);
+    if (found) return found;
+  }
+}
+
+test("direct choices create a missing code, omit referral counters and omit sharing even when supported", async () => {
+  const shared = [];
+  const s = reminder("/boosters", false, false, {
+    status: { verifiedReferrals: 1, packsEarned: 5 },
+    navigator: { share: async value => shared.push(value) }
+  });
+  s.render();
+  s.start();
+  await flush();
+  const tree = s.render();
+  assert.doesNotMatch(renderToStaticMarkup(tree), /friend joined|packs earned/);
+  assert.deepEqual(s.calls, [
+    "auth",
+    "get_referral_status",
+    "create_referral_code"
+  ]);
+  assert.equal(findAction(tree, "Share"), undefined);
+  assert.deepEqual(shared, []);
+  const plural = reminder("/boosters", false, false, {
+    status: { code: "ready", verifiedReferrals: 3, packsEarned: 15 }
+  });
+  plural.render();
+  plural.start();
+  await flush();
+  assert.doesNotMatch(
+    renderToStaticMarkup(plural.render()),
+    /friends joined|packs earned/
+  );
+});
+
+test("direct choices retain copy fallback and announce failures without opening a dialog", async () => {
+  for (const fallbackFails of [false, true]) {
+    const s = reminder("/boosters", false, false, {
+      copyFails: true,
+      fallbackFails
+    });
+    s.render();
+    s.start();
+    await flush();
+    findAction(s.render(), "Copy link").props.onClick();
+    await flush();
+    const html = renderToStaticMarkup(s.render());
+    assert.ok(s.calls.includes("fallbackCopy"));
+    assert.match(html, fallbackFails ? /role="alert"/ : /Copied/);
+    assert.doesNotMatch(html, /<input|role="dialog"/);
+  }
 });
 
 test("other pages keep their dismissal and Home keeps its inline invitation", async () => {
@@ -348,15 +406,25 @@ test("compact desktop selection reserves space for the reminder without clipping
     assert.doesNotMatch(rule.selector, /yk-reveal|yk-opening|^body|^html/)
   );
   const referral = readFileSync("styles/referral-reminder.css", "utf8");
-  assert.match(referral, /left:\s*12px/);
-  assert.match(referral, /376px/);
-  assert.match(referral, /16px \+ env\(safe-area-inset-bottom/);
-  assert.doesNotMatch(referral, /--yk-referral-footer-offset/);
+  assert.match(referral, /width:\s*min\(100%, 720px\)/);
+  assert.match(referral, /min-width: 640px/);
+  assert.match(referral, /border-left: 1px solid/);
+  assert.match(referral, /border-top: 1px solid/);
+  assert.match(referral, /min-width: 1024px\) and \(min-height: 701px/);
+  assert.match(referral, /100vw - 480px/);
+  assert.match(referral, /bottom:\s*66px/);
   assert.match(
-    readFileSync("components/referral-reminder.tsx", "utf8"),
-    /createPortal\(content, document\.body\)/
+    referral,
+    /padding-bottom:\s*calc\(var\(--pack-choices-height, 80px\) \+ 24px\)/
   );
-  assert.match(referral, /padding-bottom:\s*88px/);
+  assert.doesNotMatch(
+    referral,
+    /--yk-referral-footer-offset|376px|padding-bottom:\s*88px/
+  );
+  assert.doesNotMatch(
+    readFileSync("components/referral-reminder.tsx", "utf8"),
+    /createPortal/
+  );
 });
 
 test("Home card opens the existing booster choices and prepares its link only on demand", async () => {

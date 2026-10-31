@@ -1,11 +1,10 @@
 "use client";
 import { useTranslations } from "next-intl";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { createPortal } from "react-dom";
 import { Button, Modal } from "@/components/ui";
 import { createClient } from "@/utils/supabase/client";
 import { PROPOSED_PLAN_RULES as rules } from "@/lib/premium/offer";
@@ -52,6 +51,24 @@ export function ReferralReminder({
   const [progress, setProgress] = useState({ friends: 0, packs: 0 });
 
   const prepareHomeLink = homeCard && choicesOpen;
+  const bar = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const element = bar.current;
+    const main = element?.closest<HTMLElement>(".yk-game-main");
+    if (!element || !main) return;
+    const measure = () =>
+      main.style.setProperty(
+        "--pack-choices-height",
+        `${element.getBoundingClientRect().height}px`
+      );
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    measure();
+    return () => {
+      observer.disconnect();
+      main.style.removeProperty("--pack-choices-height");
+    };
+  }, [visible]);
 
   useEffect(() => {
     if (
@@ -156,6 +173,134 @@ export function ReferralReminder({
   if (!homeCard && (!visible || isHome || (isBoosters && !packChoices)))
     return null;
 
+  const inlineChoices = packChoices && !homeCard;
+  const options = (
+    <div className="yk-referral-options">
+      <section className="yk-referral-option yk-referral-option--invite">
+        <div className="yk-referral-option-head">
+          <Image
+            src="/assets/chrome-regular-booster-v1.png"
+            alt=""
+            width={36}
+            height={64}
+          />
+          <div>
+            <h3>{t("inviteFriends")}</h3>
+            <p className="yk-referral-option-reward">
+              <strong>+5</strong> {t("packs")}
+            </p>
+          </div>
+        </div>
+        {!inlineChoices && (
+          <p className="yk-referral-option-detail">
+            {t("forEachFriendWhoVerifiesTheirEmailTheyGet5")}
+          </p>
+        )}
+        {!inlineChoices && progress.friends > 0 && (
+          <p className="yk-referral-option-progress">
+            {progress.friends}{" "}
+            {progress.friends === 1 ? t("friend") : t("friends")} {t("joined")}{" "}
+            {progress.packs} {t("packsEarned")}
+          </p>
+        )}
+        {!inlineChoices && (
+          <input
+            readOnly
+            aria-label={t("yourInviteLink")}
+            className="yk-referral-link-field"
+            value={code ? referralLink(code) : "Preparing your link…"}
+            onFocus={event => event.currentTarget.select()}
+          />
+        )}
+        <div className="yk-referral-option-actions">
+          <Button disabled={!code} onClick={() => void copyLink()}>
+            {!code
+              ? t("preparing")
+              : copyState === "copied"
+                ? t("copied")
+                : t("copyLink")}
+          </Button>
+          {!inlineChoices &&
+            typeof navigator !== "undefined" &&
+            typeof navigator.share === "function" && (
+              <Button disabled={!code} onClick={() => void shareLink()}>
+                {t("share")}
+              </Button>
+            )}
+        </div>
+        {copyState === "error" && (
+          <p role="alert" className="text-sm text-danger">
+            {t("couldnTCopyTheLinkPleaseTryAgain")}
+          </p>
+        )}
+      </section>
+      <section className="yk-referral-option yk-referral-option--pro">
+        <div className="yk-referral-option-head">
+          <Image
+            src="/assets/chrome-decision-booster-v1.png"
+            alt=""
+            width={36}
+            height={64}
+          />
+          <div>
+            <h3>Yokkai Pro</h3>
+            <p className="yk-referral-option-reward">
+              {inlineChoices ? (
+                t("compactReserve", {
+                  multiplier:
+                    rules.pro.regularPackReserve /
+                    rules.basic.regularPackReserve
+                })
+              ) : (
+                <>
+                  <strong>
+                    {rules.pro.regularPackReserve /
+                      rules.basic.regularPackReserve}
+                    ×
+                  </strong>{" "}
+                  {t("reserveSize")}
+                </>
+              )}
+            </p>
+          </div>
+        </div>
+        {!inlineChoices && (
+          <ul className="yk-referral-option-detail">
+            <li>
+              {t("regularPackReserve", {
+                count: rules.pro.regularPackReserve,
+                basicCount: rules.basic.regularPackReserve,
+                minutes: rules.pro.regularPackMinutes
+              })}
+            </li>
+            <li>
+              {t("decisionPacksPerDay", {
+                packName: "Decision Packs",
+                count: rules.pro.decisionPacksPerDay,
+                basicCount: rules.basic.decisionPacksPerDay
+              })}
+            </li>
+          </ul>
+        )}
+        <div className="yk-referral-option-actions">
+          <Link href="/premium" className="yk-button yk-button-primary">
+            {t("explorePro")}
+          </Link>
+        </div>
+      </section>
+    </div>
+  );
+  if (inlineChoices)
+    return (
+      <aside
+        ref={bar}
+        className="yk-referral-reminder--boosters"
+        aria-label={t("wantMorePacks")}
+      >
+        {options}
+      </aside>
+    );
+
   const content = (
     <>
       {homeCard ? (
@@ -190,45 +335,33 @@ export function ReferralReminder({
         <aside
           style={choicesOpen ? { display: "none" } : undefined}
           aria-label={t("referralReward")}
-          className={
-            isBoosters
-              ? "yk-referral-reminder--boosters"
-              : [
-                  "yk-referral-reminder fixed bottom-4 left-16 z-[70] grid w-[min(calc(100vw-5rem),32rem)]",
-                  "grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-3 rounded-[18px]",
-                  "border border-veil-strong bg-surface/95 px-4 py-2.5 backdrop-blur-md",
-                  "shadow-[0_14px_45px_rgba(0,0,0,0.55),0_0_24px_rgba(141,173,255,0.08)]",
-                  "max-sm:left-3 max-sm:w-[calc(100vw-1.5rem)]"
-                ].join(" ")
-          }
+          className={[
+            "yk-referral-reminder fixed bottom-4 left-16 z-[70] grid w-[min(calc(100vw-5rem),32rem)]",
+            "grid-cols-[minmax(0,1fr)_auto_auto] items-center gap-3 rounded-[18px]",
+            "border border-veil-strong bg-surface/95 px-4 py-2.5 backdrop-blur-md",
+            "shadow-[0_14px_45px_rgba(0,0,0,0.55),0_0_24px_rgba(141,173,255,0.08)]",
+            "max-sm:left-3 max-sm:w-[calc(100vw-1.5rem)]"
+          ].join(" ")}
         >
           <div className="min-w-0">
             <p className="yk-referral-reminder-title truncate font-display text-sm font-bold tracking-wide text-ink">
-              {isBoosters
-                ? t("wantMoreBoosters")
-                : t("inviteFriendsEarn5BonusPacks")}
+              {t("inviteFriendsEarn5BonusPacks")}
             </p>
             <p className="yk-referral-reminder-note mt-0.5 truncate text-[11px] text-ink-3">
-              {isBoosters
-                ? t("inviteFriendsOrExplorePro")
-                : t("rewardedAfterTheirEmailIsVerified")}
+              {t("rewardedAfterTheirEmailIsVerified")}
             </p>
           </div>
           <Button
             type="button"
-            disabled={!packChoices && !code}
-            onClick={() =>
-              packChoices ? setChoicesOpen(true) : void copyLink()
-            }
+            disabled={!code}
+            onClick={() => void copyLink()}
             className="yk-referral-reminder-copy min-h-9 whitespace-nowrap !rounded-full px-5 py-2 text-xs"
           >
-            {packChoices
-              ? t("explore")
-              : !code
-                ? t("preparing")
-                : copyState === "copied"
-                  ? t("copied")
-                  : t("copyLink")}
+            {!code
+              ? t("preparing")
+              : copyState === "copied"
+                ? t("copied")
+                : t("copyLink")}
           </Button>
           {!isBoosters && (
             <button
@@ -258,107 +391,9 @@ export function ReferralReminder({
         }
       >
         <p className="yk-referral-modal-lead">{t("twoWaysToOpenMorePacks")}</p>
-        <div className="yk-referral-options">
-          <section className="yk-referral-option yk-referral-option--invite">
-            <div className="yk-referral-option-head">
-              <Image
-                src="/assets/chrome-regular-booster-v1.png"
-                alt=""
-                width={36}
-                height={64}
-              />
-              <div>
-                <h3>{t("inviteFriends")}</h3>
-                <p className="yk-referral-option-reward">
-                  <strong>+5</strong> {t("packs")}
-                </p>
-              </div>
-            </div>
-            <p className="yk-referral-option-detail">
-              {t("forEachFriendWhoVerifiesTheirEmailTheyGet5")}
-            </p>
-            {progress.friends > 0 && (
-              <p className="yk-referral-option-progress">
-                {progress.friends}{" "}
-                {progress.friends === 1 ? t("friend") : t("friends")}{" "}
-                {t("joined")} {progress.packs} {t("packsEarned")}
-              </p>
-            )}
-            <input
-              readOnly
-              aria-label={t("yourInviteLink")}
-              className="yk-referral-link-field"
-              value={code ? referralLink(code) : "Preparing your link…"}
-              onFocus={event => event.currentTarget.select()}
-            />
-            <div className="yk-referral-option-actions">
-              <Button disabled={!code} onClick={() => void copyLink()}>
-                {!code
-                  ? t("preparing")
-                  : copyState === "copied"
-                    ? t("copied")
-                    : t("copyLink")}
-              </Button>
-              {typeof navigator !== "undefined" &&
-                typeof navigator.share === "function" && (
-                  <Button disabled={!code} onClick={() => void shareLink()}>
-                    {t("share")}
-                  </Button>
-                )}
-            </div>
-            {copyState === "error" && (
-              <p role="alert" className="text-sm text-danger">
-                {t("couldnTCopyTheLinkPleaseTryAgain")}
-              </p>
-            )}
-          </section>
-          <section className="yk-referral-option yk-referral-option--pro">
-            <div className="yk-referral-option-head">
-              <Image
-                src="/assets/chrome-decision-booster-v1.png"
-                alt=""
-                width={36}
-                height={64}
-              />
-              <div>
-                <h3>Yokkai Pro</h3>
-                <p className="yk-referral-option-reward">
-                  <strong>
-                    {rules.pro.regularPackReserve /
-                      rules.basic.regularPackReserve}
-                    ×
-                  </strong>{" "}
-                  {t("reserveSize")}
-                </p>
-              </div>
-            </div>
-            <ul className="yk-referral-option-detail">
-              <li>
-                {t("regularPackReserve", {
-                  count: rules.pro.regularPackReserve,
-                  basicCount: rules.basic.regularPackReserve,
-                  minutes: rules.pro.regularPackMinutes
-                })}
-              </li>
-              <li>
-                {t("decisionPacksPerDay", {
-                  packName: "Decision Packs",
-                  count: rules.pro.decisionPacksPerDay,
-                  basicCount: rules.basic.decisionPacksPerDay
-                })}
-              </li>
-            </ul>
-            <div className="yk-referral-option-actions">
-              <Link href="/premium" className="yk-button yk-button-primary">
-                {t("explorePro")}
-              </Link>
-            </div>
-          </section>
-        </div>
+        {options}
       </Modal>
     </>
   );
-  return packChoices && !homeCard
-    ? createPortal(content, document.body)
-    : content;
+  return content;
 }

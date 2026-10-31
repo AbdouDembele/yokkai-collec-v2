@@ -1085,6 +1085,8 @@
     "dismissDiscordInvitation": "Dismiss Discord invitation"
   },
   "referralReminder": {
+    "compactReserve": "Pack reserve ×{multiplier}",
+    "wantMorePacks": "Want more packs?",
     "donTStopNow": "Don’t stop now.",
     "seeOptions": "See options ",
     "referralReward": "Referral reward",
