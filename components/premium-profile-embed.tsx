@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -25,6 +26,7 @@ const style = normalizeProfileStyle(profile.style as ProfileStyle);
 const geometry = bannerGeometry(498 / 281, profile.bannerFrame);
 
 export function PremiumProfileEmbed() {
+  const tPr5 = useTranslations("premiumUi");
   const reduce = useSyncExternalStore(
     subscribeMotion,
     reducedMotion,
@@ -36,7 +38,9 @@ export function PremiumProfileEmbed() {
   return (
     <div
       className="yk-pro-native-profile"
-      aria-label="BBDOU's customized profile preview"
+      aria-label={tPr5("nameSCustomizedProfilePreview", {
+        name: profile.pseudo
+      })}
       data-playing={playing}
     >
       <aside className="yk-pro-native-identity">
@@ -45,7 +49,7 @@ export function PremiumProfileEmbed() {
             src={
               playing && !bannerFailed ? profile.banner : profile.bannerStill
             }
-            alt="BBDOU's anime profile banner"
+            alt={tPr5("nameSAnimeProfileBanner", { name: profile.pseudo })}
             fill
             unoptimized
             sizes="(max-width: 760px) 100vw, 340px"
@@ -58,26 +62,27 @@ export function PremiumProfileEmbed() {
         <div className="yk-pro-native-avatar" data-frame={style.avatarFrame}>
           <Image
             src={profile.avatar}
-            alt="BBDOU's avatar"
+            alt={tPr5("nameSAvatar", { name: profile.pseudo })}
             width={88}
             height={88}
           />
         </div>
         <div className="yk-pro-native-about">
-          <p className="eyebrow">Collector</p>
+          <p className="eyebrow">{tPr5("collector")}</p>
           <h3>
             <StyledPlayerName
               name={profile.pseudo}
               cosmetics={{ active: true, style }}
             />
           </h3>
-          <p>A collection with a signature.</p>
+          <p>{tPr5("aCollectionWithASignature")}</p>
           <Link href="/profile/BBDOU">
-            View BBDOU&apos;s profile <span aria-hidden="true">↗</span>
+            {tPr5("viewNameSProfile", { name: profile.pseudo })}
+            <span aria-hidden="true">↗</span>
           </Link>
         </div>
         <div className="yk-pro-native-signature">
-          <p className="eyebrow">Made personal with Pro</p>
+          <p className="eyebrow">{tPr5("madePersonalWithPro")}</p>
           <ul>
             <li>
               <span className="yk-pro-native-colors" aria-hidden="true">
@@ -86,8 +91,8 @@ export function PremiumProfileEmbed() {
                 <i style={{ backgroundColor: "#9ccaff" }} />
               </span>
               <div>
-                <strong>Your colors.</strong>
-                <p>Custom name fonts and effects.</p>
+                <strong>{tPr5("yourColors")}</strong>
+                <p>{tPr5("customNameFontsAndEffects")}</p>
               </div>
             </li>
             <li>
@@ -95,8 +100,8 @@ export function PremiumProfileEmbed() {
                 ✦
               </span>
               <div>
-                <strong>Your finishing touches.</strong>
-                <p>Avatar frames and decorative badges.</p>
+                <strong>{tPr5("yourFinishingTouches")}</strong>
+                <p>{tPr5("avatarFramesAndDecorativeBadges")}</p>
               </div>
             </li>
             <li>
@@ -104,8 +109,8 @@ export function PremiumProfileEmbed() {
                 {profile.cards.length}
               </span>
               <div>
-                <strong>Your favorite cards.</strong>
-                <p>A bigger showcase, in your own style.</p>
+                <strong>{tPr5("yourFavoriteCards")}</strong>
+                <p>{tPr5("aBiggerShowcaseInYourOwnStyle")}</p>
               </div>
             </li>
           </ul>
@@ -117,17 +122,22 @@ export function PremiumProfileEmbed() {
       >
         <header>
           <div>
-            <p className="eyebrow">BBDOU&apos;s showcase</p>
-            <h3 id="bbdou-showcase-title">Featured cards</h3>
+            <p className="eyebrow">
+              {tPr5("nameSShowcase", { name: profile.pseudo })}
+            </p>
+            <h3 id="bbdou-showcase-title">{tPr5("featuredCards")}</h3>
           </div>
           <button
             type="button"
             aria-pressed={playing}
-            aria-label={`${playing ? "Pause" : "Play"} BBDOU's banner and showcase animations`}
+            aria-label={tPr5("profilePlayback", {
+              action: playing ? "pause" : "play",
+              name: profile.pseudo
+            })}
             onClick={() => setOverride(!playing)}
           >
             <span aria-hidden="true">{playing ? "Ⅱ" : "▶"}</span>
-            {playing ? "Pause animations" : "Play animations"}
+            {tPr5("animationPlayback", { action: playing ? "pause" : "play" })}
           </button>
         </header>
         <ul className="yk-pro-native-cards">
@@ -147,8 +157,7 @@ export function PremiumProfileEmbed() {
           ))}
         </ul>
         <p className="yk-pro-native-caption">
-          Real custom artwork from BBDOU&apos;s showcase. Your cards, your
-          style.
+          {tPr5("realCustomArtworkFromNameSShowcase", { name: profile.pseudo })}
         </p>
       </section>
     </div>

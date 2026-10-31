@@ -1,4 +1,5 @@
 "use client";
+import { useTranslations } from "next-intl";
 
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import type { Card } from "@/lib/data/cards";
@@ -190,6 +191,7 @@ export function LrCardReveal({
   onReplay?: () => void;
   autoAdvance?: boolean;
 }) {
+  const t = useTranslations("gameUi");
   const ssr = card.rarity === "SSR";
   const shiny = card.rarity === "LR" && !!card.shiny && !card.isEvolved;
   const timing = shiny
@@ -498,7 +500,7 @@ export function LrCardReveal({
         <button
           type="button"
           className="yk-lr-skip"
-          aria-label="Skip card entrance or final bounce"
+          aria-label={t("skipCardEntrance")}
           disabled={entranceSkipped || ready}
           onClick={nextStep}
         />
@@ -506,7 +508,7 @@ export function LrCardReveal({
       {!autoAdvance && (
         <nav
           className={`yk-lr-end-controls${ready ? " yk-lr-ready" : ""}`}
-          aria-label="Reveal actions"
+          aria-label={t("revealActions")}
           inert={!ready}
         >
           <button
@@ -518,11 +520,11 @@ export function LrCardReveal({
               setReplay(value => value + 1);
             }}
           >
-            Replay
+            {t("replay")}
           </button>
           {onContinue && (
             <button type="button" onClick={advance}>
-              Next
+              {t("revealNext")}
             </button>
           )}
         </nav>

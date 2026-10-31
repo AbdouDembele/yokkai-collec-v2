@@ -1,3 +1,4 @@
+import { englishMessages } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import test from "node:test";
@@ -12,18 +13,46 @@ test("Premium explains profile customization between the examples and comparison
   const profile = source.slice(section, comparison);
   assert.match(profile, /aria-labelledby="profile-customization-title"/);
   assert.match(profile, /id="profile-customization-title"/);
-  assert.match(profile, /Your signature\./);
-  assert.match(profile, /name font, colors and effects/);
-  assert.match(profile, /avatar frame with decorative badges/);
-  assert.match(profile, /profile theme/);
-  assert.match(profile, /rules\.pro\.showcaseSlots/);
-  assert.match(profile, /showcase\s+effects/);
-  assert.doesNotMatch(profile, /background upload|card back|coming soon/i);
-  assert.match(profile, /src="\/assets\/premium-examples\/bbdou-profile\.png"/);
+  assert.match(profile, /tPr5(?:\.rich)?\("yourProfileYourSignature"/);
+  assert.match(
+    englishMessages.premiumUi.yourProfileYourSignature,
+    /Your signature\./
+  );
   assert.match(
     profile,
-    /alt="BBDOU's customized profile[^"]+ten-card showcase\./
+    /tPr5(?:\.rich)?\("chooseYourNameFontColorsAndEffects"/
   );
+  assert.match(
+    englishMessages.premiumUi.chooseYourNameFontColorsAndEffects,
+    /name font, colors and effects/
+  );
+  assert.match(
+    profile,
+    /tPr5(?:\.rich)?\("pairYourAvatarFrameWithDecorativeBadges"/
+  );
+  assert.match(
+    englishMessages.premiumUi.pairYourAvatarFrameWithDecorativeBadges,
+    /avatar frame with decorative badges/
+  );
+  assert.match(profile, /tPr5(?:\.rich)?\("pickAProfileThemeToMatchYour"/);
+  assert.match(
+    englishMessages.premiumUi.pickAProfileThemeToMatchYour,
+    /profile theme/
+  );
+  assert.match(profile, /rules\.pro\.showcaseSlots/);
+  assert.match(profile, /tPr5(?:\.rich)?\("featureUpToCountNumberCardsAnd"/);
+  assert.match(
+    englishMessages.premiumUi.featureUpToCountNumberCardsAnd,
+    /showcase\s+effects/
+  );
+  assert.doesNotMatch(profile, /background upload|card back|coming soon/i);
+  assert.match(profile, /src="\/assets\/premium-examples\/bbdou-profile\.png"/);
+  assert.match(profile, /alt=\{tPr5\("nameSCustomizedProfileWithAnAnime"/);
+  assert.match(
+    englishMessages.premiumUi.nameSCustomizedProfileWithAnAnime,
+    /\{name\}'s customized profile.+ten-card showcase\./
+  );
+  assert.match(profile, /name: "BBDOU"/);
   assert.match(profile, /width=\{1920\}/);
   assert.match(profile, /height=\{1032\}/);
   assert.match(profile, /sizes="[^"]+"/);

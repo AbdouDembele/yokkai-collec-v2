@@ -1,3 +1,4 @@
+import { getLocale } from "next-intl/server";
 import { configuredBillingService } from "@/lib/billing/server";
 import { consumeBillingRequest } from "@/lib/billing/rate-limit";
 import {
@@ -13,7 +14,10 @@ export async function POST(request: Request) {
     await emptyBillingInput(request);
     await consumeBillingRequest(user.id, "checkout");
     return billingReply({
-      url: await configuredBillingService().checkout(user.id)
+      url: await configuredBillingService().checkout(
+        user.id,
+        (await getLocale()) === "fr" ? "fr" : "en"
+      )
     });
   } catch (error) {
     return billingFailure(error, "checkout");

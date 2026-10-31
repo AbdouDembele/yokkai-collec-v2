@@ -62,10 +62,22 @@ export async function POST(request: Request) {
     if (subscriptionError) throw subscriptionError;
     const locale = i18nEnabled() && data.locale === "fr" ? "fr" : "en";
     const messages: Record<string, Record<string, string>> = {
-      topbar: locale === "fr" ? french.topbar : english.topbar
+      topbar: locale === "fr" ? french.topbar : english.topbar,
+      achievementUi:
+        locale === "fr" ? french.achievementUi : english.achievementUi
     };
     const t = createTranslator({ locale, messages, namespace: "topbar" });
-    const item = notificationItem(data.notification, t);
+    const achievementT = createTranslator({
+      locale,
+      messages,
+      namespace: "achievementUi"
+    });
+    const item = notificationItem(
+      data.notification,
+      t,
+      undefined,
+      achievementT
+    );
     const { default: webpush } = await import("web-push");
     const failures = await deliverPush(
       subscriptions ?? [],

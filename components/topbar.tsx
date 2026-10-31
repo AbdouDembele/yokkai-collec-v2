@@ -54,6 +54,7 @@ const notificationStyle = {
 };
 export function useNotificationItems(notifications?: AppNotification[]) {
   const t = useTranslations("topbar");
+  const tAchievements = useTranslations("achievementUi");
   const fmt = useFormatter();
   const hydrated = useSyncExternalStore(
     subscribeToHydration,
@@ -76,7 +77,8 @@ export function useNotificationItems(notifications?: AppNotification[]) {
               timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
             })
           : "—"
-        : undefined
+        : undefined,
+      i18nEnabled() ? tAchievements : undefined
     )
   );
 }

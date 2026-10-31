@@ -28,7 +28,8 @@ export type NotificationItem = {
 export function notificationItem(
   notification: AppNotification,
   t: ReturnType<typeof useTranslations<"topbar">>,
-  time?: string
+  time?: string,
+  achievementT?: ReturnType<typeof useTranslations<"achievementUi">>
 ): NotificationItem {
   const common = {
     id: notification.id,
@@ -157,17 +158,21 @@ export function notificationItem(
       href: `/market/${notification.referenceId}#chat-enchere`,
       kind: "mention"
     };
-  if (notification.type === "achievement_completed")
+  if (notification.type === "achievement_completed") {
+    const achievementKey = `title${(notification.referenceId ?? "").replace(/-([a-z])/g, (_, c) => c.toUpperCase())}`;
     return {
       ...common,
       title: t("notificationAchievementTitle"),
       text: t("notificationAchievementText", {
-        achievementName:
-          notification.achievementName ?? t("notificationAchievementFallback")
+        achievementName: achievementT?.has(achievementKey)
+          ? achievementT(achievementKey)
+          : (notification.achievementName ??
+            t("notificationAchievementFallback"))
       }),
       href: `/achievements#${notification.referenceId}`,
       kind: "mission"
     };
+  }
   if (notification.type === "wishlist_card_on_auction")
     return {
       ...common,

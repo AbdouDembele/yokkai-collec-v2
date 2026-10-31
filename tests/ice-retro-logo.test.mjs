@@ -37,7 +37,19 @@ test("the supplied ice-blue retro logo is unchanged and used by every shared hea
         englishMessages[localizedHeaders[file]].yokkaiCollecHome,
         "Yokkai Collec’, home"
       );
-    } else assert.match(source, /aria-label="Yokkai Collec/);
+    } else {
+      const key =
+        file === "components/public-info-page.tsx"
+          ? "yokkaiCollecHome2"
+          : "yokkaiCollecHome";
+      assert.ok(source.includes(`aria-label={tPr5("${key}")}`));
+      assert.equal(
+        englishMessages.premiumUi[key],
+        file === "components/public-info-page.tsx"
+          ? "Yokkai Collec', home"
+          : "Yokkai Collec’, home"
+      );
+    }
   }
   assert.match(
     readFileSync("lib/server/card-share-image.tsx", "utf8"),

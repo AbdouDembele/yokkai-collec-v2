@@ -1,3 +1,4 @@
+import { intlServer } from "./helpers/i18n.mjs";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
@@ -48,6 +49,7 @@ function loader(options = {}) {
         console,
         process: { env: options.env ?? env },
         require(id) {
+          if (id === "next-intl/server") return intlServer;
           if (id === "server-only") return {};
           if (options.mocks?.[id]) return options.mocks[id];
           if (id.startsWith("./")) return load(resolve(path, "..", id + ".ts"));

@@ -1,0 +1,102 @@
+[
+  {
+    "name": "error-en-1440-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "error-en-375-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "info-en-1440-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "info-en-375-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "not-found-en-1440-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "not-found-en-375-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "premium-en-1440-before.webp",
+    "pixels": 8727,
+    "bounds": [356, 4158, 1084, 4191]
+  },
+  {
+    "name": "premium-en-375-before.webp",
+    "pixels": 8487,
+    "bounds": [21, 6515, 354, 6591]
+  },
+  {
+    "name": "privacy-en-1440-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "privacy-en-375-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "rarities-en-1440-before.webp",
+    "pixels": 5928,
+    "bounds": [455, 1355, 1161, 1368]
+  },
+  {
+    "name": "rarities-en-375-before.webp",
+    "pixels": 3292,
+    "bounds": [18, 1713, 352, 1775]
+  },
+  {
+    "name": "rules-en-1440-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "rules-en-375-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "share-id-en-1440-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "share-id-en-375-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "share-id-not-found-en-1440-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "share-id-not-found-en-375-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "terms-en-1440-before.webp",
+    "pixels": 0,
+    "bounds": null
+  },
+  {
+    "name": "terms-en-375-before.webp",
+    "pixels": 0,
+    "bounds": null
+  }
+]

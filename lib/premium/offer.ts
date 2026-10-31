@@ -39,7 +39,7 @@ export const PROPOSED_PRO_FEATURES = [
     id: "decision-packs",
     title: "Two Decision Packs per day",
     detail:
-      "Two packs unlock together every day at 8:00 PM Paris time instead of one. Unused packs do not carry over."
+      "Two packs unlock together at the same time each day instead of one. Unused packs do not carry over."
   },
   {
     id: "auctions",
