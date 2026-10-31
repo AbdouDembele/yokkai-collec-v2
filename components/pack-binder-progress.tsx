@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import {
   getPackBinderGains,
@@ -9,6 +9,7 @@ import {
 import type { Card } from "@/lib/data/cards";
 import { binderHref } from "@/lib/ui/binder-discovery";
 import { binderIdentity } from "@/lib/ui/binder-identity";
+import { enableHorizontalWheel } from "@/lib/ui/horizontal-wheel";
 import "@/styles/binder-discovery.css";
 export function PackBinderProgress({
   cards,
@@ -19,6 +20,7 @@ export function PackBinderProgress({
 }) {
   const t = useTranslations("binderDiscovery");
   const format = useFormatter();
+  const strip = useRef<HTMLUListElement>(null);
   const [progress, setProgress] = useState<{
     key: string;
     gains: PackBinderGain[];
@@ -43,6 +45,11 @@ export function PackBinderProgress({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [key, load]);
   const gains = progress?.key === key ? progress.gains : [];
+  useEffect(() => {
+    const element = strip.current;
+    if (!element) return;
+    return enableHorizontalWheel(element);
+  }, [gains.length]);
   if (!gains.length) return null;
   return (
     <section
@@ -51,6 +58,7 @@ export function PackBinderProgress({
     >
       <h3 id="pack-binders-title">{t("packTitle")}</h3>
       <ul
+        ref={strip}
         style={
           { "--binder-columns": Math.min(gains.length, 5) } as CSSProperties
         }
