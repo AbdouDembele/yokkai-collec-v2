@@ -107,8 +107,8 @@
   overflow-wrap: anywhere;
 }
 .yk-trades-workspace .yk-friend-choices .yk-chip[aria-pressed="true"] {
-  background: var(--color-focus);
-  border-color: var(--color-focus-ring);
+  background: var(--color-veil);
+  border-color: var(--color-focus);
   color: var(--color-ink);
 }
 .yk-trades-workspace .yk-trade-composer {
