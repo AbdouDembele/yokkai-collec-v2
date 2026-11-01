@@ -171,7 +171,7 @@ export function TradeDesignPreview() {
   }));
   return (
     <main
-      style={{ maxWidth: 1120, margin: "32px auto", padding: "0 12px 60px" }}
+      style={{ maxWidth: 1600, margin: "32px auto", padding: "0 12px 60px" }}
     >
       <h1 className="sr-only">{t("tradeDesign.title")}</h1>
       <TradesPanel

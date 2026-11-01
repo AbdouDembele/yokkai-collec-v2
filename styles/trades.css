@@ -193,7 +193,7 @@
 }
 .yk-trade-lot-grid .yk-trade-review-cards {
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
+  gap: clamp(8px, 0.8vw, 12px);
   margin: 0;
 }
 .yk-trade-lot-grid .yk-trade-card-row {
@@ -203,7 +203,7 @@
   padding: 7px;
 }
 .yk-trade-lot-grid .yk-trade-card-row > .yk-trade-card-art {
-  width: min(100%, 92px);
+  width: min(100%, 112px);
   flex: 0 0 auto;
   margin-inline: auto;
 }
@@ -377,6 +377,20 @@
   overflow-wrap: anywhere;
   margin: 4px 0;
 }
+.yk-trade-lot-grid .yk-trade-review-cards .yk-trade-card-info strong {
+  font-size: clamp(11px, 0.9vw, 13px);
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-wrap: pretty;
+}
+.yk-trade-lot-grid .yk-trade-card-license {
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+  line-height: 1.55;
+}
 .yk-trade-card-license {
   display: block;
   font-size: 11px;
@@ -418,7 +432,8 @@
   border-radius: 10px;
 }
 .yk-modal.yk-trade-review-modal {
-  width: min(960px, calc(100% - 24px));
+  width: min(1600px, calc(100vw - clamp(24px, 4vw, 64px)));
+  max-width: 1600px;
   height: auto;
   max-height: calc(100dvh - 24px);
   margin: auto;
@@ -426,6 +441,10 @@
   border-radius: 20px;
   border-color: var(--color-veil);
   background: var(--color-surface);
+}
+.yk-modal.yk-private-trade-modal {
+  width: min(1600px, calc(100vw - clamp(24px, 4vw, 64px)));
+  max-width: 1600px;
 }
 .yk-trade-review-lots {
   grid-template-columns: minmax(0, 1fr);
