@@ -3165,8 +3165,6 @@
     "subtitle": "Compare les deux lots. Trouve ton prochain coup de cœur.",
     "secure": "Échange sécurisé",
     "alreadyOwned": "Déjà dans ta collection · {count}",
-    "otherVariantOwned": "Autre variante possédée",
-    "notOwned": "Absente de ta collection",
     "cardCount": "{count, plural, =0 {Aucune carte} one {# carte} other {# cartes}}"
   }
 }

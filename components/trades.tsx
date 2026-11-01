@@ -212,17 +212,22 @@ function CardPicker({
                   >
                     {cardRarityLabel(card.rarity, card.shiny, card.isEvolved)}
                   </span>
-                  {ownership && (
-                    <span
-                      className={`yk-trade-ownership ${ownedCount ? "is-owned" : ownership.catalogue.has(card.id) ? "is-other-variant" : "is-missing"}`}
-                    >
-                      {ownedCount
-                        ? tPr4("tradeDesign.alreadyOwned", {
-                            count: ownedCount
-                          })
-                        : ownership.catalogue.has(card.id)
-                          ? tPr4("tradeDesign.otherVariantOwned")
-                          : tPr4("tradeDesign.notOwned")}
+                  {ownedCount > 0 && (
+                    <span className="yk-trade-ownership is-owned">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" fill="none">
+                        <path
+                          d="m4 8 2.5 2.5L12 5"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                      <span>
+                        {tPr4("tradeDesign.alreadyOwned", {
+                          count: ownedCount
+                        })}
+                      </span>
                     </span>
                   )}
                 </div>

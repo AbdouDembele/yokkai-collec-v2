@@ -480,23 +480,37 @@
   grid-row: auto;
 }
 .yk-trade-ownership {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
   margin-top: 8px;
-  padding: 5px 7px;
-  border: 1px solid var(--color-veil-strong);
-  border-radius: 6px;
-  color: var(--color-ink-2);
-  font-size: 11px;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-.yk-trade-ownership.is-missing {
-  color: var(--color-accent-gold);
-  border-color: color-mix(
-    in srgb,
-    var(--color-accent-gold) 40%,
-    var(--color-veil)
+  padding: 5px 9px 5px 6px;
+  border: 1px solid
+    color-mix(in srgb, var(--color-accent-gold) 32%, var(--color-veil));
+  border-radius: 12px;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--color-accent-gold) 12%, transparent),
+    color-mix(in srgb, var(--color-accent-gold) 4%, transparent)
   );
+  color: var(--color-accent-gold);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+  box-shadow: inset 0 1px 0
+    color-mix(in srgb, var(--color-accent-gold) 8%, transparent);
+}
+.yk-trade-ownership svg {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-accent-gold) 12%, transparent);
+}
+.yk-trade-ownership > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
 }
 .yk-trade-picker-card .truncate {
   white-space: normal;
