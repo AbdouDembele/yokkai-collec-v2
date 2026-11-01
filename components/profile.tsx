@@ -1946,7 +1946,9 @@ export function ProfileExperience({
             <p className="yk-profile-bio">
               {profile.bio || t("profileUi.noBioYet")}
             </p>
-            <div className="yk-profile-actions">
+            <div
+              className={`yk-profile-actions ${profile.friendshipStatus === "accepted" && !blockedByMe ? "is-friend" : ""}`}
+            >
               {isMe ? (
                 <>
                   <Button
@@ -1986,18 +1988,43 @@ export function ProfileExperience({
                     onUnblocked={afterUnblock}
                   />
                   {profile.friendshipStatus === "accepted" && !blockedByMe && (
-                    <FriendMessageButton
-                      key={profile.id}
-                      friend={{
-                        id: profile.id,
-                        pseudo: profile.pseudo,
-                        avatarUrl: profile.avatarUrl,
-                        profileStyle: profile.profileStyle
-                      }}
-                      adapter={adapter.messages}
-                      tradeAdapter={adapter.trades}
-                      moderationAdapter={adapter.moderation}
-                    />
+                    <>
+                      <FriendMessageButton
+                        key={profile.id}
+                        friend={{
+                          id: profile.id,
+                          pseudo: profile.pseudo,
+                          avatarUrl: profile.avatarUrl,
+                          profileStyle: profile.profileStyle
+                        }}
+                        adapter={adapter.messages}
+                        tradeAdapter={adapter.trades}
+                        moderationAdapter={adapter.moderation}
+                      />
+                      <Link
+                        href={`/social/friends?tab=trades&ami=${encodeURIComponent(profile.id)}`}
+                        className="yk-button yk-button-secondary"
+                        data-profile-trade
+                        aria-label={t("privateMessages.tradeWith", {
+                          name: profile.pseudo
+                        })}
+                      >
+                        <svg
+                          width="16"
+                          height="16"
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          aria-hidden="true"
+                        >
+                          <path d="M4 7h16m-5-5 5 5-5 5M20 17H4m5-5-5 5 5 5" />
+                        </svg>
+                        {t("privateMessages.trade")}
+                      </Link>
+                    </>
                   )}
                 </>
               )}
@@ -2005,17 +2032,38 @@ export function ProfileExperience({
             {!isMe && (
               <Button
                 variant="secondary"
+                className="yk-profile-like"
                 disabled={
                   !engagement || likeBusy || profileBlocked || !adapter.like
                 }
                 aria-pressed={engagement?.likedByMe ?? false}
+                aria-busy={likeBusy}
                 onClick={() => void likeProfile()}
               >
-                {likeBusy
-                  ? t("collectionUi.saving")
-                  : engagement?.likedByMe
-                    ? t("profileUi.profileLiked")
-                    : t("profileUi.likeThisProfile")}
+                <svg
+                  className="yk-profile-like-heart"
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  fill={engagement?.likedByMe ? "currentColor" : "none"}
+                  stroke="currentColor"
+                  strokeWidth="1.7"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z" />
+                </svg>
+                <span className="yk-profile-like-label">
+                  {likeBusy
+                    ? t("collectionUi.saving")
+                    : engagement?.likedByMe
+                      ? t("profileUi.profileLikedAction")
+                      : t("profileUi.likeProfileAction")}
+                </span>
+                <span className="yk-profile-like-count" aria-hidden="true">
+                  {fmt.number(engagement?.likes ?? 0)}
+                </span>
               </Button>
             )}
             {engagementError && (
