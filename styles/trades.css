@@ -735,14 +735,14 @@
   font-size: 13px;
 }
 .yk-trade-collection-picker .yk-collection-card:has(~ [data-selected="true"]) {
-  outline: 3px solid var(--color-focus);
+  outline: 3px solid #fff;
   outline-offset: 4px;
   box-shadow: 0 0 0 7px var(--color-void);
 }
 .yk-trade-picker-controls[data-selected="true"] .yk-trade-quantity {
-  border-color: var(--color-focus);
-  background: color-mix(in srgb, var(--color-focus) 16%, var(--color-surface));
-  box-shadow: inset 0 0 0 1px var(--color-focus);
+  border-color: #fff;
+  background: color-mix(in srgb, #fff 8%, var(--color-surface));
+  box-shadow: inset 0 0 0 1px #fff;
 }
 .yk-trade-picker-controls .yk-trade-quantity output {
   display: flex;
@@ -754,7 +754,7 @@
 }
 .yk-trade-picker-controls[data-selected="true"] output {
   color: var(--color-void);
-  background: var(--color-focus);
+  background: #fff;
   font-weight: 800;
 }
 .yk-trade-selection-mark {
