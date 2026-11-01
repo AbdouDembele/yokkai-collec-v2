@@ -629,12 +629,18 @@
 }
 .yk-trade-picker-controls {
   display: grid;
-  grid-template-rows: minmax(36px, auto) 44px;
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   min-width: 0;
-  margin-top: auto;
-  padding-top: 10px;
+  margin-top: 8px;
+}
+.yk-trade-picker-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
 }
 .yk-trade-picker-controls .yk-trade-ownership {
   justify-self: start;
@@ -642,8 +648,13 @@
   padding: 4px 6px;
   font-size: 10px;
 }
+.yk-trade-first-owner {
+  padding: 3px 5px;
+  color: var(--color-accent-gold);
+  font-size: 10px;
+  line-height: 1.4;
+}
 .yk-trade-picker-controls .yk-trade-quantity {
-  grid-row: 2;
   grid-template-columns: 44px minmax(0, 1fr) 44px;
   gap: 0;
   min-width: 0;

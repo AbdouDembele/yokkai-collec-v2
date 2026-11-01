@@ -3165,6 +3165,7 @@
     "subtitle": "Compare both sides. Find your next favorite.",
     "secure": "Secure exchange",
     "alreadyOwned": "Already owned · {count}",
+    "firstOwnerShort": "First owner",
     "cardCount": "{count, plural, =0 {No cards} one {# card} other {# cards}}"
   }
 }

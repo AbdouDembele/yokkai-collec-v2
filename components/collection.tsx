@@ -2110,7 +2110,7 @@ export function CollectionView({
                             </span>
                           )}
                         </button>
-                        {historyGroup.isFirstOwner && (
+                        {historyGroup.isFirstOwner && !renderCardControls && (
                           <div className="yk-collection-card-meta">
                             <p className="text-[11px] font-semibold text-rarity-lr">
                               {tc("firstOwner")}

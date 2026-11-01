@@ -95,20 +95,6 @@ function TradeCardControls({
       data-selected={quantity > 0}
       data-group-key={group.key}
     >
-      {ownedCount > 0 && (
-        <span className="yk-trade-ownership is-owned">
-          <svg aria-hidden="true" viewBox="0 0 16 16" fill="none">
-            <path
-              d="m4 8 2.5 2.5L12 5"
-              stroke="currentColor"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <span>{t("tradeDesign.alreadyOwned", { count: ownedCount })}</span>
-        </span>
-      )}
       <div
         className="yk-trade-quantity"
         aria-label={t("socialUi.copiesOf", { name: group.representative.name })}
@@ -139,6 +125,31 @@ function TradeCardControls({
           +
         </button>
       </div>
+      {(ownedCount > 0 || group.isFirstOwner) && (
+        <div className="yk-trade-picker-badges">
+          {ownedCount > 0 && (
+            <span className="yk-trade-ownership is-owned">
+              <svg aria-hidden="true" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="m4 8 2.5 2.5L12 5"
+                  stroke="currentColor"
+                  strokeWidth="1.6"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              <span>
+                {t("tradeDesign.alreadyOwned", { count: ownedCount })}
+              </span>
+            </span>
+          )}
+          {group.isFirstOwner && (
+            <span className="yk-trade-first-owner">
+              {t("tradeDesign.firstOwnerShort")}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 }
