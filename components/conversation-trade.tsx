@@ -29,7 +29,11 @@ function Lot({
               group.cards.find(copy => copy.customImageUrl) ??
               group.representative;
             return (
-              <div key={group.key}>
+              <div
+                key={group.key}
+                className="yk-conversation-trade-card"
+                data-rarity={card.rarity}
+              >
                 <div className="yk-conversation-trade-art">
                   <YokaiCard
                     {...card}
@@ -39,14 +43,16 @@ function Lot({
                     imageSizes="120px"
                   />
                 </div>
-                <strong>
-                  {card.name}
-                  {card.shiny || card.isEvolved
-                    ? ` · ${cardRarityLabel(card.rarity, card.shiny, card.isEvolved)}`
-                    : ""}
-                  {group.cards.length > 1 ? ` ×${group.cards.length}` : ""}
-                </strong>
-                {card.customImageUrl && <small>{t("customImage")}</small>}
+                <div className="yk-conversation-trade-card-info">
+                  <strong>
+                    {card.name}
+                    {card.shiny || card.isEvolved
+                      ? ` · ${cardRarityLabel(card.rarity, card.shiny, card.isEvolved)}`
+                      : ""}
+                    {group.cards.length > 1 ? ` ×${group.cards.length}` : ""}
+                  </strong>
+                  {card.customImageUrl && <small>{t("customImage")}</small>}
+                </div>
               </div>
             );
           })}
@@ -119,6 +125,7 @@ export function ConversationTrade({
             <p>{t("notice")}</p>
             <div>
               <Button
+                className="yk-trade-accept"
                 disabled={busy}
                 onClick={() => onRespond(offer.id, "accept")}
               >
@@ -135,10 +142,15 @@ export function ConversationTrade({
           </div>
         ) : (
           <footer>
-            <Button disabled={busy} onClick={() => setConfirming(true)}>
+            <Button
+              className="yk-trade-accept"
+              disabled={busy}
+              onClick={() => setConfirming(true)}
+            >
               {t("accept")}
             </Button>
             <Button
+              className="yk-trade-decline"
               variant="secondary"
               disabled={busy}
               onClick={() => onRespond(offer.id, "decline")}

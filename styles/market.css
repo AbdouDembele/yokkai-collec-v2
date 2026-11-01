@@ -21,6 +21,32 @@
 }
 
 /* List & Mes enchères */
+.yk-market-owned {
+  display: inline-flex;
+  align-items: center;
+  justify-self: start;
+  gap: 5px;
+  max-width: 100%;
+  padding: 4px 7px;
+  border: 1px solid
+    color-mix(in srgb, var(--color-accent-gold) 40%, transparent);
+  border-radius: 999px;
+  color: var(--color-accent-gold);
+  background: color-mix(
+    in srgb,
+    var(--color-accent-gold) 8%,
+    var(--color-surface)
+  );
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+.yk-market-owned svg {
+  width: 14px;
+  height: 14px;
+  flex: 0 0 14px;
+}
 .yk-market {
   margin-top: calc(var(--spacing) * 2);
 }

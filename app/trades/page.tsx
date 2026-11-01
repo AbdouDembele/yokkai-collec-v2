@@ -11,5 +11,5 @@ export default async function Page({
     else if (value !== undefined) query.append(key, value);
   }
   query.set("tab", "trades");
-  redirect(`/social/friends?${query.toString()}`);
+  redirect(`/friends?${query.toString()}`);
 }

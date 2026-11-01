@@ -76,7 +76,7 @@ test("Everyone availability distinguishes an empty public feed from a missing RP
   }
 });
 
-test("tabs expose Feed, Everyone, Friends in order only after public RPC success", () => {
+test("Feed tabs expose Everyone only after public RPC success and keep Friends separate", () => {
   for (const available of [undefined, false, true]) {
     const state = { available };
     const { SocialTabs } = load("components/social-tabs.tsx", {
@@ -92,10 +92,12 @@ test("tabs expose Feed, Everyone, Friends in order only after public RPC success
     const html = renderToStaticMarkup(React.createElement(SocialTabs));
     assert.equal(html.includes('href="/social/everyone"'), available === true);
     assert.match(html, /href="\/social"/);
-    assert.match(html, /href="\/social\/friends"/);
+    assert.doesNotMatch(html, /href="\/friends"/);
     if (available) {
-      assert.ok(html.indexOf(">Feed<") < html.indexOf(">Everyone<"));
-      assert.ok(html.indexOf(">Everyone<") < html.indexOf(">Friends<"));
+      assert.ok(
+        html.indexOf(">Friends’ posts<") < html.indexOf(">Public posts<")
+      );
+      assert.ok(html.indexOf(">Public posts<") < html.indexOf(">Leaderboard<"));
       assert.match(html, /href="\/social\/everyone"[^>]*aria-current="page"/);
     }
   }

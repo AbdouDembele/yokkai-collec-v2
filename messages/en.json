@@ -818,7 +818,7 @@
     "collection": "Collection",
     "market": "Market",
     "trades": "Trades",
-    "social": "Social",
+    "social": "Feed",
     "unreadMessagesAndPendingFriendRequests": "unread messages and pending friend requests",
     "unreadMessageOrPendingFriendRequest": "unread message or pending friend request",
     "wishlist": "Wishlist",
@@ -892,7 +892,8 @@
     "notificationCharacterFallback": "a character",
     "notificationAuctionFallback": "an auction",
     "notificationWishlistCardFallback": "A card",
-    "notificationAchievementFallback": "an achievement"
+    "notificationAchievementFallback": "an achievement",
+    "friends": "Friends"
   },
   "accountMenu": {
     "signIn": "Sign in",
@@ -1338,6 +1339,8 @@
     "profileStyle": "Profile style",
     "profileLiked": "♥ Profile liked",
     "likeThisProfile": "♡ Like this profile",
+    "likeProfileAction": "Like this profile",
+    "profileLikedAction": "Profile liked",
     "cards": "Cards",
     "viewCollection": "View collection →",
     "private": "Private",
@@ -2022,13 +2025,17 @@
     "moreFriendsHint": "Search filters the friends loaded here. Load more to see the rest."
   },
   "socialFriends": {
-    "sections": "Social sections",
-    "feed": "Feed",
-    "everyone": "Everyone",
+    "sections": "Feed sections",
+    "searchMyFriends": "Search my friends…",
+    "searchRemainingFriends": "Searching the rest of your friends…",
+    "noMatchingFriends": "No matching friends",
+    "tryFriendName": "Try another name or clear the search to see all your friends.",
+    "feed": "Friends’ posts",
+    "everyone": "Public posts",
     "friends": "Friends",
     "leaderboard": "Leaderboard",
     "overline": "Between collectors",
-    "title": "Social",
+    "title": "Friends",
     "find": "Find a player",
     "grow": "Grow your circle",
     "searchLabel": "Search players by username",
@@ -2204,7 +2211,8 @@
     "emptysalesAction": "List a card",
     "emptyunsoldTitle": "No unsold auctions",
     "emptyunsoldText": "Listings that end without a bid will appear here.",
-    "emptyunsoldAction": "List a card"
+    "emptyunsoldAction": "List a card",
+    "alreadyOwned": "Already owned · {count}"
   },
   "binderDiscovery": {
     "cardsTab": "My cards",
@@ -2581,7 +2589,7 @@
     "marketRecap": "{won, number} won · {sold, number} sold · {unsold, number} unsold{hasSales, select, yes { · {karas, number} Karas earned from sales} other {}}",
     "activeListings": "My active listings · {count}",
     "betweenCollectors": "Between collectors",
-    "socialTitle": "Social",
+    "socialTitle": "Feed",
     "auctionHouse": "The auction house",
     "marketTitle": "Market",
     "marketAuction": "Market · Auction",
@@ -3159,5 +3167,13 @@
       "rules": "No cards or Kara have been removed from your account. Please remember that creating or artificially using accounts to obtain referral rewards is not allowed.",
       "future": "Future misuse of the referral system may lead to removal of the rewards concerned or account suspension."
     }
+  },
+  "tradeDesign": {
+    "title": "Your trades",
+    "subtitle": "Compare both sides. Find your next favorite.",
+    "secure": "Secure exchange",
+    "alreadyOwned": "Already owned · {count}",
+    "firstOwnerShort": "First owner",
+    "cardCount": "{count, plural, =0 {No cards} one {# card} other {# cards}}"
   }
 }

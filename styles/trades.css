@@ -1,0 +1,1015 @@
+/* Shared trade surfaces: explicit outgoing / incoming lots, readable at 320px. */
+.yk-trades-workspace,
+.yk-trade-review,
+.yk-trade-confirm,
+.yk-conversation-trade {
+  --trade-out: var(--color-danger-ink);
+  --trade-in: var(--color-pack-success);
+}
+.yk-trades-workspace {
+  min-width: 0;
+}
+.yk-button.yk-trade-accept {
+  --trade-action: var(--color-pack-success);
+}
+.yk-button.yk-trade-decline {
+  --trade-action: var(--color-danger-ink);
+}
+.yk-button.yk-trade-accept,
+.yk-button.yk-trade-decline {
+  border-radius: 12px;
+  font-weight: 650;
+  color: var(--trade-action);
+  border-color: color-mix(in srgb, var(--trade-action) 60%, var(--color-veil));
+  background: color-mix(in srgb, var(--trade-action) 16%, var(--color-surface));
+}
+.yk-button.yk-trade-accept {
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--trade-action) 24%, var(--color-surface)),
+    color-mix(in srgb, var(--trade-action) 13%, var(--color-surface))
+  );
+  box-shadow: inset 0 1px 0
+    color-mix(in srgb, var(--trade-action) 15%, transparent);
+}
+.yk-button.yk-trade-accept:hover:not(:disabled),
+.yk-button.yk-trade-decline:hover:not(:disabled) {
+  color: var(--trade-action);
+  border-color: var(--trade-action);
+  background: color-mix(in srgb, var(--trade-action) 26%, var(--color-surface));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--trade-action) 12%, transparent);
+}
+.yk-button.yk-trade-accept:focus-visible,
+.yk-button.yk-trade-decline:focus-visible {
+  outline-color: var(--trade-action);
+}
+.yk-trades-panel {
+  padding: clamp(16px, 2.8vw, 32px);
+  border-color: var(--color-veil);
+  background: var(--color-surface);
+  border-radius: 22px;
+}
+.yk-trades-masthead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 24px;
+}
+.yk-trades-masthead > div {
+  min-width: 0;
+}
+.yk-trades-masthead h2 {
+  margin: 0;
+  font-size: clamp(21px, 2.3vw, 28px);
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+.yk-trades-masthead p {
+  margin: 7px 0 0;
+  color: var(--color-ink-2);
+  font-size: 13px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.yk-trades-mark {
+  display: grid;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 15px;
+  color: var(--color-ink-2);
+  background: var(--color-elevated);
+  border: 1px solid var(--color-veil-strong);
+}
+.yk-trades-secure {
+  display: none;
+}
+.yk-trades-panel > .yk-tabs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  padding: 5px;
+  background: var(--color-void);
+  border: 1px solid var(--color-veil);
+  border-radius: 13px;
+}
+.yk-trades-panel > .yk-tabs .yk-tab {
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 5px;
+  margin: 0;
+  border: 0;
+  border-radius: 9px;
+  color: var(--color-ink-2);
+  white-space: normal;
+  line-height: 1.4;
+  font-size: 11px;
+}
+.yk-trades-panel > .yk-tabs .yk-tab[aria-selected="true"] {
+  color: var(--color-accent-gold);
+  background: color-mix(
+    in srgb,
+    var(--color-accent-gold) 5%,
+    var(--color-surface)
+  );
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--color-accent-gold) 45%, var(--color-veil));
+}
+.yk-trades-workspace .yk-trade-heading,
+.yk-trades-workspace .yk-trade-history-head {
+  align-items: center;
+  margin-top: 26px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.yk-trades-workspace .eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: var(--color-ink-3);
+}
+.yk-trades-workspace .yk-section-title {
+  font-size: 19px;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+.yk-trades-workspace .yk-friend-choices {
+  gap: 9px;
+  margin-top: 16px;
+}
+.yk-trades-workspace .yk-friend-choices .yk-chip {
+  border-radius: 12px;
+  min-height: 48px;
+  background: var(--color-elevated);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.yk-trades-workspace .yk-friend-choices .yk-chip[aria-pressed="true"] {
+  background: var(--color-veil);
+  border-color: var(--color-focus);
+  color: var(--color-ink);
+}
+.yk-trades-workspace .yk-trade-composer {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-color: var(--color-veil);
+}
+.yk-trades-workspace .yk-trade-columns {
+  grid-template-columns: minmax(0, 1fr);
+  align-items: start;
+  gap: 16px;
+}
+.yk-trades-workspace .yk-trade-columns::after {
+  display: none;
+}
+.yk-trades-workspace .yk-trade-side {
+  padding: 18px;
+  border-radius: 17px;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
+}
+.yk-trades-workspace .yk-trade-side.is-requested {
+  border-color: var(--color-veil);
+  background: var(--color-surface);
+}
+.yk-trades-workspace .yk-trade-side > header {
+  gap: 12px;
+}
+.yk-trades-workspace .yk-trade-side > header > div {
+  min-width: 0;
+}
+.yk-trades-workspace .yk-trade-side > header p {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--trade-out);
+}
+.yk-trades-workspace .yk-trade-side.is-requested > header p {
+  color: var(--trade-in);
+}
+.yk-trades-workspace .yk-trade-side > header small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--color-ink-2);
+  overflow-wrap: anywhere;
+}
+.yk-trades-workspace .yk-trade-side-index {
+  width: 38px;
+  flex: 0 0 38px;
+  font-size: 21px;
+  border-radius: 11px;
+  border-color: var(--color-veil-strong);
+  color: var(--trade-out);
+  background: var(--color-elevated);
+}
+.yk-trades-workspace .is-requested .yk-trade-side-index {
+  border-color: var(--color-veil-strong);
+  color: var(--trade-in);
+  background: var(--color-elevated);
+}
+.yk-trades-workspace .yk-trade-drop {
+  min-height: 104px;
+  margin: 18px 0 12px;
+  padding: 10px;
+  border-color: var(--color-veil);
+  border-radius: 12px;
+  background: var(--color-void);
+}
+.yk-trades-workspace .yk-trade-drop > p {
+  margin: 28px 0;
+  text-align: center;
+  font-size: 13px;
+}
+.yk-trade-lot-grid {
+  min-width: 0;
+  container-type: inline-size;
+}
+.yk-trade-offer-sides .yk-trade-lot-grid,
+.yk-trade-review-lots .yk-trade-lot-grid {
+  margin-top: 12px;
+}
+.yk-trade-lot-grid .yk-trade-review-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px clamp(10px, 1.2vw, 20px);
+  margin: 0;
+}
+.yk-trade-lot-grid .yk-trade-card-row {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  padding: 4px 0;
+}
+.yk-trade-lot-grid .yk-trade-card-row > .yk-trade-card-art {
+  width: min(100%, 112px);
+  flex: 0 0 auto;
+  margin-inline: auto;
+}
+.yk-trade-lot-grid .yk-trade-card-info strong {
+  font-size: 11px;
+  line-height: 1.4;
+}
+.yk-trade-lot-grid .yk-trade-card-license {
+  font-size: 10px;
+}
+@container (min-width: 300px) {
+  .yk-trade-lot-grid .yk-trade-review-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+.yk-trades-workspace .yk-trade-side > .yk-button {
+  width: 100%;
+  min-height: 46px;
+  border-style: dashed;
+  background: transparent;
+  border-color: var(--color-veil-strong);
+  font-size: 12px;
+  white-space: normal;
+}
+.yk-trades-workspace .yk-trade-karas {
+  margin-top: 20px;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-veil);
+  color: var(--color-ink-2);
+  font-size: 12px;
+}
+.yk-trades-workspace .yk-trade-karas input {
+  min-width: 0;
+  font-size: 18px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  background: var(--color-void);
+  border-color: var(--color-veil-strong);
+}
+.yk-trades-workspace .yk-trade-submit {
+  padding-top: 20px;
+  border-top: 1px solid var(--color-veil);
+  gap: 16px;
+}
+.yk-trades-workspace .yk-trade-submit p {
+  max-width: 430px;
+  line-height: 1.7;
+}
+.yk-trades-workspace .yk-trade-submit .yk-button {
+  min-height: 48px;
+  border-radius: 11px;
+}
+.yk-trade-history {
+  gap: 18px;
+}
+.yk-trade-offer {
+  padding: clamp(14px, 2vw, 24px);
+  border-radius: 18px;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
+  box-shadow: 0 8px 24px #00000012;
+}
+.yk-trade-offer > header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px 12px;
+}
+.yk-trade-offer > header > span:last-child {
+  grid-column: 2;
+  justify-self: start;
+}
+.yk-trade-offer-person strong {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.yk-trade-offer > header p {
+  font-size: 11px;
+  color: var(--color-ink-2);
+  line-height: 1.6;
+}
+.yk-trade-offer-sides {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.yk-trade-offer-sides > div,
+.yk-trade-review-lots > article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--color-veil);
+  border-radius: 13px;
+  background: var(--color-surface);
+}
+.yk-trade-offer-sides > .is-requested,
+.yk-trade-review-lots > .is-requested {
+  border-color: var(--color-veil);
+  background: var(--color-surface);
+}
+.yk-trade-lot-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: var(--color-accent-gold);
+}
+.is-requested > .yk-trade-lot-heading {
+  color: var(--color-accent-gold);
+}
+.yk-trade-lot-heading > span {
+  font-size: 18px;
+  line-height: 1;
+}
+.yk-trade-lot-heading strong {
+  font-size: 13px;
+}
+.yk-trade-lot-heading small {
+  margin-left: auto;
+  color: var(--color-ink-2);
+  font-size: 11px;
+}
+.yk-trade-offer-sides .yk-trade-lot-owner {
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+}
+.yk-trade-lot-currency {
+  border-top: 1px solid var(--color-veil);
+  padding-top: 10px;
+  margin-top: 12px;
+}
+.yk-trade-lot-currency .yk-karas {
+  font-size: 15px;
+}
+.yk-trade-review-cards {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  margin-block: 14px;
+}
+.yk-trade-card-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px;
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+.yk-trade-card-row > .yk-trade-card-art {
+  width: 62px;
+  flex: 0 0 62px;
+  position: relative;
+}
+.yk-trade-card-info {
+  min-width: 0;
+  text-align: center;
+}
+.yk-trade-review-cards .yk-trade-card-info > span {
+  position: static;
+  right: auto;
+  top: auto;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+.yk-trade-review-cards .yk-trade-card-info strong {
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+  margin: 4px 0;
+}
+.yk-trade-lot-grid .yk-trade-review-cards .yk-trade-card-info strong {
+  font-size: clamp(12px, 0.9vw, 13px);
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  overflow-wrap: break-word;
+  word-break: normal;
+  text-wrap: pretty;
+}
+.yk-trade-lot-grid .yk-trade-card-license {
+  font-size: 11px;
+  overflow-wrap: break-word;
+  text-wrap: pretty;
+  line-height: 1.55;
+}
+.yk-trade-card-license {
+  display: block;
+  font-size: 11px;
+  color: var(--color-ink-3);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.yk-trade-card-info .yk-trade-rarity {
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+.yk-trade-review-cards .yk-trade-card-info small {
+  color: var(--color-ink-2);
+  font-size: 10px;
+  line-height: 1.5;
+}
+.yk-trade-card-row > .yk-trade-card-art > span {
+  right: -5px;
+  top: -5px;
+  min-width: 22px;
+  padding: 3px 5px;
+  text-align: center;
+  border: 1px solid var(--color-veil-strong);
+  background: var(--color-elevated);
+  font-size: 10px;
+  font-weight: 700;
+}
+.yk-trade-offer > footer {
+  justify-content: flex-end;
+  border-top: 1px solid var(--color-veil);
+  padding-top: 16px;
+  margin-top: 18px;
+}
+.yk-trade-offer > footer .yk-button {
+  min-height: 44px;
+  font-size: 12px;
+  border-radius: 10px;
+}
+.yk-modal.yk-trade-review-modal {
+  width: min(1600px, calc(100vw - clamp(24px, 4vw, 64px)));
+  max-width: 1600px;
+  height: auto;
+  max-height: calc(100dvh - 24px);
+  margin: auto;
+  padding: clamp(16px, 3vw, 28px);
+  border-radius: 20px;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
+}
+.yk-modal.yk-private-trade-modal {
+  width: min(1600px, calc(100vw - clamp(24px, 4vw, 64px)));
+  max-width: 1600px;
+  padding: clamp(12px, 2vw, 20px);
+}
+.yk-modal.yk-private-trade-modal:has(.yk-trade-composer):not(
+    :where(:has(.yk-trade-drop .yk-trade-card-row:nth-child(n + 5)))
+  ) {
+  width: min(1280px, calc(100vw - clamp(24px, 4vw, 64px)));
+}
+.yk-modal.yk-private-trade-modal:has(.yk-trade-composer):not(
+    :where(:has(.yk-trade-drop .yk-trade-card-row:nth-child(n + 3)))
+  ) {
+  width: min(1120px, calc(100vw - clamp(24px, 4vw, 64px)));
+}
+.yk-modal.yk-private-trade-modal:has(.yk-trade-composer):not(
+    :has(.yk-trade-drop .yk-trade-lot-grid)
+  ) {
+  width: min(1080px, calc(100vw - clamp(24px, 4vw, 64px)));
+}
+.yk-private-trade-modal .yk-trade-drop:not(:has(.yk-trade-lot-grid)) {
+  min-height: 64px;
+}
+.yk-private-trade-modal .yk-trade-drop:not(:has(.yk-trade-lot-grid)) > p {
+  margin-block: 12px;
+}
+.yk-private-trade-modal > div:first-child {
+  margin-bottom: 16px;
+}
+.yk-private-trade-modal .yk-trades-panel {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+.yk-private-trade-modal .yk-trades-masthead,
+.yk-private-trade-modal [data-fixed-trade-friend] .yk-trade-heading {
+  display: none;
+}
+.yk-private-trade-modal .yk-trade-composer {
+  margin-top: 14px;
+  padding-top: 0;
+  border-top: 0;
+}
+.yk-private-trade-modal .yk-trade-side {
+  padding: 14px;
+}
+.yk-private-trade-modal .yk-trade-drop {
+  margin-block: 12px 8px;
+  padding: 8px;
+}
+.yk-private-trade-modal .yk-trade-lot-grid .yk-trade-card-row {
+  gap: 8px;
+}
+.yk-private-trade-modal .yk-trade-card-row > .yk-trade-card-art {
+  width: min(100%, clamp(64px, 12dvh, 96px));
+}
+.yk-private-trade-modal .yk-trade-karas {
+  margin-top: 12px;
+  padding-top: 12px;
+  gap: 8px;
+}
+.yk-private-trade-modal .yk-trade-karas .auth-input {
+  min-height: 44px;
+  padding-block: 8px;
+}
+.yk-private-trade-modal .yk-trade-submit {
+  position: sticky;
+  bottom: calc(-1 * clamp(12px, 2vw, 20px));
+  z-index: 2;
+  margin-top: 14px;
+  padding: 12px 0;
+  background: var(--color-surface);
+  box-shadow: 0 -12px 18px var(--color-surface);
+}
+.yk-private-trade-modal .yk-trade-submit p {
+  max-width: 36rem;
+  line-height: 1.4;
+}
+.yk-trade-review-lots {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+.yk-trade-review-lots h3 {
+  font-size: 15px;
+  color: var(--color-accent-gold);
+}
+.yk-trade-review-lots .is-requested h3 {
+  color: var(--color-accent-gold);
+}
+.yk-trade-review-lots > article > .yk-karas {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--color-veil-strong);
+}
+.yk-trade-lot-grid + .yk-karas,
+.yk-conversation-trade-lot > .yk-karas {
+  margin-top: 16px;
+}
+.yk-trade-review > footer {
+  position: sticky;
+  bottom: clamp(-28px, -3vw, -16px);
+  margin: 0 -4px -4px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  padding: 14px 4px 4px;
+  border-top: 1px solid var(--color-veil);
+  background: var(--color-surface);
+  box-shadow: 0 -12px 24px var(--color-surface);
+  z-index: 2;
+}
+.yk-trade-review > footer .yk-button {
+  min-width: 0;
+  min-height: 48px;
+  padding-inline: 20px;
+  border-radius: 12px;
+  font-size: 12px;
+}
+.yk-trade-review > footer .yk-button-secondary:not(.yk-trade-decline) {
+  background: var(--color-elevated);
+}
+.yk-trade-review > footer .yk-button:only-child {
+  grid-column: 1 / -1;
+}
+.yk-modal.yk-trade-picker-modal {
+  width: min(1120px, calc(100% - 24px));
+  height: auto;
+  max-height: calc(100dvh - 24px);
+  margin: auto;
+  border-radius: 20px;
+  background: var(--color-surface);
+  border-color: var(--color-veil);
+}
+.yk-trade-ownership {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  margin-top: 8px;
+  padding: 5px 9px 5px 6px;
+  border: 1px solid
+    color-mix(in srgb, var(--color-accent-gold) 32%, var(--color-veil));
+  border-radius: 12px;
+  background: linear-gradient(
+    120deg,
+    color-mix(in srgb, var(--color-accent-gold) 12%, transparent),
+    color-mix(in srgb, var(--color-accent-gold) 4%, transparent)
+  );
+  color: var(--color-accent-gold);
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.5;
+  box-shadow: inset 0 1px 0
+    color-mix(in srgb, var(--color-accent-gold) 8%, transparent);
+}
+.yk-trade-ownership svg {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--color-accent-gold) 12%, transparent);
+}
+.yk-trade-ownership > span {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.yk-trade-quantity button {
+  min-width: 44px;
+  min-height: 44px;
+}
+@media (max-width: 639px) {
+  .yk-modal.yk-trade-picker-modal {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 12px;
+    border: 0;
+    border-radius: 0;
+  }
+  .yk-trade-picker-modal > div:first-child {
+    margin-bottom: 16px;
+  }
+  .yk-trade-picker-modal > div:first-child h2 {
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  .yk-trade-picker-modal > div:first-child button {
+    width: 44px;
+    height: 44px;
+  }
+  .yk-trade-picker-footer {
+    bottom: -12px;
+    margin: 12px -12px -12px;
+    padding: 10px 12px;
+    gap: 8px;
+    font-size: 11px;
+  }
+  .yk-trade-picker-footer .yk-button {
+    min-height: 44px;
+    padding: 9px 12px;
+    font-size: 11px;
+  }
+}
+/* The same give / receive language in a private conversation. */
+.yk-modal.yk-trade-collection-picker {
+  width: min(1400px, calc(100% - 32px));
+  max-width: none;
+}
+.yk-trade-collection-picker
+  .yk-collection-grid:not(.yk-collection-grid-list)
+  > li {
+  display: flex;
+  flex-direction: column;
+}
+.yk-trade-picker-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  margin-top: 8px;
+}
+.yk-trade-picker-badges {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.yk-trade-picker-controls .yk-trade-ownership {
+  justify-self: start;
+  margin: 0;
+  padding: 4px 6px;
+  font-size: 10px;
+}
+.yk-trade-first-owner {
+  padding: 3px 5px;
+  color: var(--color-accent-gold);
+  font-size: 10px;
+  line-height: 1.4;
+}
+.yk-trade-picker-controls .yk-trade-quantity {
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  gap: 0;
+  min-width: 0;
+  font-size: 13px;
+}
+.yk-trade-collection-picker .yk-collection-card:has(~ [data-selected="true"]) {
+  outline: 3px solid #fff;
+  outline-offset: 4px;
+  box-shadow: 0 0 0 7px var(--color-void);
+}
+.yk-trade-picker-controls[data-selected="true"] .yk-trade-quantity {
+  border-color: #fff;
+  box-shadow: inset 0 0 0 1px #fff;
+}
+.yk-trade-collection-picker
+  .yk-collection-grid-list
+  > li
+  > .yk-collection-card {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+.yk-trade-collection-picker .yk-collection-grid-list .yk-collection-card-meta {
+  grid-column: 2;
+  grid-row: 1;
+}
+.yk-trade-collection-picker .yk-collection-grid-list .yk-trade-picker-controls {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  margin-top: 0;
+}
+@media (max-width: 760px) {
+  .yk-modal.yk-trade-collection-picker {
+    width: 100vw;
+    max-width: 100vw;
+    height: 100dvh;
+    max-height: 100dvh;
+    margin: 0;
+    padding: 12px;
+    border: 0;
+    border-radius: 0;
+  }
+  .yk-trade-collection-picker
+    .yk-collection-sidebar
+    :is(.yk-rarity-chip, .yk-filter-option, summary) {
+    min-height: 44px;
+  }
+  .yk-trade-collection-picker .yk-sidebar-mobile-head button {
+    width: 44px;
+    height: 44px;
+  }
+}
+.yk-conversation-trade {
+  width: min(100%, 600px);
+  padding: 18px;
+  border-radius: 17px;
+  background: var(--color-surface);
+  border-color: var(--color-veil);
+  box-shadow: 0 5px 20px #00000015;
+}
+.yk-conversation-trade.is-own {
+  border-radius: 17px;
+  background: var(--color-surface);
+}
+.yk-conversation-trade > header strong {
+  font-size: 14px;
+}
+.yk-conversation-trade > p {
+  color: var(--color-ink-2);
+  font-size: 12px;
+}
+.yk-conversation-trade-lots {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+.yk-conversation-trade-lot {
+  padding: 12px;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
+  border-radius: 12px;
+}
+.yk-conversation-trade-lot + .yk-conversation-trade-lot {
+  border-color: var(--color-veil);
+  background: var(--color-surface);
+}
+.yk-conversation-trade-lot h4 {
+  font-size: 13px;
+  color: var(--color-accent-gold);
+}
+.yk-conversation-trade-lot + .yk-conversation-trade-lot h4 {
+  color: var(--color-accent-gold);
+}
+.yk-conversation-trade-cards {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 9px;
+}
+.yk-conversation-trade-card {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+}
+.yk-conversation-trade-art {
+  width: 52px;
+  flex: 0 0 52px;
+  margin: 0;
+}
+.yk-conversation-trade-card-info {
+  min-width: 0;
+  text-align: center;
+}
+.yk-conversation-trade-cards strong {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.yk-conversation-trade .yk-button {
+  min-height: 44px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+.yk-conversation-trade footer {
+  padding-top: 12px;
+  border-top: 1px solid var(--color-veil);
+}
+.yk-conversation-trade footer .yk-button {
+  flex: 1;
+}
+.yk-conversation-trade-confirm {
+  border-color: var(--color-veil-strong);
+  background: var(--color-elevated);
+}
+@media (min-width: 560px) {
+  .yk-trade-review > footer {
+    display: flex;
+    justify-content: flex-end;
+  }
+  .yk-trade-review > footer .yk-button {
+    flex: 0 1 auto;
+    min-width: 120px;
+  }
+  .yk-trades-panel > .yk-tabs .yk-tab {
+    font-size: 13px;
+    padding: 11px;
+  }
+  .yk-trade-offer > header {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .yk-trade-offer > header > span:last-child {
+    grid-column: auto;
+  }
+  .yk-trade-offer-sides,
+  .yk-trade-review-lots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 900px) {
+  .yk-trades-workspace .yk-trade-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .yk-trades-secure {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 0 0 auto;
+    color: var(--color-ink-2);
+    font-size: 11px;
+    padding: 9px 12px;
+    border: 1px solid var(--color-veil);
+    border-radius: 999px;
+    background: var(--color-surface);
+  }
+}
+@media (max-width: 420px) {
+  .yk-trades-masthead {
+    gap: 10px;
+    padding-bottom: 20px;
+  }
+  .yk-trades-mark {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+  .yk-trades-masthead p {
+    font-size: 12px;
+  }
+  .yk-trades-panel {
+    padding: 12px;
+    border-radius: 15px;
+  }
+  .yk-trade-offer > footer .yk-button {
+    flex: 1 1 100%;
+  }
+  .yk-trade-card-row {
+    gap: 9px;
+    padding: 7px;
+  }
+  .yk-trade-card-row > .yk-trade-card-art {
+    width: 52px;
+    flex-basis: 52px;
+  }
+  .yk-trades-workspace .yk-trade-side {
+    padding: 14px;
+  }
+  .yk-trades-workspace .yk-trade-karas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .yk-trade-review > footer {
+    bottom: -16px;
+  }
+}
+
+.yk-conversation-trade-lot {
+  min-width: 0;
+  container-type: inline-size;
+}
+.yk-conversation-trade-lot .yk-conversation-trade-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.yk-conversation-trade-cards .yk-conversation-trade-card {
+  flex-direction: column;
+  align-items: stretch;
+}
+.yk-conversation-trade-cards .yk-conversation-trade-art {
+  flex: 0 0 auto;
+  width: min(100%, 92px);
+  margin-inline: auto;
+}
+@container (min-width: 300px) {
+  .yk-conversation-trade-lot .yk-conversation-trade-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Color follows the viewer's side, independent of who sent the offer. */
+.yk-trades-workspace .yk-trade-side.is-offered,
+.yk-trade-offer-sides > .is-offered,
+.yk-trade-review-lots > .is-offered,
+.yk-trade-confirm > .is-offered,
+.yk-conversation-trade-lot:first-child {
+  --trade-lot: var(--trade-out);
+}
+.yk-trades-workspace .yk-trade-side.is-requested,
+.yk-trade-offer-sides > .is-requested,
+.yk-trade-review-lots > .is-requested,
+.yk-trade-confirm > .is-requested,
+.yk-conversation-trade-lot + .yk-conversation-trade-lot {
+  --trade-lot: var(--trade-in);
+}
+.yk-trades-workspace .yk-trade-side.is-offered,
+.yk-trades-workspace .yk-trade-side.is-requested,
+.yk-trade-offer-sides > .is-offered,
+.yk-trade-offer-sides > .is-requested,
+.yk-trade-review-lots > .is-offered,
+.yk-trade-review-lots > .is-requested,
+.yk-trade-confirm > div,
+.yk-conversation-trade-lot,
+.yk-conversation-trade-lot + .yk-conversation-trade-lot {
+  border: 1px solid color-mix(in srgb, var(--trade-lot) 42%, var(--color-veil));
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--trade-lot) 8%, var(--color-surface)),
+    var(--color-surface) 70%
+  );
+}
+.yk-trade-confirm > div {
+  padding: 12px;
+  border-radius: 12px;
+}
+.yk-trades-workspace .yk-trade-side > header p,
+.yk-trades-workspace .yk-trade-side.is-requested > header p,
+.yk-trades-workspace .yk-trade-side-index,
+.yk-trades-workspace .is-requested .yk-trade-side-index,
+.yk-trade-lot-heading,
+.is-requested > .yk-trade-lot-heading,
+.yk-trade-review-lots h3,
+.yk-trade-review-lots .is-requested h3,
+.yk-trade-confirm > div > strong,
+.yk-conversation-trade-lot h4,
+.yk-conversation-trade-lot + .yk-conversation-trade-lot h4 {
+  color: var(--trade-lot);
+}

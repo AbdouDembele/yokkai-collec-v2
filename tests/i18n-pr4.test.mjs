@@ -143,6 +143,7 @@ const files = [
   "app/leaderboard/page.tsx",
   "app/social/page.tsx",
   "app/social/friends/page.tsx",
+  "app/friends/page.tsx",
   "app/social/everyone/page.tsx",
   "app/social/leaderboard/page.tsx",
   "components/topbar.tsx",
@@ -267,11 +268,15 @@ test("social ICU counts and interpolated player names resolve in both languages"
 
 // Golden signatures from master bd752ede: whole card JSX and RPC calls with
 // their complete argument expressions. Presentation text cannot alter either.
+// Walid approved unifying the trade picker with CollectionView: its duplicate
+// mobile card was removed. Pin the shared collection's exact card markup too.
 const golden = {
   "components/community-views.tsx":
     "15f0f4c8b6b53eef826b53565d42f41acbb3386659d53b2ab723212762303880",
   "components/trades.tsx":
-    "b62277cce9177c8e3c1c237c03681c2828070d2dd6a18f02ca54ed4af98dcebc",
+    "7d40dec00e9e3094ee74a289d6a384f83309d229059713774318c8f9f2680e3e",
+  "components/collection.tsx":
+    "d17f9021a495a8ffc514f0dfd3476a8aacf948cdf711fc8624e5c035b70e3595",
   "components/conversation-trade.tsx":
     "2a52f8358cd939dafe6bc0fce9429c43005751db37fd7bd64baa550ab593a549",
   "lib/data/market.ts":

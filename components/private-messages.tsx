@@ -1,5 +1,6 @@
 "use client";
 import { gameErrorKey } from "@/i18n/game-messages";
+import Link from "next/link";
 
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
@@ -383,19 +384,33 @@ export function PrivateMessages({
         className="yk-private-messages-modal"
       >
         <div className="yk-private-messages-contact">
-          <StyledPlayerAvatar
-            cosmetics={friend.profileStyle}
-            name={friend.pseudo}
-            size={docked ? 32 : 40}
-            image={friend.avatarUrl ?? undefined}
-            online={friend.isOnline}
-          />
+          <Link
+            href={`/profile/${encodeURIComponent(friend.pseudo)}`}
+            className="yk-message-profile-link"
+            aria-label={errorText("socialFriends.viewProfile")}
+            onNavigate={onClose}
+          >
+            <StyledPlayerAvatar
+              cosmetics={friend.profileStyle}
+              name={friend.pseudo}
+              size={docked ? 32 : 40}
+              image={friend.avatarUrl ?? undefined}
+              online={friend.isOnline}
+            />
+          </Link>
           <div>
             <strong>
-              <StyledPlayerName
-                name={friend.pseudo}
-                cosmetics={friend.profileStyle}
-              />
+              <Link
+                href={`/profile/${encodeURIComponent(friend.pseudo)}`}
+                className="yk-message-profile-link"
+                title={errorText("socialFriends.viewProfile")}
+                onNavigate={onClose}
+              >
+                <StyledPlayerName
+                  name={friend.pseudo}
+                  cosmetics={friend.profileStyle}
+                />
+              </Link>
             </strong>
             <p>{t("privacy")}</p>
           </div>

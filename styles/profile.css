@@ -645,6 +645,62 @@ main:has(.yk-profile-hub:not([data-profile-compact="true"])) {
   font-size: 11px;
   padding: 10px 12px;
 }
+.yk-profile-actions.is-friend {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 10px;
+  margin-block: 16px;
+  margin-bottom: 10px;
+}
+.yk-profile-actions.is-friend > .yk-friend-action {
+  grid-column: 1 / -1;
+  margin-bottom: 2px;
+}
+.yk-profile-actions.is-friend > .yk-button {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  gap: 8px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+.yk-profile-like.yk-button {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) 18px;
+  width: 100%;
+  min-height: 46px;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border-color: var(--color-veil-strong);
+  background: var(--color-surface);
+  color: var(--color-ink-2);
+  font-size: 12px;
+  font-weight: 600;
+}
+.yk-profile-like-heart {
+  flex: 0 0 18px;
+  color: var(--color-danger-ink);
+}
+.yk-profile-like-label {
+  min-width: 0;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+.yk-profile-like.yk-button[aria-pressed="true"] {
+  border-color: color-mix(
+    in srgb,
+    var(--color-danger-ink) 40%,
+    var(--color-veil)
+  );
+  background: color-mix(
+    in srgb,
+    var(--color-danger-ink) 8%,
+    var(--color-surface)
+  );
+  color: var(--color-danger-ink);
+}
 .yk-profile-member {
   border-top: 1px solid var(--color-veil);
   padding: 20px 0 0;

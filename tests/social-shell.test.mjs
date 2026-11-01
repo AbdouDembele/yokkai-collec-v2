@@ -78,13 +78,14 @@ test("Social tab navigation preserves the shared tree while boosters and standal
   const standalone = render("/leaderboard");
   assert.notEqual(boosters.key, feed.key);
   assert.notEqual(standalone.key, feed.key);
+  assert.notEqual(render("/friends").key, feed.key);
   assert.notEqual(boosters.key, standalone.key);
   assert.notEqual(render("/social-other").key, feed.key);
   assert.equal(render("/boosters").props.pathname, "/boosters");
 });
 
-test("legacy Friends redirects preserve messages, repeated parameters and encoded values", async () => {
-  const { default: page } = load("app/friends/page.tsx", {
+test("legacy Social Friends redirects preserve messages, repeated parameters and encoded values", async () => {
+  const { default: page } = load("app/social/friends/page.tsx", {
     "next/navigation": {
       redirect: href => {
         throw new Error(href);
@@ -93,7 +94,7 @@ test("legacy Friends redirects preserve messages, repeated parameters and encode
     "@/components/community-page": {}
   });
   await assert.rejects(page({ searchParams: Promise.resolve({}) }), {
-    message: "/social/friends"
+    message: "/friends"
   });
   const destination = await page({
     searchParams: Promise.resolve({
@@ -104,7 +105,7 @@ test("legacy Friends redirects preserve messages, repeated parameters and encode
     })
   }).catch(error => error.message);
   const url = new URL(destination, "https://example.invalid");
-  assert.equal(url.pathname, "/social/friends");
+  assert.equal(url.pathname, "/friends");
   assert.equal(url.searchParams.get("message"), "player+123");
   assert.deepEqual(url.searchParams.getAll("tag"), ["one", "two"]);
   assert.equal(url.searchParams.get("q"), "a & b");
@@ -135,14 +136,14 @@ test("friend and private message notifications open Social Friends", () => {
       { ...notification, type: "friend_request" },
       intl.useTranslations("topbar")
     ).href,
-    "/social/friends"
+    "/friends"
   );
   assert.equal(
     notificationItem(
       { ...notification, type: "private_message_received" },
       intl.useTranslations("topbar")
     ).href,
-    "/social/friends?message=player%2B123"
+    "/friends?message=player%2B123"
   );
 });
 
@@ -180,12 +181,15 @@ test("Social opens Feed and hides Everyone until its availability probe succeeds
   const html = renderToStaticMarkup(
     React.createElement(Layout, null, "Friends content")
   );
-  assert.match(html, /aria-label="Social sections"/);
-  assert.match(html, /href="\/social\/friends"/);
+  assert.match(html, /aria-label="Feed sections"/);
+  assert.doesNotMatch(html, /href="\/friends"/);
   assert.match(html, /aria-current="page"/);
   assert.match(html, /Friends content/);
-  assert.match(html, /href="\/social"[^>]*aria-current="page"[^>]*>Feed/);
-  assert.doesNotMatch(html, /Everyone/);
+  assert.match(
+    html,
+    /href="\/social"[^>]*aria-current="page"[^>]*>Friends’ posts/
+  );
+  assert.doesNotMatch(html, /Public posts/);
 });
 
 test("Friends shows a skeleton initially and waits through search debounce before showing no results", () => {

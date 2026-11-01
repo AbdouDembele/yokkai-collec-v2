@@ -53,7 +53,7 @@ export function notificationItem(
       text: t("notificationMessageText", {
         actorPseudo: notification.actorPseudo ?? t("notificationFriendFallback")
       }),
-      href: `/social/friends?message=${encodeURIComponent(notification.referenceId)}`,
+      href: `/friends?message=${encodeURIComponent(notification.referenceId)}`,
       kind: "message"
     };
   if (notification.type === "friend_request")
@@ -63,7 +63,7 @@ export function notificationItem(
       text: t("notificationFriendText", {
         actorPseudo: notification.actorPseudo ?? t("notificationDeletedPlayer")
       }),
-      href: "/social/friends",
+      href: "/friends",
       kind: "friend"
     };
   if (notification.type === "outbid")

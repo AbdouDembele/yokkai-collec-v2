@@ -818,7 +818,7 @@
     "collection": "Collection",
     "market": "Marché",
     "trades": "Échanges",
-    "social": "Social",
+    "social": "Feed",
     "unreadMessagesAndPendingFriendRequests": "messages non lus et demandes d'amis en attente",
     "unreadMessageOrPendingFriendRequest": "message non lu ou demande d'ami en attente",
     "wishlist": "Liste de souhaits",
@@ -892,7 +892,8 @@
     "notificationCharacterFallback": "un personnage",
     "notificationAuctionFallback": "une enchère",
     "notificationWishlistCardFallback": "Une carte",
-    "notificationAchievementFallback": "un succès"
+    "notificationAchievementFallback": "un succès",
+    "friends": "Amis"
   },
   "accountMenu": {
     "signIn": "Se connecter",
@@ -1338,6 +1339,8 @@
     "profileStyle": "Style du profil",
     "profileLiked": "♥ Profil aimé",
     "likeThisProfile": "♡ Aimer ce profil",
+    "likeProfileAction": "Aimer ce profil",
+    "profileLikedAction": "Profil aimé",
     "cards": "Cartes",
     "viewCollection": "Voir la collection →",
     "private": "Privé",
@@ -2022,13 +2025,17 @@
     "moreFriendsHint": "La recherche filtre les amis chargés ici. Affiche plus d’amis pour voir la suite."
   },
   "socialFriends": {
-    "sections": "Rubriques sociales",
-    "feed": "Fil",
-    "everyone": "Tout le monde",
+    "sections": "Sections du feed",
+    "searchMyFriends": "Rechercher parmi mes amis…",
+    "searchRemainingFriends": "Recherche dans le reste de tes amis…",
+    "noMatchingFriends": "Aucun ami correspondant",
+    "tryFriendName": "Essaie un autre pseudo ou efface la recherche pour voir tous tes amis.",
+    "feed": "Posts des amis",
+    "everyone": "Public posts",
     "friends": "Amis",
     "leaderboard": "Classement",
     "overline": "Entre collectionneurs",
-    "title": "Social",
+    "title": "Amis",
     "find": "Trouver un joueur",
     "grow": "Agrandis ton cercle",
     "searchLabel": "Rechercher des joueurs par pseudo",
@@ -2204,7 +2211,8 @@
     "emptysalesAction": "Mettre une carte aux enchères",
     "emptyunsoldTitle": "Aucune enchère invendue",
     "emptyunsoldText": "Les annonces terminées sans offre apparaîtront ici.",
-    "emptyunsoldAction": "Mettre une carte aux enchères"
+    "emptyunsoldAction": "Mettre une carte aux enchères",
+    "alreadyOwned": "Déjà possédée · {count}"
   },
   "binderDiscovery": {
     "cardsTab": "Mes cartes",
@@ -2581,7 +2589,7 @@
     "marketRecap": "{won, number} remportées · {sold, number} vendues · {unsold, number} sans vente{hasSales, select, yes { · {karas, number} Karas gagnés grâce aux ventes} other {}}",
     "activeListings": "Mes enchères actives · {count}",
     "betweenCollectors": "Entre collectionneurs",
-    "socialTitle": "Social",
+    "socialTitle": "Feed",
     "auctionHouse": "La salle des enchères",
     "marketTitle": "Marché",
     "marketAuction": "Marché · Enchère",
@@ -3159,5 +3167,13 @@
       "rules": "Aucune carte ni aucun Kara n’a été retiré de ton compte. Nous te rappelons que la création ou l’utilisation artificielle de comptes dans le but d’obtenir des récompenses d’affiliation n’est pas autorisée.",
       "future": "Toute utilisation abusive future du système d’affiliation pourra entraîner le retrait des récompenses concernées ou la suspension du compte."
     }
+  },
+  "tradeDesign": {
+    "title": "Tes échanges",
+    "subtitle": "Compare les deux lots. Trouve ton prochain coup de cœur.",
+    "secure": "Échange sécurisé",
+    "alreadyOwned": "Déjà possédée · {count}",
+    "firstOwnerShort": "1er propriétaire",
+    "cardCount": "{count, plural, =0 {Aucune carte} one {# carte} other {# cartes}}"
   }
 }

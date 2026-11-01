@@ -128,7 +128,7 @@ test("empty feed has a useful friend link; Home shows only the ten latest posts"
     React.createElement(HomeFriendFeed, { initial: { items: [], next: null } })
   );
   assert.match(empty, /Your timeline starts with your friends/);
-  assert.match(empty, /href="\/social\/friends"/);
+  assert.match(empty, /href="\/friends"/);
   const html = renderToStaticMarkup(
     React.createElement(HomeFriendFeed, {
       initial: {

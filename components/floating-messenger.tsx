@@ -1,6 +1,7 @@
 "use client";
 import { StyledPlayerAvatar } from "@/components/styled-player-avatar";
 import { StyledPlayerName } from "@/components/styled-player-name";
+import Link from "next/link";
 
 import { MessengerFriends } from "@/components/messenger-friends";
 import { usePathname } from "next/navigation";
@@ -234,10 +235,16 @@ export function MessengerSession({
             )}
             <h2>
               {friend ? (
-                <StyledPlayerName
-                  name={friend.pseudo}
-                  cosmetics={friend.profileStyle}
-                />
+                <Link
+                  href={`/profile/${encodeURIComponent(friend.pseudo)}`}
+                  className="yk-message-profile-link"
+                  onNavigate={close}
+                >
+                  <StyledPlayerName
+                    name={friend.pseudo}
+                    cosmetics={friend.profileStyle}
+                  />
+                </Link>
               ) : (
                 t(choosing ? "chooseFriend" : "title")
               )}

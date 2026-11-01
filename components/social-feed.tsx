@@ -156,7 +156,7 @@ export function SocialFeed({
                 : tPr4("socialUi.findFriendsOrPublishYourFirstPost")}
           </p>
           {!everyone && !viewer?.friends.length && (
-            <Link className="yk-button" href="/social/friends">
+            <Link className="yk-button" href="/friends">
               {tPr4("socialUi.findFriends")}
             </Link>
           )}
