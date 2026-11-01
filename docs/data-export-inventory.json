@@ -44,6 +44,15 @@
   "public.anime_license_key_redirects": {
     "excluded": "Global redirects of historical binder keys; no player records."
   },
+  "public.anticheat_cases": {
+    "excluded": "Private derived anti-fraud scores and internal review status. Requests concerning these security records require separate manual privacy review; exclusion from self-service downloads is not a legal exemption."
+  },
+  "public.anticheat_events": {
+    "excluded": "Private economic security evidence involving counterpart accounts and operational metadata. Requires separate manual privacy review to assess third-party data; not a legal exemption from access requests."
+  },
+  "public.anticheat_event_subjects": {
+    "excluded": "Private event-to-account security evidence with internal risk reasons and third-party associations. Requires separate manual privacy review; no automatic download of other players' evidence."
+  },
   "public.anime_license_media_rules": {
     "excluded": "Global verified media routing and explicit editorial exceptions; no player records."
   },

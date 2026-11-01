@@ -42,6 +42,11 @@ adresse e-mail et sévérité, puis de consulter le journal récent par joueur o
 type d'événement. Les sanctions éventuelles restent réalisées avec les outils
 de modération existants après vérification.
 
+Les trois tables sont recensées dans `docs/data-export-inventory.json` pour
+une revue manuelle des demandes d'accès impliquant ces éléments de sécurité
+et les données de contreparties. Elles ne sont pas ajoutées aux téléchargements
+automatiques des joueurs.
+
 ## Corrélation IP non activée
 
 L'adresse IP n'est pas enregistrée à ce stade. `docs/AUTH-HARDENING.md`
