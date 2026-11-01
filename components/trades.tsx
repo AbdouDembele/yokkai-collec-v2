@@ -259,8 +259,12 @@ function ReviewCards({ cards }: { cards: CollectedCard[] }) {
         const card =
           group.cards.find(copy => copy.customImageUrl) ?? group.representative;
         return (
-          <div key={group.key}>
-            <div>
+          <div
+            key={group.key}
+            className="yk-trade-card-row"
+            data-rarity={card.rarity}
+          >
+            <div className="yk-trade-card-art">
               <YokaiCard
                 {...card}
                 image={card.customImageUrl ?? card.image}
@@ -270,15 +274,16 @@ function ReviewCards({ cards }: { cards: CollectedCard[] }) {
               />
               {group.cards.length > 1 && <span>×{group.cards.length}</span>}
             </div>
-            <strong>
-              {card.name}
-              {card.shiny || card.isEvolved
-                ? ` · ${cardRarityLabel(card.rarity, card.shiny, card.isEvolved)}`
-                : ""}
-            </strong>
-            {card.customImageUrl && (
-              <small>{tPr4("socialUi.customImage")}</small>
-            )}
+            <div className="yk-trade-card-info">
+              <span className={`yk-trade-rarity ${rarityText[card.rarity]}`}>
+                {cardRarityLabel(card.rarity, card.shiny, card.isEvolved)}
+              </span>
+              <strong>{card.name}</strong>
+              <CardFranchise card={card} className="yk-trade-card-license" />
+              {card.customImageUrl && (
+                <small>{tPr4("socialUi.customImage")}</small>
+              )}
+            </div>
           </div>
         );
       })}
@@ -303,8 +308,10 @@ function TradeSummary({
   const hasCustom = offered.some(card => card.customImageUrl);
   const hasFolder = offered.some(card => card.folderId);
   return (
-    <section className="yk-trade-summary" aria-labelledby="trade-summary-title">
-      <h3 id="trade-summary-title">{tPr4("socialUi.reviewBeforeSending")}</h3>
+    <details className="yk-trade-summary" aria-labelledby="trade-summary-title">
+      <summary id="trade-summary-title">
+        {tPr4("socialUi.reviewBeforeSending")}
+      </summary>
       <div>
         <article>
           <strong>{tPr4("socialUi.youGive")}</strong>
@@ -367,7 +374,7 @@ function TradeSummary({
           {hasFolder && <li>{tPr4("socialUi.theCardWillBeRemovedFromIts")}</li>}
         </ul>
       )}
-    </section>
+    </details>
   );
 }
 
@@ -452,7 +459,11 @@ function OfferList({
   return (
     <div className="yk-trade-history">
       {offers.map(offer => (
-        <article key={offer.id} className="yk-trade-offer">
+        <article
+          key={offer.id}
+          className="yk-trade-offer"
+          data-trade-status={offer.status}
+        >
           <header>
             <Avatar
               name={
@@ -470,7 +481,7 @@ function OfferList({
               }
               size={36}
             />
-            <div>
+            <div className="yk-trade-offer-person">
               <strong>
                 {offer.incoming
                   ? offer.fromUser === null
@@ -506,31 +517,77 @@ function OfferList({
             </StatusPill>
           </header>
           <div className="yk-trade-offer-sides">
-            <div>
-              <p>
+            <div className="is-offered">
+              <div className="yk-trade-lot-heading">
+                <span aria-hidden="true">↗</span>
+                <strong>{tPr4("socialUi.youGive")}</strong>
+                <small>
+                  {tPr4("tradeDesign.cardCount", {
+                    count: (offer.incoming
+                      ? offer.requestedCards
+                      : offer.offeredCards
+                    ).length
+                  })}
+                </small>
+              </div>
+              <p className="yk-trade-lot-owner">
                 {tPr4("socialUi.gives", {
                   name:
-                    offer.fromUser === null
+                    (offer.incoming ? offer.toUser : offer.fromUser) === null
                       ? tPr4("profileUi.deletedPlayer")
-                      : offer.fromPseudo
+                      : offer.incoming
+                        ? offer.toPseudo
+                        : offer.fromPseudo
                 })}
               </p>
-              <OfferCards cards={offer.offeredCards} />
-              {offer.offeredKaras > 0 && <Karas amount={offer.offeredKaras} />}
+              <OfferCards
+                cards={
+                  offer.incoming ? offer.requestedCards : offer.offeredCards
+                }
+              />
+              <div className="yk-trade-lot-currency">
+                <Karas
+                  amount={
+                    offer.incoming ? offer.requestedKaras : offer.offeredKaras
+                  }
+                />
+              </div>
             </div>
-            <div>
-              <p>
+            <div className="is-requested">
+              <div className="yk-trade-lot-heading">
+                <span aria-hidden="true">↙</span>
+                <strong>{tPr4("socialUi.youReceive")}</strong>
+                <small>
+                  {tPr4("tradeDesign.cardCount", {
+                    count: (offer.incoming
+                      ? offer.offeredCards
+                      : offer.requestedCards
+                    ).length
+                  })}
+                </small>
+              </div>
+              <p className="yk-trade-lot-owner">
                 {tPr4("socialUi.gives", {
                   name:
-                    offer.toUser === null
+                    (offer.incoming ? offer.fromUser : offer.toUser) === null
                       ? tPr4("profileUi.deletedPlayer")
-                      : offer.toPseudo
+                      : offer.incoming
+                        ? offer.fromPseudo
+                        : offer.toPseudo
                 })}
               </p>
-              <OfferCards cards={offer.requestedCards} />
-              {offer.requestedKaras > 0 && (
-                <Karas amount={offer.requestedKaras} />
-              )}
+              <OfferCards
+                cards={
+                  offer.incoming ? offer.offeredCards : offer.requestedCards
+                }
+              />
+              <div className="yk-trade-lot-currency">
+                <Karas
+                  amount={
+                    offer.incoming ? offer.offeredKaras : offer.requestedKaras
+                  }
+                />
+              </div>
             </div>
           </div>
           {(onReview || onCancel) && (
@@ -614,20 +671,7 @@ function TradeReview({
                       : tPr4("socialUi.thisOfferIsNoLongerAvailable")}
           </p>
           <div className="yk-trade-review-lots">
-            <article>
-              <h3>{tPr4("socialUi.whatYouReceive")}</h3>
-              <ReviewCards
-                cards={
-                  offer.incoming ? offer.offeredCards : offer.requestedCards
-                }
-              />
-              <Karas
-                amount={
-                  offer.incoming ? offer.offeredKaras : offer.requestedKaras
-                }
-              />
-            </article>
-            <article>
+            <article className="is-offered">
               <h3>{tPr4("socialUi.whatYouGive")}</h3>
               <ReviewCards
                 cards={
@@ -637,6 +681,19 @@ function TradeReview({
               <Karas
                 amount={
                   offer.incoming ? offer.requestedKaras : offer.offeredKaras
+                }
+              />
+            </article>
+            <article className="is-requested">
+              <h3>{tPr4("socialUi.whatYouReceive")}</h3>
+              <ReviewCards
+                cards={
+                  offer.incoming ? offer.offeredCards : offer.requestedCards
+                }
+              />
+              <Karas
+                amount={
+                  offer.incoming ? offer.offeredKaras : offer.requestedKaras
                 }
               />
             </article>
@@ -1323,8 +1380,49 @@ export function TradesPanel({
   const insufficient = !!context && Number(offeredKaras) > context.balance;
   const reviewedOffer = resolveTradeReview(reviewedId, offers);
   return (
-    <div className="yk-social-stack" data-fixed-trade-friend={fixedFriendId}>
-      <section className="yk-social-panel">
+    <div
+      className="yk-social-stack yk-trades-workspace"
+      data-fixed-trade-friend={fixedFriendId}
+    >
+      <section className="yk-social-panel yk-trades-panel">
+        <header className="yk-trades-masthead">
+          <span className="yk-trades-mark" aria-hidden="true">
+            <svg
+              viewBox="0 0 24 24"
+              width="26"
+              height="26"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 8h15m-4-4 4 4-4 4M20 16H5m4-4-4 4 4 4" />
+            </svg>
+          </span>
+          <div>
+            <h2>{tPr4("tradeDesign.title")}</h2>
+            <p>{tPr4("tradeDesign.subtitle")}</p>
+          </div>
+          <span
+            className="yk-trades-secure"
+            aria-label={tPr4("tradeDesign.secure")}
+          >
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+            >
+              <path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6z" />
+              <path d="m8 12 3 3 5-6" />
+            </svg>
+            {tPr4("tradeDesign.secure")}
+          </span>
+        </header>
         <Tabs
           label={tPr4("socialUi.tradeNavigation")}
           value={tab}
@@ -1420,7 +1518,7 @@ export function TradesPanel({
                 {tPr4("socialUi.allFriendsLoaded")}
               </p>
             )}
-            {!friends.length && (
+            {!fixedFriendId && !friends.length && (
               <div className="yk-social-empty is-compact">
                 <strong>{tPr4("socialUi.noFriendsAvailable")}</strong>
                 <span>{tPr4("socialUi.addAFriendFromTheFriendsPage")}</span>
@@ -1431,7 +1529,9 @@ export function TradesPanel({
                 <div className="yk-trade-columns">
                   <section className="yk-trade-side is-offered">
                     <header>
-                      <span className="yk-trade-side-index">01</span>
+                      <span className="yk-trade-side-index" aria-hidden="true">
+                        ↗
+                      </span>
                       <div>
                         <p>{tPr4("socialUi.youGive")}</p>
                         <small>
@@ -1480,7 +1580,9 @@ export function TradesPanel({
                   </section>
                   <section className="yk-trade-side is-requested">
                     <header>
-                      <span className="yk-trade-side-index">02</span>
+                      <span className="yk-trade-side-index" aria-hidden="true">
+                        ↙
+                      </span>
                       <div>
                         <p>{tPr4("socialUi.youReceive")}</p>
                         <small>

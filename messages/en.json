@@ -3159,5 +3159,11 @@
       "rules": "No cards or Kara have been removed from your account. Please remember that creating or artificially using accounts to obtain referral rewards is not allowed.",
       "future": "Future misuse of the referral system may lead to removal of the rewards concerned or account suspension."
     }
+  },
+  "tradeDesign": {
+    "title": "Your trades",
+    "subtitle": "Compare both sides. Find your next favorite.",
+    "secure": "Secure exchange",
+    "cardCount": "{count, plural, =0 {No cards} one {# card} other {# cards}}"
   }
 }

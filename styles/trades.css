@@ -1,0 +1,655 @@
+/* Shared trade surfaces: explicit outgoing / incoming lots, readable at 320px. */
+.yk-trades-workspace {
+  --trade-out: #eac276;
+  --trade-in: #80d8c2;
+  min-width: 0;
+}
+.yk-trades-panel {
+  padding: clamp(16px, 2.8vw, 32px);
+  border-color: #263348;
+  background: #0b111d;
+  border-radius: 22px;
+}
+.yk-trades-masthead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 24px;
+}
+.yk-trades-masthead > div {
+  min-width: 0;
+}
+.yk-trades-masthead h2 {
+  margin: 0;
+  font-size: clamp(21px, 2.3vw, 28px);
+  letter-spacing: -0.035em;
+  line-height: 1.2;
+}
+.yk-trades-masthead p {
+  margin: 7px 0 0;
+  color: #a7b6cc;
+  font-size: 13px;
+  line-height: 1.6;
+  text-wrap: pretty;
+}
+.yk-trades-mark {
+  display: grid;
+  flex: 0 0 48px;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  border-radius: 15px;
+  color: #c2d3fa;
+  background: #18243a;
+  border: 1px solid #354564;
+}
+.yk-trades-secure {
+  display: none;
+}
+.yk-trades-panel > .yk-tabs {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 4px;
+  padding: 5px;
+  background: #060c16;
+  border: 1px solid #263248;
+  border-radius: 13px;
+}
+.yk-trades-panel > .yk-tabs .yk-tab {
+  min-width: 0;
+  min-height: 46px;
+  padding: 10px 5px;
+  margin: 0;
+  border: 0;
+  border-radius: 9px;
+  color: #a7b6cc;
+  white-space: normal;
+  line-height: 1.4;
+  font-size: 11px;
+}
+.yk-trades-panel > .yk-tabs .yk-tab[aria-selected="true"] {
+  color: #edf2ff;
+  background: #20314c;
+  box-shadow: inset 0 0 0 1px #405577;
+}
+.yk-trades-workspace .yk-trade-heading,
+.yk-trades-workspace .yk-trade-history-head {
+  align-items: center;
+  margin-top: 26px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.yk-trades-workspace .eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: #9eb5df;
+}
+.yk-trades-workspace .yk-section-title {
+  font-size: 19px;
+  line-height: 1.4;
+  letter-spacing: -0.02em;
+}
+.yk-trades-workspace .yk-friend-choices {
+  gap: 9px;
+  margin-top: 16px;
+}
+.yk-trades-workspace .yk-friend-choices .yk-chip {
+  border-radius: 12px;
+  min-height: 48px;
+  background: #111c2c;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.yk-trades-workspace .yk-friend-choices .yk-chip[aria-pressed="true"] {
+  background: #23334c;
+  border-color: #809dcb;
+  color: #f1f5ff;
+}
+.yk-trades-workspace .yk-trade-composer {
+  margin-top: 24px;
+  padding-top: 24px;
+  border-color: #253247;
+}
+.yk-trades-workspace .yk-trade-columns {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+}
+.yk-trades-workspace .yk-trade-columns::after {
+  display: none;
+}
+.yk-trades-workspace .yk-trade-side {
+  padding: 18px;
+  border-radius: 17px;
+  border-color: #384033;
+  background: #12171c;
+}
+.yk-trades-workspace .yk-trade-side.is-requested {
+  border-color: #28483f;
+  background: #0e1b1b;
+}
+.yk-trades-workspace .yk-trade-side > header {
+  gap: 12px;
+}
+.yk-trades-workspace .yk-trade-side > header > div {
+  min-width: 0;
+}
+.yk-trades-workspace .yk-trade-side > header p {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--trade-out);
+}
+.yk-trades-workspace .yk-trade-side.is-requested > header p {
+  color: var(--trade-in);
+}
+.yk-trades-workspace .yk-trade-side > header small {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b0bccd;
+  overflow-wrap: anywhere;
+}
+.yk-trades-workspace .yk-trade-side-index {
+  width: 38px;
+  flex: 0 0 38px;
+  font-size: 21px;
+  border-radius: 11px;
+  border-color: #5f543b;
+  color: var(--trade-out);
+  background: #29251d;
+}
+.yk-trades-workspace .is-requested .yk-trade-side-index {
+  border-color: #345e52;
+  color: var(--trade-in);
+  background: #182f2b;
+}
+.yk-trades-workspace .yk-trade-drop {
+  min-height: 104px;
+  margin: 18px 0 12px;
+  padding: 10px;
+  border-color: #3b4651;
+  border-radius: 12px;
+  background: #090f16;
+}
+.yk-trades-workspace .yk-trade-drop > p {
+  margin: 28px 0;
+  text-align: center;
+  font-size: 13px;
+}
+.yk-trades-workspace .yk-trade-side > .yk-button {
+  width: 100%;
+  min-height: 46px;
+  border-style: dashed;
+  background: transparent;
+  border-color: #526078;
+  font-size: 12px;
+  white-space: normal;
+}
+.yk-trades-workspace .yk-trade-karas {
+  margin-top: 20px;
+  gap: 10px;
+  padding-top: 18px;
+  border-top: 1px solid #ffffff12;
+  color: #becadd;
+  font-size: 12px;
+}
+.yk-trades-workspace .yk-trade-karas input {
+  min-width: 0;
+  font-size: 18px;
+  font-weight: 650;
+  font-variant-numeric: tabular-nums;
+  background: #090f19;
+  border-color: #334055;
+}
+.yk-trades-workspace .yk-trade-summary {
+  padding: 18px;
+  border-radius: 15px;
+  background: #0b1422;
+}
+.yk-trades-workspace .yk-trade-summary > h3 {
+  font-size: 14px;
+}
+.yk-trades-workspace .yk-trade-summary > summary {
+  font-size: 13px;
+  font-weight: 650;
+  color: #c7d5e9;
+  cursor: pointer;
+}
+.yk-trades-workspace .yk-trade-summary > summary:focus-visible {
+  outline: 2px solid #9abcff;
+  outline-offset: 6px;
+  border-radius: 3px;
+}
+.yk-trades-workspace .yk-trade-summary > div {
+  gap: 20px;
+}
+.yk-trades-workspace .yk-trade-summary article {
+  border-color: #73623f;
+  padding-left: 12px;
+}
+.yk-trades-workspace .yk-trade-summary article + article {
+  border-color: #3f7868;
+}
+.yk-trades-workspace .yk-trade-summary article > strong {
+  font-size: 13px;
+}
+.yk-trades-workspace .yk-trade-summary li {
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+.yk-trades-workspace .yk-trade-submit {
+  padding-top: 20px;
+  border-top: 1px solid #263248;
+  gap: 16px;
+}
+.yk-trades-workspace .yk-trade-submit p {
+  max-width: 430px;
+  line-height: 1.7;
+}
+.yk-trades-workspace .yk-trade-submit .yk-button {
+  min-height: 48px;
+  border-radius: 11px;
+}
+.yk-trade-history {
+  gap: 18px;
+}
+.yk-trade-offer {
+  padding: clamp(14px, 2vw, 24px);
+  border-radius: 18px;
+  border-color: #29364a;
+  background: #101927;
+  box-shadow: 0 8px 24px #00000012;
+}
+.yk-trade-offer > header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px 12px;
+}
+.yk-trade-offer > header > span:last-child {
+  grid-column: 2;
+  justify-self: start;
+}
+.yk-trade-offer-person strong {
+  font-size: 15px;
+  line-height: 1.5;
+}
+.yk-trade-offer > header p {
+  font-size: 11px;
+  color: #a9b9d0;
+  line-height: 1.6;
+}
+.yk-trade-offer-sides {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 12px;
+  margin-top: 20px;
+}
+.yk-trade-offer-sides > div,
+.yk-trade-review-lots > article {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #414234;
+  border-radius: 13px;
+  background: #12191f;
+}
+.yk-trade-offer-sides > .is-requested,
+.yk-trade-review-lots > .is-requested {
+  border-color: #2c4a43;
+  background: #0e1d1e;
+}
+.yk-trade-lot-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+  color: #edcc91;
+}
+.is-requested > .yk-trade-lot-heading {
+  color: #95dfcc;
+}
+.yk-trade-lot-heading > span {
+  font-size: 18px;
+  line-height: 1;
+}
+.yk-trade-lot-heading strong {
+  font-size: 13px;
+}
+.yk-trade-lot-heading small {
+  margin-left: auto;
+  color: #aebed1;
+  font-size: 11px;
+}
+.yk-trade-offer-sides .yk-trade-lot-owner {
+  margin-top: 5px;
+  overflow-wrap: anywhere;
+  font-size: 11px;
+}
+.yk-trade-lot-currency {
+  border-top: 1px solid #ffffff12;
+  padding-top: 10px;
+  margin-top: 12px;
+}
+.yk-trade-lot-currency .yk-karas {
+  font-size: 15px;
+}
+.yk-trade-review-cards {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  margin-block: 14px;
+}
+.yk-trade-card-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 9px;
+  min-width: 0;
+  border: 1px solid #ffffff0e;
+  border-radius: 11px;
+  background: #080e17a8;
+}
+.yk-trade-card-row > .yk-trade-card-art {
+  width: 62px;
+  flex: 0 0 62px;
+  position: relative;
+}
+.yk-trade-card-info {
+  min-width: 0;
+}
+.yk-trade-review-cards .yk-trade-card-info > span {
+  position: static;
+  right: auto;
+  top: auto;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+}
+.yk-trade-review-cards .yk-trade-card-info strong {
+  font-size: 13px;
+  line-height: 1.45;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+  margin: 4px 0;
+}
+.yk-trade-card-license {
+  display: block;
+  font-size: 11px;
+  color: #a8b9cf;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.yk-trade-card-info .yk-trade-rarity {
+  display: inline-flex;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+}
+.yk-trade-review-cards .yk-trade-card-info small {
+  color: #bdd0ed;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.yk-trade-card-row > .yk-trade-card-art > span {
+  right: -5px;
+  top: -5px;
+  min-width: 22px;
+  padding: 3px 5px;
+  text-align: center;
+  border: 1px solid #526783;
+  background: #13243b;
+  font-size: 10px;
+  font-weight: 700;
+}
+.yk-trade-offer > footer {
+  justify-content: flex-end;
+  border-top: 1px solid #28354a;
+  padding-top: 16px;
+  margin-top: 18px;
+}
+.yk-trade-offer > footer .yk-button {
+  min-height: 44px;
+  font-size: 12px;
+  border-radius: 10px;
+}
+.yk-modal.yk-trade-review-modal {
+  width: min(960px, calc(100% - 24px));
+  padding: clamp(16px, 3vw, 28px);
+  border-radius: 20px;
+  border-color: #3b4a63;
+  background: #0b1320;
+}
+.yk-trade-review-lots {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+.yk-trade-review-lots h3 {
+  font-size: 15px;
+  color: #e7cc9b;
+}
+.yk-trade-review-lots .is-requested h3 {
+  color: #95dfcc;
+}
+.yk-trade-review-lots > article > .yk-karas {
+  display: flex;
+  padding-top: 12px;
+  border-top: 1px solid #ffffff12;
+}
+.yk-trade-review > footer {
+  position: sticky;
+  bottom: -28px;
+  margin: 0 -4px -4px;
+  padding: 16px 4px 4px;
+  background: #0b1320;
+  z-index: 2;
+}
+.yk-trade-review > footer .yk-button {
+  flex: 1 1 130px;
+  min-height: 46px;
+  font-size: 12px;
+}
+.yk-modal.yk-trade-picker-modal {
+  border-radius: 20px;
+  background: #0b1320;
+  border-color: #3b4a63;
+}
+.yk-trade-picker-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 12px;
+}
+.yk-trade-picker-card {
+  display: grid;
+  grid-template-columns: 70px minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px;
+  border-radius: 13px;
+  background: #111c2d;
+}
+.yk-trade-picker-art {
+  grid-row: auto;
+}
+.yk-trade-picker-card .truncate {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+  overflow-wrap: anywhere;
+}
+.yk-trade-picker-card .yk-trade-quantity {
+  justify-content: space-between;
+  gap: 8px;
+}
+.yk-trade-quantity button {
+  min-width: 44px;
+  min-height: 44px;
+}
+.yk-trade-review > footer .yk-button-primary,
+.yk-conversation-trade footer .yk-button-primary {
+  border-color: #548e7c;
+  color: #c4f0e1;
+  background: #1b4035;
+}
+.yk-trade-review > footer .yk-button-primary:hover:not(:disabled),
+.yk-conversation-trade footer .yk-button-primary:hover:not(:disabled) {
+  border-color: #89d5b9;
+  background: #245342;
+}
+.yk-trade-picker-card.is-selected {
+  background: #1c2e36;
+  border-color: #87c9b8;
+  box-shadow: inset 0 0 0 1px #87c9b833;
+}
+/* The same give / receive language in a private conversation. */
+.yk-conversation-trade {
+  width: min(100%, 600px);
+  padding: 18px;
+  border-radius: 17px;
+  background: #101b2b;
+  border-color: #33445c;
+  box-shadow: 0 5px 20px #00000015;
+}
+.yk-conversation-trade.is-own {
+  border-radius: 17px;
+  background: #131e30;
+}
+.yk-conversation-trade > header strong {
+  font-size: 14px;
+}
+.yk-conversation-trade > p {
+  color: #afc0d6;
+  font-size: 12px;
+}
+.yk-conversation-trade-lots {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+}
+.yk-conversation-trade-lot {
+  padding: 12px;
+  border-color: #454536;
+  background: #141a20;
+  border-radius: 12px;
+}
+.yk-conversation-trade-lot + .yk-conversation-trade-lot {
+  border-color: #2c4d43;
+  background: #102020;
+}
+.yk-conversation-trade-lot h4 {
+  font-size: 13px;
+  color: #e7cc9b;
+}
+.yk-conversation-trade-lot + .yk-conversation-trade-lot h4 {
+  color: #95dfcc;
+}
+.yk-conversation-trade-cards {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 9px;
+}
+.yk-conversation-trade-card {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  min-width: 0;
+}
+.yk-conversation-trade-art {
+  width: 52px;
+  flex: 0 0 52px;
+  margin: 0;
+}
+.yk-conversation-trade-card-info {
+  min-width: 0;
+}
+.yk-conversation-trade-cards strong {
+  font-size: 12px;
+  line-height: 1.5;
+}
+.yk-conversation-trade .yk-button {
+  min-height: 44px;
+  border-radius: 10px;
+  font-size: 12px;
+}
+.yk-conversation-trade footer {
+  padding-top: 12px;
+  border-top: 1px solid #ffffff15;
+}
+.yk-conversation-trade footer .yk-button {
+  flex: 1;
+}
+.yk-conversation-trade-confirm {
+  border-color: #6b593d;
+  background: #262219;
+}
+@media (min-width: 560px) {
+  .yk-trades-panel > .yk-tabs .yk-tab {
+    font-size: 13px;
+    padding: 11px;
+  }
+  .yk-trade-offer > header {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+  .yk-trade-offer > header > span:last-child {
+    grid-column: auto;
+  }
+  .yk-trade-offer-sides,
+  .yk-trade-review-lots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .yk-conversation-trade-lots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 900px) {
+  .yk-trades-workspace .yk-trade-columns {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+  .yk-trades-secure {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex: 0 0 auto;
+    color: #a8c7b9;
+    font-size: 11px;
+    padding: 9px 12px;
+    border: 1px solid #2c483f;
+    border-radius: 999px;
+    background: #10201c;
+  }
+}
+@media (max-width: 420px) {
+  .yk-trades-masthead {
+    gap: 10px;
+    padding-bottom: 20px;
+  }
+  .yk-trades-mark {
+    flex-basis: 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+  .yk-trades-masthead p {
+    font-size: 12px;
+  }
+  .yk-trades-panel {
+    padding: 12px;
+    border-radius: 15px;
+  }
+  .yk-trade-offer > footer .yk-button {
+    flex: 1 1 100%;
+  }
+  .yk-trade-card-row {
+    gap: 9px;
+    padding: 7px;
+  }
+  .yk-trade-card-row > .yk-trade-card-art {
+    width: 52px;
+    flex-basis: 52px;
+  }
+  .yk-trades-workspace .yk-trade-side {
+    padding: 14px;
+  }
+  .yk-trades-workspace .yk-trade-karas {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .yk-trade-review > footer {
+    bottom: -16px;
+  }
+}

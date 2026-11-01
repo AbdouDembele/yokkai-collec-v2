@@ -3159,5 +3159,11 @@
       "rules": "Aucune carte ni aucun Kara n’a été retiré de ton compte. Nous te rappelons que la création ou l’utilisation artificielle de comptes dans le but d’obtenir des récompenses d’affiliation n’est pas autorisée.",
       "future": "Toute utilisation abusive future du système d’affiliation pourra entraîner le retrait des récompenses concernées ou la suspension du compte."
     }
+  },
+  "tradeDesign": {
+    "title": "Tes échanges",
+    "subtitle": "Compare les deux lots. Trouve ton prochain coup de cœur.",
+    "secure": "Échange sécurisé",
+    "cardCount": "{count, plural, =0 {Aucune carte} one {# carte} other {# cartes}}"
   }
 }

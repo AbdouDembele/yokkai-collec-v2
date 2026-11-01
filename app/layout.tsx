@@ -31,6 +31,7 @@ import "../styles/boosters-showcase.css";
 import "../styles/market.css";
 import "../styles/site-footer.css";
 import "../styles/info-pages.css";
+import "../styles/trades.css";
 
 const cinzel = Cinzel({
   subsets: ["latin"],
@@ -156,6 +157,7 @@ export default async function RootLayout({
       "discordPromo",
       "referralReminder",
       "socialTrades",
+      "tradeDesign",
       "messenger",
       "socialFriends",
       "conversationTrade",
