@@ -818,7 +818,7 @@
     "collection": "Collection",
     "market": "Market",
     "trades": "Trades",
-    "social": "Social",
+    "social": "Feed",
     "unreadMessagesAndPendingFriendRequests": "unread messages and pending friend requests",
     "unreadMessageOrPendingFriendRequest": "unread message or pending friend request",
     "wishlist": "Wishlist",
@@ -892,7 +892,8 @@
     "notificationCharacterFallback": "a character",
     "notificationAuctionFallback": "an auction",
     "notificationWishlistCardFallback": "A card",
-    "notificationAchievementFallback": "an achievement"
+    "notificationAchievementFallback": "an achievement",
+    "friends": "Friends"
   },
   "accountMenu": {
     "signIn": "Sign in",
@@ -2024,13 +2025,13 @@
     "moreFriendsHint": "Search filters the friends loaded here. Load more to see the rest."
   },
   "socialFriends": {
-    "sections": "Social sections",
+    "sections": "Feed sections",
     "feed": "Feed",
     "everyone": "Everyone",
     "friends": "Friends",
     "leaderboard": "Leaderboard",
     "overline": "Between collectors",
-    "title": "Social",
+    "title": "Friends",
     "find": "Find a player",
     "grow": "Grow your circle",
     "searchLabel": "Search players by username",
@@ -2583,7 +2584,7 @@
     "marketRecap": "{won, number} won · {sold, number} sold · {unsold, number} unsold{hasSales, select, yes { · {karas, number} Karas earned from sales} other {}}",
     "activeListings": "My active listings · {count}",
     "betweenCollectors": "Between collectors",
-    "socialTitle": "Social",
+    "socialTitle": "Feed",
     "auctionHouse": "The auction house",
     "marketTitle": "Market",
     "marketAuction": "Market · Auction",

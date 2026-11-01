@@ -42,7 +42,7 @@ test("legacy Trades links preserve targeted offers or cards in Social Friends", 
       searchParams: Promise.resolve(params)
     }).catch(e => e.message);
     const url = new URL(destination, "https://example.invalid");
-    assert.equal(url.pathname, "/social/friends");
+    assert.equal(url.pathname, "/friends");
     assert.equal(url.searchParams.get("tab"), "trades");
     if (params.ami) {
       assert.equal(url.searchParams.get("ami"), params.ami);
@@ -78,7 +78,7 @@ test("Friends opens a selected friend's exchange in Social and returns to the fr
   assert.equal(friends.props.tradeSection.content.type, TradesView);
   friends.props.tradeSection.open("friend+é");
   const target = new URL(navigations.at(-1)[0], "https://example.invalid");
-  assert.equal(target.pathname, "/social/friends");
+  assert.equal(target.pathname, "/friends");
   assert.equal(target.searchParams.get("tab"), "trades");
   assert.equal(target.searchParams.get("ami"), "friend+é");
   assert.equal(navigations.at(-1)[1].scroll, false);
@@ -86,14 +86,11 @@ test("Friends opens a selected friend's exchange in Social and returns to the fr
   const exchange = FriendsView();
   assert.equal(exchange.props.tradeSection.active, true);
   exchange.props.tradeSection.close();
-  assert.equal(navigations.at(-1)[0], "/social/friends");
+  assert.equal(navigations.at(-1)[0], "/friends");
   const before = navigations.length;
   friends.props.tradeSection.open();
   assert.equal(navigations.length, before, "a trade must target a friend");
-  const history = new URL(
-    "/social/friends?tab=trades",
-    "https://example.invalid"
-  );
+  const history = new URL("/friends?tab=trades", "https://example.invalid");
   assert.equal(history.searchParams.get("tab"), "trades");
   assert.equal(history.searchParams.has("ami"), false);
   params = history.searchParams;

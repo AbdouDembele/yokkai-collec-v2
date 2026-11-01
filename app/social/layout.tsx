@@ -5,7 +5,7 @@ import { CommunityPage } from "@/components/community-page";
 
 export default function SocialLayout({ children }: { children: ReactNode }) {
   return (
-    <CommunityPage screen="friends">
+    <CommunityPage screen="feed">
       <SocialFeedProvider>
         <div className="yk-social-stack">
           <SocialTabs />

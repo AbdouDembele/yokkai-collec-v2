@@ -63,7 +63,7 @@
         "read": false,
         "title": "New private message",
         "text": "Kitsune {FR} sent you a message.",
-        "href": "/social/friends?message=player%2B123",
+        "href": "/friends?message=player%2B123",
         "kind": "message"
       }
     },
@@ -85,7 +85,7 @@
         "read": false,
         "title": "New private message",
         "text": "A friend sent you a message.",
-        "href": "/social/friends?message=player%2B123",
+        "href": "/friends?message=player%2B123",
         "kind": "message"
       }
     },
@@ -107,7 +107,7 @@
         "read": false,
         "title": "New friend request",
         "text": "Kitsune {FR} sent you a friend request.",
-        "href": "/social/friends",
+        "href": "/friends",
         "kind": "friend"
       }
     },
@@ -129,7 +129,7 @@
         "read": false,
         "title": "New friend request",
         "text": "Deleted player sent you a friend request.",
-        "href": "/social/friends",
+        "href": "/friends",
         "kind": "friend"
       }
     },

@@ -269,11 +269,7 @@ export function HomeFriendFeed({
                   : "shareAPostOnYourWallOrAddFriendsTo"
               )}
             </p>
-            <Link
-              href={
-                scope === "everyone" ? "/social/everyone" : "/social/friends"
-              }
-            >
+            <Link href={scope === "everyone" ? "/social/everyone" : "/friends"}>
               {t(scope === "everyone" ? "seeAll" : "findFriends")}
               <span aria-hidden="true">↗</span>
             </Link>

@@ -105,6 +105,7 @@ export function Topbar({
     | "leaderboard"
     | "profile"
     | "friends"
+    | "feed"
     | "market"
     | "auction"
     | "trades"
@@ -253,10 +254,18 @@ export function Topbar({
           </Link>
           <Link
             href="/social"
+            aria-current={view === "feed" ? "page" : undefined}
+            onClick={() => setMobileMenu(false)}
+          >
+            {t("social")}
+          </Link>
+          <Link
+            href="/friends"
             aria-current={view === "friends" ? "page" : undefined}
+            onClick={() => setMobileMenu(false)}
           >
             <span className="yk-friends-nav-label">
-              {t("social")}
+              {t("friends")}
               <UnreadBadge
                 variant="nav"
                 count={

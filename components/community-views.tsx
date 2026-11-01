@@ -99,6 +99,7 @@ const ProfileExperience = dynamic(
 export type CommunityScreen =
   | "profile"
   | "friends"
+  | "feed"
   | "market"
   | "auction"
   | "trades"
@@ -2327,7 +2328,7 @@ export function FriendsView() {
     if (!friendId) return;
     const query = new URLSearchParams({ tab: "trades" });
     query.set("ami", friendId);
-    router.push(`/social/friends?${query.toString()}`, { scroll: false });
+    router.push(`/friends?${query.toString()}`, { scroll: false });
   }
   return (
     <FriendsPanel
@@ -2341,10 +2342,10 @@ export function FriendsView() {
           <TradesPanel key={friendId} fixedFriendId={friendId} />
         ),
         open: navigateTrades,
-        close: () => router.push("/social/friends", { scroll: false })
+        close: () => router.push("/friends", { scroll: false })
       }}
       onConversationClose={() => {
-        if (conversation) router.replace("/social/friends", { scroll: false });
+        if (conversation) router.replace("/friends", { scroll: false });
       }}
     />
   );
@@ -3083,8 +3084,13 @@ export function CommunityView({
         ? [tv("wishlistOverline"), tv("wishlistTitle")]
         : screen === "profile"
           ? [tError("profileUi.collector"), tError("profileUi.myProfile")]
-          : screen === "friends"
-            ? [tError("socialFriends.overline"), tError("socialFriends.title")]
+          : screen === "friends" || screen === "feed"
+            ? [
+                tError("socialFriends.overline"),
+                tError(
+                  screen === "feed" ? "topbar.social" : "socialFriends.title"
+                )
+              ]
             : screen === "auction"
               ? [
                   tError("market.auctionOverline"),
@@ -3119,12 +3125,13 @@ export function CommunityView({
       />
       <main
         id="main-content"
-        className={`${screen === "friends" || screen === "trades" ? "yk-social-page" : ""} mx-auto w-full ${
+        className={`${screen === "friends" || screen === "feed" || screen === "trades" ? "yk-social-page" : ""} mx-auto w-full ${
           screen === "search" ||
           screen === "market" ||
           screen === "auction" ||
           screen === "wishlist" ||
           screen === "friends" ||
+          screen === "feed" ||
           screen === "trades"
             ? "max-w-[var(--layout-collection-max)]"
             : "max-w-6xl"
@@ -3159,7 +3166,7 @@ export function CommunityView({
           className={
             screen === "market" || screen === "search"
               ? undefined
-              : screen === "friends" || screen === "trades"
+              : screen === "friends" || screen === "feed" || screen === "trades"
                 ? "yk-social-page-content mt-4"
                 : "mt-8"
           }
@@ -3174,6 +3181,7 @@ export function CommunityView({
             />
           )}
           {screen === "friends" && (children ?? <FriendsView />)}
+          {screen === "feed" && children}
           {screen === "market" && (
             <MarketView
               pageHeading={pageHeading}

@@ -185,7 +185,7 @@ test("private notification opens the sender's conversation and never contains a 
     },
     intl.useTranslations("topbar")
   );
-  assert.equal(item.href, "/social/friends?message=alice");
+  assert.equal(item.href, "/friends?message=alice");
   assert.equal(item.title, "New private message");
   assert.equal(item.kind, "message");
   assert.equal(item.read, false);

@@ -818,7 +818,7 @@
     "collection": "Collection",
     "market": "Marché",
     "trades": "Échanges",
-    "social": "Social",
+    "social": "Feed",
     "unreadMessagesAndPendingFriendRequests": "messages non lus et demandes d'amis en attente",
     "unreadMessageOrPendingFriendRequest": "message non lu ou demande d'ami en attente",
     "wishlist": "Liste de souhaits",
@@ -892,7 +892,8 @@
     "notificationCharacterFallback": "un personnage",
     "notificationAuctionFallback": "une enchère",
     "notificationWishlistCardFallback": "Une carte",
-    "notificationAchievementFallback": "un succès"
+    "notificationAchievementFallback": "un succès",
+    "friends": "Amis"
   },
   "accountMenu": {
     "signIn": "Se connecter",
@@ -2024,13 +2025,13 @@
     "moreFriendsHint": "La recherche filtre les amis chargés ici. Affiche plus d’amis pour voir la suite."
   },
   "socialFriends": {
-    "sections": "Rubriques sociales",
+    "sections": "Sections du feed",
     "feed": "Fil",
     "everyone": "Tout le monde",
     "friends": "Amis",
     "leaderboard": "Classement",
     "overline": "Entre collectionneurs",
-    "title": "Social",
+    "title": "Amis",
     "find": "Trouver un joueur",
     "grow": "Agrandis ton cercle",
     "searchLabel": "Rechercher des joueurs par pseudo",
@@ -2583,7 +2584,7 @@
     "marketRecap": "{won, number} remportées · {sold, number} vendues · {unsold, number} sans vente{hasSales, select, yes { · {karas, number} Karas gagnés grâce aux ventes} other {}}",
     "activeListings": "Mes enchères actives · {count}",
     "betweenCollectors": "Entre collectionneurs",
-    "socialTitle": "Social",
+    "socialTitle": "Feed",
     "auctionHouse": "La salle des enchères",
     "marketTitle": "Marché",
     "marketAuction": "Marché · Enchère",

@@ -143,6 +143,7 @@ const files = [
   "app/leaderboard/page.tsx",
   "app/social/page.tsx",
   "app/social/friends/page.tsx",
+  "app/friends/page.tsx",
   "app/social/everyone/page.tsx",
   "app/social/leaderboard/page.tsx",
   "components/topbar.tsx",
