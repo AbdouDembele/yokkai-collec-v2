@@ -1,7 +1,12 @@
 /* Shared trade surfaces: explicit outgoing / incoming lots, readable at 320px. */
+.yk-trades-workspace,
+.yk-trade-review,
+.yk-trade-confirm,
+.yk-conversation-trade {
+  --trade-out: var(--color-danger-ink);
+  --trade-in: var(--color-pack-success);
+}
 .yk-trades-workspace {
-  --trade-out: var(--color-accent-gold);
-  --trade-in: var(--color-accent-gold);
   min-width: 0;
 }
 .yk-trades-panel {
@@ -735,4 +740,53 @@
   .yk-conversation-trade-lot .yk-conversation-trade-cards {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+}
+
+/* Color follows the viewer's side, independent of who sent the offer. */
+.yk-trades-workspace .yk-trade-side.is-offered,
+.yk-trade-offer-sides > .is-offered,
+.yk-trade-review-lots > .is-offered,
+.yk-trade-confirm > .is-offered,
+.yk-conversation-trade-lot:first-child {
+  --trade-lot: var(--trade-out);
+}
+.yk-trades-workspace .yk-trade-side.is-requested,
+.yk-trade-offer-sides > .is-requested,
+.yk-trade-review-lots > .is-requested,
+.yk-trade-confirm > .is-requested,
+.yk-conversation-trade-lot + .yk-conversation-trade-lot {
+  --trade-lot: var(--trade-in);
+}
+.yk-trades-workspace .yk-trade-side.is-offered,
+.yk-trades-workspace .yk-trade-side.is-requested,
+.yk-trade-offer-sides > .is-offered,
+.yk-trade-offer-sides > .is-requested,
+.yk-trade-review-lots > .is-offered,
+.yk-trade-review-lots > .is-requested,
+.yk-trade-confirm > div,
+.yk-conversation-trade-lot,
+.yk-conversation-trade-lot + .yk-conversation-trade-lot {
+  border: 1px solid color-mix(in srgb, var(--trade-lot) 42%, var(--color-veil));
+  background: linear-gradient(
+    145deg,
+    color-mix(in srgb, var(--trade-lot) 8%, var(--color-surface)),
+    var(--color-surface) 70%
+  );
+}
+.yk-trade-confirm > div {
+  padding: 12px;
+  border-radius: 12px;
+}
+.yk-trades-workspace .yk-trade-side > header p,
+.yk-trades-workspace .yk-trade-side.is-requested > header p,
+.yk-trades-workspace .yk-trade-side-index,
+.yk-trades-workspace .is-requested .yk-trade-side-index,
+.yk-trade-lot-heading,
+.is-requested > .yk-trade-lot-heading,
+.yk-trade-review-lots h3,
+.yk-trade-review-lots .is-requested h3,
+.yk-trade-confirm > div > strong,
+.yk-conversation-trade-lot h4,
+.yk-conversation-trade-lot + .yk-conversation-trade-lot h4 {
+  color: var(--trade-lot);
 }

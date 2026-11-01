@@ -280,48 +280,47 @@ function CardPicker({
   );
 }
 function OfferCards({ cards }: { cards: CollectedCard[] }) {
-  return (
-    <div className="yk-trade-lot-grid">
-      <ReviewCards cards={cards} />
-    </div>
-  );
+  return <ReviewCards cards={cards} />;
 }
 function ReviewCards({ cards }: { cards: CollectedCard[] }) {
   const tPr4 = useTranslations();
   return cards.length ? (
-    <div className="yk-trade-review-cards">
-      {groupCollection(cards).map(group => {
-        const card =
-          group.cards.find(copy => copy.customImageUrl) ?? group.representative;
-        return (
-          <div
-            key={group.key}
-            className="yk-trade-card-row"
-            data-rarity={card.rarity}
-          >
-            <div className="yk-trade-card-art">
-              <YokaiCard
-                {...card}
-                image={card.customImageUrl ?? card.image}
-                fallbackImage={card.catalogueImage}
-                animated={false}
-                imageSizes="100vw"
-              />
-              {group.cards.length > 1 && <span>×{group.cards.length}</span>}
+    <div className="yk-trade-lot-grid">
+      <div className="yk-trade-review-cards">
+        {groupCollection(cards).map(group => {
+          const card =
+            group.cards.find(copy => copy.customImageUrl) ??
+            group.representative;
+          return (
+            <div
+              key={group.key}
+              className="yk-trade-card-row"
+              data-rarity={card.rarity}
+            >
+              <div className="yk-trade-card-art">
+                <YokaiCard
+                  {...card}
+                  image={card.customImageUrl ?? card.image}
+                  fallbackImage={card.catalogueImage}
+                  animated={false}
+                  imageSizes="100vw"
+                />
+                {group.cards.length > 1 && <span>×{group.cards.length}</span>}
+              </div>
+              <div className="yk-trade-card-info">
+                <span className={`yk-trade-rarity ${rarityText[card.rarity]}`}>
+                  {cardRarityLabel(card.rarity, card.shiny, card.isEvolved)}
+                </span>
+                <strong>{card.name}</strong>
+                <CardFranchise card={card} className="yk-trade-card-license" />
+                {card.customImageUrl && (
+                  <small>{tPr4("socialUi.customImage")}</small>
+                )}
+              </div>
             </div>
-            <div className="yk-trade-card-info">
-              <span className={`yk-trade-rarity ${rarityText[card.rarity]}`}>
-                {cardRarityLabel(card.rarity, card.shiny, card.isEvolved)}
-              </span>
-              <strong>{card.name}</strong>
-              <CardFranchise card={card} className="yk-trade-card-license" />
-              {card.customImageUrl && (
-                <small>{tPr4("socialUi.customImage")}</small>
-              )}
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   ) : (
     <p className="mt-3 text-xs text-ink-3">{tPr4("socialUi.noCards")}</p>
@@ -1827,14 +1826,14 @@ export function TradesPanel({
         </p>
         {accepting && (
           <div className="yk-trade-confirm">
-            <div>
+            <div className="is-requested">
               <strong>{tPr4("socialUi.youReceive")}</strong>
               <OfferCards cards={accepting.offeredCards} />
               {accepting.offeredKaras > 0 && (
                 <Karas amount={accepting.offeredKaras} />
               )}
             </div>
-            <div>
+            <div className="is-offered">
               <strong>{tPr4("socialUi.youGive")}</strong>
               <OfferCards cards={accepting.requestedCards} />
               {accepting.requestedKaras > 0 && (
