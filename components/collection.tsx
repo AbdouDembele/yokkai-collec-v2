@@ -58,7 +58,8 @@ import {
   collectionGroupKey,
   consumableCopies,
   consumptionPlan,
-  groupCollection
+  groupCollection,
+  type CollectionGroup
 } from "@/lib/ui/collection-groups";
 
 // Optional display metadata, separate from the existing business types.
@@ -143,6 +144,7 @@ export function CollectionView({
   previewOnly = false,
   adminRemoval = false,
   tradeHref,
+  renderCardControls,
   folders = [],
   detailOnly = false,
   initialSelectedId = null,
@@ -180,6 +182,8 @@ export function CollectionView({
   previewOnly?: boolean;
   adminRemoval?: boolean;
   tradeHref?: (card: CollectedCard) => string;
+  // Optional trade controls sit beside the standard card button, never inside it.
+  renderCardControls?: (group: CollectionGroup) => React.ReactNode;
   folders?: Folder[];
   detailOnly?: boolean;
   initialSelectedId?: string | null;
@@ -1453,7 +1457,7 @@ export function CollectionView({
             </header>
           )}
 
-          {collectionTabs}
+          {!renderCardControls && collectionTabs}
 
           <div className="yk-collection-layout">
             <aside
@@ -2113,6 +2117,7 @@ export function CollectionView({
                             </p>
                           </div>
                         )}
+                        {renderCardControls?.(group)}
                       </li>
                     );
                   })}

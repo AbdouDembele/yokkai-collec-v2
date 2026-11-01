@@ -729,6 +729,59 @@
   }
 }
 /* The same give / receive language in a private conversation. */
+.yk-modal.yk-trade-collection-picker {
+  width: min(1400px, calc(100% - 32px));
+  max-width: none;
+}
+.yk-trade-collection-picker
+  .yk-collection-grid:not(.yk-collection-grid-list)
+  > li {
+  display: flex;
+  flex-direction: column;
+}
+.yk-trade-picker-controls {
+  display: grid;
+  grid-template-rows: minmax(36px, auto) 44px;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  margin-top: auto;
+  padding-top: 10px;
+}
+.yk-trade-picker-controls .yk-trade-ownership {
+  justify-self: start;
+  margin: 0;
+  padding: 4px 6px;
+  font-size: 10px;
+}
+.yk-trade-picker-controls .yk-trade-quantity {
+  grid-row: 2;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  gap: 0;
+  min-width: 0;
+  font-size: 13px;
+}
+.yk-trade-collection-picker .yk-collection-card:has(~ [data-selected="true"]) {
+  outline: 2px solid var(--color-accent-gold);
+  outline-offset: 3px;
+}
+.yk-trade-collection-picker
+  .yk-collection-grid-list
+  > li
+  > .yk-collection-card {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+}
+.yk-trade-collection-picker .yk-collection-grid-list .yk-collection-card-meta {
+  grid-column: 2;
+  grid-row: 1;
+}
+.yk-trade-collection-picker .yk-collection-grid-list .yk-trade-picker-controls {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: start;
+  margin-top: 0;
+}
 .yk-conversation-trade {
   width: min(100%, 600px);
   padding: 18px;
