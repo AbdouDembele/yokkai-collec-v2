@@ -739,29 +739,6 @@
   outline-offset: 4px;
   box-shadow: 0 0 0 7px var(--color-void);
 }
-.yk-trade-picker-controls[data-selected="true"] .yk-trade-quantity {
-  border-color: #fff;
-  background: color-mix(in srgb, #fff 8%, var(--color-surface));
-  box-shadow: inset 0 0 0 1px #fff;
-}
-.yk-trade-picker-controls .yk-trade-quantity output {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  min-height: 30px;
-  border-radius: 6px;
-}
-.yk-trade-picker-controls[data-selected="true"] output {
-  color: var(--color-void);
-  background: #fff;
-  font-weight: 800;
-}
-.yk-trade-selection-mark {
-  width: 15px;
-  height: 15px;
-  flex-shrink: 0;
-}
 .yk-trade-collection-picker
   .yk-collection-grid-list
   > li
