@@ -2061,9 +2061,6 @@ export function ProfileExperience({
                       ? t("profileUi.profileLikedAction")
                       : t("profileUi.likeProfileAction")}
                 </span>
-                <span className="yk-profile-like-count" aria-hidden="true">
-                  {fmt.number(engagement?.likes ?? 0)}
-                </span>
               </Button>
             )}
             {engagementError && (

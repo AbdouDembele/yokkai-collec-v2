@@ -665,19 +665,6 @@ main:has(.yk-profile-hub:not([data-profile-compact="true"])) {
   border-radius: 10px;
   font-size: 12px;
 }
-.yk-profile-actions.is-friend > [data-profile-trade] {
-  color: var(--color-accent-gold);
-  border-color: color-mix(
-    in srgb,
-    var(--color-accent-gold) 35%,
-    var(--color-veil)
-  );
-  background: color-mix(
-    in srgb,
-    var(--color-accent-gold) 6%,
-    var(--color-surface)
-  );
-}
 .yk-profile-like.yk-button {
   display: flex;
   width: 100%;
@@ -700,14 +687,6 @@ main:has(.yk-profile-hub:not([data-profile-compact="true"])) {
   min-width: 0;
   text-align: left;
   overflow-wrap: anywhere;
-}
-.yk-profile-like-count {
-  flex: 0 0 auto;
-  padding: 3px 7px;
-  border-radius: 7px;
-  background: var(--color-veil);
-  font-size: 11px;
-  font-variant-numeric: tabular-nums;
 }
 .yk-profile-like.yk-button[aria-pressed="true"] {
   border-color: color-mix(
