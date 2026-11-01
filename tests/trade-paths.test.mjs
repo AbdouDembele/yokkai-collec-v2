@@ -510,11 +510,13 @@ test("collection card links preselect exactly the friend's instance and polling 
     }
   );
   await h.settle();
-  assert.equal(h.find("TradeSummary").props.requested[0].instanceId, "chosen");
+  const friendLot = () => h.all().filter(n => n.type?.name === "OfferCards")[1];
+  assert.equal(h.all().filter(n => n.type?.name === "OfferCards").length, 2);
+  assert.equal(friendLot().props.cards[0].instanceId, "chosen");
   available = false;
   h.poll();
   await h.settle();
-  assert.equal(h.find("TradeSummary").props.requested.length, 0);
+  assert.equal(friendLot().props.cards.length, 0);
   assert.equal(
     h
       .all()

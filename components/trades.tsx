@@ -280,7 +280,11 @@ function CardPicker({
   );
 }
 function OfferCards({ cards }: { cards: CollectedCard[] }) {
-  return <ReviewCards cards={cards} />;
+  return (
+    <div className="yk-trade-lot-grid">
+      <ReviewCards cards={cards} />
+    </div>
+  );
 }
 function ReviewCards({ cards }: { cards: CollectedCard[] }) {
   const tPr4 = useTranslations();
@@ -323,92 +327,6 @@ function ReviewCards({ cards }: { cards: CollectedCard[] }) {
     <p className="mt-3 text-xs text-ink-3">{tPr4("socialUi.noCards")}</p>
   );
 }
-function TradeSummary({
-  offered,
-  requested,
-  offeredKaras,
-  requestedKaras
-}: {
-  offered: CollectedCard[];
-  requested: CollectedCard[];
-  offeredKaras: number;
-  requestedKaras: number;
-}) {
-  const tPr4 = useTranslations();
-  const grouped = (cards: CollectedCard[]) => groupCollection(cards);
-  const hasCustom = offered.some(card => card.customImageUrl);
-  const hasFolder = offered.some(card => card.folderId);
-  return (
-    <details className="yk-trade-summary" aria-labelledby="trade-summary-title">
-      <summary id="trade-summary-title">
-        {tPr4("socialUi.reviewBeforeSending")}
-      </summary>
-      <div>
-        <article>
-          <strong>{tPr4("socialUi.youGive")}</strong>
-          {grouped(offered).length ? (
-            <ul>
-              {grouped(offered).map(group => (
-                <li key={group.key}>
-                  {group.representative.name}
-                  {group.representative.shiny || group.representative.isEvolved
-                    ? ` · ${cardRarityLabel(group.representative.rarity, group.representative.shiny, group.representative.isEvolved)}`
-                    : ""}
-                  {group.cards.length > 1 ? ` ×${group.cards.length}` : ""}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>{tPr4("socialUi.noCards")}</p>
-          )}
-          <Karas amount={offeredKaras} />
-          {offered.length > 0 && (
-            <details>
-              <summary>
-                {tPr4("socialUi.specificCopies", { count: offered.length })}
-              </summary>
-              <ul>
-                {offered.map(card => (
-                  <li key={card.instanceId}>
-                    <code>{card.instanceId}</code>
-                    {card.customImageUrl ? tPr4("socialUi.customImage2") : ""}
-                    {card.folderId ? tPr4("socialUi.storedInAFolder") : ""}
-                  </li>
-                ))}
-              </ul>
-            </details>
-          )}
-        </article>
-        <article>
-          <strong>{tPr4("socialUi.youReceive")}</strong>
-          {grouped(requested).length ? (
-            <ul>
-              {grouped(requested).map(group => (
-                <li key={group.key}>
-                  {group.representative.name}
-                  {group.representative.shiny || group.representative.isEvolved
-                    ? ` · ${cardRarityLabel(group.representative.rarity, group.representative.shiny, group.representative.isEvolved)}`
-                    : ""}
-                  {group.cards.length > 1 ? ` ×${group.cards.length}` : ""}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p>{tPr4("socialUi.noCards")}</p>
-          )}
-          <Karas amount={requestedKaras} />
-        </article>
-      </div>
-      {(hasCustom || hasFolder) && (
-        <ul className="yk-trade-summary-warnings">
-          {hasCustom && <li>{tPr4("socialUi.theCustomImageWillBeKeptAnd")}</li>}
-          {hasFolder && <li>{tPr4("socialUi.theCardWillBeRemovedFromIts")}</li>}
-        </ul>
-      )}
-    </details>
-  );
-}
-
 type TradeTab = "compose" | "received" | "sent" | "history";
 
 // Serialize refreshes around mutations. A read started before accept/cancel
@@ -704,7 +622,7 @@ function TradeReview({
           <div className="yk-trade-review-lots">
             <article className="is-offered">
               <h3>{tPr4("socialUi.whatYouGive")}</h3>
-              <ReviewCards
+              <OfferCards
                 cards={
                   offer.incoming ? offer.requestedCards : offer.offeredCards
                 }
@@ -717,7 +635,7 @@ function TradeReview({
             </article>
             <article className="is-requested">
               <h3>{tPr4("socialUi.whatYouReceive")}</h3>
-              <ReviewCards
+              <OfferCards
                 cards={
                   offer.incoming ? offer.offeredCards : offer.requestedCards
                 }
@@ -1661,16 +1579,6 @@ export function TradesPanel({
                     })}
                   </p>
                 )}
-                <TradeSummary
-                  offered={context.ownCards.filter(card =>
-                    offered.has(card.instanceId)
-                  )}
-                  requested={context.friendCards.filter(card =>
-                    requested.has(card.instanceId)
-                  )}
-                  offeredKaras={Number(offeredKaras) || 0}
-                  requestedKaras={Number(requestedKaras) || 0}
-                />
                 <footer className="yk-trade-submit">
                   <p>{tPr4("socialUi.cardOwnershipWillBeCheckedAgainWhen")}</p>
                   <Button
