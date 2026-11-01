@@ -381,12 +381,18 @@ function OfferList({
   offers,
   busy,
   onReview,
-  onCancel
+  onCancel,
+  onAccept,
+  onDecline,
+  onCounter
 }: {
   offers: TradeOffer[];
   busy?: boolean;
   onReview?: (offer: TradeOffer) => void;
   onCancel?: (offer: TradeOffer) => void;
+  onAccept?: (offer: TradeOffer) => void;
+  onDecline?: (offer: TradeOffer) => void;
+  onCounter?: (offer: TradeOffer) => void;
 }) {
   const tPr4 = useTranslations();
   const fmt = useFormatter();
@@ -539,12 +545,42 @@ function OfferList({
               </div>
             </div>
           </div>
-          {(onReview || onCancel) && (
+          {(onReview || onCancel || onAccept || onDecline || onCounter) && (
             <footer>
-              {onReview && (
-                <Button onClick={() => onReview(offer)}>
-                  {tPr4("socialUi.reviewTrade")}
-                </Button>
+              {onAccept && offer.incoming && offer.status === "pending" ? (
+                <>
+                  <Button
+                    disabled={busy}
+                    aria-busy={busy || undefined}
+                    onClick={() => onAccept(offer)}
+                  >
+                    {tPr4("profileUi.accept")}
+                  </Button>
+                  {onCounter && (
+                    <Button
+                      variant="secondary"
+                      disabled={busy}
+                      onClick={() => onCounter(offer)}
+                    >
+                      {tPr4("socialUi.counteroffer")}
+                    </Button>
+                  )}
+                  {onDecline && (
+                    <Button
+                      variant="secondary"
+                      disabled={busy}
+                      onClick={() => onDecline(offer)}
+                    >
+                      {tPr4("profileUi.decline")}
+                    </Button>
+                  )}
+                </>
+              ) : (
+                onReview && (
+                  <Button onClick={() => onReview(offer)}>
+                    {tPr4("socialUi.reviewTrade")}
+                  </Button>
+                )
               )}
               {onCancel && (
                 <Button
@@ -1643,6 +1679,17 @@ export function TradesPanel({
                 busy={busy}
                 onReview={offer => setReviewedId(offer.id)}
                 onCancel={tab === "sent" ? setCancelling : undefined}
+                onAccept={
+                  tab === "received"
+                    ? offer => void respond(offer.id, "accept")
+                    : undefined
+                }
+                onDecline={
+                  tab === "received"
+                    ? offer => void respond(offer.id, "decline")
+                    : undefined
+                }
+                onCounter={tab === "received" ? requestCounter : undefined}
               />
             )}
             {hasMoreOffers && (

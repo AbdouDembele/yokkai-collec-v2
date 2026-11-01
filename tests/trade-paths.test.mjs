@@ -384,6 +384,45 @@ test("a committed acceptance remains accepted when refresh fails, and double con
   assert.equal(h.modal("This can't be undone").props.open, false);
 });
 
+test("received offers accept directly from the list once without opening review or confirmation", async () => {
+  let status = "pending",
+    calls = 0,
+    release;
+  const pending = new Promise(resolve => {
+    release = resolve;
+  });
+  const h = componentHarness(
+    adapter({
+      listOffers: async () => [{ ...offer(), status }],
+      respond: async (id, action) => {
+        assert.equal(id, "offer");
+        assert.equal(action, "accept");
+        calls++;
+        await pending;
+        status = "accepted";
+        return true;
+      }
+    }),
+    { fixedFriendId: friend }
+  );
+  await h.settle();
+  h.find("Tabs").props.onChange("received");
+  await h.settle();
+  const list = h.find("OfferList");
+  list.props.onAccept(list.props.offers[0]);
+  list.props.onAccept(list.props.offers[0]);
+  assert.equal(calls, 1);
+  h.render();
+  assert.equal(h.find("TradeReview").props.offer, undefined);
+  assert.equal(h.modal("This can't be undone").props.open, false);
+  release();
+  await h.settle();
+  assert.equal(h.find("OfferList").props.offers.length, 0);
+  h.find("Tabs").props.onChange("sent");
+  await h.settle();
+  assert.equal(h.find("OfferList").props.onAccept, undefined);
+});
+
 test("a pre-acceptance polling response cannot restore Pending; reconciliation waits for a fresh read", async () => {
   let reads = 0,
     release;

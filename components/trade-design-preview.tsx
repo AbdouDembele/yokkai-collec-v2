@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { TradesPanel, type TradesPanelAdapter } from "@/components/trades";
-import { ConversationTrade } from "@/components/conversation-trade";
 import type { CollectedCard } from "@/lib/data/cards";
 import type { TradeOffer } from "@/lib/data/trades";
 
@@ -128,6 +127,7 @@ const offer: TradeOffer = {
 };
 export function TradeDesignPreview() {
   const t = useTranslations();
+  const statuses = useRef(new Map<string, TradeOffer["status"]>());
   const [adapter] = useState<TradesPanelAdapter>(() => ({
     friendships: async () => ({
       friends: [
@@ -141,19 +141,23 @@ export function TradeDesignPreview() {
       incoming: [],
       outgoing: []
     }),
-    listOffers: async () => [
-      offer,
-      {
-        ...offer,
-        id: "sent-design",
-        incoming: false,
-        fromUser: viewer,
-        toUser: friend,
-        fromPseudo: "Akira",
-        toPseudo: "Kitsune"
-      },
-      { ...offer, id: "history-design", status: "accepted" }
-    ],
+    listOffers: async () =>
+      [
+        offer,
+        {
+          ...offer,
+          id: "sent-design",
+          incoming: false,
+          fromUser: viewer,
+          toUser: friend,
+          fromPseudo: "Akira",
+          toPseudo: "Kitsune"
+        },
+        { ...offer, id: "history-design", status: "accepted" as const }
+      ].map(item => ({
+        ...item,
+        status: statuses.current.get(item.id) ?? item.status
+      })),
     context: async () => ({
       friend: { id: friend, pseudo: "Kitsune" },
       balance: 9480,
@@ -166,8 +170,14 @@ export function TradeDesignPreview() {
       ]
     }),
     create: async () => "design-only",
-    cancel: async () => true,
-    respond: async (_id, action) => action === "accept"
+    cancel: async id => {
+      statuses.current.set(id, "cancelled");
+      return true;
+    },
+    respond: async (id, action) => {
+      statuses.current.set(id, action === "accept" ? "accepted" : "declined");
+      return action === "accept";
+    }
   }));
   return (
     <main
@@ -179,17 +189,6 @@ export function TradeDesignPreview() {
         pollIntervalMs={null}
         initialFriendId={friend}
       />
-      <section
-        style={{ marginTop: 32 }}
-        aria-label={t("socialUi.tradeHistory")}
-      >
-        <ConversationTrade
-          offer={offer}
-          viewerId={viewer}
-          busy={false}
-          onRespond={() => {}}
-        />
-      </section>
     </main>
   );
 }
