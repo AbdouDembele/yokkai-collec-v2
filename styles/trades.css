@@ -487,6 +487,17 @@
   width: min(1600px, calc(100vw - clamp(24px, 4vw, 64px)));
   max-width: 1600px;
 }
+.yk-modal.yk-private-trade-modal:has(.yk-trade-composer):not(
+    :has(.yk-trade-drop .yk-trade-lot-grid)
+  ) {
+  width: min(1080px, calc(100vw - clamp(24px, 4vw, 64px)));
+}
+.yk-private-trade-modal .yk-trade-drop:not(:has(.yk-trade-lot-grid)) {
+  min-height: 64px;
+}
+.yk-private-trade-modal .yk-trade-drop:not(:has(.yk-trade-lot-grid)) > p {
+  margin-block: 12px;
+}
 .yk-trade-review-lots {
   grid-template-columns: minmax(0, 1fr);
   gap: 14px;
