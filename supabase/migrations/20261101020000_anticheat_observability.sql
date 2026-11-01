@@ -79,7 +79,7 @@ create function public.record_anticheat_event(
 ) returns bigint
 language plpgsql volatile security definer set search_path='' as $$
 declare
-  event_id bigint;
+  recorded_event_id bigint;
   actor_points integer:=0;
   counterparty_points integer:=0;
   actor_reasons text[]:='{}';
@@ -124,12 +124,12 @@ begin
     p_event_type,p_actor_user_id,p_counterparty_user_id,p_subject_id,
     greatest(coalesce(p_amount,0),0),greatest(coalesce(p_card_count,0),0),
     coalesce(p_metadata,'{}'::jsonb),stamp
-  ) returning id into event_id;
+  ) returning id into recorded_event_id;
 
   if p_event_type='trade_accepted' then
     select count(*)::integer into pair_events from public.anticheat_events e
-      where e.id<>event_id and e.event_type='trade_accepted'
-        and e.occurred_at>=stamp-interval '24 hours'
+      where e.id<>recorded_event_id and e.event_type='trade_accepted'
+        and e.occurred_at between stamp-interval '24 hours' and stamp
         and ((e.actor_user_id=p_actor_user_id and e.counterparty_user_id=p_counterparty_user_id)
           or (e.actor_user_id=p_counterparty_user_id and e.counterparty_user_id=p_actor_user_id));
 
@@ -168,8 +168,8 @@ begin
     end if;
   elsif p_event_type='auction_bid' then
     select count(*)::integer into pair_events from public.anticheat_events e
-      where e.id<>event_id and e.event_type='auction_bid'
-        and e.occurred_at>=stamp-interval '24 hours'
+      where e.id<>recorded_event_id and e.event_type='auction_bid'
+        and e.occurred_at between stamp-interval '24 hours' and stamp
         and e.actor_user_id=p_actor_user_id and e.counterparty_user_id=p_counterparty_user_id;
     if p_amount>=5000 and p_amount>=greatest(100,starting_price*10) then
       actor_points:=actor_points+15;
@@ -185,8 +185,8 @@ begin
     end if;
   elsif p_event_type='auction_sold' then
     select count(*)::integer into pair_events from public.anticheat_events e
-      where e.id<>event_id and e.event_type='auction_sold'
-        and e.occurred_at>=stamp-interval '7 days'
+      where e.id<>recorded_event_id and e.event_type='auction_sold'
+        and e.occurred_at between stamp-interval '7 days' and stamp
         and e.actor_user_id=p_actor_user_id and e.counterparty_user_id=p_counterparty_user_id;
     if pair_events>=3 then
       actor_points:=actor_points+15;
@@ -196,8 +196,8 @@ begin
     end if;
   elsif p_event_type='referral_rewarded' then
     select count(*)::integer into burst_events from public.anticheat_events e
-      where e.id<>event_id and e.event_type='referral_rewarded'
-        and e.actor_user_id=p_actor_user_id and e.occurred_at>=stamp-interval '24 hours';
+      where e.id<>recorded_event_id and e.event_type='referral_rewarded'
+        and e.actor_user_id=p_actor_user_id and e.occurred_at between stamp-interval '24 hours' and stamp;
     if burst_events>=2 then
       actor_points:=actor_points+20;
       actor_reasons:=array_append(actor_reasons,'REFERRAL_REWARD_BURST');
@@ -215,17 +215,17 @@ begin
 
   if p_actor_user_id is not null then
     insert into public.anticheat_event_subjects(event_id,user_id,risk_points,reason_codes)
-      values(event_id,p_actor_user_id,least(actor_points,100),actor_reasons);
+      values(recorded_event_id,p_actor_user_id,least(actor_points,100),actor_reasons);
   end if;
   if p_counterparty_user_id is not null and p_counterparty_user_id is distinct from p_actor_user_id then
     insert into public.anticheat_event_subjects(event_id,user_id,risk_points,reason_codes)
-      values(event_id,p_counterparty_user_id,least(counterparty_points,100),counterparty_reasons);
+      values(recorded_event_id,p_counterparty_user_id,least(counterparty_points,100),counterparty_reasons);
   end if;
 
   insert into public.anticheat_cases(
     user_id,risk_score,event_count,reason_codes,first_flagged_at,last_flagged_at,status,updated_at
   ) select s.user_id,s.risk_points,1,s.reason_codes,stamp,stamp,'open',stamp
-    from public.anticheat_event_subjects s where s.event_id=event_id and s.risk_points>0
+    from public.anticheat_event_subjects s where s.event_id=recorded_event_id and s.risk_points>0
   on conflict(user_id) do update set
     risk_score=public.anticheat_cases.risk_score+excluded.risk_score,
     event_count=public.anticheat_cases.event_count+1,
@@ -234,7 +234,7 @@ begin
     last_flagged_at=excluded.last_flagged_at,
     status=case when public.anticheat_cases.status='dismissed' then 'open' else public.anticheat_cases.status end,
     updated_at=stamp;
-  return event_id;
+  return recorded_event_id;
 end; $$;
 revoke all on function public.record_anticheat_event(text,uuid,uuid,uuid,integer,integer,jsonb,timestamptz)
   from public,anon,authenticated,service_role;

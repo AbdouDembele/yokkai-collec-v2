@@ -261,12 +261,12 @@ export default async function AdminSecurityPage({
 
           <section className="rounded-2xl border border-cyan-300/20 bg-slate-900/70 p-4 sm:p-5">
             <form
-              className="grid gap-3 md:grid-cols-[minmax(0,1fr)_12rem_12rem_auto_auto]"
+              className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_12rem_12rem_auto_auto]"
               method="get"
             >
               <input
                 aria-label={t("searchLabel")}
-                className="yk-field-control"
+                className="yk-field-control min-w-0 sm:col-span-2 xl:col-span-1"
                 defaultValue={query}
                 maxLength={100}
                 name="q"
@@ -274,7 +274,7 @@ export default async function AdminSecurityPage({
               />
               <select
                 aria-label={t("severityLabel")}
-                className="yk-field-control"
+                className="yk-field-control min-w-0"
                 defaultValue={severity}
                 name="severity"
               >
@@ -287,7 +287,7 @@ export default async function AdminSecurityPage({
               </select>
               <select
                 aria-label={t("eventLabel")}
-                className="yk-field-control"
+                className="yk-field-control min-w-0"
                 defaultValue={eventType}
                 name="event"
               >
@@ -313,7 +313,7 @@ export default async function AdminSecurityPage({
           </section>
 
           <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(22rem,0.75fr)]">
-            <section id="anticheat-cases" tabIndex={0}>
+            <section className="min-w-0" id="anticheat-cases" tabIndex={0}>
               <div className="mb-3 flex items-end justify-between gap-3">
                 <div>
                   <h2 className="text-xl font-black">{t("casesTitle")}</h2>
@@ -337,7 +337,7 @@ export default async function AdminSecurityPage({
                       <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-2">
-                            <h3 className="truncate text-lg font-black">
+                            <h3 className="min-w-0 text-lg font-black [overflow-wrap:anywhere]">
                               {item.pseudo}
                             </h3>
                             <span
@@ -354,7 +354,7 @@ export default async function AdminSecurityPage({
                               {t(`severities.${item.severity}`)}
                             </span>
                           </div>
-                          <p className="truncate text-sm text-slate-400">
+                          <p className="text-sm text-slate-400 [overflow-wrap:anywhere]">
                             {item.email}
                           </p>
                         </div>
@@ -424,7 +424,7 @@ export default async function AdminSecurityPage({
               />
             </section>
 
-            <aside className="rounded-2xl border border-cyan-300/20 bg-slate-900/70 p-4 sm:p-5 xl:sticky xl:top-24">
+            <aside className="min-w-0 rounded-2xl border border-cyan-300/20 bg-slate-900/70 p-4 sm:p-5 xl:sticky xl:top-24">
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h2 className="text-xl font-black">{t("eventsTitle")}</h2>
@@ -473,7 +473,7 @@ export default async function AdminSecurityPage({
                             </span>
                           )}
                         </div>
-                        <p className="mt-1 text-sm text-slate-300">
+                        <p className="mt-1 text-sm text-slate-300 [overflow-wrap:anywhere]">
                           {[event.actor?.pseudo, event.counterparty?.pseudo]
                             .filter(Boolean)
                             .join(" → ")}
