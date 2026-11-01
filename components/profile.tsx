@@ -1991,6 +1991,7 @@ export function ProfileExperience({
                     <>
                       <FriendMessageButton
                         key={profile.id}
+                        showTrade
                         friend={{
                           id: profile.id,
                           pseudo: profile.pseudo,
@@ -2001,29 +2002,6 @@ export function ProfileExperience({
                         tradeAdapter={adapter.trades}
                         moderationAdapter={adapter.moderation}
                       />
-                      <Link
-                        href={`/social/friends?tab=trades&ami=${encodeURIComponent(profile.id)}`}
-                        className="yk-button yk-button-secondary"
-                        data-profile-trade
-                        aria-label={t("privateMessages.tradeWith", {
-                          name: profile.pseudo
-                        })}
-                      >
-                        <svg
-                          width="16"
-                          height="16"
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="1.6"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                        >
-                          <path d="M4 7h16m-5-5 5 5-5 5M20 17H4m5-5-5 5 5 5" />
-                        </svg>
-                        {t("privateMessages.trade")}
-                      </Link>
                     </>
                   )}
                 </>

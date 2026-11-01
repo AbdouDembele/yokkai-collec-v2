@@ -3,7 +3,8 @@ import { useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslations } from "next-intl";
 import { PrivateMessages } from "@/components/private-messages";
-import { Button } from "@/components/ui";
+import dynamic from "next/dynamic";
+import { Button, Modal } from "@/components/ui";
 import type { FriendUser } from "@/lib/data/friends";
 import type { PrivateMessagesAdapter } from "@/lib/data/private-messages";
 import type { TradesPanelAdapter } from "@/components/trades";
@@ -12,12 +13,14 @@ export function FriendMessageButton({
   friend,
   adapter,
   tradeAdapter,
-  moderationAdapter
+  moderationAdapter,
+  showTrade = false
 }: {
   friend: FriendUser;
   adapter?: PrivateMessagesAdapter;
   tradeAdapter?: TradesPanelAdapter;
   moderationAdapter?: ModerationAdapter;
+  showTrade?: boolean;
 }) {
   const t = useTranslations();
   const [open, setOpen] = useState(false);
@@ -54,6 +57,9 @@ export function FriendMessageButton({
         </svg>
         {t("socialFriends.message")}
       </Button>
+      {showTrade && (
+        <FriendTradeButton friend={friend} adapter={tradeAdapter} />
+      )}
       {open &&
         createPortal(
           <PrivateMessages
@@ -64,6 +70,63 @@ export function FriendMessageButton({
             moderationAdapter={moderationAdapter}
             onClose={close}
           />,
+          document.body
+        )}
+    </>
+  );
+}
+
+const TradesPanel = dynamic(() =>
+  import("@/components/trades").then(module => module.TradesPanel)
+);
+
+function FriendTradeButton({
+  friend,
+  adapter
+}: {
+  friend: FriendUser;
+  adapter?: TradesPanelAdapter;
+}) {
+  const t = useTranslations("privateMessages");
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button
+        variant="secondary"
+        data-profile-trade
+        aria-haspopup="dialog"
+        aria-label={t("tradeWith", { name: friend.pseudo })}
+        onClick={() => setOpen(true)}
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M4 7h16m-5-5 5 5-5 5M20 17H4m5-5-5 5 5 5" />
+        </svg>
+        {t("trade")}
+      </Button>
+      {open &&
+        createPortal(
+          <Modal
+            open
+            title={t("tradeWith", { name: friend.pseudo })}
+            className="yk-private-trade-modal"
+            onClose={() => setOpen(false)}
+          >
+            <TradesPanel
+              adapter={adapter}
+              fixedFriendId={friend.id}
+              onOfferSent={() => setOpen(false)}
+            />
+          </Modal>,
           document.body
         )}
     </>

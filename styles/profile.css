@@ -666,7 +666,8 @@ main:has(.yk-profile-hub:not([data-profile-compact="true"])) {
   font-size: 12px;
 }
 .yk-profile-like.yk-button {
-  display: flex;
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr) 18px;
   width: 100%;
   min-height: 46px;
   gap: 10px;
@@ -683,9 +684,8 @@ main:has(.yk-profile-hub:not([data-profile-compact="true"])) {
   color: var(--color-danger-ink);
 }
 .yk-profile-like-label {
-  flex: 1;
   min-width: 0;
-  text-align: left;
+  text-align: center;
   overflow-wrap: anywhere;
 }
 .yk-profile-like.yk-button[aria-pressed="true"] {
