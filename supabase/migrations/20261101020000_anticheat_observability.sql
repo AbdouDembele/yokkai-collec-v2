@@ -103,10 +103,20 @@ begin
     raise exception 'ANTICHEAT_EVENT_SUBJECT_REQUIRED';
   end if;
 
-  select coalesce(created_at between stamp-interval '72 hours' and stamp,false) into actor_recent
-    from auth.users where id=p_actor_user_id;
-  select coalesce(created_at between stamp-interval '72 hours' and stamp,false) into counterparty_recent
-    from auth.users where id=p_counterparty_user_id;
+  select exists(
+    select 1
+    from public.anticheat_events
+    where event_type='account_registered'
+      and actor_user_id=p_actor_user_id
+      and occurred_at between stamp-interval '72 hours' and stamp
+  ) into actor_recent;
+  select exists(
+    select 1
+    from public.anticheat_events
+    where event_type='account_registered'
+      and actor_user_id=p_counterparty_user_id
+      and occurred_at between stamp-interval '72 hours' and stamp
+  ) into counterparty_recent;
 
   insert into public.anticheat_events(
     event_type,actor_user_id,counterparty_user_id,subject_id,amount,card_count,metadata,occurred_at
