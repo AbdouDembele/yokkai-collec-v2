@@ -2,17 +2,22 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
+// English catalog source labels include "Card publishing"; rendering goes
+// through adminNavigation so the French catalog can follow the locale flag.
 const items = [
-  { href: "/admin/cards", label: "Card publishing" },
-  { href: "/admin/players", label: "Player administration" },
-  { href: "/admin/reports", label: "Reports" }
+  { href: "/admin/cards", label: "cards" },
+  { href: "/admin/players", label: "players" },
+  { href: "/admin/reports", label: "reports" },
+  { href: "/admin/security", label: "security" }
 ];
 
 export function AdminNavigation() {
   const pathname = usePathname();
+  const t = useTranslations("adminNavigation");
   return (
-    <nav aria-label="Admin navigation" className="yk-tabs">
+    <nav aria-label={t("label")} className="yk-tabs overflow-x-auto">
       {items.map(item => (
         <Link
           aria-current={pathname.startsWith(item.href) ? "page" : undefined}
@@ -20,7 +25,7 @@ export function AdminNavigation() {
           href={item.href}
           key={item.href}
         >
-          {item.label}
+          {t(item.label)}
         </Link>
       ))}
     </nav>
