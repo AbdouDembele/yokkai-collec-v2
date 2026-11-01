@@ -111,7 +111,25 @@ function TradeCardControls({
         >
           −
         </button>
-        <output aria-live="polite">{quantity}</output>
+        <output aria-live="polite">
+          {quantity > 0 && (
+            <svg
+              className="yk-trade-selection-mark"
+              aria-hidden="true"
+              viewBox="0 0 16 16"
+              fill="none"
+            >
+              <path
+                d="m3 8 3 3 7-7"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          )}
+          {quantity}
+        </output>
         <button
           type="button"
           disabled={quantity === group.cards.length}
