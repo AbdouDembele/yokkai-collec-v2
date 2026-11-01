@@ -2026,8 +2026,8 @@
   },
   "socialFriends": {
     "sections": "Sections du feed",
-    "feed": "Fil",
-    "everyone": "Tout le monde",
+    "feed": "Posts des amis",
+    "everyone": "Public posts",
     "friends": "Amis",
     "leaderboard": "Classement",
     "overline": "Entre collectionneurs",

@@ -94,8 +94,10 @@ test("Feed tabs expose Everyone only after public RPC success and keep Friends s
     assert.match(html, /href="\/social"/);
     assert.doesNotMatch(html, /href="\/friends"/);
     if (available) {
-      assert.ok(html.indexOf(">Feed<") < html.indexOf(">Everyone<"));
-      assert.ok(html.indexOf(">Everyone<") < html.indexOf(">Leaderboard<"));
+      assert.ok(
+        html.indexOf(">Friends’ posts<") < html.indexOf(">Public posts<")
+      );
+      assert.ok(html.indexOf(">Public posts<") < html.indexOf(">Leaderboard<"));
       assert.match(html, /href="\/social\/everyone"[^>]*aria-current="page"/);
     }
   }

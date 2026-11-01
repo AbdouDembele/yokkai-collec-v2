@@ -2026,8 +2026,8 @@
   },
   "socialFriends": {
     "sections": "Feed sections",
-    "feed": "Feed",
-    "everyone": "Everyone",
+    "feed": "Friends’ posts",
+    "everyone": "Public posts",
     "friends": "Friends",
     "leaderboard": "Leaderboard",
     "overline": "Between collectors",

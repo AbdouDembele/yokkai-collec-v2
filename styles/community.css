@@ -1569,8 +1569,13 @@
     overflow: visible;
   }
   .yk-social-stack > nav.yk-tabs > .yk-tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
     min-height: 44px;
     text-align: center;
+    white-space: normal;
   }
   .yk-social-stack > nav.yk-tabs > :last-child:nth-child(odd) {
     grid-column: 1 / -1;

@@ -185,8 +185,11 @@ test("Social opens Feed and hides Everyone until its availability probe succeeds
   assert.doesNotMatch(html, /href="\/friends"/);
   assert.match(html, /aria-current="page"/);
   assert.match(html, /Friends content/);
-  assert.match(html, /href="\/social"[^>]*aria-current="page"[^>]*>Feed/);
-  assert.doesNotMatch(html, /Everyone/);
+  assert.match(
+    html,
+    /href="\/social"[^>]*aria-current="page"[^>]*>Friends’ posts/
+  );
+  assert.doesNotMatch(html, /Public posts/);
 });
 
 test("Friends shows a skeleton initially and waits through search debounce before showing no results", () => {
