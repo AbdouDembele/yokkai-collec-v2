@@ -413,6 +413,9 @@
 }
 .yk-modal.yk-trade-review-modal {
   width: min(960px, calc(100% - 24px));
+  height: auto;
+  max-height: calc(100dvh - 24px);
+  margin: auto;
   padding: clamp(16px, 3vw, 28px);
   border-radius: 20px;
   border-color: #3b4a63;
@@ -436,7 +439,7 @@
 }
 .yk-trade-review > footer {
   position: sticky;
-  bottom: -28px;
+  bottom: clamp(-28px, -3vw, -16px);
   margin: 0 -4px -4px;
   padding: 16px 4px 4px;
   background: #0b1320;
@@ -448,6 +451,10 @@
   font-size: 12px;
 }
 .yk-modal.yk-trade-picker-modal {
+  width: min(1120px, calc(100% - 24px));
+  height: auto;
+  max-height: calc(100dvh - 24px);
+  margin: auto;
   border-radius: 20px;
   background: #0b1320;
   border-color: #3b4a63;
