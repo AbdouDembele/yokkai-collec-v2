@@ -7,7 +7,7 @@ import { useTranslations, useFormatter } from "next-intl";
 
 import { cardRarityLabel } from "@/lib/ui/card-rarity-label";
 import { startVisiblePolling } from "@/lib/ui/visible-polling";
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   Avatar,
   Button,
@@ -55,7 +55,6 @@ import {
 } from "@/lib/data/cards";
 import {
   groupCollection,
-  collectionGroupKey,
   pruneUnavailableSelection,
   selectGroupQuantity,
   type CollectionGroup
@@ -67,13 +66,6 @@ import {
 
 import { createDemandPager } from "@/lib/data/demand-pages";
 
-const rarityOrder: Record<Rarity, number> = {
-  C: 0,
-  R: 1,
-  SR: 2,
-  SSR: 3,
-  LR: 4
-};
 const rarityText: Record<Rarity, string> = {
   C: "text-rarity-c",
   R: "text-rarity-r",
@@ -81,14 +73,6 @@ const rarityText: Record<Rarity, string> = {
   SSR: "text-rarity-ssr",
   LR: "text-rarity-lr"
 };
-const widePickerQuery = "(min-width: 900px)";
-function subscribeWidePicker(onChange: () => void) {
-  const media = window.matchMedia(widePickerQuery);
-  media.addEventListener("change", onChange);
-  return () => media.removeEventListener("change", onChange);
-}
-const isWidePicker = () => window.matchMedia(widePickerQuery).matches;
-const narrowPickerOnServer = () => false;
 
 function TradeCardControls({
   group,
@@ -176,226 +160,28 @@ function CardPicker({
   onChange: (next: Set<string>) => void;
 }) {
   const tPr4 = useTranslations();
-  const wide = useSyncExternalStore(
-    subscribeWidePicker,
-    isWidePicker,
-    narrowPickerOnServer
-  );
-  const [query, setQuery] = useState("");
-  const [rarity, setRarity] = useState<"" | Rarity>("");
-  const [sort, setSort] = useState<"rarity" | "newest" | "oldest">("rarity");
   const ownership = useMemo(
     () => (ownedVariants ? tradeOwnershipIndex(ownedVariants) : undefined),
     [ownedVariants]
   );
-  const searchId = useId();
-  const normalized = query.trim().toLocaleLowerCase("en-US");
-  const groups = (wide ? [] : groupCollection(cards))
-    .filter(group => {
-      const card = group.representative;
-      return (
-        (!rarity || card.rarity === rarity) &&
-        (!normalized ||
-          [
-            card.name,
-            card.anime,
-            card.category,
-            card.rarity,
-            card.shiny ? "shiny" : ""
-          ].some(value =>
-            value?.toLocaleLowerCase("en-US").includes(normalized)
-          ))
-      );
-    })
-    .sort((a, b) =>
-      sort === "rarity"
-        ? rarityOrder[b.representative.rarity] -
-            rarityOrder[a.representative.rarity] ||
-          a.representative.name.localeCompare(b.representative.name, "fr")
-        : sort === "newest"
-          ? Date.parse(b.firstObtainedAt) - Date.parse(a.firstObtainedAt)
-          : Date.parse(a.firstObtainedAt) - Date.parse(b.firstObtainedAt)
-    );
   return (
     <Modal
       open={open}
       onClose={onClose}
       title={title}
-      className={`yk-trade-picker-modal ${wide ? "yk-trade-collection-picker yk-friend-collection-modal yk-friend-card-grid-modal" : ""}`}
+      className="yk-trade-picker-modal yk-trade-collection-picker yk-friend-collection-modal yk-friend-card-grid-modal"
     >
-      {wide ? (
-        <TradeCollectionBrowser
-          cards={cards}
-          renderCardControls={group => (
-            <TradeCardControls
-              group={group}
-              ownedCount={ownership?.variants.get(group.key) ?? 0}
-              selected={selected}
-              onChange={onChange}
-            />
-          )}
-        />
-      ) : (
-        <>
-          <div className="yk-trade-picker-toolbar">
-            <label className="sr-only" htmlFor={searchId}>
-              {tPr4("socialUi.searchForACardToTrade")}
-            </label>
-            <input
-              id={searchId}
-              type="search"
-              value={query}
-              onChange={event => setQuery(event.target.value)}
-              placeholder={tPr4("socialUi.searchCardsOrFranchises")}
-              className="auth-input"
-            />
-            <select
-              aria-label={tPr4("socialUi.filterByRarity")}
-              value={rarity}
-              onChange={event => setRarity(event.target.value as "" | Rarity)}
-            >
-              <option value="">{tPr4("socialUi.allRarities")}</option>
-              {(["LR", "SSR", "SR", "R", "C"] as Rarity[]).map(value => (
-                <option key={value} value={value}>
-                  {value}
-                </option>
-              ))}
-            </select>
-            <select
-              aria-label={tPr4("socialUi.sortCards")}
-              value={sort}
-              onChange={event => setSort(event.target.value as typeof sort)}
-            >
-              <option value="rarity">{tPr4("collectionUi.rarity")}</option>
-              <option value="newest">{tPr4("socialUi.newestFirst")}</option>
-              <option value="oldest">{tPr4("socialUi.oldestFirst")}</option>
-            </select>
-          </div>
-          <p className="yk-trade-picker-note">
-            {tPr4("socialUi.lockedOrListedCopiesArenTAvailable")}
-          </p>
-          {groups.length ? (
-            <div className="yk-trade-picker-grid">
-              {groups.map(group => {
-                const card = group.representative;
-                const ownedCount =
-                  ownership?.variants.get(collectionGroupKey(card)) ?? 0;
-                const quantity = group.cards.filter(copy =>
-                  selected.has(copy.instanceId)
-                ).length;
-                return (
-                  <article
-                    key={group.key}
-                    className={`yk-trade-picker-card ${quantity ? "is-selected" : ""}`}
-                    data-group-key={group.key}
-                  >
-                    <div className="yk-trade-picker-art">
-                      <YokaiCard
-                        {...card}
-                        animated={false}
-                        imageSizes="100vw"
-                      />
-                      {group.cards.length > 1 && (
-                        <span className="yk-trade-picker-count">
-                          ×{group.cards.length}
-                        </span>
-                      )}
-                    </div>
-                    <div className="min-w-0">
-                      <strong className="block truncate text-sm">
-                        {card.name}
-                      </strong>
-                      <CardFranchise
-                        card={card}
-                        className="mt-1 block truncate text-xs text-ink-3"
-                      />
-                      <span
-                        className={`mt-2 block text-xs font-bold ${rarityText[card.rarity]}`}
-                      >
-                        {cardRarityLabel(
-                          card.rarity,
-                          card.shiny,
-                          card.isEvolved
-                        )}
-                      </span>
-                      {ownedCount > 0 && (
-                        <span className="yk-trade-ownership is-owned">
-                          <svg
-                            aria-hidden="true"
-                            viewBox="0 0 16 16"
-                            fill="none"
-                          >
-                            <path
-                              d="m4 8 2.5 2.5L12 5"
-                              stroke="currentColor"
-                              strokeWidth="1.6"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                            />
-                          </svg>
-                          <span>
-                            {tPr4("tradeDesign.alreadyOwned", {
-                              count: ownedCount
-                            })}
-                          </span>
-                        </span>
-                      )}
-                    </div>
-                    <div
-                      className="yk-trade-quantity"
-                      aria-label={tPr4("socialUi.copiesOf", {
-                        name: card.name
-                      })}
-                    >
-                      <button
-                        type="button"
-                        disabled={quantity === 0}
-                        aria-label={tPr4("socialUi.removeCopy", {
-                          name: card.name
-                        })}
-                        onClick={() =>
-                          onChange(
-                            selectGroupQuantity(
-                              selected,
-                              group.cards,
-                              quantity - 1
-                            )
-                          )
-                        }
-                      >
-                        −
-                      </button>
-                      <output aria-live="polite">{quantity}</output>
-                      <button
-                        type="button"
-                        disabled={quantity === group.cards.length}
-                        aria-label={tPr4("socialUi.addCopy", {
-                          name: card.name
-                        })}
-                        onClick={() =>
-                          onChange(
-                            selectGroupQuantity(
-                              selected,
-                              group.cards,
-                              quantity + 1
-                            )
-                          )
-                        }
-                      >
-                        +
-                      </button>
-                    </div>
-                  </article>
-                );
-              })}
-            </div>
-          ) : (
-            <p role="status" className="py-10 text-center text-sm text-ink-3">
-              {tPr4("collectionUi.noCardsMatchTheseFilters")}
-            </p>
-          )}
-        </>
-      )}
+      <TradeCollectionBrowser
+        cards={cards}
+        renderCardControls={group => (
+          <TradeCardControls
+            group={group}
+            ownedCount={ownership?.variants.get(group.key) ?? 0}
+            selected={selected}
+            onChange={onChange}
+          />
+        )}
+      />
       <footer className="yk-trade-picker-footer">
         <span>{tPr4("socialUi.selectedCopies", { count: selected.size })}</span>
         <Button onClick={onClose}>{tPr4("socialUi.confirmSelection")}</Button>
@@ -403,6 +189,7 @@ function CardPicker({
     </Modal>
   );
 }
+
 function OfferCards({ cards }: { cards: CollectedCard[] }) {
   return <ReviewCards cards={cards} />;
 }
