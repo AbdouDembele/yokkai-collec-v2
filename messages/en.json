@@ -2026,6 +2026,10 @@
   },
   "socialFriends": {
     "sections": "Feed sections",
+    "searchMyFriends": "Search my friends…",
+    "searchRemainingFriends": "Searching the rest of your friends…",
+    "noMatchingFriends": "No matching friends",
+    "tryFriendName": "Try another name or clear the search to see all your friends.",
     "feed": "Friends’ posts",
     "everyone": "Public posts",
     "friends": "Friends",

@@ -366,6 +366,17 @@ function Person({
   );
 }
 type FriendsTab = "friends" | "incoming" | "outgoing" | "blocked";
+function filterFriends(friends: FriendUser[], query: string) {
+  const normalize = (value: string) =>
+    value
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLocaleLowerCase();
+  const search = normalize(query.trim());
+  return search
+    ? friends.filter(friend => normalize(friend.pseudo).includes(search))
+    : friends;
+}
 export type FriendsPanelAdapter = {
   friendships: () => Promise<Friendships>;
   search: (query: string) => Promise<FriendUser[]>;
@@ -476,6 +487,7 @@ export function FriendsPanel({
   const [removal, setRemoval] = useState<FriendUser>();
   const [removing, setRemoving] = useState(false);
   const [conversation, setConversation] = useState<FriendUser>();
+  const [friendQuery, setFriendQuery] = useState("");
   const openedFromNotification = useRef<string | undefined>(undefined);
   useEffect(() => {
     if (!initialConversationId) {
@@ -589,6 +601,20 @@ export function FriendsPanel({
       window.clearTimeout(timer);
     };
   }, [query, adapter]);
+  useEffect(() => {
+    if (
+      tab !== "friends" ||
+      !friendQuery.trim() ||
+      !hasMore ||
+      loadingMore ||
+      error
+    )
+      return;
+    // Read remaining relationship pages only while searching. Reuse the pager
+    // so loaded friends stay available and concurrent reads are deduplicated.
+    const timer = window.setTimeout(() => void loadMore(), 250);
+    return () => window.clearTimeout(timer);
+  }, [friendQuery, tab, hasMore, loadingMore, error, pager]);
   async function respond(id: string, accept: boolean) {
     setError("");
     try {
@@ -621,7 +647,8 @@ export function FriendsPanel({
     incoming: data?.incoming ?? [],
     outgoing: data?.outgoing ?? []
   };
-  const current: FriendUser[] = lists[tab];
+  const current: FriendUser[] =
+    tab === "friends" ? filterFriends(lists.friends, friendQuery) : lists[tab];
   const tradeFriend = data?.friends.find(
     person => person.id === (localTradeFriend ?? tradeSection?.friendId)
   );
@@ -730,6 +757,45 @@ export function FriendsPanel({
             }
           ]}
         />
+        {tab === "friends" && (
+          <div className="yk-friends-list-search">
+            <label className="yk-social-search-field">
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 20 20"
+                fill="none"
+                width="16"
+                height="16"
+              >
+                <circle
+                  cx="8.5"
+                  cy="8.5"
+                  r="5.5"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                />
+                <path
+                  d="m13 13 4 4"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                />
+              </svg>
+              <input
+                type="search"
+                aria-label={f("searchMyFriends")}
+                placeholder={f("searchMyFriends")}
+                value={friendQuery}
+                onChange={event => setFriendQuery(event.target.value)}
+              />
+            </label>
+            {!!friendQuery.trim() && hasMore && (
+              <p className="yk-search-hint" role="status">
+                {f("searchRemainingFriends")}
+              </p>
+            )}
+          </div>
+        )}
         {!data && tab !== "blocked" ? (
           !error && (
             <Skeleton
@@ -799,14 +865,18 @@ export function FriendsPanel({
               ◇
             </span>
             <strong>
-              {hasMore && tab !== "blocked"
-                ? f("notLoaded")
-                : f(`empty.${tab}.title`)}
+              {tab === "friends" && friendQuery.trim()
+                ? f(hasMore ? "searchRemainingFriends" : "noMatchingFriends")
+                : hasMore && tab !== "blocked"
+                  ? f("notLoaded")
+                  : f(`empty.${tab}.title`)}
             </strong>
             <p>
-              {hasMore && tab !== "blocked"
-                ? f("loadHint")
-                : f(`empty.${tab}.text`)}
+              {tab === "friends" && friendQuery.trim()
+                ? f("tryFriendName")
+                : hasMore && tab !== "blocked"
+                  ? f("loadHint")
+                  : f(`empty.${tab}.text`)}
             </p>
           </div>
         )}

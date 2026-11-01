@@ -2026,6 +2026,10 @@
   },
   "socialFriends": {
     "sections": "Sections du feed",
+    "searchMyFriends": "Rechercher parmi mes amis…",
+    "searchRemainingFriends": "Recherche dans le reste de tes amis…",
+    "noMatchingFriends": "Aucun ami correspondant",
+    "tryFriendName": "Essaie un autre pseudo ou efface la recherche pour voir tous tes amis.",
     "feed": "Posts des amis",
     "everyone": "Public posts",
     "friends": "Amis",

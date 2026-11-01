@@ -730,6 +730,20 @@
   gap: calc(var(--spacing) * 5);
   padding: calc(var(--spacing) * 5);
 }
+.yk-friends-list-search {
+  width: min(100%, 420px);
+  margin-top: 16px;
+  margin-left: auto;
+}
+.yk-friends-list-search .yk-social-search-field {
+  width: 100%;
+}
+.yk-friends-list-search svg {
+  flex: 0 0 16px;
+}
+.yk-friends-list-search .yk-search-hint {
+  margin-top: 8px;
+}
 .yk-social-search-field {
   display: flex;
   align-items: center;
