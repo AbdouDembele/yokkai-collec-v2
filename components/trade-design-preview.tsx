@@ -61,6 +61,54 @@ const cards: CollectedCard[] = [
     customImageUrl: null
   }
 ];
+const extraCards: CollectedCard[] = [
+  {
+    id: "luffy",
+    name: "MONKEY D. LUFFY",
+    anime: "ONE PIECE",
+    rarity: "LR" as const,
+    image: "/assets/landing/luffy.webp"
+  },
+  {
+    id: "levi",
+    name: "LEVI ACKERMAN",
+    anime: "Attack on Titan",
+    rarity: "SR" as const,
+    image: "/assets/landing/levi.webp"
+  },
+  ...(["C", "R", "SR", "SSR", "LR", "R"] as const).map((rarity, index) => ({
+    id: `collection-${index + 2}`,
+    name: `Collection ${index + 2}`,
+    anime: "Yokkai Collection",
+    rarity,
+    image: `/assets/premium-examples/bbdou-card-${index + 2}.png`
+  }))
+].map(card => ({
+  ...cards[0],
+  ...card,
+  instanceId: `${card.id}-one`,
+  catalogueImage: card.image
+}));
+const ownCards = [
+  cards[1],
+  { ...cards[0], instanceId: "own-gojo-one" },
+  ...extraCards.map(card => ({
+    ...card,
+    instanceId: `own-${card.instanceId}`
+  })),
+  { ...cards[0], instanceId: "own-gojo-two" },
+  { ...extraCards[0], instanceId: "own-luffy-two" }
+];
+const friendCards = [
+  cards[0],
+  cards[2],
+  { ...cards[1], instanceId: "friend-custom-one" },
+  ...extraCards.map(card => ({
+    ...card,
+    instanceId: `friend-${card.instanceId}`
+  })),
+  { ...extraCards[1], instanceId: "friend-levi-two" }
+];
 const offer: TradeOffer = {
   id: "design-offer",
   fromUser: friend,
@@ -68,8 +116,8 @@ const offer: TradeOffer = {
   fromPseudo: "Kitsune",
   toPseudo: "Akira",
   incoming: true,
-  offeredCards: [cards[0], cards[2]],
-  requestedCards: [cards[1]],
+  offeredCards: [cards[0], cards[2], friendCards[3], friendCards[4]],
+  requestedCards: [cards[1], ownCards[2], ownCards[3]],
   offeredKaras: 1250,
   requestedKaras: 400,
   status: "pending",
@@ -107,8 +155,8 @@ export function TradeDesignPreview() {
     context: async () => ({
       friend: { id: friend, pseudo: "Kitsune" },
       balance: 9480,
-      ownCards: [cards[1]],
-      friendCards: [cards[0], cards[2]]
+      ownCards,
+      friendCards
     }),
     create: async () => "design-only",
     cancel: async () => true,
