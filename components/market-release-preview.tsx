@@ -106,13 +106,27 @@ export function MarketReleasePreview({ mode }: { mode: string }) {
     buyerId: "viewer",
     endsAt: "2026-10-28T15:00:00Z"
   };
+  const ownershipFixtures = Array.from({ length: 12 }, (_, index) => ({
+    ...raw,
+    id: `ownership-fixture-${index}`,
+    ownedCount: index % 4 === 0 ? index + 2 : 0,
+    card: {
+      ...card,
+      rarity: index % 3 === 2 ? ("SSR" as const) : card.rarity,
+      shiny: index % 3 !== 0,
+      isEvolved: index % 3 === 2
+    }
+  }));
   return (
     <main className="p-4">
       <MarketView
         lists={
           mode === "empty"
             ? { active: [], mine: [], won: [], sold: [] }
-            : buildAuctionLists([raw, sold], "viewer")
+            : buildAuctionLists(
+                mode === "ownership" ? ownershipFixtures : [raw, sold],
+                "viewer"
+              )
         }
         activeSales="1"
         pageHeading={<MarketHeading />}

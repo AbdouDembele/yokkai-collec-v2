@@ -2207,7 +2207,8 @@
     "emptysalesAction": "Mettre une carte aux enchères",
     "emptyunsoldTitle": "Aucune enchère invendue",
     "emptyunsoldText": "Les annonces terminées sans offre apparaîtront ici.",
-    "emptyunsoldAction": "Mettre une carte aux enchères"
+    "emptyunsoldAction": "Mettre une carte aux enchères",
+    "alreadyOwned": "Déjà possédée · {count}"
   },
   "binderDiscovery": {
     "cardsTab": "Mes cartes",

@@ -2207,7 +2207,8 @@
     "emptysalesAction": "List a card",
     "emptyunsoldTitle": "No unsold auctions",
     "emptyunsoldText": "Listings that end without a bid will appear here.",
-    "emptyunsoldAction": "List a card"
+    "emptyunsoldAction": "List a card",
+    "alreadyOwned": "Already owned · {count}"
   },
   "binderDiscovery": {
     "cardsTab": "My cards",

@@ -378,6 +378,7 @@ export function CatalogueCardModal({
 // minimum bids, durations, balances or auction rules are computed in these views.
 export type AuctionPresentation = {
   id: string;
+  ownedCount?: number;
   card: Card;
   amount: number;
   remaining: string;
@@ -580,6 +581,20 @@ function AuctionTile({ auction: a }: { auction: AuctionPresentation }) {
                 size={26}
               />
               <span className="truncate">{a.seller}</span>
+            </span>
+          )}
+          {(a.ownedCount ?? 0) > 0 && (
+            <span className="yk-market-owned">
+              <svg aria-hidden="true" viewBox="0 0 16 16" fill="none">
+                <path
+                  d="m3 8 3 3 7-7"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              {tm("alreadyOwned", { count: a.ownedCount! })}
             </span>
           )}
           <div className="yk-market-tile-line">
@@ -2756,6 +2771,7 @@ export function presentAuction(
               : undefined;
   return {
     id: raw.id,
+    ...(raw.ownedCount !== undefined ? { ownedCount: raw.ownedCount } : {}),
     card: { ...raw.card, image: raw.card.catalogueImage ?? raw.card.image },
     amount: raw.amount,
     remaining: left.text,
@@ -2980,9 +2996,13 @@ export function CommunityView({
     };
     // #388: the list is not live; actions and invalidations refresh it sooner.
     const stop = startVisiblePolling(() => void refresh(), 30_000);
+    const unsubscribe = subscribePlayerSnapshotInvalidation(scopes => {
+      if (scopes.includes("collection")) void refresh();
+    });
     return () => {
       active = false;
       stop();
+      unsubscribe();
     };
   }, [screen, marketQuery, marketLimit]);
   useEffect(() => {

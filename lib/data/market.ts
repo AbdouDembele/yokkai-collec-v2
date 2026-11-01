@@ -22,6 +22,7 @@ export type AuctionData = {
   popularity?: number;
   bids: number;
   watched: boolean;
+  ownedCount?: number;
 };
 export type AuctionDetail = AuctionData & {
   winner?: string | null;
