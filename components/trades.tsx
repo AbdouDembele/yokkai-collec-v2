@@ -280,68 +280,7 @@ function CardPicker({
   );
 }
 function OfferCards({ cards }: { cards: CollectedCard[] }) {
-  const t = useTranslations();
-  const [activeKey, setActiveKey] = useState<string>();
-  const groups = useMemo(() => groupCollection(cards), [cards]);
-  const index = Math.max(
-    0,
-    groups.findIndex(group => group.key === activeKey)
-  );
-  const active = groups[index];
-  if (!active) return <ReviewCards cards={cards} />;
-  return (
-    <div
-      className="yk-trade-stack"
-      data-group-key={active.key}
-      role="region"
-      aria-label={t("tradeDesign.selectedCards")}
-    >
-      <div
-        className={`yk-trade-stack-deck ${groups.length > 1 ? "has-stack" : ""}`}
-      >
-        <ReviewCards cards={active.cards} />
-      </div>
-      <div className="yk-trade-stack-navigation">
-        <Button
-          variant="secondary"
-          className="yk-trade-stack-step"
-          aria-label={t("tradeDesign.previousCard")}
-          disabled={index === 0}
-          onClick={() => setActiveKey(groups[index - 1].key)}
-        >
-          <span aria-hidden="true">‹</span>
-        </Button>
-        <span
-          className="yk-trade-stack-position"
-          role="status"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          <span className="sr-only">
-            {t("tradeDesign.stackPositionLabel", {
-              current: index + 1,
-              total: groups.length
-            })}
-          </span>
-          <span aria-hidden="true">
-            {t("tradeDesign.stackPosition", {
-              current: index + 1,
-              total: groups.length
-            })}
-          </span>
-        </span>
-        <Button
-          variant="secondary"
-          className="yk-trade-stack-step"
-          aria-label={t("tradeDesign.nextCard")}
-          disabled={index === groups.length - 1}
-          onClick={() => setActiveKey(groups[index + 1].key)}
-        >
-          <span aria-hidden="true">›</span>
-        </Button>
-      </div>
-    </div>
-  );
+  return <ReviewCards cards={cards} />;
 }
 function ReviewCards({ cards }: { cards: CollectedCard[] }) {
   const tPr4 = useTranslations();

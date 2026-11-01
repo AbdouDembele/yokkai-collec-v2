@@ -3165,11 +3165,6 @@
     "subtitle": "Compare les deux lots. Trouve ton prochain coup de cœur.",
     "secure": "Échange sécurisé",
     "alreadyOwned": "Déjà dans ta collection · {count}",
-    "selectedCards": "Cartes de ce lot",
-    "previousCard": "Carte précédente",
-    "nextCard": "Carte suivante",
-    "stackPosition": "{current} / {total}",
-    "stackPositionLabel": "Carte {current} sur {total}",
     "cardCount": "{count, plural, =0 {Aucune carte} one {# carte} other {# cartes}}"
   }
 }

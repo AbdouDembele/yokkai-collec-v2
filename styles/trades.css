@@ -118,6 +118,7 @@
 }
 .yk-trades-workspace .yk-trade-columns {
   grid-template-columns: minmax(0, 1fr);
+  align-items: start;
   gap: 16px;
 }
 .yk-trades-workspace .yk-trade-columns::after {
@@ -176,83 +177,40 @@
   border-color: var(--color-veil);
   border-radius: 12px;
   background: var(--color-void);
-  height: 270px;
-  display: grid;
-  align-content: center;
-}
-.yk-trade-stack {
-  display: grid;
-  min-width: 0;
-  gap: 10px;
-}
-.yk-trade-stack-deck {
-  position: relative;
-  isolation: isolate;
-  min-width: 0;
-  padding: 12px 6px 0;
-}
-.yk-trade-stack-deck.has-stack::before,
-.yk-trade-stack-deck.has-stack::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  inset: 5px 14px 7px;
-  border: 1px solid var(--color-veil-strong);
-  border-radius: 11px;
-  background: var(--color-elevated);
-  transform: rotate(-1.5deg);
-}
-.yk-trade-stack-deck.has-stack::before {
-  inset: 0 22px 14px;
-  transform: rotate(1.5deg);
-  opacity: 0.55;
-}
-.yk-trade-stack .yk-trade-review-cards {
-  position: relative;
-  margin: 0;
-}
-.yk-trade-stack .yk-trade-card-row {
-  height: 176px;
-}
-.yk-trade-stack .yk-trade-card-row > .yk-trade-card-art {
-  width: 80px;
-  flex-basis: 80px;
-}
-.yk-trade-stack .yk-trade-card-info {
-  max-height: 150px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-}
-.yk-trade-stack-navigation {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-}
-.yk-trade-stack-navigation .yk-trade-stack-step {
-  width: 44px;
-  height: 44px;
-  min-height: 44px;
-  padding: 0;
-  border-radius: 12px;
-  font-size: 25px;
-  color: var(--color-accent-gold);
-}
-.yk-trade-stack-navigation .yk-trade-stack-step:disabled {
-  color: var(--color-disabled);
-}
-.yk-trade-stack-position {
-  min-width: 60px;
-  text-align: center;
-  color: var(--color-ink-2);
-  font-size: 12px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
+  container-type: inline-size;
 }
 .yk-trades-workspace .yk-trade-drop > p {
   margin: 28px 0;
   text-align: center;
   font-size: 13px;
+}
+.yk-trade-drop .yk-trade-review-cards {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+.yk-trade-drop .yk-trade-card-row {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 7px;
+  padding: 7px;
+}
+.yk-trade-drop .yk-trade-card-row > .yk-trade-card-art {
+  width: min(100%, 92px);
+  flex: 0 0 auto;
+  margin-inline: auto;
+}
+.yk-trade-drop .yk-trade-card-info strong {
+  font-size: 11px;
+  line-height: 1.4;
+}
+.yk-trade-drop .yk-trade-card-license {
+  font-size: 10px;
+}
+@container (min-width: 300px) {
+  .yk-trade-drop .yk-trade-review-cards {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
 }
 .yk-trades-workspace .yk-trade-side > .yk-button {
   width: 100%;

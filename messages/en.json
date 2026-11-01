@@ -3165,11 +3165,6 @@
     "subtitle": "Compare both sides. Find your next favorite.",
     "secure": "Secure exchange",
     "alreadyOwned": "Already owned · {count}",
-    "selectedCards": "Cards in this lot",
-    "previousCard": "Previous card",
-    "nextCard": "Next card",
-    "stackPosition": "{current} / {total}",
-    "stackPositionLabel": "Card {current} of {total}",
     "cardCount": "{count, plural, =0 {No cards} one {# card} other {# cards}}"
   }
 }
