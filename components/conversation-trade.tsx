@@ -125,6 +125,7 @@ export function ConversationTrade({
             <p>{t("notice")}</p>
             <div>
               <Button
+                className="yk-trade-accept"
                 disabled={busy}
                 onClick={() => onRespond(offer.id, "accept")}
               >
@@ -141,10 +142,15 @@ export function ConversationTrade({
           </div>
         ) : (
           <footer>
-            <Button disabled={busy} onClick={() => setConfirming(true)}>
+            <Button
+              className="yk-trade-accept"
+              disabled={busy}
+              onClick={() => setConfirming(true)}
+            >
               {t("accept")}
             </Button>
             <Button
+              className="yk-trade-decline"
               variant="secondary"
               disabled={busy}
               onClick={() => onRespond(offer.id, "decline")}

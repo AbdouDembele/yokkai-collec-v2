@@ -549,6 +549,7 @@ function OfferList({
               {onAccept && offer.incoming && offer.status === "pending" ? (
                 <>
                   <Button
+                    className="yk-trade-accept"
                     disabled={busy}
                     aria-busy={busy || undefined}
                     onClick={() => onAccept(offer)}
@@ -566,6 +567,7 @@ function OfferList({
                   )}
                   {onDecline && (
                     <Button
+                      className="yk-trade-decline"
                       variant="secondary"
                       disabled={busy}
                       onClick={() => onDecline(offer)}
@@ -691,13 +693,22 @@ function TradeReview({
       <footer>
         {actionable && (
           <>
-            <Button disabled={busy} onClick={onAccept}>
+            <Button
+              className="yk-trade-accept"
+              disabled={busy}
+              onClick={onAccept}
+            >
               {tPr4("profileUi.accept")}
             </Button>
             <Button variant="secondary" disabled={busy} onClick={onCounter}>
               {tPr4("socialUi.counteroffer")}
             </Button>
-            <Button variant="secondary" disabled={busy} onClick={onDecline}>
+            <Button
+              className="yk-trade-decline"
+              variant="secondary"
+              disabled={busy}
+              onClick={onDecline}
+            >
               {tPr4("profileUi.decline")}
             </Button>
           </>
@@ -1847,6 +1858,7 @@ export function TradesPanel({
             {tPr4("packs.cancel")}
           </Button>
           <Button
+            className="yk-trade-accept"
             disabled={busy}
             onClick={() => accepting && void respond(accepting.id, "accept")}
           >

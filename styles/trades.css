@@ -9,6 +9,29 @@
 .yk-trades-workspace {
   min-width: 0;
 }
+.yk-button.yk-trade-accept {
+  --trade-action: var(--color-pack-success);
+}
+.yk-button.yk-trade-decline {
+  --trade-action: var(--color-danger-ink);
+}
+.yk-button.yk-trade-accept,
+.yk-button.yk-trade-decline {
+  color: var(--trade-action);
+  border-color: color-mix(in srgb, var(--trade-action) 60%, var(--color-veil));
+  background: color-mix(in srgb, var(--trade-action) 16%, var(--color-surface));
+}
+.yk-button.yk-trade-accept:hover:not(:disabled),
+.yk-button.yk-trade-decline:hover:not(:disabled) {
+  color: var(--trade-action);
+  border-color: var(--trade-action);
+  background: color-mix(in srgb, var(--trade-action) 26%, var(--color-surface));
+  box-shadow: 0 0 18px color-mix(in srgb, var(--trade-action) 12%, transparent);
+}
+.yk-button.yk-trade-accept:focus-visible,
+.yk-button.yk-trade-decline:focus-visible {
+  outline-color: var(--trade-action);
+}
 .yk-trades-panel {
   padding: clamp(16px, 2.8vw, 32px);
   border-color: var(--color-veil);
