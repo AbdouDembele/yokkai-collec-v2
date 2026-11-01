@@ -54,9 +54,14 @@ import {
 } from "@/lib/data/cards";
 import {
   groupCollection,
+  collectionGroupKey,
   pruneUnavailableSelection,
   selectGroupQuantity
 } from "@/lib/ui/collection-groups";
+import {
+  tradeOwnershipIndex,
+  type OwnedTradeVariant
+} from "@/lib/ui/trade-ownership";
 
 import { createDemandPager } from "@/lib/data/demand-pages";
 
@@ -79,6 +84,7 @@ function CardPicker({
   onClose,
   title,
   cards,
+  ownedVariants,
   selected,
   onChange
 }: {
@@ -86,6 +92,7 @@ function CardPicker({
   onClose: () => void;
   title: string;
   cards: CollectedCard[];
+  ownedVariants?: readonly OwnedTradeVariant[];
   selected: Set<string>;
   onChange: (next: Set<string>) => void;
 }) {
@@ -93,6 +100,10 @@ function CardPicker({
   const [query, setQuery] = useState("");
   const [rarity, setRarity] = useState<"" | Rarity>("");
   const [sort, setSort] = useState<"rarity" | "newest" | "oldest">("rarity");
+  const ownership = useMemo(
+    () => (ownedVariants ? tradeOwnershipIndex(ownedVariants) : undefined),
+    [ownedVariants]
+  );
   const searchId = useId();
   const normalized = query.trim().toLocaleLowerCase("en-US");
   const groups = groupCollection(cards)
@@ -169,6 +180,8 @@ function CardPicker({
         <div className="yk-trade-picker-grid">
           {groups.map(group => {
             const card = group.representative;
+            const ownedCount =
+              ownership?.variants.get(collectionGroupKey(card)) ?? 0;
             const quantity = group.cards.filter(copy =>
               selected.has(copy.instanceId)
             ).length;
@@ -199,6 +212,19 @@ function CardPicker({
                   >
                     {cardRarityLabel(card.rarity, card.shiny, card.isEvolved)}
                   </span>
+                  {ownership && (
+                    <span
+                      className={`yk-trade-ownership ${ownedCount ? "is-owned" : ownership.catalogue.has(card.id) ? "is-other-variant" : "is-missing"}`}
+                    >
+                      {ownedCount
+                        ? tPr4("tradeDesign.alreadyOwned", {
+                            count: ownedCount
+                          })
+                        : ownership.catalogue.has(card.id)
+                          ? tPr4("tradeDesign.otherVariantOwned")
+                          : tPr4("tradeDesign.notOwned")}
+                    </span>
+                  )}
                 </div>
                 <div
                   className="yk-trade-quantity"
@@ -1770,6 +1796,7 @@ export function TradesPanel({
               name: context.friend.pseudo
             })}
             cards={context.friendCards}
+            ownedVariants={context.ownedVariants ?? context.ownCards}
             selected={requested}
             onChange={updateRequested}
           />

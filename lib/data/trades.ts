@@ -3,6 +3,7 @@ import { createClient } from "@/utils/supabase/client";
 import { readRpcPages } from "@/lib/data/rpc-pages.mjs";
 import tradeLimitsEnglish from "@/messages/trade-limits/en.json";
 import tradeLimitsFrench from "@/messages/trade-limits/fr.json";
+import type { OwnedTradeVariant } from "@/lib/ui/trade-ownership";
 import {
   invalidatePlayerSnapshots,
   withLiveCardFranchises,
@@ -14,6 +15,7 @@ export type TradeContext = {
   balance: number;
   ownCards: CollectedCard[];
   friendCards: CollectedCard[];
+  ownedVariants?: OwnedTradeVariant[];
 };
 export type TradeOffer = {
   id: string;

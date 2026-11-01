@@ -1,13 +1,13 @@
 /* Shared trade surfaces: explicit outgoing / incoming lots, readable at 320px. */
 .yk-trades-workspace {
-  --trade-out: #eac276;
-  --trade-in: #80d8c2;
+  --trade-out: var(--color-accent-gold);
+  --trade-in: var(--color-accent-gold);
   min-width: 0;
 }
 .yk-trades-panel {
   padding: clamp(16px, 2.8vw, 32px);
-  border-color: #263348;
-  background: #0b111d;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
   border-radius: 22px;
 }
 .yk-trades-masthead {
@@ -27,7 +27,7 @@
 }
 .yk-trades-masthead p {
   margin: 7px 0 0;
-  color: #a7b6cc;
+  color: var(--color-ink-2);
   font-size: 13px;
   line-height: 1.6;
   text-wrap: pretty;
@@ -39,9 +39,9 @@
   height: 48px;
   place-items: center;
   border-radius: 15px;
-  color: #c2d3fa;
-  background: #18243a;
-  border: 1px solid #354564;
+  color: var(--color-ink-2);
+  background: var(--color-elevated);
+  border: 1px solid var(--color-veil-strong);
 }
 .yk-trades-secure {
   display: none;
@@ -52,8 +52,8 @@
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 4px;
   padding: 5px;
-  background: #060c16;
-  border: 1px solid #263248;
+  background: var(--color-void);
+  border: 1px solid var(--color-veil);
   border-radius: 13px;
 }
 .yk-trades-panel > .yk-tabs .yk-tab {
@@ -63,15 +63,20 @@
   margin: 0;
   border: 0;
   border-radius: 9px;
-  color: #a7b6cc;
+  color: var(--color-ink-2);
   white-space: normal;
   line-height: 1.4;
   font-size: 11px;
 }
 .yk-trades-panel > .yk-tabs .yk-tab[aria-selected="true"] {
-  color: #edf2ff;
-  background: #20314c;
-  box-shadow: inset 0 0 0 1px #405577;
+  color: var(--color-accent-gold);
+  background: color-mix(
+    in srgb,
+    var(--color-accent-gold) 5%,
+    var(--color-surface)
+  );
+  box-shadow: inset 0 0 0 1px
+    color-mix(in srgb, var(--color-accent-gold) 45%, var(--color-veil));
 }
 .yk-trades-workspace .yk-trade-heading,
 .yk-trades-workspace .yk-trade-history-head {
@@ -83,7 +88,7 @@
 .yk-trades-workspace .eyebrow {
   font-size: 10px;
   letter-spacing: 0.15em;
-  color: #9eb5df;
+  color: var(--color-ink-3);
 }
 .yk-trades-workspace .yk-section-title {
   font-size: 19px;
@@ -97,19 +102,19 @@
 .yk-trades-workspace .yk-friend-choices .yk-chip {
   border-radius: 12px;
   min-height: 48px;
-  background: #111c2c;
+  background: var(--color-elevated);
   max-width: 100%;
   overflow-wrap: anywhere;
 }
 .yk-trades-workspace .yk-friend-choices .yk-chip[aria-pressed="true"] {
-  background: #23334c;
-  border-color: #809dcb;
-  color: #f1f5ff;
+  background: var(--color-focus);
+  border-color: var(--color-focus-ring);
+  color: var(--color-ink);
 }
 .yk-trades-workspace .yk-trade-composer {
   margin-top: 24px;
   padding-top: 24px;
-  border-color: #253247;
+  border-color: var(--color-veil);
 }
 .yk-trades-workspace .yk-trade-columns {
   grid-template-columns: minmax(0, 1fr);
@@ -121,12 +126,12 @@
 .yk-trades-workspace .yk-trade-side {
   padding: 18px;
   border-radius: 17px;
-  border-color: #384033;
-  background: #12171c;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
 }
 .yk-trades-workspace .yk-trade-side.is-requested {
-  border-color: #28483f;
-  background: #0e1b1b;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
 }
 .yk-trades-workspace .yk-trade-side > header {
   gap: 12px;
@@ -147,7 +152,7 @@
   margin-top: 4px;
   font-size: 12px;
   line-height: 1.5;
-  color: #b0bccd;
+  color: var(--color-ink-2);
   overflow-wrap: anywhere;
 }
 .yk-trades-workspace .yk-trade-side-index {
@@ -155,22 +160,22 @@
   flex: 0 0 38px;
   font-size: 21px;
   border-radius: 11px;
-  border-color: #5f543b;
+  border-color: var(--color-veil-strong);
   color: var(--trade-out);
-  background: #29251d;
+  background: var(--color-elevated);
 }
 .yk-trades-workspace .is-requested .yk-trade-side-index {
-  border-color: #345e52;
+  border-color: var(--color-veil-strong);
   color: var(--trade-in);
-  background: #182f2b;
+  background: var(--color-elevated);
 }
 .yk-trades-workspace .yk-trade-drop {
   min-height: 104px;
   margin: 18px 0 12px;
   padding: 10px;
-  border-color: #3b4651;
+  border-color: var(--color-veil);
   border-radius: 12px;
-  background: #090f16;
+  background: var(--color-void);
 }
 .yk-trades-workspace .yk-trade-drop > p {
   margin: 28px 0;
@@ -182,7 +187,7 @@
   min-height: 46px;
   border-style: dashed;
   background: transparent;
-  border-color: #526078;
+  border-color: var(--color-veil-strong);
   font-size: 12px;
   white-space: normal;
 }
@@ -190,8 +195,8 @@
   margin-top: 20px;
   gap: 10px;
   padding-top: 18px;
-  border-top: 1px solid #ffffff12;
-  color: #becadd;
+  border-top: 1px solid var(--color-veil);
+  color: var(--color-ink-2);
   font-size: 12px;
 }
 .yk-trades-workspace .yk-trade-karas input {
@@ -199,13 +204,13 @@
   font-size: 18px;
   font-weight: 650;
   font-variant-numeric: tabular-nums;
-  background: #090f19;
-  border-color: #334055;
+  background: var(--color-void);
+  border-color: var(--color-veil-strong);
 }
 .yk-trades-workspace .yk-trade-summary {
   padding: 18px;
   border-radius: 15px;
-  background: #0b1422;
+  background: var(--color-elevated);
 }
 .yk-trades-workspace .yk-trade-summary > h3 {
   font-size: 14px;
@@ -213,11 +218,11 @@
 .yk-trades-workspace .yk-trade-summary > summary {
   font-size: 13px;
   font-weight: 650;
-  color: #c7d5e9;
+  color: var(--color-ink-2);
   cursor: pointer;
 }
 .yk-trades-workspace .yk-trade-summary > summary:focus-visible {
-  outline: 2px solid #9abcff;
+  outline: 2px solid var(--color-focus-ring);
   outline-offset: 6px;
   border-radius: 3px;
 }
@@ -225,11 +230,11 @@
   gap: 20px;
 }
 .yk-trades-workspace .yk-trade-summary article {
-  border-color: #73623f;
+  border-color: var(--color-veil-strong);
   padding-left: 12px;
 }
 .yk-trades-workspace .yk-trade-summary article + article {
-  border-color: #3f7868;
+  border-color: var(--color-veil-strong);
 }
 .yk-trades-workspace .yk-trade-summary article > strong {
   font-size: 13px;
@@ -240,7 +245,7 @@
 }
 .yk-trades-workspace .yk-trade-submit {
   padding-top: 20px;
-  border-top: 1px solid #263248;
+  border-top: 1px solid var(--color-veil);
   gap: 16px;
 }
 .yk-trades-workspace .yk-trade-submit p {
@@ -257,8 +262,8 @@
 .yk-trade-offer {
   padding: clamp(14px, 2vw, 24px);
   border-radius: 18px;
-  border-color: #29364a;
-  background: #101927;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
   box-shadow: 0 8px 24px #00000012;
 }
 .yk-trade-offer > header {
@@ -277,7 +282,7 @@
 }
 .yk-trade-offer > header p {
   font-size: 11px;
-  color: #a9b9d0;
+  color: var(--color-ink-2);
   line-height: 1.6;
 }
 .yk-trade-offer-sides {
@@ -289,24 +294,24 @@
 .yk-trade-review-lots > article {
   min-width: 0;
   padding: 14px;
-  border: 1px solid #414234;
+  border: 1px solid var(--color-veil);
   border-radius: 13px;
-  background: #12191f;
+  background: var(--color-surface);
 }
 .yk-trade-offer-sides > .is-requested,
 .yk-trade-review-lots > .is-requested {
-  border-color: #2c4a43;
-  background: #0e1d1e;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
 }
 .yk-trade-lot-heading {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 7px;
-  color: #edcc91;
+  color: var(--color-accent-gold);
 }
 .is-requested > .yk-trade-lot-heading {
-  color: #95dfcc;
+  color: var(--color-accent-gold);
 }
 .yk-trade-lot-heading > span {
   font-size: 18px;
@@ -317,7 +322,7 @@
 }
 .yk-trade-lot-heading small {
   margin-left: auto;
-  color: #aebed1;
+  color: var(--color-ink-2);
   font-size: 11px;
 }
 .yk-trade-offer-sides .yk-trade-lot-owner {
@@ -326,7 +331,7 @@
   font-size: 11px;
 }
 .yk-trade-lot-currency {
-  border-top: 1px solid #ffffff12;
+  border-top: 1px solid var(--color-veil);
   padding-top: 10px;
   margin-top: 12px;
 }
@@ -344,9 +349,9 @@
   gap: 12px;
   padding: 9px;
   min-width: 0;
-  border: 1px solid #ffffff0e;
+  border: 1px solid var(--color-veil);
   border-radius: 11px;
-  background: #080e17a8;
+  background: var(--color-void);
 }
 .yk-trade-card-row > .yk-trade-card-art {
   width: 62px;
@@ -374,7 +379,7 @@
 .yk-trade-card-license {
   display: block;
   font-size: 11px;
-  color: #a8b9cf;
+  color: var(--color-ink-3);
   line-height: 1.5;
   overflow-wrap: anywhere;
 }
@@ -385,7 +390,7 @@
   letter-spacing: 0.04em;
 }
 .yk-trade-review-cards .yk-trade-card-info small {
-  color: #bdd0ed;
+  color: var(--color-ink-2);
   font-size: 10px;
   line-height: 1.5;
 }
@@ -395,14 +400,14 @@
   min-width: 22px;
   padding: 3px 5px;
   text-align: center;
-  border: 1px solid #526783;
-  background: #13243b;
+  border: 1px solid var(--color-veil-strong);
+  background: var(--color-elevated);
   font-size: 10px;
   font-weight: 700;
 }
 .yk-trade-offer > footer {
   justify-content: flex-end;
-  border-top: 1px solid #28354a;
+  border-top: 1px solid var(--color-veil);
   padding-top: 16px;
   margin-top: 18px;
 }
@@ -418,8 +423,8 @@
   margin: auto;
   padding: clamp(16px, 3vw, 28px);
   border-radius: 20px;
-  border-color: #3b4a63;
-  background: #0b1320;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
 }
 .yk-trade-review-lots {
   grid-template-columns: minmax(0, 1fr);
@@ -427,22 +432,22 @@
 }
 .yk-trade-review-lots h3 {
   font-size: 15px;
-  color: #e7cc9b;
+  color: var(--color-accent-gold);
 }
 .yk-trade-review-lots .is-requested h3 {
-  color: #95dfcc;
+  color: var(--color-accent-gold);
 }
 .yk-trade-review-lots > article > .yk-karas {
   display: flex;
   padding-top: 12px;
-  border-top: 1px solid #ffffff12;
+  border-top: 1px solid var(--color-veil);
 }
 .yk-trade-review > footer {
   position: sticky;
   bottom: clamp(-28px, -3vw, -16px);
   margin: 0 -4px -4px;
   padding: 16px 4px 4px;
-  background: #0b1320;
+  background: var(--color-surface);
   z-index: 2;
 }
 .yk-trade-review > footer .yk-button {
@@ -456,8 +461,8 @@
   max-height: calc(100dvh - 24px);
   margin: auto;
   border-radius: 20px;
-  background: #0b1320;
-  border-color: #3b4a63;
+  background: var(--color-surface);
+  border-color: var(--color-veil);
 }
 .yk-trade-picker-grid {
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
@@ -469,10 +474,29 @@
   gap: 12px;
   padding: 12px;
   border-radius: 13px;
-  background: #111c2d;
+  background: var(--color-surface);
 }
 .yk-trade-picker-art {
   grid-row: auto;
+}
+.yk-trade-ownership {
+  display: block;
+  margin-top: 8px;
+  padding: 5px 7px;
+  border: 1px solid var(--color-veil-strong);
+  border-radius: 6px;
+  color: var(--color-ink-2);
+  font-size: 11px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.yk-trade-ownership.is-missing {
+  color: var(--color-accent-gold);
+  border-color: color-mix(
+    in srgb,
+    var(--color-accent-gold) 40%,
+    var(--color-veil)
+  );
 }
 .yk-trade-picker-card .truncate {
   white-space: normal;
@@ -488,40 +512,33 @@
   min-width: 44px;
   min-height: 44px;
 }
-.yk-trade-review > footer .yk-button-primary,
-.yk-conversation-trade footer .yk-button-primary {
-  border-color: #548e7c;
-  color: #c4f0e1;
-  background: #1b4035;
-}
-.yk-trade-review > footer .yk-button-primary:hover:not(:disabled),
-.yk-conversation-trade footer .yk-button-primary:hover:not(:disabled) {
-  border-color: #89d5b9;
-  background: #245342;
-}
 .yk-trade-picker-card.is-selected {
-  background: #1c2e36;
-  border-color: #87c9b8;
-  box-shadow: inset 0 0 0 1px #87c9b833;
+  background: color-mix(
+    in srgb,
+    var(--color-accent-gold) 8%,
+    var(--color-night)
+  );
+  border-color: var(--color-accent-gold);
+  box-shadow: none;
 }
 /* The same give / receive language in a private conversation. */
 .yk-conversation-trade {
   width: min(100%, 600px);
   padding: 18px;
   border-radius: 17px;
-  background: #101b2b;
-  border-color: #33445c;
+  background: var(--color-surface);
+  border-color: var(--color-veil);
   box-shadow: 0 5px 20px #00000015;
 }
 .yk-conversation-trade.is-own {
   border-radius: 17px;
-  background: #131e30;
+  background: var(--color-surface);
 }
 .yk-conversation-trade > header strong {
   font-size: 14px;
 }
 .yk-conversation-trade > p {
-  color: #afc0d6;
+  color: var(--color-ink-2);
   font-size: 12px;
 }
 .yk-conversation-trade-lots {
@@ -530,20 +547,20 @@
 }
 .yk-conversation-trade-lot {
   padding: 12px;
-  border-color: #454536;
-  background: #141a20;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
   border-radius: 12px;
 }
 .yk-conversation-trade-lot + .yk-conversation-trade-lot {
-  border-color: #2c4d43;
-  background: #102020;
+  border-color: var(--color-veil);
+  background: var(--color-surface);
 }
 .yk-conversation-trade-lot h4 {
   font-size: 13px;
-  color: #e7cc9b;
+  color: var(--color-accent-gold);
 }
 .yk-conversation-trade-lot + .yk-conversation-trade-lot h4 {
-  color: #95dfcc;
+  color: var(--color-accent-gold);
 }
 .yk-conversation-trade-cards {
   grid-template-columns: minmax(0, 1fr);
@@ -574,14 +591,14 @@
 }
 .yk-conversation-trade footer {
   padding-top: 12px;
-  border-top: 1px solid #ffffff15;
+  border-top: 1px solid var(--color-veil);
 }
 .yk-conversation-trade footer .yk-button {
   flex: 1;
 }
 .yk-conversation-trade-confirm {
-  border-color: #6b593d;
-  background: #262219;
+  border-color: var(--color-veil-strong);
+  background: var(--color-elevated);
 }
 @media (min-width: 560px) {
   .yk-trades-panel > .yk-tabs .yk-tab {
@@ -613,12 +630,12 @@
     align-items: center;
     gap: 7px;
     flex: 0 0 auto;
-    color: #a8c7b9;
+    color: var(--color-ink-2);
     font-size: 11px;
     padding: 9px 12px;
-    border: 1px solid #2c483f;
+    border: 1px solid var(--color-veil);
     border-radius: 999px;
-    background: #10201c;
+    background: var(--color-surface);
   }
 }
 @media (max-width: 420px) {

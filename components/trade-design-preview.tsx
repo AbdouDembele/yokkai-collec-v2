@@ -92,12 +92,14 @@ const extraCards: CollectedCard[] = [
 const ownCards = [
   cards[1],
   { ...cards[0], instanceId: "own-gojo-one" },
-  ...extraCards.map(card => ({
+  ...extraCards.slice(0, -2).map(card => ({
     ...card,
     instanceId: `own-${card.instanceId}`
   })),
   { ...cards[0], instanceId: "own-gojo-two" },
-  { ...extraCards[0], instanceId: "own-luffy-two" }
+  { ...extraCards[0], instanceId: "own-luffy-two" },
+  { ...extraCards[0], instanceId: "own-luffy-three" },
+  { ...extraCards[1], instanceId: "own-levi-two" }
 ];
 const friendCards = [
   cards[0],
@@ -107,7 +109,7 @@ const friendCards = [
     ...card,
     instanceId: `friend-${card.instanceId}`
   })),
-  { ...extraCards[1], instanceId: "friend-levi-two" }
+  { ...extraCards[1], instanceId: "friend-levi-two", shiny: true }
 ];
 const offer: TradeOffer = {
   id: "design-offer",
@@ -156,7 +158,12 @@ export function TradeDesignPreview() {
       friend: { id: friend, pseudo: "Kitsune" },
       balance: 9480,
       ownCards,
-      friendCards
+      friendCards,
+      ownedVariants: [
+        ...ownCards,
+        // A locked copy is owned but deliberately absent from tradable cards.
+        { ...extraCards[6], count: 1 }
+      ]
     }),
     create: async () => "design-only",
     cancel: async () => true,
