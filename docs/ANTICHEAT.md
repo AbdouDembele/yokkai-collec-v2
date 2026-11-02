@@ -211,3 +211,36 @@ disponibles. Un nom perdu reste « non conservé », jamais deviné. Les listes 
 cartes sont bornées à 1 000 par sens et affichent explicitement une éventuelle
 limite. Le lecteur admin conserve ses filtres et sa pagination ; ses helpers
 restent sans accès direct depuis les rôles API.
+
+## Historique nominatif limité des comptes supprimés
+
+Le registre admin propose une recherche par ancien pseudo/e-mail et la sélection
+de plusieurs comptes sources (20 au maximum) pour un principal. Le compte
+principal est le dossier par défaut ; le parcours des comptes existants affiche
+explicitement le rôle du dossier et permet de l'inverser avant de choisir
+l'autre compte. Un compte encore existant n'est jamais présenté comme supprimé.
+
+Le pseudo et l'e-mail sont capturés avant la suppression et réservés aux admins
+pendant **90 jours à partir de la suppression**, durée validée par l'utilisateur.
+Les lecteurs les masquent dès l'échéance, sans attendre le cron de purge physique
+(toutes les 15 minutes). Le journal de réapplication des suppressions conserve
+son schéma minimal UUID/date ; les identités limitées sont dans une table privée
+distincte. La politique `/privacy` décrit cette rétention. Les UUID et preuves
+économiques restent séparés ; les reçus ne recopient pas le pseudo ni l'e-mail.
+
+Avant de détacher les participants, les échanges acceptés et les enchères vendues
+conservent leurs UUID d'origine, cartes et montants exacts dans un registre privé
+immuable. Pour le passé, les événements immuables contenant les deux parties
+permettent de reconstituer un lien exact. Un pseudo ou e-mail historique déjà
+effacé reste inconnu ; une recherche ciblée de sauvegarde peut confirmer une
+identité par **UUID exact**, sans rétablir le compte Auth ni attribuer un don
+anonyme d'après un nom seul. Aucune restauration générale de données personnelles
+supprimées n'est effectuée.
+
+La récupération groupe les transferts directs et ceux des enchères des sources
+choisies, plus les reventes des cartes reçues. Une vente déjà incluse comme
+transfert direct n'est pas comptée une seconde fois comme revente. Les claims
+globaux sont vérifiés par les anciens parcours aussi. Note, confirmation et
+empreinte de l'aperçu relu restent obligatoires, avec verrouillage atomique,
+annulation des engagements et remboursement, protection des admins et refus
+d'un débit dépassant le solde. Les tiers acheteurs gardent leurs cartes.

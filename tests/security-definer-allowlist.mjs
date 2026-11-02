@@ -1,5 +1,6 @@
 // Exact overloads and roles only. Every addition requires an access justification.
 export const ownerOnly = [
+  "public.anticheat_deleted_account_snapshot_trigger()", // Trigger-only identity/transfer snapshot, private 90-day identity retention. Walid approved.
   "public.prevent_anticheat_ledger_mutation()", // Trigger-only append-only ledger fence; no API execution. Walid approved the anti-cheat rights model.
   "public.record_anticheat_event(text, uuid, uuid, uuid, integer, integer, jsonb, timestamp with time zone)", // Internal trigger/backfill recorder; private aggregates only, never an API entry point. Walid approved.
   "public.capture_trade_anticheat_event()", // Trigger-only trade observation; no automatic sanction and no API execution.
@@ -52,6 +53,14 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.admin_list_deleted_accounts(text, uuid, boolean, integer, integer)": [
+    "authenticated"
+  ], // Admin-only bounded deleted identity history; PII hidden after 90 days. Walid approved.
+  "public.admin_preview_deleted_account_sanction(uuid, uuid[])": [
+    "authenticated"
+  ], // Admin-only exact preview across selected deleted sources, including accepted trades and sold auctions. Walid approved.
+  "public.admin_apply_deleted_account_sanction(uuid, uuid[], text, uuid, text)":
+    ["authenticated"], // Admin-only note, confirmation, unchanged preview and globally single-use recovery. Walid approved.
   "public.admin_list_anticheat_connections(uuid[])": ["authenticated"], // Admin-only bounded pair context, no IP/HMAC/browser token returned. Walid approved.
   "public.admin_preview_sanction(uuid, text, uuid, uuid[])": ["authenticated"], // Explicit manual admin review; network context is informational. Walid approved.
   "public.admin_apply_sanction(uuid, text, uuid, uuid[], text, text, uuid, text)":

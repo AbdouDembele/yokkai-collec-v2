@@ -8,6 +8,40 @@ import { createClient } from "@/utils/supabase/server";
 
 const statuses = new Set(["open", "reviewed", "dismissed"]);
 
+export async function applyDeletedAccountSanctionAction(form: FormData) {
+  await requireAdminAction();
+  const primaryUserId = String(form.get("primary_user_id") ?? "");
+  const accounts = form.getAll("source_account").map(String);
+  const note = String(form.get("note") ?? "").trim();
+  const uuid =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  if (
+    !uuid.test(primaryUserId) ||
+    form.get("confirmation") !== primaryUserId ||
+    accounts.length < 1 ||
+    accounts.length > 20 ||
+    new Set(accounts).size !== accounts.length ||
+    accounts.some(id => !uuid.test(id))
+  )
+    throw new Error("INVALID_DELETED_ACCOUNTS");
+  if (note.length < 10 || note.length > 2000)
+    throw new Error("INVALID_SANCTION_NOTE");
+  const client = createClient(await cookies());
+  const result = await client.rpc("admin_apply_deleted_account_sanction", {
+    p_primary_user_id: primaryUserId,
+    p_deleted_user_ids: accounts,
+    p_note: note,
+    p_confirmation: primaryUserId,
+    p_preview_token: String(form.get("preview_token") ?? "")
+  });
+  if (result.error) throw new Error("DELETED_ACCOUNT_SANCTION_UNAVAILABLE");
+  revalidatePath("/admin/security");
+  revalidatePath("/admin/players");
+  redirect(
+    `/admin/security?sanction=${primaryUserId}&mode=deleted&result=deleted-accounts-applied`
+  );
+}
+
 export async function applyDeletedSmurfRecoveryAction(form: FormData) {
   await requireAdminAction();
   const primaryUserId = String(form.get("primary_user_id") ?? "");

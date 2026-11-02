@@ -8,7 +8,11 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { createTranslator } from "next-intl";
 import { createRequire } from "node:module";
 const require = createRequire(import.meta.url);
-export async function renderSanctionPage(locale = "en", mode = "active") {
+export async function renderSanctionPage(
+  locale = "en",
+  mode = "active",
+  role = "smurf"
+) {
   const id = "ac620000-0000-4000-8000-000000000001",
     other = "ac620000-0000-4000-8000-000000000002",
     copy = "ac620000-0000-4000-8000-000000000003";
@@ -31,6 +35,10 @@ export async function renderSanctionPage(locale = "en", mode = "active") {
   const rpc = async (name, args) => {
     if (name === "admin_list_anticheat_events")
       assert.equal(args.p_event_type, "trade_accepted");
+    if (name === "admin_preview_sanction" && mode === "active") {
+      assert.equal(args.p_subject_user_id, role === "primary" ? other : id);
+      assert.equal(args.p_primary_user_id, role === "primary" ? id : other);
+    }
     return {
       error: null,
       data: {
@@ -102,6 +110,64 @@ export async function renderSanctionPage(locale = "en", mode = "active") {
                 deleted: false
               }
             ]
+          }
+        },
+        admin_list_deleted_accounts: {
+          accounts: [
+            {
+              userId: other,
+              pseudo: "Deleted collector",
+              email: "deleted@example.invalid",
+              deletedAt: "2026-11-02T12:00:00Z",
+              identityExpiresAt: "2027-01-31T12:00:00Z",
+              identitySource: "deletion_snapshot",
+              transfers: 2,
+              availableTransfers: 2
+            }
+          ],
+          total: 1,
+          deletedTotal: 10,
+          pageSize: 30
+        },
+        admin_preview_deleted_account_sanction: {
+          primary: { userId: id, pseudo: "Example player", karasBalance: 100 },
+          selectedAccountIds: [other],
+          accounts: [
+            {
+              userId: other,
+              pseudo: "Deleted collector",
+              email: "deleted@example.invalid"
+            }
+          ],
+          eligible: true,
+          selectionValid: true,
+          previewToken: "fixture",
+          recovery: {
+            cards: 1,
+            cardIds: [copy],
+            transferKaras: 0,
+            saleKaras: 0,
+            karas: 0,
+            lockedCards: 1,
+            unavailableCards: 0,
+            transfers: 2
+          },
+          history: {
+            transfers: [
+              {
+                kind: "trade",
+                asset_id: copy,
+                from_user_id: other,
+                to_user_id: id,
+                offered_karas: 0,
+                requested_karas: 0,
+                offered_names: ["BROLY"],
+                requested_names: [],
+                occurred_at: "2026-11-02T12:00:00Z"
+              }
+            ],
+            cardLabels: labels,
+            sales: []
           }
         },
         admin_list_smurf_sanction_candidates: [
@@ -232,6 +298,8 @@ export async function renderSanctionPage(locale = "en", mode = "active") {
             return load("app/admin/security/deleted-smurf-recovery.tsx");
           if (module === "./event-detail")
             return load("app/admin/security/event-detail.tsx");
+          if (module === "./deleted-account-history")
+            return load("app/admin/security/deleted-account-history.tsx");
           if (module === "@/components/topbar")
             return { Topbar: () => React.createElement("div", null, "Yokkai") };
           if (module === "@/components/account-menu")
@@ -254,8 +322,12 @@ export async function renderSanctionPage(locale = "en", mode = "active") {
     if (
       typeof node.type === "function" &&
       node.type.constructor.name === "AsyncFunction"
-    )
-      return resolve(await node.type(node.props));
+    ) {
+      const resolved = await resolve(await node.type(node.props));
+      return React.isValidElement(resolved)
+        ? React.cloneElement(resolved, { key: node.key })
+        : resolved;
+    }
     return React.cloneElement(node, {}, await resolve(node.props.children));
   }
   const page = await load("app/admin/security/page.tsx").default({
@@ -263,6 +335,8 @@ export async function renderSanctionPage(locale = "en", mode = "active") {
       sanction: id,
       primary: other,
       mode,
+      role,
+      source_account: mode === "deleted" ? other : undefined,
       source: id
     })
   });
@@ -289,6 +363,16 @@ test("unified sanction page shows one case action, named cards and named network
       assert.match(html, /name="anticheat-event"/);
       assert.match(html, /70 Karas/);
       assert.match(html, /5 Karas/);
+      if (mode === "deleted") {
+        assert.match(html, /deleted@example.invalid/);
+        assert.match(html, /name="source_account"/);
+      }
       assert.doesNotMatch(html, /<button[^>]*disabled=""/);
     }
+});
+
+test("a case opened as primary sends the chosen counterpart as the smurf to ban", async () => {
+  const html = await renderSanctionPage("en", "active", "primary");
+  assert.match(html, /Smurf account to ban/);
+  assert.match(html, /name="role" value="primary"/);
 });

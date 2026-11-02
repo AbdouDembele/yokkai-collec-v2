@@ -259,6 +259,7 @@ export default async function PrivacyPage() {
               duration: DELETION_LOG_RETENTION ?? t("deletionRetention")
             })}
           </li>
+          <li>{t("deletedSecurityIdentityRetention", { days: 90 })}</li>
         </ul>
       </InfoSection>
 
@@ -285,6 +286,7 @@ export default async function PrivacyPage() {
               strong0: chunks => <strong>{chunks}</strong>
             })}
           </li>
+          <li>{t("deletedSecurityIdentityException", { days: 90 })}</li>
         </ul>
       </InfoSection>
 
