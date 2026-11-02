@@ -43,6 +43,7 @@ export const ownerOnly = [
 
 export const serverOnly = {
   "public.record_anticheat_network_observation(uuid, text)": ["service_role"], // Trusted same-origin route only; verified session plus Cloudflare-produced versioned HMAC, never a raw IP. Walid approved.
+  "public.record_anticheat_device_observation(uuid, text)": ["service_role"], // Trusted same-origin route only; verified session plus a seven-day first-party random token hash. Walid approved.
   "public.get_push_notification(uuid, timestamp with time zone)": [
     "service_role"
   ], // Exact notification/version, same live ACL as the in-app reader, trusted push route only.
@@ -51,6 +52,11 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.admin_list_smurf_sanction_candidates(uuid)": ["authenticated"], // Admin predicate; bounded accepted-trade counterparties and boolean context only. Walid approved.
+  "public.admin_preview_smurf_sanction(uuid, uuid)": ["authenticated"], // Admin predicate; exact pair, traceable asset preview, no mutation. Walid approved.
+  "public.admin_apply_smurf_sanction(uuid, uuid, text, uuid)": [
+    "authenticated"
+  ], // Admin predicate; explicit pair confirmation, atomic ban/recovery and immutable audit. Walid approved.
   "public.get_my_pending_sanctions()": ["authenticated"], // Own committed/published pending receipts only; no private evidence. Walid approved.
   "public.acknowledge_my_sanction(uuid)": ["authenticated"], // Own receipt only, server timestamp only; no sanction edits. Walid approved.
   "public.get_ranking_license_choices(text, text, text, boolean, integer, integer)":

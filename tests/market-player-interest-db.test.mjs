@@ -46,7 +46,10 @@ test("market ranks real distinct interest and puts personal follows before pagin
           copy,
           seller,
           amount,
-          fixtureClock + minutes * 60000 + expirySequence++
+          // The production sort rounds remaining time to whole seconds. Keep
+          // fixture expiries one second apart so crossing a second boundary
+          // between prefix reads cannot regroup millisecond-spaced ties.
+          fixtureClock + minutes * 60000 + expirySequence++ * 1000
         ]
       )
     ).rows[0].id;

@@ -9,7 +9,7 @@ import { requireAdminPage } from "@/lib/auth/admin";
 import { getCurrentKarasBalance, getCurrentPseudo } from "@/lib/auth/session";
 import { createClient } from "@/utils/supabase/server";
 import { AdminNavigation } from "../admin-navigation";
-import { reviewAnticheatCaseAction } from "./actions";
+import { applySmurfSanctionAction, reviewAnticheatCaseAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 const PAGE_SIZE = 30;
@@ -67,6 +67,63 @@ type EventRow = {
   counterparty: EventParty;
   subjects: EventSubject[];
   metadata: Record<string, unknown>;
+};
+
+type SanctionCandidate = {
+  userId: string;
+  pseudo: string;
+  acceptedTrades: number;
+  lastTradeAt: string;
+  sharedNetwork: boolean;
+  sharedDevice: boolean;
+};
+
+type SanctionPreview = {
+  smurf: { userId: string; pseudo: string; banned: boolean };
+  primary: { userId: string; pseudo: string; karasBalance: number };
+  evidence: {
+    sharedNetwork: boolean;
+    sharedDevice: boolean;
+    acceptedTrades: number;
+  };
+  recovery: {
+    cards: number;
+    blockedCards: number;
+    cardsNoLongerOnPrimary: number;
+    tradeKaras: number;
+    saleKaras: number;
+    saleCount: number;
+    karas: number;
+  };
+  alreadyApplied: boolean;
+  eligible: boolean;
+  history: SanctionHistory;
+  receipt: {
+    id: string;
+    appliedAt: string;
+    note: string;
+    history: SanctionHistory;
+    recovery: SanctionPreview["recovery"];
+  } | null;
+};
+
+type SanctionHistory = {
+  trades: {
+    id: string;
+    acceptedAt: string;
+    fromUser: string;
+    toUser: string;
+    offeredCards: string[];
+    requestedCards: string[];
+    offeredKaras: number;
+    requestedKaras: number;
+  }[];
+  sales: {
+    id: string;
+    cardInstanceId: string;
+    createdAt: string;
+    karas: number;
+  }[];
 };
 
 function strings(value: unknown): string[] {
@@ -185,6 +242,9 @@ export default async function AdminSecurityPage({
     event?: string;
     user?: string;
     page?: string;
+    sanction?: string;
+    primary?: string;
+    result?: string;
   }>;
 }) {
   const admin = await requireAdminPage();
@@ -200,6 +260,13 @@ export default async function AdminSecurityPage({
   const userId = /^[0-9a-f-]{36}$/i.test(params.user ?? "")
     ? params.user!
     : null;
+  const sanctionUserId = /^[0-9a-f-]{36}$/i.test(params.sanction ?? "")
+    ? params.sanction!
+    : null;
+  const primaryUserId = /^[0-9a-f-]{36}$/i.test(params.primary ?? "")
+    ? params.primary!
+    : null;
+  const sanctionApplied = params.result === "smurf-sanction-applied";
   const page = Math.max(1, Number.parseInt(params.page ?? "1", 10) || 1);
   const [name, karas, casesResult, eventsResult] = await Promise.all([
     getCurrentPseudo(admin.id),
@@ -230,6 +297,38 @@ export default async function AdminSecurityPage({
   ).map(item => eventFromRpc(item as Record<string, unknown>));
   const total = Number(casePayload.total ?? 0);
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
+  let sanctionCandidates: SanctionCandidate[] = [];
+  let sanctionPreview: SanctionPreview | null = null;
+  if (sanctionUserId) {
+    const candidatesResult = await client.rpc(
+      "admin_list_smurf_sanction_candidates",
+      { p_smurf_user_id: sanctionUserId }
+    );
+    if (candidatesResult.error) throw new Error(candidatesResult.error.message);
+    sanctionCandidates = (
+      Array.isArray(candidatesResult.data) ? candidatesResult.data : []
+    ).map(value => {
+      const row = value as Record<string, unknown>;
+      return {
+        userId: String(row.userId ?? ""),
+        pseudo: String(row.pseudo ?? ""),
+        acceptedTrades: Number(row.acceptedTrades ?? 0),
+        lastTradeAt: String(row.lastTradeAt ?? ""),
+        sharedNetwork: Boolean(row.sharedNetwork),
+        sharedDevice: Boolean(row.sharedDevice)
+      };
+    });
+    if (primaryUserId) {
+      const previewResult = await client.rpc("admin_preview_smurf_sanction", {
+        p_smurf_user_id: sanctionUserId,
+        p_primary_user_id: primaryUserId
+      });
+      if (previewResult.error) throw new Error(previewResult.error.message);
+      sanctionPreview = previewResult.data as SanctionPreview;
+      if (sanctionPreview.receipt)
+        sanctionPreview.recovery = sanctionPreview.receipt.recovery;
+    }
+  }
   const dateFormatter = new Intl.DateTimeFormat(locale, {
     dateStyle: "medium",
     timeStyle: "short"
@@ -268,6 +367,15 @@ export default async function AdminSecurityPage({
             </p>
           </header>
           <AdminNavigation />
+
+          {sanctionApplied && (
+            <p
+              className="rounded-xl border border-emerald-300/30 bg-emerald-500/10 p-4 text-sm font-semibold text-emerald-100"
+              role="status"
+            >
+              {t("sanctionApplied")}
+            </p>
+          )}
 
           <section
             aria-label={t("summaryLabel")}
@@ -345,6 +453,303 @@ export default async function AdminSecurityPage({
               )}
             </form>
           </section>
+
+          {sanctionUserId && (
+            <section className="rounded-2xl border border-red-300/30 bg-red-950/15 p-4 sm:p-5">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.18em] text-red-300">
+                    {t("sanctionEyebrow")}
+                  </p>
+                  <h2 className="mt-1 text-xl font-black">
+                    {t("sanctionTitle")}
+                  </h2>
+                  <p className="mt-1 max-w-3xl text-sm text-slate-300">
+                    {t("sanctionHelp")}
+                  </p>
+                </div>
+                <Link
+                  className="yk-button yk-button-secondary text-center"
+                  href="/admin/security"
+                >
+                  {t("cancelSanction")}
+                </Link>
+              </div>
+
+              <form
+                className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]"
+                method="get"
+              >
+                <input name="sanction" type="hidden" value={sanctionUserId} />
+                <label className="grid gap-1 text-sm font-semibold text-slate-200">
+                  {t("primaryAccount")}
+                  <select
+                    className="yk-field-control min-w-0"
+                    defaultValue={primaryUserId ?? ""}
+                    name="primary"
+                    required
+                  >
+                    <option value="">{t("selectPrimaryAccount")}</option>
+                    {sanctionCandidates.map(candidate => (
+                      <option key={candidate.userId} value={candidate.userId}>
+                        {candidate.pseudo} · {candidate.acceptedTrades} ·{" "}
+                        {t("networkShort")}{" "}
+                        {candidate.sharedNetwork ? "✓" : "—"} ·{" "}
+                        {t("deviceShort")} {candidate.sharedDevice ? "✓" : "—"}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <button className="yk-button self-end" type="submit">
+                  {t("previewSanction")}
+                </button>
+              </form>
+
+              {sanctionCandidates.length === 0 && (
+                <p className="mt-4 rounded-xl border border-slate-800 bg-slate-950/60 p-4 text-sm text-slate-300">
+                  {t("noSanctionCandidates")}
+                </p>
+              )}
+
+              {sanctionPreview && (
+                <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)]">
+                  <div className="rounded-xl border border-slate-700 bg-slate-950/60 p-4">
+                    <h3 className="font-black">
+                      {t("sanctionPair", {
+                        smurf: sanctionPreview.smurf.pseudo,
+                        primary: sanctionPreview.primary.pseudo
+                      })}
+                    </h3>
+                    <dl className="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+                      <div>
+                        <dt className="text-slate-400">
+                          {t("sharedNetworkEvidence")}
+                        </dt>
+                        <dd className="font-bold">
+                          {sanctionPreview.evidence.sharedNetwork
+                            ? t("confirmed")
+                            : t("missing")}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-slate-400">
+                          {t("sharedDeviceEvidence")}
+                        </dt>
+                        <dd className="font-bold">
+                          {sanctionPreview.evidence.sharedDevice
+                            ? t("confirmed")
+                            : t("missing")}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-slate-400">
+                          {t("acceptedTradesEvidence")}
+                        </dt>
+                        <dd className="font-bold">
+                          {sanctionPreview.evidence.acceptedTrades}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-slate-400">
+                          {t("assetsToRecover")}
+                        </dt>
+                        <dd className="font-bold">
+                          {t("assetRecovery", {
+                            cards: sanctionPreview.recovery.cards,
+                            karas: sanctionPreview.recovery.karas
+                          })}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-slate-400">
+                          {t("saleHistoryEvidence")}
+                        </dt>
+                        <dd className="font-bold">
+                          {t("saleRecovery", {
+                            count: sanctionPreview.recovery.saleCount,
+                            karas: sanctionPreview.recovery.saleKaras
+                          })}
+                        </dd>
+                      </div>
+                      <div>
+                        <dt className="text-slate-400">
+                          {t("directKaraEvidence")}
+                        </dt>
+                        <dd className="font-bold">
+                          {t("karas", {
+                            count: sanctionPreview.recovery.tradeKaras
+                          })}
+                        </dd>
+                      </div>
+                    </dl>
+                    <details className="mt-4 rounded-lg border border-slate-700 p-3 text-sm">
+                      <summary className="cursor-pointer font-bold text-slate-100">
+                        {t("pairHistory")}
+                      </summary>
+                      <div className="mt-3 max-h-96 space-y-3 overflow-y-auto [overflow-wrap:anywhere]">
+                        {sanctionPreview.receipt && (
+                          <p className="rounded-lg bg-emerald-500/10 p-3 text-emerald-100">
+                            {t("receiptRecorded", {
+                              date: dateFormatter.format(
+                                new Date(sanctionPreview.receipt.appliedAt)
+                              )
+                            })}
+                            <span className="mt-1 block">
+                              {sanctionPreview.receipt.note}
+                            </span>
+                          </p>
+                        )}
+                        {(
+                          sanctionPreview.receipt?.history ??
+                          sanctionPreview.history
+                        ).trades.map(trade => (
+                          <article
+                            className="rounded-lg bg-slate-900 p-3"
+                            key={trade.id}
+                          >
+                            <p className="font-semibold">
+                              {t("historyTrade", {
+                                date: dateFormatter.format(
+                                  new Date(trade.acceptedAt)
+                                )
+                              })}
+                            </p>
+                            <p className="mt-1 text-slate-300">
+                              {t("historyTransfer", {
+                                from:
+                                  trade.fromUser ===
+                                  sanctionPreview.smurf.userId
+                                    ? sanctionPreview.smurf.pseudo
+                                    : sanctionPreview.primary.pseudo,
+                                to:
+                                  trade.toUser ===
+                                  sanctionPreview.primary.userId
+                                    ? sanctionPreview.primary.pseudo
+                                    : sanctionPreview.smurf.pseudo,
+                                cards: trade.offeredCards.length,
+                                karas: trade.offeredKaras
+                              })}
+                            </p>
+                            <p className="text-slate-300">
+                              {t("historyTransfer", {
+                                from:
+                                  trade.toUser === sanctionPreview.smurf.userId
+                                    ? sanctionPreview.smurf.pseudo
+                                    : sanctionPreview.primary.pseudo,
+                                to:
+                                  trade.fromUser ===
+                                  sanctionPreview.primary.userId
+                                    ? sanctionPreview.primary.pseudo
+                                    : sanctionPreview.smurf.pseudo,
+                                cards: trade.requestedCards.length,
+                                karas: trade.requestedKaras
+                              })}
+                            </p>
+                            <p className="mt-1 font-mono text-xs text-slate-400">
+                              {trade.id}
+                            </p>
+                            {[
+                              ...trade.offeredCards,
+                              ...trade.requestedCards
+                            ].map(id => (
+                              <p
+                                className="font-mono text-xs text-slate-500"
+                                key={id}
+                              >
+                                {id}
+                              </p>
+                            ))}
+                          </article>
+                        ))}
+                        {(
+                          sanctionPreview.receipt?.history ??
+                          sanctionPreview.history
+                        ).sales.map(sale => (
+                          <article
+                            className="rounded-lg bg-slate-900 p-3"
+                            key={sale.id}
+                          >
+                            <p className="font-semibold">
+                              {t("historySale", {
+                                date: dateFormatter.format(
+                                  new Date(sale.createdAt)
+                                ),
+                                karas: sale.karas
+                              })}
+                            </p>
+                            <p className="mt-1 font-mono text-xs text-slate-400">
+                              {sale.id}
+                            </p>
+                            <p className="font-mono text-xs text-slate-500">
+                              {sale.cardInstanceId}
+                            </p>
+                          </article>
+                        ))}
+                      </div>
+                    </details>
+                    {(sanctionPreview.recovery.blockedCards > 0 ||
+                      sanctionPreview.recovery.cardsNoLongerOnPrimary > 0) && (
+                      <p className="mt-4 rounded-lg border border-amber-300/25 bg-amber-500/10 p-3 text-sm text-amber-100">
+                        {t("recoveryWarnings", {
+                          blocked: sanctionPreview.recovery.blockedCards,
+                          moved: sanctionPreview.recovery.cardsNoLongerOnPrimary
+                        })}
+                      </p>
+                    )}
+                  </div>
+
+                  <form
+                    action={applySmurfSanctionAction}
+                    className="rounded-xl border border-red-300/30 bg-slate-950/70 p-4"
+                  >
+                    <input
+                      name="smurf_user_id"
+                      type="hidden"
+                      value={sanctionPreview.smurf.userId}
+                    />
+                    <input
+                      name="primary_user_id"
+                      type="hidden"
+                      value={sanctionPreview.primary.userId}
+                    />
+                    <label className="grid gap-1 text-sm font-semibold text-slate-200">
+                      {t("sanctionNote")}
+                      <textarea
+                        className="yk-field-control min-h-24 resize-y"
+                        maxLength={2000}
+                        minLength={10}
+                        name="note"
+                        placeholder={t("sanctionNotePlaceholder")}
+                        required
+                      />
+                    </label>
+                    <label className="mt-3 flex items-start gap-3 text-sm text-slate-200">
+                      <input
+                        className="mt-1 size-4 shrink-0"
+                        name="confirmation"
+                        required
+                        type="checkbox"
+                        value={sanctionPreview.smurf.userId}
+                      />
+                      <span>{t("sanctionConfirmation")}</span>
+                    </label>
+                    {!sanctionPreview.eligible && (
+                      <p className="mt-3 text-sm font-semibold text-amber-200">
+                        {t("sanctionNotEligible")}
+                      </p>
+                    )}
+                    <button
+                      className="mt-4 min-h-11 w-full rounded-xl border border-red-300/50 bg-red-500/20 px-4 py-2 font-black text-red-100 transition hover:bg-red-500/30 disabled:cursor-not-allowed disabled:opacity-40"
+                      disabled={!sanctionPreview.eligible}
+                      type="submit"
+                    >
+                      {t("applySanction")}
+                    </button>
+                  </form>
+                </div>
+              )}
+            </section>
+          )}
 
           <div className="grid items-start gap-6 xl:grid-cols-[minmax(0,1.25fr)_minmax(22rem,0.75fr)]">
             <section className="min-w-0" id="anticheat-cases" tabIndex={0}>
@@ -456,6 +861,12 @@ export default async function AdminSecurityPage({
                           href={`/admin/security?${new URLSearchParams({ ...Object.fromEntries(baseParams), user: item.userId })}`}
                         >
                           {t("showEvents")}
+                        </Link>
+                        <Link
+                          className="yk-button yk-button-secondary"
+                          href={`/admin/security?sanction=${item.userId}`}
+                        >
+                          {t("prepareSanction")}
                         </Link>
                       </div>
                       <details className="mt-4 rounded-xl border border-slate-800 bg-slate-950/45 p-3">

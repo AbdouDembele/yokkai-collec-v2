@@ -50,6 +50,9 @@
   "public.anticheat_case_reviews": {
     "excluded": "Immutable administrator review decisions and notes about security cases. Requires separate manual privacy review because records contain operator and third-party context."
   },
+  "public.anticheat_device_observations": {
+    "excluded": "Short-lived hashes of random first-party browser tokens used only to corroborate anti-cheat review. Raw tokens are not stored; records require separate manual privacy and security review and expire after seven days."
+  },
   "public.anticheat_events": {
     "excluded": "Private economic security evidence involving counterpart accounts and operational metadata. Requires separate manual privacy review to assess third-party data; not a legal exemption from access requests."
   },
@@ -58,6 +61,9 @@
   },
   "public.anticheat_network_observations": {
     "excluded": "Short-lived keyed network pseudonyms used for anti-cheat correlation. Raw addresses are not stored; records require separate manual privacy and security review and expire after seven days."
+  },
+  "public.anticheat_smurf_sanctions": {
+    "excluded": "Immutable administrator sanction receipts containing paired-account trade and resale history, moderation evidence and exact recovered assets. Requires separate manual privacy and security review because it contains moderation decisions and third-party context."
   },
   "public.anime_license_media_rules": {
     "excluded": "Global verified media routing and explicit editorial exceptions; no player records."
