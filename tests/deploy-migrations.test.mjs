@@ -389,12 +389,20 @@ test("drift detects changed, missing and extra cron jobs", async t => {
   assert.deepEqual(
     jobs.map(j => j.name),
     [
+      "purge-anticheat-deleted-identities@postgres",
       "purge-cron-history@postgres",
       "purge-friend-request-events@postgres",
       "settle-expired-auctions@postgres"
     ]
   );
   assert.deepEqual(jobs[0].value, {
+    schedule: "*/15 * * * *",
+    command: "select public.purge_anticheat_deleted_identities();",
+    username: "postgres",
+    database: "postgres",
+    active: true
+  });
+  assert.deepEqual(jobs[1].value, {
     schedule: "0 3 * * *",
     command:
       "delete from cron.job_run_details where end_time < now() - interval '7 days';",
@@ -402,7 +410,7 @@ test("drift detects changed, missing and extra cron jobs", async t => {
     database: "postgres",
     active: true
   });
-  assert.deepEqual(jobs[1].value, {
+  assert.deepEqual(jobs[2].value, {
     schedule: "17 * * * *",
     command:
       "delete from public.friend_request_events where occurred_at<=clock_timestamp()-interval '24 hours'",
@@ -410,7 +418,7 @@ test("drift detects changed, missing and extra cron jobs", async t => {
     database: "postgres",
     active: true
   });
-  assert.deepEqual(jobs[2].value, {
+  assert.deepEqual(jobs[3].value, {
     schedule: "* * * * *",
     command: "select public.settle_expired_auctions();",
     username: "postgres",
