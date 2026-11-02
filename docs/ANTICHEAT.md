@@ -154,3 +154,60 @@ Un reçu immuable conserve l'historique précis, la note et la référence des
 preuves. Chaque échange et vente est réclamé une seule fois, y compris par
 rapport aux sanctions smurf précédentes. Les récupérations déjà appliquées
 quittent la liste pour permettre le traitement des échanges plus anciens.
+
+## Parcours admin unifié et décision manuelle
+
+Le dossier propose un seul bouton « Sanctionner », avec deux modes dans le même
+espace : compte smurf existant et gains de smurfs supprimés. Les historiques
+affichent les noms de cartes conservés dans le catalogue ou les instantanés
+d'échanges. Un nom perdu n'est jamais deviné ; les nouveaux reçus conservent
+ces noms avant la récupération.
+
+Les nouvelles RPC `admin_preview_sanction` / `admin_apply_sanction` autorisent
+une décision **manuelle** documentée par un administrateur sans exiger les
+signaux réseau/navigateur. Une note et une confirmation explicite restent
+obligatoires ; la référence documentaire supplémentaire est facultative.
+Le smurf existant peut être banni même sans gain à récupérer, après un échange
+direct accepté. Les anciens RPC de corroboration gardent leur contrat strict.
+Les admins ne sont pas sanctionnables et les gains déjà récupérés ne sont pas
+débités à nouveau. Un solde insuffisant bloque toujours le débit atomique.
+
+Une carte verrouillée ne bloque plus ce parcours manuel : les enchères actives
+sur les cartes récupérées sont expirées et leurs fonds bloqués remboursés une
+seule fois au gagnant courant, les offres en attente sont annulées, puis les
+cartes déverrouillées. Les enchères et tous leurs bids restent dans l'historique.
+Ces préparations et remboursements sont journalisés, avec la décision et les
+actifs exacts. Un échec annule toute l'opération.
+L'application exige également l'empreinte de l'aperçu affiché : si l'historique
+ou les actifs ont changé entre la lecture et la confirmation, il faut relire
+le nouvel aperçu avant de confirmer.
+
+« Connexion Internet commune détectée » signifie que la même empreinte d'IP
+publique a été observée pour plusieurs comptes au cours des sept derniers jours.
+La RPC admin bornée `admin_list_anticheat_connections` affiche les pseudos liés,
+la dernière date de rapprochement, la présence éventuelle du même jeton
+navigateur et les échanges directs acceptés. Elle ne renvoie ni IP ni HMAC ni
+jeton navigateur. Une connexion commune peut correspondre à un foyer, Wi-Fi,
+réseau mobile ou VPN ; elle ne prouve ni le même appareil ni la même personne.
+
+## Détail des événements économiques
+
+Les lignes du journal sont dépliables au clavier et au clic. Un échange montre
+les cartes par nom, rareté/licence et les Karas dans chaque sens ; une enchère
+montre sa carte et le montant au moment de l'événement (y compris une offre
+d'enchère, distincte du prix courant ultérieur). Les comptes supprimés sont
+signalés sans recréer leur pseudo effacé.
+Le journal visible de droite est limité aux événements `trade_accepted` : les
+enchères et échanges créés, refusés ou annulés n'y sont pas listés. Les autres
+traces restent conservées pour l'audit et les aperçus de récupération ; le
+lecteur SQL admin garde sa compatibilité avec ces types historiques.
+
+Les futurs événements économiques enregistrent un instantané des cartes dans
+leur métadonnée privée et immuable, avant tout changement ultérieur du catalogue
+ou suppression du compte. Aucun pseudo durable, IP ni jeton n'y est ajouté.
+Pour les événements antérieurs, le détail indique explicitement sa reconstruction
+depuis les échanges/enchères conservés ; les montants viennent du journal lorsque
+disponibles. Un nom perdu reste « non conservé », jamais deviné. Les listes de
+cartes sont bornées à 1 000 par sens et affichent explicitement une éventuelle
+limite. Le lecteur admin conserve ses filtres et sa pagination ; ses helpers
+restent sans accès direct depuis les rôles API.
