@@ -53,6 +53,12 @@
   "public.anticheat_device_observations": {
     "excluded": "Short-lived hashes of random first-party browser tokens used only to corroborate anti-cheat review. Raw tokens are not stored; records require separate manual privacy and security review and expire after seven days."
   },
+  "public.anticheat_deleted_smurf_recoveries": {
+    "excluded": "Immutable administrator decisions about precisely selected historical trades with deleted participants, including third-party context and independently reviewed evidence references. Separate manual privacy and security review is required; deleted identities are not recreated."
+  },
+  "public.anticheat_deleted_smurf_recovery_items": {
+    "excluded": "Private immutable claims on recovered trade and resale identifiers, preventing repeated confiscation. These security records require separate manual privacy review."
+  },
   "public.anticheat_events": {
     "excluded": "Private economic security evidence involving counterpart accounts and operational metadata. Requires separate manual privacy review to assess third-party data; not a legal exemption from access requests."
   },

@@ -10,6 +10,10 @@ import { getCurrentKarasBalance, getCurrentPseudo } from "@/lib/auth/session";
 import { createClient } from "@/utils/supabase/server";
 import { AdminNavigation } from "../admin-navigation";
 import { applySmurfSanctionAction, reviewAnticheatCaseAction } from "./actions";
+import {
+  DeletedSmurfRecovery,
+  type DeletedSmurfRecoveryPreview
+} from "./deleted-smurf-recovery";
 
 export const dynamic = "force-dynamic";
 const PAGE_SIZE = 30;
@@ -245,6 +249,8 @@ export default async function AdminSecurityPage({
     sanction?: string;
     primary?: string;
     result?: string;
+    deletedPrimary?: string;
+    source?: string | string[];
   }>;
 }) {
   const admin = await requireAdminPage();
@@ -267,6 +273,27 @@ export default async function AdminSecurityPage({
     ? params.primary!
     : null;
   const sanctionApplied = params.result === "smurf-sanction-applied";
+  const deletedPrimaryId = /^[0-9a-f-]{36}$/i.test(params.deletedPrimary ?? "")
+    ? params.deletedPrimary!
+    : null;
+  const historicalTradeIds = (
+    Array.isArray(params.source)
+      ? params.source
+      : params.source
+        ? [params.source]
+        : []
+  )
+    .filter(id => /^[0-9a-f-]{36}$/i.test(id))
+    .slice(0, 100);
+  let deletedRecovery: DeletedSmurfRecoveryPreview | null = null;
+  if (deletedPrimaryId) {
+    const result = await client.rpc("admin_preview_deleted_smurf_recovery", {
+      p_primary_user_id: deletedPrimaryId,
+      p_trade_ids: historicalTradeIds
+    });
+    if (result.error) throw new Error(result.error.message);
+    deletedRecovery = result.data as DeletedSmurfRecoveryPreview;
+  }
   const page = Math.max(1, Number.parseInt(params.page ?? "1", 10) || 1);
   const [name, karas, casesResult, eventsResult] = await Promise.all([
     getCurrentPseudo(admin.id),
@@ -367,6 +394,12 @@ export default async function AdminSecurityPage({
             </p>
           </header>
           <AdminNavigation />
+          {deletedRecovery && (
+            <DeletedSmurfRecovery
+              data={deletedRecovery}
+              applied={params.result === "deleted-smurf-recovered"}
+            />
+          )}
 
           {sanctionApplied && (
             <p
@@ -867,6 +900,12 @@ export default async function AdminSecurityPage({
                           href={`/admin/security?sanction=${item.userId}`}
                         >
                           {t("prepareSanction")}
+                        </Link>
+                        <Link
+                          className="yk-button yk-button-secondary"
+                          href={`/admin/security?deletedPrimary=${item.userId}`}
+                        >
+                          {t("deletedRecovery.open")}
                         </Link>
                       </div>
                       <details className="mt-4 rounded-xl border border-slate-800 bg-slate-950/45 p-3">

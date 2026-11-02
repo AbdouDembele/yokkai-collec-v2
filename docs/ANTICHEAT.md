@@ -127,3 +127,30 @@ automatiquement.
 Les filtres du journal acceptent tous les types proposés par l'interface, y
 compris `network_identity_shared` et `trade_shared_network_identity`. Les
 lectures restent réservées aux administrateurs et bornées à 100 événements.
+
+## Récupération après suppression d'un smurf
+
+La suppression détache les identités dans les échanges et efface les profils.
+Elle ne permet donc pas de retrouver automatiquement un ancien pseudo ni de
+prouver qu'un don anonyme provenait d'un smurf. Les identifiants conservés dans
+le journal anti-triche peuvent corroborer un ancien lien, mais leur absence
+n'est jamais remplacée par une attribution supposée.
+
+Depuis le dossier du compte principal, l'admin peut ouvrir « Gains de smurfs
+supprimés ». L'outil liste au plus 100 échanges acceptés encore disponibles,
+avec un participant détaché et le principal toujours présent. L'admin choisit
+les transferts dont il a vérifié indépendamment le caractère abusif, consigne
+la référence des preuves et sa décision, puis confirme l'aperçu exact.
+Ni la suppression ni un échange à sens unique ne constituent une preuve.
+
+La transaction retire les instances encore présentes sur le principal, débite
+les Karas nets des échanges sélectionnés et les recettes de leurs reventes
+traçables. Elle ne recrée jamais l'identité supprimée et ne crédite aucun compte
+fantôme. Les acheteurs tiers conservent leurs cartes. Les cartes indisponibles
+ou un solde insuffisant bloquent l'action ; les recettes perdues ou impossibles
+à relier ne sont pas estimées. Les comptes administrateurs sont protégés.
+
+Un reçu immuable conserve l'historique précis, la note et la référence des
+preuves. Chaque échange et vente est réclamé une seule fois, y compris par
+rapport aux sanctions smurf précédentes. Les récupérations déjà appliquées
+quittent la liste pour permettre le traitement des échanges plus anciens.
