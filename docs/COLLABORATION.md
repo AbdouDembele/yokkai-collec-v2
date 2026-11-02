@@ -80,7 +80,9 @@ Regrouper les commits puis pousser une version relisible et ouvrir la PR en brou
 
 ## 6. Migrations Supabase
 
-- **Une seule personne à la fois** applique des migrations sur le VPS (152.228.141.160).
+- **Une seule personne à la fois** applique des migrations sur le VPS applicatif actif
+  (`62.83.37.242` au 2 novembre 2026). Vérifier l’hôte réellement utilisé par le
+  conteneur applicatif avant chaque intervention ; ne pas se fier à une ancienne IP.
   Prévenir sur Discord **avant** de le faire.
 - Avant d'appliquer une migration, **vérifier l'état réel** de la prod au lieu de le supposer :
 

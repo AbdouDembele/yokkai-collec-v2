@@ -1,6 +1,59 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFileSync, readdirSync } from "node:fs";
 import { replayMigrations } from "../scripts/replay-migrations.mjs";
+
+test("anti-cheat history skips fully orphaned economic rows", async t => {
+  const migration = "20261101020000_anticheat_observability.sql";
+  const migrations = readdirSync(
+    new URL("../supabase/migrations/", import.meta.url)
+  )
+    .filter(name => name.endsWith(".sql") && name < migration)
+    .sort();
+  const { db } = await replayMigrations({ migrations });
+  t.after(() => db.close());
+
+  const orphanTrade = "ac000000-0000-4000-8000-000000000001";
+  const orphanAuction = "ac000000-0000-4000-8000-000000000002";
+  await db.exec("set session_replication_role=replica");
+  try {
+    await db.query(
+      `insert into public.trade_offers(
+        id,from_user,to_user,offered_karas,status,updated_at
+      ) values($1,null,null,1,'accepted',clock_timestamp())`,
+      [orphanTrade]
+    );
+    await db.query(
+      `insert into public.auctions(
+        id,card_instance_id,seller_id,starting_price,duration_minutes,ends_at,
+        status,current_price
+      ) values($1,null,null,10,60,clock_timestamp() + interval '1 hour','expired',10)`,
+      [orphanAuction]
+    );
+    await db.query(
+      "insert into public.bids(auction_id,bidder_id,amount) values($1,null,10)",
+      [orphanAuction]
+    );
+  } finally {
+    await db.exec("set session_replication_role=origin");
+  }
+
+  await db.exec(
+    readFileSync(
+      new URL(`../supabase/migrations/${migration}`, import.meta.url),
+      "utf8"
+    )
+  );
+  assert.deepEqual(
+    (
+      await db.query(
+        "select event_type,subject_id from public.anticheat_events where subject_id in ($1,$2)",
+        [orphanTrade, orphanAuction]
+      )
+    ).rows,
+    []
+  );
+});
 
 test("anti-cheat records real triggers, scores signals and isolates its ledger", async t => {
   const { db } = await replayMigrations();
