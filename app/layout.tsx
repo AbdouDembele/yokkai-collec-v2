@@ -16,6 +16,7 @@ import { DiscordPromo } from "@/components/discord-promo";
 import { FloatingMessenger } from "@/components/floating-messenger";
 import { LinkedAccountNotice } from "@/components/linked-account-notice";
 import { AccountSanctionNotice } from "@/components/account-sanction-notice";
+import { NetworkSecurityObserver } from "@/components/network-security-observer";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
 import "./globals.css";
 import "../styles/ui.css";
@@ -201,6 +202,7 @@ export default async function RootLayout({
             }}
           >
             <LocaleBanner />
+            <NetworkSecurityObserver />
             <BoostersLoadPriority>
               <PresenceHeartbeat />
               <ProAccessProvider>

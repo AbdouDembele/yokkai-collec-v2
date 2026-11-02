@@ -46,11 +46,14 @@ pseudonyme, pas anonyme. Une rotation remplace la clé et incrémente la version
 redémarre le service et supprime les anciennes observations : les anciennes et
 nouvelles identités ne sont volontairement pas corrélées.
 
-Ce socle ne relie pas encore les HMAC aux joueurs dans la PR anti-triche #31.
-Le branchement doit utiliser exclusivement l'en-tête interne après cette chaîne,
-sur une session serveur vérifiée. Les appels serveur via l'API publique reflètent
-l'IP du serveur, pas celle du joueur : ne pas les attribuer à un joueur.
-Le limiteur Auth interne existant reste désactivé et inchangé.
+La liaison anti-triche utilise exclusivement `X-Yokkai-IP-HMAC` dans une route
+serveur qui revérifie la session, puis appelle une fonction Supabase réservée au
+`service_role`. Le navigateur ne reçoit jamais le HMAC et ne peut pas appeler
+directement cette fonction. Les associations expirent après sept jours et le
+panneau admin n'expose que le nombre de comptes liés, jamais l'identité réseau.
+Les appels serveur via l'API publique reflètent l'IP du serveur, pas celle du
+joueur : ne pas les attribuer à un joueur. Le limiteur Auth interne existant
+reste désactivé et inchangé.
 
 La configuration ne supprime pas les journaux historiques d'autres services.
 Ne pas activer les access logs contenant IP/en-têtes ; vérifier séparément

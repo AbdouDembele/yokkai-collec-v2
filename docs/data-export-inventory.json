@@ -47,11 +47,17 @@
   "public.anticheat_cases": {
     "excluded": "Private derived anti-fraud scores and internal review status. Requests concerning these security records require separate manual privacy review; exclusion from self-service downloads is not a legal exemption."
   },
+  "public.anticheat_case_reviews": {
+    "excluded": "Immutable administrator review decisions and notes about security cases. Requires separate manual privacy review because records contain operator and third-party context."
+  },
   "public.anticheat_events": {
     "excluded": "Private economic security evidence involving counterpart accounts and operational metadata. Requires separate manual privacy review to assess third-party data; not a legal exemption from access requests."
   },
   "public.anticheat_event_subjects": {
     "excluded": "Private event-to-account security evidence with internal risk reasons and third-party associations. Requires separate manual privacy review; no automatic download of other players' evidence."
+  },
+  "public.anticheat_network_observations": {
+    "excluded": "Short-lived keyed network pseudonyms used for anti-cheat correlation. Raw addresses are not stored; records require separate manual privacy and security review and expire after seven days."
   },
   "public.anime_license_media_rules": {
     "excluded": "Global verified media routing and explicit editorial exceptions; no player records."

@@ -3,10 +3,11 @@
 export const PRIVACY_CONTROLLER = "Yokkai Collec'";
 export const PRIVACY_CONTACT_EMAIL = "yokkaicollec@gmail.com";
 export const PRIVACY_MINIMUM_AGE = 16;
-export const PRIVACY_LAST_UPDATED = "2026-10-26";
+export const PRIVACY_LAST_UPDATED = "2026-11-02";
 
 // Durations found in the code (ops/storage_maintenance.py, docs/ops-disk-cleanup.md,
-// supabase/migrations/20261009000006_cron_history_retention.sql).
+// supabase/migrations/20261009000006_cron_history_retention.sql and the
+// anti-cheat network observation migration).
 export const BACKUP_RETENTION_DAYS = 14;
 export const SERVER_LOG_RETENTION_DAYS = 7;
 

@@ -9,6 +9,7 @@ import { requireAdminPage } from "@/lib/auth/admin";
 import { getCurrentKarasBalance, getCurrentPseudo } from "@/lib/auth/session";
 import { createClient } from "@/utils/supabase/server";
 import { AdminNavigation } from "../admin-navigation";
+import { reviewAnticheatCaseAction } from "./actions";
 
 export const dynamic = "force-dynamic";
 const PAGE_SIZE = 30;
@@ -23,7 +24,9 @@ const eventTypes = new Set([
   "auction_bid",
   "auction_sold",
   "auction_expired",
-  "referral_rewarded"
+  "referral_rewarded",
+  "network_identity_shared",
+  "trade_shared_network_identity"
 ]);
 
 type CaseRow = {
@@ -32,10 +35,18 @@ type CaseRow = {
   email: string;
   score: number;
   severity: string;
+  status: string;
   eventCount: number;
   reasonCodes: string[];
   lastFlaggedAt: string;
-  linkedAccounts: number;
+  economicLinkedAccounts: number;
+  networkLinkedAccounts: number;
+  latestReview: {
+    decision: string;
+    note: string;
+    createdAt: string;
+    adminPseudo: string;
+  } | null;
 };
 
 type EventParty = { id: string; pseudo: string } | null;
@@ -69,10 +80,29 @@ function caseFromRpc(value: Record<string, unknown>): CaseRow {
     email: String(value.email ?? ""),
     score: Number(value.score ?? 0),
     severity: String(value.severity ?? "watch"),
+    status: String(value.status ?? "open"),
     eventCount: Number(value.eventCount ?? 0),
     reasonCodes: strings(value.reasonCodes),
     lastFlaggedAt: String(value.lastFlaggedAt ?? ""),
-    linkedAccounts: Number(value.linkedAccounts ?? 0)
+    economicLinkedAccounts: Number(value.economicLinkedAccounts ?? 0),
+    networkLinkedAccounts: Number(value.networkLinkedAccounts ?? 0),
+    latestReview:
+      value.latestReview && typeof value.latestReview === "object"
+        ? {
+            decision: String(
+              (value.latestReview as Record<string, unknown>).decision ?? ""
+            ),
+            note: String(
+              (value.latestReview as Record<string, unknown>).note ?? ""
+            ),
+            createdAt: String(
+              (value.latestReview as Record<string, unknown>).createdAt ?? ""
+            ),
+            adminPseudo: String(
+              (value.latestReview as Record<string, unknown>).adminPseudo ?? ""
+            )
+          }
+        : null
   };
 }
 
@@ -121,7 +151,9 @@ const reasonKeys: Record<string, string> = {
   REPEATED_AUCTION_PAIR: "repeatedAuctionPair",
   REPEATED_AUCTION_SETTLEMENT_PAIR: "repeatedAuctionSettlementPair",
   REFERRAL_REWARD_BURST: "referralRewardBurst",
-  NEW_ACCOUNT_ECONOMIC_ACTIVITY: "newAccountEconomicActivity"
+  NEW_ACCOUNT_ECONOMIC_ACTIVITY: "newAccountEconomicActivity",
+  SHARED_NETWORK_IDENTITY: "sharedNetworkIdentity",
+  TRADE_SHARED_NETWORK_IDENTITY: "tradeSharedNetworkIdentity"
 };
 
 const eventKeys: Record<string, string> = {
@@ -134,7 +166,9 @@ const eventKeys: Record<string, string> = {
   auction_bid: "auctionBid",
   auction_sold: "auctionSold",
   auction_expired: "auctionExpired",
-  referral_rewarded: "referralRewarded"
+  referral_rewarded: "referralRewarded",
+  network_identity_shared: "networkIdentityShared",
+  trade_shared_network_identity: "tradeSharedNetworkIdentity"
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -353,6 +387,9 @@ export default async function AdminSecurityPage({
                             >
                               {t(`severities.${item.severity}`)}
                             </span>
+                            <span className="rounded-full border border-slate-700 bg-slate-950/60 px-2 py-0.5 text-xs font-semibold text-slate-300">
+                              {t(`statuses.${item.status}`)}
+                            </span>
                           </div>
                           <p className="text-sm text-slate-400 [overflow-wrap:anywhere]">
                             {item.email}
@@ -379,20 +416,28 @@ export default async function AdminSecurityPage({
                           </span>
                         ))}
                       </div>
-                      <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-800 pt-4 text-sm sm:grid-cols-3">
+                      <dl className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-800 pt-4 text-sm sm:grid-cols-4">
                         <div>
                           <dt className="text-slate-500">{t("eventsCount")}</dt>
                           <dd className="font-semibold">{item.eventCount}</dd>
                         </div>
                         <div>
                           <dt className="text-slate-500">
-                            {t("linkedAccounts")}
+                            {t("economicLinkedAccounts")}
                           </dt>
                           <dd className="font-semibold">
-                            {item.linkedAccounts}
+                            {item.economicLinkedAccounts}
                           </dd>
                         </div>
-                        <div className="col-span-2 sm:col-span-1">
+                        <div>
+                          <dt className="text-slate-500">
+                            {t("networkLinkedAccounts")}
+                          </dt>
+                          <dd className="font-semibold">
+                            {item.networkLinkedAccounts}
+                          </dd>
+                        </div>
+                        <div>
                           <dt className="text-slate-500">{t("lastSignal")}</dt>
                           <dd className="font-semibold">
                             {dateFormatter.format(new Date(item.lastFlaggedAt))}
@@ -413,6 +458,73 @@ export default async function AdminSecurityPage({
                           {t("showEvents")}
                         </Link>
                       </div>
+                      <details className="mt-4 rounded-xl border border-slate-800 bg-slate-950/45 p-3">
+                        <summary className="cursor-pointer font-semibold text-cyan-200">
+                          {t("reviewCase")}
+                        </summary>
+                        {item.latestReview && (
+                          <div className="mt-3 rounded-lg border border-slate-800 bg-slate-950/70 p-3 text-sm">
+                            <p className="font-semibold text-slate-200">
+                              {t("latestReview", {
+                                admin: item.latestReview.adminPseudo,
+                                status: t(
+                                  `statuses.${item.latestReview.decision}`
+                                )
+                              })}
+                            </p>
+                            <p className="mt-1 whitespace-pre-wrap text-slate-400 [overflow-wrap:anywhere]">
+                              {item.latestReview.note}
+                            </p>
+                          </div>
+                        )}
+                        <form
+                          action={reviewAnticheatCaseAction}
+                          className="mt-3 grid gap-3"
+                        >
+                          <input
+                            name="user_id"
+                            type="hidden"
+                            value={item.userId}
+                          />
+                          <label className="grid gap-1 text-sm font-semibold text-slate-300">
+                            {t("reviewNote")}
+                            <textarea
+                              className="yk-field-control min-h-24 resize-y"
+                              maxLength={2000}
+                              minLength={5}
+                              name="note"
+                              placeholder={t("reviewNotePlaceholder")}
+                              required
+                            />
+                          </label>
+                          <div className="grid gap-2 sm:grid-cols-3">
+                            <button
+                              className="yk-button yk-button-secondary"
+                              name="status"
+                              type="submit"
+                              value="open"
+                            >
+                              {t("markOpen")}
+                            </button>
+                            <button
+                              className="yk-button yk-button-secondary"
+                              name="status"
+                              type="submit"
+                              value="reviewed"
+                            >
+                              {t("markReviewed")}
+                            </button>
+                            <button
+                              className="yk-button yk-button-secondary"
+                              name="status"
+                              type="submit"
+                              value="dismissed"
+                            >
+                              {t("dismissCase")}
+                            </button>
+                          </div>
+                        </form>
+                      </details>
                     </article>
                   ))
                 )}

@@ -2859,6 +2859,7 @@
     "whatDataWeCollect": "Les données que nous collectons",
     "accountYourEmailAddressPasswordAndUsername": "<strong0>Compte :</strong0> ton adresse e-mail, ton mot de passe et ton pseudo. Ton mot de passe est géré par notre système d’authentification et n’est stocké que sous forme hachée. Nous enregistrons aussi la version et la date des politiques que tu as acceptées à l’inscription, ainsi que le code de parrainage utilisé, le cas échéant. Les e-mails de confirmation et de réinitialisation du mot de passe sont envoyés par notre prestataire de messagerie.",
     "securityChecksSignInSignUpAnd": "<strong0>Contrôles de sécurité :</strong0> les formulaires de connexion, d’inscription et de mot de passe utilisent un défi Cloudflare Turnstile pour bloquer les bots. Ton adresse IP peut être utilisée pour protéger la connexion contre les abus.",
+    "antiCheatNetworkIdentity": "<strong0>Signal réseau anti-triche :</strong0> après vérification de la connexion par Cloudflare, Yokkai conserve jusqu’à 7 jours un code pseudonyme, versionné et protégé par une clé, dérivé de l’adresse IP normalisée. L’adresse brute n’est pas enregistrée dans la base anti-triche. Un code partagé reste un simple signal à examiner et ne provoque jamais de sanction automatique.",
     "profileAvatarBannerBackgroundAndCardBack": "<strong0>Profil :</strong0> les images d’avatar, de bannière, de fond et de dos de carte que tu téléverses, ta bio, tes centres d’intérêt, les cartes de ta vitrine, la disposition de ton profil et les styles Pro, ton réglage de confidentialité et la date de ta dernière activité.",
     "gameDataCardsAndCollectionCustomCard": "<strong0>Données de jeu :</strong0> cartes et collection, images de cartes personnalisées (liens que tu fournis), dossiers et classeurs, solde de Karas, packs et leurs comptes à rebours, succès et statistiques, liste de souhaits, favoris et notifications.",
     "socialActivityFriendsAndFriendRequestsTrades": "<strong0>Activité sociale :</strong0> amis et demandes d’ami, échanges, enchères et mises, messages et mentions dans le chat des enchères, messages privés, posts sur les murs de profil, réponses, mentions J’aime et réactions, GIFs partagés, blocages, signalements envoyés ou reçus et parrainages.",
@@ -3199,10 +3200,18 @@
     "noCases": "Aucun compte ne correspond à ces filtres.",
     "riskPoints": "points de risque",
     "eventsCount": "Événements signalés",
-    "linkedAccounts": "Comptes liés",
+    "economicLinkedAccounts": "Liens économiques",
+    "networkLinkedAccounts": "Liens réseau · 7 j",
     "lastSignal": "Dernier signal",
     "openPlayer": "Ouvrir le joueur",
     "showEvents": "Voir les événements",
+    "reviewCase": "Examiner ce dossier",
+    "reviewNote": "Note interne d’examen",
+    "reviewNotePlaceholder": "Décris les éléments vérifiés et la raison de cette décision…",
+    "latestReview": "Dernière décision : {status} · {admin}",
+    "markOpen": "Garder ouvert",
+    "markReviewed": "Marquer examiné",
+    "dismissCase": "Écarter le signal",
     "eventsTitle": "Journal des événements",
     "eventsHelp": "Activité économique observable la plus récente.",
     "removePlayerFilter": "Afficher tous les joueurs",
@@ -3226,7 +3235,14 @@
       "auctionBid": "Offre sur une enchère",
       "auctionSold": "Enchère vendue",
       "auctionExpired": "Enchère expirée",
-      "referralRewarded": "Parrainage récompensé"
+      "referralRewarded": "Parrainage récompensé",
+      "networkIdentityShared": "Identité réseau partagée",
+      "tradeSharedNetworkIdentity": "Échange entre comptes liés par le réseau"
+    },
+    "statuses": {
+      "open": "Ouvert",
+      "reviewed": "Examiné",
+      "dismissed": "Écarté"
     },
     "reasons": {
       "oneWayTradeSource": "Échange à sens unique · source",
@@ -3239,7 +3255,9 @@
       "repeatedAuctionPair": "Paire d’enchère répétée",
       "repeatedAuctionSettlementPair": "Ventes répétées entre deux comptes",
       "referralRewardBurst": "Rafale de récompenses de parrainage",
-      "newAccountEconomicActivity": "Activité économique d’un nouveau compte"
+      "newAccountEconomicActivity": "Activité économique d’un nouveau compte",
+      "sharedNetworkIdentity": "Identité réseau partagée · contexte uniquement",
+      "tradeSharedNetworkIdentity": "Échange entre comptes liés par le réseau"
     }
   },
   "tradeDesign": {

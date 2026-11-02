@@ -2859,6 +2859,7 @@
     "whatDataWeCollect": "What data we collect",
     "accountYourEmailAddressPasswordAndUsername": "<strong0>Account:</strong0> your email address, password, and username. Your password is handled by our authentication system and stored only in hashed form. We also record the version and time of the policies you accepted at sign-up, and the referral code you used, if any. Confirmation and password-reset emails are sent through our email provider.",
     "securityChecksSignInSignUpAnd": "<strong0>Security checks:</strong0> sign-in, sign-up, and password forms use a Cloudflare Turnstile challenge to block bots. Your IP address may be used to protect sign-in against abuse.",
+    "antiCheatNetworkIdentity": "<strong0>Anti-cheat network signal:</strong0> after Cloudflare verifies the connection, Yokkai stores a keyed, versioned pseudonymous code derived from the normalized IP address for up to 7 days. The raw address is not stored in the anti-cheat database. A shared code is only a review signal and never causes an automatic sanction.",
     "profileAvatarBannerBackgroundAndCardBack": "<strong0>Profile:</strong0> avatar, banner, background and card-back images you upload, bio, interests, showcase cards, profile layout and Pro styling, your profile privacy setting, and when you were last active.",
     "gameDataCardsAndCollectionCustomCard": "<strong0>Game data:</strong0> cards and collection, custom card images (links you provide), folders and binders, Karas balance, packs and pack timers, achievements and stats, wishlist, favorites, and notifications.",
     "socialActivityFriendsAndFriendRequestsTrades": "<strong0>Social activity:</strong0> friends and friend requests, trades, auctions and bids, auction chat messages and mentions, private messages, profile wall posts, replies, likes and reactions, GIFs you share, blocks, reports you send or receive, and referrals.",
@@ -3199,10 +3200,18 @@
     "noCases": "No account matches these filters.",
     "riskPoints": "risk points",
     "eventsCount": "Flagged events",
-    "linkedAccounts": "Linked accounts",
+    "economicLinkedAccounts": "Economic links",
+    "networkLinkedAccounts": "Network links · 7d",
     "lastSignal": "Last signal",
     "openPlayer": "Open player",
     "showEvents": "View events",
+    "reviewCase": "Review this case",
+    "reviewNote": "Internal review note",
+    "reviewNotePlaceholder": "Describe the evidence checked and the reason for this decision…",
+    "latestReview": "Last decision: {status} · {admin}",
+    "markOpen": "Keep open",
+    "markReviewed": "Mark reviewed",
+    "dismissCase": "Dismiss signal",
     "eventsTitle": "Event ledger",
     "eventsHelp": "Most recent observable economic activity.",
     "removePlayerFilter": "Show all players",
@@ -3226,7 +3235,14 @@
       "auctionBid": "Auction bid",
       "auctionSold": "Auction sold",
       "auctionExpired": "Auction expired",
-      "referralRewarded": "Referral rewarded"
+      "referralRewarded": "Referral rewarded",
+      "networkIdentityShared": "Shared network identity",
+      "tradeSharedNetworkIdentity": "Trade between network-linked accounts"
+    },
+    "statuses": {
+      "open": "Open",
+      "reviewed": "Reviewed",
+      "dismissed": "Dismissed"
     },
     "reasons": {
       "oneWayTradeSource": "One-way trade · source",
@@ -3239,7 +3255,9 @@
       "repeatedAuctionPair": "Repeated auction pair",
       "repeatedAuctionSettlementPair": "Repeated auction settlements",
       "referralRewardBurst": "Referral reward burst",
-      "newAccountEconomicActivity": "New account economic activity"
+      "newAccountEconomicActivity": "New account economic activity",
+      "sharedNetworkIdentity": "Shared network identity · context only",
+      "tradeSharedNetworkIdentity": "Trade between network-linked accounts"
     }
   },
   "tradeDesign": {

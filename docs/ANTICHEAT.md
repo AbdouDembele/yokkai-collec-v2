@@ -11,6 +11,8 @@ Karas.
 - création, acceptation, refus et annulation d'un échange ;
 - création, enchère, vente et expiration d'une enchère ;
 - attribution d'une récompense de parrainage.
+- association temporaire de comptes à une même identité réseau pseudonyme ;
+- échange accepté entre des comptes liés par une identité réseau récente.
 
 Le journal et ses associations sont privés, sans politique de lecture, et
 protégés contre les mises à jour et suppressions. Les administrateurs passent
@@ -26,6 +28,8 @@ uniquement par deux fonctions DTO bornées qui revérifient leur rôle.
 - ventes répétées entre les mêmes comptes sur sept jours ;
 - rafale de récompenses de parrainage ;
 - activité économique d'un compte créé depuis moins de 72 heures.
+- identité réseau partagée (signal faible et contextuel) ;
+- échange entre des comptes liés par une identité réseau récente.
 
 Chaque événement conserve ses codes de raison et ses points. Le score sert à
 prioriser la revue humaine, pas à établir seul une fraude.
@@ -39,19 +43,27 @@ données, ce qui évite de dépendre du navigateur.
 
 Le tableau `/admin/security` permet de filtrer les dossiers par pseudo,
 adresse e-mail et sévérité, puis de consulter le journal récent par joueur ou
-type d'événement. Les sanctions éventuelles restent réalisées avec les outils
-de modération existants après vérification.
+type d'événement. Chaque administrateur peut consigner une note immuable et
+marquer le dossier ouvert, examiné ou écarté. Un nouveau signal rouvre le
+dossier. Les sanctions éventuelles restent réalisées avec les outils de
+modération existants après vérification.
 
-Les trois tables sont recensées dans `docs/data-export-inventory.json` pour
+Les cinq tables sont recensées dans `docs/data-export-inventory.json` pour
 une revue manuelle des demandes d'accès impliquant ces éléments de sécurité
 et les données de contreparties. Elles ne sont pas ajoutées aux téléchargements
 automatiques des joueurs.
 
-## Corrélation IP non activée
+## Corrélation réseau pseudonyme
 
-L'adresse IP n'est pas enregistrée à ce stade. `docs/AUTH-HARDENING.md`
-documente que l'origine VPS doit d'abord être fermée au trafic direct et que
-la chaîne de proxy doit réécrire les en-têtes d'adresse de manière fiable.
-Avant cela, une valeur transmise par le client pourrait être falsifiée et
-produire de faux rapprochements. La corrélation IP ne devra être ajoutée
-qu'après ce durcissement, avec rétention courte, hachage et accès admin borné.
+L'origine VPS est fermée au trafic web direct et la chaîne Cloudflare/Traefik
+supprime les en-têtes fournis par le navigateur. Une route serveur vérifie la
+session puis transmet à Supabase uniquement le HMAC versionné produit par le
+proxy. La fonction d'écriture est réservée au `service_role` : un joueur ne peut
+pas fabriquer une association par RPC.
+
+La table de rapprochement ne conserve jamais l'adresse brute. Ses observations
+sont purgées après sept jours et une même association n'est rafraîchie qu'une
+fois toutes les quinze minutes. Le tableau admin expose uniquement le nombre de
+comptes rapprochés, jamais le HMAC. Une IP partagée (foyer, école, opérateur ou
+VPN) n'est pas une preuve de fraude : le signal seul ne déclenche aucune
+sanction automatique.
