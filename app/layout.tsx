@@ -168,6 +168,7 @@ export default async function RootLayout({
       "siteFooter",
       "error",
       "adminReportedCard",
+      "adminNavigation",
       "profileUi",
       "socialUi",
       "premiumUi",
