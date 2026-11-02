@@ -6,7 +6,7 @@ if (!dir) throw new Error("EDGE_CONFIG_DIR required");
 const ranges = JSON.parse(await readFile(`${dir}/ranges.json`, "utf8"));
 const proof = (await readFile(`${dir}/secrets/proxy-proof`, "utf8")).trim();
 await writeFile(
-  `${dir}/middleware.json`,
+  `${dir}/middleware.yaml`,
   JSON.stringify(renderMiddleware(ranges["4"], ranges["6"], proof), null, 2),
   { mode: 0o600 }
 );

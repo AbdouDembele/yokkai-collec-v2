@@ -16,7 +16,7 @@ import urllib.request
 
 ROOT = Path('/data/yokkai-edge')
 PROXY = Path('/data/coolify/proxy/docker-compose.yml')
-DYNAMIC = Path('/data/coolify/proxy/dynamic/yokkai-edge.json')
+DYNAMIC = Path('/data/coolify/proxy/dynamic/yokkai-edge.yaml')
 NETWORK = 'yokkai-edge-private'
 UNIT = 'yokkai-edge-rollback'
 
@@ -120,7 +120,7 @@ def activate():
     assert not (ROOT / 'confirmed').exists()
     run('systemd-run', '--unit=' + UNIT, '--on-active=10m', '/usr/bin/python3',
         str(ROOT / 'src/deploy.py'), 'rollback')
-    shutil.copy2(ROOT / 'middleware.json', DYNAMIC)
+    shutil.copy2(ROOT / 'middleware.yaml', DYNAMIC)
     shutil.copy2(ROOT / 'proxy-compose.json', PROXY)
     compose(PROXY, 'up', '-d', '--force-recreate')
     print('Proxy activated; rollback timer armed for 10 minutes')

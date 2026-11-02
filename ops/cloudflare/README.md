@@ -70,7 +70,7 @@ les politiques de rétention de Cloudflare, Auth, Envoy et de la plateforme.
   `configure.mjs`. Ne jamais remplacer des règles existantes par une liste vide.
 - Démarrer le service privé avec une image Node 22 épinglée par digest/ID.
   Vérifier santé et refus d'une requête sans preuve.
-- Installer le fichier dynamique `middleware.json` dans le répertoire Traefik.
+- Installer le fichier dynamique `middleware.yaml` (JSON, sous-ensemble YAML) dans le répertoire Traefik.
   Ajouter `yokkai-edge@file` comme middleware des deux entrypoints publics.
   Activer trustedIPs uniquement pour Cloudflare. Déplacer ping vers un
   entrypoint privé non publié avant d'activer la chaîne.
