@@ -28,152 +28,156 @@ export async function renderSanctionPage(locale = "en", mode = "active") {
   const translations = JSON.parse(
     fs.readFileSync(`messages/${locale}.json`, "utf8")
   );
-  const rpc = async name => ({
-    error: null,
-    data: {
-      admin_list_anticheat_cases: {
-        cases: [
-          {
-            userId: id,
-            pseudo: "Example player",
-            email: "fixture@example.invalid",
-            score: 88,
-            severity: "critical",
-            status: "open",
-            eventCount: 20,
-            reasonCodes: ["SHARED_NETWORK_IDENTITY"],
-            lastFlaggedAt: "2026-11-02T12:00:00Z",
-            economicLinkedAccounts: 2,
-            networkLinkedAccounts: 1
-          }
-        ],
-        total: 1,
-        summary: { open: 1, critical: 1, events24h: 3, flagged24h: 1 }
-      },
-      admin_list_anticheat_events: {
-        events: [
-          {
-            id: 1,
-            type: "trade_accepted",
-            occurredAt: "2026-11-02T12:00:00Z",
-            actor: { id, pseudo: "Example player" },
-            counterparty: { id: other, pseudo: "Primary collector" },
-            cardCount: 1,
-            amount: 70,
-            subjects: [],
-            metadata: {},
-            detail: {
-              kind: "trade",
-              source: "captured",
-              available: true,
-              fromName: "Example player",
-              toName: "Primary collector",
-              offeredCards: [
-                {
-                  instanceId: copy,
-                  name: "BROLY",
-                  rarity: "LR",
-                  franchise: "Dragon Ball"
-                }
-              ],
-              requestedCards: [],
-              offeredCount: 1,
-              requestedCount: 0,
-              offeredKaras: 70,
-              requestedKaras: 5
-            }
-          }
-        ],
-        total: 1
-      },
-      admin_list_anticheat_connections: {
-        [id]: {
-          count: 1,
-          accounts: [
+  const rpc = async (name, args) => {
+    if (name === "admin_list_anticheat_events")
+      assert.equal(args.p_event_type, "trade_accepted");
+    return {
+      error: null,
+      data: {
+        admin_list_anticheat_cases: {
+          cases: [
             {
-              userId: other,
-              pseudo: "Related collector",
-              lastSharedAt: "2026-11-02T12:00:00Z",
-              sharedBrowser: false,
-              acceptedTrades: 2,
-              deleted: false
+              userId: id,
+              pseudo: "Example player",
+              email: "fixture@example.invalid",
+              score: 88,
+              severity: "critical",
+              status: "open",
+              eventCount: 20,
+              reasonCodes: ["SHARED_NETWORK_IDENTITY"],
+              lastFlaggedAt: "2026-11-02T12:00:00Z",
+              economicLinkedAccounts: 2,
+              networkLinkedAccounts: 1
             }
-          ]
-        }
-      },
-      admin_list_smurf_sanction_candidates: [
-        {
-          userId: other,
-          pseudo: "Primary collector",
-          acceptedTrades: 1,
-          lastTradeAt: "2026-11-02T12:00:00Z",
-          sharedNetwork: false,
-          sharedDevice: false
-        }
-      ],
-      admin_preview_sanction:
-        mode === "active"
-          ? {
-              smurf: { userId: id, pseudo: "Example player", banned: false },
-              primary: {
-                userId: other,
-                pseudo: "Primary collector",
-                karasBalance: 100
-              },
-              evidence: {
-                sharedNetwork: false,
-                sharedDevice: false,
-                acceptedTrades: 1
-              },
-              recovery,
-              eligible: true,
-              alreadyApplied: false,
-              cardLabels: labels,
-              receipt: null,
-              history: {
-                trades: [
+          ],
+          total: 1,
+          summary: { open: 1, critical: 1, events24h: 3, flagged24h: 1 }
+        },
+        admin_list_anticheat_events: {
+          events: [
+            {
+              id: 1,
+              type: "trade_accepted",
+              occurredAt: "2026-11-02T12:00:00Z",
+              actor: { id, pseudo: "Example player" },
+              counterparty: { id: other, pseudo: "Primary collector" },
+              cardCount: 1,
+              amount: 70,
+              subjects: [],
+              metadata: {},
+              detail: {
+                kind: "trade",
+                source: "captured",
+                available: true,
+                fromName: "Example player",
+                toName: "Primary collector",
+                offeredCards: [
                   {
-                    id,
-                    fromUser: id,
-                    toUser: other,
-                    acceptedAt: "2026-11-02T12:00:00Z",
-                    offeredCards: [copy],
-                    requestedCards: [],
-                    offeredKaras: 0,
-                    requestedKaras: 0
+                    instanceId: copy,
+                    name: "BROLY",
+                    rarity: "LR",
+                    franchise: "Dragon Ball"
                   }
                 ],
-                sales: []
+                requestedCards: [],
+                offeredCount: 1,
+                requestedCount: 0,
+                offeredKaras: 70,
+                requestedKaras: 5
               }
             }
-          : {
-              primary: {
-                userId: id,
-                pseudo: "Example player",
-                karasBalance: 100
-              },
-              candidates: [
-                {
-                  id,
-                  acceptedAt: "2026-11-02T12:00:00Z",
-                  incomingCards: 1,
-                  outgoingCards: 0,
-                  incomingKaras: 0,
-                  outgoingKaras: 0,
-                  incomingNames: ["BROLY"],
-                  outgoingNames: []
+          ],
+          total: 1
+        },
+        admin_list_anticheat_connections: {
+          [id]: {
+            count: 1,
+            accounts: [
+              {
+                userId: other,
+                pseudo: "Related collector",
+                lastSharedAt: "2026-11-02T12:00:00Z",
+                sharedBrowser: false,
+                acceptedTrades: 2,
+                deleted: false
+              }
+            ]
+          }
+        },
+        admin_list_smurf_sanction_candidates: [
+          {
+            userId: other,
+            pseudo: "Primary collector",
+            acceptedTrades: 1,
+            lastTradeAt: "2026-11-02T12:00:00Z",
+            sharedNetwork: false,
+            sharedDevice: false
+          }
+        ],
+        admin_preview_sanction:
+          mode === "active"
+            ? {
+                smurf: { userId: id, pseudo: "Example player", banned: false },
+                primary: {
+                  userId: other,
+                  pseudo: "Primary collector",
+                  karasBalance: 100
+                },
+                evidence: {
+                  sharedNetwork: false,
+                  sharedDevice: false,
+                  acceptedTrades: 1
+                },
+                recovery,
+                eligible: true,
+                alreadyApplied: false,
+                cardLabels: labels,
+                receipt: null,
+                history: {
+                  trades: [
+                    {
+                      id,
+                      fromUser: id,
+                      toUser: other,
+                      acceptedAt: "2026-11-02T12:00:00Z",
+                      offeredCards: [copy],
+                      requestedCards: [],
+                      offeredKaras: 0,
+                      requestedKaras: 0
+                    }
+                  ],
+                  sales: []
                 }
-              ],
-              candidateCount: 1,
-              selectedTradeIds: [id],
-              selectionValid: true,
-              eligible: true,
-              recovery,
-              cardLabels: labels,
-              receipts: []
-            }
-    }[name]
-  });
+              }
+            : {
+                primary: {
+                  userId: id,
+                  pseudo: "Example player",
+                  karasBalance: 100
+                },
+                candidates: [
+                  {
+                    id,
+                    acceptedAt: "2026-11-02T12:00:00Z",
+                    incomingCards: 1,
+                    outgoingCards: 0,
+                    incomingKaras: 0,
+                    outgoingKaras: 0,
+                    incomingNames: ["BROLY"],
+                    outgoingNames: []
+                  }
+                ],
+                candidateCount: 1,
+                selectedTradeIds: [id],
+                selectionValid: true,
+                eligible: true,
+                recovery,
+                cardLabels: labels,
+                receipts: []
+              }
+      }[name]
+    };
+  };
   const cache = new Map();
   function load(file) {
     if (cache.has(file)) return cache.get(file);

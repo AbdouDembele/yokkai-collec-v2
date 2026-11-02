@@ -274,7 +274,10 @@ export default async function AdminSecurityPage({
   const severity = severities.has(params.severity ?? "")
     ? params.severity!
     : "";
-  const eventType = eventTypes.has(params.event ?? "") ? params.event! : "";
+  const eventType =
+    params.event === "trade_accepted" && eventTypes.has(params.event)
+      ? params.event
+      : "";
   const userId = /^[0-9a-f-]{36}$/i.test(params.user ?? "")
     ? params.user!
     : null;
@@ -321,7 +324,7 @@ export default async function AdminSecurityPage({
     }),
     client.rpc("admin_list_anticheat_events", {
       p_user_id: userId,
-      p_event_type: eventType,
+      p_event_type: "trade_accepted",
       p_limit: 40,
       p_offset: 0
     })
@@ -467,7 +470,7 @@ export default async function AdminSecurityPage({
 
           <section className="rounded-2xl border border-cyan-300/20 bg-slate-900/70 p-4 sm:p-5">
             <form
-              className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_12rem_12rem_auto_auto]"
+              className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1fr)_12rem_auto_auto]"
               method="get"
             >
               <input
@@ -488,19 +491,6 @@ export default async function AdminSecurityPage({
                 {["watch", "elevated", "high", "critical"].map(item => (
                   <option key={item} value={item}>
                     {t(`severities.${item}`)}
-                  </option>
-                ))}
-              </select>
-              <select
-                aria-label={t("eventLabel")}
-                className="yk-field-control min-w-0"
-                defaultValue={eventType}
-                name="event"
-              >
-                <option value="">{t("allEvents")}</option>
-                {[...eventTypes].map(item => (
-                  <option key={item} value={item}>
-                    {t(`events.${eventKeys[item]}`)}
                   </option>
                 ))}
               </select>

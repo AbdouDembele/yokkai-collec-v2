@@ -197,6 +197,10 @@ les cartes par nom, rareté/licence et les Karas dans chaque sens ; une enchère
 montre sa carte et le montant au moment de l'événement (y compris une offre
 d'enchère, distincte du prix courant ultérieur). Les comptes supprimés sont
 signalés sans recréer leur pseudo effacé.
+Le journal visible de droite est limité aux événements `trade_accepted` : les
+enchères et échanges créés, refusés ou annulés n'y sont pas listés. Les autres
+traces restent conservées pour l'audit et les aperçus de récupération ; le
+lecteur SQL admin garde sa compatibilité avec ces types historiques.
 
 Les futurs événements économiques enregistrent un instantané des cartes dans
 leur métadonnée privée et immuable, avant tout changement ultérieur du catalogue
