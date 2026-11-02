@@ -3,6 +3,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { applyDeletedSmurfRecoveryAction } from "./actions";
 
 type Recovery = {
+  cardIds?: string[];
   cards: number;
   blockedCards: number;
   cardsNoLongerOnPrimary: number;
@@ -21,12 +22,16 @@ export type DeletedSmurfRecoveryPreview = {
     outgoingCards: number;
     incomingKaras: number;
     outgoingKaras: number;
+    incomingNames?: string[];
+    outgoingNames?: string[];
   }[];
   candidateCount: number;
   selectedTradeIds: string[];
   selectionValid: boolean;
   eligible: boolean;
+  previewToken?: string;
   recovery: Recovery;
+  cardLabels?: Record<string, { name: string }>;
   receipts: {
     id: string;
     appliedAt: string;
@@ -34,7 +39,12 @@ export type DeletedSmurfRecoveryPreview = {
     evidenceReference: string;
     recovery: Recovery;
     history: {
-      trades: { id: string }[];
+      cardLabels?: Record<string, { name: string }>;
+      trades: {
+        id: string;
+        incomingCardIds?: string[];
+        outgoingCardIds?: string[];
+      }[];
       sales: { id: string; cardInstanceId: string; karas: number }[];
     };
   }[];
@@ -42,10 +52,12 @@ export type DeletedSmurfRecoveryPreview = {
 
 export async function DeletedSmurfRecovery({
   data,
-  applied
+  applied,
+  embedded = false
 }: {
   data: DeletedSmurfRecoveryPreview;
   applied: boolean;
+  embedded?: boolean;
 }) {
   const t = await getTranslations("adminSecurity.deletedRecovery");
   const locale = await getLocale();
@@ -55,7 +67,7 @@ export async function DeletedSmurfRecovery({
   });
   return (
     <section
-      className="min-w-0 space-y-4 rounded-2xl border border-red-300/30 bg-red-950/15 p-4 [overflow-wrap:anywhere] sm:p-5"
+      className={`min-w-0 space-y-4 [overflow-wrap:anywhere] ${embedded ? "" : "rounded-2xl border border-red-300/30 bg-red-950/15 p-4 sm:p-5"}`}
       aria-labelledby="deleted-recovery-title"
     >
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
@@ -70,12 +82,14 @@ export async function DeletedSmurfRecovery({
             {t("description")}
           </p>
         </div>
-        <Link
-          className="yk-button yk-button-secondary text-center"
-          href="/admin/security"
-        >
-          {t("close")}
-        </Link>
+        {!embedded && (
+          <Link
+            className="yk-button yk-button-secondary text-center"
+            href="/admin/security"
+          >
+            {t("close")}
+          </Link>
+        )}
       </div>
       {applied && (
         <p
@@ -89,11 +103,8 @@ export async function DeletedSmurfRecovery({
         {t("evidenceWarning")}
       </p>
       <form method="get" className="space-y-3">
-        <input
-          type="hidden"
-          name="deletedPrimary"
-          value={data.primary.userId}
-        />
+        <input type="hidden" name="sanction" value={data.primary.userId} />
+        <input type="hidden" name="mode" value="deleted" />
         <h3 className="font-bold">{t("chooseTrades")}</h3>
         <p className="text-sm text-slate-400">
           {t("candidateCount", {
@@ -129,12 +140,22 @@ export async function DeletedSmurfRecovery({
                     karas: trade.incomingKaras
                   })}
                 </span>
+                {!!trade.incomingNames?.length && (
+                  <span className="block text-slate-200">
+                    {trade.incomingNames.join(", ")}
+                  </span>
+                )}
                 <span className="block text-slate-400">
                   {t("outgoing", {
                     cards: trade.outgoingCards,
                     karas: trade.outgoingKaras
                   })}
                 </span>
+                {!!trade.outgoingNames?.length && (
+                  <span className="block text-slate-400">
+                    {trade.outgoingNames.join(", ")}
+                  </span>
+                )}
                 <span className="mt-1 block font-mono text-xs text-slate-500">
                   {trade.id}
                 </span>
@@ -153,6 +174,15 @@ export async function DeletedSmurfRecovery({
         <div className="grid min-w-0 gap-4 lg:grid-cols-2">
           <div className="min-w-0 rounded-xl border border-slate-700 bg-slate-950/60 p-4">
             <h3 className="font-bold">{t("consequences")}</h3>
+            {!!data.recovery.cardIds?.length && (
+              <ul className="mt-3 space-y-1 text-sm text-slate-200">
+                {data.recovery.cardIds.map(id => (
+                  <li key={id}>
+                    {data.cardLabels?.[id]?.name ?? t("unknownCardName")}
+                  </li>
+                ))}
+              </ul>
+            )}
             <dl className="mt-3 space-y-3 text-sm">
               <div>
                 <dt className="text-slate-400">{t("cards")}</dt>
@@ -200,6 +230,11 @@ export async function DeletedSmurfRecovery({
               name="primary_user_id"
               value={data.primary.userId}
             />
+            <input
+              type="hidden"
+              name="preview_token"
+              value={data.previewToken ?? ""}
+            />
             {data.selectedTradeIds.map(id => (
               <input type="hidden" name="source" value={id} key={id} />
             ))}
@@ -210,7 +245,6 @@ export async function DeletedSmurfRecovery({
                 className="yk-field-control min-h-20 min-w-0 resize-y"
                 minLength={10}
                 maxLength={2000}
-                required
                 placeholder={t("evidencePlaceholder")}
               />
             </label>
@@ -271,18 +305,28 @@ export async function DeletedSmurfRecovery({
                 {receipt.id}
               </p>
               {receipt.history.trades.map(trade => (
-                <p
-                  key={trade.id}
-                  className="mt-1 font-mono text-xs text-slate-400"
-                >
-                  {trade.id}
-                </p>
+                <div key={trade.id} className="mt-2 text-sm text-slate-200">
+                  {[
+                    ...(trade.incomingCardIds ?? []),
+                    ...(trade.outgoingCardIds ?? [])
+                  ].map((id, index) => (
+                    <p key={`${id}-${index}`}>
+                      {receipt.history.cardLabels?.[id]?.name ??
+                        data.cardLabels?.[id]?.name ??
+                        t("unknownCardName")}
+                    </p>
+                  ))}
+                  <p className="font-mono text-xs text-slate-500">{trade.id}</p>
+                </div>
               ))}
               {receipt.history.sales.map(sale => (
                 <p key={sale.id} className="mt-1 text-xs text-slate-400">
                   {t("receiptSale", {
                     id: sale.id,
-                    card: sale.cardInstanceId,
+                    card:
+                      receipt.history.cardLabels?.[sale.cardInstanceId]?.name ??
+                      data.cardLabels?.[sale.cardInstanceId]?.name ??
+                      t("unknownCardName"),
                     karas: sale.karas
                   })}
                 </p>

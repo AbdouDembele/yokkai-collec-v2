@@ -52,6 +52,10 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.admin_list_anticheat_connections(uuid[])": ["authenticated"], // Admin-only bounded pair context, no IP/HMAC/browser token returned. Walid approved.
+  "public.admin_preview_sanction(uuid, text, uuid, uuid[])": ["authenticated"], // Explicit manual admin review; network context is informational. Walid approved.
+  "public.admin_apply_sanction(uuid, text, uuid, uuid[], text, text, uuid, text)":
+    ["authenticated"], // Explicit admin confirmation, note and unchanged preview; transactional unlock/cancellation/refunds, immutable recovery. Walid approved.
   "public.admin_preview_deleted_smurf_recovery(uuid, uuid[])": [
     "authenticated"
   ], // Admin-only bounded historical preview; deleted sources remain anonymous. Walid approved.

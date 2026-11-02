@@ -25,26 +25,24 @@ export async function applyDeletedSmurfRecoveryAction(form: FormData) {
     new Set(tradeIds).size !== tradeIds.length
   )
     throw new Error("DELETED_SMURF_RECOVERY_INVALID");
-  if (
-    note.length < 10 ||
-    note.length > 2000 ||
-    evidenceReference.length < 10 ||
-    evidenceReference.length > 2000
-  )
+  if (note.length < 10 || note.length > 2000 || evidenceReference.length > 2000)
     throw new Error("HISTORICAL_EVIDENCE_REQUIRED");
   const client = createClient(await cookies());
-  const result = await client.rpc("admin_apply_deleted_smurf_recovery", {
-    p_primary_user_id: primaryUserId,
+  const result = await client.rpc("admin_apply_sanction", {
+    p_subject_user_id: primaryUserId,
+    p_mode: "deleted",
+    p_primary_user_id: null,
     p_trade_ids: tradeIds,
     p_note: note,
     p_evidence_reference: evidenceReference,
+    p_preview_token: String(form.get("preview_token") ?? ""),
     p_confirmation: primaryUserId
   });
   if (result.error) throw new Error("DELETED_SMURF_RECOVERY_UNAVAILABLE");
   revalidatePath("/admin/security");
   revalidatePath("/admin/players");
   redirect(
-    `/admin/security?deletedPrimary=${primaryUserId}&result=deleted-smurf-recovered`
+    `/admin/security?sanction=${primaryUserId}&mode=deleted&result=deleted-smurf-recovered`
   );
 }
 
@@ -85,9 +83,13 @@ export async function applySmurfSanctionAction(form: FormData) {
   if (note.length < 10 || note.length > 2000)
     throw new Error("SMURF_SANCTION_NOTE_INVALID");
   const client = createClient(await cookies());
-  const result = await client.rpc("admin_apply_smurf_sanction", {
-    p_smurf_user_id: smurfUserId,
+  const result = await client.rpc("admin_apply_sanction", {
+    p_subject_user_id: smurfUserId,
+    p_mode: "active",
     p_primary_user_id: primaryUserId,
+    p_trade_ids: [],
+    p_evidence_reference: "",
+    p_preview_token: String(form.get("preview_token") ?? ""),
     p_note: note,
     p_confirmation: confirmation
   });
