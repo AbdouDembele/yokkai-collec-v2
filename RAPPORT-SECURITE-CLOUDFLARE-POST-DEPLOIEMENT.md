@@ -4,7 +4,7 @@ Audit réalisé le 2 novembre 2026 sur le VPS de production Yokkai Collec, sans 
 
 ## Executive summary
 
-**Verdict : ACTION REQUISE**
+**Verdict : OK**
 
 L'origine est effectivement protégée en IPv4 et en IPv6. Les connexions directes vers l'IPv4 `62.83.37.242` et l'IPv6 publique du VPS échouent sur les ports Web testés, alors que le site, l'API, Coolify, TLS, les images publiques et Supabase Realtime fonctionnent derrière Cloudflare.
 
@@ -12,9 +12,11 @@ L'association nftables/iptables-nft/Docker est saine dans l'état observé. Le p
 
 La chaîne Cloudflare → Traefik → sidecar d'identité → HMAC est opérationnelle et durcie. L'IP brute n'est pas conservée dans le stockage contrôlé. La preuve interne Traefik → sidecar, précédemment exposée pendant l'audit, a été renouvelée de manière ciblée ; la clé HMAC n'a pas été changée.
 
-Le point P0 restant est ACME : Traefik 3.6.25 utilise toujours HTTP-01 alors que l'origine n'accepte TCP/80 que depuis Cloudflare. Les certificats servis sont actuellement valides, mais un futur renouvellement HTTP-01 peut échouer. La migration DNS-01 n'a pas été forcée, car aucun token Cloudflare DNS dédié n'est présent. Retirer HTTP-01 sans preuve DNS-01 aurait été plus dangereux que conserver temporairement l'état actuel.
+Le dernier point P0, ACME, a été corrigé. Le token Cloudflare dédié a été validé, limité aux deux zones attendues, stocké dans un fichier `0400`, monté en lecture seule et exposé à Traefik uniquement via `CF_DNS_API_TOKEN_FILE`. Un resolver DNS-01 staging a démontré la création, la propagation et le nettoyage du TXT ainsi que l'émission d'un certificat de test. Le resolver de production `letsencrypt` a ensuite été basculé de HTTP-01 vers DNS-01 en conservant son nom et son stockage `/traefik/acme.json`.
 
-**ACME DNS-01 : ACTION REQUISE**
+Les certificats existants n'ont pas été réémis : le stockage ACME de production est resté identique octet pour octet pendant la bascule. Tous les routers TLS continuent d'utiliser le resolver `letsencrypt`. Après recréation du seul conteneur `coolify-proxy`, les domaines publics, les certificats origine, Realtime, l'accès SSH et les protections de l'origine IPv4/IPv6 ont été revalidés.
+
+**ACME DNS-01 : OK**
 
 ## Architecture observée
 
@@ -154,20 +156,24 @@ Les tests directs ont conservé le domaine et le SNI ; ils ne se limitent pas à
 
 ## Migration ACME HTTP-01 vers DNS-01
 
-**ACME DNS-01 : ACTION REQUISE**
+**ACME DNS-01 : OK**
 
-- État initial et final : HTTP-01 toujours actif.
+- État initial : resolver `letsencrypt` en HTTP-01 sur l'entrypoint `http`.
+- État final : même resolver `letsencrypt`, désormais en DNS-01 Cloudflare avec résolveurs récursifs explicites `1.1.1.1:53` et `1.0.0.1:53`.
 - Version Traefik : `3.6.25`.
-- Resolver initial/final : `letsencrypt`.
-- Configuration effective : `acme.httpchallenge=true`, entrypoint `http`, stockage `/traefik/acme.json`.
-- Risque : les validateurs Let's Encrypt ne font pas partie des plages Cloudflare autorisées sur TCP/80 ; un renouvellement HTTP-01 futur peut donc échouer.
-- Stockage ACME : présent, mode `0600`, propriétaire dédié, non affiché, non supprimé et non modifié.
-- Backup ACME : non créé, car aucune modification Traefik/ACME n'a été entreprise. Un backup doit précéder l'activation DNS-01.
-- Cloudflare DNS token: missing.
-- DNS-01 : non configuré et non testé.
-- HTTP-01 : conservé, car DNS-01 n'est pas encore démontré.
-- TCP/80 : conservé uniquement depuis Cloudflare pour le trafic HTTP/redirection ; il ne devra plus être une dépendance ACME après migration.
-- Aucun reload/recreate Traefik n'a été exécuté.
+- Stockage conservé : `/traefik/acme.json`, mode `0600`, non affiché et identique octet pour octet au backup après la bascule.
+- Backup complet : `/data/coolify/proxy/acme-dns01-backup-20261102T033635Z`, contenant la configuration proxy, le stockage ACME, les fichiers dynamiques, les métadonnées et un script de rollback ciblé.
+- Cloudflare DNS token : `present` et `valid`, sans valeur affichée.
+- Portée vérifiée via l'API Cloudflare : uniquement `yokkai-collec.com` et `yokkai-collec.fr` ; aucune autre zone accessible.
+- Stockage du token : `/data/coolify/proxy/secrets/cf_dns_api_token`, répertoire `0700`, fichier `0400`.
+- Injection runtime : montage en lecture seule vers `/run/secrets/cf_dns_api_token` et variable `CF_DNS_API_TOKEN_FILE` ; lecture confirmée dans `coolify-proxy` sans exposer la valeur.
+- Preuve staging : création du TXT, propagation DNS, émission d'un certificat Let's Encrypt staging pour `acme-dns01-proof.yokkai-collec.com`, puis nettoyage du TXT.
+- Le premier essai staging a révélé que le résolveur Docker interne renvoyait temporairement NXDOMAIN ; l'ajout de résolveurs récursifs publics explicites a corrigé le problème avant toute bascule production.
+- Le resolver staging et son router ont été retirés après la preuve ; son stockage a été archivé dans le backup.
+- HTTP-01 est absent de la configuration finale.
+- TCP/80 reste ouvert uniquement depuis Cloudflare pour le trafic HTTP et les redirections, mais n'est plus une dépendance ACME.
+- Seul le service Traefik de la composition proxy a été recréé ; Docker, Supabase et les applications n'ont pas été redémarrés.
+- Un rollback systemd de 20 minutes a protégé chaque phase risquée puis a été désarmé uniquement après tous les contrôles finaux.
 
 Certificats ACME origine inventoriés sans lire les clés privées :
 
@@ -180,17 +186,20 @@ Certificats ACME origine inventoriés sans lire les clés privées :
 | `api.yokkai-collec.com`     | 10 janvier 2027     |
 | `coolify.yokkai-collec.com` | 15 janvier 2027     |
 
-Des certificats legacy `sslip.io` expirent le 25 décembre 2026 et doivent être inventoriés avec leurs routers avant suppression éventuelle ; ils n'ont pas été touchés.
+L'inventaire des labels des conteneurs actifs et des fichiers dynamiques ne trouve aucun router `sslip.io` actif. Les anciens certificats `sslip.io` présents dans le stockage ACME sont donc classés comme orphelins ; ils n'ont pas été supprimés pendant la migration.
 
-Action administrateur requise : créer un **Cloudflare API Token dédié**, jamais une Global API Key, avec uniquement :
+Les routers HTTPS des sites `.com`, `.fr`, `www` et de l'API utilisent tous `letsencrypt`. Coolify est déclaré dans la configuration dynamique et son certificat origine a été validé. La conservation du nom du resolver a rendu inutile toute modification de label applicatif.
 
-- `Zone:DNS:Edit` ;
-- `Zone:Zone:Read` ;
-- ressources limitées aux zones `yokkai-collec.com` et `yokkai-collec.fr`.
+Contrôles finaux :
 
-Le fournir dans Coolify comme secret du proxy, idéalement via un fichier secret monté en lecture seule compatible avec Traefik/lego (`CF_DNS_API_TOKEN_FILE`), sinon via la variable secrète `CF_DNS_API_TOKEN`. Sa valeur ne doit apparaître ni dans Git, ni dans une PR, ni dans un rapport, ni dans les logs.
-
-Procédure de migration à exécuter après fourniture : backup de la configuration et de `acme.json`, validation Traefik, ajout d'un resolver DNS-01 distinct, test isolé/staging sans remplacer les certificats valides, preuve de création/propagation/nettoyage TXT et émission, bascule cohérente de tous les routers, tests TLS/WebSocket/origin bypass, puis seulement retrait de HTTP-01. Le rollback consiste à restaurer les fichiers sauvegardés et le resolver `letsencrypt` actuel sans supprimer `acme.json`.
+- `coolify-proxy` : `healthy` ;
+- aucune erreur ACME/Traefik dans les logs post-bascule ;
+- certificats origine valides et noms d'hôte vérifiés pour les six domaines ;
+- site, login et signup : 200 ; `.fr` : 301 attendu ; API : 401 attendu sans authentification ; Coolify : 302 attendu ;
+- Supabase Realtime : `101 Switching Protocols` ;
+- accès direct origine IPv4 et IPv6 sur 80/443/8080 : toujours bloqué ;
+- SSH/1022, pare-feu dédié et services critiques : opérationnels ;
+- aucune unité systemd en échec.
 
 ## HTTP/3
 
@@ -311,11 +320,18 @@ Aucune CSP plus restrictive n'a été déployée aveuglément.
    - Docker, pare-feu dédié et sidecar revalidés ;
    - tests publics finaux réussis.
 3. Création du présent rapport dans une branche dédiée du dépôt. Aucune migration Supabase n'est incluse ou appliquée.
+4. Migration contrôlée de Traefik HTTP-01 vers DNS-01 Cloudflare :
+   - validation du token et de sa portée limitée aux deux zones Yokkai ;
+   - backup complet et rollback automatique temporaire ;
+   - injection par fichier secret monté en lecture seule dans `coolify-proxy` ;
+   - émission staging avec preuve de création, propagation et suppression du TXT ;
+   - bascule du resolver `letsencrypt` sans changer `acme.json` ;
+   - recréation du seul proxy ;
+   - validation des routers, certificats, domaines, Realtime, pare-feu et bypass origine ;
+   - désarmement du rollback après succès.
 
 ## Modifications non effectuées
 
-- Migration ACME DNS-01 : bloquée par l'absence d'un token Cloudflare DNS dédié ; HTTP-01 conservé jusqu'à preuve DNS-01.
-- Redémarrage/recreate Traefik : inutile tant que DNS-01 n'est pas préparé.
 - Fermeture UDP/443 origine : recommandée, mais nécessite une validation Cloudflare/Coolify et un recreate ciblé du proxy.
 - WAF/rate limits Cloudflare : accès API de zone absent ; aucun réglage supposé.
 - Cloudflare Access pour Coolify : nécessite la liste des identités autorisées.
@@ -349,21 +365,28 @@ sudo docker compose -f /data/yokkai-edge/compose.json up -d --force-recreate
 
 Ce rollback ne redémarre pas Docker ni Supabase ; il recrée uniquement le sidecar. L'ancienne preuve ayant été exposée, son rétablissement ne doit être qu'une mesure d'urgence temporaire, suivie d'un nouveau renouvellement contrôlé.
 
+### Restaurer la configuration ACME HTTP-01 antérieure
+
+Le backup ACME contient un script de rollback ciblé. Il restaure la composition proxy, le stockage ACME original et les fichiers dynamiques, retire le fichier secret créé pour DNS-01, valide la composition puis recrée uniquement Traefik :
+
+```bash
+sudo /data/coolify/proxy/acme-dns01-backup-20261102T033635Z/rollback.sh
+```
+
+Ce rollback rétablit HTTP-01 et ne doit être utilisé qu'en cas de panne DNS-01 démontrée. Il ne redémarre ni Docker globalement, ni Supabase, ni PostgreSQL. Ne jamais supprimer ou vider `acme.json`.
+
 Le rapport seul peut être annulé par le revert du commit de documentation correspondant.
 
 ## Recommandations restantes
 
 ### P0
 
-1. Créer et fournir le token Cloudflare DNS dédié décrit plus haut.
-2. Migrer tous les routers concernés vers DNS-01 selon la procédure avec backup, validation, preuve d'émission et rollback.
-3. Retirer HTTP-01 uniquement après preuve DNS-01 et avant l'échéance la plus proche des certificats utiles.
-4. Inventorier les routers utilisant encore les certificats legacy `sslip.io` avant leur échéance du 25 décembre 2026.
+Aucune action P0 restante identifiée pendant cet audit.
 
 ### P1
 
 1. Donner à l'audit un token Cloudflare lecture seule afin de vérifier automatiquement Pseudo IPv4 et les règles de zone.
-2. Ajouter une alerte sur absence/expiration de certificat, échec ACME, disparition de la table `yokkai_cloudflare`, exposition du sidecar et stockage HMAC hors limites.
+2. Ajouter une alerte sur absence/expiration de certificat, échec ACME DNS-01, disparition de la table `yokkai_cloudflare`, exposition du sidecar et stockage HMAC hors limites.
 3. Ajouter un timer fail-safe de rafraîchissement des plages Cloudflare, conservant impérativement la dernière liste valide en cas d'échec.
 
 ### P2
@@ -377,4 +400,4 @@ Le rapport seul peut être annulé par le revert du commit de documentation corr
 
 1. Automatiser depuis une sonde externe distincte les tests IPv4/IPv6 de bypass origine et Realtime 101.
 2. Ajouter une procédure de revue trimestrielle des plages Cloudflare, certificats, secrets, règles WAF et droits Coolify.
-3. Conserver les backups de cette intervention selon la politique de rétention opérationnelle, puis les supprimer de manière contrôlée après validation de la migration DNS-01.
+3. Conserver les backups de cette intervention selon la politique de rétention opérationnelle, puis les supprimer de manière contrôlée après une période de renouvellement DNS-01 réussie.
