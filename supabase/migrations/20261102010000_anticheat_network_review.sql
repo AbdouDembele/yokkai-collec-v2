@@ -256,7 +256,7 @@ begin
     left join public.user_profiles p on p.user_id=c.user_id
     left join auth.users u on u.id=c.user_id
     where (p_query='' or coalesce(p.pseudo,'') ilike '%'||p_query||'%'
-      or coalesce(u.email,'') ilike '%'||p_query||'%')
+      or coalesce(to_jsonb(u)->>'email','') ilike '%'||p_query||'%')
   ), filtered as materialized (
     select * from source where p_severity='' or severity=p_severity
   ), page as materialized (
