@@ -10,7 +10,7 @@ Karas.
 - création d'un compte ;
 - création, acceptation, refus et annulation d'un échange ;
 - création, enchère, vente et expiration d'une enchère ;
-- attribution d'une récompense de parrainage.
+- attribution d'une récompense de parrainage ;
 - association temporaire de comptes à une même identité réseau pseudonyme ;
 - échange accepté entre des comptes liés par une identité réseau récente.
 
@@ -23,16 +23,37 @@ uniquement par deux fonctions DTO bornées qui revérifient leur rôle.
 - échange à sens unique ;
 - écart important entre les valeurs pondérées des deux lots ;
 - transfert d'au moins 5 000 Karas ;
-- échanges acceptés répétés entre les mêmes comptes en 24 heures ;
-- enchère extrême ou activité répétée entre l'enchérisseur et le vendeur ;
-- ventes répétées entre les mêmes comptes sur sept jours ;
+- enchère extrême ;
 - rafale de récompenses de parrainage ;
-- activité économique d'un compte créé depuis moins de 72 heures.
+- activité économique d'un compte créé depuis moins de 72 heures ;
 - identité réseau partagée (signal faible et contextuel) ;
 - échange entre des comptes liés par une identité réseau récente.
 
-Chaque événement conserve ses codes de raison et ses points. Le score sert à
-prioriser la revue humaine, pas à établir seul une fraude.
+Les volumes répétés d'échanges, d'enchères et de ventes restent dans le journal
+comme contexte, mais ne donnent plus de points à eux seuls. Jouer beaucoup ne
+constitue donc pas un signal de risque.
+
+Chaque événement conserve ses codes de raison et ses points historiques. Le
+score affiché aux administrateurs est cependant recalculé sur les 30 derniers
+jours, ou depuis la dernière décision « écarté » si elle est plus récente. Les
+raisons actives sont plafonnées séparément afin qu'une même activité répétée ne
+puisse pas faire croître indéfiniment le score :
+
+| Signal                                   | Points par occurrence | Plafond actif |
+| ---------------------------------------- | --------------------: | ------------: |
+| Source d'un échange à sens unique        |                     3 |             6 |
+| Bénéficiaire d'un échange à sens unique  |                    12 |            24 |
+| Fort déséquilibre de valeur              |                     6 |            18 |
+| Transfert d'au moins 5 000 Karas         |                     5 |            15 |
+| Enchère extrême                          |                     8 |            16 |
+| Rafale de parrainages                    |                    10 |            20 |
+| Activité économique d'un nouveau compte  |                     8 |            16 |
+| Identité réseau partagée                 |                     3 |             9 |
+| Échange entre comptes liés par le réseau |                    20 |            60 |
+
+Les sévérités actives sont « à surveiller » sous 20 points, « élevée » à
+partir de 20, « haute » à partir de 40 et « critique » à partir de 80. Le score
+sert à prioriser la revue humaine, pas à établir seul une fraude.
 
 ## Historique et exploitation
 
@@ -44,9 +65,11 @@ données, ce qui évite de dépendre du navigateur.
 Le tableau `/admin/security` permet de filtrer les dossiers par pseudo,
 adresse e-mail et sévérité, puis de consulter le journal récent par joueur ou
 type d'événement. Chaque administrateur peut consigner une note immuable et
-marquer le dossier ouvert, examiné ou écarté. Un nouveau signal rouvre le
-dossier. Les sanctions éventuelles restent réalisées avec les outils de
-modération existants après vérification.
+marquer le dossier ouvert, examiné ou écarté. Une décision « écarté » remet le
+score actif à zéro ; seul un nouveau signal pondéré peut rouvrir le dossier.
+Les dossiers ouverts dont les anciens points provenaient uniquement du volume
+ne sont plus présentés comme dossiers à risque. Les sanctions éventuelles
+restent réalisées avec les outils de modération existants après vérification.
 
 Les cinq tables sont recensées dans `docs/data-export-inventory.json` pour
 une revue manuelle des demandes d'accès impliquant ces éléments de sécurité

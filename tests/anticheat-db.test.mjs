@@ -116,7 +116,7 @@ test("anti-cheat records real triggers, scores signals and isolates its ledger",
   assert.deepEqual(subjects, [
     {
       user_id: source,
-      risk_points: 55,
+      risk_points: 22,
       reason_codes: [
         "ONE_WAY_TRADE_SOURCE",
         "TRADE_VALUE_IMBALANCE",
@@ -126,7 +126,7 @@ test("anti-cheat records real triggers, scores signals and isolates its ledger",
     },
     {
       user_id: recipient,
-      risk_points: 67,
+      risk_points: 31,
       reason_codes: [
         "ONE_WAY_TRADE_BENEFICIARY",
         "TRADE_VALUE_IMBALANCE",
@@ -151,7 +151,8 @@ test("anti-cheat records real triggers, scores signals and isolates its ledger",
       [recipient]
     )
   ).rows[0].reason_codes;
-  assert.ok(repeated.includes("REPEATED_TRADE_PAIR"));
+  assert.ok(!repeated.includes("REPEATED_TRADE_PAIR"));
+  assert.deepEqual(repeated, ["NEW_ACCOUNT_ECONOMIC_ACTIVITY"]);
   // Historic replay cannot interpret a future registration as a recent account.
   const historic = await record(
     "trade_accepted",
@@ -242,7 +243,7 @@ test("anti-cheat records real triggers, scores signals and isolates its ledger",
   ).rows[0].value;
   assert.equal(cases.total, 1);
   assert.equal(cases.cases[0].userId, recipient);
-  assert.equal(cases.cases[0].severity, "critical");
+  assert.equal(cases.cases[0].severity, "elevated");
   const events = (
     await asRole(
       "authenticated",
@@ -259,7 +260,7 @@ test("anti-cheat records real triggers, scores signals and isolates its ledger",
   );
 });
 
-test("auction and referral triggers preserve evidence and score their repeated activity", async t => {
+test("auction and referral triggers preserve evidence and score suspicious activity", async t => {
   const { db } = await replayMigrations();
   t.after(() => db.close());
   const seller = "ac200000-0000-4000-8000-000000000001";
@@ -371,7 +372,7 @@ test("auction and referral triggers preserve evidence and score their repeated a
     )
   ).rows[0];
   assert.deepEqual(lastReward, {
-    risk_points: 20,
+    risk_points: 10,
     reason_codes: ["REFERRAL_REWARD_BURST"]
   });
 });
