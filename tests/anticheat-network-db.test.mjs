@@ -60,8 +60,8 @@ test("network identities are private, expiring context and shared-network trades
     )
   ).rows;
   assert.deepEqual(networkSubjects, [
-    { risk_points: 5, reason_codes: ["SHARED_NETWORK_IDENTITY"] },
-    { risk_points: 5, reason_codes: ["SHARED_NETWORK_IDENTITY"] }
+    { risk_points: 3, reason_codes: ["SHARED_NETWORK_IDENTITY"] },
+    { risk_points: 3, reason_codes: ["SHARED_NETWORK_IDENTITY"] }
   ]);
 
   await db.query(
