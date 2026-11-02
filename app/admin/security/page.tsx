@@ -597,7 +597,7 @@ export default async function AdminSecurityPage({
                 {(["active", "deleted"] as const).map(mode => (
                   <Link
                     key={mode}
-                    href={`/admin/security?sanction=${mode === "deleted" && !caseIsPrimary ? (primaryUserId ?? sanctionUserId) : sanctionUserId}&mode=${mode}&role=${mode === "deleted" || sanctionMode === "deleted" || caseIsPrimary ? "primary" : "smurf"}`}
+                    href={`/admin/security?sanction=${mode === "deleted" && !caseIsPrimary ? (primaryUserId ?? sanctionUserId) : sanctionUserId}&mode=${mode}&role=${mode === "deleted" || sanctionMode === "deleted" || caseIsPrimary ? "primary" : roleIsExplicit ? "smurf" : ""}`}
                     aria-current={sanctionMode === mode ? "page" : undefined}
                     className={`min-w-0 rounded-lg px-3 py-3 text-center text-sm font-bold ${sanctionMode === mode ? "bg-slate-700 text-white" : "text-slate-400 hover:text-white"}`}
                   >
@@ -672,14 +672,21 @@ export default async function AdminSecurityPage({
                     <input
                       type="hidden"
                       name="role"
-                      value={caseIsPrimary ? "primary" : "smurf"}
+                      value={
+                        roleIsExplicit
+                          ? caseIsPrimary
+                            ? "primary"
+                            : "smurf"
+                          : ""
+                      }
                     />
                     <div className="min-w-0 text-sm">
                       <p className="font-semibold text-slate-200">
                         {t("caseAccountRole")}
                       </p>
                       <p className="mt-1 text-cyan-100">
-                        {t(caseIsPrimary ? "caseIsPrimary" : "caseIsSmurf")}
+                        {roleIsExplicit &&
+                          t(caseIsPrimary ? "caseIsPrimary" : "caseIsSmurf")}
                       </p>
                       <Link
                         className="mt-1 inline-flex min-h-11 items-center text-xs text-slate-400 underline underline-offset-4 hover:text-white"

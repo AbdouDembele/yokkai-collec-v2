@@ -391,6 +391,7 @@ test("old links require explicit roles and zero-recovery receipts show their exa
   for (const locale of ["en", "fr"]) {
     const legacy = await renderSanctionPage(locale, "active", "missing");
     assert.match(legacy, /role="alert"/);
+    assert.match(legacy, /name="role" value=""/);
     assert.match(
       legacy.match(/<input[^>]*name="confirmation"[^>]*>/)[0],
       /disabled=""/
