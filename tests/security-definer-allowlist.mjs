@@ -52,6 +52,12 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.admin_preview_deleted_smurf_recovery(uuid, uuid[])": [
+    "authenticated"
+  ], // Admin-only bounded historical preview; deleted sources remain anonymous. Walid approved.
+  "public.admin_apply_deleted_smurf_recovery(uuid, uuid[], text, text, uuid)": [
+    "authenticated"
+  ], // Admin-only historical recovery with independent evidence, exact assets, immutable claims and explicit primary confirmation. Walid approved.
   "public.admin_list_smurf_sanction_candidates(uuid)": ["authenticated"], // Admin predicate; bounded accepted-trade counterparties and boolean context only. Walid approved.
   "public.admin_preview_smurf_sanction(uuid, uuid)": ["authenticated"], // Admin predicate; exact pair, traceable asset preview, no mutation. Walid approved.
   "public.admin_apply_smurf_sanction(uuid, uuid, text, uuid)": [

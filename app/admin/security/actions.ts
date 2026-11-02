@@ -8,6 +8,46 @@ import { createClient } from "@/utils/supabase/server";
 
 const statuses = new Set(["open", "reviewed", "dismissed"]);
 
+export async function applyDeletedSmurfRecoveryAction(form: FormData) {
+  await requireAdminAction();
+  const primaryUserId = String(form.get("primary_user_id") ?? "");
+  const tradeIds = form.getAll("source").map(value => String(value));
+  const note = String(form.get("note") ?? "").trim();
+  const evidenceReference = String(form.get("evidence_reference") ?? "").trim();
+  const uuid =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+  if (
+    !uuid.test(primaryUserId) ||
+    form.get("confirmation") !== primaryUserId ||
+    tradeIds.length < 1 ||
+    tradeIds.length > 100 ||
+    tradeIds.some(id => !uuid.test(id)) ||
+    new Set(tradeIds).size !== tradeIds.length
+  )
+    throw new Error("DELETED_SMURF_RECOVERY_INVALID");
+  if (
+    note.length < 10 ||
+    note.length > 2000 ||
+    evidenceReference.length < 10 ||
+    evidenceReference.length > 2000
+  )
+    throw new Error("HISTORICAL_EVIDENCE_REQUIRED");
+  const client = createClient(await cookies());
+  const result = await client.rpc("admin_apply_deleted_smurf_recovery", {
+    p_primary_user_id: primaryUserId,
+    p_trade_ids: tradeIds,
+    p_note: note,
+    p_evidence_reference: evidenceReference,
+    p_confirmation: primaryUserId
+  });
+  if (result.error) throw new Error("DELETED_SMURF_RECOVERY_UNAVAILABLE");
+  revalidatePath("/admin/security");
+  revalidatePath("/admin/players");
+  redirect(
+    `/admin/security?deletedPrimary=${primaryUserId}&result=deleted-smurf-recovered`
+  );
+}
+
 export async function reviewAnticheatCaseAction(form: FormData) {
   await requireAdminAction();
   const userId = String(form.get("user_id") ?? "");
