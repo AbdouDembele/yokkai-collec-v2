@@ -10,6 +10,7 @@ import { getCurrentKarasBalance, getCurrentPseudo } from "@/lib/auth/session";
 import { createClient } from "@/utils/supabase/server";
 import { AdminNavigation } from "../admin-navigation";
 import { applySmurfSanctionAction, reviewAnticheatCaseAction } from "./actions";
+import { EventDetail, type EventAssetDetail } from "./event-detail";
 import {
   DeletedSmurfRecovery,
   type DeletedSmurfRecoveryPreview
@@ -61,6 +62,7 @@ type EventSubject = {
   reasonCodes: string[];
 };
 type EventRow = {
+  detail?: EventAssetDetail;
   id: number;
   occurredAt: string;
   type: string;
@@ -180,6 +182,10 @@ function partyFromRpc(value: unknown): EventParty {
 
 function eventFromRpc(value: Record<string, unknown>): EventRow {
   return {
+    detail:
+      value.detail && typeof value.detail === "object"
+        ? (value.detail as EventAssetDetail)
+        : undefined,
     id: Number(value.id ?? 0),
     occurredAt: String(value.occurredAt ?? ""),
     type: String(value.type ?? ""),
@@ -1148,49 +1154,58 @@ export default async function AdminSecurityPage({
                       )
                     ];
                     return (
-                      <article
+                      <details
                         className="rounded-xl border border-slate-800 bg-slate-950/65 p-3"
                         key={event.id}
+                        name="anticheat-event"
                       >
-                        <div className="flex items-start justify-between gap-3">
-                          <h3 className="font-bold text-slate-100">
-                            {t(`events.${eventKeys[event.type]}`)}
-                          </h3>
-                          {points > 0 && (
-                            <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-xs font-bold text-amber-200">
-                              +{points}
-                            </span>
-                          )}
-                        </div>
-                        <p className="mt-1 text-sm text-slate-300 [overflow-wrap:anywhere]">
-                          {[event.actor?.pseudo, event.counterparty?.pseudo]
-                            .filter(Boolean)
-                            .join(" → ")}
-                        </p>
-                        <p className="mt-2 text-xs text-slate-500">
-                          {dateFormatter.format(new Date(event.occurredAt))}
-                          {event.cardCount > 0
-                            ? ` · ${t("cards", { count: event.cardCount })}`
-                            : ""}
-                          {event.amount > 0
-                            ? ` · ${t("karas", { count: event.amount })}`
-                            : ""}
-                        </p>
-                        {eventReasons.length > 0 && (
-                          <div className="mt-2 flex flex-wrap gap-1.5">
-                            {eventReasons.map(code => (
-                              <span
-                                className="rounded-md bg-amber-500/10 px-1.5 py-1 text-[0.68rem] font-semibold text-amber-100"
-                                key={code}
-                              >
-                                {reasonKeys[code]
-                                  ? t(`reasons.${reasonKeys[code]}`)
-                                  : code}
+                        <summary className="min-h-11 cursor-pointer list-none rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-white">
+                          <div className="flex items-start justify-between gap-3">
+                            <h3 className="font-bold text-slate-100">
+                              {t(`events.${eventKeys[event.type]}`)}
+                            </h3>
+                            {points > 0 && (
+                              <span className="rounded-full bg-amber-500/15 px-2 py-0.5 text-xs font-bold text-amber-200">
+                                +{points}
                               </span>
-                            ))}
+                            )}
                           </div>
-                        )}
-                      </article>
+                          <p className="mt-1 text-sm text-slate-300 [overflow-wrap:anywhere]">
+                            {[event.actor?.pseudo, event.counterparty?.pseudo]
+                              .filter(Boolean)
+                              .join(" → ")}
+                          </p>
+                          <p className="mt-2 text-xs text-slate-500">
+                            {dateFormatter.format(new Date(event.occurredAt))}
+                            {event.cardCount > 0
+                              ? ` · ${t("cards", { count: event.cardCount })}`
+                              : ""}
+                            {event.amount > 0
+                              ? ` · ${t("karas", { count: event.amount })}`
+                              : ""}
+                          </p>
+                          {eventReasons.length > 0 && (
+                            <div className="mt-2 flex flex-wrap gap-1.5">
+                              {eventReasons.map(code => (
+                                <span
+                                  className="rounded-md bg-amber-500/10 px-1.5 py-1 text-[0.68rem] font-semibold text-amber-100"
+                                  key={code}
+                                >
+                                  {reasonKeys[code]
+                                    ? t(`reasons.${reasonKeys[code]}`)
+                                    : code}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                          <p className="mt-2 text-xs font-semibold text-cyan-200">
+                            {t("openEventDetails")}
+                          </p>
+                        </summary>
+                        <div className="mt-3">
+                          <EventDetail detail={event.detail} />
+                        </div>
+                      </details>
                     );
                   })
                 )}

@@ -189,3 +189,21 @@ la dernière date de rapprochement, la présence éventuelle du même jeton
 navigateur et les échanges directs acceptés. Elle ne renvoie ni IP ni HMAC ni
 jeton navigateur. Une connexion commune peut correspondre à un foyer, Wi-Fi,
 réseau mobile ou VPN ; elle ne prouve ni le même appareil ni la même personne.
+
+## Détail des événements économiques
+
+Les lignes du journal sont dépliables au clavier et au clic. Un échange montre
+les cartes par nom, rareté/licence et les Karas dans chaque sens ; une enchère
+montre sa carte et le montant au moment de l'événement (y compris une offre
+d'enchère, distincte du prix courant ultérieur). Les comptes supprimés sont
+signalés sans recréer leur pseudo effacé.
+
+Les futurs événements économiques enregistrent un instantané des cartes dans
+leur métadonnée privée et immuable, avant tout changement ultérieur du catalogue
+ou suppression du compte. Aucun pseudo durable, IP ni jeton n'y est ajouté.
+Pour les événements antérieurs, le détail indique explicitement sa reconstruction
+depuis les échanges/enchères conservés ; les montants viennent du journal lorsque
+disponibles. Un nom perdu reste « non conservé », jamais deviné. Les listes de
+cartes sont bornées à 1 000 par sens et affichent explicitement une éventuelle
+limite. Le lecteur admin conserve ses filtres et sa pagination ; ses helpers
+restent sans accès direct depuis les rôles API.

@@ -3337,7 +3337,21 @@
     "browserNotConfirmed": "Navigateur commun non confirmé.",
     "connectionTrades": "{count, plural, one {# échange direct accepté entre ces comptes} other {# échanges directs acceptés entre ces comptes}}",
     "connectionsLimited": "{count} comptes affichés sur {total}, les rapprochements les plus récents en premier.",
-    "deletedPlayer": "Compte supprimé"
+    "deletedPlayer": "Compte supprimé",
+    "openEventDetails": "Voir les cartes et les Karas ▾",
+    "eventDetail": {
+      "unavailable": "Les détails de cartes ne sont pas disponibles pour cet événement. Les montants et les comptes conservés restent affichés dans son résumé.",
+      "unknownCard": "Nom de carte non conservé",
+      "noCards": "Aucune carte dans ce sens",
+      "limited": "{shown} cartes affichées sur {total}.",
+      "direction": "{from} → {to}",
+      "deletedPlayer": "Compte supprimé",
+      "karas": "{count} Karas",
+      "eventAmount": "Montant au moment de l’événement : {count} Karas",
+      "startingPrice": "Prix de départ : {count} Karas",
+      "captured": "Détails enregistrés au moment de l’événement. Les pseudos affichés sont ceux disponibles aujourd’hui.",
+      "retained": "Ancien événement : cartes reconstituées depuis les données de l’échange ou de l’enchère encore conservées ; montants issus du journal lorsqu’ils sont disponibles. Ce détail ne décrit pas la possession actuelle des cartes."
+    }
   },
   "tradeDesign": {
     "title": "Tes échanges",

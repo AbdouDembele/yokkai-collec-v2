@@ -50,7 +50,42 @@ export async function renderSanctionPage(locale = "en", mode = "active") {
         total: 1,
         summary: { open: 1, critical: 1, events24h: 3, flagged24h: 1 }
       },
-      admin_list_anticheat_events: { events: [], total: 0 },
+      admin_list_anticheat_events: {
+        events: [
+          {
+            id: 1,
+            type: "trade_accepted",
+            occurredAt: "2026-11-02T12:00:00Z",
+            actor: { id, pseudo: "Example player" },
+            counterparty: { id: other, pseudo: "Primary collector" },
+            cardCount: 1,
+            amount: 70,
+            subjects: [],
+            metadata: {},
+            detail: {
+              kind: "trade",
+              source: "captured",
+              available: true,
+              fromName: "Example player",
+              toName: "Primary collector",
+              offeredCards: [
+                {
+                  instanceId: copy,
+                  name: "BROLY",
+                  rarity: "LR",
+                  franchise: "Dragon Ball"
+                }
+              ],
+              requestedCards: [],
+              offeredCount: 1,
+              requestedCount: 0,
+              offeredKaras: 70,
+              requestedKaras: 5
+            }
+          }
+        ],
+        total: 1
+      },
       admin_list_anticheat_connections: {
         [id]: {
           count: 1,
@@ -191,6 +226,8 @@ export async function renderSanctionPage(locale = "en", mode = "active") {
             );
           if (module === "./deleted-smurf-recovery")
             return load("app/admin/security/deleted-smurf-recovery.tsx");
+          if (module === "./event-detail")
+            return load("app/admin/security/event-detail.tsx");
           if (module === "@/components/topbar")
             return { Topbar: () => React.createElement("div", null, "Yokkai") };
           if (module === "@/components/account-menu")
@@ -245,6 +282,9 @@ test("unified sanction page shows one case action, named cards and named network
           : /Shared browser not confirmed/
       );
       assert.match(html, /name="confirmation"/);
+      assert.match(html, /name="anticheat-event"/);
+      assert.match(html, /70 Karas/);
+      assert.match(html, /5 Karas/);
       assert.doesNotMatch(html, /<button[^>]*disabled=""/);
     }
 });
