@@ -360,6 +360,7 @@ begin
   for item in
     select * from public.trade_offers
     where status='accepted' and updated_at>=clock_timestamp()-interval '90 days'
+      and (from_user is not null or to_user is not null)
     order by updated_at,id
   loop
     select coalesce(sum(case rarity::text when 'C' then 1 when 'R' then 2 when 'SR' then 4 when 'SSR' then 8 when 'LR' then 15 else 0 end),0)::integer
@@ -387,6 +388,7 @@ begin
     select b.*,a.seller_id,a.starting_price from public.bids b
     join public.auctions a on a.id=b.auction_id
     where b.created_at>=clock_timestamp()-interval '30 days'
+      and (b.bidder_id is not null or a.seller_id is not null)
     order by b.created_at,b.id
   loop
     perform public.record_anticheat_event(
