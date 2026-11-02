@@ -3228,7 +3228,7 @@
       "applied": "The historical recovery was applied and an immutable receipt was saved. The deleted account was not recreated.",
       "evidenceWarning": "A deleted participant or a one-way trade does not prove cheating. Old names, network context or account links may be missing. Record the independent evidence you checked; the tool does not guess who owned an anonymous source account.",
       "chooseTrades": "Select verified abusive transfers",
-      "candidateCount": "Showing {shown} of {total} unrecovered historical trades. Completed recoveries leave this list so older trades can appear.",
+      "candidateCount": "Showing {shown} of {total, plural, one {# unrecovered historical trade} other {# unrecovered historical trades}}. Completed recoveries leave this list so older trades can appear.",
       "empty": "No unrecovered accepted trade with a deleted participant is available for this account.",
       "incoming": "Received: {cards, plural, one {# card} other {# cards}} and {karas} Karas",
       "outgoing": "Sent in return: {cards, plural, one {# card} other {# cards}} and {karas} Karas",
