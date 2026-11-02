@@ -92,6 +92,11 @@ export default async function PrivacyPage() {
             })}
           </li>
           <li>
+            {t.rich("antiCheatNetworkIdentity", {
+              strong0: chunks => <strong>{chunks}</strong>
+            })}
+          </li>
+          <li>
             {t.rich("profileAvatarBannerBackgroundAndCardBack", {
               strong0: chunks => <strong>{chunks}</strong>
             })}

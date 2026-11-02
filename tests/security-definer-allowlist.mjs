@@ -1,5 +1,15 @@
 // Exact overloads and roles only. Every addition requires an access justification.
 export const ownerOnly = [
+  "public.prevent_anticheat_ledger_mutation()", // Trigger-only append-only ledger fence; no API execution. Walid approved the anti-cheat rights model.
+  "public.record_anticheat_event(text, uuid, uuid, uuid, integer, integer, jsonb, timestamp with time zone)", // Internal trigger/backfill recorder; private aggregates only, never an API entry point. Walid approved.
+  "public.capture_trade_anticheat_event()", // Trigger-only trade observation; no automatic sanction and no API execution.
+  "public.capture_auction_anticheat_event()", // Trigger-only auction settlement observation; no API execution.
+  "public.capture_bid_anticheat_event()", // Trigger-only bid observation; no API execution.
+  "public.capture_referral_anticheat_event()", // Trigger-only rewarded-referral observation; no API execution.
+  "public.capture_registration_anticheat_event()", // Trigger-only registration event; records no address or IP.
+  "public.record_anticheat_context_signal(text, uuid, uuid, uuid, integer, text, jsonb)", // Internal network-context recorder; HMAC stays in the short-lived private association table. Walid approved the anti-cheat extension.
+  "public.capture_trade_network_anticheat_event()", // Trigger-only shared-network trade signal; observation only, never an automatic sanction.
+  "public.reopen_anticheat_case_on_new_signal()", // Trigger-only workflow fence: a fresh signal reopens a reviewed case without applying a sanction.
   "public.is_disposable_email(text)", // Indexed public-source signup policy; only the Auth INSERT trigger, never API roles. Walid approved.
   "public.guard_disposable_signup()", // Auth INSERT-only trigger: rejects new disposable addresses without touching existing accounts. Walid approved.
   "public.with_leaderboard_history(jsonb, text)", // Internal enrichment of already-authorized results only; no direct API execution.
@@ -32,6 +42,7 @@ export const ownerOnly = [
 ]; // Internal helpers: owning SECURITY DEFINER wrappers/triggers only, never service_role or players.
 
 export const serverOnly = {
+  "public.record_anticheat_network_observation(uuid, text)": ["service_role"], // Trusted same-origin route only; verified session plus Cloudflare-produced versioned HMAC, never a raw IP. Walid approved.
   "public.get_push_notification(uuid, timestamp with time zone)": [
     "service_role"
   ], // Exact notification/version, same live ACL as the in-app reader, trusted push route only.
@@ -107,6 +118,13 @@ const allowlist = {
     "authenticated"
   ], // Bounded market prefixes, same viewer visibility as list_auctions_page; no anonymous access. Requires Walid ACL review.
   "public.admin_get_player(uuid)": ["authenticated"], // Admin-only account and inventory projection.
+  "public.admin_list_anticheat_cases(text, text, integer, integer)": [
+    "authenticated"
+  ], // Admin predicate; aggregate explainable risk cases only, private tables remain inaccessible. Walid approved.
+  "public.admin_list_anticheat_events(uuid, text, integer, integer)": [
+    "authenticated"
+  ], // Admin predicate; bounded private event DTO without direct ledger access. Walid approved.
+  "public.admin_review_anticheat_case(uuid, text, text)": ["authenticated"], // Admin predicate; immutable bounded review note and case workflow only. Walid approved.
   "public.admin_list_players(text, integer, integer)": ["authenticated"], // Admin-only paginated account search.
   "public.admin_remove_player_card(uuid)": ["authenticated"], // Admin-only removal of one owned copy, including safe auction cancellation.
   "public.admin_set_user_ban(uuid, boolean)": ["authenticated"], // Admin-only moderation action with self/admin protection.

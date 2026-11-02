@@ -107,6 +107,11 @@ jetons et leurs empreintes, mots de passe et empreintes, MFA/WebAuthn, OAuth,
 audits Auth/Storage et cron. Les comptes en suppression sont refusés.
 Les référentiels globaux ne sont pas exportés intégralement.
 
+Les tables `anticheat_events`, `anticheat_event_subjects` et `anticheat_cases`
+relèvent de la revue manuelle des éléments de sécurité et des données de tiers,
+comme les journaux de modération. Leur exclusion du téléchargement automatique
+ne dispense pas de traiter une demande d'accès par la procédure manuelle.
+
 ## Cohérence, plafonds et envoi
 
 La RPC `build_data_export` construit **toutes** les sections, Auth et métadonnées
