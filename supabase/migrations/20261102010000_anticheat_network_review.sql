@@ -206,6 +206,7 @@ declare
   target public.anticheat_cases%rowtype;
   normalized_note text:=btrim(coalesce(p_note,''));
 begin
+  perform public.assert_player_not_banned();
   if not public.is_current_user_admin() then raise exception 'ADMIN_REQUIRED' using errcode='P0001'; end if;
   p_status:=lower(btrim(coalesce(p_status,'')));
   if p_status not in ('open','reviewed','dismissed') then raise exception 'INVALID_CASE_STATUS'; end if;
@@ -247,7 +248,7 @@ begin
     select c.*,
       greatest(c.risk_score-c.risk_score_baseline,0) effective_risk_score,
       greatest(c.event_count-c.event_count_baseline,0) effective_event_count,
-      coalesce(p.pseudo,'Deleted player') pseudo,u.email,
+      coalesce(p.pseudo,'Deleted player') pseudo,to_jsonb(u)->>'email' email,
       case when greatest(c.risk_score-c.risk_score_baseline,0)>=90 then 'critical'
         when greatest(c.risk_score-c.risk_score_baseline,0)>=50 then 'high'
         when greatest(c.risk_score-c.risk_score_baseline,0)>=25 then 'elevated' else 'watch' end severity
