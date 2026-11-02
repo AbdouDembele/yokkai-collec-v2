@@ -71,7 +71,7 @@ Les dossiers ouverts dont les anciens points provenaient uniquement du volume
 ne sont plus présentés comme dossiers à risque. Les sanctions éventuelles
 restent réalisées avec les outils de modération existants après vérification.
 
-Les cinq tables sont recensées dans `docs/data-export-inventory.json` pour
+Les tables anti-triche sont recensées dans `docs/data-export-inventory.json` pour
 une revue manuelle des demandes d'accès impliquant ces éléments de sécurité
 et les données de contreparties. Elles ne sont pas ajoutées aux téléchargements
 automatiques des joueurs.
@@ -90,3 +90,40 @@ fois toutes les quinze minutes. Le tableau admin expose uniquement le nombre de
 comptes rapprochés, jamais le HMAC. Une IP partagée (foyer, école, opérateur ou
 VPN) n'est pas une preuve de fraude : le signal seul ne déclenche aucune
 sanction automatique.
+
+Un jeton aléatoire `HttpOnly`, propre au navigateur et au site, est conservé au
+maximum sept jours. Seul son SHA-256 versionné atteint la base anti-triche ; le
+jeton brut n'y est jamais enregistré. Ce rapprochement ne constitue pas une
+empreinte matérielle : changer de navigateur le change, et un appareil partagé
+peut relier plusieurs personnes. Il sert uniquement à corroborer le réseau et
+un échange direct accepté.
+
+## Sanction smurf manuelle
+
+L'administrateur choisit explicitement le compte smurf et le compte principal,
+puis consulte un aperçu avant toute mutation. Le bouton reste désactivé sans
+les trois éléments concordants des sept derniers jours : réseau pseudonyme
+partagé, jeton navigateur partagé et échange direct accepté. Les comptes admin
+ne peuvent pas être ciblés, un smurf déjà banni n'est pas éligible et une
+sanction déjà appliquée ne peut pas être rejouée.
+
+L'aperçu reconstruit l'historique complet des échanges directs acceptés entre
+les deux comptes. Il suit chaque instance de carte reçue du smurf et toutes les
+enchères vendues par le compte principal avec ces instances. Les identifiants
+des échanges et des ventes, les cartes encore présentes, les Karas reçus
+directement et les recettes de revente sont conservés dans le reçu.
+
+L'application est atomique : elle bannit le smurf, annule ses échanges encore
+en attente, rend au smurf banni les instances de cartes directement transférées
+qui se trouvent encore sur le compte principal et restitue tous les Karas nets
+reçus directement, plus les recettes des ventes de ces cartes. Une carte
+verrouillée bloque l'opération ; une carte déjà sortie du compte principal
+reste chez son acheteur innocent et seule la recette de sa vente est retirée au
+principal. Un solde insuffisant bloque également l'opération. La décision, la
+note, les échanges, les ventes et les actifs exacts sont conservés dans des
+journaux immuables. Aucun score ni signal ne lance cette sanction
+automatiquement.
+
+Les filtres du journal acceptent tous les types proposés par l'interface, y
+compris `network_identity_shared` et `trade_shared_network_identity`. Les
+lectures restent réservées aux administrateurs et bornées à 100 événements.
