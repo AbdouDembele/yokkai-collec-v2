@@ -12,6 +12,11 @@ import { AdminNavigation } from "../admin-navigation";
 import { applySmurfSanctionAction, reviewAnticheatCaseAction } from "./actions";
 import { EventDetail, type EventAssetDetail } from "./event-detail";
 import {
+  DeletedAccountHistory,
+  type DeletedAccountHistoryData,
+  type DeletedAccountPreview
+} from "./deleted-account-history";
+import {
   DeletedSmurfRecovery,
   type DeletedSmurfRecoveryPreview
 } from "./deleted-smurf-recovery";
@@ -263,6 +268,11 @@ export default async function AdminSecurityPage({
     deletedPrimary?: string;
     source?: string | string[];
     mode?: string;
+    role?: string;
+    source_account?: string | string[];
+    deleted_q?: string;
+    deleted_all?: string;
+    deleted_page?: string;
   }>;
 }) {
   const admin = await requireAdminPage();
@@ -291,6 +301,7 @@ export default async function AdminSecurityPage({
     ? params.primary!
     : null;
   const sanctionApplied = params.result === "smurf-sanction-applied";
+  const caseIsPrimary = params.role === "primary";
   const deletedPrimaryId = sanctionMode === "deleted" ? sanctionUserId : null;
   const historicalTradeIds = (
     Array.isArray(params.source)
@@ -302,6 +313,26 @@ export default async function AdminSecurityPage({
     .filter(id => /^[0-9a-f-]{36}$/i.test(id))
     .slice(0, 100);
   let deletedRecovery: DeletedSmurfRecoveryPreview | null = null;
+  let deletedHistory: DeletedAccountHistoryData | null = null;
+  let deletedAccountPreview: DeletedAccountPreview | null = null;
+  const selectedDeletedAccounts = [
+    ...new Set(
+      (Array.isArray(params.source_account)
+        ? params.source_account
+        : params.source_account
+          ? [params.source_account]
+          : []
+      )
+        .filter(id => /^[0-9a-f-]{36}$/i.test(id))
+        .slice(0, 100)
+    )
+  ];
+  const deletedQuery = params.deleted_q?.trim().slice(0, 100) ?? "";
+  const deletedRelatedOnly = params.deleted_all !== "1";
+  const deletedPage = Math.max(
+    1,
+    Number.parseInt(params.deleted_page ?? "1", 10) || 1
+  );
   if (deletedPrimaryId) {
     const result = await client.rpc("admin_preview_sanction", {
       p_subject_user_id: deletedPrimaryId,
@@ -311,6 +342,29 @@ export default async function AdminSecurityPage({
     });
     if (result.error) throw new Error(result.error.message);
     deletedRecovery = result.data as DeletedSmurfRecoveryPreview;
+    const historyResult = await client.rpc("admin_list_deleted_accounts", {
+      p_query: deletedQuery,
+      p_primary_user_id: deletedPrimaryId,
+      p_related_only: deletedRelatedOnly,
+      p_limit: 30,
+      p_offset: (deletedPage - 1) * 30
+    });
+    if (historyResult.error) throw new Error(historyResult.error.message);
+    deletedHistory = historyResult.data as DeletedAccountHistoryData;
+    if (
+      selectedDeletedAccounts.length &&
+      selectedDeletedAccounts.length <= 20
+    ) {
+      const previewResult = await client.rpc(
+        "admin_preview_deleted_account_sanction",
+        {
+          p_primary_user_id: deletedPrimaryId,
+          p_deleted_user_ids: selectedDeletedAccounts
+        }
+      );
+      if (previewResult.error) throw new Error(previewResult.error.message);
+      deletedAccountPreview = previewResult.data as DeletedAccountPreview;
+    }
   }
   const page = Math.max(1, Number.parseInt(params.page ?? "1", 10) || 1);
   const [name, karas, casesResult, eventsResult] = await Promise.all([
@@ -382,9 +436,9 @@ export default async function AdminSecurityPage({
     });
     if (primaryUserId) {
       const previewResult = await client.rpc("admin_preview_sanction", {
-        p_subject_user_id: sanctionUserId,
+        p_subject_user_id: caseIsPrimary ? primaryUserId : sanctionUserId,
         p_mode: "active",
-        p_primary_user_id: primaryUserId,
+        p_primary_user_id: caseIsPrimary ? sanctionUserId : primaryUserId,
         p_trade_ids: []
       });
       if (previewResult.error) throw new Error(previewResult.error.message);
@@ -537,7 +591,7 @@ export default async function AdminSecurityPage({
                 {(["active", "deleted"] as const).map(mode => (
                   <Link
                     key={mode}
-                    href={`/admin/security?sanction=${sanctionUserId}&mode=${mode}`}
+                    href={`/admin/security?sanction=${mode === "deleted" && !caseIsPrimary ? (primaryUserId ?? sanctionUserId) : sanctionUserId}&mode=${mode}&role=${mode === "deleted" || sanctionMode === "deleted" || caseIsPrimary ? "primary" : "smurf"}`}
                     aria-current={sanctionMode === mode ? "page" : undefined}
                     className={`min-w-0 rounded-lg px-3 py-3 text-center text-sm font-bold ${sanctionMode === mode ? "bg-slate-700 text-white" : "text-slate-400 hover:text-white"}`}
                   >
@@ -549,17 +603,36 @@ export default async function AdminSecurityPage({
               </nav>
 
               {deletedRecovery ? (
-                <div className="mt-4">
-                  <DeletedSmurfRecovery
-                    data={deletedRecovery}
-                    applied={params.result === "deleted-smurf-recovered"}
-                    embedded
-                  />
+                <div className="mt-4 space-y-4">
+                  {deletedHistory && (
+                    <DeletedAccountHistory
+                      primaryId={sanctionUserId}
+                      data={deletedHistory}
+                      preview={deletedAccountPreview}
+                      selected={selectedDeletedAccounts}
+                      query={deletedQuery}
+                      relatedOnly={deletedRelatedOnly}
+                      page={deletedPage}
+                      applied={params.result === "deleted-accounts-applied"}
+                    />
+                  )}
+                  {(deletedRecovery.candidateCount > 0 || !deletedHistory) && (
+                    <details className="rounded-xl border border-slate-700 p-3">
+                      <summary className="min-h-11 cursor-pointer text-sm font-bold">
+                        {t("unidentifiedLegacyTransfers")}
+                      </summary>
+                      <DeletedSmurfRecovery
+                        data={deletedRecovery}
+                        applied={params.result === "deleted-smurf-recovered"}
+                        embedded
+                      />
+                    </details>
+                  )}
                 </div>
               ) : (
                 <>
                   <form
-                    className="mt-5 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]"
+                    className="mt-5 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-[12rem_minmax(0,1fr)_auto]"
                     method="get"
                   >
                     <input
@@ -567,15 +640,40 @@ export default async function AdminSecurityPage({
                       type="hidden"
                       value={sanctionUserId}
                     />
+                    <input
+                      type="hidden"
+                      name="role"
+                      value={caseIsPrimary ? "primary" : "smurf"}
+                    />
+                    <div className="min-w-0 text-sm">
+                      <p className="font-semibold text-slate-200">
+                        {t("caseAccountRole")}
+                      </p>
+                      <p className="mt-1 text-cyan-100">
+                        {t(caseIsPrimary ? "caseIsPrimary" : "caseIsSmurf")}
+                      </p>
+                      <Link
+                        className="mt-1 inline-flex min-h-11 items-center text-xs text-slate-400 underline underline-offset-4 hover:text-white"
+                        href={`/admin/security?sanction=${sanctionUserId}&role=${caseIsPrimary ? "smurf" : "primary"}`}
+                      >
+                        {t("switchCaseRole")}
+                      </Link>
+                    </div>
                     <label className="grid gap-1 text-sm font-semibold text-slate-200">
-                      {t("primaryAccount")}
+                      {t(caseIsPrimary ? "smurfAccount" : "primaryAccount")}
                       <select
                         className="yk-field-control min-w-0"
                         defaultValue={primaryUserId ?? ""}
                         name="primary"
                         required
                       >
-                        <option value="">{t("selectPrimaryAccount")}</option>
+                        <option value="">
+                          {t(
+                            caseIsPrimary
+                              ? "selectSmurfAccount"
+                              : "selectPrimaryAccount"
+                          )}
+                        </option>
                         {sanctionCandidates.map(candidate => (
                           <option
                             key={candidate.userId}
@@ -1026,7 +1124,7 @@ export default async function AdminSecurityPage({
                         </Link>
                         <Link
                           className="yk-button yk-button-secondary"
-                          href={`/admin/security?sanction=${item.userId}`}
+                          href={`/admin/security?sanction=${item.userId}&role=primary`}
                         >
                           {t("prepareSanction")}
                         </Link>

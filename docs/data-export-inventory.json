@@ -13,6 +13,18 @@
   "public.account_deletion_log": {
     "excluded": "Deletion fence and security retention record; manual privacy review, not a self-service payload."
   },
+  "public.anticheat_deleted_accounts": {
+    "excluded": "Private anti-cheat deletion registry. Username and email are restricted to administrator review for 90 days after deletion, then hidden and purged; UUID and deletion date remain for security traceability. Requires separate manual privacy review, not a legal exemption."
+  },
+  "public.anticheat_deleted_account_transfers": {
+    "excluded": "Immutable private economic evidence linking exact original parties and transfer identifiers before detachment. Includes third-party catalogue snapshots; separate manual privacy review is required."
+  },
+  "public.anticheat_deleted_account_sanctions": {
+    "excluded": "Immutable administrative decisions and exact recovery receipts for one or multiple deleted source accounts. Includes third-party economic evidence and requires separate manual privacy review."
+  },
+  "public.anticheat_deleted_account_claims": {
+    "excluded": "Private immutable source and resale claims preventing repeated recovery across sanction paths. Separate manual privacy and security review required."
+  },
   "public.account_sanctions": {
     "excluded": "Private administrative evidence journal with third-party inventory snapshots; requires separate manual privacy review. Own published receipt summaries are available through the dedicated authenticated reader."
   },
