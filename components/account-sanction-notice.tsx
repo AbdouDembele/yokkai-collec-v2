@@ -11,7 +11,8 @@ type Receipt = {
   sanction_type:
     | "AFFILIATE_ABUSE_SANCTION"
     | "AFFILIATE_ABUSE_WARNING_WITH_PENALTY"
-    | "AFFILIATE_ABUSE_WARNING";
+    | "AFFILIATE_ABUSE_WARNING"
+    | "SMURF_ASSET_RECOVERY";
   cards_removed: number;
   kara_removed: number;
 };
@@ -41,7 +42,9 @@ export function AccountSanctionNotice() {
         setReceipts([]);
         return;
       }
-      const { data, error } = await client.rpc("get_my_pending_sanctions");
+      const { data, error } = await client
+        .rpc("get_my_pending_sanctions")
+        .setHeader("x-client-info", "yokkai-assets-notice-v1");
       if (active && request === revision && !error) setReceipts(data ?? []);
     };
     void load();
@@ -60,10 +63,12 @@ export function AccountSanctionNotice() {
       if (document.visibilityState === "visible") void load();
     };
     document.addEventListener("visibilitychange", visible);
+    const poll = setInterval(visible, 30_000);
     return () => {
       active = false;
       subscription.unsubscribe();
       document.removeEventListener("visibilitychange", visible);
+      clearInterval(poll);
     };
   }, [pathname]);
   useEffect(() => {
@@ -78,11 +83,13 @@ export function AccountSanctionNotice() {
   }, [receiptId]);
   if (!receipt) return null;
   const kind =
-    receipt.sanction_type === "AFFILIATE_ABUSE_SANCTION"
-      ? "sanction"
-      : receipt.sanction_type === "AFFILIATE_ABUSE_WARNING_WITH_PENALTY"
-        ? "penalty"
-        : "warning";
+    receipt.sanction_type === "SMURF_ASSET_RECOVERY"
+      ? "recovery"
+      : receipt.sanction_type === "AFFILIATE_ABUSE_SANCTION"
+        ? "sanction"
+        : receipt.sanction_type === "AFFILIATE_ABUSE_WARNING_WITH_PENALTY"
+          ? "penalty"
+          : "warning";
   const acknowledge = async () => {
     if (saving) return;
     setSaving(true);

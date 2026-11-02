@@ -11,7 +11,8 @@ const require = createRequire(import.meta.url);
 export async function renderSanctionPage(
   locale = "en",
   mode = "active",
-  role = "smurf"
+  role = "smurf",
+  options = {}
 ) {
   const id = "ac620000-0000-4000-8000-000000000001",
     other = "ac620000-0000-4000-8000-000000000002",
@@ -24,7 +25,8 @@ export async function renderSanctionPage(
     tradeKaras: 0,
     saleKaras: 0,
     saleCount: 0,
-    karas: 0
+    karas: 0,
+    ...options.recovery
   };
   const labels = {
     [copy]: { name: "BROLY", rarity: "LR", franchise: "Dragon Ball" }
@@ -195,10 +197,18 @@ export async function renderSanctionPage(
                   acceptedTrades: 1
                 },
                 recovery,
-                eligible: true,
-                alreadyApplied: false,
+                eligible: !options.receipt,
+                alreadyApplied: Boolean(options.receipt),
                 cardLabels: labels,
-                receipt: null,
+                receipt: options.receipt
+                  ? {
+                      id,
+                      appliedAt: "2026-11-02T12:00:00Z",
+                      note: "Recorded decision",
+                      recovery,
+                      history: { trades: [], sales: [] }
+                    }
+                  : null,
                 history: {
                   trades: [
                     {
@@ -335,7 +345,7 @@ export async function renderSanctionPage(
       sanction: id,
       primary: other,
       mode,
-      role,
+      role: role === "missing" ? undefined : role,
       source_account: mode === "deleted" ? other : undefined,
       source: id
     })
@@ -375,4 +385,40 @@ test("a case opened as primary sends the chosen counterpart as the smurf to ban"
   const html = await renderSanctionPage("en", "active", "primary");
   assert.match(html, /Smurf account to ban/);
   assert.match(html, /name="role" value="primary"/);
+});
+
+test("old links require explicit roles and zero-recovery receipts show their exact outcome", async () => {
+  for (const locale of ["en", "fr"]) {
+    const legacy = await renderSanctionPage(locale, "active", "missing");
+    assert.match(legacy, /role="alert"/);
+    assert.match(
+      legacy.match(/<input[^>]*name="confirmation"[^>]*>/)[0],
+      /disabled=""/
+    );
+    assert.match(legacy, /role=primary/);
+    const receipt = await renderSanctionPage(locale, "active", "smurf", {
+      receipt: true,
+      recovery: { cards: 0, karas: 0 }
+    });
+    assert.match(
+      receipt,
+      locale === "fr"
+        ? /aucun retrait de carte ou de Karas/
+        : /recovered no cards or Karas/
+    );
+    assert.match(
+      receipt,
+      locale === "fr"
+        ? /Example player n’est pas banni/
+        : /Example player is not banned/
+    );
+    assert.match(
+      receipt,
+      locale === "fr" ? /0 carte.*0 Karas/ : /0 cards.*0 Karas/
+    );
+    assert.match(
+      receipt,
+      locale === "fr" ? /Bannir le smurf uniquement/ : /Ban the smurf only/
+    );
+  }
 });
