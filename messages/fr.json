@@ -3228,7 +3228,7 @@
       "applied": "La récupération historique a été appliquée et un reçu immuable a été enregistré. Le compte supprimé n’a pas été recréé.",
       "evidenceWarning": "Un participant supprimé ou un échange à sens unique ne prouve pas une triche. Les anciens pseudos, le contexte réseau ou les liens entre comptes peuvent manquer. Consigne les preuves indépendantes vérifiées ; l’outil ne devine pas le propriétaire d’un compte source anonyme.",
       "chooseTrades": "Sélectionner les transferts abusifs vérifiés",
-      "candidateCount": "{shown} échanges historiques non récupérés affichés sur {total}. Les récupérations terminées quittent cette liste pour laisser apparaître les échanges plus anciens.",
+      "candidateCount": "{shown, plural, one {# échange historique non récupéré affiché} other {# échanges historiques non récupérés affichés}} sur {total}. Les récupérations terminées quittent cette liste pour laisser apparaître les échanges plus anciens.",
       "empty": "Aucun échange accepté non récupéré avec un participant supprimé n’est disponible pour ce compte.",
       "incoming": "Reçu : {cards, plural, one {# carte} other {# cartes}} et {karas} Karas",
       "outgoing": "Envoyé en retour : {cards, plural, one {# carte} other {# cartes}} et {karas} Karas",
