@@ -3417,7 +3417,8 @@
     "currentlyNotBanned": "État actuel : {player} n’est pas banni.",
     "confirmBanOnly": "Je confirme : bannir uniquement {smurf}. Aucune carte et aucun montant en Karas ne seront retirés à {primary}.",
     "confirmNamedRecovery": "Je confirme : bannir {smurf}, retirer à {primary} {cards, plural, one {# carte traçable} other {# cartes traçables}} et {karas, number} Karas, puis restituer ces actifs au compte banni.",
-    "applyBanOnly": "Bannir le smurf uniquement — aucun retrait"
+    "applyBanOnly": "Bannir le smurf uniquement — aucun retrait",
+    "assetsAlreadyRecovered": "Retrait enregistré dans ce reçu"
   },
   "tradeDesign": {
     "title": "Tes échanges",

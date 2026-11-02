@@ -768,7 +768,11 @@ export default async function AdminSecurityPage({
                           </div>
                           <div>
                             <dt className="text-slate-400">
-                              {t("assetsToRecover")}
+                              {t(
+                                sanctionPreview.receipt
+                                  ? "assetsAlreadyRecovered"
+                                  : "assetsToRecover"
+                              )}
                             </dt>
                             <dd className="font-bold">
                               {t("assetRecovery", {

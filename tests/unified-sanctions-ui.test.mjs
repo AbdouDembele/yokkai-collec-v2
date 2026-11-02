@@ -418,6 +418,12 @@ test("old links require explicit roles and zero-recovery receipts show their exa
     );
     assert.match(
       receipt,
+      locale === "fr"
+        ? /Retrait enregistré dans ce reçu/
+        : /Withdrawal recorded in this receipt/
+    );
+    assert.match(
+      receipt,
       locale === "fr" ? /Bannir le smurf uniquement/ : /Ban the smurf only/
     );
   }

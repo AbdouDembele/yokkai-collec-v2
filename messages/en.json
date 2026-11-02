@@ -3417,7 +3417,8 @@
     "currentlyNotBanned": "Current status: {player} is not banned.",
     "confirmBanOnly": "I confirm: ban {smurf} only. No cards or Karas will be removed from {primary}.",
     "confirmNamedRecovery": "I confirm: ban {smurf}, remove {cards, plural, one {# traceable card} other {# traceable cards}} and {karas, number} Karas from {primary}, and return those assets to the banned account.",
-    "applyBanOnly": "Ban the smurf only — no asset recovery"
+    "applyBanOnly": "Ban the smurf only — no asset recovery",
+    "assetsAlreadyRecovered": "Withdrawal recorded in this receipt"
   },
   "tradeDesign": {
     "title": "Your trades",
