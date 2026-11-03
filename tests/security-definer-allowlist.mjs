@@ -53,6 +53,7 @@ export const serverOnly = {
 };
 
 const allowlist = {
+  "public.get_pack_favorite_card_ids(uuid[], boolean)": ["authenticated"], // Own favorite membership only, active session, at most 500 catalogue IDs, no mutation. Walid approved.
   "public.admin_list_deleted_accounts(text, uuid, boolean, integer, integer)": [
     "authenticated"
   ], // Admin-only bounded deleted identity history; PII hidden after 90 days. Walid approved.

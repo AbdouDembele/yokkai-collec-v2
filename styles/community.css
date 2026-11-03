@@ -1076,9 +1076,6 @@
   gap: calc(var(--spacing) * 4);
   margin-top: calc(var(--spacing) * 5);
 }
-.yk-modal.yk-trade-review-modal {
-  width: min(900px, calc(100% - 32px));
-}
 .yk-trade-review > header {
   display: flex;
   align-items: center;
@@ -1179,16 +1176,6 @@
 }
 
 @media (max-width: 700px) {
-  .yk-modal.yk-trade-review-modal {
-    width: 100vw;
-    max-width: none;
-    height: 100dvh;
-    max-height: none;
-    margin: 0;
-    border: 0;
-    border-radius: 0;
-    padding: calc(var(--spacing) * 4);
-  }
   .yk-social-search {
     grid-template-columns: 1fr;
     padding: calc(var(--spacing) * 4);

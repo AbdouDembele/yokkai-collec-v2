@@ -136,7 +136,8 @@
     "keepLossPrefix": "Keep this card and lose the other ",
     "cardsSuffix": " cards",
     "batchCardsFragment": "{count, plural, one {card · } other {cards · }}",
-    "packUnit": "{count, plural, one {pack} other {packs}}"
+    "packUnit": "{count, plural, one {pack} other {packs}}",
+    "favoriteCollection": "Favorite collection"
   },
   "collectionUi": {
     "binder": "Binder",
