@@ -1,0 +1,450 @@
+[
+  {
+    "locale": "fr",
+    "width": 320,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 320,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 320,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 320,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 375,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 375,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 375,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 375,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 768,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 768,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 768,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 768,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1024,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1024,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1024,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1024,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1440,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1440,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1440,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1440,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1024,
+    "zoom": 2,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1024,
+    "zoom": 2,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1024,
+    "zoom": 2,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1024,
+    "zoom": 2,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1440,
+    "zoom": 2,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1440,
+    "zoom": 2,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1440,
+    "zoom": 2,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "fr",
+    "width": 1440,
+    "zoom": 2,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 320,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 320,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 320,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 320,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 375,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 375,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 375,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 375,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 768,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 768,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 768,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 768,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1024,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1024,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1024,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1024,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1440,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1440,
+    "zoom": 1,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1440,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1440,
+    "zoom": 1,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1024,
+    "zoom": 2,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1024,
+    "zoom": 2,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1024,
+    "zoom": 2,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1024,
+    "zoom": 2,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1440,
+    "zoom": 2,
+    "kind": "pack",
+    "count": 50,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1440,
+    "zoom": 2,
+    "kind": "pack",
+    "count": 5,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1440,
+    "zoom": 2,
+    "kind": "trade",
+    "count": 3,
+    "passed": true
+  },
+  {
+    "locale": "en",
+    "width": 1440,
+    "zoom": 2,
+    "kind": "trade",
+    "count": 50,
+    "passed": true
+  }
+]

@@ -2234,3 +2234,25 @@ body:has(.yk-reveal-screen) .yk-discord-promo {
     );
   }
 }
+
+/* Same star and gold as favorite binders; the label sits above the artwork. */
+.yk-drop-favorite {
+  color: var(--color-accent-gold);
+}
+.yk-drop-favorite svg {
+  flex: none;
+  width: 1.3em;
+  height: 1.3em;
+}
+.yk-reveal-screen:has(.yk-drop-favorite) > .yk-reveal-grid > .yk-reveal-slot {
+  padding-top: 68px;
+}
+
+/* A favorite + wishlist + duplicate can wrap to five lines at 320px. */
+.yk-reveal-screen:has(
+    .yk-drop-favorite + .yk-drop-wishlist + .yk-drop-duplicate
+  )
+  > .yk-reveal-grid
+  > .yk-reveal-slot {
+  padding-top: 88px;
+}

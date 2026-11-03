@@ -69,11 +69,17 @@ export type RevealCard = Card & {
   locked?: boolean;
 };
 const isDuplicate = (card: RevealCard) => !card.isNew && !!card.copies && card.copies > 1;
-function DropBadges({ card, iconsOnly = false }: { card: RevealCard; iconsOnly?: boolean }) {
+function DropBadges({ card, iconsOnly = false, favorite = false }: { card: RevealCard; iconsOnly?: boolean; favorite?: boolean }) {
   const tp = useTranslations("packs");
-  if (!card.wishlisted && !isDuplicate(card)) return null;
+  if (!card.wishlisted && !isDuplicate(card) && !favorite) return null;
   return (
     <span className={iconsOnly ? "yk-drop-card-icons" : "yk-drop-badges yk-drop-badges-labels"} aria-hidden="true">
+      {favorite && !iconsOnly && <span className="yk-drop-badge yk-drop-favorite">
+        <svg aria-hidden="true" width="19" height="19" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" strokeWidth="1.8">
+          <path d="m12 2.8 2.75 5.57 6.15.9-4.45 4.33 1.05 6.12L12 16.83l-5.5 2.89 1.05-6.12L3.1 9.27l6.15-.9L12 2.8Z" />
+        </svg>
+        <span>{tp("favoriteCollection")}</span>
+      </span>}
       {card.wishlisted && <span className="yk-drop-badge yk-drop-wishlist"><span>♥</span>{!iconsOnly && <span>{tp("inYourWishlist")}</span>}</span>}
       {isDuplicate(card) && <span className="yk-drop-badge yk-drop-duplicate">
         <svg className="yk-duplicate-icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
@@ -140,7 +146,8 @@ export function BoosterReveal({
   onComplete,
   onSound,
   onStopSound,
-  loadBinderGains
+  loadBinderGains,
+  loadFavoriteCards
 }: {
   previewOnly?: boolean;
   packCount?: number;
@@ -173,6 +180,7 @@ export function BoosterReveal({
   onSound?: (sound: Sound) => void;
   onStopSound?: () => void;
   loadBinderGains?: typeof import("@/lib/data/binder-discovery").getPackBinderGains;
+  loadFavoriteCards?: (ids: readonly string[], signal: AbortSignal) => Promise<readonly string[]>;
 }) {
   const tError = useTranslations();
   const tp = useTranslations("packs");
@@ -212,6 +220,24 @@ export function BoosterReveal({
   const [inspected, setInspected] = useState<RevealCard | null>(null);
   const [batchRevealed, setBatchRevealed] = useState<Set<number> | null>(null);
   const [sequencing, setSequencing] = useState(false);
+  const [favoriteCards, setFavoriteCards] = useState<{ opening: string; ids: readonly string[] } | null>(null);
+  const favoriteOpening = cards.map(card => card.instanceId).join(",");
+  const favoriteQuery = JSON.stringify([...new Set(cards.map(card => card.id))].sort());
+  useEffect(() => {
+    if (!favoriteOpening || (previewOnly && !loadFavoriteCards)) return;
+    const controller = new AbortController();
+    let active = true;
+    const ids: string[] = JSON.parse(favoriteQuery);
+    const load = loadFavoriteCards
+      ? loadFavoriteCards(ids, controller.signal)
+      : import("@/lib/data/pack-favorites").then(module => module.getPackFavoriteCardIds(ids, controller.signal));
+    void load.then(matches => {
+      if (active) setFavoriteCards({ opening: favoriteOpening, ids: matches });
+    }).catch(() => {
+      // Optional presentation only: a failed lookup cannot interrupt a pack or retry a reward.
+    });
+    return () => { active = false; controller.abort(); };
+  }, [favoriteOpening, favoriteQuery, previewOnly, loadFavoriteCards]);
   const rareQueue = useRef<number[]>([]);
   const batchCommitted = useRef(false);
   const keepLock = useRef(false);
@@ -644,6 +670,7 @@ export function BoosterReveal({
             !!decision?.soldAll ||
             (!!decision?.keptId && decision.keptId !== card.instanceId);
           const kept = decision?.keptId === card.instanceId;
+          const favorite = favoriteCards?.opening === favoriteOpening && favoriteCards.ids.includes(card.id);
           return (
             <li
               key={card.instanceId}
@@ -667,6 +694,7 @@ export function BoosterReveal({
                     aria-pressed={
                       selecting ? selection.has(card.instanceId) : undefined
                     }
+                    aria-describedby={favorite ? `pack-favorite-${card.instanceId}` : undefined}
                     aria-label={`${
                       choosing
                         ? tp("viewDetails", { name: card.name })
@@ -695,7 +723,7 @@ export function BoosterReveal({
                     <YokaiCard {...card} {...collection.find(owned => owned.instanceId === card.instanceId)}
                       categoryAccessory={card.wishlisted || isDuplicate(card) ? <DropBadges card={card} iconsOnly /> : undefined}
                       animated={overview ? false : undefined} />
-                    <DropBadges card={card} />
+                    <DropBadges card={card} favorite={favorite} />
                     {selecting && (
                       <span
                         className={`yk-selection-check ${selection.has(card.instanceId) ? "yk-checked" : ""}`}
@@ -709,6 +737,7 @@ export function BoosterReveal({
                       </span>
                     )}
                   </button>
+                  {favorite && <span className="sr-only" id={`pack-favorite-${card.instanceId}`}>{tp("favoriteCollection")}</span>}
                   {overview && (card.rarity === "SSR" || card.rarity === "LR") && <span className="yk-batch-rarity-label" title={card.rarity === "LR" ? tp("legendaryPull") : tp("exceptionalPull")}>✦ {card.rarity}</span>}
                   {overview && <span className="yk-batch-copy-label">{auctioned.has(card.instanceId) ? tp("listed") : locked.has(card.instanceId) ? tp("locked") : card.isNew ? tp("new") : card.copies && card.copies > 1 ? `×${card.copies}` : ""}</span>}
                   {done && !overview && <div className="yk-reveal-actions">

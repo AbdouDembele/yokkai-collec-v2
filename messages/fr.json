@@ -136,7 +136,8 @@
     "keepLossPrefix": "Garder cette carte et perdre ",
     "cardsSuffix": " cartes",
     "batchCardsFragment": "{count, plural, one {carte · } other {cartes · }}",
-    "packUnit": "{count, plural, one {pack} other {packs}}"
+    "packUnit": "{count, plural, one {pack} other {packs}}",
+    "favoriteCollection": "Collection favorite"
   },
   "collectionUi": {
     "binder": "Classeur",

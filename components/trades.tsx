@@ -1752,30 +1752,30 @@ export function TradesPanel({
         open={!!accepting}
         onClose={() => setAccepting(undefined)}
         title={tPr4("socialUi.thisCanTBeUndone")}
-        className="max-w-lg"
+        className="yk-trade-review-modal yk-trade-accept-modal"
       >
         <p className="text-sm leading-6 text-ink-2">
           {tPr4("socialUi.acceptingWillTransferTheCardsAndKaras")}
         </p>
         {accepting && (
-          <div className="yk-trade-confirm">
-            <div className="is-requested">
-              <strong>{tPr4("socialUi.youReceive")}</strong>
-              <OfferCards cards={accepting.offeredCards} />
-              {accepting.offeredKaras > 0 && (
-                <Karas amount={accepting.offeredKaras} />
-              )}
-            </div>
-            <div className="is-offered">
-              <strong>{tPr4("socialUi.youGive")}</strong>
+          <div className="yk-trade-confirm yk-trade-review-lots">
+            <article className="is-offered">
+              <h3>{tPr4("socialUi.youGive")}</h3>
               <OfferCards cards={accepting.requestedCards} />
               {accepting.requestedKaras > 0 && (
                 <Karas amount={accepting.requestedKaras} />
               )}
-            </div>
+            </article>
+            <article className="is-requested">
+              <h3>{tPr4("socialUi.youReceive")}</h3>
+              <OfferCards cards={accepting.offeredCards} />
+              {accepting.offeredKaras > 0 && (
+                <Karas amount={accepting.offeredKaras} />
+              )}
+            </article>
           </div>
         )}
-        <div className="mt-6 flex justify-end gap-3">
+        <div className="yk-trade-confirm-actions">
           <Button variant="secondary" onClick={() => setAccepting(undefined)}>
             {tPr4("packs.cancel")}
           </Button>
