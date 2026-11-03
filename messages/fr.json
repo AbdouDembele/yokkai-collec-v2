@@ -3473,7 +3473,7 @@
       "selectForRecovery": "Sélectionne cette source supprimée pour prévisualiser ses gains traçables.",
       "archiveMissing": "Archive d’identité indisponible : ce lien reste consultable, mais ne peut pas être sélectionné pour une récupération.",
       "primaryRoleRequired": "Confirme ce dossier comme compte principal pour sélectionner des sources supprimées. Un compte supprimé ne peut pas être choisi comme principal.",
-      "contextOnly": "Contexte uniquement : aucun échange accepté ne permet de sanctionner ce compte.",
+      "contextOnly": "Contexte uniquement : ce lien ne permet pas de préparer une sanction.",
       "selectDeleted": "Sélectionner la source supprimée {player}",
       "archiveSelectionHelp": "{count, plural, one {# source supprimée conservée depuis le dernier aperçu} other {# sources supprimées conservées depuis le dernier aperçu}}. Sélectionne jusqu’à 20 sources, puis prévisualise avant d’appliquer. Valide un aperçu avant de changer de filtre ou de page.",
       "previewDeleted": "Prévisualiser les sources supprimées sélectionnées",

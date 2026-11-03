@@ -3473,7 +3473,7 @@
       "selectForRecovery": "Select this deleted source to preview its traceable gains.",
       "archiveMissing": "Identity archive unavailable: this link can be examined, but cannot be selected for recovery.",
       "primaryRoleRequired": "Confirm this case as the main account to select deleted sources. A deleted account cannot be chosen as a main account.",
-      "contextOnly": "Context only: no accepted trade enables a sanction against this account.",
+      "contextOnly": "Context only: this link does not enable preparation of a sanction.",
       "selectDeleted": "Select deleted source {player}",
       "archiveSelectionHelp": "{count, plural, one {# deleted source kept from the last preview} other {# deleted sources kept from the last preview}}. Select up to 20 sources, then preview before applying. Save a preview before changing filters or pages.",
       "previewDeleted": "Preview the selected deleted sources",

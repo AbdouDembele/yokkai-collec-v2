@@ -38,8 +38,8 @@ begin
       count(*)filter(where kind='trade')::integer accepted_trades,
       count(*)filter(where kind='auction')::integer sold_auctions,
       count(*)filter(where public.anticheat_deleted_transfer_available(kind,asset_id))::integer available_transfers,
-      sum(case when to_user_id=p_subject_user_id then cardinality(offered_card_ids)else cardinality(requested_card_ids)end)::integer cards_to_subject,
-      sum(case when from_user_id=p_subject_user_id then cardinality(offered_card_ids)else cardinality(requested_card_ids)end)::integer cards_from_subject,
+      sum(case when to_user_id=p_subject_user_id then case when kind='auction'then 1 else cardinality(offered_card_ids)end else cardinality(requested_card_ids)end)::integer cards_to_subject,
+      sum(case when from_user_id=p_subject_user_id then case when kind='auction'then 1 else cardinality(offered_card_ids)end else cardinality(requested_card_ids)end)::integer cards_from_subject,
       sum(case when to_user_id=p_subject_user_id then offered_karas else requested_karas end)::bigint karas_to_subject,
       sum(case when from_user_id=p_subject_user_id then offered_karas else requested_karas end)::bigint karas_from_subject,
       max(occurred_at)last_transfer_at

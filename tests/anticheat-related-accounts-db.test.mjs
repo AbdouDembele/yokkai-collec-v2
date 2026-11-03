@@ -163,6 +163,15 @@ test("the unified reader combines live, banned, deleted, network and browser lin
   assert.equal(a.karasToSubject, 130);
   assert.equal(a.karasFromSubject, 75);
   assert.equal(a.soldAuctions, 1);
+  await db.query(
+    "update public.auctions set card_instance_id=null where seller_id=$1 and buyer_id=$2",
+    [active, subject]
+  );
+  assert.equal(
+    (await read()).accounts.find(a => a.userId === active).cardsToSubject,
+    4,
+    "a completed sale still represents one card after its instance foreign key is erased"
+  );
   assert.equal(a.sharedNetwork, true);
   assert.equal(a.sharedBrowser, false);
   assert.equal(data.accounts.find(a => a.userId === network).acceptedTrades, 0);
