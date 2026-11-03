@@ -102,11 +102,13 @@ export function ProfileWall({
     if (!active || !canRead || composerOnly || feedPost) return;
     let current = true;
     void Promise.resolve()
-      .then(() => {
+      .then(async () => {
         if (!current) return null;
         setLoading(true);
         setError("");
-        return adapter.list(ownerId);
+        const { loadPostTarget } =
+          await import("@/lib/ui/wall-notification-focus");
+        return loadPostTarget(adapter, ownerId, () => current);
       })
       .then(
         page => {

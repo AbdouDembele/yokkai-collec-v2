@@ -341,3 +341,42 @@
     transform: none;
   }
 }
+
+/* One conversation branch, with bounded indentation even on small screens. */
+.yk-reply-thread-item {
+  min-width: 0;
+}
+.yk-reply-thread-item[data-depth="1"],
+.yk-reply-thread-item[data-depth="2"] {
+  margin-left: 12px;
+  padding-left: 10px;
+  border-left: 1px solid var(--color-veil-strong);
+}
+.yk-reply-thread-item > form {
+  margin: 12px 0 0 20px;
+}
+.yk-reply-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  margin-top: 6px;
+}
+.yk-reply-actions > button,
+.yk-reply-target > button {
+  min-height: 44px;
+}
+.yk-post-reply .yk-reply-parent-label {
+  font-size: 12px;
+  color: var(--color-ink-3);
+}
+.yk-reply-target {
+  flex-wrap: wrap;
+}
+@media (min-width: 640px) {
+  .yk-reply-thread-item[data-depth="1"] {
+    margin-left: 24px;
+  }
+  .yk-reply-thread-item[data-depth="2"] {
+    margin-left: 48px;
+  }
+}

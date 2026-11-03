@@ -894,7 +894,9 @@
     "notificationAuctionFallback": "an auction",
     "notificationWishlistCardFallback": "A card",
     "notificationAchievementFallback": "an achievement",
-    "friends": "Friends"
+    "friends": "Friends",
+    "notificationCommentReplyTitle": "New reply to your comment",
+    "notificationCommentReplyText": "{actorPseudo} replied to your comment."
   },
   "accountMenu": {
     "signIn": "Sign in",
@@ -1859,7 +1861,11 @@
     "chatContentLimit": "Messages must contain 1–500 characters.",
     "thisGIFIsInvalid": "This GIF is invalid.",
     "chatMentionParticipantsOnly": "You can only mention the seller or a player who has already bid.",
-    "marketUnreachable": "Couldn't reach the market. Please try again."
+    "marketUnreachable": "Couldn't reach the market. Please try again.",
+    "replyingTo": "Replying to {name}",
+    "cancelReplyTarget": "Cancel reply",
+    "replyParentUnavailable": "Replying to an unavailable comment",
+    "replyTargetUnavailable": "This comment is no longer available. Choose another comment or reply to the post."
   },
   "settingsUi": {
     "passwordUpdated": "Your password has been updated.",

@@ -894,7 +894,9 @@
     "notificationAuctionFallback": "une enchère",
     "notificationWishlistCardFallback": "Une carte",
     "notificationAchievementFallback": "un succès",
-    "friends": "Amis"
+    "friends": "Amis",
+    "notificationCommentReplyTitle": "Nouvelle réponse à ton commentaire",
+    "notificationCommentReplyText": "{actorPseudo} a répondu à ton commentaire."
   },
   "accountMenu": {
     "signIn": "Se connecter",
@@ -1859,7 +1861,11 @@
     "chatContentLimit": "Les messages doivent contenir de 1 à 500 caractères.",
     "thisGIFIsInvalid": "Ce GIF n’est pas valide.",
     "chatMentionParticipantsOnly": "Tu peux uniquement mentionner le vendeur ou un joueur ayant déjà déposé une offre.",
-    "marketUnreachable": "Impossible de joindre le marché. Réessaie."
+    "marketUnreachable": "Impossible de joindre le marché. Réessaie.",
+    "replyingTo": "En réponse à {name}",
+    "cancelReplyTarget": "Annuler la réponse",
+    "replyParentUnavailable": "En réponse à un commentaire indisponible",
+    "replyTargetUnavailable": "Ce commentaire n’est plus disponible. Choisis un autre commentaire ou réponds au post."
   },
   "settingsUi": {
     "passwordUpdated": "Ton mot de passe a été mis à jour.",
