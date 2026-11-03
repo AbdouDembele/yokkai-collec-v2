@@ -31,7 +31,7 @@ Le webhook Discord et les autres réglages restent uniquement dans
 
 ## Déploiement
 
-Appliquer d'abord la migration `20261103210000_ops_monitor_snapshots.sql` via
+Appliquer d'abord la migration `20261103230000_ops_monitor_snapshots.sql` via
 `scripts/deploy-migrations.sh`. Sans la table, le script continue de mettre à
 jour Discord et signale seulement « snapshot non enregistré » dans le journal.
 
