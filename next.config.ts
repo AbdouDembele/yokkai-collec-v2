@@ -96,7 +96,7 @@ const nextConfig: NextConfig = {
         headers: [{ key: "Cache-Control", value: "public, max-age=3600" }]
       },
       {
-        source: "/assets/sfx/:path*",
+        source: "/assets/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=3600" }]
       },
       {

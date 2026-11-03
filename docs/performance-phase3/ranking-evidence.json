@@ -1,0 +1,37 @@
+{
+  "measuredAt": "2026-11-03T01:40:16.115Z",
+  "scope": "Read-only EXPLAIN ANALYZE of collection ranking SQL; one existing administrator viewer, limit 20. Alternating order, warm data, no HTTP/browser latency claim.",
+  "equivalent": true,
+  "pairs": [
+    {
+      "before": {
+        "executionMs": 938.568,
+        "temporaryBlocksWritten": 4717
+      },
+      "after": {
+        "executionMs": 679.139,
+        "temporaryBlocksWritten": 1670
+      }
+    },
+    {
+      "after": {
+        "executionMs": 746.449,
+        "temporaryBlocksWritten": 1670
+      },
+      "before": {
+        "executionMs": 1657.884,
+        "temporaryBlocksWritten": 4717
+      }
+    },
+    {
+      "before": {
+        "executionMs": 1187.171,
+        "temporaryBlocksWritten": 4717
+      },
+      "after": {
+        "executionMs": 939.669,
+        "temporaryBlocksWritten": 1670
+      }
+    }
+  ]
+}

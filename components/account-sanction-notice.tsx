@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useId, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { createClient } from "@/utils/supabase/client";
 import "@/styles/account-sanctions.css";
@@ -20,7 +19,6 @@ type Receipt = {
 // No local receipt: only the committed server acknowledgement can dismiss this.
 export function AccountSanctionNotice() {
   const t = useTranslations("accountSanctions");
-  const pathname = usePathname();
   const [receipts, setReceipts] = useState<Receipt[]>([]);
   const [saving, setSaving] = useState(false);
   const [failed, setFailed] = useState(false);
@@ -32,32 +30,57 @@ export function AccountSanctionNotice() {
     const client = createClient();
     let active = true;
     let revision = 0;
+    let pending = false;
+    let reload = false;
+    let userId: string | undefined;
     const load = async () => {
-      const request = ++revision;
-      const {
-        data: { session }
-      } = await client.auth.getSession();
-      if (!active || request !== revision) return;
-      if (!session) {
-        setReceipts([]);
+      if (!active || document.visibilityState !== "visible") return;
+      if (pending) {
+        reload = true;
         return;
       }
-      const { data, error } = await client
-        .rpc("get_my_pending_sanctions")
-        .setHeader("x-client-info", "yokkai-assets-notice-v1");
-      if (active && request === revision && !error) setReceipts(data ?? []);
+      pending = true;
+      const request = ++revision;
+      try {
+        const {
+          data: { session }
+        } = await client.auth.getSession();
+        if (!active || request !== revision) return;
+        if (!session) {
+          setReceipts([]);
+          return;
+        }
+        userId = session.user?.id;
+        const { data, error } = await client
+          .rpc("get_my_pending_sanctions")
+          .setHeader("x-client-info", "yokkai-assets-notice-v1");
+        if (active && request === revision && !error) setReceipts(data ?? []);
+      } catch {
+        // Keep unseen notices pending on the server; retry on the next wake-up.
+      } finally {
+        pending = false;
+        if (active && reload) {
+          reload = false;
+          void load();
+        }
+      }
     };
     void load();
     const {
       data: { subscription }
-    } = client.auth.onAuthStateChange(event => {
+    } = client.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_OUT") {
         revision++;
+        userId = undefined;
         setReceipts([]);
-      } else if (event === "SIGNED_IN")
+      } else if (event === "SIGNED_IN" && session?.user?.id !== userId) {
+        revision++;
+        userId = session?.user.id;
+        setReceipts([]);
         setTimeout(() => {
           if (active) void load();
         }, 0);
+      }
     });
     const visible = () => {
       if (document.visibilityState === "visible") void load();
@@ -70,7 +93,7 @@ export function AccountSanctionNotice() {
       document.removeEventListener("visibilitychange", visible);
       clearInterval(poll);
     };
-  }, [pathname]);
+  }, []);
   useEffect(() => {
     const element = dialog.current;
     if (!receiptId || !element) return;
