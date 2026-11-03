@@ -4,7 +4,7 @@ Cette livraison réduit le travail répété pendant la navigation et accélère
 
 ## Changements
 
-- Les illustrations publiques sous `/assets/` bénéficient du même cache HTTP borné d’une heure que les sons. Aucun `immutable` : les noms ne sont pas tous versionnés. Les en-têtes de sécurité sont conservés.
+- Les illustrations publiques explicitement listées sous `/assets/` bénéficient du même cache HTTP borné d’une heure que les sons. Aucun `immutable` : les noms ne sont pas tous versionnés. Les en-têtes de sécurité sont conservés. Une URL inexistante ne reçoit pas cette règle publique, afin de ne pas cacher une page d’erreur personnalisée.
 - Les lecteurs serveur du pseudo et du solde peuvent partager leur lecture `get_game_info` lorsqu’ils utilisent le même client pendant un rendu React. Ce cache est détruit entre requêtes et ne remplace jamais la vérification Auth. Un client explicitement fourni reste respecté.
 - La présence garde son délai de 30 secondes entre les pages ordinaires, au lieu de redémarrer à chaque navigation. Elle reste suspendue lorsque la page est masquée.
 - Les notices de sanction conservent une seule souscription et un seul polling de 30 secondes pendant la navigation. Une requête reste seule en vol et les changements de compte invalident les anciennes réponses. Seul un acquittement confirmé par le serveur ferme une notice.

@@ -98,6 +98,26 @@ test("public artwork uses bounded cache headers, never personalized routes or AP
     { "next-intl/plugin": () => config => config },
     { URL, process: { env: { NODE_ENV: "production" } } }
   ).default;
+  const rules = await config.headers();
+  const actualFiles = fs
+    .readdirSync("public/assets", { withFileTypes: true })
+    .filter(
+      entry =>
+        entry.isFile() && /\.(png|webp|svg|jpe?g|gif|ico)$/.test(entry.name)
+    )
+    .map(entry => "/assets/" + entry.name)
+    .sort();
+  assert.deepEqual(
+    Array.from(rules)
+      .filter(
+        rule =>
+          rule.source.startsWith("/assets/") &&
+          rule.source !== "/assets/sfx/:path*"
+      )
+      .map(rule => rule.source)
+      .sort(),
+    actualFiles
+  );
   for (const path of [
     "/assets/chrome-regular-booster-v1.png",
     "/assets/regular-opening-nebula.webp"
@@ -110,6 +130,8 @@ test("public artwork uses bounded cache headers, never personalized routes or AP
     assert.equal(response.headers.get("x-content-type-options"), "nosniff");
   }
   for (const path of [
+    "/assets/missing-artwork.png",
+    "/assets/private",
     "/collection",
     "/profile/me",
     "/api/pro/benefits",

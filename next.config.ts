@@ -5,6 +5,35 @@ const supabaseImageOrigin = process.env.NEXT_PUBLIC_SUPABASE_URL
   ? new URL(process.env.NEXT_PUBLIC_SUPABASE_URL)
   : undefined;
 
+// Explicit existing files only: a missing URL must not cache a personalized
+// not-found page. Keep this list in sync with public/assets (tested below).
+const publicArtwork = [
+  "booster-pack.png",
+  "brand-logo-blue.png",
+  "brand-logo-bubble.png",
+  "brand-logo-chrome.png",
+  "brand-logo-ice-retro.png",
+  "bubble-card-back-v1.png",
+  "bubble-decisive-booster-v1.png",
+  "bubble-regular-booster-v1.png",
+  "card-back.png",
+  "chrome-decision-booster-v1.png",
+  "chrome-regular-booster-v1.png",
+  "decision-booster-pack.png",
+  "decision-opening-nebula.webp",
+  "ev-badge-lightning.svg",
+  "ev-black-chrome-bold.svg",
+  "ev-black-chrome.svg",
+  "ev-electric-white.svg",
+  "ev-lowercase-chrome.svg",
+  "ev-titlecase-graphite.svg",
+  "ex-chrome-lettering.svg",
+  "header-logo-gold.png",
+  "home-booster-box.webp",
+  "regular-opening-nebula.webp",
+  "yokkai-site-backdrop.webp"
+];
+
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["127.0.0.1", "192.168.100.20", "192.168.1.16"],
   poweredByHeader: false,
@@ -96,9 +125,13 @@ const nextConfig: NextConfig = {
         headers: [{ key: "Cache-Control", value: "public, max-age=3600" }]
       },
       {
-        source: "/assets/:path*",
+        source: "/assets/sfx/:path*",
         headers: [{ key: "Cache-Control", value: "public, max-age=3600" }]
       },
+      ...publicArtwork.map(file => ({
+        source: "/assets/" + file,
+        headers: [{ key: "Cache-Control", value: "public, max-age=3600" }]
+      })),
       {
         // GoTrue fetches these templates; Cloudflare only injects scripts into text/html.
         source: "/auth-emails/:path*",
