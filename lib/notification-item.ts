@@ -36,6 +36,18 @@ export function notificationItem(
     time: time ?? new Date(notification.createdAt).toLocaleString("en-US"),
     read: !!notification.readAt
   };
+  if (notification.type === "wall_reply_received")
+    return {
+      ...common,
+      title: t("notificationCommentReplyTitle"),
+      text: t("notificationCommentReplyText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationFriendFallback")
+      }),
+      href: notification.postOwnerId
+        ? `/profile/${encodeURIComponent(notification.postOwnerId)}?tab=wall&post=${encodeURIComponent(notification.postId ?? "")}&reply=${encodeURIComponent(notification.replyId ?? "")}`
+        : "/social",
+      kind: "reply"
+    };
   if (notification.type === "wall_post_reply")
     return {
       ...common,

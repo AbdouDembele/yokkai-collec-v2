@@ -102,11 +102,29 @@ export function ProfileWall({
     if (!active || !canRead || composerOnly || feedPost) return;
     let current = true;
     void Promise.resolve()
-      .then(() => {
+      .then(async () => {
         if (!current) return null;
         setLoading(true);
         setError("");
-        return adapter.list(ownerId);
+        let page = await adapter.list(ownerId);
+        const target =
+          typeof window === "undefined"
+            ? null
+            : new URLSearchParams(window.location.search).get("post");
+        const items = [...page.items];
+        for (
+          let pages = 1;
+          current &&
+          target &&
+          !items.some(p => p.id === target) &&
+          page.next &&
+          pages < 25;
+          pages++
+        ) {
+          page = await adapter.list(ownerId, page.next);
+          items.push(...page.items);
+        }
+        return { ...page, items };
       })
       .then(
         page => {

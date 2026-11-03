@@ -15,7 +15,8 @@ export type KnownNotificationType =
   | "auction_chat_mention"
   | "achievement_completed"
   | "private_message_received"
-  | "wall_post_reply";
+  | "wall_post_reply"
+  | "wall_reply_received";
 export type AppNotification = {
   id: string;
   type: KnownNotificationType | (string & {});
@@ -25,6 +26,9 @@ export type AppNotification = {
   cardName: string | null;
   actorPseudo: string | null;
   achievementName: string | null;
+  postOwnerId?: string;
+  postId?: string;
+  replyId?: string;
   karaAmount?: number | null;
 };
 export class NotificationRequestError extends Error {

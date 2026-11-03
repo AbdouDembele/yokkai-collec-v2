@@ -4,6 +4,7 @@ import { liveWall } from "./profile-wall";
 
 export type WallReply = {
   id: string;
+  parentId?: string | null;
   text: string;
   createdAt: string;
   isMe: boolean;
@@ -21,6 +22,7 @@ export type WallActivity = {
   likedByMe: boolean;
   replyCount: number;
   items: WallReply[];
+  threadContext?: WallReply[];
   next: FriendFeedCursor | null;
   deletedMediaPath?: string | null;
 };
@@ -28,7 +30,7 @@ export type WallInteractions = {
   react: (post: string, emoji: string, reacted: boolean) => Promise<WallActivity>;
   read: (post: string, cursor?: FriendFeedCursor | null) => Promise<WallActivity>;
   like: (post: string, liked: boolean) => Promise<WallActivity>;
-  reply: (post: string, id: string, text: string, attachment?: {mediaPath: string | null; gifUrl: string | null}) => Promise<WallActivity>;
+  reply: (post: string, id: string, text: string, attachment?: {mediaPath: string | null; gifUrl: string | null; parentId?: string | null}) => Promise<WallActivity>;
   remove: (post: string, id: string) => Promise<WallActivity>;
   upload?: (file: File) => Promise<string>;
   discard?: (path: string) => Promise<void>;
@@ -39,6 +41,7 @@ async function rpc(name: string, args: Record<string, unknown>): Promise<WallAct
     if (error.message === "WALL_POST_UNAVAILABLE") throw Object.assign(new Error("Couldn't load or update this post. Access may have changed. Please try again."), {code: "WALL_POST_UNAVAILABLE"});
     if (error.message === "WALL_GIF_INVALID" || error.message === "GIF_RATING_REJECTED") throw new Error("Choose a GIF from the picker.");
     if (error.message === "WALL_MEDIA_INVALID") throw new Error("The image is no longer available. Choose it again.");
+    if (error.message === "WALL_REPLY_UNAVAILABLE") throw new Error("WALL_REPLY_UNAVAILABLE");
     if (error.message === "WALL_REPLY_INVALID") throw new Error("Write up to 1,000 characters, or add an image or GIF.");
     if (error.message === "WALL_REACTION_LIMIT") throw new Error("You can add up to 8 different reactions to a post. Remove one to add another.");
     if (error.message === "WALL_REPLY_RATE_LIMITED") throw new Error("Please wait a few seconds between replies (up to 30 per hour).");
@@ -51,7 +54,9 @@ export const liveWallInteractions: WallInteractions = {
   react: (post, emoji, reacted) => rpc("set_wall_post_reaction", { p_post_id: post, p_emoji: emoji, p_reacted: reacted }),
   read: (post, cursor) => rpc("get_wall_post_activity", { p_post_id: post, p_before: cursor?.at ?? null, p_before_id: cursor?.id ?? null }),
   like: (post, liked) => rpc("set_wall_post_like", { p_post_id: post, p_liked: liked }),
-  reply: (post, id, text, attachment) => attachment?.mediaPath || attachment?.gifUrl
+  reply: (post, id, text, attachment) => attachment?.parentId
+    ? rpc("publish_wall_post_reply_to", {p_post_id:post,p_id:id,p_parent_id:attachment.parentId,p_body:text,p_media_path:attachment.mediaPath,p_gif_url:attachment.gifUrl})
+    : attachment?.mediaPath || attachment?.gifUrl
     ? rpc("publish_wall_post_reply_media", {p_post_id:post,p_id:id,p_body:text,p_media_path:attachment.mediaPath,p_gif_url:attachment.gifUrl})
     : rpc("publish_wall_post_reply", { p_post_id: post, p_id: id, p_body: text }),
   upload: async file => {

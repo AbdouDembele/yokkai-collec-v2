@@ -169,6 +169,7 @@ Profile style updated	profileUi.profileStyleUpdated
 Profile unavailable.	profileUi.profileUnavailable
 Profile updated	profileUi.profileUpdated
 Reply deleted	profileUi.replyDeleted
+WALL_REPLY_UNAVAILABLE	profileUi.replyTargetUnavailable
 Reply published	profileUi.replyPublished
 Reporting this content isn't available yet.	profileUi.reportUnavailable
 Request denied.	settingsUi.requestDenied

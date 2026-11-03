@@ -22,10 +22,47 @@ import { PlayerModeration } from "@/components/player-moderation";
 import { reactionEmoji } from "@/lib/ui/reaction-emojis";
 import {
   liveWallInteractions,
+  type WallReply,
   type WallActivity,
   type WallInteractions
 } from "@/lib/data/wall-interactions";
 import "@/styles/wall-interactions.css";
+
+// Flatten the tree for bounded indentation on phones, while retaining the exact
+// parent relation and chronological order within each conversation.
+export function wallReplyThread(activity: WallActivity | null) {
+  const all = [
+    ...new Map(
+      [...(activity?.threadContext ?? []), ...(activity?.items ?? [])].map(
+        r => [r.id, r]
+      )
+    ).values()
+  ];
+  const byId = new Map(all.map(r => [r.id, r]));
+  const result: { reply: WallReply; depth: number; parent?: WallReply }[] = [];
+  const seen = new Set<string>();
+  const visit = (reply: WallReply, depth: number) => {
+    if (seen.has(reply.id)) return;
+    seen.add(reply.id);
+    result.push({ reply, depth, parent: byId.get(reply.parentId ?? "") });
+    all
+      .filter(r => r.parentId === reply.id)
+      .sort(
+        (a, b) =>
+          a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id)
+      )
+      .forEach(r => visit(r, depth + 1));
+  };
+  all
+    .filter(r => !r.parentId || !byId.has(r.parentId))
+    .sort(
+      (a, b) =>
+        b.createdAt.localeCompare(a.createdAt) || b.id.localeCompare(a.id)
+    )
+    .forEach(r => visit(r, 0));
+  all.forEach(r => visit(r, 0));
+  return result;
+}
 
 export function WallPostInteractions({
   postId,
@@ -65,6 +102,7 @@ export function WallPostInteractions({
   const [gif, setGif] = useState("");
   const [cleanup, setCleanup] = useState<string[]>([]);
   const [unavailable, setUnavailable] = useState(initialActivity === null);
+  const [replyTo, setReplyTo] = useState<WallReply | null>(null);
   const uploaded = useRef<{ file: File; path: string } | null>(null);
   const fileInput = useRef<HTMLInputElement>(null);
   const lock = useRef(false);
@@ -142,6 +180,71 @@ export function WallPostInteractions({
     return cancel;
   }, [adapter, postId, retry, cancel, initialActivity, hideUnavailable]);
 
+  // A notification can target a contribution older than the first page. Read it
+  // through the existing ACL-gated cursor; no raw socket or notification body.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const query = new URLSearchParams(window.location.search);
+    const target = query.get("reply");
+    if (query.get("post") !== postId || !target) return;
+    const version = ++sequence.current;
+    void Promise.resolve().then(async () => {
+      try {
+        let page = await adapter.read(postId);
+        const items = [...page.items];
+        const context = [...(page.threadContext ?? [])];
+        for (
+          let n = 1;
+          version === sequence.current &&
+          ![...items, ...context].some(r => r.id === target) &&
+          page.next &&
+          n < 50;
+          n++
+        ) {
+          page = await adapter.read(postId, page.next);
+          items.push(...page.items);
+          context.push(...(page.threadContext ?? []));
+        }
+        if (version !== sequence.current) return;
+        setActivity({
+          ...page,
+          items: [...new Map(items.map(r => [r.id, r])).values()],
+          threadContext: [...new Map(context.map(r => [r.id, r])).values()]
+        });
+        setOpen(true);
+        setError("");
+        setUnavailable(false);
+      } catch {
+        if (version === sequence.current) {
+          setActivity(null);
+          setError("Couldn't load this post's activity. Please try again.");
+        }
+      }
+    });
+    return cancel;
+  }, [adapter, postId, cancel]);
+  const focusedReply = useRef("");
+  useEffect(() => {
+    if (!open || !activity || typeof window === "undefined") return;
+    const query = new URLSearchParams(window.location.search);
+    const target = query.get("reply");
+    if (
+      query.get("post") !== postId ||
+      !target ||
+      focusedReply.current === target
+    )
+      return;
+    const frame = requestAnimationFrame(() => {
+      const node = document.getElementById(`wall-reply-${target}`);
+      if (node) {
+        node.scrollIntoView({ block: "center" });
+        node.focus({ preventScroll: true });
+        focusedReply.current = target;
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [activity, open, postId]);
+
   async function update(
     kind: "like" | "reply" | "more" | "remove" | "react",
     id?: string
@@ -169,7 +272,8 @@ export function WallPostInteractions({
         }
         next = await adapter.reply(postId, replyId.current, text.trim(), {
           mediaPath: uploaded.current?.path ?? null,
-          gifUrl: gif || null
+          gifUrl: gif || null,
+          parentId: replyTo?.id ?? null
         });
       } else if (kind === "remove") next = await adapter.remove(postId, id!);
       else next = await adapter.read(postId, activity.next);
@@ -178,6 +282,14 @@ export function WallPostInteractions({
         kind === "more"
           ? {
               ...next,
+              threadContext: [
+                ...new Map(
+                  [
+                    ...(activity.threadContext ?? []),
+                    ...(next.threadContext ?? [])
+                  ].map(r => [r.id, r])
+                ).values()
+              ],
               items: [
                 ...new Map(
                   [...activity.items, ...next.items].map(item => [
@@ -190,6 +302,7 @@ export function WallPostInteractions({
           : next
       );
       if (kind === "reply") {
+        setReplyTo(null);
         setText("");
         uploaded.current = null;
         setFile(null);
@@ -199,6 +312,7 @@ export function WallPostInteractions({
         setStatus("Reply published");
       }
       if (kind === "remove") {
+        if (replyTo?.id === id) setReplyTo(null);
         setStatus("Reply deleted");
         const path =
           next.deletedMediaPath ??
@@ -295,6 +409,105 @@ export function WallPostInteractions({
       />
     </div>
   );
+  const thread = wallReplyThread(activity);
+  const targetInThread =
+    replyTo && thread.some(({ reply }) => reply.id === replyTo.id);
+  const composer = (
+    <form
+      onSubmit={event => {
+        event.preventDefault();
+        void update("reply");
+      }}
+    >
+      <div className="yk-reply-target">
+        <label htmlFor={fieldId}>
+          {replyTo
+            ? t("profileUi.replyingTo", { name: replyTo.author.name })
+            : t("profileUi.yourReply")}
+        </label>
+        {replyTo && (
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => {
+              setReplyTo(null);
+              replyId.current = null;
+            }}
+          >
+            {t("profileUi.cancelReplyTarget")}
+          </button>
+        )}
+      </div>
+      {activity?.publicReplyNotice && (
+        <p className="yk-post-status">{t("profileUi.replyVisibilityHint")} </p>
+      )}
+      <textarea
+        id={fieldId}
+        className="auth-input"
+        placeholder={t("profileUi.writeAReply")}
+        maxLength={1000}
+        value={text}
+        disabled={busy}
+        onChange={event => {
+          setText(event.target.value);
+          replyId.current = null;
+        }}
+      />
+      {(preview || gif) && (
+        <figure className="yk-reply-attachment">
+          <img
+            src={preview || gif}
+            alt={t("profileUi.replyAttachmentPreview")}
+          />
+          <button
+            type="button"
+            disabled={busy}
+            onClick={() => changeAttachment(null)}
+          >
+            {t("profileUi.removeAttachment")}{" "}
+          </button>
+        </figure>
+      )}
+      <div className="yk-reply-media-actions">
+        <Button
+          type="button"
+          variant="secondary"
+          disabled={busy}
+          onClick={() => fileInput.current?.click()}
+        >
+          {t("profileUi.addImage")}{" "}
+        </Button>
+        <input
+          ref={fileInput}
+          type="file"
+          accept="image/jpeg,image/png,image/webp,image/gif"
+          aria-label={t("profileUi.replyImage")}
+          hidden
+          disabled={busy}
+          onChange={event => {
+            const next = event.target.files?.[0];
+            if (next) changeAttachment(next);
+          }}
+        />
+        <GifPicker
+          disabled={busy}
+          onSelect={choice => changeAttachment(null, choice.url)}
+        />
+      </div>
+      <p className="yk-post-status">
+        {t("profileUi.oneImageOrGIFPerReplyUpTo")}{" "}
+      </p>
+      <div className="yk-reply-submit">
+        <span>{text.length}/1000</span>
+        <Button
+          type="submit"
+          disabled={busy || !activity || (!text.trim() && !file && !gif)}
+        >
+          {busy ? t("collectionShared.sending") : t("profileUi.sendReply")}
+        </Button>
+      </div>
+    </form>
+  );
   const details = (
     <>
       {" "}
@@ -383,163 +596,117 @@ export function WallPostInteractions({
               {t("profileUi.replyCount", { count: activity?.replyCount ?? 0 })}
             </span>
           </div>
-          <form
-            onSubmit={event => {
-              event.preventDefault();
-              void update("reply");
-            }}
-          >
-            <label htmlFor={fieldId}>{t("profileUi.yourReply")}</label>
-            {activity?.publicReplyNotice && (
-              <p className="yk-post-status">
-                {t("profileUi.replyVisibilityHint")}{" "}
-              </p>
-            )}
-            <textarea
-              id={fieldId}
-              className="auth-input"
-              placeholder={t("profileUi.writeAReply")}
-              maxLength={1000}
-              value={text}
-              disabled={busy}
-              onChange={event => {
-                setText(event.target.value);
-                replyId.current = null;
-              }}
-            />
-            {(preview || gif) && (
-              <figure className="yk-reply-attachment">
-                <img
-                  src={preview || gif}
-                  alt={t("profileUi.replyAttachmentPreview")}
-                />
-                <button
-                  type="button"
-                  disabled={busy}
-                  onClick={() => changeAttachment(null)}
-                >
-                  {t("profileUi.removeAttachment")}{" "}
-                </button>
-              </figure>
-            )}
-            <div className="yk-reply-media-actions">
-              <Button
-                type="button"
-                variant="secondary"
-                disabled={busy}
-                onClick={() => fileInput.current?.click()}
-              >
-                {t("profileUi.addImage")}{" "}
-              </Button>
-              <input
-                ref={fileInput}
-                type="file"
-                accept="image/jpeg,image/png,image/webp,image/gif"
-                aria-label={t("profileUi.replyImage")}
-                hidden
-                disabled={busy}
-                onChange={event => {
-                  const next = event.target.files?.[0];
-                  if (next) changeAttachment(next);
-                }}
-              />
-              <GifPicker
-                disabled={busy}
-                onSelect={choice => changeAttachment(null, choice.url)}
-              />
-            </div>
-            <p className="yk-post-status">
-              {t("profileUi.oneImageOrGIFPerReplyUpTo")}{" "}
-            </p>
-            <div className="yk-reply-submit">
-              <span>{text.length}/1000</span>
-              <Button
-                type="submit"
-                disabled={busy || !activity || (!text.trim() && !file && !gif)}
-              >
-                {busy
-                  ? t("collectionShared.sending")
-                  : t("profileUi.sendReply")}
-              </Button>
-            </div>
-          </form>
-          {activity?.items.map(reply => (
-            <article
+          {!targetInThread && composer}
+          {thread.map(({ reply, depth, parent }) => (
+            <div
               key={reply.id}
-              data-wall-reply={reply.id}
-              className="yk-post-reply"
+              className="yk-reply-thread-item"
+              data-depth={Math.min(depth, 2)}
             >
-              <Avatar
-                name={reply.author.name}
-                image={reply.author.avatarUrl ?? undefined}
-                size={32}
-              />
-              <div>
-                <header>
-                  <Link
-                    href={`/profile/${encodeURIComponent(reply.author.id)}?tab=wall`}
-                  >
-                    {reply.author.name}
-                  </Link>
-                  <time dateTime={reply.createdAt}>
-                    {i18nEnabled() && !hydrated
-                      ? "…"
-                      : i18nEnabled()
-                        ? fmt.dateTime(new Date(reply.createdAt), {
-                            ...{
+              <article
+                id={`wall-reply-${reply.id}`}
+                tabIndex={-1}
+                data-wall-reply={reply.id}
+                className="yk-post-reply"
+              >
+                <Avatar
+                  name={reply.author.name}
+                  image={reply.author.avatarUrl ?? undefined}
+                  size={32}
+                />
+                <div>
+                  <header>
+                    <Link
+                      href={`/profile/${encodeURIComponent(reply.author.id)}?tab=wall`}
+                    >
+                      {reply.author.name}
+                    </Link>
+                    <time dateTime={reply.createdAt}>
+                      {i18nEnabled() && !hydrated
+                        ? "…"
+                        : i18nEnabled()
+                          ? fmt.dateTime(new Date(reply.createdAt), {
+                              ...{
+                                month: "short",
+                                day: "numeric",
+                                hour: "numeric",
+                                minute: "2-digit"
+                              },
+                              timeZone:
+                                Intl.DateTimeFormat().resolvedOptions().timeZone
+                            })
+                          : new Date(reply.createdAt).toLocaleString("en-US", {
                               month: "short",
                               day: "numeric",
                               hour: "numeric",
                               minute: "2-digit"
-                            },
-                            timeZone:
-                              Intl.DateTimeFormat().resolvedOptions().timeZone
+                            })}
+                    </time>
+                    {!reply.isMe && (
+                      <PlayerModeration
+                        userId={reply.author.id}
+                        pseudo={reply.author.name}
+                        contextType="wall_reply"
+                        contextId={reply.id}
+                      />
+                    )}
+                  </header>
+                  {reply.parentId && (
+                    <p className="yk-reply-parent-label">
+                      {parent
+                        ? t("profileUi.replyingTo", {
+                            name: parent.author.name
                           })
-                        : new Date(reply.createdAt).toLocaleString("en-US", {
-                            month: "short",
-                            day: "numeric",
-                            hour: "numeric",
-                            minute: "2-digit"
-                          })}
-                  </time>
-                  {!reply.isMe && (
-                    <PlayerModeration
-                      userId={reply.author.id}
-                      pseudo={reply.author.name}
-                      contextType="wall_reply"
-                      contextId={reply.id}
+                        : t("profileUi.replyParentUnavailable")}
+                    </p>
+                  )}
+                  {reply.text && <p>{reply.text}</p>}
+                  {(reply.hasMedia || reply.gifUrl) && (
+                    <img
+                      className="yk-reply-media"
+                      loading="lazy"
+                      src={
+                        reply.hasMedia
+                          ? (reply.previewUrl ??
+                            `/api/profile-wall/reply-media/${encodeURIComponent(reply.id)}`)
+                          : reply.gifUrl!
+                      }
+                      alt={
+                        reply.hasMedia
+                          ? t("profileUi.imageAttachedToReply")
+                          : t("profileUi.gifattachedToReply")
+                      }
                     />
                   )}
-                </header>
-                {reply.text && <p>{reply.text}</p>}
-                {(reply.hasMedia || reply.gifUrl) && (
-                  <img
-                    className="yk-reply-media"
-                    loading="lazy"
-                    src={
-                      reply.hasMedia
-                        ? (reply.previewUrl ??
-                          `/api/profile-wall/reply-media/${encodeURIComponent(reply.id)}`)
-                        : reply.gifUrl!
-                    }
-                    alt={
-                      reply.hasMedia
-                        ? t("profileUi.imageAttachedToReply")
-                        : t("profileUi.gifattachedToReply")
-                    }
-                  />
-                )}
-                {(reply.isMe || reply.canDelete) && (
-                  <button
-                    type="button"
-                    disabled={busy}
-                    onClick={() => void update("remove", reply.id)}
-                  >
-                    {t("profileUi.deleteReply")}{" "}
-                  </button>
-                )}
-              </div>
-            </article>
+                  <div className="yk-reply-actions">
+                    <button
+                      type="button"
+                      disabled={busy}
+                      aria-expanded={replyTo?.id === reply.id}
+                      onClick={() => {
+                        setReplyTo(reply);
+                        replyId.current = null;
+                        requestAnimationFrame(() =>
+                          document.getElementById(fieldId)?.focus()
+                        );
+                      }}
+                    >
+                      {t("profileUi.reply")}
+                    </button>
+                    {(reply.isMe || reply.canDelete) && (
+                      <button
+                        type="button"
+                        disabled={busy}
+                        onClick={() => void update("remove", reply.id)}
+                      >
+                        {t("profileUi.deleteReply")}{" "}
+                      </button>
+                    )}
+                  </div>
+                </div>
+              </article>
+              {replyTo?.id === reply.id && composer}
+            </div>
           ))}
           {activity && !activity.items.length && (
             <p className="yk-post-status">{t("profileUi.repliesEmptyHint")} </p>
