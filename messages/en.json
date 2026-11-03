@@ -3169,6 +3169,14 @@
       "intro": "Referral activity associated with your account was linked to the use of a temporary or disposable email address.",
       "rules": "No cards or Kara have been removed from your account. Please remember that creating or artificially using accounts to obtain referral rewards is not allowed.",
       "future": "Future misuse of the referral system may lead to removal of the rewards concerned or account suspension."
+    },
+    "recovery": {
+      "title": "Sanction applied: assets recovered",
+      "intro": "Following an administrator review of abusive transfers between accounts, assets have been recovered from your account.",
+      "decision": "The following quantities were actually removed from this account.",
+      "explanation": "Recovered Karas come from the transfers concerned or traceable sales of the cards involved. The amounts below are the recorded withdrawals.",
+      "rules": "Using multiple accounts to artificially obtain or transfer rewards and gains is prohibited.",
+      "future": "Further abuse may result in additional sanctions, including account suspension."
     }
   },
   "adminNavigation": {
@@ -3399,7 +3407,18 @@
     "caseIsSmurf": "Smurf account to ban",
     "switchCaseRole": "Switch this account’s role",
     "smurfAccount": "Smurf account to ban",
-    "selectSmurfAccount": "Choose the smurf to ban…"
+    "selectSmurfAccount": "Choose the smurf to ban…",
+    "explicitRolesRequired": "This old link does not specify the account roles. Choose which role the case account has before applying any sanction.",
+    "chooseCasePrimary": "The case account is the primary",
+    "chooseCaseSmurf": "The case account is the smurf",
+    "receiptOutcome": "Recorded roles: smurf {smurf}; primary {primary}. Actually recovered from {primary}: {cards, plural, one {# card} other {# cards}} and {karas, number} Karas.",
+    "receiptNoRecovery": "This receipt recovered no cards or Karas. It does not mean that the opposite account was debited. Verify the account roles before preparing another decision.",
+    "currentlyBanned": "Current status: {player} is banned.",
+    "currentlyNotBanned": "Current status: {player} is not banned.",
+    "confirmBanOnly": "I confirm: ban {smurf} only. No cards or Karas will be removed from {primary}.",
+    "confirmNamedRecovery": "I confirm: ban {smurf}, remove {cards, plural, one {# traceable card} other {# traceable cards}} and {karas, number} Karas from {primary}, and return those assets to the banned account.",
+    "applyBanOnly": "Ban the smurf only — no asset recovery",
+    "assetsAlreadyRecovered": "Withdrawal recorded in this receipt"
   },
   "tradeDesign": {
     "title": "Your trades",

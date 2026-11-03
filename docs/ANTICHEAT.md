@@ -244,3 +244,26 @@ globaux sont vérifiés par les anciens parcours aussi. Note, confirmation et
 empreinte de l'aperçu relu restent obligatoires, avec verrouillage atomique,
 annulation des engagements et remboursement, protection des admins et refus
 d'un débit dépassant le solde. Les tiers acheteurs gardent leurs cartes.
+
+## Confirmation des rôles et notification des retraits
+
+Les anciens liens sans rôle explicite ne peuvent pas appliquer une sanction.
+La confirmation nomme le smurf, le principal et les quantités ; sa valeur lie les
+deux UUID dans cet ordre, ce qui invalide les anciennes formes de confirmation.
+Un reçu à zéro est affiché comme aucun retrait, et le statut actuel du bannissement
+est distingué de la décision historique. Les reçus existants ne sont jamais réécrits.
+
+Chaque retrait non nul des trois parcours crée une notification privée dans la
+même transaction que le reçu. Une unicité source/reçu empêche les doublons ; les
+retraits antérieurs vérifiés sont aussi repris. Le lecteur et l'accusé de lecture
+existants exposent uniquement les quantités et la date du joueur authentifié,
+sans note interne ni identité des comptes sources. La fermeture nécessite un
+accusé de lecture confirmé en base. Les onglets visibles vérifient toutes les
+30 secondes, ainsi qu'à la connexion, navigation ou reprise de visibilité.
+
+Le client compatible annonce `yokkai-assets-notice-v1` dans le header existant
+`x-client-info`, limité à cet appel RPC. Sans cette capacité, seuls les anciens
+types sont renvoyés : un onglet encore sur l'ancien code ne doit pas présenter une
+récupération comme un avertissement de parrainage. Ce marqueur est une indication
+de compatibilité, jamais une autorisation ; l'isolation par `auth.uid()` et les
+droits SQL restent identiques.

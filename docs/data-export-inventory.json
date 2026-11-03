@@ -315,5 +315,8 @@
   "storage.objects": {
     "sections": ["avatar_files", "wall_files"],
     "note": "Only own allowlisted file metadata; no binary contents, paths or signed URLs."
+  },
+  "public.anticheat_asset_recovery_notices": {
+    "excluded": "Private administrative withdrawal notices linked to immutable source receipts, with own published quantities available through the existing authenticated reader. Contains no source-account identities or internal notes. Separate manual privacy review required."
   }
 }

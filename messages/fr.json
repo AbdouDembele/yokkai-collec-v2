@@ -3169,6 +3169,14 @@
       "intro": "Une activité liée au système d’affiliation de ton compte a été associée à l’utilisation d’une adresse e-mail temporaire ou jetable.",
       "rules": "Aucune carte ni aucun Kara n’a été retiré de ton compte. Nous te rappelons que la création ou l’utilisation artificielle de comptes dans le but d’obtenir des récompenses d’affiliation n’est pas autorisée.",
       "future": "Toute utilisation abusive future du système d’affiliation pourra entraîner le retrait des récompenses concernées ou la suspension du compte."
+    },
+    "recovery": {
+      "title": "Sanction appliquée : récupération des actifs",
+      "intro": "Après examen par un administrateur de transferts abusifs entre comptes, des actifs ont été retirés de ton compte.",
+      "decision": "Les quantités suivantes ont réellement été retirées de ce compte.",
+      "explanation": "Les Karas récupérés proviennent des transferts concernés ou des ventes traçables des cartes impliquées. Les montants affichés correspondent aux retraits enregistrés.",
+      "rules": "Utiliser plusieurs comptes pour obtenir ou transférer artificiellement des récompenses et des gains est interdit.",
+      "future": "De nouveaux abus peuvent entraîner d’autres sanctions, y compris la suspension du compte."
     }
   },
   "adminNavigation": {
@@ -3399,7 +3407,18 @@
     "caseIsSmurf": "Compte smurf à bannir",
     "switchCaseRole": "Inverser le rôle du dossier",
     "smurfAccount": "Compte smurf à bannir",
-    "selectSmurfAccount": "Choisir le smurf à bannir…"
+    "selectSmurfAccount": "Choisir le smurf à bannir…",
+    "explicitRolesRequired": "Cet ancien lien ne précise pas les rôles des comptes. Choisis le rôle du compte du dossier avant toute sanction.",
+    "chooseCasePrimary": "Le dossier correspond au compte principal",
+    "chooseCaseSmurf": "Le dossier correspond au smurf",
+    "receiptOutcome": "Rôles enregistrés : smurf {smurf} ; principal {primary}. Retrait réellement effectué sur {primary} : {cards, plural, one {# carte} other {# cartes}} et {karas, number} Karas.",
+    "receiptNoRecovery": "Ce reçu ne comporte aucun retrait de carte ou de Karas. Il ne signifie pas que l’autre compte a été débité. Vérifie les rôles avant de préparer une autre décision.",
+    "currentlyBanned": "État actuel : {player} est banni.",
+    "currentlyNotBanned": "État actuel : {player} n’est pas banni.",
+    "confirmBanOnly": "Je confirme : bannir uniquement {smurf}. Aucune carte et aucun montant en Karas ne seront retirés à {primary}.",
+    "confirmNamedRecovery": "Je confirme : bannir {smurf}, retirer à {primary} {cards, plural, one {# carte traçable} other {# cartes traçables}} et {karas, number} Karas, puis restituer ces actifs au compte banni.",
+    "applyBanOnly": "Bannir le smurf uniquement — aucun retrait",
+    "assetsAlreadyRecovered": "Retrait enregistré dans ce reçu"
   },
   "tradeDesign": {
     "title": "Tes échanges",

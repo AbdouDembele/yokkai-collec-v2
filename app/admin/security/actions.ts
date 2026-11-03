@@ -110,7 +110,7 @@ export async function applySmurfSanctionAction(form: FormData) {
   if (
     !uuid.test(smurfUserId) ||
     !uuid.test(primaryUserId) ||
-    confirmation !== smurfUserId ||
+    confirmation !== `${smurfUserId}:${primaryUserId}` ||
     smurfUserId === primaryUserId
   )
     throw new Error("SMURF_SANCTION_INVALID");
@@ -125,12 +125,12 @@ export async function applySmurfSanctionAction(form: FormData) {
     p_evidence_reference: "",
     p_preview_token: String(form.get("preview_token") ?? ""),
     p_note: note,
-    p_confirmation: confirmation
+    p_confirmation: smurfUserId
   });
   if (result.error) throw new Error("SMURF_SANCTION_UNAVAILABLE");
   revalidatePath("/admin/security");
   revalidatePath("/admin/players");
   redirect(
-    `/admin/security?sanction=${smurfUserId}&primary=${primaryUserId}&result=smurf-sanction-applied`
+    `/admin/security?sanction=${smurfUserId}&primary=${primaryUserId}&role=smurf&result=smurf-sanction-applied`
   );
 }

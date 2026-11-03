@@ -302,6 +302,7 @@ export default async function AdminSecurityPage({
     : null;
   const sanctionApplied = params.result === "smurf-sanction-applied";
   const caseIsPrimary = params.role === "primary";
+  const roleIsExplicit = params.role === "primary" || params.role === "smurf";
   const deletedPrimaryId = sanctionMode === "deleted" ? sanctionUserId : null;
   const historicalTradeIds = (
     Array.isArray(params.source)
@@ -489,12 +490,17 @@ export default async function AdminSecurityPage({
           </header>
           <AdminNavigation />
 
-          {sanctionApplied && (
+          {sanctionApplied && sanctionPreview?.receipt && (
             <p
               className="rounded-xl border border-emerald-300/30 bg-emerald-500/10 p-4 text-sm font-semibold text-emerald-100"
               role="status"
             >
-              {t("sanctionApplied")}
+              {t("receiptOutcome", {
+                smurf: sanctionPreview.smurf.pseudo,
+                primary: sanctionPreview.primary.pseudo,
+                cards: sanctionPreview.receipt.recovery.cards,
+                karas: sanctionPreview.receipt.recovery.karas
+              })}
             </p>
           )}
 
@@ -591,7 +597,7 @@ export default async function AdminSecurityPage({
                 {(["active", "deleted"] as const).map(mode => (
                   <Link
                     key={mode}
-                    href={`/admin/security?sanction=${mode === "deleted" && !caseIsPrimary ? (primaryUserId ?? sanctionUserId) : sanctionUserId}&mode=${mode}&role=${mode === "deleted" || sanctionMode === "deleted" || caseIsPrimary ? "primary" : "smurf"}`}
+                    href={`/admin/security?sanction=${mode === "deleted" && !caseIsPrimary ? (primaryUserId ?? sanctionUserId) : sanctionUserId}&mode=${mode}&role=${mode === "deleted" || sanctionMode === "deleted" || caseIsPrimary ? "primary" : roleIsExplicit ? "smurf" : ""}`}
                     aria-current={sanctionMode === mode ? "page" : undefined}
                     className={`min-w-0 rounded-lg px-3 py-3 text-center text-sm font-bold ${sanctionMode === mode ? "bg-slate-700 text-white" : "text-slate-400 hover:text-white"}`}
                   >
@@ -631,6 +637,29 @@ export default async function AdminSecurityPage({
                 </div>
               ) : (
                 <>
+                  {!roleIsExplicit && (
+                    <div
+                      role="alert"
+                      className="mt-4 space-y-3 rounded-xl border border-amber-300/40 bg-amber-500/10 p-4 text-sm text-amber-100"
+                    >
+                      <p>{t("explicitRolesRequired")}</p>
+                      <div className="flex flex-wrap gap-3">
+                        {(["primary", "smurf"] as const).map(role => (
+                          <Link
+                            key={role}
+                            className="yk-button yk-button-secondary min-h-11 whitespace-normal"
+                            href={`/admin/security?sanction=${sanctionUserId}${primaryUserId ? `&primary=${primaryUserId}` : ""}&role=${role}`}
+                          >
+                            {t(
+                              role === "primary"
+                                ? "chooseCasePrimary"
+                                : "chooseCaseSmurf"
+                            )}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   <form
                     className="mt-5 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-[12rem_minmax(0,1fr)_auto]"
                     method="get"
@@ -643,14 +672,21 @@ export default async function AdminSecurityPage({
                     <input
                       type="hidden"
                       name="role"
-                      value={caseIsPrimary ? "primary" : "smurf"}
+                      value={
+                        roleIsExplicit
+                          ? caseIsPrimary
+                            ? "primary"
+                            : "smurf"
+                          : ""
+                      }
                     />
                     <div className="min-w-0 text-sm">
                       <p className="font-semibold text-slate-200">
                         {t("caseAccountRole")}
                       </p>
                       <p className="mt-1 text-cyan-100">
-                        {t(caseIsPrimary ? "caseIsPrimary" : "caseIsSmurf")}
+                        {roleIsExplicit &&
+                          t(caseIsPrimary ? "caseIsPrimary" : "caseIsSmurf")}
                       </p>
                       <Link
                         className="mt-1 inline-flex min-h-11 items-center text-xs text-slate-400 underline underline-offset-4 hover:text-white"
@@ -739,7 +775,11 @@ export default async function AdminSecurityPage({
                           </div>
                           <div>
                             <dt className="text-slate-400">
-                              {t("assetsToRecover")}
+                              {t(
+                                sanctionPreview.receipt
+                                  ? "assetsAlreadyRecovered"
+                                  : "assetsToRecover"
+                              )}
                             </dt>
                             <dd className="font-bold">
                               {t("assetRecovery", {
@@ -784,6 +824,31 @@ export default async function AdminSecurityPage({
                                 })}
                                 <span className="mt-1 block">
                                   {sanctionPreview.receipt.note}
+                                </span>
+                                <span className="mt-2 block font-bold">
+                                  {t("receiptOutcome", {
+                                    smurf: sanctionPreview.smurf.pseudo,
+                                    primary: sanctionPreview.primary.pseudo,
+                                    cards:
+                                      sanctionPreview.receipt.recovery.cards,
+                                    karas:
+                                      sanctionPreview.receipt.recovery.karas
+                                  })}
+                                </span>
+                                {sanctionPreview.receipt.recovery.cards === 0 &&
+                                  sanctionPreview.receipt.recovery.karas ===
+                                    0 && (
+                                    <span className="mt-2 block text-amber-100">
+                                      {t("receiptNoRecovery")}
+                                    </span>
+                                  )}
+                                <span className="mt-2 block">
+                                  {t(
+                                    sanctionPreview.smurf.banned
+                                      ? "currentlyBanned"
+                                      : "currentlyNotBanned",
+                                    { player: sanctionPreview.smurf.pseudo }
+                                  )}
                                 </span>
                               </p>
                             )}
@@ -928,9 +993,23 @@ export default async function AdminSecurityPage({
                             name="confirmation"
                             required
                             type="checkbox"
-                            value={sanctionPreview.smurf.userId}
+                            value={`${sanctionPreview.smurf.userId}:${sanctionPreview.primary.userId}`}
+                            disabled={!roleIsExplicit}
                           />
-                          <span>{t("sanctionConfirmation")}</span>
+                          <span>
+                            {t(
+                              sanctionPreview.recovery.cards === 0 &&
+                                sanctionPreview.recovery.karas === 0
+                                ? "confirmBanOnly"
+                                : "confirmNamedRecovery",
+                              {
+                                smurf: sanctionPreview.smurf.pseudo,
+                                primary: sanctionPreview.primary.pseudo,
+                                cards: sanctionPreview.recovery.cards,
+                                karas: sanctionPreview.recovery.karas
+                              }
+                            )}
+                          </span>
                         </label>
                         {!sanctionPreview.eligible && (
                           <p className="mt-3 text-sm font-semibold text-amber-200">
@@ -939,10 +1018,17 @@ export default async function AdminSecurityPage({
                         )}
                         <button
                           className="mt-4 min-h-11 w-full rounded-xl border border-red-300/50 bg-red-500/20 px-4 py-2 font-black text-red-100 transition hover:bg-red-500/30 disabled:cursor-not-allowed disabled:opacity-40"
-                          disabled={!sanctionPreview.eligible}
+                          disabled={
+                            !sanctionPreview.eligible || !roleIsExplicit
+                          }
                           type="submit"
                         >
-                          {t("applySanction")}
+                          {t(
+                            sanctionPreview.recovery.cards === 0 &&
+                              sanctionPreview.recovery.karas === 0
+                              ? "applyBanOnly"
+                              : "applySanction"
+                          )}
                         </button>
                       </form>
                     </div>

@@ -390,8 +390,9 @@ test("pre-existing deleted auction parties are recovered only from exact immutab
   const pending = filenames.filter(
     f => f.startsWith("20261102232000_") || f.startsWith("20261102232100_")
   );
+  assert.equal(pending.length, 2);
   const { db } = await replayMigrations({
-    migrations: filenames.filter(f => !pending.includes(f))
+    migrations: filenames.filter(f => f < pending[0])
   });
   t.after(() => db.close());
   await db.exec(
