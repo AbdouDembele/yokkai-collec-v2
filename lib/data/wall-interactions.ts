@@ -23,6 +23,7 @@ export type WallActivity = {
   replyCount: number;
   items: WallReply[];
   threadContext?: WallReply[];
+  thread?: {reply:WallReply;depth:number;parent?:WallReply}[];
   next: FriendFeedCursor | null;
   deletedMediaPath?: string | null;
 };
@@ -35,6 +36,11 @@ export type WallInteractions = {
   upload?: (file: File) => Promise<string>;
   discard?: (path: string) => Promise<void>;
 };
+export async function decorateWallActivity(activity: WallActivity):Promise<WallActivity>{
+  if(!activity.threadContext?.length && !activity.items.some(r=>r.parentId))return activity;
+  const {wallReplyThread}=await import("@/lib/ui/wall-reply-thread");
+  return {...activity,thread:wallReplyThread(activity)};
+}
 async function rpc(name: string, args: Record<string, unknown>): Promise<WallActivity> {
   const { data, error } = await createClient().rpc(name, args).abortSignal(AbortSignal.timeout(12000));
   if (error) {
@@ -48,7 +54,7 @@ async function rpc(name: string, args: Record<string, unknown>): Promise<WallAct
     if (error.message === "WALL_REPLIES_FULL") throw new Error("This post has reached its reply limit.");
     throw new Error("Couldn't load or update this post. Access may have changed. Please try again.");
   }
-  return data as WallActivity;
+  return decorateWallActivity(data as WallActivity);
 }
 export const liveWallInteractions: WallInteractions = {
   react: (post, emoji, reacted) => rpc("set_wall_post_reaction", { p_post_id: post, p_emoji: emoji, p_reacted: reacted }),
@@ -85,12 +91,12 @@ export async function getWallPostsActivity(ids: string[]): Promise<Record<string
         .abortSignal(AbortSignal.timeout(12000));
       if (result.error?.message === "WALL_POST_UNAVAILABLE") return [];
       if (result.error) throw new Error("Couldn't load this page's activity. Please try again.");
-      return [[id, result.data as WallActivity]];
+      return [[id,await decorateWallActivity(result.data as WallActivity)]];
     }));
     return Object.fromEntries(entries.flat());
   }
   if (error) throw new Error("Couldn't load this page's activity. Please try again.");
-  return data as Record<string, WallActivity>;
+  return Object.fromEntries(await Promise.all(Object.entries(data as Record<string,WallActivity>).map(async([id,activity])=>[id,await decorateWallActivity(activity)])));
 }
 
 export async function hydrateFeedActivity(posts: FriendFeedPost[]): Promise<FriendFeedPost[]> {

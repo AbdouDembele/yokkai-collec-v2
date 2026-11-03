@@ -1,5 +1,6 @@
 "use client";
 import { useMemo, useRef } from "react";
+import { wallReplyThread } from "@/lib/ui/wall-reply-thread";
 import { WallPostInteractions } from "@/components/wall-post-interactions";
 import { notificationItem } from "@/lib/notification-item";
 import { useTranslations } from "next-intl";
@@ -58,16 +59,25 @@ export function ThreadedRepliesPreview({
   const value = useRef(initial);
   const adapter = useMemo<WallInteractions>(
     () => ({
-      read: async () => structuredClone(value.current),
+      read: async () => ({
+        ...structuredClone(value.current),
+        thread: wallReplyThread(value.current)
+      }),
       like: async (_post, liked) => {
         value.current = {
           ...value.current,
           likedByMe: liked,
           likes: liked ? 2 : 1
         };
-        return structuredClone(value.current);
+        return {
+          ...structuredClone(value.current),
+          thread: wallReplyThread(value.current)
+        };
       },
-      react: async () => structuredClone(value.current),
+      react: async () => ({
+        ...structuredClone(value.current),
+        thread: wallReplyThread(value.current)
+      }),
       reply: async (_post, id, text, attachment) => {
         if (text === "Simulated failure")
           throw new Error("WALL_REPLY_UNAVAILABLE");
@@ -87,7 +97,10 @@ export function ThreadedRepliesPreview({
             }
           ]
         };
-        return structuredClone(value.current);
+        return {
+          ...structuredClone(value.current),
+          thread: wallReplyThread(value.current)
+        };
       },
       remove: async (_post, id) => {
         value.current = {
@@ -97,7 +110,10 @@ export function ThreadedRepliesPreview({
             .filter(r => r.id !== id)
             .map(r => (r.parentId === id ? { ...r, parentId: null } : r))
         };
-        return structuredClone(value.current);
+        return {
+          ...structuredClone(value.current),
+          thread: wallReplyThread(value.current)
+        };
       }
     }),
     []
@@ -129,7 +145,7 @@ export function ThreadedRepliesPreview({
       <WallPostInteractions
         postId="fixture-post"
         compact={compact}
-        initialActivity={initial}
+        initialActivity={{ ...initial, thread: wallReplyThread(initial) }}
         adapter={adapter}
       />
     </main>

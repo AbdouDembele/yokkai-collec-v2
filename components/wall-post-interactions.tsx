@@ -1,7 +1,4 @@
 "use client";
-import { useSyncExternalStore } from "react";
-import { i18nEnabled } from "@/i18n/locale";
-const subscribeToHydration = () => () => {};
 import { gameErrorKey } from "@/i18n/game-messages";
 import { useTranslations, useFormatter } from "next-intl";
 /* eslint-disable @next/next/no-img-element -- authenticated private media and animated GIFs. */
@@ -28,42 +25,6 @@ import {
 } from "@/lib/data/wall-interactions";
 import "@/styles/wall-interactions.css";
 
-// Flatten the tree for bounded indentation on phones, while retaining the exact
-// parent relation and chronological order within each conversation.
-export function wallReplyThread(activity: WallActivity | null) {
-  const all = [
-    ...new Map(
-      [...(activity?.threadContext ?? []), ...(activity?.items ?? [])].map(
-        r => [r.id, r]
-      )
-    ).values()
-  ];
-  const byId = new Map(all.map(r => [r.id, r]));
-  const result: { reply: WallReply; depth: number; parent?: WallReply }[] = [];
-  const seen = new Set<string>();
-  const visit = (reply: WallReply, depth: number) => {
-    if (seen.has(reply.id)) return;
-    seen.add(reply.id);
-    result.push({ reply, depth, parent: byId.get(reply.parentId ?? "") });
-    all
-      .filter(r => r.parentId === reply.id)
-      .sort(
-        (a, b) =>
-          a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id)
-      )
-      .forEach(r => visit(r, depth + 1));
-  };
-  all
-    .filter(r => !r.parentId || !byId.has(r.parentId))
-    .sort(
-      (a, b) =>
-        b.createdAt.localeCompare(a.createdAt) || b.id.localeCompare(a.id)
-    )
-    .forEach(r => visit(r, 0));
-  all.forEach(r => visit(r, 0));
-  return result;
-}
-
 export function WallPostInteractions({
   postId,
   initialActivity,
@@ -78,11 +39,6 @@ export function WallPostInteractions({
   adapter?: WallInteractions;
 }) {
   const fmt = useFormatter();
-  const hydrated = useSyncExternalStore(
-    subscribeToHydration,
-    () => true,
-    () => false
-  );
   const t = useTranslations();
   const [activity, setActivity] = useState<WallActivity | null>(
     initialActivity ?? null
@@ -180,70 +136,41 @@ export function WallPostInteractions({
     return cancel;
   }, [adapter, postId, retry, cancel, initialActivity, hideUnavailable]);
 
-  // A notification can target a contribution older than the first page. Read it
-  // through the existing ACL-gated cursor; no raw socket or notification body.
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const query = new URLSearchParams(window.location.search);
-    const target = query.get("reply");
+    const query = new URLSearchParams(window.location.search),
+      target = query.get("reply");
     if (query.get("post") !== postId || !target) return;
     const version = ++sequence.current;
-    void Promise.resolve().then(async () => {
-      try {
-        let page = await adapter.read(postId);
-        const items = [...page.items];
-        const context = [...(page.threadContext ?? [])];
-        for (
-          let n = 1;
-          version === sequence.current &&
-          ![...items, ...context].some(r => r.id === target) &&
-          page.next &&
-          n < 50;
-          n++
-        ) {
-          page = await adapter.read(postId, page.next);
-          items.push(...page.items);
-          context.push(...(page.threadContext ?? []));
-        }
-        if (version !== sequence.current) return;
-        setActivity({
-          ...page,
-          items: [...new Map(items.map(r => [r.id, r])).values()],
-          threadContext: [...new Map(context.map(r => [r.id, r])).values()]
-        });
-        setOpen(true);
-        setError("");
-        setUnavailable(false);
-      } catch {
-        if (version === sequence.current) {
-          setActivity(null);
+    let dispose = () => {};
+    void import("@/lib/ui/wall-notification-focus")
+      .then(({ watchReplyNotification }) => {
+        dispose = watchReplyNotification(
+          adapter,
+          postId,
+          target,
+          () => version === sequence.current,
+          page => {
+            setActivity(page);
+            setOpen(true);
+            setError("");
+            setUnavailable(false);
+          },
+          () => {
+            setActivity(null);
+            setError("Couldn't load this post's activity. Please try again.");
+          }
+        );
+      })
+      .catch(() => {
+        if (version === sequence.current)
           setError("Couldn't load this post's activity. Please try again.");
-        }
-      }
-    });
-    return cancel;
+      });
+    return () => {
+      cancel();
+      dispose();
+    };
   }, [adapter, postId, cancel]);
-  const focusedReply = useRef("");
-  useEffect(() => {
-    if (!open || !activity || typeof window === "undefined") return;
-    const query = new URLSearchParams(window.location.search);
-    const target = query.get("reply");
-    if (
-      query.get("post") !== postId ||
-      !target ||
-      focusedReply.current === target
-    )
-      return;
-    const frame = requestAnimationFrame(() => {
-      const node = document.getElementById(`wall-reply-${target}`);
-      if (node) {
-        node.scrollIntoView({ block: "center" });
-        node.focus({ preventScroll: true });
-        focusedReply.current = target;
-      }
-    });
-    return () => cancelAnimationFrame(frame);
-  }, [activity, open, postId]);
 
   async function update(
     kind: "like" | "reply" | "more" | "remove" | "react",
@@ -257,50 +184,18 @@ export function WallPostInteractions({
     setError("");
     setStatus("");
     try {
-      let next: WallActivity;
-      if (kind === "like")
-        next = await adapter.like(postId, !activity.likedByMe);
-      else if (kind === "react") {
-        const current = activity.reactions?.find(item => item.emoji === id);
-        next = await adapter.react(postId, id!, !current?.reactedByMe);
-      } else if (kind === "reply") {
-        replyId.current ??= crypto.randomUUID();
-        if (file && uploaded.current?.file !== file) {
-          if (!adapter.upload)
-            throw new Error("Image uploads are unavailable. Please try again.");
-          uploaded.current = { file, path: await adapter.upload(file) };
-        }
-        next = await adapter.reply(postId, replyId.current, text.trim(), {
-          mediaPath: uploaded.current?.path ?? null,
-          gifUrl: gif || null,
-          parentId: replyTo?.id ?? null
-        });
-      } else if (kind === "remove") next = await adapter.remove(postId, id!);
-      else next = await adapter.read(postId, activity.next);
-      if (version !== sequence.current) return;
-      setActivity(
-        kind === "more"
-          ? {
-              ...next,
-              threadContext: [
-                ...new Map(
-                  [
-                    ...(activity.threadContext ?? []),
-                    ...(next.threadContext ?? [])
-                  ].map(r => [r.id, r])
-                ).values()
-              ],
-              items: [
-                ...new Map(
-                  [...activity.items, ...next.items].map(item => [
-                    item.id,
-                    item
-                  ])
-                ).values()
-              ]
-            }
-          : next
+      const { applyWallInteraction } =
+        await import("@/lib/ui/wall-interaction-update");
+      const next = await applyWallInteraction(
+        adapter,
+        kind,
+        postId,
+        activity,
+        id,
+        { id: replyId, text, file, uploaded, gif, parentId: replyTo?.id }
       );
+      if (version !== sequence.current) return;
+      setActivity(next);
       if (kind === "reply") {
         setReplyTo(null);
         setText("");
@@ -409,9 +304,21 @@ export function WallPostInteractions({
       />
     </div>
   );
-  const thread = wallReplyThread(activity);
+  const thread =
+    activity?.thread ??
+    (activity?.items ?? []).map(reply => ({
+      reply,
+      depth: 0,
+      parent: undefined
+    }));
   const targetInThread =
     replyTo && thread.some(({ reply }) => reply.id === replyTo.id);
+  function chooseReply(reply: WallReply | null) {
+    setReplyTo(reply);
+    replyId.current = null;
+    if (reply)
+      requestAnimationFrame(() => document.getElementById(fieldId)?.focus());
+  }
   const composer = (
     <form
       onSubmit={event => {
@@ -429,10 +336,7 @@ export function WallPostInteractions({
           <button
             type="button"
             disabled={busy}
-            onClick={() => {
-              setReplyTo(null);
-              replyId.current = null;
-            }}
+            onClick={() => chooseReply(null)}
           >
             {t("profileUi.cancelReplyTarget")}
           </button>
@@ -464,7 +368,7 @@ export function WallPostInteractions({
             disabled={busy}
             onClick={() => changeAttachment(null)}
           >
-            {t("profileUi.removeAttachment")}{" "}
+            {t("profileUi.removeAttachment")}
           </button>
         </figure>
       )}
@@ -475,7 +379,7 @@ export function WallPostInteractions({
           disabled={busy}
           onClick={() => fileInput.current?.click()}
         >
-          {t("profileUi.addImage")}{" "}
+          {t("profileUi.addImage")}
         </Button>
         <input
           ref={fileInput}
@@ -495,7 +399,7 @@ export function WallPostInteractions({
         />
       </div>
       <p className="yk-post-status">
-        {t("profileUi.oneImageOrGIFPerReplyUpTo")}{" "}
+        {t("profileUi.oneImageOrGIFPerReplyUpTo")}
       </p>
       <div className="yk-reply-submit">
         <span>{text.length}/1000</span>
@@ -510,7 +414,6 @@ export function WallPostInteractions({
   );
   const details = (
     <>
-      {" "}
       {!!activity?.reactions?.length && (
         <div
           className="yk-reaction-chips"
@@ -563,7 +466,7 @@ export function WallPostInteractions({
               setRetry(value => value + 1);
             }}
           >
-            {t("profileUi.retry")}{" "}
+            {t("profileUi.retry")}
           </Button>
         </div>
       )}
@@ -584,7 +487,7 @@ export function WallPostInteractions({
               for (const path of cleanup) startTransition(() => discard(path));
             }}
           >
-            {t("profileUi.retryFileCleanup")}{" "}
+            {t("profileUi.retryFileCleanup")}
           </Button>
         </div>
       )}
@@ -622,25 +525,14 @@ export function WallPostInteractions({
                       {reply.author.name}
                     </Link>
                     <time dateTime={reply.createdAt}>
-                      {i18nEnabled() && !hydrated
-                        ? "…"
-                        : i18nEnabled()
-                          ? fmt.dateTime(new Date(reply.createdAt), {
-                              ...{
-                                month: "short",
-                                day: "numeric",
-                                hour: "numeric",
-                                minute: "2-digit"
-                              },
-                              timeZone:
-                                Intl.DateTimeFormat().resolvedOptions().timeZone
-                            })
-                          : new Date(reply.createdAt).toLocaleString("en-US", {
-                              month: "short",
-                              day: "numeric",
-                              hour: "numeric",
-                              minute: "2-digit"
-                            })}
+                      {fmt.dateTime(new Date(reply.createdAt), {
+                        month: "short",
+                        day: "numeric",
+                        hour: "numeric",
+                        minute: "2-digit",
+                        timeZone:
+                          Intl.DateTimeFormat().resolvedOptions().timeZone
+                      })}
                     </time>
                     {!reply.isMe && (
                       <PlayerModeration
@@ -683,13 +575,7 @@ export function WallPostInteractions({
                       type="button"
                       disabled={busy}
                       aria-expanded={replyTo?.id === reply.id}
-                      onClick={() => {
-                        setReplyTo(reply);
-                        replyId.current = null;
-                        requestAnimationFrame(() =>
-                          document.getElementById(fieldId)?.focus()
-                        );
-                      }}
+                      onClick={() => chooseReply(reply)}
                     >
                       {t("profileUi.reply")}
                     </button>
@@ -699,7 +585,7 @@ export function WallPostInteractions({
                         disabled={busy}
                         onClick={() => void update("remove", reply.id)}
                       >
-                        {t("profileUi.deleteReply")}{" "}
+                        {t("profileUi.deleteReply")}
                       </button>
                     )}
                   </div>
@@ -717,7 +603,7 @@ export function WallPostInteractions({
               disabled={busy}
               onClick={() => void update("more")}
             >
-              {t("profileUi.olderReplies")}{" "}
+              {t("profileUi.olderReplies")}
             </Button>
           )}
         </div>

@@ -19,7 +19,7 @@ function load(file, mocks = {}) {
   return exports;
 }
 test("thread order keeps each reply below its parent with pagination context, duplicates and unavailable parents", () => {
-  const { wallReplyThread } = load("components/wall-post-interactions.tsx");
+  const { wallReplyThread } = load("lib/ui/wall-reply-thread.ts");
   const r = (id, parentId, at) => ({
     id,
     parentId,
@@ -124,4 +124,73 @@ test("client sends the immutable parent only for nested replies and keeps the le
   assert.equal(calls[0].args.p_parent_id, "parent");
   await exports.liveWallInteractions.reply("post", "root", "Hello");
   assert.equal(calls[1].name, "publish_wall_post_reply");
+});
+
+test("deferred reply submission retains its upload and request UUID across a network retry", async () => {
+  const calls = [];
+  let attempts = 0,
+    uploads = 0;
+  const exports = {};
+  vm.runInNewContext(
+    ts.transpileModule(
+      fs.readFileSync("lib/ui/wall-interaction-update.ts", "utf8"),
+      {
+        compilerOptions: {
+          module: ts.ModuleKind.CommonJS,
+          target: ts.ScriptTarget.ES2022
+        }
+      }
+    ).outputText,
+    {
+      exports,
+      crypto,
+      require: () => ({ decorateWallActivity: async value => value })
+    }
+  );
+  const file = { name: "image.png" },
+    draft = {
+      id: { current: null },
+      text: "  Hello  ",
+      file,
+      uploaded: { current: null },
+      gif: "",
+      parentId: "parent"
+    };
+  const adapter = {
+    upload: async () => {
+      uploads++;
+      return "own/image.png";
+    },
+    reply: async (...args) => {
+      calls.push(args);
+      if (++attempts === 1) throw new Error("network");
+      return { items: [] };
+    }
+  };
+  await assert.rejects(
+    exports.applyWallInteraction(
+      adapter,
+      "reply",
+      "post",
+      { items: [] },
+      undefined,
+      draft
+    ),
+    /network/
+  );
+  const requestId = draft.id.current;
+  assert(requestId);
+  assert.equal(draft.uploaded.current.path, "own/image.png");
+  await exports.applyWallInteraction(
+    adapter,
+    "reply",
+    "post",
+    { items: [] },
+    undefined,
+    draft
+  );
+  assert.equal(uploads, 1);
+  assert.equal(calls[1][1], requestId);
+  assert.equal(calls[1][2], "Hello");
+  assert.equal(calls[1][3].parentId, "parent");
 });

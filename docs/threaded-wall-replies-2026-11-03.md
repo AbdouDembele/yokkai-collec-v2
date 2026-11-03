@@ -18,8 +18,12 @@ L’utilisateur confirme que l’équipe est prévenue sur Discord et qu’aucun
 
 ## Validation
 
-- 56 tests ciblés passants : droits SQL, export, anciennes notifications, audience des murs publics/privés, médias, modération et protection des comptes bannis.
+- 57 tests ciblés passants : droits SQL, export, anciennes notifications, audience des murs publics/privés, médias, modération et protection des comptes bannis.
 - 28 scénarios Chrome, fil normal et fenêtre compacte, EN/FR, 320/375/768/1024/1440 px et zoom 200 % sur ordinateur : réponse sous la bonne cible, ordre parent/enfant, brouillon conservé, aucune erreur navigateur ni débordement horizontal.
 - Un échec simulé conserve le brouillon et permet d’annuler la cible.
 - Deux scénarios de lien de notification : ouverture automatique et focus du bon commentaire, focus du formulaire après Répondre, fil normal et compact.
 - Prévisualisation locale sans écriture en production : `/design-system/threaded-replies-preview` ; inaccessible en production.
+
+## Chargement à la demande
+
+La préparation des fils est effectuée après une lecture contenant des parents, dans un module chargé à la demande. Les scans de curseurs d’une notification et les opérations d’interaction sont également différés. Le fil principal conserve les garde-fous de concurrence, le brouillon et l’identifiant de publication. Les dates ne sont rendues qu’après ouverture du fil côté client. Le budget de taille historique reste inchangé et passant ; aucun test n’a été modifié pour relever sa limite.
