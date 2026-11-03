@@ -1,4 +1,4 @@
-﻿begin;
+begin;
 set local lock_timeout='5s';
 
 create extension if not exists pgcrypto with schema extensions;
