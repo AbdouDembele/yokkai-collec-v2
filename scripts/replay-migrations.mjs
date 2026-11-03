@@ -114,9 +114,20 @@ ${bootstrapSQL}`);
         );
         await db.exec(sql);
       } catch (error) {
-        throw new Error(`Migration ${name}: ${error.message}`, {
-          cause: error
-        });
+        const details = [
+          error.code ? `SQLSTATE ${error.code}` : null,
+          error.position ? `position ${error.position}` : null,
+          error.detail ?? null,
+          error.hint ? `hint: ${error.hint}` : null
+        ]
+          .filter(Boolean)
+          .join("; ");
+        throw new Error(
+          `Migration ${name}: ${error.message}${details ? ` (${details})` : ""}`,
+          {
+            cause: error
+          }
+        );
       }
     }
     return { db, migrations };
