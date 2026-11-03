@@ -3406,7 +3406,8 @@
       "confirmation": "I verified the selected deleted source accounts and confirm this exact recovery from {player}. Third-party buyers keep their cards.",
       "blocked": "Verify the source accounts, traceable gains, available balance and whether these transfers were already recovered. Administrator accounts are protected.",
       "apply": "Apply recovery for selected accounts",
-      "selectionError": "Select at most 20 accounts before previewing. No selection was silently removed."
+      "selectionError": "Select at most 20 accounts before previewing. No selection was silently removed.",
+      "alreadyProcessed": "Selection disabled: all traceable transfers with this main account have already been processed by a sanction."
     },
     "unidentifiedLegacyTransfers": "Older trades without an identified source account",
     "caseAccountRole": "Account in this case",
@@ -3425,7 +3426,14 @@
     "confirmBanOnly": "I confirm: ban {smurf} only. No cards or Karas will be removed from {primary}.",
     "confirmNamedRecovery": "I confirm: ban {smurf}, remove {cards, plural, one {# traceable card} other {# traceable cards}} and {karas, number} Karas from {primary}, and return those assets to the banned account.",
     "applyBanOnly": "Ban the smurf only — no asset recovery",
-    "assetsAlreadyRecovered": "Withdrawal recorded in this receipt"
+    "assetsAlreadyRecovered": "Withdrawal recorded in this receipt",
+    "accountState": {
+      "sanctionApplied": "Sanction already applied",
+      "banned": "Banned by the team",
+      "bannedBeforeDeletion": "Banned before deletion",
+      "deletedByPlayer": "Deleted at the player’s request",
+      "deleted": "Account deleted · origin not recorded"
+    }
   },
   "tradeDesign": {
     "title": "Your trades",

@@ -73,7 +73,9 @@ export async function deleteAccountAction(
       return {
         error: "The username doesn't match. Enter your username exactly."
       };
-    await deleteAccount(userId);
+    // Only this recently authenticated, explicitly confirmed self-service path
+    // stamps a player's deletion request. Technical/restore callers stay unknown.
+    await deleteAccount(userId, undefined, true);
   } catch {
     // A partial deletion remains fenced. Never retry destructive calls silently.
     return {

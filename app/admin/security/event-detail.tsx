@@ -1,5 +1,39 @@
 import { getTranslations } from "next-intl/server";
 
+export type AccountState = {
+  pseudo?: string | null;
+  deleted: boolean;
+  banned: boolean;
+  bannedAtDeletion?: boolean;
+  deletionOrigin?: "self" | "unknown";
+  sanctionApplied: boolean;
+  sanctionAppliedAt?: string | null;
+};
+
+export async function AccountStatus({ state }: { state?: AccountState }) {
+  const t = await getTranslations("adminSecurity.accountState");
+  if (!state) return null;
+  return (
+    <span className="inline-flex max-w-full flex-wrap items-center gap-1.5 align-middle text-xs font-bold">
+      {state.sanctionApplied && (
+        <span className="rounded-md border border-red-400/60 bg-red-500/15 px-2 py-1 text-red-200">
+          {t("sanctionApplied")}
+        </span>
+      )}
+      {(state.banned || (state.deleted && state.bannedAtDeletion)) && (
+        <span className="rounded-md border border-rose-400/40 bg-rose-500/10 px-2 py-1 text-rose-200">
+          {t(state.deleted ? "bannedBeforeDeletion" : "banned")}
+        </span>
+      )}
+      {state.deleted && (
+        <span className="rounded-md border border-slate-500/60 bg-slate-800 px-2 py-1 text-slate-200">
+          {t(state.deletionOrigin === "self" ? "deletedByPlayer" : "deleted")}
+        </span>
+      )}
+    </span>
+  );
+}
+
 type EventCard = {
   instanceId?: string;
   name: string | null;
@@ -12,6 +46,8 @@ export type EventAssetDetail = {
   available: boolean;
   fromName?: string | null;
   toName?: string | null;
+  fromState?: AccountState;
+  toState?: AccountState;
   offeredCards?: EventCard[];
   requestedCards?: EventCard[];
   offeredCount?: number;
@@ -65,15 +101,17 @@ export async function EventDetail({ detail }: { detail?: EventAssetDetail }) {
         <div className="grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-1">
           {[
             {
-              from: detail.fromName,
-              to: detail.toName,
+              from: detail.fromState?.pseudo ?? detail.fromName,
+              to: detail.toState?.pseudo ?? detail.toName,
+              state: detail.fromState,
               items: detail.offeredCards ?? [],
               count: detail.offeredCount ?? 0,
               karas: detail.offeredKaras ?? 0
             },
             {
-              from: detail.toName,
-              to: detail.fromName,
+              from: detail.toState?.pseudo ?? detail.toName,
+              to: detail.fromState?.pseudo ?? detail.fromName,
+              state: detail.toState,
               items: detail.requestedCards ?? [],
               count: detail.requestedCount ?? 0,
               karas: detail.requestedKaras ?? 0
@@ -89,6 +127,13 @@ export async function EventDetail({ detail }: { detail?: EventAssetDetail }) {
                   to: side.to ?? t("deletedPlayer")
                 })}
               </h4>
+              <AccountStatus
+                state={
+                  side.state
+                    ? { ...side.state, sanctionApplied: false }
+                    : undefined
+                }
+              />
               <p className="mt-2 text-sm font-bold text-amber-100">
                 {t("karas", { count: side.karas })}
               </p>

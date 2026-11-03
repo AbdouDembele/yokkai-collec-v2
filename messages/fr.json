@@ -3406,7 +3406,8 @@
       "confirmation": "J’ai vérifié les comptes sources supprimés sélectionnés et je confirme cette récupération exacte sur {player}. Les acheteurs tiers conservent leurs cartes.",
       "blocked": "Vérifie les sources, les gains traçables, le solde disponible et l’absence de récupération déjà appliquée. Les comptes administrateurs sont protégés.",
       "apply": "Appliquer la récupération des comptes sélectionnés",
-      "selectionError": "Sélectionne au maximum 20 comptes avant de prévisualiser. Aucune sélection n’a été retirée automatiquement."
+      "selectionError": "Sélectionne au maximum 20 comptes avant de prévisualiser. Aucune sélection n’a été retirée automatiquement.",
+      "alreadyProcessed": "Sélection désactivée : tous les transferts traçables avec ce compte principal ont déjà été traités par une sanction."
     },
     "unidentifiedLegacyTransfers": "Anciens échanges sans compte source identifié",
     "caseAccountRole": "Compte de ce dossier",
@@ -3425,7 +3426,14 @@
     "confirmBanOnly": "Je confirme : bannir uniquement {smurf}. Aucune carte et aucun montant en Karas ne seront retirés à {primary}.",
     "confirmNamedRecovery": "Je confirme : bannir {smurf}, retirer à {primary} {cards, plural, one {# carte traçable} other {# cartes traçables}} et {karas, number} Karas, puis restituer ces actifs au compte banni.",
     "applyBanOnly": "Bannir le smurf uniquement — aucun retrait",
-    "assetsAlreadyRecovered": "Retrait enregistré dans ce reçu"
+    "assetsAlreadyRecovered": "Retrait enregistré dans ce reçu",
+    "accountState": {
+      "sanctionApplied": "Sanction déjà appliquée",
+      "banned": "Banni par l’équipe",
+      "bannedBeforeDeletion": "Banni avant suppression",
+      "deletedByPlayer": "Supprimé à la demande du joueur",
+      "deleted": "Compte supprimé · origine non tracée"
+    }
   },
   "tradeDesign": {
     "title": "Tes échanges",

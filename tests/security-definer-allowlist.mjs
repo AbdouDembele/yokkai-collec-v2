@@ -43,6 +43,7 @@ export const ownerOnly = [
 ]; // Internal helpers: owning SECURITY DEFINER wrappers/triggers only, never service_role or players.
 
 export const serverOnly = {
+  "public.begin_self_requested_account_deletion(uuid)": ["service_role"], // Server-only provenance after recent authentication and explicit self-deletion confirmation; same deletion fence, no browser access. Walid approved.
   "public.record_anticheat_network_observation(uuid, text)": ["service_role"], // Trusted same-origin route only; verified session plus Cloudflare-produced versioned HMAC, never a raw IP. Walid approved.
   "public.record_anticheat_device_observation(uuid, text)": ["service_role"], // Trusted same-origin route only; verified session plus a seven-day first-party random token hash. Walid approved.
   "public.get_push_notification(uuid, timestamp with time zone)": [
