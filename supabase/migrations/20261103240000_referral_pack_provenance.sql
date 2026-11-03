@@ -101,6 +101,7 @@ create index regular_pack_card_transfers_accounts_idx
 alter table public.regular_pack_card_transfers enable row level security;
 revoke all on public.regular_pack_card_transfers from public, anon, authenticated, service_role;
 grant all on public.regular_pack_card_transfers to service_role;
+revoke all on sequence public.regular_pack_card_transfers_id_seq from public, anon, authenticated, service_role;
 
 -- Capture grants at the authoritative transition that marks a referral rewarded.
 -- Trigger execution inherits the trusted reward function's privileges.
