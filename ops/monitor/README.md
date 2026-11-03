@@ -7,8 +7,9 @@ Cloudflare.
 
 À chaque passage, il :
 
-1. met à jour le message de tableau de bord Discord et poste les alertes
-   (apparition, aggravation, résolution) ;
+1. si `DISCORD_WEBHOOK_URL` est défini, met à jour le message de tableau de
+   bord Discord et poste les alertes (apparition, aggravation, résolution).
+   Depuis le 3 novembre 2026 le webhook est désactivé : la page admin le remplace ;
 2. enregistre une ligne dans `public.ops_monitor_snapshots` : uniquement des
    chiffres et des codes, sans donnée de joueur ni secret. C'est la seule
    écriture en base. Les lignes de plus de 14 jours sont supprimées.
@@ -18,12 +19,12 @@ La page `/admin/monitoring`, réservée aux administrateurs, lit ces lignes via
 
 ## Fichiers sur le serveur
 
-| Dépôt                                  | Serveur                                     |
-| -------------------------------------- | ------------------------------------------- |
-| `ops/monitor/yokkai-monitor`           | `/usr/local/sbin/yokkai-monitor` (root 755) |
-| `ops/monitor/yokkai-monitor.service`   | `/etc/systemd/system/`                      |
-| `ops/monitor/yokkai-monitor.timer`     | `/etc/systemd/system/`                      |
-| (hors dépôt) `/etc/yokkai-monitor.env` | root 600 : `DISCORD_WEBHOOK_URL`, options   |
+| Dépôt                                  | Serveur                                        |
+| -------------------------------------- | ---------------------------------------------- |
+| `ops/monitor/yokkai-monitor`           | `/usr/local/sbin/yokkai-monitor` (root 755)    |
+| `ops/monitor/yokkai-monitor.service`   | `/etc/systemd/system/`                         |
+| `ops/monitor/yokkai-monitor.timer`     | `/etc/systemd/system/`                         |
+| (hors dépôt) `/etc/yokkai-monitor.env` | root 600 : options, webhook Discord facultatif |
 
 Le webhook Discord et les autres réglages restent uniquement dans
 `/etc/yokkai-monitor.env`, jamais dans Git.

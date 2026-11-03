@@ -418,9 +418,9 @@ def discord(cfg, method, path="", payload=None):
 
 def main():
     cfg = env()
-    if not DRY and not cfg.get("DISCORD_WEBHOOK_URL"):
-        print("DISCORD_WEBHOOK_URL manquant dans /etc/yokkai-monitor.env", file=sys.stderr)
-        return 2
+    # Discord is optional: without DISCORD_WEBHOOK_URL the monitor only feeds
+    # /admin/monitoring (snapshot table) and the optional heartbeat.
+    use_discord = bool(cfg.get("DISCORD_WEBHOOK_URL"))
     prev = load_state()
     st = {k: prev[k] for k in ("message_id", "active", "pending") if k in prev}
     issues = []
@@ -482,20 +482,21 @@ def main():
 
     store_snapshot(worst, current)
 
-    payload = {"embeds": [embed], "allowed_mentions": {"parse": []}}
-    mid = prev.get("message_id")
-    status = None
-    if mid:
-        status, _ = discord(cfg, "PATCH", f"/messages/{mid}", payload)
-    if not mid or status == 404:
-        payload["content"] = "📊 **Tableau de bord** (ce message est mis à jour automatiquement)"
-        status, body = discord(cfg, "POST", "?wait=true", payload)
-        if status in (200, 204) and body.get("id"):
-            st["message_id"] = body["id"]
-    for lvl, text in alerts:
-        mention = cfg["MENTION"] + " " if lvl == CRIT and cfg["MENTION"] else ""
-        discord(cfg, "POST", "", {"content": (mention + text)[:2000],
-                                  "allowed_mentions": {"parse": ["everyone"] if mention else []}})
+    if use_discord:
+        payload = {"embeds": [embed], "allowed_mentions": {"parse": []}}
+        mid = prev.get("message_id")
+        status = None
+        if mid:
+            status, _ = discord(cfg, "PATCH", f"/messages/{mid}", payload)
+        if not mid or status == 404:
+            payload["content"] = "📊 **Tableau de bord** (ce message est mis à jour automatiquement)"
+            status, body = discord(cfg, "POST", "?wait=true", payload)
+            if status in (200, 204) and body.get("id"):
+                st["message_id"] = body["id"]
+        for lvl, text in alerts:
+            mention = cfg["MENTION"] + " " if lvl == CRIT and cfg["MENTION"] else ""
+            discord(cfg, "POST", "", {"content": (mention + text)[:2000],
+                                      "allowed_mentions": {"parse": ["everyone"] if mention else []}})
     save_state(st)
     if cfg.get("HEARTBEAT_URL"):
         try:
