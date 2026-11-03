@@ -182,6 +182,65 @@ export async function renderSanctionPage(
             sharedDevice: false
           }
         ],
+        admin_list_anticheat_related_accounts: {
+          subject: {
+            userId: id,
+            pseudo: "Example player",
+            removed: false,
+            deleted: false,
+            banned: false,
+            sanctionApplied: false
+          },
+          accounts: [
+            {
+              userId: other,
+              pseudo: "Primary collector",
+              email: "active@example.invalid",
+              removed: false,
+              archived: false,
+              accountState: {
+                deleted: false,
+                banned: false,
+                sanctionApplied: false
+              },
+              acceptedTrades: 2,
+              soldAuctions: 0,
+              availableTransfers: 2,
+              cardsToSubject: 3,
+              cardsFromSubject: 1,
+              karasToSubject: 150,
+              karasFromSubject: 10,
+              sharedNetwork: true,
+              sharedBrowser: false
+            },
+            {
+              userId: copy,
+              pseudo: "Deleted collector",
+              email: "deleted@example.invalid",
+              removed: true,
+              archived: true,
+              accountState: {
+                deleted: true,
+                banned: false,
+                deletionOrigin: "unknown",
+                sanctionApplied: false
+              },
+              acceptedTrades: 1,
+              soldAuctions: 0,
+              availableTransfers: 1,
+              cardsToSubject: 1,
+              cardsFromSubject: 0,
+              karasToSubject: 5,
+              karasFromSubject: 0,
+              sharedNetwork: false,
+              sharedBrowser: false
+            }
+          ],
+          total: 2,
+          relatedTotal: 2,
+          pageSize: 30,
+          counts: { active: 1, banned: 0, deleted: 1 }
+        },
         admin_preview_sanction:
           mode === "active"
             ? {
@@ -310,6 +369,8 @@ export async function renderSanctionPage(
             return load("app/admin/security/event-detail.tsx");
           if (module === "./deleted-account-history")
             return load("app/admin/security/deleted-account-history.tsx");
+          if (module === "./related-account-picker")
+            return load("app/admin/security/related-account-picker.tsx");
           if (module === "@/components/topbar")
             return { Topbar: () => React.createElement("div", null, "Yokkai") };
           if (module === "@/components/account-menu")
@@ -361,6 +422,14 @@ test("unified sanction page shows one case action, named cards and named network
         /MISSING_MESSAGE|INVALID_MESSAGE|adminSecurity\./
       );
       assert.match(html, /Related collector/);
+      assert.match(html, /active@example.invalid/);
+      assert.match(html, /deleted@example.invalid/);
+      assert.doesNotMatch(html, /<select\b[^>]*name="primary"/);
+      const labels = JSON.parse(
+        fs.readFileSync(`messages/${locale}.json`, "utf8")
+      ).adminSecurity;
+      assert.ok(!html.includes(`>${labels.activeSmurfMode}</`));
+      assert.ok(!html.includes(`>${labels.deletedSmurfMode}</`));
       assert.match(html, /BROLY/);
       assert.doesNotMatch(html, />ac620000-0000-4000-8000-000000000003</);
       assert.match(
