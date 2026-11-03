@@ -11,6 +11,7 @@ type Receipt = {
     | "AFFILIATE_ABUSE_SANCTION"
     | "AFFILIATE_ABUSE_WARNING_WITH_PENALTY"
     | "AFFILIATE_ABUSE_WARNING"
+    | "AFFILIATE_ABUSE_NETWORK_WARNING"
     | "SMURF_ASSET_RECOVERY";
   cards_removed: number;
   kara_removed: number;
@@ -112,7 +113,9 @@ export function AccountSanctionNotice() {
         ? "sanction"
         : receipt.sanction_type === "AFFILIATE_ABUSE_WARNING_WITH_PENALTY"
           ? "penalty"
-          : "warning";
+          : receipt.sanction_type === "AFFILIATE_ABUSE_NETWORK_WARNING"
+            ? "networkWarning"
+            : "warning";
   const acknowledge = async () => {
     if (saving) return;
     setSaving(true);
@@ -144,7 +147,7 @@ export function AccountSanctionNotice() {
     >
       <h2 id={title}>{t(`${kind}.title`)}</h2>
       <p>{t(`${kind}.intro`)}</p>
-      {kind !== "warning" && (
+      {kind !== "warning" && kind !== "networkWarning" && (
         <>
           <p>{t(`${kind}.decision`)}</p>
           <dl>

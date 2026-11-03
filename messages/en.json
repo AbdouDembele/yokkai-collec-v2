@@ -1012,7 +1012,8 @@
     "emailDomainMissing": "We couldn't find this email domain. Check your address for typos.",
     "providerUnavailable": "{provider} sign-in isn't available yet. Use your email and password for now.",
     "usernameSaveFailed": "We couldn't save your username. Please try again.",
-    "disposableEmail": "Temporary or disposable email addresses aren't allowed. Use a permanent email address."
+    "disposableEmail": "Temporary or disposable email addresses aren't allowed. Use a permanent email address.",
+    "emailReuseCooldown": "This email address cannot be reused for 14 days after account deletion."
   },
   "metadata": {
     "openPacksCollectYourFavoriteCharactersAndTrade": "Open packs, collect your favorite characters, and trade with other players.",
@@ -1884,7 +1885,7 @@
     "privateProfile": "Private profile",
     "passwordChangeHint": "Confirm your current password, then choose a new one.",
     "deleteMyAccount": "Delete my account",
-    "deletionPermanentNotice": "Deleting your account is permanent. All your cards, Karas, avatar, and profile data will be deleted. Your active listings will be canceled and bidders refunded. Your leading bids will be refunded and removed; other players' auctions will continue. Your pending trades will be canceled. Retained history will show “Deleted player”.",
+    "deletionPermanentNotice": "Deleting your account is permanent. All your cards, Karas, avatar, and profile data will be deleted. Your active listings will be canceled and bidders refunded. Your leading bids will be refunded and removed; other players' auctions will continue. Your pending trades will be canceled. Retained history will show “Deleted player”. You cannot create another account with the same email address for 14 days.",
     "deletionSubscriptionNotice": "Any Pro subscription will be canceled immediately before account removal. If billing cannot be safely canceled, removal will stop for review.",
     "exportMyDataFirst": "Export my data first",
     "deletionReauthNotice": "To protect your account, you must have signed in within the last five minutes.",
@@ -2975,7 +2976,9 @@
     "billingRetention": "kept as long as required by accounting and tax law",
     "deletionRetention": "kept so that a deletion can be applied again if a backup is restored",
     "deletedSecurityIdentityRetention": "Deleted-account anti-cheat history: username and email for {days} days after deletion, accessible only to administrators reviewing abusive transfers. These fields are hidden at expiry and then automatically purged.",
-    "deletedSecurityIdentityException": "A limited copy of your username and email may remain in private anti-cheat history for {days} days after deletion. Economic evidence needed for review and administrative decisions remain separate; they do not recreate your sign-in identity."
+    "deletedSecurityIdentityException": "A limited copy of your username and email may remain in private anti-cheat history for {days} days after deletion. Economic evidence needed for review and administrative decisions remain separate; they do not recreate your sign-in identity.",
+    "emailReuseCooldownNotice": "After you request account deletion, the same email address cannot be used to create a new account for {days} days. This temporary restriction helps prevent deletion and re-registration from being used to evade account protections.",
+    "deletedEmailCooldownRetention": "Email reuse prevention: a non-reversible keyed digest of the email address is kept for up to {days} days after a self-requested deletion, then automatically purged. The email address itself is not stored in this cooldown record."
   },
   "premiumUi": {
     "premium": "Premium",
@@ -3184,6 +3187,14 @@
       "explanation": "Recovered Karas come from the transfers concerned or traceable sales of the cards involved. The amounts below are the recorded withdrawals.",
       "rules": "Using multiple accounts to artificially obtain or transfer rewards and gains is prohibited.",
       "future": "Further abuse may result in additional sanctions, including account suspension."
+    },
+    "networkWarning": {
+      "title": "Warning — referral activity from a shared network",
+      "intro": "At least four verified accounts created through your referral link, with referral rewards paid or pending, were observed using the same network connection and a matching device signal as your account within a seven-day period. This triggered an automatic enforcement action.",
+      "decision": "The accounts referred through your link that met this threshold have been suspended, and unused referral packs were removed from your bonus balance where available.",
+      "explanation": "The system only removes remaining referral bonus packs. Opened packs, cards obtained from them, and other assets are not automatically taken.",
+      "rules": "Creating accounts to obtain referral rewards is not allowed.",
+      "future": "A shared connection can have legitimate explanations. If these accounts belong to different people, contact support so the situation can be reviewed."
     }
   },
   "adminNavigation": {
@@ -3322,7 +3333,9 @@
       "auctionExpired": "Auction expired",
       "referralRewarded": "Referral rewarded",
       "networkIdentityShared": "Shared Internet connection detected",
-      "tradeSharedNetworkIdentity": "Trade between accounts using a shared connection"
+      "tradeSharedNetworkIdentity": "Trade between accounts using a shared connection",
+      "referralNetworkReview": "Referral group sharing a network · review needed",
+      "referralNetworkEnforcement": "Referral abuse confirmed · accounts suspended"
     },
     "statuses": {
       "open": "Open",
@@ -3342,7 +3355,9 @@
       "referralRewardBurst": "Referral reward burst",
       "newAccountEconomicActivity": "New account economic activity",
       "sharedNetworkIdentity": "Shared Internet connection · context only",
-      "tradeSharedNetworkIdentity": "Trade between accounts using a shared connection"
+      "tradeSharedNetworkIdentity": "Trade between accounts using a shared connection",
+      "referralNetworkReview": "Four or more rewarded referrals share a network; no shared-device confirmation",
+      "referralNetworkEnforcement": "Four or more verified referrals with paid or pending rewards share network and device signals"
     },
     "sanctionModes": "Sanction type",
     "activeSmurfMode": "Existing smurf account",
@@ -3368,7 +3383,21 @@
       "eventAmount": "Amount at the time of the event: {count} Karas",
       "startingPrice": "Starting price: {count} Karas",
       "captured": "Details recorded at the time of the event. Displayed player names are those available today.",
-      "retained": "Older event: cards reconstructed from retained trade or auction records; amounts come from the event log where available. This detail does not describe current card ownership."
+      "retained": "Older event: cards reconstructed from retained trade or auction records; amounts come from the event log where available. This detail does not describe current card ownership.",
+      "referralPackOrigin": "Booster earned through a referral",
+      "packOpened": "Opened {date}",
+      "referralRewardGranted": "Reward granted {date}",
+      "packBeneficiary": "Beneficiary ({role}): {player}",
+      "referrerRole": "referrer",
+      "referredRole": "referred player",
+      "referralPair": "Referrer: {referrer} · referred player: {referred}",
+      "noReferralTransfers": "No transfer has been traced since this opening.",
+      "referralTransfer": {
+        "trade": "Accepted trade",
+        "auction_sale": "Auction sale",
+        "other": "Other transfer",
+        "removed": "Card removed"
+      }
     },
     "deletedAccounts": {
       "title": "Deleted account history",

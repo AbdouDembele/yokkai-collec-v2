@@ -1,4 +1,4 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 
 export type AccountState = {
   pseudo?: string | null;
@@ -39,6 +39,22 @@ type EventCard = {
   name: string | null;
   rarity: string | null;
   franchise: string | null;
+  referralPack?: ReferralPackCardProvenance;
+};
+export type ReferralPackCardProvenance = {
+  beneficiaryRole: "referrer" | "referred";
+  openedAt: string;
+  rewardGrantedAt: string;
+  openedBy: string | null;
+  referrer: string | null;
+  referred: string | null;
+  transfers: {
+    type: "trade" | "auction_sale" | "other" | "removed";
+    occurredAt: string;
+    from: string | null;
+    to: string | null;
+    karas: number | null;
+  }[];
 };
 export type EventAssetDetail = {
   kind: "trade" | "auction" | "context";
@@ -61,12 +77,17 @@ export type EventAssetDetail = {
 
 export async function EventDetail({ detail }: { detail?: EventAssetDetail }) {
   const t = await getTranslations("adminSecurity.eventDetail");
+  const locale = await getLocale();
   if (!detail?.available)
     return (
       <p className="border-t border-slate-700 pt-3 text-sm text-slate-400">
         {t("unavailable")}
       </p>
     );
+  const dateFormatter = new Intl.DateTimeFormat(locale, {
+    dateStyle: "medium",
+    timeStyle: "short"
+  });
   const cards = (items: EventCard[], count: number) => (
     <>
       {items.length ? (
@@ -82,6 +103,69 @@ export async function EventDetail({ detail }: { detail?: EventAssetDetail }) {
               <p className="mt-1 text-xs text-slate-400">
                 {[card.rarity, card.franchise].filter(Boolean).join(" · ")}
               </p>
+              {card.referralPack && (
+                <div className="mt-2 rounded-md border border-cyan-300/25 bg-cyan-400/5 p-2 text-xs leading-relaxed text-slate-300">
+                  <p className="font-semibold text-cyan-100">
+                    {t("referralPackOrigin")}
+                  </p>
+                  <p>
+                    {t("packOpened", {
+                      date: dateFormatter.format(
+                        new Date(card.referralPack.openedAt)
+                      )
+                    })}
+                  </p>
+                  <p>
+                    {t("referralRewardGranted", {
+                      date: dateFormatter.format(
+                        new Date(card.referralPack.rewardGrantedAt)
+                      )
+                    })}
+                  </p>
+                  <p>
+                    {t("packBeneficiary", {
+                      role: t(
+                        card.referralPack.beneficiaryRole === "referrer"
+                          ? "referrerRole"
+                          : "referredRole"
+                      ),
+                      player: card.referralPack.openedBy ?? t("deletedPlayer")
+                    })}
+                  </p>
+                  <p>
+                    {t("referralPair", {
+                      referrer:
+                        card.referralPack.referrer ?? t("deletedPlayer"),
+                      referred: card.referralPack.referred ?? t("deletedPlayer")
+                    })}
+                  </p>
+                  {card.referralPack.transfers.length > 0 ? (
+                    <ul className="mt-1 space-y-1 border-t border-slate-700/70 pt-1">
+                      {card.referralPack.transfers.map((transfer, index) => (
+                        <li
+                          key={`${transfer.type}:${transfer.occurredAt}:${index}`}
+                        >
+                          <span className="font-semibold text-slate-200">
+                            {t(`referralTransfer.${transfer.type}`)}
+                          </span>
+                          {" · "}
+                          {dateFormatter.format(new Date(transfer.occurredAt))}
+                          {transfer.from || transfer.to
+                            ? ` · ${transfer.from ?? t("deletedPlayer")} → ${transfer.to ?? t("deletedPlayer")}`
+                            : ""}
+                          {transfer.karas !== null
+                            ? ` · ${t("karas", { count: transfer.karas })}`
+                            : ""}
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="mt-1 border-t border-slate-700/70 pt-1 text-slate-400">
+                      {t("noReferralTransfers")}
+                    </p>
+                  )}
+                </div>
+              )}
             </li>
           ))}
         </ul>

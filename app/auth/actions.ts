@@ -71,6 +71,24 @@ function errorStatus(error: unknown) {
   return typeof error.status === "number" ? error.status : undefined;
 }
 
+function isDeletedEmailCooldownError(error: unknown) {
+  if (typeof error !== "object" || error === null) return false;
+  const code = errorCode(error);
+  const message =
+    "message" in error && typeof error.message === "string"
+      ? error.message
+      : "";
+  const details =
+    "details" in error && typeof error.details === "string"
+      ? error.details
+      : "";
+  return (
+    code === "EMAIL_REUSE_COOLDOWN_ACTIVE" ||
+    message.includes("EMAIL_REUSE_COOLDOWN_ACTIVE") ||
+    details.includes("EMAIL_REUSE_COOLDOWN_ACTIVE")
+  );
+}
+
 function redactAuthDiagnostic(message: string) {
   // Captcha details may contain an opaque token without a predictable label.
   if (/captcha|turnstile/i.test(message)) return "[captcha details redacted]";
@@ -279,6 +297,14 @@ export async function signUp(
     });
     if (error) {
       logAuthErrorInDevelopment("sign-up", error);
+      if (isDeletedEmailCooldownError(error)) {
+        return {
+          fields: {
+            email: english.authErrors.emailReuseCooldown
+          },
+          values
+        };
+      }
       if (error.code === "unexpected_failure") {
         const availableAfterFailure = await checkPseudoAvailability(
           supabase,
@@ -308,6 +334,14 @@ export async function signUp(
     if (hasSession) await syncProfileLocale(supabase);
   } catch (error) {
     logAuthErrorInDevelopment("sign-up", error);
+    if (isDeletedEmailCooldownError(error)) {
+      return {
+        fields: {
+          email: english.authErrors.emailReuseCooldown
+        },
+        values
+      };
+    }
     return { ...emailFailure(error), values };
   }
   if (!hasSession) return { success: true, values, retryAfter: 60 };

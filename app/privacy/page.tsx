@@ -260,11 +260,13 @@ export default async function PrivacyPage() {
             })}
           </li>
           <li>{t("deletedSecurityIdentityRetention", { days: 90 })}</li>
+          <li>{t("deletedEmailCooldownRetention", { days: 14 })}</li>
         </ul>
       </InfoSection>
 
       <InfoSection number="09" title={t("accountDeletion")}>
         <p>{t("youCanDeleteYourAccountAtAny")}</p>
+        <p>{t("emailReuseCooldownNotice", { days: 14 })}</p>
         <ul>
           <li>
             {t.rich("deletedYourSignInIdentityProfileUploaded", {

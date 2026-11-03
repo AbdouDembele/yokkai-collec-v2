@@ -3,6 +3,8 @@
 const authMessageKeys: Record<string, string> = {
   "Temporary or disposable email addresses aren't allowed. Use a permanent email address.":
     "disposableEmail",
+  "This email address cannot be reused for 14 days after account deletion.":
+    "emailReuseCooldown",
   "We couldn't save your username. Please try again.": "usernameSaveFailed",
   "We couldn't find this email domain. Check your address for typos.":
     "emailDomainMissing",
