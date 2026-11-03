@@ -56,22 +56,24 @@ export type DeletedAccountPreview = {
 
 export async function DeletedAccountHistory({
   primaryId,
-  data,
+  data = { accounts: [], total: 0, deletedTotal: 0, pageSize: 30 },
   preview,
   selected,
   query,
   relatedOnly,
   page,
-  applied
+  applied,
+  showPicker = true
 }: {
   primaryId: string;
-  data: DeletedAccountHistoryData;
+  data?: DeletedAccountHistoryData;
   preview: DeletedAccountPreview | null;
   selected: string[];
   query: string;
   relatedOnly: boolean;
   page: number;
   applied: boolean;
+  showPicker?: boolean;
 }) {
   const t = await getTranslations("adminSecurity.deletedAccounts");
   const locale = await getLocale();
@@ -90,15 +92,10 @@ export async function DeletedAccountHistory({
   return (
     <section
       className="min-w-0 space-y-4 [overflow-wrap:anywhere]"
-      aria-labelledby="deleted-accounts-title"
+      aria-labelledby={showPicker ? "deleted-accounts-title" : undefined}
+      aria-label={showPicker ? undefined : t("title")}
     >
-      <div>
-        <h3 id="deleted-accounts-title" className="text-xl font-black">
-          {t("title")}
-        </h3>
-        <p className="mt-2 text-sm text-slate-300">{t("help", { days: 90 })}</p>
-      </div>
-      {applied && (
+      {!showPicker && applied && (
         <p
           role="status"
           className="rounded-xl border border-emerald-300/30 bg-emerald-500/10 p-3 text-sm text-emerald-100"
@@ -106,159 +103,193 @@ export async function DeletedAccountHistory({
           {t("applied")}
         </p>
       )}
-      <form
-        method="get"
-        className="grid min-w-0 gap-3 rounded-xl border border-slate-700 bg-slate-950/60 p-3 sm:grid-cols-[minmax(0,1fr)_auto]"
-      >
-        <input type="hidden" name="sanction" value={primaryId} />
-        <input type="hidden" name="mode" value="deleted" />
-        {selected.map(id => (
-          <input key={id} type="hidden" name="source_account" value={id} />
-        ))}
-        <label className="grid min-w-0 gap-1 text-sm font-semibold">
-          {t("searchLabel")}
-          <input
-            className="yk-field-control min-w-0"
-            name="deleted_q"
-            maxLength={100}
-            defaultValue={query}
-            placeholder={t("searchPlaceholder")}
-          />
-        </label>
-        <button type="submit" className="yk-button self-end whitespace-normal">
-          {t("search")}
-        </button>
-        <label className="flex min-h-11 items-center gap-3 text-sm sm:col-span-2">
-          <input
-            type="checkbox"
-            name="deleted_all"
-            value="1"
-            defaultChecked={!relatedOnly}
-            className="size-5 shrink-0"
-          />
-          {t("showAll")}
-        </label>
-      </form>
-      <p className="text-sm text-slate-400">
-        {t("count", { count: data.total, total: data.deletedTotal })}
-      </p>
-      <form method="get" className="space-y-3">
-        <input type="hidden" name="sanction" value={primaryId} />
-        <input type="hidden" name="mode" value="deleted" />
-        <input type="hidden" name="deleted_q" value={query} />
-        {!relatedOnly && <input type="hidden" name="deleted_all" value="1" />}
-        <input type="hidden" name="deleted_page" value={page} />
-        {selected
-          .filter(id => !data.accounts.some(a => a.userId === id))
-          .map(id => (
-            <input key={id} type="hidden" name="source_account" value={id} />
-          ))}
-        <div className="max-h-[34rem] space-y-3 overflow-y-auto">
-          {!data.accounts.length && (
-            <p className="rounded-xl border border-slate-700 p-4 text-sm text-slate-300">
-              {t("empty")}
+      {showPicker && (
+        <>
+          <div>
+            <h3 id="deleted-accounts-title" className="text-xl font-black">
+              {t("title")}
+            </h3>
+            <p className="mt-2 text-sm text-slate-300">
+              {t("help", { days: 90 })}
+            </p>
+          </div>
+          {applied && (
+            <p
+              role="status"
+              className="rounded-xl border border-emerald-300/30 bg-emerald-500/10 p-3 text-sm text-emerald-100"
+            >
+              {t("applied")}
             </p>
           )}
-          {data.accounts.map(account => (
-            <label
-              key={account.userId}
-              className="flex min-w-0 cursor-pointer items-start gap-3 rounded-xl border border-slate-700 bg-slate-950/60 p-3"
+          <form
+            method="get"
+            className="grid min-w-0 gap-3 rounded-xl border border-slate-700 bg-slate-950/60 p-3 sm:grid-cols-[minmax(0,1fr)_auto]"
+          >
+            <input type="hidden" name="sanction" value={primaryId} />
+            <input type="hidden" name="mode" value="deleted" />
+            {selected.map(id => (
+              <input key={id} type="hidden" name="source_account" value={id} />
+            ))}
+            <label className="grid min-w-0 gap-1 text-sm font-semibold">
+              {t("searchLabel")}
+              <input
+                className="yk-field-control min-w-0"
+                name="deleted_q"
+                maxLength={100}
+                defaultValue={query}
+                placeholder={t("searchPlaceholder")}
+              />
+            </label>
+            <button
+              type="submit"
+              className="yk-button self-end whitespace-normal"
             >
+              {t("search")}
+            </button>
+            <label className="flex min-h-11 items-center gap-3 text-sm sm:col-span-2">
               <input
                 type="checkbox"
-                name="source_account"
-                value={account.userId}
-                defaultChecked={selected.includes(account.userId)}
-                disabled={account.availableTransfers === 0}
-                className="mt-1 size-5 shrink-0"
+                name="deleted_all"
+                value="1"
+                defaultChecked={!relatedOnly}
+                className="size-5 shrink-0"
               />
-              <span className="min-w-0 text-sm">
-                <span className="block font-bold text-slate-100">
-                  {account.pseudo ?? t("unknownIdentity")}
-                </span>
-                <AccountStatus state={account.accountState} />
-                <span className="mt-1 block text-slate-300">
-                  {account.email ?? t("unknownEmail")}
-                </span>
-                <span className="mt-1 block text-xs text-slate-400">
-                  {t("deletedAt", {
-                    date: date.format(new Date(account.deletedAt))
-                  })}
-                </span>
-                {account.pseudo || account.email ? (
-                  <span className="mt-1 block text-xs text-slate-500">
-                    {t("expiresAt", {
-                      date: date.format(new Date(account.identityExpiresAt))
-                    })}
-                  </span>
-                ) : (
-                  <span className="mt-1 block text-xs text-slate-500">
-                    {t("identityUnavailable")}
-                  </span>
-                )}
-                <span className="mt-2 block text-xs text-cyan-100">
-                  {t("transferCount", {
-                    count: account.transfers,
-                    available: account.availableTransfers
-                  })}
-                </span>
-                {!account.transfers && (
-                  <span className="mt-1 block text-xs text-amber-100">
-                    {t("noLink")}
-                  </span>
-                )}
-                {account.transfers > 0 && account.availableTransfers === 0 && (
-                  <span className="mt-2 block text-xs text-red-200">
-                    {t("alreadyProcessed")}
-                  </span>
-                )}
-              </span>
+              {t("showAll")}
             </label>
-          ))}
-        </div>
-        <p className="text-xs text-slate-400">
-          {t("selectionLimit", { count: selected.length })}
-        </p>
-        {selected.length > 20 && (
-          <p role="alert" className="text-sm text-amber-100">
-            {t("selectionError")}
+          </form>
+          <p className="text-sm text-slate-400">
+            {t("count", { count: data.total, total: data.deletedTotal })}
           </p>
-        )}
-        <button
-          type="submit"
-          className="yk-button min-h-11 w-full whitespace-normal sm:w-auto"
-        >
-          {t("preview")}
-        </button>
-      </form>
-      {pages > 1 && (
-        <nav
-          aria-label={t("pagination")}
-          className="flex flex-wrap items-center justify-between gap-3 text-sm"
-        >
-          {page > 1 ? (
-            <Link
-              className="yk-button yk-button-secondary"
-              href={`/admin/security?${new URLSearchParams([...params, ["deleted_page", String(page - 1)]])}`}
+          <form method="get" className="space-y-3">
+            <input type="hidden" name="sanction" value={primaryId} />
+            <input type="hidden" name="mode" value="deleted" />
+            <input type="hidden" name="deleted_q" value={query} />
+            {!relatedOnly && (
+              <input type="hidden" name="deleted_all" value="1" />
+            )}
+            <input type="hidden" name="deleted_page" value={page} />
+            {selected
+              .filter(id => !data.accounts.some(a => a.userId === id))
+              .map(id => (
+                <input
+                  key={id}
+                  type="hidden"
+                  name="source_account"
+                  value={id}
+                />
+              ))}
+            <div className="max-h-[34rem] space-y-3 overflow-y-auto">
+              {!data.accounts.length && (
+                <p className="rounded-xl border border-slate-700 p-4 text-sm text-slate-300">
+                  {t("empty")}
+                </p>
+              )}
+              {data.accounts.map(account => (
+                <label
+                  key={account.userId}
+                  className="flex min-w-0 cursor-pointer items-start gap-3 rounded-xl border border-slate-700 bg-slate-950/60 p-3"
+                >
+                  <input
+                    type="checkbox"
+                    name="source_account"
+                    value={account.userId}
+                    defaultChecked={selected.includes(account.userId)}
+                    disabled={account.availableTransfers === 0}
+                    className="mt-1 size-5 shrink-0"
+                  />
+                  <span className="min-w-0 text-sm">
+                    <span className="block font-bold text-slate-100">
+                      {account.pseudo ?? t("unknownIdentity")}
+                    </span>
+                    <AccountStatus state={account.accountState} />
+                    <span className="mt-1 block text-slate-300">
+                      {account.email ?? t("unknownEmail")}
+                    </span>
+                    <span className="mt-1 block text-xs text-slate-400">
+                      {t("deletedAt", {
+                        date: date.format(new Date(account.deletedAt))
+                      })}
+                    </span>
+                    {account.pseudo || account.email ? (
+                      <span className="mt-1 block text-xs text-slate-500">
+                        {t("expiresAt", {
+                          date: date.format(new Date(account.identityExpiresAt))
+                        })}
+                      </span>
+                    ) : (
+                      <span className="mt-1 block text-xs text-slate-500">
+                        {t("identityUnavailable")}
+                      </span>
+                    )}
+                    <span className="mt-2 block text-xs text-cyan-100">
+                      {t("transferCount", {
+                        count: account.transfers,
+                        available: account.availableTransfers
+                      })}
+                    </span>
+                    {!account.transfers && (
+                      <span className="mt-1 block text-xs text-amber-100">
+                        {t("noLink")}
+                      </span>
+                    )}
+                    {account.transfers > 0 &&
+                      account.availableTransfers === 0 && (
+                        <span className="mt-2 block text-xs text-red-200">
+                          {t("alreadyProcessed")}
+                        </span>
+                      )}
+                  </span>
+                </label>
+              ))}
+            </div>
+            <p className="text-xs text-slate-400">
+              {t("selectionLimit", { count: selected.length })}
+            </p>
+            {selected.length > 20 && (
+              <p role="alert" className="text-sm text-amber-100">
+                {t("selectionError")}
+              </p>
+            )}
+            <button
+              type="submit"
+              className="yk-button min-h-11 w-full whitespace-normal sm:w-auto"
             >
-              {t("previous")}
-            </Link>
-          ) : (
-            <span />
-          )}
-          <span>{t("page", { page, pages })}</span>
-          {page < pages && (
-            <Link
-              className="yk-button yk-button-secondary"
-              href={`/admin/security?${new URLSearchParams([...params, ["deleted_page", String(page + 1)]])}`}
+              {t("preview")}
+            </button>
+          </form>
+          {pages > 1 && (
+            <nav
+              aria-label={t("pagination")}
+              className="flex flex-wrap items-center justify-between gap-3 text-sm"
             >
-              {t("next")}
-            </Link>
+              {page > 1 ? (
+                <Link
+                  className="yk-button yk-button-secondary"
+                  href={`/admin/security?${new URLSearchParams([...params, ["deleted_page", String(page - 1)]])}`}
+                >
+                  {t("previous")}
+                </Link>
+              ) : (
+                <span />
+              )}
+              <span>{t("page", { page, pages })}</span>
+              {page < pages && (
+                <Link
+                  className="yk-button yk-button-secondary"
+                  href={`/admin/security?${new URLSearchParams([...params, ["deleted_page", String(page + 1)]])}`}
+                >
+                  {t("next")}
+                </Link>
+              )}
+            </nav>
           )}
-        </nav>
+        </>
       )}
       {preview && (
-        <div className="grid min-w-0 gap-4 lg:grid-cols-2">
+        <div
+          id={showPicker ? undefined : "sanction-preview"}
+          className="grid min-w-0 scroll-mt-28 gap-4 lg:grid-cols-2"
+        >
           <section className="min-w-0 space-y-3 rounded-xl border border-slate-700 bg-slate-950/60 p-4">
             <h4 className="font-bold">
               {t("consequences", { player: preview.primary.pseudo })}

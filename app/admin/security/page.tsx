@@ -17,8 +17,11 @@ import {
   type EventAssetDetail
 } from "./event-detail";
 import {
+  RelatedAccountPicker,
+  type RelatedAccountData
+} from "./related-account-picker";
+import {
   DeletedAccountHistory,
-  type DeletedAccountHistoryData,
   type DeletedAccountPreview
 } from "./deleted-account-history";
 import {
@@ -89,15 +92,6 @@ type EventRow = {
   counterparty: EventParty;
   subjects: EventSubject[];
   metadata: Record<string, unknown>;
-};
-
-type SanctionCandidate = {
-  userId: string;
-  pseudo: string;
-  acceptedTrades: number;
-  lastTradeAt: string;
-  sharedNetwork: boolean;
-  sharedDevice: boolean;
 };
 
 type SanctionPreview = {
@@ -290,6 +284,9 @@ export default async function AdminSecurityPage({
     deleted_q?: string;
     deleted_all?: string;
     deleted_page?: string;
+    linked_q?: string;
+    linked_status?: string;
+    linked_page?: string;
   }>;
 }) {
   const admin = await requireAdminPage();
@@ -318,8 +315,11 @@ export default async function AdminSecurityPage({
     ? params.primary!
     : null;
   const sanctionApplied = params.result === "smurf-sanction-applied";
-  const caseIsPrimary = params.role === "primary";
-  const roleIsExplicit = params.role === "primary" || params.role === "smurf";
+  const caseIsPrimary = params.role === "primary" || sanctionMode === "deleted";
+  const roleIsExplicit =
+    params.role === "primary" ||
+    params.role === "smurf" ||
+    sanctionMode === "deleted";
   const deletedPrimaryId = sanctionMode === "deleted" ? sanctionUserId : null;
   const historicalTradeIds = (
     Array.isArray(params.source)
@@ -331,7 +331,6 @@ export default async function AdminSecurityPage({
     .filter(id => /^[0-9a-f-]{36}$/i.test(id))
     .slice(0, 100);
   let deletedRecovery: DeletedSmurfRecoveryPreview | null = null;
-  let deletedHistory: DeletedAccountHistoryData | null = null;
   let deletedAccountPreview: DeletedAccountPreview | null = null;
   const selectedDeletedAccounts = [
     ...new Set(
@@ -351,6 +350,31 @@ export default async function AdminSecurityPage({
     1,
     Number.parseInt(params.deleted_page ?? "1", 10) || 1
   );
+  const linkedQuery =
+    (params.linked_q ?? params.deleted_q)?.trim().slice(0, 100) ?? "";
+  const linkedStatus = new Set(["active", "banned", "deleted", "archived"]).has(
+    params.linked_status ?? ""
+  )
+    ? params.linked_status!
+    : params.deleted_all === "1"
+      ? "archived"
+      : "";
+  const linkedPage = Math.max(
+    1,
+    Number.parseInt(params.linked_page ?? "1", 10) || 1
+  );
+  let relatedData: RelatedAccountData | null = null;
+  if (sanctionUserId) {
+    const result = await client.rpc("admin_list_anticheat_related_accounts", {
+      p_subject_user_id: sanctionUserId,
+      p_query: linkedQuery,
+      p_status: linkedStatus,
+      p_limit: 30,
+      p_offset: (linkedPage - 1) * 30
+    });
+    if (result.error) throw new Error(result.error.message);
+    relatedData = result.data as RelatedAccountData;
+  }
   if (deletedPrimaryId) {
     const result = await client.rpc("admin_preview_sanction", {
       p_subject_user_id: deletedPrimaryId,
@@ -360,15 +384,6 @@ export default async function AdminSecurityPage({
     });
     if (result.error) throw new Error(result.error.message);
     deletedRecovery = result.data as DeletedSmurfRecoveryPreview;
-    const historyResult = await client.rpc("admin_list_deleted_accounts", {
-      p_query: deletedQuery,
-      p_primary_user_id: deletedPrimaryId,
-      p_related_only: deletedRelatedOnly,
-      p_limit: 30,
-      p_offset: (deletedPage - 1) * 30
-    });
-    if (historyResult.error) throw new Error(historyResult.error.message);
-    deletedHistory = historyResult.data as DeletedAccountHistoryData;
     if (
       selectedDeletedAccounts.length &&
       selectedDeletedAccounts.length <= 20
@@ -432,27 +447,12 @@ export default async function AdminSecurityPage({
   >;
   const total = Number(casePayload.total ?? 0);
   const pages = Math.max(1, Math.ceil(total / PAGE_SIZE));
-  let sanctionCandidates: SanctionCandidate[] = [];
   let sanctionPreview: SanctionPreview | null = null;
-  if (sanctionUserId && sanctionMode === "active") {
-    const candidatesResult = await client.rpc(
-      "admin_list_smurf_sanction_candidates",
-      { p_smurf_user_id: sanctionUserId }
-    );
-    if (candidatesResult.error) throw new Error(candidatesResult.error.message);
-    sanctionCandidates = (
-      Array.isArray(candidatesResult.data) ? candidatesResult.data : []
-    ).map(value => {
-      const row = value as Record<string, unknown>;
-      return {
-        userId: String(row.userId ?? ""),
-        pseudo: String(row.pseudo ?? ""),
-        acceptedTrades: Number(row.acceptedTrades ?? 0),
-        lastTradeAt: String(row.lastTradeAt ?? ""),
-        sharedNetwork: Boolean(row.sharedNetwork),
-        sharedDevice: Boolean(row.sharedDevice)
-      };
-    });
+  if (
+    sanctionUserId &&
+    sanctionMode === "active" &&
+    !relatedData?.subject?.removed
+  ) {
     if (primaryUserId) {
       const previewResult = await client.rpc("admin_preview_sanction", {
         p_subject_user_id: caseIsPrimary ? primaryUserId : sanctionUserId,
@@ -608,39 +608,79 @@ export default async function AdminSecurityPage({
                 </Link>
               </div>
 
-              <nav
-                aria-label={t("sanctionModes")}
-                className="mt-4 grid grid-cols-2 gap-2 rounded-xl border border-slate-700 bg-slate-950/60 p-1"
-              >
-                {(["active", "deleted"] as const).map(mode => (
-                  <Link
-                    key={mode}
-                    href={`/admin/security?sanction=${mode === "deleted" && !caseIsPrimary ? (primaryUserId ?? sanctionUserId) : sanctionUserId}&mode=${mode}&role=${mode === "deleted" || sanctionMode === "deleted" || caseIsPrimary ? "primary" : roleIsExplicit ? "smurf" : ""}`}
-                    aria-current={sanctionMode === mode ? "page" : undefined}
-                    className={`min-w-0 rounded-lg px-3 py-3 text-center text-sm font-bold ${sanctionMode === mode ? "bg-slate-700 text-white" : "text-slate-400 hover:text-white"}`}
+              <div className="mt-4 space-y-3 rounded-xl border border-slate-700 bg-slate-950/50 p-3">
+                <p className="text-sm font-semibold text-slate-200">
+                  {t("caseAccountRole")}
+                </p>
+                {roleIsExplicit ? (
+                  <div className="flex flex-wrap items-center gap-3 text-sm">
+                    <span className="font-bold text-cyan-100">
+                      {t(caseIsPrimary ? "caseIsPrimary" : "caseIsSmurf")}
+                    </span>
+                    <Link
+                      className="inline-flex min-h-11 items-center text-xs text-slate-400 underline underline-offset-4"
+                      href={`/admin/security?sanction=${sanctionUserId}&role=${caseIsPrimary ? "smurf" : "primary"}`}
+                    >
+                      {t("switchCaseRole")}
+                    </Link>
+                  </div>
+                ) : (
+                  <div
+                    role="alert"
+                    className="space-y-3 text-sm text-amber-100"
                   >
-                    {t(
-                      mode === "active" ? "activeSmurfMode" : "deletedSmurfMode"
-                    )}
-                  </Link>
-                ))}
-              </nav>
+                    <p>{t("explicitRolesRequired")}</p>
+                    <div className="flex flex-wrap gap-3">
+                      {(["primary", "smurf"] as const).map(role => (
+                        <Link
+                          key={role}
+                          className="yk-button yk-button-secondary min-h-11 whitespace-normal"
+                          href={`/admin/security?sanction=${sanctionUserId}${primaryUserId ? `&primary=${primaryUserId}` : ""}&role=${role}`}
+                        >
+                          {t(
+                            role === "primary"
+                              ? "chooseCasePrimary"
+                              : "chooseCaseSmurf"
+                          )}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              {relatedData && (
+                <RelatedAccountPicker
+                  subjectId={sanctionUserId}
+                  role={
+                    roleIsExplicit ? (caseIsPrimary ? "primary" : "smurf") : ""
+                  }
+                  data={relatedData}
+                  query={linkedQuery}
+                  status={linkedStatus}
+                  page={linkedPage}
+                  selected={selectedDeletedAccounts}
+                  activeId={primaryUserId}
+                  targetLabel={
+                    roleIsExplicit
+                      ? t(caseIsPrimary ? "smurfAccount" : "primaryAccount")
+                      : t("relatedAccounts.rolePending")
+                  }
+                />
+              )}
 
               {deletedRecovery ? (
                 <div className="mt-4 space-y-4">
-                  {deletedHistory && (
-                    <DeletedAccountHistory
-                      primaryId={sanctionUserId}
-                      data={deletedHistory}
-                      preview={deletedAccountPreview}
-                      selected={selectedDeletedAccounts}
-                      query={deletedQuery}
-                      relatedOnly={deletedRelatedOnly}
-                      page={deletedPage}
-                      applied={params.result === "deleted-accounts-applied"}
-                    />
-                  )}
-                  {(deletedRecovery.candidateCount > 0 || !deletedHistory) && (
+                  <DeletedAccountHistory
+                    primaryId={sanctionUserId}
+                    showPicker={false}
+                    preview={deletedAccountPreview}
+                    selected={selectedDeletedAccounts}
+                    query={deletedQuery}
+                    relatedOnly={deletedRelatedOnly}
+                    page={deletedPage}
+                    applied={params.result === "deleted-accounts-applied"}
+                  />
+                  {deletedRecovery.candidateCount > 0 && (
                     <details className="rounded-xl border border-slate-700 p-3">
                       <summary className="min-h-11 cursor-pointer text-sm font-bold">
                         {t("unidentifiedLegacyTransfers")}
@@ -655,106 +695,11 @@ export default async function AdminSecurityPage({
                 </div>
               ) : (
                 <>
-                  {!roleIsExplicit && (
-                    <div
-                      role="alert"
-                      className="mt-4 space-y-3 rounded-xl border border-amber-300/40 bg-amber-500/10 p-4 text-sm text-amber-100"
-                    >
-                      <p>{t("explicitRolesRequired")}</p>
-                      <div className="flex flex-wrap gap-3">
-                        {(["primary", "smurf"] as const).map(role => (
-                          <Link
-                            key={role}
-                            className="yk-button yk-button-secondary min-h-11 whitespace-normal"
-                            href={`/admin/security?sanction=${sanctionUserId}${primaryUserId ? `&primary=${primaryUserId}` : ""}&role=${role}`}
-                          >
-                            {t(
-                              role === "primary"
-                                ? "chooseCasePrimary"
-                                : "chooseCaseSmurf"
-                            )}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  <form
-                    className="mt-5 grid min-w-0 gap-3 sm:grid-cols-2 lg:grid-cols-[12rem_minmax(0,1fr)_auto]"
-                    method="get"
-                  >
-                    <input
-                      name="sanction"
-                      type="hidden"
-                      value={sanctionUserId}
-                    />
-                    <input
-                      type="hidden"
-                      name="role"
-                      value={
-                        roleIsExplicit
-                          ? caseIsPrimary
-                            ? "primary"
-                            : "smurf"
-                          : ""
-                      }
-                    />
-                    <div className="min-w-0 text-sm">
-                      <p className="font-semibold text-slate-200">
-                        {t("caseAccountRole")}
-                      </p>
-                      <p className="mt-1 text-cyan-100">
-                        {roleIsExplicit &&
-                          t(caseIsPrimary ? "caseIsPrimary" : "caseIsSmurf")}
-                      </p>
-                      <Link
-                        className="mt-1 inline-flex min-h-11 items-center text-xs text-slate-400 underline underline-offset-4 hover:text-white"
-                        href={`/admin/security?sanction=${sanctionUserId}&role=${caseIsPrimary ? "smurf" : "primary"}`}
-                      >
-                        {t("switchCaseRole")}
-                      </Link>
-                    </div>
-                    <label className="grid gap-1 text-sm font-semibold text-slate-200">
-                      {t(caseIsPrimary ? "smurfAccount" : "primaryAccount")}
-                      <select
-                        className="yk-field-control min-w-0"
-                        defaultValue={primaryUserId ?? ""}
-                        name="primary"
-                        required
-                      >
-                        <option value="">
-                          {t(
-                            caseIsPrimary
-                              ? "selectSmurfAccount"
-                              : "selectPrimaryAccount"
-                          )}
-                        </option>
-                        {sanctionCandidates.map(candidate => (
-                          <option
-                            key={candidate.userId}
-                            value={candidate.userId}
-                          >
-                            {candidate.pseudo} · {candidate.acceptedTrades} ·{" "}
-                            {t("networkShort")}{" "}
-                            {candidate.sharedNetwork ? "✓" : "—"} ·{" "}
-                            {t("deviceShort")}{" "}
-                            {candidate.sharedDevice ? "✓" : "—"}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                    <button className="yk-button self-end" type="submit">
-                      {t("previewSanction")}
-                    </button>
-                  </form>
-
-                  {sanctionCandidates.length === 0 && (
-                    <p className="mt-4 rounded-xl border border-slate-800 bg-slate-950/60 p-4 text-sm text-slate-300">
-                      {t("noSanctionCandidates")}
-                    </p>
-                  )}
-
                   {sanctionPreview && (
-                    <div className="mt-5 grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)]">
+                    <div
+                      id="sanction-preview"
+                      className="mt-5 grid min-w-0 gap-4 scroll-mt-28 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.7fr)]"
+                    >
                       <div className="rounded-xl border border-slate-700 bg-slate-950/60 p-4">
                         <h3 className="font-black">
                           {t("sanctionPair", {
@@ -770,7 +715,7 @@ export default async function AdminSecurityPage({
                             <dd className="font-bold">
                               {sanctionPreview.evidence.sharedNetwork
                                 ? t("confirmed")
-                                : t("missing")}
+                                : t("notObserved")}
                             </dd>
                           </div>
                           <div>
@@ -780,7 +725,7 @@ export default async function AdminSecurityPage({
                             <dd className="font-bold">
                               {sanctionPreview.evidence.sharedDevice
                                 ? t("confirmed")
-                                : t("missing")}
+                                : t("notObserved")}
                             </dd>
                           </div>
                           <div>
