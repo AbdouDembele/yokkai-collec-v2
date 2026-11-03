@@ -10,7 +10,12 @@ import { getCurrentKarasBalance, getCurrentPseudo } from "@/lib/auth/session";
 import { createClient } from "@/utils/supabase/server";
 import { AdminNavigation } from "../admin-navigation";
 import { applySmurfSanctionAction, reviewAnticheatCaseAction } from "./actions";
-import { EventDetail, type EventAssetDetail } from "./event-detail";
+import {
+  AccountStatus,
+  EventDetail,
+  type AccountState,
+  type EventAssetDetail
+} from "./event-detail";
 import {
   DeletedAccountHistory,
   type DeletedAccountHistoryData,
@@ -40,6 +45,7 @@ const eventTypes = new Set([
 ]);
 
 type CaseRow = {
+  accountState?: AccountState;
   userId: string;
   pseudo: string;
   email: string;
@@ -59,7 +65,11 @@ type CaseRow = {
   } | null;
 };
 
-type EventParty = { id: string; pseudo: string } | null;
+type EventParty = {
+  id: string;
+  pseudo: string;
+  accountState?: AccountState;
+} | null;
 type EventSubject = {
   userId: string;
   pseudo: string;
@@ -67,6 +77,7 @@ type EventSubject = {
   reasonCodes: string[];
 };
 type EventRow = {
+  sanctionApplied: boolean;
   detail?: EventAssetDetail;
   id: number;
   occurredAt: string;
@@ -148,6 +159,7 @@ function strings(value: unknown): string[] {
 
 function caseFromRpc(value: Record<string, unknown>): CaseRow {
   return {
+    accountState: value.accountState as AccountState | undefined,
     userId: String(value.userId ?? ""),
     pseudo: String(value.pseudo ?? ""),
     email: String(value.email ?? ""),
@@ -182,11 +194,16 @@ function caseFromRpc(value: Record<string, unknown>): CaseRow {
 function partyFromRpc(value: unknown): EventParty {
   if (!value || typeof value !== "object") return null;
   const record = value as Record<string, unknown>;
-  return { id: String(record.id ?? ""), pseudo: String(record.pseudo ?? "") };
+  return {
+    id: String(record.id ?? ""),
+    pseudo: String(record.pseudo ?? ""),
+    accountState: record.accountState as AccountState | undefined
+  };
 }
 
 function eventFromRpc(value: Record<string, unknown>): EventRow {
   return {
+    sanctionApplied: value.sanctionApplied === true,
     detail:
       value.detail && typeof value.detail === "object"
         ? (value.detail as EventAssetDetail)
@@ -396,6 +413,7 @@ export default async function AdminSecurityPage({
     Array.isArray(eventPayload.events) ? eventPayload.events : []
   ).map(item => eventFromRpc(item as Record<string, unknown>));
   type Connection = {
+    accountState?: AccountState;
     userId: string;
     pseudo: string | null;
     deleted: boolean;
@@ -1064,7 +1082,10 @@ export default async function AdminSecurityPage({
                         <div className="min-w-0">
                           <div className="flex flex-wrap items-center gap-2">
                             <h3 className="min-w-0 text-lg font-black [overflow-wrap:anywhere]">
-                              {item.pseudo}
+                              {item.accountState?.pseudo ??
+                                (item.accountState?.deleted
+                                  ? t("deletedPlayer")
+                                  : item.pseudo)}
                             </h3>
                             <span
                               className={`rounded-full border px-2 py-0.5 text-xs font-bold ${
@@ -1082,6 +1103,7 @@ export default async function AdminSecurityPage({
                             <span className="rounded-full border border-slate-700 bg-slate-950/60 px-2 py-0.5 text-xs font-semibold text-slate-300">
                               {t(`statuses.${item.status}`)}
                             </span>
+                            <AccountStatus state={item.accountState} />
                           </div>
                           <p className="text-sm text-slate-400 [overflow-wrap:anywhere]">
                             {item.email}
@@ -1114,7 +1136,9 @@ export default async function AdminSecurityPage({
                               >
                                 {account.deleted ? (
                                   <span className="font-bold">
-                                    {t("deletedPlayer")}
+                                    {account.accountState?.pseudo ??
+                                      account.pseudo ??
+                                      t("deletedPlayer")}
                                   </span>
                                 ) : (
                                   <Link
@@ -1124,6 +1148,9 @@ export default async function AdminSecurityPage({
                                     {account.pseudo}
                                   </Link>
                                 )}
+                                <div className="mt-1">
+                                  <AccountStatus state={account.accountState} />
+                                </div>
                                 <p className="mt-1 text-xs text-slate-400">
                                   {t("connectionLastSeen", {
                                     date: dateFormatter.format(
@@ -1344,11 +1371,48 @@ export default async function AdminSecurityPage({
                               </span>
                             )}
                           </div>
-                          <p className="mt-1 text-sm text-slate-300 [overflow-wrap:anywhere]">
-                            {[event.actor?.pseudo, event.counterparty?.pseudo]
-                              .filter(Boolean)
-                              .join(" → ")}
-                          </p>
+                          <div className="mt-2 space-y-1 text-sm text-slate-300 [overflow-wrap:anywhere]">
+                            {[event.actor, event.counterparty]
+                              .filter(
+                                (party): party is NonNullable<EventParty> =>
+                                  !!party
+                              )
+                              .map((party, index) => (
+                                <div
+                                  key={`${party.id}:${index}`}
+                                  className="flex flex-wrap items-center gap-2"
+                                >
+                                  <span>
+                                    {index > 0 && (
+                                      <span aria-hidden="true">→ </span>
+                                    )}
+                                    {party.accountState?.pseudo ??
+                                      (party.accountState?.deleted
+                                        ? t("deletedPlayer")
+                                        : party.pseudo)}
+                                  </span>
+                                  <AccountStatus
+                                    state={
+                                      party.accountState
+                                        ? {
+                                            ...party.accountState,
+                                            sanctionApplied: false
+                                          }
+                                        : undefined
+                                    }
+                                  />
+                                </div>
+                              ))}
+                            {event.sanctionApplied && (
+                              <AccountStatus
+                                state={{
+                                  deleted: false,
+                                  banned: false,
+                                  sanctionApplied: true
+                                }}
+                              />
+                            )}
+                          </div>
                           <p className="mt-2 text-xs text-slate-500">
                             {dateFormatter.format(new Date(event.occurredAt))}
                             {event.cardCount > 0
