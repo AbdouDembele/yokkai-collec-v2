@@ -357,7 +357,7 @@ begin
       left join public.anticheat_deleted_accounts recipient_deleted on recipient_deleted.user_id=transfer.to_user_id
       where transfer.card_instance_id=provenance.card_instance_id
     ),'[]'::jsonb)
-  ) order by opening.opened_at,provenance.card_instance_id)
+  ) order by opening.opened_at,provenance.card_instance_id),'[]'::jsonb)
   into result
   from (
     select distinct unnest(p_card_instance_ids) as card_instance_id
