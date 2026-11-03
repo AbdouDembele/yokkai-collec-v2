@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getLocale, getTranslations } from "next-intl/server";
 import { applyDeletedAccountSanctionAction } from "./actions";
+import { AccountStatus, type AccountState } from "./event-detail";
 
 export type DeletedAccountHistoryData = {
   accounts: {
@@ -12,6 +13,7 @@ export type DeletedAccountHistoryData = {
     identitySource: string;
     transfers: number;
     availableTransfers: number;
+    accountState?: AccountState;
   }[];
   total: number;
   deletedTotal: number;
@@ -174,6 +176,7 @@ export async function DeletedAccountHistory({
                 <span className="block font-bold text-slate-100">
                   {account.pseudo ?? t("unknownIdentity")}
                 </span>
+                <AccountStatus state={account.accountState} />
                 <span className="mt-1 block text-slate-300">
                   {account.email ?? t("unknownEmail")}
                 </span>
@@ -202,6 +205,11 @@ export async function DeletedAccountHistory({
                 {!account.transfers && (
                   <span className="mt-1 block text-xs text-amber-100">
                     {t("noLink")}
+                  </span>
+                )}
+                {account.transfers > 0 && account.availableTransfers === 0 && (
+                  <span className="mt-2 block text-xs text-red-200">
+                    {t("alreadyProcessed")}
                   </span>
                 )}
               </span>

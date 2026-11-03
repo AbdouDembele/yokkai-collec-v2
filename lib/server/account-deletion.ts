@@ -19,8 +19,19 @@ function serviceClient() {
 
 // Trusted server/restoration caller only. No Server Action or public route is
 // exposed here; the confirmation UI will authenticate and derive the UUID.
-export async function deleteAccount(userId: string, client?: SupabaseClient) {
-  return deleteAccountCore(userId, client ?? serviceClient(), async () => {
+export async function deleteAccount(
+  userId: string,
+  client?: SupabaseClient,
+  selfRequested = false
+) {
+  const admin = client ?? serviceClient();
+  if (selfRequested) {
+    const { error } = await admin.rpc("begin_self_requested_account_deletion", {
+      p_user_id: userId
+    });
+    if (error) throw new Error("ACCOUNT_DELETION_START_FAILED");
+  }
+  return deleteAccountCore(userId, admin, async () => {
     const { cancelDeletedAccountBilling } =
       await import("@/lib/billing/deletion");
     await cancelDeletedAccountBilling(userId);
