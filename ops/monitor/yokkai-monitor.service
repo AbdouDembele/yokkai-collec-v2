@@ -1,0 +1,17 @@
+[Unit]
+Description=Yokkai production monitor (Discord + /admin/monitoring)
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python3 -I /usr/local/sbin/yokkai-monitor
+TimeoutStartSec=120
+Nice=10
+IOSchedulingClass=idle
+ProtectSystem=full
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+StateDirectory=yokkai-monitor
+StateDirectoryMode=0700

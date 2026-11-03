@@ -1,0 +1,509 @@
+#!/usr/bin/env python3
+"""Yokkai production monitor -> Discord + /admin/monitoring.
+
+Read-only checks (host, containers, HTTP, PostgreSQL, backups, security).
+Edits one status message every run and posts separate alerts when an issue
+appears, escalates or clears. Never prints or sends secrets.
+Each run also stores language-neutral metrics in public.ops_monitor_snapshots
+(the only database write), read by the admin-only /admin/monitoring page.
+
+Config: /etc/yokkai-monitor.env (DISCORD_WEBHOOK_URL, optional MENTION,
+HEARTBEAT_URL, SITE_URL, API_HEALTH_URL). State: /var/lib/yokkai-monitor.
+Usage: yokkai-monitor [--dry-run]
+"""
+import json, os, re, shutil, subprocess, sys, time, urllib.request, urllib.error
+from datetime import datetime, timezone
+
+STATE_DIR = "/var/lib/yokkai-monitor"
+STATE_FILE = os.path.join(STATE_DIR, "state.json")
+DB = "supabase-db-gawq4yyxiise96wens0dt1ex"
+APP_PREFIX = "lbugcql3gc8ijtbv7qqy70do-"
+BACKUP_DIR = "/data/coolify/backups/databases"
+CRITICAL_CONTAINERS = [
+    APP_PREFIX, DB, "supabase-auth-", "supabase-rest-", "supabase-envoy-",
+    "supabase-storage-", "supabase-rustfs-", "realtime-dev-", "imgproxy-",
+    "coolify-proxy", "yokkai-edge-identity",
+]
+OTHER_CONTAINERS = ["coolify", "coolify-db", "coolify-redis", "supabase-supavisor-",
+                    "supabase-meta-", "supabase-analytics-", "supabase-vector-"]
+OK, WARN, CRIT = 0, 1, 2
+ICON = {OK: "🟢", WARN: "🟠", CRIT: "🔴"}
+COLOR = {OK: 0x2ECC71, WARN: 0xF39C12, CRIT: 0xE74C3C}
+DRY = "--dry-run" in sys.argv
+EVENTS = []  # one-shot events: alerted once, never "active"
+# Language-neutral metrics stored in public.ops_monitor_snapshots for the
+# /admin/monitoring page. Numbers and codes only: the page translates them.
+METRICS = {}
+SNAPSHOT_RETENTION_DAYS = 14
+
+
+def env():
+    cfg = {}
+    try:
+        with open("/etc/yokkai-monitor.env") as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith("#") and "=" in line:
+                    k, v = line.split("=", 1)
+                    cfg[k.strip()] = v.strip().strip('"')
+    except FileNotFoundError:
+        pass
+    cfg.setdefault("SITE_URL", "https://yokkai-collec.com/")
+    cfg.setdefault("API_HEALTH_URL", "https://api.yokkai-collec.com/auth/v1/health")
+    cfg.setdefault("MENTION", "")
+    return cfg
+
+
+def run(cmd, timeout=20):
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+        return r.returncode, r.stdout.strip(), r.stderr.strip()
+    except subprocess.TimeoutExpired:
+        return 124, "", "timeout"
+
+
+def psql(sql):
+    code, out, err = run(["docker", "exec", DB, "psql", "-U", "postgres", "-d", "postgres",
+                          "-X", "-q", "-A", "-t", "-F", "|", "-c",
+                          "set default_transaction_read_only=on; " + sql], timeout=15)
+    if code != 0:
+        raise RuntimeError(err[:200] or "psql failed")
+    return [l.split("|") for l in out.splitlines() if l]
+
+
+def load_state():
+    try:
+        with open(STATE_FILE) as f:
+            return json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+
+
+def save_state(st):
+    os.makedirs(STATE_DIR, mode=0o700, exist_ok=True)
+    tmp = STATE_FILE + ".tmp"
+    with open(tmp, "w") as f:
+        json.dump(st, f)
+    os.replace(tmp, STATE_FILE)
+
+
+def gb(n):
+    return f"{n / 1024**3:.1f} Go"
+
+
+# ------------------------------------------------------------------ checks
+def check_host(issues, prev, st):
+    lines = []
+    ncpu = os.cpu_count() or 1
+    l1, l5, l15 = os.getloadavg()
+    ratio = l5 / ncpu
+    lvl = CRIT if ratio > 1.5 else WARN if ratio > 1.0 else OK
+    lines.append(f"{ICON[lvl]} Charge {l1:.1f} / {l5:.1f} / {l15:.1f} ({ncpu} cœurs)")
+    if lvl:
+        issues.append(("host.load", lvl, f"Charge élevée : {l5:.1f} sur {ncpu} cœurs (moyenne 5 min)"))
+
+    mem = {}
+    with open("/proc/meminfo") as f:
+        for line in f:
+            k, v = line.split(":")
+            mem[k] = int(v.split()[0]) * 1024
+    avail_pct = 100 * mem["MemAvailable"] / mem["MemTotal"]
+    lvl = CRIT if avail_pct < 7 else WARN if avail_pct < 15 else OK
+    swap = mem.get("SwapTotal", 0)
+    swap_txt = f", swap {gb(swap - mem.get('SwapFree', 0))}/{gb(swap)}" if swap else ", pas de swap"
+    lines.append(f"{ICON[lvl]} RAM dispo {gb(mem['MemAvailable'])} / {gb(mem['MemTotal'])} ({avail_pct:.0f} %){swap_txt}")
+    if lvl:
+        issues.append(("host.mem", lvl, f"Mémoire disponible faible : {avail_pct:.0f} %"))
+
+    du = shutil.disk_usage("/")
+    pct = 100 * du.used / du.total
+    lvl = CRIT if pct > 90 else WARN if pct > 80 else OK
+    lines.append(f"{ICON[lvl]} Disque {pct:.0f} % ({gb(du.free)} libres)")
+    if lvl:
+        issues.append(("host.disk", lvl, f"Disque rempli à {pct:.0f} % ({gb(du.free)} libres)"))
+    sv = os.statvfs("/")
+    ipct = 100 * (1 - sv.f_ffree / sv.f_files) if sv.f_files else 0
+    if ipct > 80:
+        issues.append(("host.inodes", WARN if ipct < 90 else CRIT, f"Inodes utilisés à {ipct:.0f} %"))
+    METRICS["host"] = {
+        "load1": round(l1, 2), "load5": round(l5, 2), "load15": round(l15, 2), "cpus": ncpu,
+        "memTotal": mem["MemTotal"], "memAvailable": mem["MemAvailable"],
+        "swapTotal": swap, "swapUsed": swap - mem.get("SwapFree", 0) if swap else 0,
+        "diskTotal": du.total, "diskFree": du.free, "inodesPct": round(ipct, 1),
+    }
+    return "\n".join(lines)
+
+
+def check_containers(issues, prev, st):
+    code, out, _ = run(["docker", "ps", "-a", "--format", "{{.Names}}|{{.State}}"])
+    if code != 0:
+        issues.append(("docker", CRIT, "Docker ne répond pas"))
+        return "🔴 Docker ne répond pas"
+    states = dict(l.split("|", 1) for l in out.splitlines() if "|" in l)
+    running = [n for n, s in states.items() if s == "running"]
+    _, insp, _ = run(["docker", "inspect", "-f",
+                      "{{.Name}}|{{.RestartCount}}|{{.State.OOMKilled}}|{{if .State.Health}}{{.State.Health.Status}}{{end}}"]
+                     + running)
+    info = {}
+    for l in insp.splitlines():
+        n, rc, oom, health = (l.lstrip("/").split("|") + ["", "", ""])[:4]
+        info[n] = (int(rc or 0), oom == "true", health)
+
+    def find(prefix):
+        exact = [n for n in states if n == prefix]
+        return exact or [n for n in states if n.startswith(prefix)]
+
+    worst = OK
+    missing, unhealthy = [], []
+    for prefix, crit in [(p, True) for p in CRITICAL_CONTAINERS] + [(p, False) for p in OTHER_CONTAINERS]:
+        names = [n for n in find(prefix) if states[n] == "running"]
+        label = prefix.rstrip("-") if prefix != APP_PREFIX else "app Next.js"
+        if not names:
+            lvl = CRIT if crit else WARN
+            missing.append(label)
+            issues.append((f"ctr.down.{label}", lvl, f"Conteneur arrêté ou absent : {label}"))
+            worst = max(worst, lvl)
+            continue
+        for n in names:
+            if n not in info:
+                continue
+            rc, oom, health = info[n]
+            if health == "unhealthy":
+                unhealthy.append(label)
+                issues.append((f"ctr.unhealthy.{label}", WARN, f"Conteneur en mauvaise santé : {label}"))
+                worst = max(worst, WARN)
+            if oom:
+                issues.append((f"ctr.oom.{label}", CRIT, f"{label} a été tué par manque de mémoire"))
+                worst = CRIT
+            old = prev.get("restarts", {}).get(n)
+            if old is not None and rc > old:
+                EVENTS.append((WARN, f"{label} a redémarré ({rc} redémarrages au total)"))
+                worst = max(worst, WARN)
+    st["restarts"] = {n: v[0] for n, v in info.items()}
+    METRICS["containers"] = {"running": len(running), "missing": missing,
+                             "unhealthy": unhealthy, "top": []}
+    txt = f"{ICON[worst]} {len(running)} conteneurs actifs"
+    if missing:
+        txt += "\nArrêtés : " + ", ".join(missing)
+    if unhealthy:
+        txt += "\nEn mauvaise santé : " + ", ".join(unhealthy)
+    # top CPU (informatif)
+    code, out, _ = run(["docker", "stats", "--no-stream", "--format", "{{.Name}}|{{.CPUPerc}}|{{.MemUsage}}"], timeout=25)
+    if code == 0:
+        rows = []
+        for l in out.splitlines():
+            n, cpu, memu = l.split("|")
+            try:
+                rows.append((float(cpu.rstrip("%")), n, memu.split("/")[0].strip()))
+            except ValueError:
+                pass
+        rows.sort(reverse=True)
+        short = lambda n: "app" if n.startswith(APP_PREFIX) else re.sub(r"-gawq4yyxiise96wens0dt1ex$", "", n)
+        txt += "\nTop CPU : " + ", ".join(f"{short(n)} {c:.0f} %" for c, n, _ in rows[:3])
+        METRICS["containers"]["top"] = [{"name": short(n), "cpu": round(c, 1), "mem": m}
+                                        for c, n, m in rows[:5]]
+    return txt
+
+
+def http_check(url, accept):
+    req = urllib.request.Request(url, headers={"User-Agent": "yokkai-monitor/1.0"})
+    t = time.monotonic()
+    try:
+        with urllib.request.urlopen(req, timeout=10) as r:
+            code = r.status
+    except urllib.error.HTTPError as e:
+        code = e.code
+    except Exception as e:  # network, TLS, timeout
+        return None, time.monotonic() - t, type(e).__name__
+    return code, time.monotonic() - t, None
+
+
+def check_http(issues, prev, st, cfg):
+    lines = []
+    for key, label, url, accept in [("site", "Site", cfg["SITE_URL"], lambda c: c == 200),
+                                    ("api", "API Auth", cfg["API_HEALTH_URL"], lambda c: c < 500)]:
+        code, dt, err = http_check(url, accept)
+        if code is None or not accept(code):
+            lvl = CRIT
+            detail = err or f"HTTP {code}"
+            issues.append((f"http.{key}", CRIT, f"{label} injoignable ({detail})"))
+        elif dt > 3:
+            lvl = WARN
+            issues.append((f"http.{key}.slow", WARN, f"{label} lent : {dt:.1f} s"))
+        else:
+            lvl = OK
+        lines.append(f"{ICON[lvl]} {label} : {code if code else err} en {dt*1000:.0f} ms")
+        METRICS.setdefault("http", []).append(
+            {"key": key, "status": code, "ms": round(dt * 1000), "error": err, "level": lvl})
+    return "\n".join(lines)
+
+
+def check_db(issues, prev, st):
+    code, _, _ = run(["docker", "exec", DB, "pg_isready", "-U", "postgres"], timeout=10)
+    if code != 0:
+        issues.append(("db.down", CRIT, "PostgreSQL ne répond pas"))
+        METRICS["db"] = {"up": False}
+        return "🔴 PostgreSQL ne répond pas"
+    lines = []
+    m = METRICS["db"] = {"up": True}
+    try:
+        (used, mx), = psql("select count(*), current_setting('max_connections') from pg_stat_activity")
+        used, mx = int(used), int(mx)
+        m.update(connUsed=used, connMax=mx)
+        pct = 100 * used / mx
+        lvl = CRIT if pct > 90 else WARN if pct > 80 else OK
+        lines.append(f"{ICON[lvl]} Connexions {used}/{mx}")
+        if lvl:
+            issues.append(("db.conn", lvl, f"Connexions PostgreSQL : {used}/{mx}"))
+
+        (n_long, longest), = psql(
+            "select count(*), coalesce(max(extract(epoch from now()-query_start))::int,0) from pg_stat_activity "
+            "where backend_type='client backend' and state='active' and now()-query_start > interval '60 s' "
+            "and query not ilike 'START_REPLICATION%'")
+        n_long = int(n_long)
+        m.update(longQueries=n_long, longestSeconds=int(longest))
+        if n_long:
+            issues.append(("db.long", WARN, f"{n_long} requête(s) active(s) depuis plus de 60 s (max {longest} s)"))
+        lines.append(f"{ICON[WARN if n_long else OK]} Requêtes > 60 s : {n_long}")
+
+        rows = psql("select slot_name, active, pg_wal_lsn_diff(pg_current_wal_lsn(), restart_lsn)::bigint from pg_replication_slots")
+        worst_lag, worst_slot = 0, ""
+        for name, active, lag in rows:
+            lag = int(lag or 0)
+            if lag > worst_lag:
+                worst_lag, worst_slot = lag, name
+            if active == "f":
+                issues.append((f"db.slot.inactive.{name}", WARN, f"Slot de réplication inactif : {name} (bloque les WAL)"))
+        lvl = CRIT if worst_lag > 5 * 1024**3 else WARN if worst_lag > 1024**3 else OK
+        m.update(slotLagMax=worst_lag, slotName=worst_slot,
+                 inactiveSlots=[name for name, active, _ in rows if active == "f"])
+        lines.append(f"{ICON[lvl]} Retard max des slots {gb(worst_lag)}")
+        if lvl:
+            issues.append(("db.slotlag", lvl, f"Slot {worst_slot} en retard de {gb(worst_lag)}"))
+
+        (temp, deadlocks, size), = psql(
+            "select temp_bytes, deadlocks, pg_database_size('postgres') from pg_stat_database where datname='postgres'")
+        temp, deadlocks, size = int(temp), int(deadlocks), int(size)
+        p = prev.get("db", {})
+        if "temp" in p and temp >= p["temp"]:
+            dtemp = temp - p["temp"]
+            m["tempBytes5m"] = dtemp
+            lvl = WARN if dtemp > 20 * 1024**3 else OK
+            lines.append(f"{ICON[lvl]} Fichiers temporaires : {gb(dtemp)} en 5 min")
+            if lvl:
+                issues.append(("db.temp", WARN, f"{gb(dtemp)} écrits en fichiers temporaires en 5 min (mémoire PostgreSQL insuffisante)"))
+        if "deadlocks" in p and deadlocks > p["deadlocks"]:
+            EVENTS.append((WARN, f"{deadlocks - p['deadlocks']} deadlock(s) détecté(s) dans PostgreSQL"))
+        st["db"] = {"temp": temp, "deadlocks": deadlocks}
+        m["sizeBytes"] = size
+        lines.append(f"Taille base du jeu : {size / 1024**2:.0f} Mo")
+
+        rows = psql("select j.jobname, count(*) from cron.job_run_details d join cron.job j using(jobid) "
+                    "where d.status='failed' and d.start_time > now()-interval '10 min' group by 1")
+        for name, cnt in rows:
+            issues.append((f"db.cron.{name}", WARN, f"Job pg_cron en échec : {name} ({cnt}× en 10 min)"))
+        lines.append(f"{ICON[WARN if rows else OK]} Jobs cron en échec : {len(rows)}")
+        m["cronFailed"] = [{"job": name, "count": int(cnt)} for name, cnt in rows]
+
+        (users, d1), = psql("select count(*), count(*) filter (where last_sign_in_at > now()-interval '1 day') from auth.users")
+        lines.append(f"Comptes : {users} (actifs 24 h : {d1})")
+        m.update(usersTotal=int(users), usersActive24h=int(d1))
+    except Exception as e:
+        m["queryError"] = True
+        issues.append(("db.query", WARN, f"Lecture des métriques PostgreSQL impossible : {str(e)[:120]}"))
+    return "\n".join(lines)
+
+
+def check_backups(issues, prev, st):
+    newest = 0
+    for root, _, files in os.walk(BACKUP_DIR):
+        for f in files:
+            if f.endswith(".dmp"):
+                newest = max(newest, os.path.getmtime(os.path.join(root, f)))
+    if not newest:
+        issues.append(("backup.none", CRIT, "Aucune sauvegarde de base trouvée"))
+        METRICS["backups"] = {"ageHours": None}
+        return "🔴 Aucune sauvegarde trouvée"
+    age_h = (time.time() - newest) / 3600
+    METRICS["backups"] = {"ageHours": round(age_h, 1), "offsite": False}
+    lvl = CRIT if age_h > 50 else WARN if age_h > 26 else OK
+    if lvl:
+        issues.append(("backup.age", lvl, f"Dernière sauvegarde il y a {age_h:.0f} h"))
+    return f"{ICON[lvl]} Dernière sauvegarde : il y a {age_h:.0f} h (locale uniquement)"
+
+
+def check_app_logs(issues, prev, st):
+    _, out, _ = run(["docker", "ps", "--format", "{{.Names}}"])
+    apps = [n for n in out.splitlines() if n.startswith(APP_PREFIX)]
+    if not apps:
+        return "—"
+    _, o, e = run(["docker", "logs", "--since", "5m", apps[0]], timeout=15)
+    lines = (o + "\n" + e).splitlines()
+    errs = [l for l in lines if re.search(r"\b(Error|uncaughtException|unhandledRejection)\b|⨯", l)
+            and "Refresh Token Not Found" not in l]
+    n = len(errs)
+    METRICS["app"] = {"errors5m": n}
+    lvl = WARN if n > 20 else OK
+    if lvl:
+        issues.append(("app.errors", WARN, f"{n} erreurs dans les logs de l'app en 5 min"))
+    return f"{ICON[lvl]} Erreurs app (5 min) : {n}"
+
+
+def check_security(issues, prev, st):
+    parts = []
+    sec = METRICS["security"] = {"f2bBanned": None, "f2bTotal": None, "firewall": False}
+    code, out, _ = run(["fail2ban-client", "status", "sshd"])
+    if code == 0:
+        m = re.search(r"Currently banned:\s+(\d+)", out)
+        t = re.search(r"Total banned:\s+(\d+)", out)
+        parts.append(f"fail2ban : {m.group(1) if m else '?'} IP bannie(s) (total {t.group(1) if t else '?'})")
+        sec["f2bBanned"] = int(m.group(1)) if m else None
+        sec["f2bTotal"] = int(t.group(1)) if t else None
+    else:
+        issues.append(("sec.f2b", WARN, "fail2ban ne répond pas"))
+    code, out, _ = run(["nft", "list", "table", "inet", "yokkai_cloudflare"])
+    if code != 0:
+        issues.append(("sec.nft", CRIT, "Pare-feu Cloudflare (nftables) absent : l'origine est ouverte"))
+        parts.append("🔴 Pare-feu Cloudflare absent")
+    else:
+        sec["firewall"] = True
+        parts.append("🟢 Pare-feu Cloudflare actif")
+    return "\n".join(parts)
+
+
+# ------------------------------------------------------------------ snapshot
+def store_snapshot(worst, current):
+    """Insert one row in public.ops_monitor_snapshots and prune old rows.
+
+    The JSON is passed inside a random dollar-quote tag through psql stdin,
+    so no payload content can end the literal. Failures never block Discord.
+    """
+    payload = dict(METRICS, v=1, issues=[
+        {"key": k, "level": v["lvl"]} for k, v in sorted(current.items(), key=lambda kv: -kv[1]["lvl"])])
+    body = json.dumps(payload, ensure_ascii=True, separators=(",", ":"))
+    tag = "m" + os.urandom(8).hex()
+    sql = (f"insert into public.ops_monitor_snapshots(worst, payload) values ({int(worst)}, ${tag}${body}${tag}$::jsonb);\n"
+           f"delete from public.ops_monitor_snapshots where captured_at < now() - interval '{SNAPSHOT_RETENTION_DAYS} days';\n")
+    try:
+        r = subprocess.run(["docker", "exec", "-i", DB, "psql", "-U", "postgres", "-d", "postgres",
+                            "-X", "-q", "-v", "ON_ERROR_STOP=1"],
+                           input=sql, capture_output=True, text=True, timeout=20)
+        if r.returncode != 0:
+            print(f"snapshot non enregistré : {r.stderr.strip()[:200]}", file=sys.stderr)
+    except subprocess.TimeoutExpired:
+        print("snapshot non enregistré : délai dépassé", file=sys.stderr)
+
+
+# ------------------------------------------------------------------ discord
+def discord(cfg, method, path="", payload=None):
+    url = cfg["DISCORD_WEBHOOK_URL"].rstrip("/") + path
+    data = json.dumps(payload).encode() if payload is not None else None
+    req = urllib.request.Request(url, data=data, method=method, headers={
+        "Content-Type": "application/json", "User-Agent": "yokkai-monitor/1.0"})
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=15) as r:
+                body = r.read()
+                return r.status, json.loads(body) if body else {}
+        except urllib.error.HTTPError as e:
+            if e.code == 429 and attempt < 2:
+                try:
+                    time.sleep(float(json.loads(e.read()).get("retry_after", 2)))
+                except Exception:
+                    time.sleep(2)
+                continue
+            return e.code, {}
+    return 429, {}
+
+
+def main():
+    cfg = env()
+    if not DRY and not cfg.get("DISCORD_WEBHOOK_URL"):
+        print("DISCORD_WEBHOOK_URL manquant dans /etc/yokkai-monitor.env", file=sys.stderr)
+        return 2
+    prev = load_state()
+    st = {k: prev[k] for k in ("message_id", "active", "pending") if k in prev}
+    issues = []
+    sections = []
+    for title, fn in [("🖥️ Serveur", check_host), ("🐳 Conteneurs", check_containers),
+                      ("🌐 Site et API", lambda i, p, s: check_http(i, p, s, cfg)),
+                      ("🐘 PostgreSQL", check_db), ("💾 Sauvegardes", check_backups),
+                      ("📜 Application", check_app_logs), ("🔒 Sécurité", check_security)]:
+        try:
+            sections.append((title, fn(issues, prev, st) or "—"))
+        except Exception as e:
+            sections.append((title, f"⚠️ contrôle en erreur : {type(e).__name__}"))
+            issues.append((f"monitor.{title}", WARN, f"Le contrôle « {title} » a échoué ({type(e).__name__})"))
+
+    # warn issues must persist two runs (anti-flapping); crit is immediate
+    pending = prev.get("pending", {})
+    current = {}
+    new_pending = {}
+    for key, lvl, msg in issues:
+        if lvl == WARN and key not in prev.get("active", {}) and key not in pending:
+            new_pending[key] = msg
+            continue
+        current[key] = {"lvl": lvl, "msg": msg}
+    st["pending"] = new_pending
+    worst = max([v["lvl"] for v in current.values()] + [OK])
+
+    now = datetime.now(timezone.utc)
+    active_txt = "\n".join(f"{ICON[v['lvl']]} {v['msg']}" for v in
+                           sorted(current.values(), key=lambda v: -v["lvl"])) or "Aucun problème détecté"
+    embed = {
+        "title": f"{ICON[worst]} Yokkai Collec' — état de la production",
+        "description": active_txt[:4000],
+        "color": COLOR[worst],
+        "fields": [{"name": t, "value": v[:1024], "inline": False} for t, v in sections],
+        "footer": {"text": "Mis à jour toutes les 5 minutes"},
+        "timestamp": now.isoformat(),
+    }
+
+    # alerts on transitions
+    old = prev.get("active", {})
+    alerts = []
+    for key, v in current.items():
+        o = old.get(key)
+        if o is None:
+            alerts.append((v["lvl"], f"{ICON[v['lvl']]} **{'CRITIQUE' if v['lvl'] == CRIT else 'Attention'}** — {v['msg']}"))
+        elif v["lvl"] > o["lvl"]:
+            alerts.append((v["lvl"], f"🔴 **Aggravation** — {v['msg']}"))
+    for key, o in old.items():
+        if key not in current and key not in new_pending:
+            alerts.append((OK, f"✅ **Résolu** — {o['msg']}"))
+    for lvl, msg in EVENTS:
+        alerts.append((lvl, f"{ICON[lvl]} **Événement** — {msg}"))
+    st["active"] = current
+
+    if DRY:
+        print(json.dumps({"embed": embed, "alerts": [a[1] for a in alerts],
+                          "snapshot": dict(METRICS, worst=worst)}, ensure_ascii=False, indent=2))
+        return 0
+
+    store_snapshot(worst, current)
+
+    payload = {"embeds": [embed], "allowed_mentions": {"parse": []}}
+    mid = prev.get("message_id")
+    status = None
+    if mid:
+        status, _ = discord(cfg, "PATCH", f"/messages/{mid}", payload)
+    if not mid or status == 404:
+        payload["content"] = "📊 **Tableau de bord** (ce message est mis à jour automatiquement)"
+        status, body = discord(cfg, "POST", "?wait=true", payload)
+        if status in (200, 204) and body.get("id"):
+            st["message_id"] = body["id"]
+    for lvl, text in alerts:
+        mention = cfg["MENTION"] + " " if lvl == CRIT and cfg["MENTION"] else ""
+        discord(cfg, "POST", "", {"content": (mention + text)[:2000],
+                                  "allowed_mentions": {"parse": ["everyone"] if mention else []}})
+    save_state(st)
+    if cfg.get("HEARTBEAT_URL"):
+        try:
+            urllib.request.urlopen(cfg["HEARTBEAT_URL"] + ("/fail" if worst == CRIT else ""), timeout=10)
+        except Exception:
+            pass
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())

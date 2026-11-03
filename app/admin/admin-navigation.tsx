@@ -10,7 +10,8 @@ const items = [
   { href: "/admin/cards", label: "cards" },
   { href: "/admin/players", label: "players" },
   { href: "/admin/reports", label: "reports" },
-  { href: "/admin/security", label: "security" }
+  { href: "/admin/security", label: "security" },
+  { href: "/admin/monitoring", label: "monitoring" }
 ];
 
 export function AdminNavigation() {
