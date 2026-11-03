@@ -7,11 +7,13 @@ import {
 } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { PGlite } from "@electric-sql/pglite";
+import { pgcrypto } from "@electric-sql/pglite/contrib/pgcrypto";
 import { pg_trgm } from "@electric-sql/pglite/contrib/pg_trgm";
 
 // Shared Supabase bootstrap for disposable PGlite and PostgreSQL databases.
 export const bootstrapSQL = `
       create schema auth;
+      create schema extensions;
       create table auth.users(
         id uuid primary key,
         raw_user_meta_data jsonb,
@@ -67,7 +69,7 @@ const emptyCluster = new URL(
   import.meta.url
 );
 async function freshDatabase() {
-  const options = { extensions: { pg_trgm } };
+  const options = { extensions: { pgcrypto, pg_trgm } };
   if (process.env.YOKKAI_PGLITE_CACHE === "off") return PGlite.create(options);
   try {
     return await PGlite.create({
@@ -106,7 +108,11 @@ ${bootstrapSQL}`);
     }
     for (const name of migrations) {
       try {
-        await db.exec(readFileSync(new URL(name, directory), "utf8"));
+        const sql = readFileSync(new URL(name, directory), "utf8").replace(
+          /^\s*create extension if not exists pg_net;\s*$/gim,
+          "-- pg_net is managed by Supabase and is unavailable in PGlite replay."
+        );
+        await db.exec(sql);
       } catch (error) {
         throw new Error(`Migration ${name}: ${error.message}`, {
           cause: error
