@@ -216,6 +216,9 @@
   "public.oauth_pseudo_pending": {
     "excluded": "Transient OAuth onboarding marker deleted when the username is chosen; the username itself is exported in profile."
   },
+  "public.ops_monitor_snapshots": {
+    "excluded": "Infrastructure monitoring snapshots (host load, memory, disk, container and database health, aggregate account counts). No player-identifying data; retained 14 days and readable only by administrators."
+  },
   "public.panini_album_favorites": {
     "sections": ["album_favorites"]
   },
