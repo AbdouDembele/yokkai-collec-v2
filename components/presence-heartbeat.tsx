@@ -17,8 +17,9 @@ const ACTIVITY_EVENTS = [
 export function PresenceHeartbeat() {
   const ready = useBoostersLoadPriority() >= 2;
   const pathname = usePathname();
+  const enabled = ready && !pathname.startsWith("/design-system/");
   useEffect(() => {
-    if (!ready || pathname.startsWith("/design-system/")) return;
+    if (!enabled) return;
     let active = true;
     let lastPulseAt = 0;
     const pulse = (force = false) => {
@@ -42,6 +43,6 @@ export function PresenceHeartbeat() {
         window.removeEventListener(event, onActivity);
       document.removeEventListener("visibilitychange", onVisible);
     };
-  }, [ready, pathname]);
+  }, [enabled]);
   return null;
 }

@@ -93,7 +93,10 @@ export function ProAccessProvider({ children }: { children: React.ReactNode }) {
     window.addEventListener("online", resume);
     window.addEventListener("yokkai:profile-style-updated", resume);
     document.addEventListener("visibilitychange", resume);
-    const timer = window.setInterval(resume, 30000);
+    // Entitlements are still verified by every server mutation. Refresh the
+    // presentation on focus/online/style updates immediately, and periodically
+    // while the page stays open without issuing two reads every 30 seconds.
+    const timer = window.setInterval(resume, 120000);
     resume();
     return () => {
       stopped = true;
