@@ -2256,3 +2256,19 @@ body:has(.yk-reveal-screen) .yk-discord-promo {
   > .yk-reveal-slot {
   padding-top: 88px;
 }
+
+/* Pack selection has its own row: never cover the rarity badge or artwork. */
+.yk-reveal-screen .yk-reveal-card > .yk-selection-check {
+  position: static;
+  inset: auto;
+  display: grid;
+  width: 24px;
+  height: 24px;
+  margin: 6px auto 0;
+  transform: none;
+}
+
+.yk-reveal-screen .yk-reveal-card:has(> .yk-selection-check) {
+  margin-bottom: 12px;
+  transform: none;
+}
