@@ -8,7 +8,7 @@ Règles non négociables :
 
 - Lancer npm run format avant tout commit ; ne jamais utiliser --no-verify.
 
-- Ne jamais affaiblir un test existant (assertion supprimée ou assouplie, seuil abaissé, test ignoré) dans la même PR que le code qu'il vérifie. Si un test protège une décision produit (qualité des images, droits SQL, taux de drop…), toute modification doit être signalée explicitement dans la description de la PR et validée par Walid.
+- Ne jamais affaiblir un test existant (assertion supprimée ou assouplie, seuil abaissé, test ignoré) dans la même PR que le code qu'il vérifie. Si un test protège une décision produit (qualité des images, droits SQL, taux de drop…), toute modification doit être signalée explicitement dans la description de la PR et validée par PhyesGG.
 
 - Toujours lancer `git status` et `git fetch origin` avant de commencer une tâche.
 - Ne jamais pousser directement sur `master` : partir d'une branche `<initiales>/<description>` créée depuis `origin/master`.
@@ -21,7 +21,7 @@ Règles non négociables :
 
 - La CI complète est exécutée par GitHub Actions. Les agents ne lancent jamais `npm run verify`, `npm run ci` ni `npm run ci:db` en local, y compris dans les plans des PR de traduction.
 - En local : lancer `npm run format` avant chaque commit et laisser le hook pre-push bloquer uniquement les pushes directs sur `master`. Ne jamais contourner les hooks.
-- Les triggers `push` et `pull_request` vers `master` de `.github/workflows/ci.yml` restent actifs. Ne jamais les désactiver sans accord explicite de Walid.
+- Les triggers `push` et `pull_request` vers `master` de `.github/workflows/ci.yml` restent actifs. Ne jamais les désactiver sans accord explicite de PhyesGG.
 - Après le push, ouvrir la PR puis surveiller `gh pr checks`. Lire les logs seulement en cas d'échec (`gh run view <id> --log-failed`, fin utile uniquement), corriger puis repousser. Une PR est prête à merger quand la CI GitHub est verte sur la branche à jour avec `origin/master`.
 - Dans la partie validation de la PR, indiquer seulement les checks passés ou la cause de l'échec ; ne jamais coller de sortie de vérification locale.
 - Pushes groupés : regrouper les commits puis pousser une version relisible ; repousser uniquement les corrections nécessaires, notamment celles de CI.
@@ -56,7 +56,7 @@ Rules:
 - Les données de cartes, personnages, licences, catégories, images, raretés, Karas et noms Regular Pack / Decision Pack restent inchangés. Les données interpolées passent en paramètres ICU ; les pluriels utilisent ICU.
 - Pour un reset ou une échéance (packs, missions, enchères), afficher un compte à rebours plutôt qu'une heure fixe. Jamais « heure de Paris » / « Paris time » dans un texte joueur. UTC en base, fuseau du navigateur à l'affichage, sans divergence d'hydratation.
 - Les routes restent anglaises, minuscules et avec tirets ; aucun préfixe de locale. Les fonctions SQL renvoient des codes stables ; la traduction reste dans l'interface.
-- Le français reste caché derrière le flag, désactivé par défaut jusqu'au merge des PR 1 et 2 et à la validation de Walid. Relecture du français par Walid, zone par zone.
+- Le français reste caché derrière le flag, désactivé par défaut jusqu'au merge des PR 1 et 2 et à la validation de PhyesGG. Relecture du français par PhyesGG, zone par zone.
 - PR, commits et documentation interne peuvent rester en français.
 
 ## Responsive obligatoire pour les interfaces web
