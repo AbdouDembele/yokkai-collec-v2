@@ -49,7 +49,10 @@ const nextConfig: NextConfig = {
             )
           ]
         : [],
-    maximumRedirects: 0
+    maximumRedirects: 0,
+    // Replaced card images get a new URL, so optimized variants can be kept
+    // for a day (Next default: 4 h). Fewer re-optimizations and RustFS reads.
+    minimumCacheTTL: 86400
   },
   experimental: {
     serverActions: {

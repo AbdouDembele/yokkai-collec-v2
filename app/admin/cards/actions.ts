@@ -427,7 +427,8 @@ export async function updateCardAction(
         .upload(path, image.bytes, {
           contentType: image.contentType,
           upsert: true,
-          cacheControl: "3600"
+          // Unique path: the file never changes, so caches can keep it.
+          cacheControl: "31536000"
         });
       if (uploadError) throw uploadError;
       patch.image_url = client.storage
