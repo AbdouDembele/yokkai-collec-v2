@@ -1,0 +1,24 @@
+#!/bin/sh
+# Daily purge of Logflare (Supabase analytics) log events older than
+# RETENTION_DAYS (default 7). See docs/logflare-retention.md.
+# Configuration: /etc/default/yokkai-logflare-retention (DB_CONTAINER required).
+set -eu
+
+: "${DB_CONTAINER:?DB_CONTAINER must be set in /etc/default/yokkai-logflare-retention}"
+RETENTION_DAYS="${RETENTION_DAYS:-7}"
+case "$RETENTION_DAYS" in
+  '' | *[!0-9]*)
+    echo "Invalid RETENTION_DAYS: $RETENTION_DAYS" >&2
+    exit 2
+    ;;
+esac
+SQL="${LOGFLARE_RETENTION_SQL:-/usr/local/share/yokkai/logflare-retention.sql}"
+[ -r "$SQL" ] || {
+  echo "Missing $SQL" >&2
+  exit 2
+}
+
+exec docker exec -i \
+  -e PGOPTIONS="-c yokkai.retention_days=$RETENTION_DAYS -c lock_timeout=30s -c statement_timeout=20min" \
+  "$DB_CONTAINER" \
+  psql -U supabase_admin -d _supabase -X -q -v ON_ERROR_STOP=1 <"$SQL"

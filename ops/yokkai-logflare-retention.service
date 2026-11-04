@@ -1,0 +1,15 @@
+[Unit]
+Description=Yokkai Logflare log retention (delete analytics events older than RETENTION_DAYS)
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+EnvironmentFile=/etc/default/yokkai-logflare-retention
+ExecStart=/usr/local/sbin/yokkai-logflare-retention
+TimeoutStartSec=25min
+Nice=10
+UMask=0077
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=yokkai-logflare-retention

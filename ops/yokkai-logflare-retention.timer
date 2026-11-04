@@ -1,0 +1,11 @@
+[Unit]
+Description=Daily Logflare log retention, outside the storage maintenance window
+
+[Timer]
+OnCalendar=*-*-* 04:45:00 Europe/Paris
+RandomizedDelaySec=300
+Persistent=true
+Unit=yokkai-logflare-retention.service
+
+[Install]
+WantedBy=timers.target
