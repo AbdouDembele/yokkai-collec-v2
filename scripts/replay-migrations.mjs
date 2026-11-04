@@ -90,6 +90,15 @@ async function freshDatabase() {
 }
 
 // Disposable database only: mimic Supabase defaults before creating application objects.
+export function pgliteMigrationSource(source) {
+  return source
+    .replaceAll("\r\n", "\n")
+    .replace(
+      /^\s*create extension if not exists pg_net;\s*$/gim,
+      "-- pg_net is managed by Supabase and is unavailable in PGlite replay."
+    );
+}
+
 export async function replayMigrations({ migrations: selected } = {}) {
   const db = await freshDatabase();
   try {
@@ -108,9 +117,8 @@ ${bootstrapSQL}`);
     }
     for (const name of migrations) {
       try {
-        const sql = readFileSync(new URL(name, directory), "utf8").replace(
-          /^\s*create extension if not exists pg_net;\s*$/gim,
-          "-- pg_net is managed by Supabase and is unavailable in PGlite replay."
+        const sql = pgliteMigrationSource(
+          readFileSync(new URL(name, directory), "utf8")
         );
         await db.exec(sql);
       } catch (error) {
