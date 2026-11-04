@@ -9,16 +9,35 @@ export type FavoriteConflict = {
   candidates: { binderKey: string; license: string; origin: "series" | "source"; category?: string; total?: number }[];
 };
 
+// Binder metadata is public catalogue data, identical for every player. Keep it
+// per card for a few minutes so collection, catalogue and profile refreshes stop
+// asking for the same cards again (the most frequent RPC in production).
+// Editorial catalogue changes reach open tabs within this delay.
+export const BINDER_METADATA_TTL_MS = 5 * 60_000;
+const binderMetadata = new Map<string, { binders: CardBinder[]; expires: number }>();
+
 export async function withBinderMetadata<T extends { id: string }>(cards: T[]): Promise<(T & { binders?: CardBinder[] })[]> {
   if (!stableBindersEnabled() || !cards.length) return cards;
+  const now = Date.now();
+  if (binderMetadata.size > 5000)
+    for (const [id, entry] of binderMetadata) if (entry.expires <= now) binderMetadata.delete(id);
   const byId = new Map<string, CardBinder[]>();
-  const ids = [...new Set(cards.map(card => card.id))];
+  const ids: string[] = [];
+  for (const id of new Set(cards.map(card => card.id))) {
+    const cached = binderMetadata.get(id);
+    if (cached && cached.expires > now) byId.set(id, cached.binders);
+    else ids.push(id);
+  }
   try {
     for (let i = 0; i < ids.length; i += 500) {
-      const { data, error } = await readRequest(signal => createClient().rpc("get_card_binder_metadata", { p_card_ids: ids.slice(i, i + 500) }).abortSignal(signal));
+      const batch = ids.slice(i, i + 500);
+      const { data, error } = await readRequest(signal => createClient().rpc("get_card_binder_metadata", { p_card_ids: batch }).abortSignal(signal));
       // Binders only enrich the cards: a failed lookup must never hide the collection.
       if (error) { console.warn("Binder metadata unavailable", error); return cards; }
       for (const row of (data ?? []) as { card_id: string; binders: CardBinder[] }[]) byId.set(row.card_id, row.binders);
+      // Cards without any binder are cached too, as an empty list.
+      const expires = Date.now() + BINDER_METADATA_TTL_MS;
+      for (const id of batch) binderMetadata.set(id, { binders: byId.get(id) ?? [], expires });
     }
   } catch (error) {
     // readRequest rejects on network/deadline errors rather than returning error.

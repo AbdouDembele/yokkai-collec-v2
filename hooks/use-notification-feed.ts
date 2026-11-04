@@ -11,7 +11,9 @@ import { invalidatePlayerSnapshots } from "@/lib/data/cards";
 import type { PlayerSnapshotScope } from "@/lib/data/player-state";
 import { startVisiblePolling } from "@/lib/ui/visible-polling";
 
-const POLL_INTERVAL_MS = 30_000;
+// Realtime, panel opening, reads and tab visibility refresh immediately; this
+// interval is only the fallback when the Realtime socket misses an event.
+const POLL_INTERVAL_MS = 60_000;
 
 // Polls list_notifications and refreshes on demand (panel opening) and when the tab becomes visible again.
 // Normal refreshes do not stack. A confirmed message read queues one final refresh
