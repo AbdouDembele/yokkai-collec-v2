@@ -55,6 +55,13 @@ const nextConfig: NextConfig = {
     minimumCacheTTL: 86400
   },
   experimental: {
+    // Keep visited dynamic pages 30 s in the client router cache (the Next 14
+    // default): going back to a recent page no longer repeats the server
+    // render and its Auth checks. Client components still reload their own
+    // data on mount, and sign-in/sign-out Server Actions clear this cache.
+    staleTimes: {
+      dynamic: 30
+    },
     serverActions: {
       bodySizeLimit: "8mb"
     }
