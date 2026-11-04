@@ -1,6 +1,9 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { pathToFileURL } from "node:url";
-import { replayMigrations } from "./replay-migrations.mjs";
+import {
+  pgliteMigrationSource,
+  replayMigrations
+} from "./replay-migrations.mjs";
 
 const registryExceptions = JSON.parse(
   readFileSync(
@@ -110,6 +113,11 @@ export function transactionBody(source, filename) {
 }
 
 export function deploymentPlan(files, registry) {
+  // Execute and record the repository's LF source regardless of checkout EOLs.
+  files = files.map(file => ({
+    ...file,
+    source: file.source.replaceAll("\r\n", "\n")
+  }));
   if (!Array.isArray(registry))
     throw new Error(registry?.error ?? "Invalid production migration registry");
   const versions = new Set();
@@ -183,7 +191,17 @@ if (
         filename,
         source: readFileSync(new URL(filename, directory), "utf8")
       }));
-    const plan = deploymentPlan(files, JSON.parse(readFileSync(0, "utf8")));
+    const registry = JSON.parse(readFileSync(0, "utf8"));
+    const plan = deploymentPlan(files, registry);
+    // Match replay's existing managed-extension adaptation only in the disposable DB.
+    // The emitted production plan retains the extension and the original SQL source.
+    const validationPlan = deploymentPlan(
+      files.map(file => ({
+        ...file,
+        source: pgliteMigrationSource(file.source)
+      })),
+      registry
+    );
     // Validate the complete batch on disposable PGlite before any production write.
     const { db } = await replayMigrations({ migrations: plan.applied });
     try {
@@ -195,7 +213,7 @@ if (
           "insert into supabase_migrations.schema_migrations(version,name) values ($1,$2)",
           [filename.slice(0, 14), filename.slice(15, -4)]
         );
-      await db.exec(plan.sql);
+      await db.exec(validationPlan.sql);
     } finally {
       await db.close();
     }

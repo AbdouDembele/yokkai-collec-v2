@@ -14,7 +14,8 @@ import {
   AccountStatus,
   EventDetail,
   type AccountState,
-  type EventAssetDetail
+  type EventAssetDetail,
+  type ReferralPackCardProvenance
 } from "./event-detail";
 import {
   RelatedAccountPicker,
@@ -44,7 +45,9 @@ const eventTypes = new Set([
   "auction_expired",
   "referral_rewarded",
   "network_identity_shared",
-  "trade_shared_network_identity"
+  "trade_shared_network_identity",
+  "referral_network_review",
+  "referral_network_enforcement"
 ]);
 
 type CaseRow = {
@@ -241,7 +244,9 @@ const reasonKeys: Record<string, string> = {
   REFERRAL_REWARD_BURST: "referralRewardBurst",
   NEW_ACCOUNT_ECONOMIC_ACTIVITY: "newAccountEconomicActivity",
   SHARED_NETWORK_IDENTITY: "sharedNetworkIdentity",
-  TRADE_SHARED_NETWORK_IDENTITY: "tradeSharedNetworkIdentity"
+  TRADE_SHARED_NETWORK_IDENTITY: "tradeSharedNetworkIdentity",
+  REFERRAL_NETWORK_REVIEW: "referralNetworkReview",
+  REFERRAL_NETWORK_ENFORCEMENT: "referralNetworkEnforcement"
 };
 
 const eventKeys: Record<string, string> = {
@@ -256,7 +261,9 @@ const eventKeys: Record<string, string> = {
   auction_expired: "auctionExpired",
   referral_rewarded: "referralRewarded",
   network_identity_shared: "networkIdentityShared",
-  trade_shared_network_identity: "tradeSharedNetworkIdentity"
+  trade_shared_network_identity: "tradeSharedNetworkIdentity",
+  referral_network_review: "referralNetworkReview",
+  referral_network_enforcement: "referralNetworkEnforcement"
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -427,6 +434,76 @@ export default async function AdminSecurityPage({
   const events = (
     Array.isArray(eventPayload.events) ? eventPayload.events : []
   ).map(item => eventFromRpc(item as Record<string, unknown>));
+  const referralCardInstanceIds = [
+    ...new Set(
+      events.flatMap(event => {
+        const detail = event.detail;
+        if (!detail) return [];
+        return [
+          ...(detail.offeredCards ?? []),
+          ...(detail.requestedCards ?? []),
+          ...(detail.cards ?? [])
+        ]
+          .map(card => card.instanceId)
+          .filter((id): id is string => typeof id === "string");
+      })
+    )
+  ];
+  if (referralCardInstanceIds.length) {
+    const provenanceResult = await client.rpc(
+      "admin_get_referral_pack_provenance",
+      { p_card_instance_ids: referralCardInstanceIds.slice(0, 1000) }
+    );
+    if (provenanceResult.error) throw new Error(provenanceResult.error.message);
+    const provenanceByCard = new Map<string, ReferralPackCardProvenance>();
+    for (const item of Array.isArray(provenanceResult.data)
+      ? provenanceResult.data
+      : []) {
+      const record = item as Record<string, unknown>;
+      const transfers = Array.isArray(record.transfers)
+        ? record.transfers.map(value => {
+            const transfer = value as Record<string, unknown>;
+            return {
+              type: String(
+                transfer.type
+              ) as ReferralPackCardProvenance["transfers"][number]["type"],
+              occurredAt: String(transfer.occurredAt ?? ""),
+              from: typeof transfer.from === "string" ? transfer.from : null,
+              to: typeof transfer.to === "string" ? transfer.to : null,
+              karas: typeof transfer.karas === "number" ? transfer.karas : null
+            };
+          })
+        : [];
+      provenanceByCard.set(String(record.cardInstanceId), {
+        beneficiaryRole: String(
+          record.beneficiaryRole
+        ) as ReferralPackCardProvenance["beneficiaryRole"],
+        openedAt: String(record.openedAt ?? ""),
+        openedBy: typeof record.openedBy === "string" ? record.openedBy : null,
+        referrer: typeof record.referrer === "string" ? record.referrer : null,
+        referred: typeof record.referred === "string" ? record.referred : null,
+        rewardGrantedAt: String(record.rewardGrantedAt ?? ""),
+        transfers
+      });
+    }
+    for (const event of events) {
+      if (!event.detail) continue;
+      const attachProvenance = <T extends { instanceId?: string }>(
+        card: T
+      ) => ({
+        ...card,
+        ...(card.instanceId && provenanceByCard.has(card.instanceId)
+          ? { referralPack: provenanceByCard.get(card.instanceId) }
+          : {})
+      });
+      event.detail = {
+        ...event.detail,
+        offeredCards: event.detail.offeredCards?.map(attachProvenance),
+        requestedCards: event.detail.requestedCards?.map(attachProvenance),
+        cards: event.detail.cards?.map(attachProvenance)
+      };
+    }
+  }
   type Connection = {
     accountState?: AccountState;
     userId: string;

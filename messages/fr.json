@@ -1012,7 +1012,8 @@
     "emailDomainMissing": "Ce domaine d’adresse e-mail est introuvable. Vérifie ta saisie.",
     "providerUnavailable": "La connexion avec {provider} n’est pas encore disponible. Utilise ton adresse e-mail et ton mot de passe pour le moment.",
     "usernameSaveFailed": "Impossible d’enregistrer ton pseudo. Réessaie.",
-    "disposableEmail": "Les adresses e-mail temporaires ou jetables ne sont pas autorisées. Utilise une adresse e-mail permanente."
+    "disposableEmail": "Les adresses e-mail temporaires ou jetables ne sont pas autorisées. Utilise une adresse e-mail permanente.",
+    "emailReuseCooldown": "Cette adresse e-mail ne peut pas être réutilisée pendant 14 jours après la suppression du compte."
   },
   "metadata": {
     "openPacksCollectYourFavoriteCharactersAndTrade": "Ouvre des packs, collectionne tes personnages préférés et échange avec les autres joueurs.",
@@ -1884,7 +1885,7 @@
     "privateProfile": "Profil privé",
     "passwordChangeHint": "Confirme ton mot de passe actuel, puis choisis-en un nouveau.",
     "deleteMyAccount": "Supprimer mon compte",
-    "deletionPermanentNotice": "La suppression de ton compte est définitive. Tes cartes, Karas, avatar et données de profil seront supprimés. Tes enchères actives seront annulées et les enchérisseurs remboursés. Tes meilleures offres seront remboursées et retirées ; les enchères des autres joueurs continueront. Tes échanges en attente seront annulés. L’historique conservé affichera « Joueur supprimé ».",
+    "deletionPermanentNotice": "La suppression de ton compte est définitive. Tes cartes, Karas, avatar et données de profil seront supprimés. Tes enchères actives seront annulées et les enchérisseurs remboursés. Tes meilleures offres seront remboursées et retirées ; les enchères des autres joueurs continueront. Tes échanges en attente seront annulés. L’historique conservé affichera « Joueur supprimé ». Tu ne pourras pas créer un nouveau compte avec la même adresse e-mail pendant 14 jours.",
     "deletionSubscriptionNotice": "Tout abonnement Pro sera résilié juste avant la suppression du compte. Si la résiliation ne peut pas être effectuée en toute sécurité, la suppression sera suspendue pour vérification.",
     "exportMyDataFirst": "Exporter d’abord mes données",
     "deletionReauthNotice": "Pour protéger ton compte, tu dois t’être connecté il y a moins de cinq minutes.",
@@ -2975,7 +2976,9 @@
     "billingRetention": "conservés pendant la durée exigée par la législation comptable et fiscale",
     "deletionRetention": "conservé pour réappliquer une suppression si une sauvegarde est restaurée",
     "deletedSecurityIdentityRetention": "Historique anti-triche des comptes supprimés : pseudo et e-mail pendant {days} jours après la suppression, accessibles uniquement aux administrateurs pour examiner les transferts abusifs. Ces champs sont masqués dès l’échéance puis purgés automatiquement.",
-    "deletedSecurityIdentityException": "Une copie limitée du pseudo et de l’e-mail peut être conservée dans l’historique anti-triche privé pendant {days} jours après la suppression. Les traces économiques nécessaires à l’examen et les décisions administratives restent séparées ; elles ne recréent pas ton identité de connexion."
+    "deletedSecurityIdentityException": "Une copie limitée du pseudo et de l’e-mail peut être conservée dans l’historique anti-triche privé pendant {days} jours après la suppression. Les traces économiques nécessaires à l’examen et les décisions administratives restent séparées ; elles ne recréent pas ton identité de connexion.",
+    "emailReuseCooldownNotice": "Après une demande de suppression de ton compte, la même adresse e-mail ne peut pas servir à créer un nouveau compte pendant {days} jours. Cette restriction temporaire empêche d’utiliser la suppression puis la réinscription pour contourner les protections du compte.",
+    "deletedEmailCooldownRetention": "Prévention de la réutilisation d’e-mail : une empreinte à clé non réversible de l’adresse est conservée au maximum {days} jours après une suppression demandée par le joueur, puis automatiquement purgée. L’adresse e-mail elle-même n’est pas stockée dans cet historique temporaire."
   },
   "premiumUi": {
     "premium": "Abonnement Pro",
@@ -3184,6 +3187,14 @@
       "explanation": "Les Karas récupérés proviennent des transferts concernés ou des ventes traçables des cartes impliquées. Les montants affichés correspondent aux retraits enregistrés.",
       "rules": "Utiliser plusieurs comptes pour obtenir ou transférer artificiellement des récompenses et des gains est interdit.",
       "future": "De nouveaux abus peuvent entraîner d’autres sanctions, y compris la suspension du compte."
+    },
+    "networkWarning": {
+      "title": "Avertissement — parrainages depuis une connexion partagée",
+      "intro": "Au moins quatre comptes vérifiés créés avec ton lien de parrainage, dont les récompenses sont versées ou en attente, ont utilisé la même connexion réseau et un signal d’appareil correspondant au tien sur une période de sept jours. Cela a déclenché une mesure automatique.",
+      "decision": "Les comptes parrainés correspondant à ce seuil ont été suspendus et les packs de parrainage encore disponibles ont été retirés de ton solde bonus.",
+      "explanation": "Le système retire uniquement les packs bonus de parrainage restants. Les packs ouverts, les cartes obtenues et les autres actifs ne sont pas retirés automatiquement.",
+      "rules": "La création de comptes pour obtenir des récompenses de parrainage n’est pas autorisée.",
+      "future": "Une connexion partagée peut avoir une explication légitime. Si ces comptes appartiennent à des personnes différentes, contacte le support pour demander un examen."
     }
   },
   "adminNavigation": {
@@ -3322,7 +3333,9 @@
       "auctionExpired": "Enchère expirée",
       "referralRewarded": "Parrainage récompensé",
       "networkIdentityShared": "Connexion Internet commune détectée",
-      "tradeSharedNetworkIdentity": "Échange entre comptes utilisant une connexion commune"
+      "tradeSharedNetworkIdentity": "Échange entre comptes utilisant une connexion commune",
+      "referralNetworkReview": "Groupe de parrainage sur une même connexion · examen nécessaire",
+      "referralNetworkEnforcement": "Abus de parrainage confirmé · comptes suspendus"
     },
     "statuses": {
       "open": "Ouvert",
@@ -3342,7 +3355,9 @@
       "referralRewardBurst": "Rafale de récompenses de parrainage",
       "newAccountEconomicActivity": "Activité économique d’un nouveau compte",
       "sharedNetworkIdentity": "Connexion Internet commune · contexte uniquement",
-      "tradeSharedNetworkIdentity": "Échange entre comptes utilisant une connexion commune"
+      "tradeSharedNetworkIdentity": "Échange entre comptes utilisant une connexion commune",
+      "referralNetworkReview": "Au moins quatre filleuls récompensés partagent une connexion, sans confirmation du même appareil",
+      "referralNetworkEnforcement": "Au moins quatre filleuls vérifiés, récompenses versées ou en attente, partagent les signaux réseau et appareil"
     },
     "sanctionModes": "Type de sanction",
     "activeSmurfMode": "Compte smurf existant",
@@ -3368,7 +3383,21 @@
       "eventAmount": "Montant au moment de l’événement : {count} Karas",
       "startingPrice": "Prix de départ : {count} Karas",
       "captured": "Détails enregistrés au moment de l’événement. Les pseudos affichés sont ceux disponibles aujourd’hui.",
-      "retained": "Ancien événement : cartes reconstituées depuis les données de l’échange ou de l’enchère encore conservées ; montants issus du journal lorsqu’ils sont disponibles. Ce détail ne décrit pas la possession actuelle des cartes."
+      "retained": "Ancien événement : cartes reconstituées depuis les données de l’échange ou de l’enchère encore conservées ; montants issus du journal lorsqu’ils sont disponibles. Ce détail ne décrit pas la possession actuelle des cartes.",
+      "referralPackOrigin": "Pack obtenu grâce au parrainage",
+      "packOpened": "Ouvert le {date}",
+      "referralRewardGranted": "Récompense attribuée le {date}",
+      "packBeneficiary": "Bénéficiaire ({role}) : {player}",
+      "referrerRole": "parrain",
+      "referredRole": "filleul",
+      "referralPair": "Parrain : {referrer} · filleul : {referred}",
+      "noReferralTransfers": "Aucun transfert tracé depuis l’ouverture.",
+      "referralTransfer": {
+        "trade": "Échange accepté",
+        "auction_sale": "Vente aux enchères",
+        "other": "Autre transfert",
+        "removed": "Carte retirée"
+      }
     },
     "deletedAccounts": {
       "title": "Historique des comptes supprimés",

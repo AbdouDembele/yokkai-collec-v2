@@ -56,6 +56,7 @@ export const serverOnly = {
 const allowlist = {
   "public.admin_list_anticheat_related_accounts(uuid, text, text, integer, integer)":
     ["authenticated"], // Bounded, read-only admin overview of existing/deleted economic and recent connection links; identities expire after 90 days. Walid approved.
+  "public.admin_get_referral_pack_provenance(uuid[])": ["authenticated"], // Admin-only bounded source and transfer trail for referral-funded pack cards. Walid approved.
   "public.get_pack_favorite_card_ids(uuid[], boolean)": ["authenticated"], // Own favorite membership only, active session, at most 500 catalogue IDs, no mutation. Walid approved.
   "public.admin_list_deleted_accounts(text, uuid, boolean, integer, integer)": [
     "authenticated"

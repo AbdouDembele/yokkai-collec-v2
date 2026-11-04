@@ -65,6 +65,12 @@
   "public.anticheat_device_observations": {
     "excluded": "Short-lived hashes of random first-party browser tokens used only to corroborate anti-cheat review. Raw tokens are not stored; records require separate manual privacy and security review and expire after seven days."
   },
+  "public.anticheat_discord_config": {
+    "excluded": "Private global alert-delivery configuration, including a server-side webhook secret; never part of a player export."
+  },
+  "public.anticheat_discord_outbox": {
+    "excluded": "Private anti-cheat alert queue with event and delivery metadata; third-party security evidence requires separate manual privacy review."
+  },
   "public.anticheat_deleted_smurf_recoveries": {
     "excluded": "Immutable administrator decisions about precisely selected historical trades with deleted participants, including third-party context and independently reviewed evidence references. Separate manual privacy and security review is required; deleted identities are not recreated."
   },
@@ -79,6 +85,15 @@
   },
   "public.anticheat_network_observations": {
     "excluded": "Short-lived keyed network pseudonyms used for anti-cheat correlation. Raw addresses are not stored; records require separate manual privacy and security review and expire after seven days."
+  },
+  "public.anticheat_referral_enforcements": {
+    "excluded": "Immutable automated referral enforcement and reward-recovery receipts involving multiple accounts; requires separate manual privacy and security review."
+  },
+  "public.anticheat_referral_network_reviews": {
+    "excluded": "Private network-based referral review decisions and account associations; third-party security evidence requires separate manual privacy review."
+  },
+  "public.anticheat_referral_reward_holds": {
+    "excluded": "Private referral reward holds and automated enforcement metadata; third-party security evidence requires separate manual privacy review."
   },
   "public.anticheat_smurf_sanctions": {
     "excluded": "Immutable administrator sanction receipts containing paired-account trade and resale history, moderation evidence and exact recovered assets. Requires separate manual privacy and security review because it contains moderation decisions and third-party context."
@@ -191,6 +206,12 @@
   "public.decision_packs": {
     "sections": ["decision_packs"]
   },
+  "public.deleted_email_cooldown_key": {
+    "excluded": "Private keyed email cooldown lookup material for deleted-account signup protection; never export authentication or anti-abuse secrets."
+  },
+  "public.deleted_email_cooldowns": {
+    "excluded": "Private 14-day account recreation cooldown evidence; keyed email digests and enforcement metadata require separate manual privacy review."
+  },
   "public.folders": {
     "sections": ["folders"]
   },
@@ -209,6 +230,9 @@
   },
   "public.leaderboard_rank_observations": {
     "excluded": "Internal derived daily public-rank observations, retained for 35 days and readable only through permission-checked ranking responses. Not authored content or received correspondence. No direct API table access; rows cascade on account deletion."
+  },
+  "public.legacy_regular_pack_bonus_balances": {
+    "excluded": "Private server-side snapshot used to distinguish pre-migration bonus packs from attributable referral rewards; operational provenance, not player-authored content."
   },
   "public.notifications": {
     "sections": ["notifications"]
@@ -259,9 +283,21 @@
     "sections": ["referral_codes"],
     "note": "Only the requesting player's invitation code and creation date."
   },
+  "public.referral_pack_reward_lots": {
+    "excluded": "Private pack reward provenance linking referral participants and recoverable balances; third-party economic evidence requires separate manual privacy review."
+  },
   "public.referrals": {
     "sections": ["referrals"],
     "note": "Own sent/received referral events and reward dates; no counterparty UUID, email, code or profile."
+  },
+  "public.regular_pack_card_transfers": {
+    "excluded": "Private immutable card transfer provenance across trades, auctions and removals, including counterparties and transaction references; requires separate manual privacy review."
+  },
+  "public.regular_pack_opening_cards": {
+    "excluded": "Private card-to-opening provenance linking an owned card to a referral-funded or legacy pack opening; third-party referral data requires separate manual privacy review."
+  },
+  "public.regular_pack_openings": {
+    "excluded": "Private pack opening source and referral participant provenance; counterpart account relationships require separate manual privacy review."
   },
   "public.signup_email_domain_rules": {
     "excluded": "Global domain-level allow/block policy copied from a public source. Contains no email addresses, account identifiers or player records. Owner-only data, not an individual account export."

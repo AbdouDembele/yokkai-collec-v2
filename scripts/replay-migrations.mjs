@@ -7,11 +7,13 @@ import {
 } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { PGlite } from "@electric-sql/pglite";
+import { pgcrypto } from "@electric-sql/pglite/contrib/pgcrypto";
 import { pg_trgm } from "@electric-sql/pglite/contrib/pg_trgm";
 
 // Shared Supabase bootstrap for disposable PGlite and PostgreSQL databases.
 export const bootstrapSQL = `
       create schema auth;
+      create schema extensions;
       create table auth.users(
         id uuid primary key,
         raw_user_meta_data jsonb,
@@ -67,7 +69,7 @@ const emptyCluster = new URL(
   import.meta.url
 );
 async function freshDatabase() {
-  const options = { extensions: { pg_trgm } };
+  const options = { extensions: { pgcrypto, pg_trgm } };
   if (process.env.YOKKAI_PGLITE_CACHE === "off") return PGlite.create(options);
   try {
     return await PGlite.create({
@@ -88,6 +90,15 @@ async function freshDatabase() {
 }
 
 // Disposable database only: mimic Supabase defaults before creating application objects.
+export function pgliteMigrationSource(source) {
+  return source
+    .replaceAll("\r\n", "\n")
+    .replace(
+      /^\s*create extension if not exists pg_net;\s*$/gim,
+      "-- pg_net is managed by Supabase and is unavailable in PGlite replay."
+    );
+}
+
 export async function replayMigrations({ migrations: selected } = {}) {
   const db = await freshDatabase();
   try {
@@ -106,11 +117,25 @@ ${bootstrapSQL}`);
     }
     for (const name of migrations) {
       try {
-        await db.exec(readFileSync(new URL(name, directory), "utf8"));
+        const sql = pgliteMigrationSource(
+          readFileSync(new URL(name, directory), "utf8")
+        );
+        await db.exec(sql);
       } catch (error) {
-        throw new Error(`Migration ${name}: ${error.message}`, {
-          cause: error
-        });
+        const details = [
+          error.code ? `SQLSTATE ${error.code}` : null,
+          error.position ? `position ${error.position}` : null,
+          error.detail ?? null,
+          error.hint ? `hint: ${error.hint}` : null
+        ]
+          .filter(Boolean)
+          .join("; ");
+        throw new Error(
+          `Migration ${name}: ${error.message}${details ? ` (${details})` : ""}`,
+          {
+            cause: error
+          }
+        );
       }
     }
     return { db, migrations };
