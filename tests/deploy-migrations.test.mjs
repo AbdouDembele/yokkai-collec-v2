@@ -390,6 +390,7 @@ test("drift detects changed, missing and extra cron jobs", async t => {
     jobs.map(j => j.name),
     [
       "dispatch-anticheat-discord-alerts@postgres",
+      "fold-collection-score-changes@postgres",
       "purge-anticheat-deleted-identities@postgres",
       "purge-cron-history@postgres",
       "purge-deleted-email-cooldowns@postgres",
