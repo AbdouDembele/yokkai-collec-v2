@@ -35,4 +35,9 @@ Do not enable shell tracing or save the secret in command history. The scheduled
 
 ## Rollout
 
-This migration has not been applied to the VPS. Apply it only after the PR is current with `origin/master`, GitHub Actions is green, the team is notified in Discord, and no other production SQL change is in progress. Configure the rotated webhook after deployment and verify one controlled alert before relying on the channel.
+The following migrations have not been applied to the VPS:
+
+- `20261103240000_referral_network_enforcement.sql`
+- `20261103250000_referral_pack_provenance.sql`
+
+Apply them only after the PR is current with `origin/master`, GitHub Actions is green, the team is notified in Discord, and no other production SQL change is in progress. Configure the rotated webhook after deployment and verify one controlled alert before relying on the channel.
