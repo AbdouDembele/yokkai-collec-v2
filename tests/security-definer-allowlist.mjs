@@ -18,6 +18,7 @@ export const ownerOnly = [
   "public.guard_trade_offer_submission()", // Trigger-only transactional anti-spam admission; no API or service-role execution.
   "public.bump_catalogue_links_version()", // Trigger-only: bumps the private catalogue-links cache version on editorial writes; never an API entry point.
   "public.log_collection_score_change()", // Trigger-only: appends changed player ids to the private score log; players may write their own user_cards (RLS), never an API entry point.
+  "public.log_license_score_change()", // Trigger-only: appends changed player ids to the private license score log; players may write their own user_cards (RLS), never an API entry point.
   "public.leaderboard_collection_without_styles(integer, integer, text, boolean)", // Internal score/visibility projection; only the public entitlement-aware leaderboard wrapper can execute it.
   "public.leaderboard_referrals_without_styles(integer, integer, text, boolean)", // Internal referral projection; no direct API access, cosmetics appended only after the wrapper's authorized page is known.
   "public.collection_ranked_copies(uuid, text, text[], text[], boolean, text, boolean, boolean, text)", // Internal filtered/ranked copies of one player; only the own-collection page, counts and copies wrappers (auth.uid()).
