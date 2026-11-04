@@ -15,7 +15,9 @@ Le `Dockerfile` reproduit exactement `railpack.json` : Node 22,
   construit l'image avec des valeurs factices, sans la publier ni déployer.
 - **Push sur `master`** : vérifie les variables de build, construit, publie
   `ghcr.io/yokkai-collec/yokkai-collec-v2:<sha>` et `:latest`, puis demande à
-  Coolify de déployer si son webhook est configuré.
+  Coolify de déployer si son webhook est configuré. Tant que les variables
+  obligatoires manquent, le job affiche un avertissement et ne publie rien,
+  sans échouer.
 - **Manuel** (`workflow_dispatch`) : même chose que sur `master`.
 
 Le build tourne sur `ubuntu-latest`, jamais sur le serveur de prod ni sur un
