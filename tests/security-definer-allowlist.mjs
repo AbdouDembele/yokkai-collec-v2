@@ -56,7 +56,7 @@ export const serverOnly = {
 };
 
 const allowlist = {
-  "public.set_collection_cover(text, text)": ["authenticated"], // Walid approved: own target, paid Pro for uploads, validated owned media only; reset allowed after expiry.
+  "public.set_collection_cover(text, text)": ["authenticated"], // Walid approved: own target and paid Pro; HTTPS Imgur/Pinterest links or validated own media; reset allowed after expiry.
   "public.get_collection_covers(uuid, text[])": ["authenticated"], // Walid approved: bounded cosmetic read, collection privacy and featured-folder visibility.
   "public.get_profile_featured_items(uuid)": ["authenticated"], // Walid approved: unified read with collection privacy and no private folder data.
   "public.set_profile_featured_selection(text[], uuid[])": ["authenticated"], // Walid approved: active owner only, bounded selection, own folders, atomic update, collection favorites unchanged.
