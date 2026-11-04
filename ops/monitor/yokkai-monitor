@@ -286,7 +286,10 @@ def check_db(issues, prev, st):
         temp, deadlocks, size = int(temp), int(deadlocks), int(size)
         p = prev.get("db", {})
         if "temp" in p and temp >= p["temp"]:
-            dtemp = temp - p["temp"]
+            # The timer runs every minute: scale the delta to a 5-minute rate so
+            # the threshold and the admin page keep the same meaning.
+            elapsed = time.time() - p.get("at", time.time() - 300)
+            dtemp = int((temp - p["temp"]) * 300 / max(elapsed, 30))
             m["tempBytes5m"] = dtemp
             lvl = WARN if dtemp > 20 * 1024**3 else OK
             lines.append(f"{ICON[lvl]} Fichiers temporaires : {gb(dtemp)} en 5 min")
@@ -294,7 +297,7 @@ def check_db(issues, prev, st):
                 issues.append(("db.temp", WARN, f"{gb(dtemp)} écrits en fichiers temporaires en 5 min (mémoire PostgreSQL insuffisante)"))
         if "deadlocks" in p and deadlocks > p["deadlocks"]:
             EVENTS.append((WARN, f"{deadlocks - p['deadlocks']} deadlock(s) détecté(s) dans PostgreSQL"))
-        st["db"] = {"temp": temp, "deadlocks": deadlocks}
+        st["db"] = {"temp": temp, "deadlocks": deadlocks, "at": time.time()}
         m["sizeBytes"] = size
         lines.append(f"Taille base du jeu : {size / 1024**2:.0f} Mo")
 
@@ -455,7 +458,7 @@ def main():
         "description": active_txt[:4000],
         "color": COLOR[worst],
         "fields": [{"name": t, "value": v[:1024], "inline": False} for t, v in sections],
-        "footer": {"text": "Mis à jour toutes les 5 minutes"},
+        "footer": {"text": "Mis à jour chaque minute"},
         "timestamp": now.isoformat(),
     }
 

@@ -83,6 +83,43 @@ export type MonitorData = {
   history: MonitorPoint[];
 };
 
+const averageOf = (values: (number | null)[]) => {
+  const known = values.filter((value): value is number => value !== null);
+  return known.length
+    ? known.reduce((sum, value) => sum + value, 0) / known.length
+    : null;
+};
+
+/**
+ * Averages consecutive points into at most maxPoints buckets (the monitor
+ * writes one point per minute; charts do not need 1 440 points). Each bucket
+ * keeps the time of its last point and its worst level.
+ */
+export function downsampleHistory(
+  history: MonitorPoint[],
+  maxPoints: number
+): MonitorPoint[] {
+  const size = Math.ceil(history.length / Math.max(1, maxPoints));
+  if (size <= 1) return history;
+  const result: MonitorPoint[] = [];
+  for (let start = 0; start < history.length; start += size) {
+    const bucket = history.slice(start, start + size);
+    const last = bucket[bucket.length - 1];
+    result.push({
+      at: last.at,
+      worst: bucket.reduce(
+        (worst, point) => (point.worst > worst ? point.worst : worst),
+        0 as MonitorLevel
+      ),
+      loadPerCpu: averageOf(bucket.map(point => point.loadPerCpu)),
+      memAvailablePct: averageOf(bucket.map(point => point.memAvailablePct)),
+      diskUsedPct: averageOf(bucket.map(point => point.diskUsedPct)),
+      connPct: averageOf(bucket.map(point => point.connPct))
+    });
+  }
+  return result;
+}
+
 /** A snapshot older than this is considered stale (monitor stopped). */
 export const STALE_AFTER_MS = 15 * 60 * 1000;
 

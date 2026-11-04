@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/python3 -I /usr/local/sbin/yokkai-monitor
-TimeoutStartSec=120
+TimeoutStartSec=55
 Nice=10
 IOSchedulingClass=idle
 ProtectSystem=full

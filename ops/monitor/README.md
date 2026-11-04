@@ -1,6 +1,6 @@
 # Monitoring de production
 
-`yokkai-monitor` tourne sur le VPS toutes les 5 minutes (timer systemd). Il ne
+`yokkai-monitor` tourne sur le VPS chaque minute (timer systemd). Il ne
 fait que des lectures : charge, mémoire, disque, conteneurs Docker, site et API,
 PostgreSQL, sauvegardes locales, erreurs de l'application, fail2ban et pare-feu
 Cloudflare.
