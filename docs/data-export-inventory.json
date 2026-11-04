@@ -378,5 +378,13 @@
   },
   "public.anticheat_asset_recovery_notices": {
     "excluded": "Private administrative withdrawal notices linked to immutable source receipts, with own published quantities available through the existing authenticated reader. Contains no source-account identities or internal notes. Separate manual privacy review required."
+  },
+  "public.license_folders": {
+    "sections": ["license_folders"],
+    "note": "Own themed license folders, names and profile featuring preference."
+  },
+  "public.license_folder_cards": {
+    "sections": ["license_folder_cards"],
+    "note": "Catalogue card IDs selected in the current player own license folders."
   }
 }
