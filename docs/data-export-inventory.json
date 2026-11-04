@@ -37,6 +37,12 @@
   "public.active_binder_aliases_unmerged": {
     "excluded": "Private catalogue-only aliases before editorial grouping; contains no player records or preferences."
   },
+  "public.active_binder_aliases_source": {
+    "excluded": "Private catalogue-only alias definition (editorial aliases, merges and groups) used to rebuild the alias cache; contains no player records or preferences."
+  },
+  "public.binder_alias_cache": {
+    "excluded": "Private catalogue-only cache of editorial binder aliases, rebuilt from the alias source on editorial changes; contains no player records or preferences."
+  },
   "public.admin_audit_logs": {
     "excluded": "Security audit with third-party snapshots; requires separate manual privacy review."
   },
