@@ -53,7 +53,9 @@ export function createSocialUnreadStore(adapter: SocialUnreadAdapter) {
       listeners.add(listener);
       if (listeners.size === 1) {
         const stopAdapter = adapter.subscribe?.(invalidate, reset);
-        const stopPoll = startVisiblePolling(() => void refresh(), 15_000);
+        // Fallback only: Realtime notifications, focus, storage and local events
+        // already refresh the counts immediately.
+        const stopPoll = startVisiblePolling(() => void refresh(), 60_000);
         const storage = (event: StorageEvent) => {
           if (event.key === "yokkai:social-unread-invalidation") invalidate();
         };

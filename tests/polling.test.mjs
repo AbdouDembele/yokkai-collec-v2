@@ -276,8 +276,9 @@ test("Game and notifications make no requests while hidden, including invalidati
 
 test("visible idle Game refreshes only needed status; the countdown stays local", async () => {
   for (const [view, expected] of [
-    ["packs", 7],
-    ["collection", 5]
+    // Notifications poll once a minute as a Realtime fallback.
+    ["packs", 6],
+    ["collection", 4]
   ]) {
     const f = fixture(view);
     await f.mount();
