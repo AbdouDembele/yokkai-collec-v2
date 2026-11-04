@@ -862,6 +862,8 @@
     "notificationMessageTitle": "New private message",
     "notificationMessageText": "{actorPseudo} sent you a message.",
     "notificationFriendTitle": "New friend request",
+    "notificationFriendAcceptedTitle": "Friend request accepted",
+    "notificationFriendAcceptedText": "{actorPseudo} accepted your friend request.",
     "notificationFriendText": "{actorPseudo} sent you a friend request.",
     "notificationOutbidTitle": "You've been outbid",
     "notificationOutbidText": "You've been outbid on {cardName}.",

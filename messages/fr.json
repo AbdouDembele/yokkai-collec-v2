@@ -862,6 +862,8 @@
     "notificationMessageTitle": "Nouveau message privé",
     "notificationMessageText": "{actorPseudo} t’a envoyé un message.",
     "notificationFriendTitle": "Nouvelle demande d’ami",
+    "notificationFriendAcceptedTitle": "Demande d’ami acceptée",
+    "notificationFriendAcceptedText": "{actorPseudo} a accepté ta demande d’ami.",
     "notificationFriendText": "{actorPseudo} t’a envoyé une demande d’ami.",
     "notificationOutbidTitle": "Offre dépassée",
     "notificationOutbidText": "Quelqu’un a surenchéri sur ta mise pour {cardName}.",
