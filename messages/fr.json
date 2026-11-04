@@ -3530,7 +3530,7 @@
     "metadataTitle": "Admin · Monitoring",
     "eyebrow": "Administration",
     "title": "Monitoring de la production",
-    "description": "Serveur, conteneurs, site, base de données, sauvegardes et sécurité, actualisés toutes les 5 minutes par le monitoring du serveur.",
+    "description": "Serveur, conteneurs, site, base de données, sauvegardes et sécurité, actualisés chaque minute par le monitoring du serveur.",
     "overall": {
       "ok": "Tout fonctionne normalement",
       "warning": "Un point demande ton attention",
@@ -3544,7 +3544,7 @@
     "updated": "Dernier relevé {time}.",
     "staleTitle": "Le monitoring ne remonte plus rien",
     "staleHelp": "Aucun relevé depuis plus de 15 minutes : vérifie le timer yokkai-monitor sur le serveur.",
-    "empty": "Aucun relevé pour l’instant. Le monitoring du serveur écrit le premier dans les 5 minutes suivant son déploiement.",
+    "empty": "Aucun relevé pour l’instant. Le monitoring du serveur écrit le premier dans la minute suivant son déploiement.",
     "issuesTitle": "Problèmes en cours",
     "noIssues": "Aucun problème détecté.",
     "issues": {
@@ -3576,7 +3576,7 @@
       "checkFailed": "Un contrôle du monitoring a échoué : {subject}",
       "unknown": "Autre problème : {subject}"
     },
-    "historyHelp": "Un point toutes les 5 minutes. La ligne pointillée marque le seuil d’alerte.",
+    "historyHelp": "Un relevé par minute, moyenné sur 5 minutes dans le graphique. La ligne pointillée marque le seuil d’alerte.",
     "charts": {
       "load": "Charge par cœur",
       "memory": "Mémoire disponible",

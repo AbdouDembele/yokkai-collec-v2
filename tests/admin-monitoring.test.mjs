@@ -91,6 +91,32 @@ test("history points are converted to ratios and staleness follows 15 minutes", 
   assert.equal(lib.isStale(data.latest, captured + 16 * 60_000), true);
 });
 
+test("minute history is averaged into buckets for the charts", () => {
+  const point = (minute, load, worst = 0) => ({
+    at: new Date(Date.UTC(2026, 10, 4, 12, minute)).toISOString(),
+    worst,
+    loadPerCpu: load,
+    memAvailablePct: null,
+    diskUsedPct: 0.5,
+    connPct: 0.4
+  });
+  const history = [
+    point(0, 1),
+    point(1, 3, 1),
+    point(2, null),
+    point(3, 2),
+    point(4, 4)
+  ];
+  assert.equal(lib.downsampleHistory(history, 10), history);
+  const buckets = lib.downsampleHistory(history, 2);
+  assert.equal(buckets.length, 2);
+  assert.equal(buckets[0].at, history[2].at, "bucket keeps its last time");
+  assert.equal(buckets[0].loadPerCpu, 2, "missing values are skipped");
+  assert.equal(buckets[0].worst, 1, "bucket keeps its worst level");
+  assert.equal(buckets[0].memAvailablePct, null);
+  assert.equal(buckets[1].loadPerCpu, 3);
+});
+
 test("every issue code and monitoring label exists in English and French", () => {
   const monitor = read("ops/monitor/yokkai-monitor");
   // Placeholders become concrete subjects: {key} is "site" or "api".

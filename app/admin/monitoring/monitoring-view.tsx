@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { useFormatter, useTranslations } from "next-intl";
 import {
+  downsampleHistory,
   isStale,
   sectionLevels,
   type MonitorData,
@@ -38,8 +39,7 @@ const levelKeys = ["ok", "warning", "critical"] as const;
 const cardClass =
   "min-w-0 rounded-2xl border border-cyan-300/20 bg-slate-900/70 p-4 shadow-[0_0_24px_rgba(34,211,238,0.04)] sm:p-5";
 
-/** One point every 5 minutes: 12 points is one hour. */
-const POINTS_PER_HOUR = 12;
+const HOUR_MS = 3_600_000;
 
 type Pair = [number, number];
 
@@ -239,10 +239,13 @@ type Series = {
 
 function TrendChart({
   series,
+  times,
   threshold,
   formatValue
 }: {
   series: Series[];
+  /** Timestamp of each point, in milliseconds. */
+  times: number[];
   threshold: number;
   formatValue: (value: number) => string;
 }) {
@@ -276,7 +279,9 @@ function TrendChart({
   });
   const peak = peakIndex >= 0 ? main[peakIndex] : null;
   const peakLeft = (peakIndex / (length - 1)) * 100;
-  const hoursAgo = Math.round((length - 1 - peakIndex) / POINTS_PER_HOUR);
+  const hoursAgo = Math.round(
+    ((times.at(-1) ?? 0) - (times[peakIndex] ?? 0)) / HOUR_MS
+  );
 
   return (
     <div className="mt-4 flex gap-2">
@@ -596,16 +601,30 @@ export function MonitoringView({
     db.connUsed !== null && db.connMax ? db.connUsed / db.connMax : null;
 
   const history = data.history;
-  const pick = (key: keyof Omit<MonitorPoint, "at" | "worst">) =>
-    history.map(point => point[key]);
-  const recent = (values: (number | null)[]) =>
-    values.slice(-POINTS_PER_HOUR * 6);
+  const lastAt = Date.parse(history.at(-1)?.at ?? "");
+  const atOf = (point: MonitorPoint) => Date.parse(point.at);
+  // Sparklines: last 6 hours; trend chart: 24 hours in at most 288 points.
+  const recentHistory = downsampleHistory(
+    history.filter(point => lastAt - atOf(point) <= 6 * HOUR_MS),
+    120
+  );
+  const chartHistory = downsampleHistory(history, 288);
+  type Metric = keyof Omit<MonitorPoint, "at" | "worst">;
+  const recent = (key: Metric) => recentHistory.map(point => point[key]);
+  const chart = (key: Metric) => chartHistory.map(point => point[key]);
+  // Reference point for the 1-hour change: the last snapshot taken at least
+  // one hour ago, if it is not much older than that.
+  const hourAgo = history.findLast(point => atOf(point) <= lastAt - HOUR_MS);
+  const reference =
+    hourAgo && atOf(hourAgo) >= lastAt - HOUR_MS - 15 * 60_000
+      ? hourAgo
+      : undefined;
   const delta = (
-    values: (number | null)[],
+    key: Metric,
     style: "percent" | "decimal"
   ): { raw: number; text: string } | null => {
-    const last = values.at(-1);
-    const before = values.at(-1 - POINTS_PER_HOUR);
+    const last = history.at(-1)?.[key];
+    const before = reference?.[key];
     if (last == null || before == null) return null;
     const raw = last - before;
     return {
@@ -617,11 +636,6 @@ export function MonitoringView({
       })
     };
   };
-
-  const load = pick("loadPerCpu");
-  const memory = pick("memAvailablePct");
-  const connections = pick("connPct");
-  const disk = pick("diskUsedPct");
 
   const http = (key: "site" | "api") =>
     snapshot.http.find(check => check.key === key);
@@ -734,33 +748,33 @@ export function MonitoringView({
           </div>
           <div className="grid gap-4 sm:grid-cols-2">
             <KpiTile
-              delta={delta(load, "decimal")}
+              delta={delta("loadPerCpu", "decimal")}
               label={t("charts.load")}
               level={issueLevel("host.load")}
               value={n(loadPerCpu, 2)}
-              values={recent(load)}
+              values={recent("loadPerCpu")}
             />
             <KpiTile
-              delta={delta(memory, "percent")}
+              delta={delta("memAvailablePct", "percent")}
               higherIsBetter
               label={t("charts.memory")}
               level={issueLevel("host.mem")}
               value={pct(memPct)}
-              values={recent(memory)}
+              values={recent("memAvailablePct")}
             />
             <KpiTile
-              delta={delta(connections, "percent")}
+              delta={delta("connPct", "percent")}
               label={t("charts.connections")}
               level={issueLevel("db.conn")}
               value={pct(connPct)}
-              values={recent(connections)}
+              values={recent("connPct")}
             />
             <KpiTile
-              delta={delta(disk, "percent")}
+              delta={delta("diskUsedPct", "percent")}
               label={t("charts.disk")}
               level={issueLevel("host.disk")}
               value={pct(diskPct)}
-              values={recent(disk)}
+              values={recent("diskUsedPct")}
             />
           </div>
         </section>
@@ -876,6 +890,7 @@ export function MonitoringView({
             </ul>
           </div>
           <TrendChart
+            times={chartHistory.map(atOf)}
             formatValue={value =>
               format.number(value, {
                 style: "percent",
@@ -888,14 +903,14 @@ export function MonitoringView({
                 label: t("charts.load"),
                 color: "stroke-cyan-300",
                 fill: "#67e8f9",
-                values: load
+                values: chart("loadPerCpu")
               },
               {
                 key: "connections",
                 label: t("charts.connections"),
                 color: "stroke-fuchsia-400",
                 fill: "#e879f9",
-                values: connections
+                values: chart("connPct")
               }
             ]}
             threshold={0.8}
