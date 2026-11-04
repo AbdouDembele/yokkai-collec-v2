@@ -1,0 +1,20 @@
+.git
+.github
+.githooks
+.claude
+.codex
+node_modules
+.next
+graphify-out
+artifacts
+docs
+tests
+Yokkai Collec' UI design
+*.md
+.env*
+!.env.example
+# Runtime reads only these data files (disposable email snapshot, booster
+# opening document); the import CSVs stay out of the image.
+data/*
+!data/disposable-email-domains.json
+!data/booster-opening
