@@ -252,6 +252,15 @@
   "public.collection_scores": {
     "excluded": "Internal derived collection score per player (totals recomputed from the exported collection), readable only through permission-checked ranking responses. No direct API table access; rows cascade on account deletion."
   },
+  "public.license_progress_scores": {
+    "excluded": "Internal derived license progress totals per player (recomputed from the exported collection and the public catalogue), readable only through permission-checked ranking responses. No direct API table access; rows cascade on account deletion."
+  },
+  "public.license_score_changes": {
+    "excluded": "Internal short-lived queue of player ids whose cards changed, emptied every minute by the license score fold job. Contains no card, score or authored data; no direct API table access."
+  },
+  "public.license_score_state": {
+    "excluded": "Internal singleton recording the catalogue version of the stored license totals. Contains no personal data."
+  },
   "public.legacy_regular_pack_bonus_balances": {
     "excluded": "Private server-side snapshot used to distinguish pre-migration bonus packs from attributable referral rewards; operational provenance, not player-authored content."
   },
