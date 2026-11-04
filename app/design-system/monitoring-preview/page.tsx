@@ -16,7 +16,8 @@ function fixture(state: string) {
     const wave = Math.sin(index / 18) * 0.5 + Math.sin(index / 5) * 0.15;
     return {
       at: new Date(at - (287 - index) * 300_000).toISOString(),
-      worst: 0,
+      // Make the hourly status bars show a few degraded snapshots.
+      worst: critical && index > 276 ? 2 : warning && wave > 0.45 ? 1 : 0,
       load5: Math.max(0.5, 8 + wave * 6),
       cpus: 8,
       memTotal: 15 * GiB,
