@@ -237,6 +237,12 @@
   "public.leaderboard_rank_observations": {
     "excluded": "Internal derived daily public-rank observations, retained for 35 days and readable only through permission-checked ranking responses. Not authored content or received correspondence. No direct API table access; rows cascade on account deletion."
   },
+  "public.collection_score_changes": {
+    "excluded": "Internal short-lived queue of player ids whose cards changed, emptied every minute by the score fold job. Contains no card, score or authored data; no direct API table access."
+  },
+  "public.collection_scores": {
+    "excluded": "Internal derived collection score per player (totals recomputed from the exported collection), readable only through permission-checked ranking responses. No direct API table access; rows cascade on account deletion."
+  },
   "public.legacy_regular_pack_bonus_balances": {
     "excluded": "Private server-side snapshot used to distinguish pre-migration bonus packs from attributable referral rewards; operational provenance, not player-authored content."
   },
