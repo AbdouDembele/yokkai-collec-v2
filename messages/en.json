@@ -3530,7 +3530,7 @@
     "metadataTitle": "Admin · Monitoring",
     "eyebrow": "Administration",
     "title": "Production monitoring",
-    "description": "Server, containers, site, database, backups and security, refreshed every 5 minutes by the host monitor.",
+    "description": "Server, containers, site, database, backups and security, refreshed every minute by the host monitor.",
     "overall": {
       "ok": "Everything looks healthy",
       "warning": "Something needs attention",
@@ -3544,7 +3544,7 @@
     "updated": "Last snapshot {time}.",
     "staleTitle": "The monitor has stopped reporting",
     "staleHelp": "No snapshot for more than 15 minutes: check the yokkai-monitor timer on the server.",
-    "empty": "No snapshot yet. The host monitor writes its first one within 5 minutes of being deployed.",
+    "empty": "No snapshot yet. The host monitor writes its first one within a minute of being deployed.",
     "issuesTitle": "Active problems",
     "noIssues": "No problem detected.",
     "issues": {
@@ -3576,7 +3576,7 @@
       "checkFailed": "A monitor check failed: {subject}",
       "unknown": "Other problem: {subject}"
     },
-    "historyHelp": "One point every 5 minutes. The dashed line marks the warning threshold.",
+    "historyHelp": "One snapshot per minute, averaged over 5 minutes on the chart. The dashed line marks the warning threshold.",
     "charts": {
       "load": "Load per core",
       "memory": "Available memory",

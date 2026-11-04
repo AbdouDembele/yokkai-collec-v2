@@ -12,18 +12,19 @@ const GiB = 1024 ** 3;
 function fixture(state: string) {
   const warning = state === "warning" || state === "critical";
   const critical = state === "critical";
-  const history = Array.from({ length: 288 }, (_, index) => {
-    const wave = Math.sin(index / 18) * 0.5 + Math.sin(index / 5) * 0.15;
+  // One snapshot per minute over 24 hours, like the host monitor.
+  const history = Array.from({ length: 1440 }, (_, index) => {
+    const wave = Math.sin(index / 90) * 0.5 + Math.sin(index / 25) * 0.15;
     return {
-      at: new Date(at - (287 - index) * 300_000).toISOString(),
+      at: new Date(at - (1439 - index) * 60_000).toISOString(),
       // Make the hourly status bars show a few degraded snapshots.
-      worst: critical && index > 276 ? 2 : warning && wave > 0.45 ? 1 : 0,
+      worst: critical && index > 1380 ? 2 : warning && wave > 0.45 ? 1 : 0,
       load5: Math.max(0.5, 8 + wave * 6),
       cpus: 8,
       memTotal: 15 * GiB,
       memAvailable: (5 + wave * 2) * GiB,
       diskTotal: 251 * GiB,
-      diskFree: (135 - index * 0.01) * GiB,
+      diskFree: (135 - index * 0.002) * GiB,
       connUsed: Math.round(50 + wave * 15),
       connMax: 100
     };
