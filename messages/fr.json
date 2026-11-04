@@ -3384,7 +3384,7 @@
       "startingPrice": "Prix de départ : {count} Karas",
       "captured": "Détails enregistrés au moment de l’événement. Les pseudos affichés sont ceux disponibles aujourd’hui.",
       "retained": "Ancien événement : cartes reconstituées depuis les données de l’échange ou de l’enchère encore conservées ; montants issus du journal lorsqu’ils sont disponibles. Ce détail ne décrit pas la possession actuelle des cartes.",
-      "referralPackOrigin": "Booster obtenu grâce au parrainage",
+      "referralPackOrigin": "Pack obtenu grâce au parrainage",
       "packOpened": "Ouvert le {date}",
       "referralRewardGranted": "Récompense attribuée le {date}",
       "packBeneficiary": "Bénéficiaire ({role}) : {player}",

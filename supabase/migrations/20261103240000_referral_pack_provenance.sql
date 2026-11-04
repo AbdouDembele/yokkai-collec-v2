@@ -230,6 +230,7 @@ declare
   reward_lot public.referral_pack_reward_lots%rowtype; legacy_bonus integer:=0;
   opening_id uuid:=gen_random_uuid();
 begin
+  perform public.assert_player_not_banned();
   if player_id is null then raise exception 'AUTH_REQUIRED'; end if;
   perform public.billing_sync_pack_timing(player_id);
   select next_regular_pack_at,regular_pack_interval_seconds,bonus_regular_packs
@@ -277,7 +278,7 @@ begin
     end if;
     select * into selected_card from public.cards where rarete_base=rarities[rarity_index]
       order by id offset floor(random()*pool_sizes[rarity_index])::bigint limit 1;
-    shiny:=selected_card.rarete_base='LR' and random()<.1;
+    shiny:=selected_card.rarete_base='LR' and random()<.01;
     copy_id:=gen_random_uuid();
     copy_ids:=array_append(copy_ids,copy_id); card_ids:=array_append(card_ids,selected_card.id); shinies:=array_append(shinies,shiny);
     result:=result||jsonb_build_array(jsonb_build_object(
