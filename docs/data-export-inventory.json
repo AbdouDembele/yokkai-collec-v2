@@ -197,6 +197,15 @@
   "public.catalogue_binder_links": {
     "excluded": "Private computed catalogue membership view; contains no player identity, ownership or preferences."
   },
+  "public.catalogue_binder_links_cache": {
+    "excluded": "Private catalogue-only cache of card-to-binder links, rebuilt from editorial tables; contains no player records or preferences."
+  },
+  "public.catalogue_binder_links_source": {
+    "excluded": "Private catalogue-only definition of card-to-binder links used to rebuild the cache; contains no player records or preferences."
+  },
+  "public.catalogue_links_cache_state": {
+    "excluded": "Private technical version counters of the catalogue-links cache; contains no player or catalogue content."
+  },
   "public.catalogue_binder_links_unmerged": {
     "excluded": "Private source/provenance catalogue projection before editorial grouping; no player identity, ownership or preferences."
   },
