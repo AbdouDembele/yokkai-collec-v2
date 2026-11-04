@@ -7,23 +7,8 @@
     "sections": ["account"],
     "note": "Own allowlisted account fields only; no passwords, tokens or raw metadata."
   },
-  "public.economic_maintenance_state": {
-    "excluded": "Global operational maintenance singleton. Only the active boolean is public; operator, version, reason and maintenance timestamps are private operational evidence, not player data."
-  },
   "public.account_deletion_log": {
     "excluded": "Deletion fence and security retention record; manual privacy review, not a self-service payload."
-  },
-  "public.anticheat_deleted_accounts": {
-    "excluded": "Private anti-cheat deletion registry. Username and email are restricted to administrator review for 90 days after deletion, then hidden and purged; UUID and deletion date remain for security traceability. Requires separate manual privacy review, not a legal exemption."
-  },
-  "public.anticheat_deleted_account_transfers": {
-    "excluded": "Immutable private economic evidence linking exact original parties and transfer identifiers before detachment. Includes third-party catalogue snapshots; separate manual privacy review is required."
-  },
-  "public.anticheat_deleted_account_sanctions": {
-    "excluded": "Immutable administrative decisions and exact recovery receipts for one or multiple deleted source accounts. Includes third-party economic evidence and requires separate manual privacy review."
-  },
-  "public.anticheat_deleted_account_claims": {
-    "excluded": "Private immutable source and resale claims preventing repeated recovery across sanction paths. Separate manual privacy and security review required."
   },
   "public.account_sanctions": {
     "excluded": "Private administrative evidence journal with third-party inventory snapshots; requires separate manual privacy review. Own published receipt summaries are available through the dedicated authenticated reader."
@@ -33,6 +18,9 @@
   },
   "public.active_binder_aliases": {
     "excluded": "Private catalogue-only alias projection; no player records."
+  },
+  "public.active_binder_aliases_source": {
+    "excluded": "Private catalogue-only alias definition (editorial aliases, merges and groups) used to rebuild the alias cache; contains no player records or preferences."
   },
   "public.active_binder_aliases_unmerged": {
     "excluded": "Private catalogue-only aliases before editorial grouping; contains no player records or preferences."
@@ -55,48 +43,6 @@
   },
   "public.anime_license_key_redirects": {
     "excluded": "Global redirects of historical binder keys; no player records."
-  },
-  "public.anticheat_cases": {
-    "excluded": "Private derived anti-fraud scores and internal review status. Requests concerning these security records require separate manual privacy review; exclusion from self-service downloads is not a legal exemption."
-  },
-  "public.anticheat_case_reviews": {
-    "excluded": "Immutable administrator review decisions and notes about security cases. Requires separate manual privacy review because records contain operator and third-party context."
-  },
-  "public.anticheat_device_observations": {
-    "excluded": "Short-lived hashes of random first-party browser tokens used only to corroborate anti-cheat review. Raw tokens are not stored; records require separate manual privacy and security review and expire after seven days."
-  },
-  "public.anticheat_discord_config": {
-    "excluded": "Private global alert-delivery configuration, including a server-side webhook secret; never part of a player export."
-  },
-  "public.anticheat_discord_outbox": {
-    "excluded": "Private anti-cheat alert queue with event and delivery metadata; third-party security evidence requires separate manual privacy review."
-  },
-  "public.anticheat_deleted_smurf_recoveries": {
-    "excluded": "Immutable administrator decisions about precisely selected historical trades with deleted participants, including third-party context and independently reviewed evidence references. Separate manual privacy and security review is required; deleted identities are not recreated."
-  },
-  "public.anticheat_deleted_smurf_recovery_items": {
-    "excluded": "Private immutable claims on recovered trade and resale identifiers, preventing repeated confiscation. These security records require separate manual privacy review."
-  },
-  "public.anticheat_events": {
-    "excluded": "Private economic security evidence involving counterpart accounts and operational metadata. Requires separate manual privacy review to assess third-party data; not a legal exemption from access requests."
-  },
-  "public.anticheat_event_subjects": {
-    "excluded": "Private event-to-account security evidence with internal risk reasons and third-party associations. Requires separate manual privacy review; no automatic download of other players' evidence."
-  },
-  "public.anticheat_network_observations": {
-    "excluded": "Short-lived keyed network pseudonyms used for anti-cheat correlation. Raw addresses are not stored; records require separate manual privacy and security review and expire after seven days."
-  },
-  "public.anticheat_referral_enforcements": {
-    "excluded": "Immutable automated referral enforcement and reward-recovery receipts involving multiple accounts; requires separate manual privacy and security review."
-  },
-  "public.anticheat_referral_network_reviews": {
-    "excluded": "Private network-based referral review decisions and account associations; third-party security evidence requires separate manual privacy review."
-  },
-  "public.anticheat_referral_reward_holds": {
-    "excluded": "Private referral reward holds and automated enforcement metadata; third-party security evidence requires separate manual privacy review."
-  },
-  "public.anticheat_smurf_sanctions": {
-    "excluded": "Immutable administrator sanction receipts containing paired-account trade and resale history, moderation evidence and exact recovered assets. Requires separate manual privacy and security review because it contains moderation decisions and third-party context."
   },
   "public.anime_license_media_rules": {
     "excluded": "Global verified media routing and explicit editorial exceptions; no player records."
@@ -125,6 +71,63 @@
   "public.anime_series_settings": {
     "excluded": "Global catalogue feature flag and mapping version; not an individual account record."
   },
+  "public.anticheat_asset_recovery_notices": {
+    "excluded": "Private administrative withdrawal notices linked to immutable source receipts, with own published quantities available through the existing authenticated reader. Contains no source-account identities or internal notes. Separate manual privacy review required."
+  },
+  "public.anticheat_case_reviews": {
+    "excluded": "Immutable administrator review decisions and notes about security cases. Requires separate manual privacy review because records contain operator and third-party context."
+  },
+  "public.anticheat_cases": {
+    "excluded": "Private derived anti-fraud scores and internal review status. Requests concerning these security records require separate manual privacy review; exclusion from self-service downloads is not a legal exemption."
+  },
+  "public.anticheat_deleted_account_claims": {
+    "excluded": "Private immutable source and resale claims preventing repeated recovery across sanction paths. Separate manual privacy and security review required."
+  },
+  "public.anticheat_deleted_account_sanctions": {
+    "excluded": "Immutable administrative decisions and exact recovery receipts for one or multiple deleted source accounts. Includes third-party economic evidence and requires separate manual privacy review."
+  },
+  "public.anticheat_deleted_account_transfers": {
+    "excluded": "Immutable private economic evidence linking exact original parties and transfer identifiers before detachment. Includes third-party catalogue snapshots; separate manual privacy review is required."
+  },
+  "public.anticheat_deleted_accounts": {
+    "excluded": "Private anti-cheat deletion registry. Username and email are restricted to administrator review for 90 days after deletion, then hidden and purged; UUID and deletion date remain for security traceability. Requires separate manual privacy review, not a legal exemption."
+  },
+  "public.anticheat_deleted_smurf_recoveries": {
+    "excluded": "Immutable administrator decisions about precisely selected historical trades with deleted participants, including third-party context and independently reviewed evidence references. Separate manual privacy and security review is required; deleted identities are not recreated."
+  },
+  "public.anticheat_deleted_smurf_recovery_items": {
+    "excluded": "Private immutable claims on recovered trade and resale identifiers, preventing repeated confiscation. These security records require separate manual privacy review."
+  },
+  "public.anticheat_device_observations": {
+    "excluded": "Short-lived hashes of random first-party browser tokens used only to corroborate anti-cheat review. Raw tokens are not stored; records require separate manual privacy and security review and expire after seven days."
+  },
+  "public.anticheat_discord_config": {
+    "excluded": "Private global alert-delivery configuration, including a server-side webhook secret; never part of a player export."
+  },
+  "public.anticheat_discord_outbox": {
+    "excluded": "Private anti-cheat alert queue with event and delivery metadata; third-party security evidence requires separate manual privacy review."
+  },
+  "public.anticheat_event_subjects": {
+    "excluded": "Private event-to-account security evidence with internal risk reasons and third-party associations. Requires separate manual privacy review; no automatic download of other players' evidence."
+  },
+  "public.anticheat_events": {
+    "excluded": "Private economic security evidence involving counterpart accounts and operational metadata. Requires separate manual privacy review to assess third-party data; not a legal exemption from access requests."
+  },
+  "public.anticheat_network_observations": {
+    "excluded": "Short-lived keyed network pseudonyms used for anti-cheat correlation. Raw addresses are not stored; records require separate manual privacy and security review and expire after seven days."
+  },
+  "public.anticheat_referral_enforcements": {
+    "excluded": "Immutable automated referral enforcement and reward-recovery receipts involving multiple accounts; requires separate manual privacy and security review."
+  },
+  "public.anticheat_referral_network_reviews": {
+    "excluded": "Private network-based referral review decisions and account associations; third-party security evidence requires separate manual privacy review."
+  },
+  "public.anticheat_referral_reward_holds": {
+    "excluded": "Private referral reward holds and automated enforcement metadata; third-party security evidence requires separate manual privacy review."
+  },
+  "public.anticheat_smurf_sanctions": {
+    "excluded": "Immutable administrator sanction receipts containing paired-account trade and resale history, moderation evidence and exact recovered assets. Requires separate manual privacy and security review because it contains moderation decisions and third-party context."
+  },
   "public.auction_chat_messages": {
     "sections": ["messages"],
     "note": "Only messages authored by the requesting player."
@@ -150,6 +153,9 @@
   },
   "public.billing_webhook_events": {
     "excluded": "Provider event deduplication and security records; manual privacy review."
+  },
+  "public.binder_alias_cache": {
+    "excluded": "Private catalogue-only cache of editorial binder aliases, rebuilt from the alias source on editorial changes; contains no player records or preferences."
   },
   "public.binder_favorite_preferences": {
     "sections": ["binder_favorite_preferences"]
@@ -211,6 +217,9 @@
   },
   "public.deleted_email_cooldowns": {
     "excluded": "Private 14-day account recreation cooldown evidence; keyed email digests and enforcement metadata require separate manual privacy review."
+  },
+  "public.economic_maintenance_state": {
+    "excluded": "Global operational maintenance singleton. Only the active boolean is public; operator, version, reason and maintenance timestamps are private operational evidence, not player data."
   },
   "public.folders": {
     "sections": ["folders"]
@@ -354,8 +363,5 @@
   "storage.objects": {
     "sections": ["avatar_files", "wall_files"],
     "note": "Only own allowlisted file metadata; no binary contents, paths or signed URLs."
-  },
-  "public.anticheat_asset_recovery_notices": {
-    "excluded": "Private administrative withdrawal notices linked to immutable source receipts, with own published quantities available through the existing authenticated reader. Contains no source-account identities or internal notes. Separate manual privacy review required."
   }
 }
