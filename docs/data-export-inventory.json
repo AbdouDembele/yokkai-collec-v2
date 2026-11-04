@@ -203,6 +203,18 @@
   "public.catalogue_binder_links_source": {
     "excluded": "Private catalogue-only definition of card-to-binder links used to rebuild the cache; contains no player records or preferences."
   },
+  "public.catalogue_binder_names": {
+    "excluded": "Private computed view of binder names per source license (stored cache or original definition); contains no player identity, ownership or preferences."
+  },
+  "public.catalogue_binder_names_cache": {
+    "excluded": "Private catalogue-only cache of binder names per source license, rebuilt with the catalogue-links cache; contains no player records or preferences."
+  },
+  "public.catalogue_binder_totals": {
+    "excluded": "Private computed view of card totals per binder (stored cache or original definition); contains no player identity, ownership or preferences."
+  },
+  "public.catalogue_binder_totals_cache": {
+    "excluded": "Private catalogue-only cache of card totals per binder, rebuilt with the catalogue-links cache; contains no player records or preferences."
+  },
   "public.catalogue_links_cache_state": {
     "excluded": "Private technical version counters of the catalogue-links cache; contains no player or catalogue content."
   },
