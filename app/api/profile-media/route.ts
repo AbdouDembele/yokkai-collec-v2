@@ -108,7 +108,8 @@ export async function POST(request: Request) {
       .upload(path, imageBytes, {
         upsert: false,
         contentType: image.mime,
-        cacheControl: "3600"
+        // Unique path per upload (UUID): safe to cache for a year.
+        cacheControl: "31536000"
       });
     if (error) {
       await client
