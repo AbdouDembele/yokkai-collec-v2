@@ -3,8 +3,8 @@
 > **Désactivé le 2026-11-05.** Les services `supabase-analytics` et
 > `supabase-vector` ont été retirés de la production pendant la maintenance,
 > et le schéma `_analytics` a été supprimé. Le timer
-> `yokkai-logflare-retention.timer` est désactivé sur le VPS (`systemctl
-disable --now`). Ne pas le réactiver sans remettre analytics en place.
+> `yokkai-logflare-retention.timer` est désactivé sur le VPS. Ne pas le
+> réactiver sans remettre analytics en place.
 
 ## Pourquoi
 
