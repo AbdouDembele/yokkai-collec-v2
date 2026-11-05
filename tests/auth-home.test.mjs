@@ -38,6 +38,14 @@ test("the anonymous home page renders the same signup and shell with referral pa
   const AuthLayout = () => null;
   const SignUpPage = () => null;
   const home = load("app/page.tsx", {
+    "@/components/maintenance-compensation": {
+      MaintenanceCompensation: () => null
+    },
+    "@/lib/maintenance-compensation": {
+      hasUnseenMaintenanceCompensation: async () => {
+        throw new Error("Anonymous users must not query compensation");
+      }
+    },
     "@/lib/auth/session": { getVerifiedUser: async () => null },
     "@/components/home-dashboard": { HomeDashboard: () => null },
     "./(auth)/layout": { default: AuthLayout, __esModule: true },
@@ -56,6 +64,15 @@ test("the anonymous home page renders the same signup and shell with referral pa
 test("the connected home page renders the dashboard for the authenticated player", async () => {
   const HomeDashboard = () => null;
   const home = load("app/page.tsx", {
+    "@/components/maintenance-compensation": {
+      MaintenanceCompensation: () => null
+    },
+    "@/lib/maintenance-compensation": {
+      hasUnseenMaintenanceCompensation: async id => {
+        assert.equal(id, "home-player");
+        return false;
+      }
+    },
     "@/lib/auth/session": {
       getVerifiedUser: async () => ({ id: "home-player" })
     },
@@ -64,8 +81,35 @@ test("the connected home page renders the dashboard for the authenticated player
     "./(auth)/signup/page": { default: () => null, __esModule: true }
   });
   const tree = await home.default({ searchParams: Promise.resolve({}) });
-  assert.equal(tree.type, HomeDashboard);
-  assert.equal(tree.props.userId, "home-player");
+  assert.equal(tree.type, Symbol.for("react.fragment"));
+  assert.equal(tree.props.children[0], false);
+  const dashboard = tree.props.children[1];
+  assert.equal(dashboard.type, HomeDashboard);
+  assert.equal(dashboard.props.userId, "home-player");
+});
+
+test("the compensation popup is rendered only for an eligible authenticated player", async () => {
+  const HomeDashboard = () => null;
+  const MaintenanceCompensation = () => null;
+  const home = load("app/page.tsx", {
+    "@/components/maintenance-compensation": { MaintenanceCompensation },
+    "@/lib/maintenance-compensation": {
+      hasUnseenMaintenanceCompensation: async id => {
+        assert.equal(id, "gift-player");
+        return true;
+      }
+    },
+    "@/lib/auth/session": {
+      getVerifiedUser: async () => ({ id: "gift-player" })
+    },
+    "@/components/home-dashboard": { HomeDashboard },
+    "./(auth)/layout": { default: () => null, __esModule: true },
+    "./(auth)/signup/page": { default: () => null, __esModule: true }
+  });
+  const tree = await home.default({ searchParams: Promise.resolve({}) });
+  assert.equal(tree.props.children[0].type, MaintenanceCompensation);
+  assert.equal(tree.props.children[1].type, HomeDashboard);
+  assert.equal(tree.props.children[1].props.userId, "gift-player");
 });
 
 function shell(getCurrentUser, redirect) {
