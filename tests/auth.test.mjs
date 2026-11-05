@@ -646,6 +646,7 @@ test("confirmation : utilise le domaine public configuré derrière le proxy", a
 
 test("session : utilisateur vérifié par Auth et pseudo lu via RPC sans identifiant", async () => {
   const calls = [];
+  const auth = [];
   const session = loadModule("../lib/auth/session.ts", {
     "server-only": {},
     react: { cache: fn => fn },
@@ -653,10 +654,26 @@ test("session : utilisateur vérifié par Auth et pseudo lu via RPC sans identif
     "@/utils/supabase/server": {
       createClient: () => ({
         auth: {
-          getUser: async () => ({
-            data: { user: { id: "verified-id" } },
-            error: null
-          })
+          getClaims: async () => {
+            auth.push("claims");
+            return {
+              data: {
+                claims: {
+                  sub: "verified-id",
+                  email: "joueur@example.com",
+                  user_metadata: { seen: "v1" }
+                }
+              },
+              error: null
+            };
+          },
+          getUser: async () => {
+            auth.push("user");
+            return {
+              data: { user: { id: "verified-id", created_at: "2026-01-01" } },
+              error: null
+            };
+          }
         },
         rpc: async (...args) => {
           calls.push(args);
@@ -668,8 +685,33 @@ test("session : utilisateur vérifié par Auth et pseudo lu via RPC sans identif
   const user = await session.getCurrentUser();
   assert.equal(await session.getCurrentPseudo(user.id), "DB pseudo");
   assert.equal(user.id, "verified-id");
+  assert.equal(user.email, "joueur@example.com");
+  assert.deepEqual(user.user_metadata, { seen: "v1" });
+  assert.deepEqual(auth, ["claims"]);
   assert.equal(await session.getCurrentPseudo("someone-else"), "DB pseudo");
   assert.deepEqual(calls, [["get_game_info"], ["get_game_info"]]);
+  const verified = await session.getVerifiedUser();
+  assert.equal(verified.created_at, "2026-01-01");
+  assert.deepEqual(auth, ["claims", "user"]);
+});
+
+test("session : aucune identité sans claims vérifiées", async () => {
+  for (const result of [
+    { data: null, error: new Error("invalid JWT") },
+    { data: { claims: { sub: "" } }, error: null },
+    { data: { claims: { sub: 42 } }, error: null },
+    { data: { claims: { sub: "forged" } }, error: new Error("bad signature") }
+  ]) {
+    const session = loadModule("../lib/auth/session.ts", {
+      "server-only": {},
+      react: { cache: fn => fn },
+      "next/headers": { cookies: async () => ({}) },
+      "@/utils/supabase/server": {
+        createClient: () => ({ auth: { getClaims: async () => result } })
+      }
+    });
+    assert.equal(await session.getCurrentUser(), null);
+  }
 });
 
 test("renvoi : adresse validée, retour canonique, réponse neutre et délai", async () => {

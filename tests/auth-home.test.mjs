@@ -38,7 +38,7 @@ test("the anonymous home page renders the same signup and shell with referral pa
   const AuthLayout = () => null;
   const SignUpPage = () => null;
   const home = load("app/page.tsx", {
-    "@/lib/auth/session": { getCurrentUser: async () => null },
+    "@/lib/auth/session": { getVerifiedUser: async () => null },
     "@/components/home-dashboard": { HomeDashboard: () => null },
     "./(auth)/layout": { default: AuthLayout, __esModule: true },
     "./(auth)/signup/page": { default: SignUpPage, __esModule: true }
@@ -57,7 +57,7 @@ test("the connected home page renders the dashboard for the authenticated player
   const HomeDashboard = () => null;
   const home = load("app/page.tsx", {
     "@/lib/auth/session": {
-      getCurrentUser: async () => ({ id: "home-player" })
+      getVerifiedUser: async () => ({ id: "home-player" })
     },
     "@/components/home-dashboard": { HomeDashboard },
     "./(auth)/layout": { default: () => null, __esModule: true },
