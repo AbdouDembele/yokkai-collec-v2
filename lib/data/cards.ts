@@ -91,7 +91,8 @@ function failure(error: { message?: string; code?: string }) {
   "FOLDER_NOT_FOUND": "cardErrors.folderNotFound",
   "PGRST301": "cardErrors.authRequired",
   "PRO_REQUIRED": "cardErrors.thisFeatureIsAvailableToProMembersOnly",
-  "INVALID_IMGUR_URL": "cardErrors.enterAValidImgurLinkStartingWithHttps"
+  "INVALID_IMGUR_URL": "cardErrors.enterAValidImgurLinkStartingWithHttps",
+  "CUSTOM_IMAGE_TOO_LARGE": "cardErrors.customImageTooLarge"
 };
   const messages: Record<string, string> = {
     AUTH_REQUIRED: "Sign in to view your collection and packs.",
@@ -117,6 +118,7 @@ function failure(error: { message?: string; code?: string }) {
     INVALID_CARD_SELECTION: "Invalid card selection. Select between 1 and 500 copies.",
     FOLDER_NAME_TAKEN: "A folder with this name already exists.",
     FOLDER_NOT_FOUND: "This folder no longer exists.",
+    CUSTOM_IMAGE_TOO_LARGE: "This image is too heavy (8 MB max). Choose a lighter one.",
   };
   if (error.message === "ECONOMIC_MAINTENANCE") return new Error(error.message, { cause: { i18nKey: "cardErrors.economicMaintenance" } });
   if (error.message === "PRO_REQUIRED") return new Error("This feature is available to Pro members only.", { cause: { i18nKey: keys[error.message ?? ""] ?? keys[error.code ?? ""] ?? "cardErrors.couldntReachGameDataPleaseTryAgainIn" } });
@@ -684,9 +686,26 @@ export async function setCollectionCardLocked(instanceId: string, locked: boolea
   invalidatePlayerSnapshots(["collection"]);
 }
 
+// Cards download custom art in every grid and showcase: refuse files over the
+// limit before saving. A failed check (network, unknown size) never blocks.
+async function assertCustomImageSize(imageUrl: string) {
+  let response: Response;
+  try {
+    response = await fetch("/api/collection/custom-image-size", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ url: imageUrl }),
+      signal: AbortSignal.timeout(12000)
+    });
+  } catch { return; }
+  if (response.status !== 413) return;
+  throw failure({ message: "CUSTOM_IMAGE_TOO_LARGE" });
+}
+
 export async function setCardCustomImage(instanceId: string, imageUrl: string | null): Promise<CollectedCard> {
   const id = await playerId();
   try {
+    if (imageUrl) await assertCustomImageSize(imageUrl);
     const { data, error } = await db().rpc("set_card_custom_image", { p_card_instance_id: instanceId, p_image_url: imageUrl });
     if (error) throw failure(error);
     await assertPlayer(id);

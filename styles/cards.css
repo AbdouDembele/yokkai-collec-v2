@@ -63,10 +63,19 @@
     transparent 100%
   );
 }
-.yk-card-art img {
+.yk-card-art img,
+.yk-card-art video {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+/* Custom art layers over its catalogue placeholder until it is painted. */
+.yk-card-art[data-art-layers] > * {
+  position: absolute;
+  inset: 0;
+}
+.yk-card-art[data-art-ready] > .yk-card-art-placeholder {
+  display: none;
 }
 .yk-card-foil,
 .yk-holo {

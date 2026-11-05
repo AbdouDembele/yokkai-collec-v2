@@ -310,3 +310,85 @@ test("production grid and detail callers only select original image fields", () 
     assert.ok(count > 0, name + ": grid/detail coverage missing");
   }
 });
+
+test("custom art shows its resized catalogue art until painted, never an empty frame", () => {
+  const YokaiCard = load();
+  const custom = "https://i.pinimg.com/originals/aa/bb/cc/art.gif";
+  const html = renderToStaticMarkup(
+    React.createElement(YokaiCard, {
+      name: "Card",
+      category: "Test",
+      rarity: "SR",
+      image: custom,
+      catalogueImage: catalogue,
+      animated: false
+    })
+  );
+  // The placeholder is the catalogue art, resized, under the exact custom art.
+  assert.match(html, /data-art-layers="true"/);
+  assert.match(
+    html,
+    new RegExp(
+      `<img class="yk-card-art-placeholder" src="${catalogue}" srcSet="[^"]*_next/image[^"]*q=85[^"]*"`
+    )
+  );
+  assert.ok(html.includes(`src="${custom}"`));
+  assert.ok(html.indexOf("yk-card-art-placeholder") < html.indexOf(custom));
+  // No custom art, or art from another host: no placeholder layer.
+  for (const props of [
+    { image: catalogue, catalogueImage: catalogue },
+    { image: custom, catalogueImage: "https://other.example.test/art.jpg" }
+  ]) {
+    const plain = renderToStaticMarkup(
+      React.createElement(YokaiCard, {
+        name: "Card",
+        category: "Test",
+        rarity: "SR",
+        animated: false,
+        ...props
+      })
+    );
+    assert.doesNotMatch(plain, /yk-card-art-placeholder/);
+  }
+});
+
+test("Imgur GIF art plays its MP4 and keeps the GIF only as a fallback", () => {
+  const YokaiCard = load();
+  const gif = "https://i.imgur.com/AbC123.gif";
+  const html = renderToStaticMarkup(
+    React.createElement(YokaiCard, {
+      name: "Card",
+      category: "Test",
+      rarity: "SR",
+      image: gif,
+      catalogueImage: catalogue,
+      animated: false
+    })
+  );
+  assert.match(html, /<video src="https:\/\/i\.imgur\.com\/AbC123\.mp4"/);
+  assert.match(html, /autoPlay=""|autoplay=""/);
+  assert.match(html, /muted=""/);
+  assert.match(html, /loop=""/);
+  assert.match(html, /playsInline=""|playsinline=""/);
+  // The heavy GIF is not downloaded unless the MP4 fails.
+  assert.ok(html.includes(`data-gif-fallback="${gif}"`));
+  assert.doesNotMatch(html, new RegExp(`src="${gif.replace(/\./g, "\.")}"`));
+  // Other GIFs (Pinterest, still Imgur images) stay images.
+  for (const image of [
+    "https://i.pinimg.com/originals/aa/bb/cc/art.gif",
+    "https://i.imgur.com/AbC123.png"
+  ]) {
+    const other = renderToStaticMarkup(
+      React.createElement(YokaiCard, {
+        name: "Card",
+        category: "Test",
+        rarity: "SR",
+        image,
+        catalogueImage: catalogue,
+        animated: false
+      })
+    );
+    assert.doesNotMatch(other, /<video/);
+    assert.ok(other.includes(`src="${image}"`));
+  }
+});

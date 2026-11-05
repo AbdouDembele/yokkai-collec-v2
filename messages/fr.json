@@ -502,6 +502,7 @@
     "folderNotFound": "Ce dossier n’existe plus.",
     "thisFeatureIsAvailableToProMembersOnly": "Cette fonctionnalité est réservée aux membres Pro.",
     "enterAValidImgurLinkStartingWithHttps": "Saisis un lien Imgur valide commençant par https://i.imgur.com/ ou https://imgur.com/.",
+    "customImageTooLarge": "Cette image est trop lourde (8 Mo maximum). Choisis-en une plus légère.",
     "yourDataIsTemporarilyUnavailableRefreshThePage": "Tes données sont temporairement indisponibles. Actualise la page ou reconnecte-toi.",
     "couldntReachGameDataPleaseTryAgainIn": "Impossible d’accéder aux données du jeu. Réessaie dans un instant.",
     "thisBinderCantBeAddedToFavorites": "Impossible d’ajouter ce classeur aux favoris.",
