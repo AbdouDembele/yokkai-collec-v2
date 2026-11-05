@@ -61,7 +61,7 @@ function harness({
           "server-only": {},
           "./account-deletion-core.mjs": deletionCore,
           "@supabase/supabase-js": { createClient: () => admin },
-          "@/lib/auth/session": { getCurrentUser: async () => user },
+          "@/lib/auth/session": { getVerifiedUser: async () => user },
           "@/utils/supabase/config": {
             getSupabaseConfig: () => ({ url: "https://example.test" })
           }

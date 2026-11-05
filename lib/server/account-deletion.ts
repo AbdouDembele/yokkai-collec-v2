@@ -1,7 +1,7 @@
 import "server-only";
 import { deleteAccount as deleteAccountCore } from "./account-deletion-core.mjs";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
-import { getCurrentUser } from "@/lib/auth/session";
+import { getVerifiedUser } from "@/lib/auth/session";
 import { getSupabaseConfig } from "@/utils/supabase/config";
 
 function serviceClient() {
@@ -39,7 +39,7 @@ export async function deleteAccount(
 }
 
 export async function deleteCurrentAccount() {
-  const user = await getCurrentUser();
+  const user = await getVerifiedUser();
   if (!user) throw new Error("AUTH_REQUIRED");
   await deleteAccount(user.id);
 }

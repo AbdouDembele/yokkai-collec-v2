@@ -2,7 +2,7 @@ import { getTranslations, getLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import AuthLayout from "./(auth)/layout";
 import SignUpPage from "./(auth)/signup/page";
-import { getCurrentUser } from "@/lib/auth/session";
+import { getVerifiedUser } from "@/lib/auth/session";
 import { HomeDashboard } from "@/components/home-dashboard";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -27,7 +27,7 @@ export default async function Home({
 }: {
   searchParams: Promise<{ ref?: string | string[] }>;
 }) {
-  const user = await getCurrentUser();
+  const user = await getVerifiedUser();
   if (user)
     return (
       <HomeDashboard

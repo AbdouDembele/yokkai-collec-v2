@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
-import { getCurrentUser, getCurrentPseudo } from "@/lib/auth/session";
+import { getVerifiedUser, getCurrentPseudo } from "@/lib/auth/session";
 import { AccountMenu } from "@/components/account-menu";
 import { SiteFooter } from "@/components/site-footer";
 import { getDiscordInviteUrl } from "@/lib/discord-invite";
@@ -22,7 +22,7 @@ export async function CommunityPage({
   playerId?: string;
   auctionId?: string;
 }) {
-  const user = await getCurrentUser();
+  const user = await getVerifiedUser();
   if (!user) redirect("/login");
   const isMe = !playerId || playerId === user.id;
   const name = isMe ? await getCurrentPseudo(user.id) : undefined;
