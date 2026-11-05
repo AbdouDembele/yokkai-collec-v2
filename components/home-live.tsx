@@ -20,7 +20,7 @@ import {
   type HomePackStatus
 } from "@/lib/data/home";
 import { StyledPlayerName } from "@/components/styled-player-name";
-import { YokaiCard } from "@/components/yokai-card";
+import { GRID_CARD_IMAGE_SIZES, YokaiCard } from "@/components/yokai-card";
 import { CardShell } from "@/components/card-shell";
 import { CatalogueCardModal } from "@/components/catalogue-card-modal";
 import { Avatar, Button, Karas } from "@/components/ui";
@@ -227,7 +227,11 @@ export function LatestPulls({ cards }: { cards: HomeCard[] }) {
                     setSelected(card);
                   }}
                 >
-                  <YokaiCard {...card} animated={false} />
+                  <YokaiCard
+                    {...card}
+                    animated={false}
+                    imageSizes={GRID_CARD_IMAGE_SIZES}
+                  />
                 </button>
               ))}
             </div>
@@ -294,7 +298,11 @@ export function BigPulls({ pulls }: { pulls: BigPull[] }) {
                         setSelected(pull.card);
                       }}
                     >
-                      <YokaiCard {...pull.card} animated={false} />
+                      <YokaiCard
+                        {...pull.card}
+                        animated={false}
+                        imageSizes={GRID_CARD_IMAGE_SIZES}
+                      />
                     </button>
                     {pull.playerId && pull.playerName ? (
                       <Link
@@ -401,7 +409,11 @@ export function HomeMarket({
               key={auction.id}
             >
               <CardShell>
-                <YokaiCard {...auction.card} animated={false} />
+                <YokaiCard
+                  {...auction.card}
+                  animated={false}
+                  imageSizes={GRID_CARD_IMAGE_SIZES}
+                />
               </CardShell>
               <div className="yk-home-auction-meta">
                 <Karas amount={auction.amount} />

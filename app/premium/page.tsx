@@ -28,6 +28,7 @@ export default async function PremiumPage() {
             alt=""
             width={1672}
             height={941}
+            sizes="112px"
             className="yk-premium-logo"
           />
         </Link>

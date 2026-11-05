@@ -52,7 +52,7 @@ test("authenticated players get a dismissible one-time Discord promotion", () =>
   const promo = read("components/discord-promo.tsx");
   const layout = read("app/layout.tsx");
 
-  assert.match(promo, /supabase\.auth\.getUser\(\)/);
+  assert.match(promo, /supabase\.auth\.getSession\(\)/);
   assert.match(promo, /yokkai-discord-promo-dismissed:/);
   assert.match(promo, /localStorage\.setItem/);
   assert.match(promo, /aria-label=\{t\("dismissDiscordInvitation"\)\}/);

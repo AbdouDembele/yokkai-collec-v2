@@ -82,6 +82,7 @@ export default async function SharedCardPage({ params }: Props) {
             alt=""
             width={1672}
             height={941}
+            sizes="112px"
             priority
           />
         </Link>

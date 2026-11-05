@@ -32,6 +32,7 @@ export default async function ResetPasswordPage() {
             alt=""
             width={1672}
             height={941}
+            sizes="112px"
             priority
           />
         </Link>

@@ -57,6 +57,16 @@ const BoosterOpening = dynamic(
   { loading: function PreparingPack() { const tp = useTranslations("packs"); return <p role="status">{tp("preparingYourPack")}</p>; } }
 );
 
+// The pack art is a 941x1672 PNG (2-3 MB). Serve resized WebP variants for
+// the picker; the original stays the src fallback.
+const PACK_IMAGE_SIZES = "(max-width: 640px) 55vw, 340px";
+const packSrcSet = (kind: "regular" | "decision") =>
+  [384, 640, 828]
+    .map(
+      width =>
+        `/_next/image?url=${encodeURIComponent(`/assets/chrome-${kind}-booster-v1.png`)}&w=${width}&q=85 ${width}w`
+    )
+    .join(", ");
 export type RevealCard = Card & {
   instanceId: string;
   shiny?: boolean;
@@ -1596,6 +1606,8 @@ export function Boosters({
                 width={941}
                 height={1672}
                 className="yk-pack-image"
+                srcSet={packSrcSet("regular")}
+                sizes={PACK_IMAGE_SIZES}
               />
             </div>
             <div className="yk-pack-body">
@@ -1705,6 +1717,8 @@ export function Boosters({
                 width={941}
                 height={1672}
                 className="yk-pack-image yk-decision-image"
+                srcSet={packSrcSet("decision")}
+                sizes={PACK_IMAGE_SIZES}
               />
             </div>
             <div className="yk-pack-body">

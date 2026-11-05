@@ -85,9 +85,9 @@ function reminder(pathname, dismissed = false, homeCard = false, options = {}) {
       "@/utils/supabase/client": {
         createClient: () => ({
           auth: {
-            getUser: async () => {
+            getSession: async () => {
               calls.push("auth");
-              return { data: { user: { id: "viewer" } } };
+              return { data: { session: { user: { id: "viewer" } } } };
             }
           },
           rpc: async name => {
