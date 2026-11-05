@@ -52,7 +52,10 @@ function load(input = source) {
   return exports.YokaiCard;
 }
 
-test("all grid sources and rarities load exactly the detail original, without resizing or recompression", () => {
+// Product decision (PhyesGG, 2026-11-05): grid tiles of catalogue art hosted on
+// our public Storage load a resized WebP at quality 85 (2x density). Details
+// and every other source keep exactly the original, never recompressed.
+test("details and non-catalogue sources load exactly the original, without resizing or recompression", () => {
   const YokaiCard = load();
   for (const image of [
     catalogue,
@@ -74,20 +77,51 @@ test("all grid sources and rarities load exactly the detail original, without re
       const detail = renderToStaticMarkup(
         React.createElement(YokaiCard, props)
       );
+      assert.doesNotMatch(
+        detail,
+        /_next\/image|data-optimized|srcSet=|srcset=|sizes=|quality=/
+      );
+      assert.ok(detail.includes(`src="${image}"`));
+      if (image === catalogue) continue;
       for (const imageSizes of ["100vw", "(max-width: 640px) 45vw, 200px"]) {
         const grid = renderToStaticMarkup(
           React.createElement(YokaiCard, { ...props, imageSizes })
         );
         assert.equal(grid, detail, `${rarity} ${image}`);
-        assert.doesNotMatch(
-          grid,
-          /_next\/image|data-optimized|srcSet=|sizes=|quality=/
-        );
         assert.match(grid, /loading="lazy"/);
         assert.match(grid, /decoding="async"/);
-        assert.ok(grid.includes(`src="${image}"`));
       }
     }
+  }
+});
+
+test("catalogue grid tiles load resized quality-85 variants and keep the original as src", () => {
+  const YokaiCard = load();
+  const sizes = "(max-width: 640px) 45vw, 200px";
+  for (const rarity of ["C", "R", "SR", "SSR", "LR"]) {
+    const grid = renderToStaticMarkup(
+      React.createElement(YokaiCard, {
+        name: "Card",
+        category: "Test",
+        rarity,
+        image: catalogue,
+        animated: false,
+        imageSizes: sizes
+      })
+    );
+    const url = encodeURIComponent(catalogue);
+    for (const width of [256, 384, 640])
+      assert.ok(
+        grid.includes(
+          `/_next/image?url=${url}&amp;w=${width}&amp;q=85 ${width}w`
+        ),
+        `${rarity} ${width}`
+      );
+    assert.doesNotMatch(grid, /q=(?!85)\d+/);
+    assert.ok(grid.includes(`sizes="${sizes}"`));
+    assert.ok(grid.includes(`src="${catalogue}"`));
+    assert.match(grid, /loading="lazy"/);
+    assert.match(grid, /decoding="async"/);
   }
 });
 
