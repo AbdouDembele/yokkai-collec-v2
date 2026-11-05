@@ -686,30 +686,31 @@ export async function setCollectionCardLocked(instanceId: string, locked: boolea
   invalidatePlayerSnapshots(["collection"]);
 }
 
-// Cards download custom art in every grid and showcase: refuse files over the
-// limit before saving. A failed check (network, unknown size) never blocks.
-async function assertCustomImageSize(imageUrl: string) {
+// Custom art is saved by the server route only: it checks the file weight
+// (8 MB max) before saving, and players cannot call the SQL function directly.
+async function saveCustomImage(instanceId: string, imageUrl: string | null) {
   let response: Response;
   try {
-    response = await fetch("/api/collection/custom-image-size", {
+    response = await fetch("/api/collection/custom-image", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ url: imageUrl }),
-      signal: AbortSignal.timeout(12000)
+      body: JSON.stringify({ instanceId, url: imageUrl }),
+      signal: AbortSignal.timeout(20000)
     });
-  } catch { return; }
-  if (response.status !== 413) return;
-  throw failure({ message: "CUSTOM_IMAGE_TOO_LARGE" });
+  } catch {
+    throw failure({ message: "NETWORK" });
+  }
+  const body = (await response.json().catch(() => ({}))) as { card?: CollectedCard; error?: string };
+  if (!response.ok || !body.card) throw failure({ message: body.error ?? "", code: response.status === 401 ? "PGRST301" : undefined });
+  return body.card;
 }
 
 export async function setCardCustomImage(instanceId: string, imageUrl: string | null): Promise<CollectedCard> {
   const id = await playerId();
   try {
-    if (imageUrl) await assertCustomImageSize(imageUrl);
-    const { data, error } = await db().rpc("set_card_custom_image", { p_card_instance_id: instanceId, p_image_url: imageUrl });
-    if (error) throw failure(error);
+    const card = await saveCustomImage(instanceId, imageUrl);
     await assertPlayer(id);
-    return (await withLiveCardFranchises([data as CollectedCard]))[0];
+    return (await withLiveCardFranchises([card]))[0];
   } finally { cache.delete(`collection:${id}`);
     collectionPages.delete(id); }
 }
