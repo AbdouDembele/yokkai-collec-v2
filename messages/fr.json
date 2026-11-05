@@ -3659,5 +3659,11 @@
     "backupLocal": "Copie locale uniquement",
     "firewallDetail": "Seul Cloudflare peut joindre les ports 80 et 443",
     "fail2banDetail": "Protection contre le brute-force SSH"
+  },
+  "maintenanceCompensation": {
+    "title": "Merci pour ta patience",
+    "body": "D?sol?s pour la maintenance. Nous avons ajout? ces packs bonus ? ton compte.",
+    "availability": "Ils sont d?j? cr?dit?s. Ouvre-les quand tu veux : ces packs bonus n?expirent pas et ne remplacent pas tes packs quotidiens.",
+    "done": "Merci !"
   }
 }
