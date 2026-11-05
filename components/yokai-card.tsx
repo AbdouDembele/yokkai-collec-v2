@@ -25,6 +25,27 @@ export type YokaiCardProps = {
   categoryAccessory?: ReactNode;
   rarityAccessory?: ReactNode;
 };
+// Grid size for card tiles: about 190 px on desktop, 2 columns on phones.
+export const GRID_CARD_IMAGE_SIZES =
+  "(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 190px";
+// Widths allowed by the Next image optimizer (imageSizes + deviceSizes).
+const GRID_CARD_WIDTHS = [256, 384, 640];
+// Grid tiles only (imageSizes given): catalogue art hosted on our public
+// Storage gets resized WebP at quality 85, sharp at 2x density. Details keep
+// the exact original, and other sources (custom art, GIFs) stay untouched.
+function gridCardSrcSet(image?: string, sizes?: string) {
+  const base =
+    typeof process === "undefined"
+      ? undefined
+      : process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/+$/, "");
+  if (!image || !sizes || !base) return undefined;
+  const prefix = `${base}/storage/v1/object/public/card-images/`;
+  if (!image.startsWith(prefix) || /[?#]/.test(image)) return undefined;
+  const url = encodeURIComponent(image);
+  return GRID_CARD_WIDTHS.map(
+    width => `/_next/image?url=${url}&w=${width}&q=85 ${width}w`
+  ).join(", ");
+}
 const spots = [
   [12, 18],
   [78, 26],
@@ -49,6 +70,7 @@ export function YokaiCard({
   className = "",
   fallbackImage,
   catalogueImage,
+  imageSizes,
   categoryAccessory,
   rarityAccessory
 }: YokaiCardProps) {
@@ -70,13 +92,21 @@ export function YokaiCard({
           : rarity === "SSR"
             ? 3
             : 0;
+  const srcSet = gridCardSrcSet(image, imageSizes);
   const artProps = {
     src: image ?? "",
+    ...(srcSet ? { srcSet, sizes: imageSizes } : {}),
     width: 300,
     height: 420,
     loading: imageLoading,
     decoding: "async" as const,
     onError: (event: SyntheticEvent<HTMLImageElement>) => {
+      // A failed resized variant first retries the exact original.
+      if (event.currentTarget.srcset) {
+        event.currentTarget.removeAttribute("srcset");
+        event.currentTarget.removeAttribute("sizes");
+        return;
+      }
       const fallback = fallbackImage ?? catalogueImage;
       if (fallback && event.currentTarget.src !== fallback) {
         event.currentTarget.removeAttribute("srcset");

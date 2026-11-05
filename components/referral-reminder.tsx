@@ -81,9 +81,12 @@ export function ReferralReminder({
     const supabase = createClient();
 
     async function prepareLink() {
+      // Display gating only (local session, no Auth round trip): every
+      // protected read below is still authorized by the database.
       const {
-        data: { user }
-      } = await supabase.auth.getUser();
+        data: { session }
+      } = await supabase.auth.getSession();
+      const user = session?.user;
       if (!active || !user) return;
       if (
         !isBoosters &&
