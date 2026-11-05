@@ -29,6 +29,15 @@ export type PaniniAlbumPage = {
   favoriteConflicts?: import("@/lib/data/binders").FavoriteConflict[];
   mappingVersion?: string;
 };
+export async function withAlbumCovers(page: PaniniAlbumPage | null, owner?: string): Promise<PaniniAlbumPage> {
+  const base = page ?? { items: [], total: 0 };
+  try {
+    const { withCollectionCovers } = await import("@/lib/data/collection-covers");
+    return { ...base, items: await withCollectionCovers(base.items, item => item.binderKey ?? item.license, owner) };
+  } catch {
+    return base;
+  }
+}
 export type PaniniAlbumCard = Card & { owned: boolean };
 export type PaniniAlbumCardPage = {
   items: PaniniAlbumCard[];
@@ -278,8 +287,8 @@ export async function getPaniniAlbumsPage({
   });
   if (error) throw failure(error);
   const result = data as PaniniAlbumPage | null;
-  return { items: result?.items ?? [], total: result?.total ?? 0,
-    ...(stable ? { favoriteConflicts: result?.favoriteConflicts ?? [], mappingVersion: result?.mappingVersion } : {}) };
+  return withAlbumCovers({ items: result?.items ?? [], total: result?.total ?? 0,
+    ...(stable ? { favoriteConflicts: result?.favoriteConflicts ?? [], mappingVersion: result?.mappingVersion } : {}) });
 }
 
 export async function getPaniniAlbumCardsPage({
