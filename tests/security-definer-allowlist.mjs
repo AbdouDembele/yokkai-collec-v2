@@ -42,10 +42,12 @@ export const ownerOnly = [
   "public.cleanup_wall_interactions()",
   "public.get_wall_post_activity_without_reactions(uuid, timestamp with time zone, uuid)",
   "public.build_data_export_without_reactions(uuid, uuid)",
-  "public.cleanup_wall_reactions()"
+  "public.cleanup_wall_reactions()",
+  "public.set_card_custom_image(uuid, text)" // Closed 2026-11-06: custom art is saved by the server route only (weight check); kept for older migrations. PhyesGG approved.
 ]; // Internal helpers: owning SECURITY DEFINER wrappers/triggers only, never service_role or players.
 
 export const serverOnly = {
+  "public.set_card_custom_image_for_player(uuid, uuid, text)": ["service_role"], // /api/collection/custom-image only: verified session player, 8 MB weight check, same host/ownership/Pro/ban rules. PhyesGG approved.
   "public.begin_self_requested_account_deletion(uuid)": ["service_role"], // Server-only provenance after recent authentication and explicit self-deletion confirmation; same deletion fence, no browser access. Walid approved.
   "public.record_anticheat_network_observation(uuid, text)": ["service_role"], // Trusted same-origin route only; verified session plus Cloudflare-produced versioned HMAC, never a raw IP. Walid approved.
   "public.record_anticheat_device_observation(uuid, text)": ["service_role"], // Trusted same-origin route only; verified session plus a seven-day first-party random token hash. Walid approved.
@@ -296,7 +298,6 @@ const allowlist = {
   "public.search_users(text)": ["authenticated"], // Social search exposes permitted profile fields.
   "public.send_auction_chat_message(uuid, text, text)": ["authenticated"], // Eligible participant posts under their own identity.
   "public.send_friend_request(uuid)": ["authenticated"], // Creates a request from the current player.
-  "public.set_card_custom_image(uuid, text)": ["authenticated"], // Updates only the current player's card image.
   "public.set_collection_card_locked(uuid, boolean)": ["authenticated"], // Changes lock state only on owned cards.
   "public.set_profile_privacy(boolean)": ["authenticated"], // Changes only the current player's profile privacy.
   "public.toggle_auction_watch(uuid)": ["authenticated"], // Updates only the current player's watch subscription.

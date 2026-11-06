@@ -87,7 +87,8 @@ const nextConfig: NextConfig = {
       // Catalogue sources vary; custom images and share downloads also use HTTPS/blob/data.
       "img-src 'self' https: data: blob:",
       "font-src 'self' https://fonts.gstatic.com",
-      "media-src 'self' blob:",
+      // Custom card art: Imgur GIFs play as their lighter MP4.
+      "media-src 'self' blob: https://i.imgur.com",
       "object-src 'none'",
       "base-uri 'self'",
       "form-action 'self'",

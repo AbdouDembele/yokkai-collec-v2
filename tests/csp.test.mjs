@@ -72,7 +72,12 @@ test("CSP is Report-Only and covers Supabase, catalogue images and card sharing"
     "'self'",
     "https://fonts.gstatic.com"
   ]);
-  assert.deepEqual(directives.get("media-src"), ["'self'", "blob:"]);
+  // Imgur only: custom card GIFs play as their MP4 (exact host, no wildcard).
+  assert.deepEqual(directives.get("media-src"), [
+    "'self'",
+    "blob:",
+    "https://i.imgur.com"
+  ]);
   assert.deepEqual(directives.get("object-src"), ["'none'"]);
   assert.deepEqual(directives.get("base-uri"), ["'self'"]);
   assert.deepEqual(directives.get("form-action"), ["'self'"]);

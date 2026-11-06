@@ -502,6 +502,7 @@
     "folderNotFound": "This folder no longer exists.",
     "thisFeatureIsAvailableToProMembersOnly": "This feature is available to Pro members only.",
     "enterAValidImgurLinkStartingWithHttps": "Enter a valid Imgur link starting with https://i.imgur.com/ or https://imgur.com/.",
+    "customImageTooLarge": "This image is too heavy (8 MB max). Choose a lighter one.",
     "yourDataIsTemporarilyUnavailableRefreshThePage": "Your data is temporarily unavailable. Refresh the page or sign in again.",
     "couldntReachGameDataPleaseTryAgainIn": "Couldn't reach game data. Please try again in a moment.",
     "thisBinderCantBeAddedToFavorites": "This binder can't be added to favorites.",

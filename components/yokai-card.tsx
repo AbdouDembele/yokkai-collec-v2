@@ -28,8 +28,23 @@ export type YokaiCardProps = {
 // Grid size for card tiles: about 190 px on desktop, 2 columns on phones.
 export const GRID_CARD_IMAGE_SIZES =
   "(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 190px";
-// Widths allowed by the Next image optimizer (imageSizes + deviceSizes).
-const GRID_CARD_WIDTHS = [256, 384, 640];
+// Widths allowed by the Next image optimizer (imageSizes + deviceSizes). The
+// large ones are only picked for landscape art (see fitCoverSizes).
+const GRID_CARD_WIDTHS = [256, 384, 640, 1080, 1920];
+// Art fills the portrait frame (object-fit: cover). Landscape art is scaled up
+// to the frame height and cropped, so a variant chosen by the tile width alone
+// is too small and looks blurry. Once loaded, ask for a variant as wide as the
+// cover scale needs. Portrait art keeps its light variant.
+export const fitCoverSizes = (img: HTMLImageElement | null) => {
+  const frame = img?.parentElement;
+  if (!img?.sizes || !frame || !img.naturalWidth || !img.naturalHeight) return;
+  const { clientWidth: width, clientHeight: height } = frame;
+  if (!width || !height) return;
+  const cover = img.naturalWidth / img.naturalHeight / (width / height);
+  if (cover <= 1.05) return;
+  const sizes = `${Math.ceil(width * cover)}px`;
+  if (img.sizes !== sizes) img.sizes = sizes;
+};
 // Grid tiles only (imageSizes given): catalogue art hosted on our public
 // Storage gets resized WebP at quality 85, sharp at 2x density. Details keep
 // the exact original, and other sources (custom art, GIFs) stay untouched.
@@ -46,6 +61,37 @@ function gridCardSrcSet(image?: string, sizes?: string) {
     width => `/_next/image?url=${url}&w=${width}&q=85 ${width}w`
   ).join(", ");
 }
+// Imgur serves animated GIFs as MP4 too, 10 to 20 times lighter. Same rule as
+// imgurGifVideo in lib/ui/custom-image-media.ts (kept local: this component's
+// tests load it with a closed import list).
+const imgurGifVideo = (url?: string) => {
+  const match = url
+    ? /^https:\/\/i\.imgur\.com\/([A-Za-z0-9]+)\.gif$/i.exec(url)
+    : null;
+  return match ? `https://i.imgur.com/${match[1]}.mp4` : undefined;
+};
+// Custom art (Imgur, Pinterest) can weigh several MB. Until it is painted, the
+// card shows its catalogue art (resized) instead of an empty frame.
+const markArtReady = (media: HTMLElement | null) => {
+  if (media?.parentElement) media.parentElement.dataset.artReady = "true";
+};
+const watchArtReady = (media: HTMLImageElement | HTMLVideoElement | null) => {
+  // Loaded before hydration: the load event already fired, check the state.
+  if (!media) return;
+  const ready =
+    media instanceof HTMLImageElement
+      ? media.complete && media.naturalWidth > 0
+      : media.readyState >= 2;
+  if (ready) markArtReady(media);
+};
+// Imgur has no MP4 for this GIF: show the GIF itself.
+const showGifInstead = (video: HTMLVideoElement) => {
+  const gif = video.parentElement?.querySelector<HTMLImageElement>(
+    "img[data-gif-fallback]"
+  );
+  video.remove();
+  if (gif?.dataset.gifFallback) gif.src = gif.dataset.gifFallback;
+};
 const spots = [
   [12, 18],
   [78, 26],
@@ -93,6 +139,14 @@ export function YokaiCard({
             ? 3
             : 0;
   const srcSet = gridCardSrcSet(image, imageSizes);
+  const customArt = Boolean(
+    image && catalogueImage && image !== catalogueImage
+  );
+  const placeholderSizes = imageSizes ?? "300px";
+  const placeholderSrcSet = customArt
+    ? gridCardSrcSet(catalogueImage, placeholderSizes)
+    : undefined;
+  const video = customArt ? imgurGifVideo(image) : undefined;
   const artProps = {
     src: image ?? "",
     ...(srcSet ? { srcSet, sizes: imageSizes } : {}),
@@ -100,6 +154,18 @@ export function YokaiCard({
     height: 420,
     loading: imageLoading,
     decoding: "async" as const,
+    ...(placeholderSrcSet || srcSet
+      ? {
+          ref: (img: HTMLImageElement | null) => {
+            if (placeholderSrcSet) watchArtReady(img);
+            if (img?.complete) fitCoverSizes(img);
+          },
+          onLoad: (event: SyntheticEvent<HTMLImageElement>) => {
+            if (placeholderSrcSet) markArtReady(event.currentTarget);
+            fitCoverSizes(event.currentTarget);
+          }
+        }
+      : {}),
     onError: (event: SyntheticEvent<HTMLImageElement>) => {
       // A failed resized variant first retries the exact original.
       if (event.currentTarget.srcset) {
@@ -128,10 +194,60 @@ export function YokaiCard({
         <div className="yk-card-interior">
           {rarity === "LR" && <div className="yk-card-line" />}
           {image && (
-            <div className="yk-card-art">
-              {/* Grids and details use the same original bytes for every source. */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img {...artProps} alt="" />
+            <div
+              className="yk-card-art"
+              data-art-layers={placeholderSrcSet || video ? "true" : undefined}
+            >
+              {placeholderSrcSet && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  className="yk-card-art-placeholder"
+                  src={catalogueImage}
+                  srcSet={placeholderSrcSet}
+                  sizes={placeholderSizes}
+                  width={300}
+                  height={420}
+                  loading={imageLoading}
+                  decoding="async"
+                  alt=""
+                  aria-hidden="true"
+                  ref={img => {
+                    if (img?.complete) fitCoverSizes(img);
+                  }}
+                  onLoad={event => fitCoverSizes(event.currentTarget)}
+                />
+              )}
+              {video ? (
+                <>
+                  <video
+                    src={video}
+                    width={300}
+                    height={420}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload={imageLoading === "lazy" ? "metadata" : "auto"}
+                    aria-hidden="true"
+                    ref={watchArtReady}
+                    onLoadedData={event => markArtReady(event.currentTarget)}
+                    onError={event => showGifInstead(event.currentTarget)}
+                  />
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    {...artProps}
+                    src={undefined}
+                    data-gif-fallback={image}
+                    alt=""
+                  />
+                </>
+              ) : (
+                <>
+                  {/* Grids and details use the same original bytes for every source. */}
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img {...artProps} alt="" />
+                </>
+              )}
             </div>
           )}
           <div className="yk-card-foil" />

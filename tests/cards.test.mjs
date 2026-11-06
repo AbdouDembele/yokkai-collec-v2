@@ -282,6 +282,15 @@ function setup({
     exports: {},
     Date: TestDate,
     window: testWindow,
+    // Custom art is saved through the server route, which relays SQL error codes.
+    fetch: async (url, init) => {
+      assert.equal(url, "/api/collection/custom-image");
+      calls.push({ route: url, body: JSON.parse(init.body) });
+      if (rpcError)
+        return Response.json({ error: rpcError.message }, { status: 400 });
+      return Response.json({ card: { id: "card", instanceId: "000001" } });
+    },
+    AbortSignal,
     process: {
       env: {
         NEXT_PUBLIC_STABLE_BINDERS_ENABLED: bindersEnabled ? "true" : "false"

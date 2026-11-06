@@ -21,6 +21,18 @@ test("paid cosmetics are server-only, bounded, owner-scoped and hidden after exp
     await db.query("select set_config('request.jwt.claim.sub',$1,false)", [id]);
   };
   const admin = () => db.exec("reset role");
+  // Custom art is saved by the server route only (service role, verified player).
+  const setCardImage = async (copy, url) => {
+    await db.exec("reset role;set role service_role");
+    try {
+      return await db.query(
+        "select public.set_card_custom_image_for_player(auth.uid(),$1,$2)",
+        [copy, url]
+      );
+    } finally {
+      await db.exec("reset role;set role authenticated");
+    }
+  };
   const card = (
     await db.query(
       "insert into public.cards(source_id,nom,categorie,franchise,rarete_base,image_url,source) values('cosmetic-fixture','Fixture','ANIME/MANGA','Fixture','SSR','https://example.test/card.png','test') returning id"
@@ -48,11 +60,15 @@ test("paid cosmetics are server-only, bounded, owner-scoped and hidden after exp
       /permission denied/
     );
   }
+  // Players cannot save custom art themselves: only the server route can,
+  // after its weight check.
+  for (const sql of [
+    "select public.set_card_custom_image($1,'https://i.imgur.com/example.png')",
+    "select public.set_card_custom_image_for_player(auth.uid(),$1,'https://i.imgur.com/example.png')"
+  ])
+    await assert.rejects(db.query(sql, [copy]), /permission denied/);
   await assert.rejects(
-    db.query(
-      "select public.set_card_custom_image($1,'https://i.imgur.com/example.png')",
-      [copy]
-    ),
+    setCardImage(copy, "https://i.imgur.com/example.png"),
     /PRO_REQUIRED/
   );
   await assert.rejects(
@@ -102,10 +118,7 @@ test("paid cosmetics are server-only, bounded, owner-scoped and hidden after exp
     /AVATAR_URL_INVALID/
   );
   await assert.rejects(
-    db.query(
-      "select public.set_card_custom_image($1,'https://i.imgur.com/example.png')",
-      [copy]
-    ),
+    setCardImage(copy, "https://i.imgur.com/example.png"),
     /CARD_NOT_OWNED/
   );
   await admin();
@@ -154,10 +167,7 @@ test("paid cosmetics are server-only, bounded, owner-scoped and hidden after exp
     "select public.update_profile_appearance('Pro', $1,'{}',null,$2)",
     [animatedAvatar, banner]
   );
-  await db.query(
-    "select public.set_card_custom_image($1,'https://i.pinimg.com/fixture.gif')",
-    [copy]
-  );
+  await setCardImage(copy, "https://i.pinimg.com/fixture.gif");
   const profile = (await db.query("select public.get_profile(null) value"))
     .rows[0].value;
   assert.equal(profile.isPro, true);
@@ -192,13 +202,10 @@ test("paid cosmetics are server-only, bounded, owner-scoped and hidden after exp
   assert.equal(expired.isPro, false);
   assert.deepEqual(expired.profileStyle.style, {});
   await assert.rejects(
-    db.query(
-      "select public.set_card_custom_image($1,'https://i.imgur.com/new.png')",
-      [copy]
-    ),
+    setCardImage(copy, "https://i.imgur.com/new.png"),
     /PRO_REQUIRED/
   );
-  await db.query("select public.set_card_custom_image($1,null)", [copy]);
+  await setCardImage(copy, null);
   await db.query(
     "select public.update_profile_appearance('Changed biography', $1,'{}',null,$2)",
     [animatedAvatar, banner]
