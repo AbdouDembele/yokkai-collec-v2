@@ -392,3 +392,62 @@ test("Imgur GIF art plays its MP4 and keeps the GIF only as a fallback", () => {
     assert.ok(other.includes(`src="${image}"`));
   }
 });
+
+test("landscape catalogue art asks for a variant wide enough for the portrait frame", () => {
+  const exports = {};
+  vm.runInNewContext(
+    ts.transpileModule(source, {
+      compilerOptions: {
+        module: ts.ModuleKind.CommonJS,
+        target: ts.ScriptTarget.ES2020,
+        jsx: ts.JsxEmit.ReactJSX,
+        esModuleInterop: true
+      }
+    }).outputText,
+    {
+      exports,
+      URL,
+      process: { env: {} },
+      require: name =>
+        name === "react/jsx-runtime"
+          ? jsxRuntime
+          : name === "react"
+            ? React
+            : {}
+    }
+  );
+  const frame = { clientWidth: 190, clientHeight: 266 };
+  const img = (naturalWidth, naturalHeight, sizes = "190px") => ({
+    naturalWidth,
+    naturalHeight,
+    sizes,
+    parentElement: frame
+  });
+  // 16:9 art in a 190x266 frame: cover scale 2.49, 473 px of width needed.
+  const landscape = img(1280, 720);
+  exports.fitCoverSizes(landscape);
+  assert.equal(landscape.sizes, "473px");
+  // Portrait art, details without sizes, and unloaded art are left alone.
+  const portrait = img(2000, 3000);
+  exports.fitCoverSizes(portrait);
+  assert.equal(portrait.sizes, "190px");
+  const detail = img(1280, 720, "");
+  exports.fitCoverSizes(detail);
+  assert.equal(detail.sizes, "");
+  const unloaded = img(0, 0);
+  exports.fitCoverSizes(unloaded);
+  assert.equal(unloaded.sizes, "190px");
+  // The large variants exist in every catalogue grid srcset.
+  const grid = renderToStaticMarkup(
+    React.createElement(load(), {
+      name: "Card",
+      category: "Test",
+      rarity: "C",
+      image: catalogue,
+      animated: false,
+      imageSizes: "190px"
+    })
+  );
+  for (const width of [1080, 1920])
+    assert.ok(grid.includes(`w=${width}&amp;q=85 ${width}w`));
+});

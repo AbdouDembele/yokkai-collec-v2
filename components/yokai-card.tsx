@@ -28,8 +28,23 @@ export type YokaiCardProps = {
 // Grid size for card tiles: about 190 px on desktop, 2 columns on phones.
 export const GRID_CARD_IMAGE_SIZES =
   "(max-width: 640px) 46vw, (max-width: 1024px) 30vw, 190px";
-// Widths allowed by the Next image optimizer (imageSizes + deviceSizes).
-const GRID_CARD_WIDTHS = [256, 384, 640];
+// Widths allowed by the Next image optimizer (imageSizes + deviceSizes). The
+// large ones are only picked for landscape art (see fitCoverSizes).
+const GRID_CARD_WIDTHS = [256, 384, 640, 1080, 1920];
+// Art fills the portrait frame (object-fit: cover). Landscape art is scaled up
+// to the frame height and cropped, so a variant chosen by the tile width alone
+// is too small and looks blurry. Once loaded, ask for a variant as wide as the
+// cover scale needs. Portrait art keeps its light variant.
+export const fitCoverSizes = (img: HTMLImageElement | null) => {
+  const frame = img?.parentElement;
+  if (!img?.sizes || !frame || !img.naturalWidth || !img.naturalHeight) return;
+  const { clientWidth: width, clientHeight: height } = frame;
+  if (!width || !height) return;
+  const cover = img.naturalWidth / img.naturalHeight / (width / height);
+  if (cover <= 1.05) return;
+  const sizes = `${Math.ceil(width * cover)}px`;
+  if (img.sizes !== sizes) img.sizes = sizes;
+};
 // Grid tiles only (imageSizes given): catalogue art hosted on our public
 // Storage gets resized WebP at quality 85, sharp at 2x density. Details keep
 // the exact original, and other sources (custom art, GIFs) stay untouched.
@@ -139,11 +154,16 @@ export function YokaiCard({
     height: 420,
     loading: imageLoading,
     decoding: "async" as const,
-    ...(placeholderSrcSet
+    ...(placeholderSrcSet || srcSet
       ? {
-          ref: watchArtReady,
-          onLoad: (event: SyntheticEvent<HTMLImageElement>) =>
-            markArtReady(event.currentTarget)
+          ref: (img: HTMLImageElement | null) => {
+            if (placeholderSrcSet) watchArtReady(img);
+            if (img?.complete) fitCoverSizes(img);
+          },
+          onLoad: (event: SyntheticEvent<HTMLImageElement>) => {
+            if (placeholderSrcSet) markArtReady(event.currentTarget);
+            fitCoverSizes(event.currentTarget);
+          }
         }
       : {}),
     onError: (event: SyntheticEvent<HTMLImageElement>) => {
@@ -191,6 +211,10 @@ export function YokaiCard({
                   decoding="async"
                   alt=""
                   aria-hidden="true"
+                  ref={img => {
+                    if (img?.complete) fitCoverSizes(img);
+                  }}
+                  onLoad={event => fitCoverSizes(event.currentTarget)}
                 />
               )}
               {video ? (
