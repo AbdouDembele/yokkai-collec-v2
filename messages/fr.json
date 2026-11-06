@@ -3662,8 +3662,8 @@
   },
   "maintenanceCompensation": {
     "title": "Merci pour ta patience",
-    "body": "D?sol?s pour la maintenance. Nous avons ajout? ces packs bonus ? ton compte.",
-    "availability": "Ils sont d?j? cr?dit?s. Ouvre-les quand tu veux : ces packs bonus n?expirent pas et ne remplacent pas tes packs quotidiens.",
+    "body": "Désolés pour la maintenance. Nous avons ajouté ces packs bonus à ton compte.",
+    "availability": "Ils sont déjà crédités. Ouvre-les quand tu veux : ces packs bonus n’expirent pas et ne remplacent pas tes packs quotidiens.",
     "done": "Merci !"
   }
 }
