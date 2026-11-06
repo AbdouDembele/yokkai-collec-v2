@@ -1,5 +1,11 @@
 # Rétention des logs Logflare (analytics Supabase)
 
+> **Désactivé le 2026-11-05.** Les services `supabase-analytics` et
+> `supabase-vector` ont été retirés de la production pendant la maintenance,
+> et le schéma `_analytics` a été supprimé. Le timer
+> `yokkai-logflare-retention.timer` est désactivé sur le VPS. Ne pas le
+> réactiver sans remettre analytics en place.
+
 ## Pourquoi
 
 Avec le stockage Postgres, Logflare 1.50 ne supprime **jamais** ses logs : il
