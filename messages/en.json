@@ -3660,5 +3660,11 @@
     "backupLocal": "Local copy only",
     "firewallDetail": "Only Cloudflare can reach ports 80 and 443",
     "fail2banDetail": "SSH brute-force protection"
+  },
+  "maintenanceCompensation": {
+    "title": "A gift for your patience",
+    "body": "Sorry for the maintenance interruption. We have added these bonus packs to your account.",
+    "availability": "Already credited. Open them whenever you like: these bonus packs never expire and do not replace your daily packs.",
+    "done": "Thank you!"
   }
 }

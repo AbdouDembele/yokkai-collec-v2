@@ -12,7 +12,8 @@ const functions = [
   "normalize_card_name",
   "prevent_frozen_card_change",
   "prevent_locked_card_transfer_or_delete",
-  "prevent_locked_trade_offer"
+  "prevent_locked_trade_offer",
+  "clear_custom_image_on_owner_change"
 ];
 const alice = "10000000-0000-4000-8000-000000000001";
 const bob = "10000000-0000-4000-8000-000000000002";

@@ -399,5 +399,8 @@
   },
   "public.anticheat_asset_recovery_notices": {
     "excluded": "Private administrative withdrawal notices linked to immutable source receipts, with own published quantities available through the existing authenticated reader. Contains no source-account identities or internal notes. Separate manual privacy review required."
+  },
+  "public.maintenance_pack_grants": {
+    "excluded": "Private operational compensation receipt and consumption ledger. Available for manual account-data review; not included in the existing self-service export."
   }
 }

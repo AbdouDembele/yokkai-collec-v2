@@ -1,3 +1,5 @@
+import { MaintenanceCompensation } from "@/components/maintenance-compensation";
+import { hasUnseenMaintenanceCompensation } from "@/lib/maintenance-compensation";
 import { getTranslations, getLocale } from "next-intl/server";
 import type { Metadata } from "next";
 import AuthLayout from "./(auth)/layout";
@@ -28,17 +30,22 @@ export default async function Home({
   searchParams: Promise<{ ref?: string | string[] }>;
 }) {
   const user = await getVerifiedUser();
-  if (user)
+  if (user) {
+    const compensation = await hasUnseenMaintenanceCompensation(user.id);
     return (
-      <HomeDashboard
-        userId={user.id}
-        seenRelease={
-          typeof user.user_metadata?.yokkai_last_seen_update === "string"
-            ? user.user_metadata.yokkai_last_seen_update
-            : null
-        }
-      />
+      <>
+        {compensation && <MaintenanceCompensation />}
+        <HomeDashboard
+          userId={user.id}
+          seenRelease={
+            typeof user.user_metadata?.yokkai_last_seen_update === "string"
+              ? user.user_metadata.yokkai_last_seen_update
+              : null
+          }
+        />
+      </>
     );
+  }
   return (
     <AuthLayout>
       <SignUpPage searchParams={searchParams} />
