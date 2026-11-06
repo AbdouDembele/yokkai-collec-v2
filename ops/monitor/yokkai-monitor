@@ -25,7 +25,7 @@ CRITICAL_CONTAINERS = [
     "coolify-proxy", "yokkai-edge-identity",
 ]
 OTHER_CONTAINERS = ["coolify", "coolify-db", "coolify-redis", "supabase-supavisor-",
-                    "supabase-meta-", "supabase-analytics-", "supabase-vector-"]
+                    "supabase-meta-"]
 OK, WARN, CRIT = 0, 1, 2
 ICON = {OK: "🟢", WARN: "🟠", CRIT: "🔴"}
 COLOR = {OK: 0x2ECC71, WARN: 0xF39C12, CRIT: 0xE74C3C}
