@@ -68,6 +68,18 @@ export function notificationItem(
       href: `/friends?message=${encodeURIComponent(notification.referenceId)}`,
       kind: "message"
     };
+  if (notification.type === "friend_request_accepted")
+    return {
+      ...common,
+      title: t("notificationFriendAcceptedTitle"),
+      text: t("notificationFriendAcceptedText", {
+        actorPseudo: notification.actorPseudo ?? t("notificationDeletedPlayer")
+      }),
+      href: notification.actorPseudo
+        ? `/profile/${encodeURIComponent(notification.referenceId)}`
+        : "/friends",
+      kind: "friend"
+    };
   if (notification.type === "friend_request")
     return {
       ...common,

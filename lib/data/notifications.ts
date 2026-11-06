@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 export type KnownNotificationType =
   | "wishlist_card_on_auction"
   | "friend_request"
+  | "friend_request_accepted"
   | "outbid"
   | "trade_offer_received"
   | "trade_counter_offer_received"
